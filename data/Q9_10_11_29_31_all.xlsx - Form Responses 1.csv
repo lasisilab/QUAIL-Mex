@@ -1,0 +1,397 @@
+SampleID,DrinkWSources,Q9_NumPurified,Q9_Brand,Q11_Cost2months,Q11_PaymentWaived ,Q29_ImprovementArea_categorical,Q29_ImprovementLikely ,Q31_PriceIncrease ,Q10_StorageTypes,Q11),Q11_Cost2Months_narrative,Q29_ImprovementArea_narrative,Q29_comments
+001,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+002,"a) agua del suministro publico, E) Garrafon de purificadora",pending,pending,0,yes,quality,n/a,doubled ,"B) Tinaco, C) Cisterna, D) Tambo",pending,0,pending,pending
+003,E) Garrafon de purificadora,pending,pending,60,no,quantity,no,7--> 15,"B) Tinaco, C) Cisterna",pending,60,pending,pending
+004,E) Garrafon de purificadora,pending,pending,0,yes,quantity,no,no change ,"B) Tinaco, C) Cisterna",pending,0,pending,pending
+005,E) Garrafon de purificadora,pending,pending,DK,no,quality,n/a,8--> 15,"C) Cisterna, D) Tambo",pending,DK,pending,pending
+006,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality,no,11--> 18,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,0,pending,pending
+007,E) Garrafon de purificadora,pending,pending,0,yes,quality/quantity,no,11--> 20,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",pending,0,pending,pending
+008,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,55,no,quality,yes,7--> 15,"B) Tinaco, pileta",pending,55,pending,pending
+009,"a) agua del suministro publico, E) Garrafon de purificadora",pending,pending,118,yes,quality,n/a,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",pending,118,pending,pending
+010,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,50,no,quality,no,5--> 20,"B) Tinaco, C) Cisterna",pending,1 vez al ano-300,pending,pending
+011,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,66,no,quality,no,7--> 18,"B) Tinaco, C) Cisterna, D) Tambo",pending,66,pending,pending
+012,E) Garrafon de purificadora,pending,pending,no,no,quality,no,12--> 18,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,no,pending,pending
+013,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality,maybe,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo",pending,0,pending,pending
+014,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,50,no,quality/pressure,n/a,aumento de 8%,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,50,pending,pending
+015,E) Garrafon de purificadora,pending,pending,DK,no,nothing,n/a,aumento de 2 pesos ,"B) Tinaco, D) Tambo",pending,DK,pending,pending
+016,E) Garrafon de purificadora,pending,pending,0,yes,quality,maybe,10--> 15,"D) Tambo, E) Cubeta con tapa",pending,0,pending,pending
+017,"a) agua del suministro publico, E) Garrafon de purificadora",pending,pending,0,yes,quality,n/a,el aumento de agua de garrafon tiene 1 mes,"B) Tinaco, C) Cisterna, D) Tambo",pending,0,pending,pending
+018,"d) Garrafon de marca, E) Garrafon de purificadora",pending,pending,0,yes,quality,no,8--> 15,B) Tinaco,pending,0,pending,pending
+019,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality/quantity,no,8--> 15,"D) Tambo, F) Cubeta sin tapa",pending,0,pending,pending
+020,E) Garrafon de purificadora,pending,pending,0,yes,quality,n/a,no change,"C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,0,pending,pending
+021,E) Garrafon de purificadora,pending,pending,0,yes,quality,no,8--> 15 ,B) Tinaco,pending,0,pending,pending
+022,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality,no,7--> 18,"B) Tinaco, D) Tambo",pending,0,pending,pending
+023,E) Garrafon de purificadora,pending,pending,0,yes,quantity,yes,confirm,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",pending,0,pending,pending
+024,E) Garrafon de purificadora,pending,pending,0,yes,quality/pressure,n/a,10--> 18,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",pending,0,pending,pending
+025,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quantity,yes,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",pending,0,pending,pending
+026,E) Garrafon de purificadora,pending,pending,0,yes,quality,n/a,confirm,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",pending,0,pending,pending
+027,E) Garrafon de purificadora,pending,pending,0,yes,quantity,no,8--> 18,"B) Tinaco, C) Cisterna, D) Tambo",pending,0,pending,pending
+028,E) Garrafon de purificadora,pending,pending,DK,no,quality,no,12--> 18,"B) Tinaco, C) Cisterna, D) Tambo",pending,DK,pending,pending
+029,E) Garrafon de purificadora,pending,pending,0,yes,quality/quantity,no,8--> 15,C) Cisterna,pending,0,pending,pending
+030,E) Garrafon de purificadora,pending,pending,none,no,quality,no,8--> 20,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",pending,none,pending,pending
+031,E) Garrafon de purificadora,pending,pending,250,no,quality/quantity,yes,7.5--> 18,"B) Tinaco, D) Tambo",pending,250,pending,pending
+032,E) Garrafon de purificadora,pending,pending,none,no,quality,yes,8--> 15,"B) Tinaco, D) Tambo",pending,none,pending,pending
+033,E) Garrafon de purificadora,pending,pending,750,no,quality/quantity,no,8--> 18,"C) Cisterna, D) Tambo",pending,750,pending,pending
+034,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,100,no,quality/quantity,n/a,5--> 8,"C) Cisterna, E) Cubeta con tapa",pending,100,pending,pending
+035,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,300,no,quality,no,10.5--> 15,"B) Tinaco, D) Tambo",pending,300- cada 1 o 2 meses ,pending,pending
+036,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality,no,8.5--> 18,"B) Tinaco, C) Cisterna",pending,0,pending,pending
+037,"d) Garrafon de marca, E) Garrafon de purificadora",pending,pending,0,yes,quality,no,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa",pending,0,pending,pending
+038,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality,yes,9--> 16,"B) Tinaco, D) Tambo",pending,0,pending,pending
+039,E) Garrafon de purificadora,pending,pending,0,yes,quality/quantity,n/a,12--> 18,"B) Tinaco, D) Tambo, E) Cubeta con tapa",pending,0,pending,pagan 150 pesos para el uso de la pipa
+040,E) Garrafon de purificadora,pending,pending,200,no,quantity,n/a,9--> 15,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",pending,200,pending,pending
+041,"d) Garrafon de marca, G) Botellas de Agua",pending,pending,275,no,quality,n/a,15--> 18,D) Tambo,pending,250-300,pending,pending
+042,E) Garrafon de purificadora,pending,pending,49,no,nothing,n/a,15--> 18,A) No se almacena,pending,49,pending,pending
+043,E) Garrafon de purificadora,pending,pending,900,no,quality,no,10--> 15,A) No se almacena,pending,900--> son 3 familias ,pending,pending
+044,E) Garrafon de purificadora,pending,pending,300,no,quality,n/a,15--> 18,A) No se almacena,pending,"300, antes era 50 subio hace como un ano",pending,pending
+045,E) Garrafon de purificadora,pending,pending,1400,yes,quality/quantity,yes,10--> 25,C) Cisterna,pending,las pipas en epoca de pandemia subieron hasta 1400 pesos,pending,pending
+046,d) Garrafon de marca,pending,pending,none,no,quantity,no,8--> 16,"C) Cisterna, D) Tambo",pending,No,pending,pending
+047,"d) Garrafon de marca, E) Garrafon de purificadora",pending,pending,n/a ,n/a ,pressure,no,10--> 13,A) No se almacena,pending,n/a ,pending,pending
+048,E) Garrafon de purificadora,pending,pending,150,no,other,yes,15--> 18,A) No se almacena,pending,"150, 200, 100",pending,pending
+049,"d) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,170,no,quality,no,8--> 10,B) Tinaco,pending,170,pending,pending
+050,"E) Garrafon de purificadora, tiene filtro para usar la del suministro publico ",pending,pending,n/a,no,quality,yes,confirm,"B) Tinaco, C) Cisterna",pending,unknown,pending,only believes change is possible if everyone helps w the maintenance of the water 
+051,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,250,no,quality,yes,12--> 17,A) No se almacena,pending,200-300 ,pending,pending
+052,E) Garrafon de purificadora,pending,pending,320,no,quality/quantity,no,15--> 18,"B) Tinaco, D) Tambo",pending,320,pending,believes that if everyone pays for water then it is possible to have funds to fix the tubes 
+053,"d) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,50,no,quality,n/a,9--> 18,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",pending,anual- 300,pending,pending
+054,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,no,no,quality/quantity,n/a,8--> 15,"B) Tinaco, D) Tambo",pending,no,pending,pending
+055,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quality/quantity,no,7--> 15.5 ,"B) Tinaco, C) Cisterna",pending,0,pending,pending
+056,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,no,no,quality,no,8--> 15,"B) Tinaco, D) Tambo, E) Cubeta con tapa",pending,no,pending,pending
+057,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,0,yes,quantity,yes,7.5--> 15,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,0,pending,pending
+058,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,300,no,quality/quantity,maybe,8--> 15 o 20,"B) Tinaco, C) Cisterna, D) Tambo",pending,300 al mes,pending,pending
+059,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,420,no,quality/quantity,yes,5--> 15,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",pending,420,pending,pending
+060,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,n/a,no,quality,no,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,no llega recibo,pending,pending
+061,E) Garrafon de purificadora,pending,pending,0,yes,quality,maybe,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",pending,0,pending,pending
+062,E) Garrafon de purificadora,pending,pending,0,yes,quality/quantity,no,10--> 19,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",pending,0,pending,29: que no tuviera horario 
+063,E) Garrafon de purificadora,pending,pending,0,yes,quality,no,8--> 15,"B) Tinaco, C) Cisterna",pending,0,pending,pending
+064,"d) Garrafon de marca, G) Botellas de Agua",pending,pending,0,yes,mayor y mejor mantenmiento al suministro de agua,no,8--> 13,"B) Tinaco, C) Cisterna, tina ",pending,0,pending,pending
+065,E) Garrafon de purificadora,pending,pending,DK,DK,quality,no,9--> 20,"B) Tinaco, C) Cisterna",pending,DK,pending,pending
+066,E) Garrafon de purificadora,pending,pending,130,no,quality,no,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo",pending,130,pending,pending
+067,E) Garrafon de purificadora,pending,pending,0,yes,quality,n/a,10--> 18,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",pending,0,pending,"if there was more water, then people would waste more of it."
+068,E) Garrafon de purificadora,pending,pending,0,yes,quantity,yes,8 o 10--> 15,"C) Cisterna, D) Tambo, E) Cubeta con tapa",pending,0,pending,pending
+069,E) Garrafon de purificadora,pending,pending,DK,DK,quantity,yes,9--> 15,"B) Tinaco, D) Tambo, E) Cubeta con tapa",pending,DK,pending,pending
+070,E) Garrafon de purificadora,pending,pending,0,yes,quality/quantity,n/a,9-10--> 15,"B) Tinaco, C) Cisterna",pending,0,pending,pending
+071,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,50,no,other,n/a,10--> 18,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",pending,50,con que no me la quiten es suficiente,pending
+072,"E) Garrafon de purificadora, G) Botellas de Agua",pending,pending,400,no,quality,no,9 o 10--> 18,"B) Tinaco, C) Cisterna",pending,400,pending,pending
+073,E) Garrafon de purificadora,pending,pending,DK,DK,quality,no,7--> 14,"B) Tinaco, C) Cisterna",pending,DK,pending,pending
+074,E) Garrafon de purificadora,pending,pending,DK,DK,quality,no,9--> 18,"B) Tinaco, D) Tambo",pending,DK,pending,pending
+075,"d) Garrafon de marca, G) Botellas de Agua",pending,pending,n/a,no,quality,maybe,8--> 15,"B) Tinaco, D) Tambo",pending,nunca han pagado,pending,pending
+076,d) Garrafon de marca,pending,pending,0,yes,quality,maybe,8--> 36,B) Tinaco,pending,0,pending,pending
+077,E) Garrafon de purificadora,pending,pending,300,no,quality,maybe,7--> 12,B) Tinaco,pending,300,pending,pending
+078,d) Garrafon de marca,pending,pending,paga,no,quality,no,35--> 38,C) Cisterna,pending,paga,pending,pending
+079,E) Garrafon de purificadora,pending,pending,170,no,quality,no,10--> 16 o 20,B) Tinaco,pending,170,pending,pending
+080,E) Garrafon de purificadora,pending,pending,DK,DK,quality/quantity,no,9--> 15 o 18,"B) Tinaco, pileta",pending,DK,pending,pending
+081,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",3,0,400,no,quality,yes,no change,"B) Tinaco, C) Cisterna",pending,pending,Si unidad limpieza mejorara. Que pa a llegar fuera mas limpia. Si va a pasar eventualmente.  ,pending
+082,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,DK,DK,quality,no,12--> 18,"B) Tinaco, C) Cisterna",pending,pending,"Calidad-> no va a ocurrir x la que se ha visito del cambio climatico// problema social y politico gente no ayuda, no hace nada ",pending
+083,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua, Cuando se quedar sin agua ",n/a,n/a,150,no,quality,no,10--> 15,"B) Tinaco, C) Cisterna, D) Tambo",pending,pending,"Calidad, sin olor ni color. No va a parar- c/dia. No se le da que deberia (gobierno)--> problema politico. ",pending
+084,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,200,no,pressure,yes,11--> 22,"B) Tinaco, agua de lluvia: reducir consumo--> lavar patio, gastos, llavar bano ",pending,pending,"mejorar presion del agua. Que hayan filtrar en casa y en sisterna de distribucion de la cuidad. Cree que sive a ocurrir, o espera que si. Falta recursos mucha problemas ho hay suficiente hay que distribuirle mejor. ",pending
+085,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,yes,quality,no,10--> 13,B) Tinaco,pending,pending,"colocar un filtro--> no va a ocurrir, no le preocupe mucho. Que paga use menor ",pending
+086,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,250,no,quality/pressure,no,10--> 18,"D) Tambo, F) Cubeta sin tapa",pending,pending,No cree que sea pesible el gobierno o que hubiero mayor presion y que saliero limpia.,pending
+087,E) Garrafon de purificadora,n/a,n/a,600,no,quality/quantity,no,18--> 22.5 ,"C) Cisterna, F) Cubeta sin tapa",pending,pending,"Seria que no llegue con olor, ni que no falta y que colgo limpio sucia. No cree que sea posible. ",pending
+088,E) Garrafon de purificadora,n/a,n/a,700,no,quality/quantity,no,11--> 16,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",pending,pending,"Que nunca falte, que llegue limpio. Si pudiera cambiar seroa que llega limpia. Ha llegado veces de color, sin olor. No cree que la sitaccion mejore, sino que puede empeorar debido a las problemas de agua que hay en la cuidad. ",pending
+089,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,200,no,quality/pressure,no,12--> 18,"B) Tinaco, C) Cisterna",pending,pending,"Que sea mas adecuado para consumo humano. Se cambiaria que sea mas limpia o que haya mas presion. No cree que sea probable, porque no hay alguien que le interese esta situacion  ",pending
+090,E) Garrafon de purificadora,n/a,n/a,200,no,quality,yes,10--> 16,"B) Tinaco, C) Cisterna",pending,pending,"Que llege mas limpio, sin olor, ni color. Si cree que es posible. ",pending
+091,E) Garrafon de purificadora,n/a,n/a,350,no,pressure,yes,12--> 18,"B) Tinaco, C) Cisterna",pending,pending,Que tuviero mas presion. Si cree que sea posible. ,pending
+092,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,DK,no,quality,no,12--> 18,"B) Tinaco, C) Cisterna",pending,pending,Que llegara clara y sin olor. No cree que llega a pasar porque desde que tiene memoria siempre ha sido asi. ,pending
+093,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,DK,no,quality,no,13--> 18,"B) Tinaco, C) Cisterna",pending,pending,Que llegara limpia. No cree que sea posible. ,pending
+094,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua, Garrafon por 5x a la semana ",n/a,n/a,54,no,quality/pressure,no,13.5--> 21.5,B) Tinaco,pending,pending,No se bana regularmente. Un poquito mas de presion--> no cree que cambie. Mas recursos y mejor gobierno.   ,pending
+095,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,350,no,quality/quantity/pressure,yes,10--> 14,"B) Tinaco, F) Cubeta sin tapa, Tincs ",pending,pending,"que llega con mayor presion, mas limpia y mas continua. Si cree que sea posible, porque tiene familiares a las que si les ha mejorado. ",pending
+096,a) agua del suministro publico,n/a,n/a,120,no,n/a ,n/a,7.5--> 15,B) Tinaco,pending,pending,n/a ,pending
+097,G) Botellas de Agua,4,0,200,no,quality,no,12--> 18,"B) Tinaco, C) Cisterna",pending,pending,"calidad--> no va a occurrir. Por sobrepoblado, si necesita mucho--> afecta calidad. Principal problema.  ",pending
+098,E) Garrafon de purificadora,5,0,56,no,quality,no,12--> 15,"B) Tinaco, D) Tambo",$56 bimestral,pending,"Cambian tuberias--> mejoran calidad--> no cree, porque cada vez es pero la calidad. ",pending
+099,E) Garrafon de purificadora,n/a,n/a,150,no,quality,maybe,13--> 18,"C) Cisterna, D) Tambo",$100 a 200,pending,"Que llegue mas limpia, porque a veces llega sucia. Podria ser que si llegue a cambiar. ",pending
+100,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",3,0,300,no,quality,maybe,28--> 35,B) Tinaco,$300 ,pending,Limpia. No va a occurrir. Pocos recurros. ,pending
+101,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,650,no,quality,no,8--> 15,"B) Tinaco, D) Tambo, Pileta ",$500-$800,pending,"Que llegue mas limpio o que existo olgan apoyo. pero no afecta le soleo. No cree que ocurre, porque los politicos  no les interesa. ",pending
+102,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,185,no,quality/pressure,no,9--> 15,"D) Tambo, E) Cubeta con tapa",$185 ,pending,Que salga mas limpia y mayor presion. No cree que sea posible porque llevan mucho tiempo con la misma sitaccion. ,pending
+103,"E) Garrafon de purificadora, 4 garrafones x semana ",4,0,200,no,quality,no,11--> 16,D) Tambo,$200 bimestre ,pending,"Que llegara mas limpia, Duda sobre que llegue a cambiar, porque no se le da importancia. ",pending
+104,E) Garrafon de purificadora,n/a,n/a,350,no,quality,no,10--> 18,"B) Tinaco, C) Cisterna",$300-$400,pending,"que llegara limpia. No cree que esto sea posible, porque les han dicho que no se puede hacer nada (sacmex) ",pending
+105,E) Garrafon de purificadora,n/a,n/a,DK,DK,pressure,no,12--> 18,C) Cisterna,No impacta las finanzas ,pending,Que tenga major presion. No cree que sea posible. ,pending
+106,E) Garrafon de purificadora,n/a,n/a,750,no,quality,maybe,14--> 18,F) Cubeta sin tapa,$750 ,pending,Que estuviera limpia. A lo mejor si se puede cambiar. ,pending
+107,E) Garrafon de purificadora,n/a,n/a,100,no,quality/quantity,n/a,11.5--> 17,C) Cisterna,$100 ,pending,Que hubiera mas agua y mas limpia ,pending
+108,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,450,no,quality,yes,11--> 18,"B) Tinaco, C) Cisterna, D) Tambo",400/500 al bimestre,pending,Que tuviera mejor calidad de agua. No pierde la esperanza de que asi sea. ,pending
+109,"E) Garrafon de purificadora, G) Botellas de Agua",6,0,321.5,no,quantity,no,8--> 18,"B) Tinaco, D) Tambo",$293-350,pending,"que haya siempre--> no va a occurir, siempre ha sido asi. ",pending
+110,"D) Garrafon de marca, E) Garrafon de purificadora",4,0,300,no,quality/quantity,no,8--> 18,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",$300 x familia ,pending,cantidad y calidad. No van a cambiar. Porque cada vez hay menos--> prioridad--> la usa para lavar. ,pending
+111,E) Garrafon de purificadora,n/a,n/a,500,no,other,n/a,15--> 20,A) No se almacena,500,pending,Si cada quien tuviera su toma de agua y no tener que compartir la con los veanos. Se solucionaria si todo cuidaran el agua ,pending
+112,"a) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,150,no,n/a,n/a,8.5--> 15,"D) Tambo, F) Cubeta sin tapa",$150 bimestre ,pending,n/a ,pending
+113,E) Garrafon de purificadora,n/a,n/a,1400,no,quantity,maybe,10--> 18,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",$700 / mes,pending,"Que hubiera agua diario, que sea posible deponde?? la disponibilidad q del clima, todo influye.  ",pending
+114,E) Garrafon de purificadora,n/a,n/a,75,no,quality,maybe,10--> 18,B) Tinaco,$50-100,pending,El tratamiento del agua para que no salga sucia. Si se puede mejorar cambiando los filtros de agua de dos pozos o en las tuberias. ,pending
+115,E) Garrafon de purificadora,5.5,0,634,no,quality,n/a,10--> 18,B) Tinaco,$634 bimestral ,pending,"Que no llegue con olor, ni sucia. ",pending
+116,E) Garrafon de purificadora,n/a,n/a,1300,no,quality/quantity,n/a,11.5--> 20,"B) Tinaco, D) Tambo, E) Cubeta con tapa",$1200-1400,pending,Tener mejor calidad de agua y que cayera continuamente ,pending
+117,"E) Garrafon de purificadora, G) Botellas de Agua",4,0,100,no,quality,maybe,n/a,B) Tinaco,100 bimestre ,pending,mejor calidad. prioridad. Pero sucia no te sirve. Espera que si ocurra. No tenia que comprar garrafons. Politicos y científicos tednrian que trabajar.  ,pending
+118,"E) Garrafon de purificadora, G) Botellas de Agua",5,0,125,no,quality,n/a,12--> 20,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",$100-150 bimestral ,pending,Filtros--> mejorar calidad. Cantidad esta bien. ,pending
+119,"E) Garrafon de purificadora, G) Botellas de Agua",7,0,0,yes,quality,no,12--> 18,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",Condonado,pending,Mas limpia--> no va a ocurrir. Calidad sobre cantidad. ,pending
+120,E) Garrafon de purificadora,n/a,n/a,40,no,quantity,n/a,8--> 15,"B) Tinaco, D) Tambo",$40 x pipa ,pending,Que tuviera agua todos los dias y fuera suficiente. ,pending
+121,"a) agua del suministro publico, E) Garrafon de purificadora",n/a,n/a,650,no,quality,n/a,12--> 18,"D) Tambo, F) Cubeta sin tapa",$600-700,pending,Cambiar lo del olor y barar que llega a pasar en el agua. ,pending
+122,E) Garrafon de purificadora,n/a,n/a,160,no,quality,n/a,no change,A) No se almacena,$80 mensual ,pending,Que llegara el agua mas limpia ,pending
+123,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,n/a,no,quantity,n/a,12--> 18,"B) Tinaco, C) Cisterna, Pilanco",n/a,pending,"que todos tuvieramos la misma cantidad, y de buena cantidad. ",pending
+124,E) Garrafon de purificadora,n/a,n/a,240,no,pressure,no,10-->15,B) Tinaco,$120 (240 bimestral) ,pending,Que huberia mas presion. le abirria las llaves a los duetes grandes. No es posible porque no le harian caso. ,pending
+125,"E) Garrafon de purificadora, H) Pipa",2.25,0,800,no,quality/pressure,n/a,10--> 18,C) Cisterna,$800 bimestral,pending,"La presion de agua, que estuviera + limpia. Lejano porque "" vamos esperando"" de nina tomba agua de llave. ",pending
+126,G) Botellas de Agua,n/a,n/a,170,no,n/a,n/a,no change,"B) Tinaco, C) Cisterna",$170 bimestral ,pending,n/a,pending
+127,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,200,no,quality,maybe,9--> 15,D) Tambo,$200 apox. ,pending,"Si, que llega mas limpia. A veces huele feo tambien. Si es posible, pero no cree que ocurra porque realmente madoa se preocupan.   ",pending
+128,"D) Garrafon de marca, G) Botellas de Agua",n/a,n/a,100,no,quality,n/a,12--> 20,"B) Tinaco, D) Tambo",Bimestral $100,pending,Que ya no  desperdigaron el agua. ,pending
+129,E) Garrafon de purificadora,n/a,n/a,200,no,quantity,n/a,7--> 15,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",bimestral $200 ,pending,"lo ideal seria poder disponer del agua 24/7, no es posible xq no esta en sus manos. ",pending
+130,E) Garrafon de purificadora,n/a,n/a,n/a ,n/a,quantity/pressure,n/a,5--> 10,"B) Tinaco, C) Cisterna",n/a ,pending,Que tuviera mas presion y que saliera limpia ,pending
+131,E) Garrafon de purificadora,n/a,n/a,1800,no,quality/pressure,no,12--> 15,B) Tinaco,1800 el bimestre,pending,que llegue con presion suficiente y mas limpia. Cree que no puede ser posible en el futuro,pending
+132,D) Garrafon de marca,n/a,n/a,600,no,n/a,n/a,6,D) Tambo,$600 bimestral,pending,n/a,pending
+133,E) Garrafon de purificadora,n/a,n/a,DK,no,quality,n/a,13--> 18,"C) Cisterna, F) Cubeta sin tapa",El precio del agua viene incluido en la renta,pending,Salga mas limpia- combiaran tuberias. Que las cisternas estuvieran mas limpias--no puede decidir sobra la limpieza de los lugares en donde almarcena . ,pending
+134,E) Garrafon de purificadora,n/a,n/a,DK,no,quality,maybe,10--> 15,"D) Tambo, E) Cubeta con tapa",no la paga ella ,pending,que no se fera y llegara + limpia y sin olor feo... a lo mejor seria posible ,pending
+135,E) Garrafon de purificadora,n/a,n/a,380,no,quality/quantity,maybe,no change ,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",$380 bimestrales ,pending,"Que fera constante, limpia, buena calidad, presion. ",pending
+136,E) Garrafon de purificadora,4.5,0,150,no,quality,no,10--> 18,"B) Tinaco, D) Tambo",$150 bimestral ,pending,calidad. no va a occurrir,pending
+137,"E) Garrafon de purificadora, G) Botellas de Agua",7,0,100,no,quality,no,12--> 18,"B) Tinaco, C) Cisterna",No mas de $100 bimestral,pending,Que no huele mal. No cree q pase,pending
+138,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,1200,no,quality,n/a,13--> 17,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",$600 al mes,pending,calidad--> mejor,pending
+139,E) Garrafon de purificadora,2,0,180,no,quality,n/a,9-->15,"B) Tinaco, D) Tambo",$180 bimestral,pending,Que no venga tan sucia ,pending
+140,"E) Garrafon de purificadora, G) Botellas de Agua",6,0,200,no,quality,n/a,8--> 12,"B) Tinaco, D) Tambo, E) Cubeta con tapa",$200 bimestral,pending,calidad ,pending
+141,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,110,no,quality,n/a,14--> 20,"D) Tambo, F) Cubeta sin tapa",$100-120 bimestral,pending,calidad que no puderia tomarla,pending
+142,"D) Garrafon de marca, E) Garrafon de purificadora",n/a,n/a,200,no,quality,n/a,12--> 18,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",$200 cada dos meses,pending,que el agua saliera mas limpia ,pending
+143,E) Garrafon de purificadora,n/a,n/a,240,no,quality,n/a,**subio 5**,"B) Tinaco, C) Cisterna, D) Tambo",$230-250-- me afecta a la economia de la casa ,pending,que llegue el agua mas limpia ,pending
+144,E) Garrafon de purificadora,n/a,n/a,0,yes,other,n/a,10--> 15,"C) Cisterna, D) Tambo, F) Cubeta sin tapa","No, condonado",0,que tuviera bomba para llenar y no tener que esta sacando botes de agua,pending
+145,E) Garrafon de purificadora,n/a,0,DK,no,quality/quantity,yes,8 --> 15 / domicilio $13--> 18,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",si pero no sabe cuanto ,pending,que cayera mas agua y mas limpia,pending
+146,E) Garrafon de purificadora,n/a,0,DK,DK,quality/quantity,n/a,10--> 13.5 ---> 18,"B) Tinaco, C) Cisterna","Si, no se cuanto",pending,que llegara mas limpia y que llegue mas cantidad de agua,pending
+147,E) Garrafon de purificadora,n/a,0,140,no,quality,n/a,10 --> 13.5,B) Tinaco,120/160 lo reparten ,pending,que el agua salga limpia. asi no tendria que filtrarla y mejoraria su salud,pending
+148,E) Garrafon de purificadora,3,0,20,no,quality,n/a,13--> 18,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",$20 mensual,pending,limpia ,pending
+149,"E) Garrafon de purificadora, G) Botellas de Agua",8,0,300,no,quality,n/a,16--> 20,pilancon,$300 bimestral,pending,mejor drenaje y limpieza.,pending
+150,E) Garrafon de purificadora,2,0,250,no,quality,no,10--> 20,"F) Cubeta sin tapa, piletas",$200/300 bimestral,pending,limpieza- no va a ocurrir ,pending
+151,"D) Garrafon de marca, G) Botellas de Agua",2,0,50,no,quantity,n/a,no change ,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",$50 bimestral,pending,acceder a mas agua,pending
+152,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,330,no,quality,maybe,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo",$330 bimestral,pending,calidad. antes era limpia. hace 5 anos que cae sucia.,pending
+153,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",5,0,150,no,quality,n/a,7--> 15,"D) Tambo, F) Cubeta sin tapa",$150 mensual,pending,filtor--> mejor calidad,pending
+154,E) Garrafon de purificadora,n/a,n/a,100,no,pressure,n/a,11--> 18,D) Tambo,si le toca pagar $100 pesos,pending,que salga con mas presion el agua.,pending
+155,E) Garrafon de purificadora,n/a,n/a,500,no,quality/pressure,maybe,9.5--> 14,"C) Cisterna, D) Tambo",500 pesos al bimestre ,pending,le gustaria una mejor calidad de agua y que tuviera mas presion ,pending
+156,E) Garrafon de purificadora,4,0,150,no,quality,n/a,10--> 18,"B) Tinaco, C) Cisterna, D) Tambo, 3 o 4 botes",$150 bimestral,pending,sabor,pending
+157,"E) Garrafon de purificadora, G) Botellas de Agua",4.5,0,100,no,quality,n/a,8--> 15,"D) Tambo, E) Cubeta con tapa",$100 ,pending,limpia,pending
+158,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,250,no,quality,maybe,10--> 15,"D) Tambo, F) Cubeta sin tapa",$250 bimestral,pending,cambiar: trater de cuidarla el olor,pending
+159,E) Garrafon de purificadora,n/a,n/a,600,no,quality/quantity,n/a,10--> 20,"B) Tinaco, C) Cisterna, D) Tambo",$600 ,pending,que llegara el agua durante el dia y mas limpia,pending
+160,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,1000,no,other,n/a,10.5--> 15,"B) Tinaco, C) Cisterna",$1000 se descuenta un percentage en el pago de la renta,pending,en la colonia: que fuera mas egatitilc? ,pending
+161,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,800,no,quality,n/a,15--> 18,"B) Tinaco, C) Cisterna",$800 ,pending,limpia--> calidad,pending
+162,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,87.5,no,quality,n/a,11--> 15,"A) No se almacena, E) Cubeta con tapa",$85-90,pending,filtros para que el agua este mas limpia,pending
+163,E) Garrafon de purificadora,3,0,350,no,nothing,n/a,13--> 15 ,B) Tinaco,$300-400 cada 2 meses ,pending,"nada, esta conforme con su situación del agua",pending
+164,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+165,"E) Garrafon de purificadora, G) Botellas de Agua",4,0,130,no,quality,n/a,11--> 15 ,"B) Tinaco, D) Tambo",$130 mimestral,pending,calidad,pending
+166,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,0,yes,quality/quantity,n/a,8--> 15,"D) Tambo, botes 4 con tapa",no probable condonado,pending,que fuera mas limpia y constante,pending
+167,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,DK,DK,quality,n/a,n/a,D) Tambo,si pero no sabe,pending,mas limpia,pending
+168,E) Garrafon de purificadora,5,0,0,yes,quality,n/a,5--> 15,"B) Tinaco, D) Tambo","No, condonado",pending,poner filtros y mantenimiento,pending
+169,E) Garrafon de purificadora,n/a,n/a,0,no,quality,n/a,7--> 15,"B) Tinaco, C) Cisterna",no se paga,pending,que el agua estuviera mas limpia. ,pending
+170,E) Garrafon de purificadora,n/a,n/a,0,no,quality/pressure,n/a,DK,D) Tambo,no se paga,pending,"que este limpia, con mas presion",pending
+171,E) Garrafon de purificadora,n/a,n/a,0,yes,quantity,n/a,10--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa","no, esta condonada",pending,"tener agua mas frequentemente, mas limpia, buen flugo",pending
+172,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,n/a,10--> 15,"B) Tinaco, C) Cisterna","no esta condonado, desde hace dos anos",pending,que el agua fuera limpia,pending
+173,"D) Garrafon de marca, E) Garrafon de purificadora",n/a,n/a,250,no,quality,n/a,14--> 18,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",$250 bimestral,pending,que el agua llegara limpia,pending
+174,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,n/a,7--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa","no, esta condonado",pending,"que llegara mas limpia, porque usa mas hasta color para lavar trastes",pending
+175,E) Garrafon de purificadora,n/a,n/a,0,yes,quantity,n/a,10--> 19,"B) Tinaco, C) Cisterna, D) Tambo",esta condonado,pending,que hubiera agua mas tiempo para q nos ayude,pending
+176,E) Garrafon de purificadora,n/a,n/a,0,yes,quality/quantity,n/a,11--> 15,"B) Tinaco, C) Cisterna, D) Tambo",no esta condonado,pending,"que haga mas agua, mas tiempo, mas limpia",pending
+177,E) Garrafon de purificadora,3,0,0,yes,quality,n/a,10--> 15,"D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa",no condonado,pending,calidad,pending
+178,E) Garrafon de purificadora,n/a,n/a,DK,no,quality/quantity,n/a,8--> 15,E) Cubeta con tapa,"Si, junto con la renta ",pending,que llegara mas limpia y con mas frequencia ,pending
+179,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,250,no,quality,n/a,8--> 13,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",$250 aprox. a veces dependiendo,pending,que estuviera mejor tratada,pending
+180,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,yes,quality,no,11--> 18,"D) Tambo, F) Cubeta sin tapa",No condonado,pending,calidad--> gob no hace nada ,pending
+181,E) Garrafon de purificadora,n/a,n/a,0,yes,quantity,n/a,no,"B) Tinaco, C) Cisterna",No le tienen condonado,pending,"que llegue al menos 3 o 4 dias, asi estaran mas tranqulos ",pending
+182,"E) Garrafon de purificadora, H) Pipa",n/a,n/a,0,yes,quantity,n/a,10--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",condonada a veces cada 2 anos. $280 + o menos ,pending,que llegara 3 veces a la semana todo el dia al menos.,pending
+183,E) Garrafon de purificadora,n/a,n/a,0,yes,nothing,n/a,no,"B) Tinaco, D) Tambo","no, la tiene condonada",pending,nada,pending
+184,"E) Garrafon de purificadora, G) Botellas de Agua",5,0,0,yes,quality,no,8--> 15,"B) Tinaco, C) Cisterna",condonada ,pending,"calidad- el color, toda la vida ha sido asi",pending
+185,E) Garrafon de purificadora,n/a,n/a,0,yes,quality/quantity,maybe,7.5--> 15,"C) Cisterna, D) Tambo",no esta condonado ,pending,que llegue mas limpia y extender el horario en el que sale el agua. presion al gobierno o a sacmex ,pending
+186,E) Garrafon de purificadora,n/a,n/a,DK,DK,quality/quantity,n/a,12--> 22,C) Cisterna,"el agua la paga su papa, no sabe ",pending,que hubiera agua diario y que saliera limpia,pending
+187,E) Garrafon de purificadora,n/a,n/a,0,yes,quality/quantity,n/a,8--> 15,"B) Tinaco, C) Cisterna",no esta condonada ,pending,que saliera limpia y diario.,pending
+188,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,n/a,8--> 15,"B) Tinaco, C) Cisterna","no, esta condonado ",pending,que saliera mas limpia,pending
+189,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",5,0,n/a,n/a,quantity,n/a,10--> 15,"B) Tinaco, D) Tambo",No,pending,horario--> que le dejen x mas tiempo,pending
+190,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",4-Mar,0,0,yes,quality,no,7--> 15,"B) Tinaco, C) Cisterna, D) Tambo",Condonada,pending,calidad--> mas confianza y tranquilidad,pending
+191,"D) Garrafon de marca, E) Garrafon de purificadora",n/a,n/a,n/a,n/a,quality,n/a,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo",No,pending,que viniera mas limpia,pending
+192,"D) Garrafon de marca, E) Garrafon de purificadora",5,0,0,yes,quality,n/a,5--> 15,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",No condonado,pending,mas limpia,pending
+193,E) Garrafon de purificadora,n/a,n/a,0,no,quantity,n/a,10--> 15,"B) Tinaco, D) Tambo, E) Cubeta con tapa",No,pending,que hubiera la suficiente para cubrir las necesidade de todos. Ques no estuviera apestosa ni cafe.,pending
+194,E) Garrafon de purificadora,2,0,0,no,quantity,no,6--> 15,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",No,pending,que llegue mas horas al dia--> no cree q pare,pending
+195,"D) Garrafon de marca, E) Garrafon de purificadora",n/a,n/a,0,no,quantity,n/a,DK,B) Tinaco,No,pending,"Aun que estuvieran restringidos los horarios del agua, le gustaria que saliera limpia",pending
+196,E) Garrafon de purificadora,n/a,n/a,0,no,quality/quantity,n/a,8--> 15,"C) Cisterna, tina botes",No,pending,"que tuviera diario agua, mas limpia",pending
+197,E) Garrafon de purificadora,n/a,n/a,650,no,quality,n/a,10--> 22,"C) Cisterna, D) Tambo",$600-700,pending,que caiga limpia,pending
+198,"E) Garrafon de purificadora, G) Botellas de Agua",5,0,0,yes,quality,n/a,12--> 18,C) Cisterna,condonado,pending,que llegue limpia,pending
+199,E) Garrafon de purificadora,2 x semana,0,0,yes,quality,n/a,7--> 15,C) Cisterna,condonada ,pending,que llegue sin animalitos y limpia,pending
+200,"D) Garrafon de marca, E) Garrafon de purificadora",n/a,n/a,0,no,quantity,n/a,9--> 15,"B) Tinaco, C) Cisterna, D) Tambo",no,pending,que fuera constante y que fuera de calidad,pending
+201,"D) Garrafon de marca, E) Garrafon de purificadora",n/a,n/a,600,no,quality,n/a,8--> 15,"B) Tinaco, C) Cisterna","Si, $600",pending,cambiaria los almacenamiento para limpiarlos,pending
+202,E) Garrafon de purificadora,3 o 4 ,0,0,yes,quality,n/a,10--> 18,"D) Tambo, pileta",No condonado,pending,filtros para tener agua limpia y consumir,pending
+203,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,0,yes,quality,yes,11--> 18.5 ,"B) Tinaco, C) Cisterna, D) Tambo",No condonado,pending,calidad --> Mas potable,pending
+204,E) Garrafon de purificadora,n/a,n/a,0,no,quality,n/a,8--> 15,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",No,pending,Tener un filtro para que el agua llegue mas limpia y pedir ayuda para que llegue agua de mejor calidad. ,pending
+301,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,yes,8--> 15,"B) Tinaco, C) Cisterna","No, la tienen condonada. cree que es xq no leega limpia",pending,"que llegue mas limpia, que llegue sin olor feo. si puede ocurrir xa hay filtros ",pending
+302,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,no,quality,n/a,40--> 70,B) Tinaco,a ella no le han cobrado agua aun,pending,"pagar semcios??, cuidarla ",pending
+303,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,yes,quality,n/a,4--> 19,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",No esta condonada ,pending,que llegue mas pura,pending
+304,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,DK,DK,quality,n/a,8--> 18,B) Tinaco,"Si, pero paga su suegro",pending,que salga el agua limpia,pending
+305,E) Garrafon de purificadora,n/a,n/a,0,yes,n/a,n/a,8--> 15,"B) Tinaco, D) Tambo",No esta condonada ,pending,el aspecto del agua,pending
+306,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,yes,DK,n/a,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo",no esta condonada ,pending,mas agua ??? * hard to read**,pending
+307,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,yes,n/a,n/a,8--> 18,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",No esta condonada,pending,no,pending
+308,E) Garrafon de purificadora,n/a,n/a,DK,no,quantity,n/a,8--> 15,"B) Tinaco, F) Cubeta sin tapa","si, no sabe cuanto. lo paga la rentera ",pending,que llegara todos los dias y una hora mas que la pusieran. ,pending
+309,"E) Garrafon de purificadora, G) Botellas de Agua, H) Pipa",n/a,n/a,200,no,quality,n/a,6--> 15,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa","Si, $200",pending,"el ambiente, que tran basura, los que fuman contaminan eso mejorania ",pending
+310,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,n/a,10--> 15,B) Tinaco,no esta condonada ,pending,"que fuera limpia, mejorar la calidad del agua",pending
+311,E) Garrafon de purificadora,n/a,n/a,0,yes,quantity,n/a,8--> 15,"B) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa",No esta condonada ,pending,"tener agua (que caiga), por lo menos una o dos veces a la semana y que estuviera limpia.",pending
+312,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,83.33,no,quality,n/a,8--> 15,"B) Tinaco, D) Tambo","Si, $500 anual. No importa ",pending,Mas limpieza ,pending
+313,"E) Garrafon de purificadora, G) Botellas de Agua",n/a,n/a,0,no,quality,n/a,10--> 15,"B) Tinaco, C) Cisterna",No,pending,La calidad del agua,pending
+314,E) Garrafon de purificadora,n/a,n/a,90,no,quality,n/a,7--> 15,"B) Tinaco, C) Cisterna",Si. Pagan 90 pesos el bimestre--> si fuera mejor servicio no le importaria,pending,cambiaria la mala distribucion del agua. La infraestructura es vieja ,pending
+315,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,11.5,no,quality,n/a,8--> 15,"B) Tinaco, C) Cisterna",$8- $15,pending,mejor calidad,pending
+316,E) Garrafon de purificadora,n/a,n/a,0,yes,quality/quantity,n/a,11--> 13,"C) Cisterna, D) Tambo, E) Cubeta con tapa",No esta condonada,pending,Que llegara unos dos dias a la semana,pending
+317,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,n/a,7--> 15,"B) Tinaco, D) Tambo","No, esta condonada ",pending,"que estuviera mas limpia, sin tierra, sin gusanos y que llegara mas ",pending
+318,E) Garrafon de purificadora,n/a,n/a,0,yes,quality,n/a,7--> 15,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",No esta condonada,pending,"que venga limpia, porque huele mucho a cano--> con que huela bien. ",pending
+319,E) Garrafon de purificadora,4,0,11,no,quality,n/a,7--> 15,"B) Tinaco, C) Cisterna",$7-15,pending,calidad ,pending
+320,E) Garrafon de purificadora,8,0,11.5,yes,quantity,n/a,8--> 15,"C) Cisterna, F) Cubeta sin tapa",$8-15,pending,"Que el echen un poquito mas tiempo 2 hrs, o hasta todo el dia ",** difference with questions between 31 and 11. Both similar but new on viaje 2. Q31 is asking about outside water price
+321,"E) Garrafon de purificadora, G) Botellas de Agua",2 o 3 ,0,0,yes,quantity,n/a,7.75--> 15,,confirm,pending,"Que llega mas limpia, que llegue todo el dia no porque hay mucha todos los dias. ",pending
+322,E) Garrafon de purificadora,10 o 12 ,0,n/a,n/a,quality,no,7--> 15,"B) Tinaco, D) Tambo, pileta ",pending,pending,que fuera mas limpia y mas constante. Como hasta las 2:00 pm. ,"No, xq no cree que se le vaya a dar "
+323,E) Garrafon de purificadora,12,0,n/a,n/a,quality,n/a,7--> 15,"B) Tinaco, C) Cisterna",pending,pending,"Pagarla, p/que llegue limpia ",pending
+324,E) Garrafon de purificadora,3,0,n/a,n/a,quality,n/a,10--> 26,"B) Tinaco, C) Cisterna",pending,pending,"que saliera mas limpia, que no se preocupe su familia x comprar agua. Poder banarse sin tener que ir al doctor  ",pending
+325,E) Garrafon de purificadora,4-Mar,0,0,no,quality,no,15-Jul,"D) Tambo, F) Cubeta sin tapa",No costo,pending,"que llegara mas limpia, y toda la semana todo el dia ","no es posible, xq no va a combiar, no ha visto ningun cambio cuando cambian las tuberias? "
+326,"E) Garrafon de purificadora, G) Botellas de Agua",4,0,200,no,quality,n/a,12--> 20,B) Tinaco,200 bimestral ,pending,Mas limpia. cisterna mas grande. tener mas conciencia sistematico. ,pending
+327,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,400,no,quality,no,10--> 18,"B) Tinaco, D) Tambo, pileta ",400 x 7 personas bimestral ,pending,"mas limpia, para beber, banarse. ",no sabe cree que no porque gente contamina mucho.  
+328,E) Garrafon de purificadora,4,0,n/a,n/a,pressure,n/a,8 a 15,C) Cisterna,pending,pending,mas presion,pending
+329,E) Garrafon de purificadora,10,0,1333.33,no,quantity,no,6 a 20,"B) Tinaco, C) Cisterna, D) Tambo",4000 p/ 6 meses ,pending,"todo el dia, todo el tiempo. para mas tranquilidad. cantidad> calidad ","no, porque ya se va a acabar de los pozos de la CDMX. "
+330,E) Garrafon de purificadora,2,0,n/a,n/a,quality,no,15-Jul,"B) Tinaco, C) Cisterna, D) Tambo",pending,pending,calidad en prioridad ,no sabe x no llega el agua. 
+331,E) Garrafon de purificadora,2 o 3 ,0,75,no,quality,no,$8-$15,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",50 o 100 pesos,pending,calidad ,no xq esta encadeando 
+332,E) Garrafon de purificadora,3,0,300,no,quality,yes,$12- $18 ,B) Tinaco,$300 bimestral ,pending,calidad ,si va a ocurrir 
+333,D) Garrafon de marca,*de marca: 1 ,1,40,no,quality/quantity,no,"Purificadora: 12--> 20 pesos, Garrafon: 43--> 53, pipa: 500--> 800 pesos ","B) Tinaco, D) Tambo, F) Cubeta sin tapa","Si, 40 pesos bimestrales",pending,que hubiera agua y que hubiera limpia,Espera y desea que si. No lo cree porque hay mucha gente que desperdicia. 
+334,E) Garrafon de purificadora,4,0,DK,no,quality/quantity,no,$12--> 18,"D) Tambo, G) Otro",viene incluido en la renta ,pending,que lo fuviera todos lo dias y mas limpia,no parece convencida de que pueda ocurrir. cree que no
+335,E) Garrafon de purificadora,6,0,350,no,quality,no,$14--> $17 ,B) Tinaco,$350 bimestral ,pending,calidad ,No cree esta dificil 
+336,E) Garrafon de purificadora,1 o 2 ,0,100,no,n/a,n/a,$11--> $15 ,"B) Tinaco, pileta ",$100 bimestral,pending,no entiende ,no entiende 
+337,E) Garrafon de purificadora,2,0,300,no,quality,no,$8--> 18,pileta ,$300 bimestral ,pending,"que llegue sin mal olor, sin color. Prioridad calidad ",no porque cada vez  + gente
+338,"E) Garrafon de purificadora, G) Botellas de Agua",1,0,189,no,quality,no,no ha cambiado $18 a la casa ,"B) Tinaco, C) Cisterna, pileta",$189 bimestral ,pending,calidad ,no cree. Asi como va la situacion 
+339,E) Garrafon de purificadora,2,,180,no,quality,no ,$12--> $15 ,"B) Tinaco, D) Tambo",$180 bimestral ,pending,mas limpia,no cree q pase hay mucha contaminacion 
+340,E) Garrafon de purificadora,Cada 3 er dia rellena el garrafon de 11 litros ,0,200,no,quality,no,el garrafon costaba 10 pesos ahora cuesta 15 pesos ,pileta ,200 pesos ,pending,que llegara limpia ,"ella dice que sino hubiera tanta contaminacion en los mares, para que el agua llegara limpia."
+341,E) Garrafon de purificadora,2,0,65,no,quantity,no,costaba 12 pesos ahora 18 pesos ,"B) Tinaco, D) Tambo, Botes tina ",50-80 pesos bimestrales ,pending,que hubiera agua en todo momento.,No desperdiciarla o reciclarla 
+342,E) Garrafon de purificadora,3,0,325,no,quality,maybe,$10--> 15 ,"F) Cubeta sin tapa, pileta",$300 o $350,pending,mas importante: llegue limpia y meyor tiempo ,trabaja en romper tuberia y deja caer. 
+343,E) Garrafon de purificadora,3,0,70,no,quality,yes,$11--> $15 o $18 ,n/a ,$70 x fam--> esta bien,pending,que llegue limpia xq sucia te enferma,si va a ocurrir todos deberian tener cuidado
+344,E) Garrafon de purificadora,1 garrafon cada 3er dia ,0,150,no,storage,n/a ,garrafon: $15--> $18 ,"D) Tambo, pileta, botes",150 bimestral. es mucho,pending,que hubiera mas formas de abastecer de agua. Necesita tinacos.,n/a 
+345,E) Garrafon de purificadora,4,0,520,no,quantity,yes,costaba 10 pesos--> ahora 20 pesos ,pileta,260 x mes ,pending,que llegara ( la necesaria) para abastecer las necesidades. ,Si lo cree posible por los programas de gobierno 
+346,E) Garrafon de purificadora,2,0,150,no,quantity,no,$10--> $12 en purificadora ,"C) Cisterna, D) Tambo",50 a 100 mensual ,pending,"que caiga diario para no guardarle--> se apunta, no habira mosquitos ",no cree 
+347,E) Garrafon de purificadora,n/a,n/a,350,no,pressure,no,garrafon: 12 a 15// pipa: 200 antes--> ahora 300,"B) Tinaco, D) Tambo",300-400 pesos si le hace mucho porque cae poca agua o no cae ,pending,que llegara el agua con mas fuerza,no cree que sea posible. porque cada vez cae menos agua. 
+348,E) Garrafon de purificadora,n/a,n/a,50,no,quantity,yes,"costaba $5, y ahora cuesta $9 ","B) Tinaco, D) Tambo, F) Cubeta sin tapa","Si pagamos $50 / 2 meses, no me afecta ",pending,que cayera un poco mas y cuidarla para que no falte,Si es posible para que no faller quisiera que en otros lugares no les falte el agua.
+349,E) Garrafon de purificadora,5,0,220,no,quality,no,$10--> $15 ,D) Tambo,$190 a 250,pending,"que llegue limpia, tiener agua mas dias ",lo duda 
+350,E) Garrafon de purificadora,3 o 4 ,0,1600,no,quantity,no,$10--> $14 ,"B) Tinaco, D) Tambo, F) Cubeta sin tapa","Si pagamos, $1600 cada dos meses/ no nos afecta ",pending,que hubiese diario,no es posible llevamos viviendo asi 12 anos. cada vez cae menos y no cambia
+351,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",3 o 4// de marca: 2 o 3,2.5,175,no,quality,maybe,$12 --> $18 ,C) Cisterna,$150 a $200 bimestral,pending,que llegue mas limpia es mas importante ,podria ser
+352,E) Garrafon de purificadora,5,0,DK,no,quality/pressure,yes,10 a 15 ,"D) Tambo, F) Cubeta sin tapa, pileta",n/s ,pending,que llegue limpia y con mas presion,Si porque el gobierno puede ver la situacion y solucionarlo. 
+353,E) Garrafon de purificadora,3,0,400,no,pressure,yes,10 a 16,"D) Tambo, E) Cubeta con tapa","Si, $200 mensual, es un gasto fuerte ",pending,que tuveria mayor presion.,"si seria posible, porque hay temporadas en que si llega mejor presion pero ahortia es menor constante "
+354,"E) Garrafon de purificadora, G) Botellas de Agua",1,0,n/a,n/a,quality,yes,$8 a 15,"B) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa",,pending,que vea clara--> primordial ,"deberia mejorar, quiere crier en su gobierno"
+355,E) Garrafon de purificadora,3 o 5 ,0,160,no,quality,yes,"$10 --> $15, 20, 18 ","B) Tinaco, C) Cisterna",$160 bimestral ,pending,que llegue limpia,si espera 
+356,E) Garrafon de purificadora,6,0,n/a,n/a,quality,no,7 a 15,"B) Tinaco, C) Cisterna",,pending,"Podria cambiar la calidad, viene muy fea","Lo duda, por el lugar de donde la traen podrian poner filtros. no cree que cambie. "
+357,"E) Garrafon de purificadora, G) Botellas de Agua",5 o 6,0,300,no,quality,no,$12--> 15 a 18,B) Tinaco,300 x 2 meses,pending,que llegue limpia,no trabjan en mantinimiento. Nunca ha salido clara. Al menos tenemos agua 
+358,E) Garrafon de purificadora,20,0,150,no,quality,no,15--> 18,"B) Tinaco, D) Tambo, pileta ","si, 120 a 180 bimestral ",pending,mejorar tuberia ,no
+359,E) Garrafon de purificadora,2,0,160,no,quality,no," purificadora $12 pesos antes, 15 pesos ahora// Pipa: 500--> 800",C) Cisterna,80 pesos x mes ,pending,que la pueda tomar ,"no, ve mas probable que falle agua a que llegue mejor agua"
+360,"D) Garrafon de marca, E) Garrafon de purificadora",2,0,110,no,quality,no,$12--> $18,"B) Tinaco, C) Cisterna",$100-- 120 bimestral,pending,que fuera mejor para beberla ,no porque no toman en cuenta que no hay agua.
+361,E) Garrafon de purificadora,2,0,220,no,quantity,no,$10 --> $15,B) Tinaco,"si, $220 bimestral. esta bien",pending,que no faltara que caga siempre ,no cree xq ahora dicen una cosa luego otra 
+362,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,DK,DK,quality,no,$11 a $18,"B) Tinaco, C) Cisterna",n/s,pending,calidad ,no va a ocurrir--> no hay sistema 
+363,E) Garrafon de purificadora,4,0,DK,DK,quality/quantity,no,10 a 15 pesos,"B) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta ",n/s,pending,agua limpia y que siembre hubiera agua,no porque hay muchas personas en el mundo 
+364,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,200,no,quality/pressure,no,$12 --> $18,"B) Tinaco, pileta","si, bimestral $200 + un poquito ",pending,mas limpia y presion ,no muy descuidados
+365,E) Garrafon de purificadora,3,0,250,no,quality,maybe,10 a 18 pesos,"B) Tinaco, C) Cisterna",$200 a $300,pending,nada--> prompted: calidad ,espera que si suceda no contaminarla. 
+366,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,280,no,quantity/pressure,no,9 a 15 pesos ,D) Tambo,520-- 490 ,pending,buena presion y cantidad,lo duda-- hay poca 
+367,D) Garrafon de marca,de marca: 3 ,3,DK,DK,quality,no,45 a 52 pesos,"B) Tinaco, C) Cisterna",n/s ,pending,que llegue limpia ,"no cree, hay desmanada basura-- influye en calidad"
+368,"E) Garrafon de purificadora, G) Botellas de Agua",1,0,DK,DK,quality,no,9 a 15 pesos ,"B) Tinaco, C) Cisterna",n/s,pending,mas limpia para beberla ,no cree. no sabe q tendria q pasar 
+369,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,DK,DK,quality,no,10 a 18 pesos,"B) Tinaco, C) Cisterna, D) Tambo",n/s ,pending,"filtros, o llegue mas limpia ",no hay mucha basura--> afecta el agua. responsabilidad nostros no gob.  
+370,E) Garrafon de purificadora,3,0,125,no,quality,no,15 a 18 pesos,C) Cisterna,bimestral 100 a 150 ,pending,estable y de calidad--> con mas limpieza,lo duda. tendria que cambiar administrado  
+371,"E) Garrafon de purificadora, G) Botellas de Agua",2 de 20,0,200,no,quality/quantity,no,15 a 20 pesos ,B) Tinaco,200 personas--> 3 personas. bimestral. seria justo si fuera buena calidad,pending,que llegue constante y de buena calidad ,no la situacion a nivel gubernamental 
+372,E) Garrafon de purificadora,12,0,300,no,quality,no,8 a 15 pesos,"B) Tinaco, D) Tambo",Si 300 pesos c/2 mes,pending,que llegue limpia para quitar el gasto de la purificadora ,con la situacion del pais no creo porque los encargados del gobierno no se interesan por la situacion del pueblo sino por su propios intereses. 
+373,E) Garrafon de purificadora,3,0,0,yes,quality,no,7 a 15 pesos ,"B) Tinaco, D) Tambo",condonado,pending,mas limpia ,falta recursos-- peor impuestos donde quedan? 
+374,E) Garrafon de purificadora,8,0,0,yes,quantity,no,4 a 18 pesos ,"B) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa",condonado,pending,"que llegue mas tiempo, un dia mas seria mejor ",no creo que va ir empeorando 
+375,E) Garrafon de purificadora,2,0,0,no,quantity,no,10 a 18 pesos ,"B) Tinaco, C) Cisterna, D) Tambo",no,pending,que le llegue otro dia a la semana ,no
+376,E) Garrafon de purificadora,2,0,0,yes,quality/pressure,maybe,8 a 15 pesos ,"B) Tinaco, C) Cisterna",condonado,pending,que llegue mas limpia y con mas presion,"quien sabe, depende el gobierno "
+377,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,DK,DK,quality/quantity,no,12 a 17 pesos ,"B) Tinaco, C) Cisterna",n/s ,pending,que llegue mas tiempo y mas limpia ,no ha visito mejorias. no hay recursos para filtros 
+378,E) Garrafon de purificadora,6-May,0,0,yes,quality/quantity,si,10 a 15 pesos ,"B) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa",condonado ,pending,que fuera mas limpia q que cayera mas frecuentemente.  ,"si, con el apoyo de las personas que administran la colonia. "
+379,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,n/a,** could not find 379
+380,E) Garrafon de purificadora,4,0,0,yes,quality/quantity,no,11 a 18 pesos ,"B) Tinaco, C) Cisterna",condonado ,pending,mas limpia y mas horas con agua ,"no creo que sera posible, porque las colonias donde estamos hay personas que la desperdician. "
+381,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,0,no,quality,maybe,9 a 20 pesos ,"C) Cisterna, F) Cubeta sin tapa",no,pending,mas limpia ,ojala si tendrian que dar mantenimiento. 
+382,E) Garrafon de purificadora,4.5,0,0,yes,quality,no,7 a 15 pesos ,"B) Tinaco, C) Cisterna",No esta condonado ,pending,Que saliera mas limpia  ,No creo que seria posible. ha ido empeorando es mas mala la calidad del agua 
+383,E) Garrafon de purificadora,3,0,33.33,no,quality/pressure,no,12 costaba y cuesta $20,"B) Tinaco, C) Cisterna",$200 anal ,pending,Que llegue limpia y con mejor presion ,No porque han visito las autondarles y no hay avance 
+384,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",3,0,0,no,quality,no,8 a 15 pesos ,"B) Tinaco, C) Cisterna",No,pending,calidad mas que calidad ,no va a pasar 
+385,E) Garrafon de purificadora,3,0,DK,DK,pressure,yes,15 a 22 pesos ,"B) Tinaco, C) Cisterna, D) Tambo","Si, no se cuanto lo paga mi papa ",pending,que llegue con mas presion,si es posible de que ocurra
+386,"E) Garrafon de purificadora, G) Botellas de Agua",4,0,DK,DK,quality,no,12 a 15 pesos,"B) Tinaco, C) Cisterna",Si no sabe cuanto ,pending,dar mantenimiento a tuberia,No lleva mucho tiempo asi 
+387,E) Garrafon de purificadora,4-Mar,0,DK,DK,quality/pressure,yes,14 a 18 pesos ,"B) Tinaco, C) Cisterna","Si cada 2 meses no se cuanto se paga, no afecta al gasto final. ",pending,que llegue mas limpia y con mas presion ,"si habiendo mas o mejores filtros, segun quieren le dan mantenimiento a las tuberias. "
+388,"E) Garrafon de purificadora, G) Botellas de Agua",6,0,0,yes,quality,yes,13 a 18 pesos ,"B) Tinaco, C) Cisterna",condonado- hace 5 o 6 anos atras ,pending,limpia ,ojala que si
+389,D) Garrafon de marca,3-Feb,0,0,yes,quality/quantity,yes,40--> ahora 45- 48 pesos ,"B) Tinaco, C) Cisterna",condonado,pending,que huberia todos los dias y limpia ,"si, seria posible "
+390,E) Garrafon de purificadora,10,0,DK,DK,quality,no,12 a 15 pesos,"B) Tinaco, D) Tambo, E) Cubeta con tapa",n/s,pending,limpia--> prioridad,lo duda somos sucios hay mucha basura 
+391,E) Garrafon de purificadora,4,0,0,yes,quantity,no,6 a 24 pesos en una semana,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",condonado,pending,que llegara mas dias ,No porque hay anos que lleva asi
+392,E) Garrafon de purificadora,2,0,250,yes,quality,no,12 a 18 pesos,"B) Tinaco, C) Cisterna, D) Tambo",condonado--> cobra $250 c/2 meses ,pending,agua mas limpia,no creo que pase porque hay mucho contaminacion 
+393,E) Garrafon de purificadora,2,0,60,yes,quality/quantity,no,7 a 20 pesos,"B) Tinaco, C) Cisterna",60 pesos cada dos meses ,pending,que llegue mas tiempo y mas limpia,no porque ya llevamos mucho tiempo asi
+394,E) Garrafon de purificadora,14,0,0,yes,quality,yes,13 a 18 pesos ,"B) Tinaco, D) Tambo, pileta",condonado,pending,que llegue mas clara y mas limpia ,si seria posible 
+395,E) Garrafon de purificadora,3 o 4 ,0,0,yes,pressure,yes,5 a 15 pesos ,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",condonado,pending,que llegue con mas presion ,"si porque si gente no la desperdicia, llegaria con mas presion"
+396,E) Garrafon de purificadora,1,0,0,yes,quality,no,7 a 15 pesos,"B) Tinaco, C) Cisterna, D) Tambo",condonado,pending,que llegue mas limpia ,no
+397,E) Garrafon de purificadora,n/a,n/a,0,no,quantity,yes,n/a,"B) Tinaco, D) Tambo",no,pending,cantidad--> mas importante que calidad,"si, no sabe como"
+398,E) Garrafon de purificadora,6-May,0,0,yes,quality,yes,11 a 15 pesos,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",condonado,pending,que llegue de mejor calidad mas limpia,"si es posible, si se tuviera atencion el mantenimiento "
+399,"E) Garrafon de purificadora, G) Botellas de Agua",5,0,n/a,n/a,quality,yes,10 a 18 pesos,"B) Tinaco, C) Cisterna, D) Tambo",n/a,pending,calidad ,quiere pensar que si
+400,E) Garrafon de purificadora,4,0,DK,DK,quality,maybe,10-12 a 18 pesos,"B) Tinaco, C) Cisterna",n/s,pending,que llegue limpia y con mas presion,quiza si
+401,"D) Garrafon de marca, G) Botellas de Agua",n/s,DK,n/a,n/a,quantity,no,40 a 55-60 pesos,"B) Tinaco, C) Cisterna",si,pending,que llegue mas dias,"no cree, gobierno o que este a cargo deberia hace algo"
+402,"E) Garrafon de purificadora, G) Botellas de Agua",7 (1x dia),0,0,yes,quality,maybe,8 a 16 pesos,"B) Tinaco, D) Tambo",condonado,pending,calidad ,ojala llegara 
+403,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,0,no,quality/quantity,no,9 a 18 pesos,"B) Tinaco, C) Cisterna, D) Tambo",no,pending,1: limpia 2: mas agua ,no va a occurrir. 
+404,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,0,yes,quality,no,5 a 12 pesos,"B) Tinaco, C) Cisterna",condonado,pending,limpia,tendria q delegar por mas agua. 
+405,"E) Garrafon de purificadora, G) Botellas de Agua",cada 3er dia x semana ,0,0,yes,quality,no,8 a 15 pesos ,"B) Tinaco, D) Tambo","Si, condonado- hace 2 anos ",pending,"que llegue mas blanquita y mas bonita, ya llevan tiempo aqui",no sabe que tendria que ocurrir para que cambia
+406,E) Garrafon de purificadora,2 x semana ,0,n/a,DK,quality/pressure,no,costaba 15 ahora vale 19 pesos,F) Cubeta sin tapa,"Si la ultima vez pagaron 6 mil, porque no se habia pagado. Si se atrasan en el pago si.",pending,que llegue con mas presion y que llegue mas limpia ,no sabe 
+407,"E) Garrafon de purificadora, G) Botellas de Agua",2 0 1.5 ,0,DK,DK,quality,no,15 a 18 pesos ,B) Tinaco,n/s,pending,que llegue notable para usar para alimentos y bebe,no va a occuir 
+408,E) Garrafon de purificadora,4,0,50,no,quality,yes,10 a 18 pesos ,"B) Tinaco, C) Cisterna","Si, 50 pesos bimestrales ",pending,que llegara mas limpia ,cree que si es posible. tener filtros y otro tipo de tuberias. la calidad del agua se relaciona con las tuberias. 
+409,"D) Garrafon de marca, E) Garrafon de purificadora",3,0,80,no,quality,no,12 a 18 pesos ,F) Cubeta sin tapa,"si, 80 x 2 meses ",pending,limpia,no cree. no sabe que lo puede acer para resolver 
+410,E) Garrafon de purificadora,6-May,0,550,no,quality/pressure,no,costaba 15 ahora 18 pesos ,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",Si depende como 550 bimestral. impacta sus finanzas ,pending,que llegara mas limpia y mas presion,cree que no y mas adelante no abra. cree que es culpa del gobierno. 
+411,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,300,no,quality,no ,14 a 18 pesos ,D) Tambo,300 bimestral ,pending,limpia ,no 
+412,E) Garrafon de purificadora,3,0,DK,no,quality,no,13 a 18 pesos ,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",El dueno de la casa la paga- incluido en la renta ,pending,mas limpia,no sabe
+413,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,100,no,quality,no,12 a 15 pesos ,"B) Tinaco, D) Tambo",100 bimestral,pending,no olor ,no
+414,E) Garrafon de purificadora,6,0,DK,no,nothing,n/a,12 a 17 pesos,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",Su mama ,pending,no hay que cambiar esta bien,pending
+415,E) Garrafon de purificadora,5,0,DK,no,quality,no,11 a 18 pesos,C) Cisterna,Si bimestral,pending,limpieza ,no cree ya tiene tiempo cayendo 
+416,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+417,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+418,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+419,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+420,E) Garrafon de purificadora,7,0,0,yes,quantity/pressure,no,9 and 18 pesos ,"B) Tinaco, D) Tambo, F) Cubeta sin tapa","No, esta condonado",pending,que llegue con mas presion y mas tiempo. ,No porque creo que nos hay votos 
+421,"E) Garrafon de purificadora, G) Botellas de Agua",30,0,0,yes,quality,yes,12 a 18 pesos ,B) Tinaco,condonado,pending,mas limpia ,si limpian bien los filtros 
+422,D) Garrafon de marca,de marca: 3-9,6,0,yes,quality,yes,11 a 18 pesos,"B) Tinaco, C) Cisterna",no esta condonado ,pending,que llegue limpia,"si se podria pero es muy dificil, porque hay que lavar.  "
+423,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,DK,DK,quality,no,12 a 18 pesos ,"D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa","Son 3 pagos, n/s ",pending,calidad, no xq tiene mucho tiempo asi 
+424,E) Garrafon de purificadora,30,0,0,DK,quality,yes,12 a 18 pesos ,B) Tinaco,"no esta, condonado ",pending,que llegue mas limpia ,"si, si le interesan eso"
+425,E) Garrafon de purificadora,5,0,DK,DK,quality,n/a,15 a 18 pesos ,"B) Tinaco, C) Cisterna, pileta ",n/s ,pending,que podria venir mas limpia- a veces sale sucia,n/a
+426,E) Garrafon de purificadora,3,0,230,no,quality/quantity,DK,13 a 18 pesos ,"B) Tinaco, C) Cisterna","Si, 230 c/2 meses. no afecta el gasto ",pending,que llegue mas tiempo y mas limpia,n/s
+427,E) Garrafon de purificadora,2,0,60,no,quality,yes,10 a 18 pesos ,"D) Tambo, F) Cubeta sin tapa",30 mensual- esta bien,pending,calidad,"si, no sabe"
+428,E) Garrafon de purificadora,4,0,DK,no,pressure,no,7 a 18 pesos,"B) Tinaco, F) Cubeta sin tapa","Si, no se cuanto se paga ",pending,que llegue con mas presion,"No porque siempre nos ha llegado asi, llega con presion solo cuando hay bomba"
+429,E) Garrafon de purificadora,2,0,0,yes,quality,yes,6 a 15 pesos,"C) Cisterna, E) Cubeta con tapa",Condonado,pending,Que llegue mas limpia,Si porque ha escuchado que usan escuchado para que llegue mas limpia el agua. 
+430,E) Garrafon de purificadora,2,0,0,yes,quality,yes,8 a 16 pesos,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa",No esta condonado ,pending,que llegue mas limpia es lo mas importante ,"Si, que llegue igual que en otras colonias"
+431,E) Garrafon de purificadora,7,0,0,yes,quantity/pressure,yes,5 a 18 pesos ,"B) Tinaco, D) Tambo, F) Cubeta sin tapa",No esta condonado,pending,"Todo: que llegue mas tiempo, mas presion, y mas presion","Si, si nos juntamos "
+432,"E) Garrafon de purificadora, G) Botellas de Agua",1 cada 2 semanas ,0,55,no,quality,no,15 a 18 pesos,"B) Tinaco, Pileta","Si, 50 a 60 pesos bimestral ",pending,nada podria llegar mas limpia ,No cree 
+433,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,190,no,quality,no,10 a 15 pesos ,B) Tinaco,180 a 200 pesos bimestral ,pending,mas limpia ,no porque personas no le importan y con cuidan 
+434,E) Garrafon de purificadora,2 o 3 ,0,DK,DK,quality/quantity,n/a,12/15 a 18 pesos,"B) Tinaco, F) Cubeta sin tapa, pileta ","Si, no sabe cuanto ",pending,"1. Tener donde almacenarlo, 2. algo para filtrarle, 3. que caga mas seguido, 4. que llegue limpia ",n/a
+435,E) Garrafon de purificadora,7,0,200,no,quality,no,10 a 18 pesos ,"B) Tinaco, D) Tambo","Si, $200 para 14 personas ",pending,que salga para poder tomar ,no todos entendemos. no trar basura en coladora. 
+436,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,200,no,quantity,yes,14 a 16 pesos,"D) Tambo, F) Cubeta sin tapa",menos de 200 bimestral ,pending,que caja x mas tiempo,"Si, limpieza de agua"
+437,"E) Garrafon de purificadora, G) Botellas de Agua",1,0,150,no,quality/pressure,no,9 a 18 pesos ,"B) Tinaco, D) Tambo","Si, $150",pending,mas presion y 2nd limpia,No sabe q se debe la baja presion
+438,E) Garrafon de purificadora,2,0,250,no,quantity,yes,20 a 20 pesos ,"B) Tinaco, E) Cubeta con tapa, Pileta ",250 bimestral ,pending,"que llegue mas, ",si hay q tener fe
+439,E) Garrafon de purificadora,4,0,240,no,quality,no,10 a 15 pesos,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa","Si, 230- 250 bimestral",pending,limpia,"No, ha ido empeorando"
+440,"E) Garrafon de purificadora, G) Botellas de Agua",4 a 3 ,0,0,yes,quality/quantity,no,5 a 15 pesos,"B) Tinaco, D) Tambo",condonado ,pending,"estabien que llegue medio dia mas, limpia para poder usar ","No cree, "
+441,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+442,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+443,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+444,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+445,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+446,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+447,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+448,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+449,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending,pending
+450,E) Garrafon de purificadora,2,0,500,no,quantity,yes,18 pesos. Dice que no hasubido de precio ,"B) Tinaco, D) Tambo, E) Cubeta con tapa","Si, 250 al mes. Se le hace mucho. ",pending,Que sea suficiente. Que caiga diario y regular,Si podria ocurrir.
+451,"a) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua",2,0,82.5,no,nothing,no,8 a 15 pesos,"B) Tinaco, C) Cisterna","Si, 80 a 85 ",pending,nada ,no cree
+452,E) Garrafon de purificadora,5-Apr,0,DK,DK,quality/quantity,maybe,costaba 11 pesos y ahora 15 ,"D) Tambo, F) Cubeta sin tapa","Su abuelito paga el servico, n/s ",pending,que estuviera limpia y llegara por mas tiempo,"tal vez, si las pipas ya no se llevaran el agua"
+453,E) Garrafon de purificadora,2,0,DK,DK,quality/quantity,no,9 a 15 pesos,D) Tambo,n/s ,pending,limpia y tuviera agua siempre,no cree
+454,E) Garrafon de purificadora,5,0,350,no,nothing,n/a,costaba 15 pesos ahora 18 pesos ,"B) Tinaco, C) Cisterna, F) Cubeta sin tapa, pileta",Ella paga el servico del agua. 350 bimestral ,pending,nada,nada
+455,"a) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua",1,0,280,no,quality,no,12 a 18 pesos ,B) Tinaco,280 bimestral ,pending,que sea potable,"no cree, "
+456,E) Garrafon de purificadora,2,0,168,no,quality/quantity/pressure,maybe,"10 pesos para llenarla, ahora cuesta 18","B) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa",168 pesos bimestral. ,pending,"Mas presion, mejor calidad y por mas horas.",Seria posible. Si el gobierno quisiera podria salir con mas calidad.
+457,"E) Garrafon de purificadora, G) Botellas de Agua",4 o 5 ,0,0,yes,quality,maybe,"antes: 10/15 pesos, ahora 18 pesos ","B) Tinaco, C) Cisterna",condonado ,pending,calidad- abundaria na xq depende de como personas la usan ,que el gob haga mas 
+458,E) Garrafon de purificadora,4,0,130,no,quality,n/a ,Costaba 15 pesos- ahora cuesta 18 $,"B) Tinaco, Pileta ","Si, 130 bimestral. ",pending,Que llegue mas limpia para que se pudiera tomar. ,n/a 
+459,"D) Garrafon de marca, E) Garrafon de purificadora",2,0,0,yes,quality,no,(13 o 15) a 18 pesos ,"B) Tinaco, C) Cisterna, D) Tambo",condonado,pending,mas limpia,no cree q ocurra 
+460,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,DK,no,quality,no,13 a 20 pesos ,"C) Cisterna, D) Tambo",no del administre ,pending,mas limpia ,no va a pasar 
+461,D) Garrafon de marca,de marca: 2 ,2,30,no,quality,DK,50 --> 55 pesos,C) Cisterna,condonado por 30 anos ,pending,mas limpia,n/s 
+462,E) Garrafon de purificadora,4,0,100,no,quality,no,8 a 18 pesos ,B) Tinaco,"Si, 100 bimestral ",pending,calidad,no cree--> muchos anos igual
+463,E) Garrafon de purificadora,8,0,n/a,DK,quantity,DK,12 --> 15 pesos ,"B) Tinaco, cubeta con bolsa ",Si,pending,que llegara diario,no sabe
+464,E) Garrafon de purificadora,2,0,150,no,quality,no,12 a 16 pesos ,"B) Tinaco, D) Tambo",150 bimestral ,pending,"mas filtros, mas limpia. ",no va a ocurrir xq debe para x muchas decisiones 
+465,E) Garrafon de purificadora,1,0,600,no,quality,no,n/a,"D) Tambo, F) Cubeta sin tapa, Pileta ","Si, 600 agua ",pending,"cambiar la calidad: moderar el consumo, cuidar lo que echa al drenaje xq se contamia","""siempre ha sido asi y no creo que cambia ahora "
+466,"E) Garrafon de purificadora, G) Botellas de Agua",3x semana ,0,DK,DK,quality,no,10 --> 15 pesos ,"C) Cisterna, pileta","Si, no sabe",pending,"calidad: beberla, ",no cree
+467,E) Garrafon de purificadora,5,0,180,no,quantity,no,antes 10 y ahora 15 pesos,"B) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa","Si, pagan 180",pending,"que hubiera todos los dias, hasta miedo dia.",No que haya todo el dia xq hay mas gente que necesito
+468,E) Garrafon de purificadora,3,0,300,no,quality,no,12 a 18 pesos ,"D) Tambo, F) Cubeta sin tapa","Si, $300 bimestral ",pending,que no salga con olor,cree q no va a ocurrir x lo q se dice en noticias
+469,E) Garrafon de purificadora,3,0,700,no,quality/quantity,no,12 a 18 pesos,"B) Tinaco, E) Cubeta con tapa, G) Otro, Pileta","Si, $700 ",pending,la limpieza del agua y que llegue mas cantidad,No porque el planeta ya no tiene agua 
+470,E) Garrafon de purificadora,35 (5 al dia),0,150,no,quality,no,12 a 18 pesos,"B) Tinaco, C) Cisterna, pileta ",150 bimestral,pending,"que desde la toma, o antes , tenga filtros xq que llegue limpia ",no va a ocurrir--> x el gobierno 
+471,E) Garrafon de purificadora,5-Apr,0,n/a,DK,quality/quantity,no,14 y ahora 18 pesos ,E) Cubeta con tapa,"Si, no sabe cuanto",pending,todos los dias todo el dia y que este limpia,"tiene duda, porque ve en las noticas que ya no hay agua"
+472,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,30,no,quality,no,10--> 14 pesos ,"F) Cubeta sin tapa, Pileta ",20 a 40 bimestral,pending,"calidad: que se puede beber, mas limpia ","no cree, porque no hay agua y requeriria mucho diario "
+473,E) Garrafon de purificadora,3 o 4 ,0,200,no,quality,yes,10 y subio a 18 pesos,"B) Tinaco, F) Cubeta sin tapa","Si, $200",pending,solo que este mas limpia ,"si, tiene esperanza "
+474,E) Garrafon de purificadora,7,0,60,no,quality,no,5 a 15 pesos,"C) Cisterna, pileta ","Si, 60 bimestral// esta bien ",pending,que sea potable ,no cree q ocurra 
+475,E) Garrafon de purificadora,3 o 4 ,0,160,no,other,no,6/5 pesos--> 16/18 pesos,"B) Tinaco, pileta","Si, 160 bimestral",pending,podria una cisterna para que se guarde mas ,No
+476,"D) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua",10,0,135,no,quality,no,13 a 18 pesos,B) Tinaco,"Si, $120-- 150 bimestral",pending,"esta bien no cambiaria nada, prompted: limpia ",no cree--> podria ser 
+477,E) Garrafon de purificadora,8,0,250,no,quality,n/a,antes 10 y ahora 16 pesos,"B) Tinaco, C) Cisterna, E) Cubeta con tapa",$250 bimestral ,pending,que llegue mas limpia,n/a
+478,"E) Garrafon de purificadora, G) Botellas de Agua",6,0,0,yes,quality/quantity,no,7--> 15 pesos,"D) Tambo, F) Cubeta sin tapa",condonado,pending,mas dias-- casi todos los dias y constante + limpia,"siempre ha sido igual, no va a pasar "
+479,"E) Garrafon de purificadora, G) Botellas de Agua",3,0,DK,DK,quantity,yes,7/8 pesos--> 15 pesos,"C) Cisterna, D) Tambo, E) Cubeta con tapa, G) Otro",n/s,pending,"que fuera constante, que caiga diario, mejor si todo el dia--> suficiente ","si gob. se pone las pilas, podria pasar"
+480,"E) Garrafon de purificadora, G) Botellas de Agua",7,0,0,yes,quality,no,$10--> $18,"B) Tinaco, C) Cisterna",no. condonado,pending,limpieza ,no va a ocurrir xq--> culpa de todos 
+481,E) Garrafon de purificadora,6,0,0,yes,quality,n/a,$8--> $15 ,"C) Cisterna, D) Tambo",condonado ,pending,calidad (+limpia),n/a
+482,G) Botellas de Agua,3,0,0,yes,quality,no,8 a 18 pesos,"B) Tinaco, C) Cisterna",condonado ,pending,mas limpia,no va a ocurrir
+483,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,230,no,quality,yes,$15--> $18,"D) Tambo, F) Cubeta sin tapa",Bimestral $230 ,pending,mas limpia,podria ocurrir si todos luchan para que mejore
+484,"D) Garrafon de marca, E) Garrafon de purificadora",3 o 4 ,0,250,no,quality,no,$15 --> $18 ,"B) Tinaco, D) Tambo, E) Cubeta con tapa","Si, $250 bimestral ",pending,"que llegue limpia, ",no cree q ocurra 
+485,E) Garrafon de purificadora,2,0,150,no,quality,yes,"antes costaba 7-8 pesos, ahora 15-18 pesos","B) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta ","Si Varia, 100-200 ",pending,que salga limpia,si todos la cuidaran si
+486,E) Garrafon de purificadora,5,0,DK,DK,quality,no,$10/11--> $18,F) Cubeta sin tapa,n/s,pending,que llegue mas limpia--> si aun hay agua x sus hijos ,"no, pocos recursos para agua  "
+487,E) Garrafon de purificadora,6-Apr,0,60,no,quality/quantity,yes,no ha subido ,"B) Tinaco, C) Cisterna","Si, 60-bimestral ",pending,que llegue limpia y diario ,espera que si. deberian de cuidarla mas 
+488,E) Garrafon de purificadora,3 o 4 ,0,150,no,quality,no,$ 10 a $18 ,"B) Tinaco, E) Cubeta con tapa","Si, $150 bimes",pending,"calidad, que no huele mal",no va a pasar gobierno 
+489,E) Garrafon de purificadora,3,0,300,no,quality,no,costaba $10 ahora cuesta 15,"B) Tinaco, F) Cubeta sin tapa","Si, 300 bimestral",pending,limpia como para tomarse,"ya no, ya hay mucha contaminacion"
+490,E) Garrafon de purificadora,4 a 8 ,0,575,no,quality/pressure,no,$13--> $16,"B) Tinaco, F) Cubeta sin tapa","Si, $550 a 600 bimestral ",pending,"limpia y presion, que llegue diario--> no cree, xq hay mucha gente, xq ya no hay tanta presion",no sabe si va a pasar 
+491,"E) Garrafon de purificadora, G) Botellas de Agua",2,0,DK,DK,quantity,no,$8 --> $15 ,"B) Tinaco, C) Cisterna",n/s,pending,que no deje de caer. ,no cree siempre va a acer asi
+492,"E) Garrafon de purificadora, G) Botellas de Agua",4,0,250,no,quality,yes,$ 12--> $15 ,"B) Tinaco, D) Tambo",$250 bimestral,pending,que tenga menos olor --> siempre limpia,"cree q si se puede, pero quizas no"
