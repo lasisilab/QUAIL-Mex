@@ -15,7 +15,7 @@ install.packages("venn")
 library(venn)
 
 # Load the data
-data <- read.csv("./data/Q9_10_11_29_31_all.xlsx - Form Responses 1.csv")
+data <- read.csv("QUAIL-Mex/data/Q9_10_11_29_31_all.xlsx - Form Responses 1.csv")
 
 # Install eulerr if not already installed
 if (!requireNamespace("eulerr", quietly = TRUE)) {
@@ -34,19 +34,26 @@ improvement_areas <- na.omit(data$Q29_ImprovementArea_categorical)
 split_areas <- strsplit(as.character(improvement_areas), split = "/\\s*")
 
 # Count the frequency of each category and overlap
-quality <- sum(sapply(split_areas, function(x) "quality" %in% x))
+quality  <- sum(sapply(split_areas, function(x) "quality" %in% x))
 quantity <- sum(sapply(split_areas, function(x) "quantity" %in% x))
 pressure <- sum(sapply(split_areas, function(x) "pressure" %in% x))
-overlap1 <- sum(sapply(split_areas, function(x) all(c("quality", "pressure") %in% x)))
-overlap <- sum(sapply(split_areas, function(x) all(c("quality", "quantity") %in% x)))
-
+nothing <- sum(sapply(split_areas, function(x) "nothing" %in% x))
+other <- sum(sapply(split_areas, function(x) "other" %in% x))
+overlap <- sum(sapply(split_areas, function(x) all(c("quality", "pressure") %in% x)))
+overlap3 <- sum(sapply(split_areas, function(x) all(c("quantity", "pressure") %in% x)))
+overlap1  <- sum(sapply(split_areas, function(x) all(c("quality", "quantity") %in% x)))
+overlap2 <- sum(sapply(split_areas, function(x) all(c("quality", "quantity", "pressure") %in% x)))
 # Create a named list with the counts
 area_counts <- c(
   "Quality" = quality,
   "Quantity" = quantity,
   "Pressure" = pressure,
-  "Quality&Pressure" = overlap1,
-  "Quality&Quantity" = overlap
+  "Quality&Pressure" = overlap,
+  "Quality&Quantity" = overlap1,
+  "Quality&Quantity&Pressure" = overlap2,
+  "Quantity&Pressure" = overlap3,
+  "Nothing" = nothing,
+  "Other" = other
 )
 
 # Create the proportional Venn diagram
@@ -54,7 +61,9 @@ venn_diagram <- euler(area_counts)
 
 # Plot
 # Plot the diagram
-plot(venn_diagram, fills = c("skyblue", "pink", "orange"), edges = TRUE, labels = TRUE)
+plot(venn_diagram, 
+     fills = c("skyblue", "green3", "orange", "violet", "gold"), 
+     edges = FALSE, labels = TRUE)
 
 
 
