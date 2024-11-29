@@ -32,7 +32,7 @@ date     <- c("241122")
 pss    <- c("data/240201_PSS_clean.csv")
 hwise    <- c("data/240201_HWISE_clean.csv")
 interm <- c("data/Q3_5_PSS_Hygene_Worry_240416.csv")
-q16     <- c("data/240306_SES_HWISE_Q16.csv") #### NOT INCLUDED
+q16     <- c("data/240306_SES_HWISE_Q16.csv") 
 q9    <- c("data/Q9_10_11_29_31_all.xlsx - Form Responses 1.csv")
 ses <- c("data/240306_SES_clean.csv")  #### NOT INCLUDED
 ```
@@ -195,7 +195,7 @@ colnames(df) <- name.col
 
 
 
-factor_levels <- c("Nunca","A veces","De vez en cuando", "A menudo/Siempre")
+factor_levels <- c("Nunca","A veces","De vez en\ncuando", "A menudo\no siempre")
 
 
 for (i in 2:length(df)) {
@@ -213,8 +213,7 @@ png(file= "./HWISE_likert_99CCCC_darkgoldenrod.png", width = 1300, height = 750)
 plot(likert(sur2), 
      centered = TRUE, 
      center = 1.5, 
-     wrap = 15, 
-   low.color='#99CCCC', 
+     low.color='#99CCCC', 
      high.color='darkgoldenrod', 
      text.size = 9.5, 
      plot.percent.high = TRUE, 
@@ -222,7 +221,7 @@ plot(likert(sur2),
      guides(fill = guide_legend(title="Frecuencia")) +
     theme_minimal() + 
     labs(title = paste("Encuesta HWISE, n = ", nrow(sur2), sep=""), 
-        y = "Porcentaje"
+        y = "Porcentaje", 
     ) +
     theme(
        legend.position = "top",  
@@ -234,91 +233,52 @@ dev.off()
 
 ```
 
-```{r}
-png(file= "HWISE_by_question_mean_sd_barplot.png", width = 1000, height = 1000 )
-ggplot(hwise_sum, aes(x = reorder(Question, -mean), y = mean, fill = reorder(Question, -mean))) +
-    geom_bar(stat = "identity") +
-    scale_fill_viridis(discrete = TRUE, option = "cividis") + 
-    theme_minimal() +
-    theme(legend.position = "none", 
-          text = element_text(family="LibreFranklin", size=20), 
-          axis.text.x=element_text(angle=30)) + 
-    labs(title = "Mean score by question, HWISE survey, N = 395", x = "", y = "Mean HWISE score") 
-dev.off()
-
-### Numbers inside bars
-#geom_text(aes(label=len), vjust=1.6, color="white", size=3.5)+
-```
-
-
-```{r}
-#png(file= "HWISE_by_question_barplot.png", width = 1400, height = 1400 )
-ggplot(hwise_long, aes(x = Question, y = Score, fill = Question)) +
-    geom_bar(stat = "identity") +
-    scale_fill_viridis(discrete = TRUE, option = "cividis") + 
-    theme_minimal() +
-    theme(legend.position = "none", 
-          text = element_text(size=20), 
-          axis.text.x=element_text(angle=30)) + 
-    labs(title = "") 
-#dev.off()
-
-
-```
-
 # Q16_Perception of sufficiency
 
 ```{r}
 ## Plotting Q16 
 head(q16)
 
-q16s <- q16[,c("Folio", "X1.day.week..6.to.12", "X3.days.week", "X5.days.week", "Evaluación de su servicio de agua")] 
-
- temp <- q16s[is.na(q16s$participant == "Otro"), ] 
+q16s <- q16[,c("Folio", "X1.day.week..6.to.12", "X3.days.week", "X5.days.week")] 
 
 Folio <- c("99991", "99992", "99993", "99994")
 X1.day.week..6.to.12 <- c(1, 2, 3, 4) 
 X3.days.week <- c(1, 2, 3, 4) 
 X5.days.week <- c(1, 2, 3, 4) 
-participant <- c(1, 2, 3, 4) 
 
 fake <- data.frame(Folio, 
                    X1.day.week..6.to.12, 
                    X3.days.week, 
-                   X5.days.week, 
-                   participant)
+                   X5.days.week)
 sur2 <- rbind(q16s, fake)
 
-factor_levels <- c("Insuficiente","Moderadamente suficiente","Casi suficiente", "Completamente suficiente","Otro")
-colnames(q16s)
+factor_levels <- c("Insuficiente","Moderadamente\nsuficiente",
+                   "Casi\nsuficiente", "Completamente\nsuficiente")
 
 for (i in 2:length(sur2)) {
 sur2[,i]<- as.factor(sur2[,i]) 
 levels(sur2[,i]) <- factor_levels
 }
 
-name.col <- c("1 día/semana, 6 a 12 hrs", "3 días/semana, 24 hrs", "5 días/semana, 24 hrs", "Evaluación de su servicio de agua")    
+name.col <- c("1 día/semana, 6 a 12 hrs", "3 días/semana, 24 hrs", "5 días/semana, 24 hrs")    
 
 
 nrow(sur2)
 sur2 <- subset(sur2, Folio < 99991)
-sur2 <- sur2[2:length(sur2)]
 nrow(sur2)
+sur3 <- sur2[,2:4] 
+colnames(sur3) <- name.col
 
-colnames(sur2) <- name.col
 
-
-sur3 <- sur2[,1:3] 
-
-png(file= "Q16_likert_plot_rm_participants.png", width = 1300, height = 600)
+png(file= "Q16_likert_plot_rm_participants.png", width = 1300, height = 500)
 plot(likert(sur3), 
          centered = TRUE,
          center = 3.5,
          wrap = 15,
-      #   include.center = FALSE,
-         high.color='#59CCCC', 
+         include.center = FALSE,
+         high.color='#99CCCC', 
          low.color='darkgoldenrod', 
-         text.size = 9.5, 
+         text.size = 10, 
          plot.percent.high=TRUE, 
          plot.percent.low = FALSE) + 
     labs(y = "Porcentaje", 
@@ -328,40 +288,10 @@ plot(likert(sur3),
     theme_minimal() + 
     theme(
        legend.position = "bottom", 
-       text = element_text(family = "RobotoCondensed-Semibold", size=38), 
-       legend.text = element_text(size=26),
-       plot.title = element_text(size = 38))  
+       text = element_text(family = "RobotoCondensed-Semibold", size=39), 
+       legend.text = element_text(size=28),
+       plot.title = element_text(size = 39))  
 dev.off()
-
-
-
-    theme(
-       legend.position = "top",  
-       text = element_text(family = "RobotoCondensed-Semibold", size=38), 
-       legend.text = element_text(size=26),
-       plot.title = element_text(size = 38)) 
-  
-dev.off()
-
-
-
-
-sur3 <- sur2[,1:3] 
-
-png(file= "./plots/Q16_likert_plot_rm_participants.png", width = 1100, height = 350 )
-plot(likert(sur3), centered = FALSE,
-     plot.percent.high=FALSE, plot.percent.low = FALSE) + 
-    theme_minimal() + 
-    scale_x_discrete(labels = label_wrap(17)) +
-    labs(title = paste("Perceptions of water sufficiency, n = ", n = nrow(sur2), sep=""), 
-        y = "Percentage") +
-    theme(legend.position = "bottom", 
-          text = element_text(family = "Franklin Gothic Medium Cond", 
-                              size=30), 
-          legend.text = element_text(size=24))  
-
-dev.off()
-
  
 ```
 
@@ -377,52 +307,46 @@ keep <- c("quality","quality/quantity",
           "quantity/pressure")
 
 q29_stats <- m %>%
-    select(Folio, Total_Hwise, Q11_bimestral, Q11_condonado, 
-           Q29_categorical, Q29._Future_Chnage, Emotions) %>%
-    mutate(name = factor(Q29_categorical, levels = c("quality", "quantity",
-                                                      "quality/quantity", "quality/pressure",
-                                                      "pressure", "quantity/pressure",
-                                                      "quality/quantity/pressure", 
-                                                      "nothing", "other"))) %>%
-    group_by(Q29_categorical) %>%
-    filter(Q29_categorical %in% keep) %>%
+    select(SampleID, 
+           Q29_ImprovementArea_categorical, Q29_ImprovementLikely) %>%
+    filter(Q29_ImprovementArea_categorical %in% keep) %>%
+    mutate(name = factor(Q29_ImprovementArea_categorical)) %>%
+    group_by(Q29_ImprovementArea_categorical) %>%
     summarise(n = n()) 
 
- q29_stats
+ q29_stats 
  sum(q29_stats$n) -> n_total
  
- 
-q29_stats$Q29_categorical <- ifelse(q29_stats$Q29_categorical == "nothing", "Nothing",
-        ifelse(q29_stats$Q29_categorical == "other", "Other", 
-              ifelse(q29_stats$Q29_categorical == "quality", "Quality",
-                      ifelse(q29_stats$Q29_categorical == "quantity", "Quantity",
-                              ifelse(q29_stats$Q29_categorical == "quality/quantity", "Quality & quantity", 
-                                      ifelse(q29_stats$Q29_categorical == "quality/pressure", "Quality & pressure",
-                                              ifelse(q29_stats$Q29_categorical == "pressure", "Pressure", 
-                                                      ifelse(q29_stats$Q29_categorical == "quant2ity/pressure", "Quantity & pressure", 
-                                                              ifelse(q29_stats$Q29_categorical == "quality/quantity/pressure", "Quality, quantity & pressure", "NA")))))))))
+q29_stats$Q29_ImprovementArea_categorical <-
+   ifelse(q29_stats$Q29_ImprovementArea_categorical == "nothing", "Ninguno",
+              ifelse(q29_stats$Q29_ImprovementArea_categorical == "quality", "Calidad",
+                      ifelse(q29_stats$Q29_ImprovementArea_categorical == "quantity", "Cantidad",
+                              ifelse(q29_stats$Q29_ImprovementArea_categorical == "quality/quantity", "Calidad y Cantidad", 
+                                      ifelse(q29_stats$Q29_ImprovementArea_categorical == "quality/pressure", "Calidad y presión",
+                                              ifelse(q29_stats$Q29_ImprovementArea_categorical == "pressure", "Presión", 
+                                                      ifelse(q29_stats$Q29_ImprovementArea_categorical == "quantity/pressure", "Cantidad y presión", 
+                                                              ifelse(q29_stats$Q29_ImprovementArea_categorical == "quality/quantity/pressure", "Cantidad, calidad y presión", "Otro"))))))))
  
 # Plot
- 
-png(file= "./plots/Q29_distribution_V2.png", width = 1000, height = 400) 
+ library(RColorBrewer)
+
+
+png(file= "Q29_categorical.png", width = 1200, height = 500) 
 q29_stats %>%
-     mutate(Q29_categorical = fct_reorder(Q29_categorical, n)) %>%
-ggplot(aes(x = Q29_categorical, y = n/n_total, fill = Q29_categorical)) +
-    geom_bar(stat = "identity") +  
-    labs(title = "Water insecurity aspects prioritized by participants", 
-         y = "Percentage", x="") +
-    scale_fill_viridis(discrete = TRUE, option = "D") + 
-    coord_flip() + 
-    theme_minimal() + 
-    scale_y_continuous(labels = scales::percent) + 
-    theme(legend.position = "none", text = element_text(family = "Franklin Gothic Medium Cond", size=30), legend.text = element_text(size=24))  
- 
-
+   ggplot(aes(x = reorder(Q29_ImprovementArea_categorical, n), 
+              y = n/n_total)) +
+       geom_bar(stat = "identity", fill = "darkgoldenrod") +  
+       labs(title = "Aspectos que necesitan ser mejorados", 
+            y = "Porcentaje", x="") +
+       coord_flip() + 
+       theme_minimal() + 
+       scale_y_continuous(labels = scales::percent) + 
+       theme(legend.position = "none", 
+             text = element_text(family = "RobotoCondensed-Semibold",
+                                 size=38), 
+          legend.text = element_text(size=26),
+          plot.title = element_text(size = 38)) 
 dev.off()
-
-
-
-
 
 
 ```

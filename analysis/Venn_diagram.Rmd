@@ -1,0 +1,60 @@
+---
+title: "Venn_diagram"
+author: "Paloma"
+date: "2024-11-29"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+```{r}
+# Load necessary libraries
+install.packages("venn")
+library(venn)
+
+# Load the data
+data <- read.csv("./data/Q9_10_11_29_31_all.xlsx - Form Responses 1.csv")
+
+# Install eulerr if not already installed
+if (!requireNamespace("eulerr", quietly = TRUE)) {
+  install.packages("eulerr")
+}
+
+# Load the package
+library(eulerr)
+
+# Load the data
+
+# Clean and filter the relevant column
+improvement_areas <- na.omit(data$Q29_ImprovementArea_categorical)
+
+# Split categories (assuming they are comma-separated if multiple per response)
+split_areas <- strsplit(as.character(improvement_areas), split = "/\\s*")
+
+# Count the frequency of each category and overlap
+quality <- sum(sapply(split_areas, function(x) "quality" %in% x))
+quantity <- sum(sapply(split_areas, function(x) "quantity" %in% x))
+pressure <- sum(sapply(split_areas, function(x) "pressure" %in% x))
+overlap1 <- sum(sapply(split_areas, function(x) all(c("quality", "pressure") %in% x)))
+overlap <- sum(sapply(split_areas, function(x) all(c("quality", "quantity") %in% x)))
+
+# Create a named list with the counts
+area_counts <- c(
+  "Quality" = quality,
+  "Quantity" = quantity,
+  "Pressure" = pressure,
+  "Quality&Pressure" = overlap1,
+  "Quality&Quantity" = overlap
+)
+
+# Create the proportional Venn diagram
+venn_diagram <- euler(area_counts)
+
+# Plot
+# Plot the diagram
+plot(venn_diagram, fills = c("skyblue", "pink", "orange"), edges = TRUE, labels = TRUE)
+
+
+
