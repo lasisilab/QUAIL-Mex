@@ -6,26 +6,26 @@ output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
+Question 29
 
-## Introduction
+```{r warning=FALSE}
 
-```{r}
+# Set working directory
+```
+
+
+```{r warning=FALSE}
 # Load necessary libraries
-install.packages("venn")
 library(venn)
+library(eulerr)
 
 # Load the data
-data <- read.csv("QUAIL-Mex/data/Q9_10_11_29_31_all.xlsx - Form Responses 1.csv")
+data <- read.csv("./data/Q9_10_11_29_31_all.xlsx - Form Responses 1.csv")
 
 # Install eulerr if not already installed
 if (!requireNamespace("eulerr", quietly = TRUE)) {
   install.packages("eulerr")
 }
-
-# Load the package
-library(eulerr)
-
-# Load the data
 
 # Clean and filter the relevant column
 improvement_areas <- na.omit(data$Q29_ImprovementArea_categorical)
@@ -43,12 +43,12 @@ overlap <- sum(sapply(split_areas, function(x) all(c("quality", "pressure") %in%
 overlap3 <- sum(sapply(split_areas, function(x) all(c("quantity", "pressure") %in% x)))
 overlap1  <- sum(sapply(split_areas, function(x) all(c("quality", "quantity") %in% x)))
 overlap2 <- sum(sapply(split_areas, function(x) all(c("quality", "quantity", "pressure") %in% x)))
+
 # Create a named list with the counts
 area_counts <- c(
   "Quality" = quality,
     "Pressure" = pressure,
   "Quantity" = quantity,
-
   "Quality&Pressure" = overlap,
   "Quality&Quantity" = overlap1,
   "Quality&Quantity&Pressure" = overlap2,
@@ -59,17 +59,29 @@ area_counts <- c(
 # Create the proportional Venn diagram
 venn_diagram <- euler(area_counts)
 
+```
 
+```{r plot}
 
 # Plot
 # Plot the diagram
 
-png(file= "venn_diagram.png", width = 500, height = 500)
+png(file= "./output/venn_diagram.png", width = 750, height = 700)
 
 plot(venn_diagram, 
      fills = c("gold", "turquoise3", "coral1", "thistle"), 
      edges = list(col = "white", lex = 1.5),
-     labels = list(size = 0.3, fontfamily = "RobotoCondensed-Semibold", fontsize = 15.5), 
-     quantities = list(type = "percent", fontsize = 12.5))
+     labels = list(size = 7, 
+                   fontfamily = "RobotoCondensed-Semibold", 
+                   fontsize = 18.5), 
+     main = "Aspectos que necesitan ser mejorados",
+     quantities = list(type = "percent", fontsize = 15.5))
 
 dev.off()
+```
+
+
+
+
+
+
