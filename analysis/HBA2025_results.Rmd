@@ -1,0 +1,31 @@
+---
+title: "HBA2025_results"
+author: "Paloma"
+date: "2025-01-27"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+Here you will find the code used to obtain results shown in the annual meeting of the HBA, 2025. 
+
+Abstract:
+
+**Coping with water insecurity: women's strategies and emotional responses in Iztapalapa,
+Mexico City**
+
+Water insecurity in urban areas presents distinctive challenges, particularly in marginalized communities. While past studies have documented how households adapt to poor water services, many of these coping strategies come at a significant personal cost. Here we examine the **coping strategies and emotional impacts of unreliable water services** among 400 women in Iztapalapa, Mexico City. Data were collected through surveys over the Fall of 2022 and Spring of 2023. We assessed **household water access, water management practices, and emotional responses to local water services.** 
+
+Results indicate that during acute water shortages, women can spend extended periods (several hours, or sometimes days) waiting for water trucks. Additionally, 57% of respondents reported feeling frustrated or angry about their water situation, while around 20% experienced family conflicts over water use or community-level conflicts around water management, often involving water vendors or government services. 
+
+This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
+
+
+
+
+```{r}
+
+```
+
