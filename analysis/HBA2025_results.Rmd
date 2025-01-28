@@ -23,8 +23,6 @@ Results indicate that during acute water shortages, women can spend extended per
 This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
 
 
-
-
 ```{r}
 
 ```
