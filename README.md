@@ -25,3 +25,4 @@ Data were collected through the following tools:
 - Screening survey
 - HWISE (Household Water Insecurity Scale, Young et al. 2019)
 - PSS (Perceived Stress Scores, Cohen 1994)
+- QUAIL-Mex
