@@ -9,11 +9,11 @@ QUantitative And qualItative perceptions of water insecurity Levels in Mexico Ci
 
 **Target Population**: Adult women (self-identified), ages 18 to 45,  living in neighborhoods with varying levels of water insecurity in Iztapalapa. Pregnant and lactating were excluded from the study.
 
-**Data collection period**
+**Data collection period:**
 Season 1: Oct-Dec 2022 
 Season 2: Apr-Jun 2023
 
-**Data collection method**
+**Data collection method:**
 Surveys were applied through in-person interviews, conducted by one of the PIs (Contreras) and three Mexican research assistants (two biologists and two anthropologists). 
 Data collection took <50 minutes per person 
 Participants were invited to participate in the study near neighborhood community centers where many women exercise, take classes, or bring their children for enrichment activities.
