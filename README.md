@@ -23,6 +23,8 @@ All individuals provided IRB consent and received economic compensation.
 Completed surveys were anonymized and coded into a secure database.
 Data were collected through the following tools: 
 - Screening survey
+- NSE-AMAI (Niveles Socioeconómicos-Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión), a six-item tool developed specifically for measuring SES in Mexico.
 - HWISE (Household Water Insecurity Scale, Young et al. 2019)
 - PSS (Perceived Stress Scores, Cohen 1994)
 - QUAIL-Mex
+
