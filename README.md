@@ -1,13 +1,13 @@
 # QUAIL-Mex
 QUantitative And qualItative perceptions of water insecurity Levels in Mexico City
 
-**Study**: Perception of Water Insecurity and Epigenetic Signatures of Stress Among Urban Adult Women in Mexico City
+**Study**: Perception of Water Insecurity and Epigenetic Signatures of Stress Among Urban Adult Women
 
-**Study overview**: This research project investigates the relationship between perceived water insecurity, psychological stress, and biological markers of stress among adult women in Mexico City. The study focuses on understanding the impact of water access challenges, emotional responses to water insecurity, and potential biological stress indicators like DNA methylation. 
+**Study overview**: This research project investigates the relationship between perceived water insecurity, psychological stress, and biological markers of stress among adult women. The study focuses on understanding the impact of water access challenges, emotional responses to water insecurity, and potential biological stress indicators like DNA methylation on stress related genes, and hair cortisol levels. 
 
 **Location**: Iztapalapa, Mexico City, Mexico
 
-**Target Population**: Adult women (self-identified), ages 18 to 45,  living in neighborhoods with varying levels of water insecurity in Iztapalapa. Pregnant and lactating people were excluded from the study.
+**Target Population**: Adult women (self-identified), ages 18 to 45,  living in neighborhoods with varying levels of water insecurity. Pregnant and lactating people were excluded from the study.
 
 **Data collection period:**
 
@@ -16,7 +16,7 @@ QUantitative And qualItative perceptions of water insecurity Levels in Mexico Ci
 
 
 **Data collection method:**
-Surveys were applied through in-person interviews, conducted by one of the PIs (Contreras) and three Mexican research assistants (two biologists and two anthropologists). 
+Surveys were applied through in-person interviews, conducted by one of the PIs (Contreras) and four Mexican research assistants (two biologists and two anthropologists). 
 Data collection took <50 minutes per person. 
 Participants were invited to participate in the study near neighborhood community centers where many women exercise, take classes, or bring their children for enrichment activities.
 All individuals provided IRB consent and received economic compensation. 
