@@ -1,0 +1,91 @@
+---
+title: "About"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# Load libraries
+library(tidyverse)
+library(plotly)
+library(viridis)
+library(grid)
+library(RColorBrewer)
+```
+
+## Data cleaning
+
+```{r}
+# Set locations and file names
+file     <- c("../data/01.SCREENING.csv")
+
+#Loading file and setting empty cells as "NAs"
+d <- read.csv(file, stringsAsFactors = TRUE, na.strings = c("", " ","NA", "N/A"))
+```
+
+```{r cleaning}
+
+ # extract duplicates and compare values (removed manually for now)
+dup <- d$ID[duplicated(d$ID)] 
+length(dup) # 38
+print(dup)
+
+# remove duplicates
+d <- d[!duplicated(d$ID),]
+# confirm total number of participants
+length(unique(d$ID)) # 433 rows, but 394 participants
+
+
+# What numbers are missing? 
+ID <- as.ordered(d$ID)
+# first trip
+setdiff(1:204, ID)
+nrow(d[d$ID <=250,])
+
+# second trip
+setdiff(301:497, ID)
+nrow(d[d$ID >=250,])
+
+nrow(d)
+
+
+ #make ID number the row names
+rownames(d) <- d$ID
+
+# Code NAs
+d[d=='NA'] <- NA
+d <- d %>% 
+    replace_na()
+
+# Count rows with NAs
+nrow(d[rowSums(is.na(d))> 0,]) # 12 rows
+nrow(d[!complete.cases(d),]) # 12 rows
+
+#NAs <- d[rowSums(is.na(d))> 0,]
+#write.table(NAs, "240301_SES_Age_NAs.csv", row.names=FALSE)
+
+# Select useful information
+d <- d %>% 
+  select(ID, SES_EDU_SC, SES_BTHR_SC, SES_CAR_SC, SES_INT_SC, SES_WRK_SC, SES_BEDR_SC)
+
+# transform factors to numbers
+for (i in c(2:length(d))) {
+    d[,i] <- as.numeric(as.character(d[,i]))
+}
+
+# Keep rows with no missing data
+d <- d[complete.cases(d),] # - 9 (dup)  # total 382 complete cases, total 394
+nrow(d)
+head(d)
+#write.csv(d, paste("./cleaned/", date, "_SES_clean.csv", sep=""))
+
+
+# Calcular total SES score
+d$SES_score <- rowSums(d[2:7], na.rm = TRUE)
+
+```
