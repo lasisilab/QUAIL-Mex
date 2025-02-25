@@ -1,16 +1,20 @@
 ---
-title: "About"
-output:
-  workflowr::wflow_html:
-    toc: false
+title: "Plots_Latinx_research_week"
+author: "Paloma"
+date: "2025-01-27"
+output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+```
 
+```{r warnings = FALSE, echo = FALSE, message=FALSE}
 # Load libraries
+library(rmarkdown)
 library(tidyverse)
 library(plotly)
 library(viridis)
@@ -20,15 +24,11 @@ library(RColorBrewer)
 
 ## Data cleaning
 
-```{r}
-# Set locations and file names
-file     <- c("../data/01.SCREENING.csv")
+```{r screening data}
 
 #Loading file and setting empty cells as "NAs"
-d <- read.csv(file, stringsAsFactors = TRUE, na.strings = c("", " ","NA", "N/A"))
-```
+d <- read.csv("./data/01.SCREENING.csv", stringsAsFactors = TRUE, na.strings = c("", " ","NA", "N/A"))
 
-```{r cleaning}
 
  # extract duplicates and compare values (removed manually for now)
 dup <- d$ID[duplicated(d$ID)] 
@@ -63,7 +63,7 @@ d <- d %>%
     replace_na()
 
 # Count rows with NAs
-nrow(d[rowSums(is.na(d))> 0,]) # 12 rows
+nrow(d[rowSums(is.na(d)) > 0,]) # 12 rows
 nrow(d[!complete.cases(d),]) # 12 rows
 
 #NAs <- d[rowSums(is.na(d))> 0,]
@@ -88,4 +88,128 @@ head(d)
 # Calcular total SES score
 d$SES_score <- rowSums(d[2:7], na.rm = TRUE)
 
+# SES categories
+d$SES <- ifelse(d$SES_score <= 47,"E", 
+                ifelse(d$SES_score <= 89, "D-/E", 
+                       ifelse(d$SES_score <= 111, "D", 
+                              ifelse(d$SES_score <= 135, "C-",
+                                     ifelse(d$SES_score <= 165, "C",
+                                            ifelse(d$SES_score <= 204, "C+",
+                                                   "A/B"))))))
+head(d)
 ```
+
+# combining data
+```{r }
+
+#Loading file and setting empty cells as "NAs"
+c <- read.csv("./data/Chronic_pain_illness.csv", stringsAsFactors = TRUE, na.strings = c("", " ","NA", "N/A"))
+
+c$chronic <- as.factor(ifelse(c$HLTH_CPAIN_CAT == 1 | c$HLTH_CDIS_CAT == 1, "Yes", "No"))
+
+m <- merge(d,c, by="ID")
+dim(m)
+m[m =='NA'] <- NA
+m <- m %>% 
+    replace_na()
+m <- m %>% 
+  drop_na()
+
+m %>%
+  select(ID, SES, chronic) %>%
+  group_by(SES) %>%
+  summarise(n_total = n())
+
+
+agg<- count(m, SES, chronic)
+agg2 <- pivot_wider(agg, 
+            names_from = chronic,
+            values_from = n)
+agg2$Total <- agg2$Yes/(agg2$Yes + agg2$No)*100
+
+#png(file= "HLTH_counts_by_SES.png", width = 700, height = 800 )
+ggplot(agg2, aes(x = SES, y = Total)) +
+    geom_bar(stat= "identity", fill = "orchid4", alpha = 0.9) +
+     ylim(0, 55) + 
+   theme_minimal()  +
+   geom_text(aes(label = paste(round(Total, 1), "%", sep="")), 
+            vjust = -0.5, 
+            colour = "gray40", 
+            size = 9) +
+   theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 32, face = "bold"),
+    axis.title = element_text(size = 22),  
+    axis.text = element_text(size = 26)  
+  ) + 
+  labs(title="Proportion of participants suffering from \n chronic pain or chronic disease") +
+  xlab("Socioeconomic status") +
+  ylab("Percent (%)")  
+#dev.off()
+
+
+```
+
+# SES and PSS - work in progress
+
+```{r}
+f<-read.csv("./data/02.HWISE_PSS.csv")
+# Add more info to file
+dim(f)
+f$ID <- as.factor(f$ID)
+
+# Calculate total score PSS per participant
+f$t_pss <- 0
+# change positive statements to negative values
+pss <- c(20, 21, 22, 23, 25, 26, 29)
+for (i in pss) {f[i] <- f[i]*-1 }
+    for (i in 1:nrow(f)) { 
+    sum(f[i, c(18:31)]) -> f$Total_PSS[i]
+}
+summary(f$Total_PSS)
+
+pss <- merge(m,f, by="ID")
+dim(pss)
+pss[pss =='NA'] <- NA
+
+
+
+pss %>%
+  select(ID, SES, chronic, Total_PSS) %>%
+  drop_na(Total_PSS) %>%
+  group_by(SES, chronic) %>%
+  summarise(n_total = n(), mean = mean(Total_PSS))
+
+
+agg<- count(pss, SES, chronic, Total_PSS)
+agg2 <- pivot_wider(agg, 
+            names_from = chronic,
+            values_from = n)
+agg2$Total <- agg2$Yes/(agg2$Yes + agg2$No)*100
+
+png(file= "HLTH_counts_by_SES.png", width = 700, height = 800 )
+ggplot(agg2, aes(x = SES, y = Total)) +
+    geom_bar(stat= "identity", fill = "orchid4", alpha = 0.9) +
+     ylim(0, 55) + 
+   theme_minimal()  +
+   geom_text(aes(label = paste(round(Total, 1), "%", sep="")), 
+            vjust = -0.5, 
+            colour = "gray40", 
+            size = 9) +
+   theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 32, face = "bold"),
+    axis.title = element_text(size = 22),  
+    axis.text = element_text(size = 26)  
+  ) + 
+  labs(title="Proportion of participants suffering from \n chronic pain or chronic disease") +
+  xlab("Socioeconomic status") +
+  ylab("Percent (%)")  
+dev.off()
+
+
+```
+
+
+
+

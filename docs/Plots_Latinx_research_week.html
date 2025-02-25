@@ -13,7 +13,7 @@
 
 <meta name="date" content="2025-01-27" />
 
-<title>HBA2025_results</title>
+<title>Plots_Latinx_research_week</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -351,7 +351,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HBA2025_results</h1>
+<h1 class="title toc-ignore">Plots_Latinx_research_week</h1>
 <h4 class="author">Paloma</h4>
 <h4 class="date">2025-01-27</h4>
 
@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-02-22
+<strong>Last updated:</strong> 2025-02-25
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,18 +411,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -554,6 +557,10 @@ Ignored files:
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
+Untracked files:
+    Untracked:  HLTH_counts_by_SES.png
+    Untracked:  data/c_pain.csv
+
 Unstaged changes:
     Modified:   analysis/Plots_Latinx_research_week.Rmd
 
@@ -572,8 +579,9 @@ have uncommitted changes.
 <div id="versions" class="tab-pane fade">
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/HBA2025_results.Rmd</code>) and
-HTML (<code>docs/HBA2025_results.html</code>) files. If you’ve
+made to the R Markdown
+(<code>analysis/Plots_Latinx_research_week.Rmd</code>) and HTML
+(<code>docs/Plots_Latinx_research_week.html</code>) files. If you’ve
 configured a remote Git repository (see <code>?wflow_git_remote</code>),
 click on the hyperlinks in the table below to view the files as they
 were in that past version.
@@ -605,50 +613,16 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/37298564a4eb60d13eefef6ae69498b757748403/analysis/HBA2025_results.Rmd" target="_blank">3729856</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/44474e3d53c3ea1cbf5cc9f32c13423f4bea34bb/analysis/Plots_Latinx_research_week.Rmd" target="_blank">44474e3</a>
 </td>
 <td>
 Paloma
 </td>
 <td>
-2025-01-28
+2025-02-22
 </td>
 <td>
-org
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/37298564a4eb60d13eefef6ae69498b757748403/docs/HBA2025_results.html" target="_blank">3729856</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-01-28
-</td>
-<td>
-org
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/0c35df11eb964501879df06bfb70e61cc8e053c9/analysis/HBA2025_results.Rmd" target="_blank">0c35df1</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-01-28
-</td>
-<td>
-Create HBA2025_results.Rmd
+Create Plots_Latinx_research_week.Rmd
 </td>
 </tr>
 </tbody>
@@ -658,35 +632,251 @@ Create HBA2025_results.Rmd
 </div>
 </div>
 </div>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<p>Here you will find the code used to obtain results shown in the
-annual meeting of the HBA, 2025.</p>
-<p>Abstract:</p>
-<p><strong>Coping with water insecurity: women’s strategies and
-emotional responses in Iztapalapa, Mexico City</strong></p>
-<p>Water insecurity in urban areas presents distinctive challenges,
-particularly in marginalized communities. While past studies have
-documented how households adapt to poor water services, many of these
-coping strategies come at a significant personal cost. Here we examine
-the <strong>coping strategies and emotional impacts of unreliable water
-services</strong> among 400 women in Iztapalapa, Mexico City. Data were
-collected through surveys over the Fall of 2022 and Spring of 2023. We
-assessed <strong>household water access, water management practices, and
-emotional responses to local water services.</strong></p>
-<p>Results indicate that during acute water shortages, women can spend
-extended periods (several hours, or sometimes days) waiting for water
-trucks. Additionally, 57% of respondents reported feeling frustrated or
-angry about their water situation, while around 20% experienced family
-conflicts over water use or community-level conflicts around water
-management, often involving water vendors or government services.</p>
-<p>This study offers one of the first in-depth examinations of how water
-insecurity specifically affects women in Iztapalapa, a densely populated
-region of Mexico City with severe water access challenges. The findings
-highlight the urgent need for policy interventions that address water
-insecurity with a gender-sensitive approach, recognizing the
-disproportionate burden placed on women as primary water managers in
-their households.</p>
+<div id="data-cleaning" class="section level2">
+<h2>Data cleaning</h2>
+<pre class="r"><code>#Loading file and setting empty cells as &quot;NAs&quot;
+d &lt;- read.csv(&quot;./data/01.SCREENING.csv&quot;, stringsAsFactors = TRUE, na.strings = c(&quot;&quot;, &quot; &quot;,&quot;NA&quot;, &quot;N/A&quot;))
+
+
+ # extract duplicates and compare values (removed manually for now)
+dup &lt;- d$ID[duplicated(d$ID)] 
+length(dup) # 38</code></pre>
+<pre><code>[1] 138</code></pre>
+<pre class="r"><code>print(dup)</code></pre>
+<pre><code>  [1]   2   3   9  22  24  25  26  27  30  33  44  46  70  75  96 102 103 128
+ [19] 146 162 163 163 167 180 190 191 201 202 301 301 302 302 303 304 305 306
+ [37] 307 308 309 310 310 311 312 313 314 315 316 317 318 319 320 320 321 322
+ [55] 323 323 324 325 326 327 328 329 330 330 331 332 333 334 334 335 336 337
+ [73] 338 339 340 341 342 343 344 345 353 353 362 364 365 366 367 368 369 370
+ [91] 371 372 373 374 375 376 377 378 379 380 381 382 383 384 385 386 387 388
+[109] 389 390 391 393 394 395 402 415 427 427 439 453 463 463 471 476 483 483
+[127] 483 485 487 488 489 490 492 492 494 495 496 497</code></pre>
+<pre class="r"><code># remove duplicates
+d &lt;- d[!duplicated(d$ID),]
+# confirm total number of participants
+length(unique(d$ID)) # 433 rows, but 394 participants</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code># What numbers are missing? 
+ID &lt;- as.ordered(d$ID)
+# first trip
+setdiff(1:204, ID)</code></pre>
+<pre><code>[1]  71 164</code></pre>
+<pre class="r"><code>nrow(d[d$ID &lt;=250,])</code></pre>
+<pre><code>[1] 202</code></pre>
+<pre class="r"><code># second trip
+setdiff(301:497, ID)</code></pre>
+<pre><code>integer(0)</code></pre>
+<pre class="r"><code>nrow(d[d$ID &gt;=250,])</code></pre>
+<pre><code>[1] 197</code></pre>
+<pre class="r"><code>nrow(d)</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code> #make ID number the row names
+rownames(d) &lt;- d$ID
+
+# Code NAs
+d[d==&#39;NA&#39;] &lt;- NA
+d &lt;- d %&gt;% 
+    replace_na()
+
+# Count rows with NAs
+nrow(d[rowSums(is.na(d)) &gt; 0,]) # 12 rows</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code>nrow(d[!complete.cases(d),]) # 12 rows</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code>#NAs &lt;- d[rowSums(is.na(d))&gt; 0,]
+#write.table(NAs, &quot;240301_SES_Age_NAs.csv&quot;, row.names=FALSE)
+
+# Select useful information
+d &lt;- d %&gt;% 
+  select(ID, SES_EDU_SC, SES_BTHR_SC, SES_CAR_SC, SES_INT_SC, SES_WRK_SC, SES_BEDR_SC)
+
+# transform factors to numbers
+for (i in c(2:length(d))) {
+    d[,i] &lt;- as.numeric(as.character(d[,i]))
+}</code></pre>
+<pre><code>Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion</code></pre>
+<pre class="r"><code># Keep rows with no missing data
+d &lt;- d[complete.cases(d),] # - 9 (dup)  # total 382 complete cases, total 394
+nrow(d)</code></pre>
+<pre><code>[1] 349</code></pre>
+<pre class="r"><code>head(d)</code></pre>
+<pre><code>  ID SES_EDU_SC SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC SES_BEDR_SC
+1  1         10          24          0         31         61          23
+2  2         31          47         18         31         46          23
+3  3         31           0          0          0         15           6
+4  4         73          47          0         31         46          17
+5  5         35          24          0         31         15          12
+6  6         73          47          0         31         46          23</code></pre>
+<pre class="r"><code>#write.csv(d, paste(&quot;./cleaned/&quot;, date, &quot;_SES_clean.csv&quot;, sep=&quot;&quot;))
+
+
+# Calcular total SES score
+d$SES_score &lt;- rowSums(d[2:7], na.rm = TRUE)
+
+# SES categories
+d$SES &lt;- ifelse(d$SES_score &lt;= 47,&quot;E&quot;, 
+                ifelse(d$SES_score &lt;= 89, &quot;D-/E&quot;, 
+                       ifelse(d$SES_score &lt;= 111, &quot;D&quot;, 
+                              ifelse(d$SES_score &lt;= 135, &quot;C-&quot;,
+                                     ifelse(d$SES_score &lt;= 165, &quot;C&quot;,
+                                            ifelse(d$SES_score &lt;= 204, &quot;C+&quot;,
+                                                   &quot;A/B&quot;))))))
+head(d)</code></pre>
+<pre><code>  ID SES_EDU_SC SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC SES_BEDR_SC
+1  1         10          24          0         31         61          23
+2  2         31          47         18         31         46          23
+3  3         31           0          0          0         15           6
+4  4         73          47          0         31         46          17
+5  5         35          24          0         31         15          12
+6  6         73          47          0         31         46          23
+  SES_score  SES
+1       149    C
+2       196   C+
+3        52 D-/E
+4       214  A/B
+5       117   C-
+6       220  A/B</code></pre>
+</div>
+<div id="combining-data" class="section level1">
+<h1>combining data</h1>
+<pre class="r"><code>#Loading file and setting empty cells as &quot;NAs&quot;
+c &lt;- read.csv(&quot;./data/Chronic_pain_illness.csv&quot;, stringsAsFactors = TRUE, na.strings = c(&quot;&quot;, &quot; &quot;,&quot;NA&quot;, &quot;N/A&quot;))
+
+c$chronic &lt;- as.factor(ifelse(c$HLTH_CPAIN_CAT == 1 | c$HLTH_CDIS_CAT == 1, &quot;Yes&quot;, &quot;No&quot;))
+
+m &lt;- merge(d,c, by=&quot;ID&quot;)
+dim(m)</code></pre>
+<pre><code>[1] 349  12</code></pre>
+<pre class="r"><code>m[m ==&#39;NA&#39;] &lt;- NA
+m &lt;- m %&gt;% 
+    replace_na()
+m &lt;- m %&gt;% 
+  drop_na()
+
+m %&gt;%
+  select(ID, SES, chronic) %&gt;%
+  group_by(SES) %&gt;%
+  summarise(n_total = n())</code></pre>
+<pre><code># A tibble: 7 × 2
+  SES   n_total
+  &lt;chr&gt;   &lt;int&gt;
+1 A/B        26
+2 C          77
+3 C+         48
+4 C-         85
+5 D          51
+6 D-/E       49
+7 E          10</code></pre>
+<pre class="r"><code>agg&lt;- count(m, SES, chronic)
+agg2 &lt;- pivot_wider(agg, 
+            names_from = chronic,
+            values_from = n)
+agg2$Total &lt;- agg2$Yes/(agg2$Yes + agg2$No)*100
+
+#png(file= &quot;HLTH_counts_by_SES.png&quot;, width = 700, height = 800 )
+ggplot(agg2, aes(x = SES, y = Total)) +
+    geom_bar(stat= &quot;identity&quot;, fill = &quot;orchid4&quot;, alpha = 0.9) +
+     ylim(0, 55) + 
+   theme_minimal()  +
+   geom_text(aes(label = paste(round(Total, 1), &quot;%&quot;, sep=&quot;&quot;)), 
+            vjust = -0.5, 
+            colour = &quot;gray40&quot;, 
+            size = 9) +
+   theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 32, face = &quot;bold&quot;),
+    axis.title = element_text(size = 22),  
+    axis.text = element_text(size = 26)  
+  ) + 
+  labs(title=&quot;Proportion of participants suffering from \n chronic pain or chronic disease&quot;) +
+  xlab(&quot;Socioeconomic status&quot;) +
+  ylab(&quot;Percent (%)&quot;)  </code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+</div>
+<div id="ses-and-pss---work-in-progress" class="section level1">
+<h1>SES and PSS - work in progress</h1>
+<pre class="r"><code>f&lt;-read.csv(&quot;./data/02.HWISE_PSS.csv&quot;)
+# Add more info to file
+dim(f)</code></pre>
+<pre><code>[1] 398  33</code></pre>
+<pre class="r"><code>f$ID &lt;- as.factor(f$ID)
+
+# Calculate total score PSS per participant
+f$t_pss &lt;- 0
+# change positive statements to negative values
+pss &lt;- c(20, 21, 22, 23, 25, 26, 29)
+for (i in pss) {f[i] &lt;- f[i]*-1 }
+    for (i in 1:nrow(f)) { 
+    sum(f[i, c(18:31)]) -&gt; f$Total_PSS[i]
+}
+summary(f$Total_PSS)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+-13.000  -5.000  -2.000  -2.558   0.000   6.000       4 </code></pre>
+<pre class="r"><code>pss &lt;- merge(m,f, by=&quot;ID&quot;)
+dim(pss)</code></pre>
+<pre><code>[1] 345  46</code></pre>
+<pre class="r"><code>pss[pss ==&#39;NA&#39;] &lt;- NA
+
+
+
+pss %&gt;%
+  select(ID, SES, chronic, Total_PSS) %&gt;%
+  drop_na(Total_PSS) %&gt;%
+  group_by(SES, chronic) %&gt;%
+  summarise(n_total = n(), mean = mean(Total_PSS))</code></pre>
+<pre><code>`summarise()` has grouped output by &#39;SES&#39;. You can override using the `.groups`
+argument.</code></pre>
+<pre><code># A tibble: 14 × 4
+# Groups:   SES [7]
+   SES   chronic n_total  mean
+   &lt;chr&gt; &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt;
+ 1 A/B   No           21 -2.43
+ 2 A/B   Yes           5 -2.2 
+ 3 C     No           41 -3.24
+ 4 C     Yes          34 -1.97
+ 5 C+    No           34 -2.91
+ 6 C+    Yes          13 -3.69
+ 7 C-    No           61 -2.61
+ 8 C-    Yes          23 -2.70
+ 9 D     No           29 -2.45
+10 D     Yes          21 -3.19
+11 D-/E  No           33 -1.76
+12 D-/E  Yes          16 -3.38
+13 E     No            5 -1.4 
+14 E     Yes           5 -4.6 </code></pre>
+<pre class="r"><code>agg&lt;- count(pss, SES, chronic, Total_PSS)
+agg2 &lt;- pivot_wider(agg, 
+            names_from = chronic,
+            values_from = n)
+agg2$Total &lt;- agg2$Yes/(agg2$Yes + agg2$No)*100
+
+png(file= &quot;HLTH_counts_by_SES.png&quot;, width = 700, height = 800 )
+ggplot(agg2, aes(x = SES, y = Total)) +
+    geom_bar(stat= &quot;identity&quot;, fill = &quot;orchid4&quot;, alpha = 0.9) +
+     ylim(0, 55) + 
+   theme_minimal()  +
+   geom_text(aes(label = paste(round(Total, 1), &quot;%&quot;, sep=&quot;&quot;)), 
+            vjust = -0.5, 
+            colour = &quot;gray40&quot;, 
+            size = 9) +
+   theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 32, face = &quot;bold&quot;),
+    axis.title = element_text(size = 22),  
+    axis.text = element_text(size = 26)  
+  ) + 
+  labs(title=&quot;Proportion of participants suffering from \n chronic pain or chronic disease&quot;) +
+  xlab(&quot;Socioeconomic status&quot;) +
+  ylab(&quot;Percent (%)&quot;)  </code></pre>
+<pre><code>Warning: Removed 89 rows containing missing values or values outside the scale range
+(`geom_bar()`).</code></pre>
+<pre><code>Warning: Removed 52 rows containing missing values or values outside the scale range
+(`geom_text()`).</code></pre>
+<pre class="r"><code>dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -711,19 +901,30 @@ time zone: America/Detroit
 tzcode source: internal
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] RColorBrewer_1.1-3 viridis_0.6.5      viridisLite_0.4.2  plotly_4.10.4     
+ [5] lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1      dplyr_1.1.4       
+ [9] purrr_1.0.2        readr_2.1.5        tidyr_1.3.1        tibble_3.2.1      
+[13] ggplot2_3.5.1      tidyverse_2.0.0    rmarkdown_2.29    
 
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       cli_3.6.3         knitr_1.49        rlang_1.1.4      
- [5] xfun_0.49         stringi_1.8.4     promises_1.3.0    jsonlite_1.8.9   
- [9] workflowr_1.7.1   glue_1.8.0        rprojroot_2.0.4   git2r_0.35.0     
-[13] htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9        fansi_1.0.6      
-[17] rmarkdown_2.29    jquerylib_0.1.4   evaluate_1.0.1    tibble_3.2.1     
-[21] fastmap_1.2.0     yaml_2.3.10       lifecycle_1.0.4   whisker_0.4.1    
-[25] stringr_1.5.1     compiler_4.4.2    fs_1.6.5          Rcpp_1.0.13-1    
-[29] pkgconfig_2.0.3   rstudioapi_0.17.1 later_1.3.2       digest_0.6.37    
-[33] R6_2.5.1          utf8_1.2.4        pillar_1.9.0      magrittr_2.0.3   
-[37] bslib_0.8.0       tools_4.4.2       cachem_1.1.0     </code></pre>
+ [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    stringi_1.8.4    
+ [5] hms_1.1.3         digest_0.6.37     magrittr_2.0.3    timechange_0.3.0 
+ [9] evaluate_1.0.1    fastmap_1.2.0     rprojroot_2.0.4   workflowr_1.7.1  
+[13] jsonlite_1.8.9    whisker_0.4.1     gridExtra_2.3     promises_1.3.0   
+[17] httr_1.4.7        fansi_1.0.6       scales_1.3.0      lazyeval_0.2.2   
+[21] jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4       munsell_0.5.1    
+[25] withr_3.0.2       cachem_1.1.0      yaml_2.3.10       tools_4.4.2      
+[29] tzdb_0.4.0        colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
+[33] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      htmlwidgets_1.6.4
+[37] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
+[41] later_1.3.2       gtable_0.3.6      data.table_1.16.2 glue_1.8.0       
+[45] Rcpp_1.0.13-1     xfun_0.49         tidyselect_1.2.1  rstudioapi_0.17.1
+[49] knitr_1.49        farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3   
+[53] compiler_4.4.2   </code></pre>
 </div>
 </div>
 </div>
