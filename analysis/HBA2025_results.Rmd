@@ -22,8 +22,197 @@ Results indicate that during acute water shortages, women can spend extended per
 
 This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
 
-
+# Cleaning screening file
 ```{r}
+# Load necessary libraries
+library(dplyr)
+library(tidyr)
+
+# Load the dataset
+file_path <- "./data/01.SCREENING.csv"
+df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+# Convert all character columns to NA where values match missing patterns
+df <- df %>%
+  mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
+
+# Remove duplicate IDs and keep rows with at least 10 non-NA values
+df_filtered <- df %>%
+  mutate(Non_NA_Count = rowSums(!is.na(.))) %>%
+  filter(!duplicated(ID) & Non_NA_Count >= 10) %>%
+  select(-Non_NA_Count) # Remove helper column
+
+
+# Display the filtered dataset
+print(dim(df_filtered)) # Show dimensions for confirmation
+write.csv(df_filtered, "./analysis/Filtered_Screening.csv", row.names = FALSE)
+
+d <- df_filtered
+
+# Confirm total number of unique participants
+cat("Total unique participants:", length(unique(d$ID)), "\n") 
+
+# Identify missing ID numbers in the first and second trip ranges
+missing_first_trip <- setdiff(1:204, d$ID)
+cat("Missing IDs in the first trip:", missing_first_trip, "\n")
+
+missing_second_trip <- setdiff(301:497, d$ID)
+cat("Missing IDs in the second trip:", missing_second_trip, "\n")
+
+# Count participants within ID ranges
+cat("Num of Participants first trip ≤ 250:", sum(d$ID <= 250, na.rm = TRUE), "\n")
+cat("Num of Participants second trip ≥ 250:", sum(d$ID >= 250, na.rm = TRUE), "\n")
+
+# Confirm total number of rows
+cat("Total number of rows:", nrow(d), "\n")
+
+# Set ID as row names (ensuring IDs are unique and non-NA)
+if (!any(duplicated(d$ID)) && !any(is.na(d$ID))) {
+    rownames(d) <- as.character(d$ID)
+} else {
+    warning("Some IDs are duplicated or NA, row names were not set.")
+}
+
+# Count and report rows containing NAs
+num_na_rows <- sum(!complete.cases(d))
+cat("Rows with missing values:", num_na_rows, "\n")
+
+# Identify columns that start with "SES" and end with "SC"
+ses_sc_columns <- grep("^SES.*SC$", names(d), value = TRUE)
+
+# Count total number of NA values in each SES_SC column
+na_counts <- colSums(is.na(d[ses_sc_columns]))
+
+# Count total NA values across all SES_SC columns
+total_na_count <- sum(na_counts)
+
+# Print results
+cat("Number of NA values per SES_SC column:\n")
+print(na_counts)
+cat("\nTotal NA values across all SES_SC columns:", total_na_count, "\n")
+
+# Check if SES_SC columns exist before proceeding
+if (length(ses_sc_columns) > 0) {
+  
+  # Convert SES_SC columns to numeric (handles factors and character types)
+  d[ses_sc_columns] <- lapply(d[ses_sc_columns], function(x) as.numeric(as.character(x)))
+  
+  # Sum SES_SC columns row-wise, keeping NA if any SES_SC value is missing
+  d <- d %>%
+    rowwise() %>%
+    mutate(SES_SC_Total = if_else(any(is.na(c_across(all_of(ses_sc_columns)))),
+                                  NA_real_, 
+                                  sum(c_across(all_of(ses_sc_columns)), na.rm = TRUE))) %>%
+    ungroup()
+  
+  # Display confirmation message
+  cat("Added SES_SC_Total column, maintaining NA where any SES_SC column has NA.\n")
+  
+} else {
+  cat("No SES_SC columns found in the dataset.\n")
+}
+
+# Count the number of NAs in the SES_SC_Total column
+num_na_ses_sc_total <- sum(is.na(d$SES_SC_Total))
+
+# Print the count
+cat("Number of NA values in SES_SC_Total:", num_na_ses_sc_total, "\n")
+print(d[is.na(d$SES_SC_Total),c("ID",ses_sc_columns)], n=50)
+
+# Calculate the percentage of missing values per column
+missing_percentage <- colMeans(is.na(d)) * 100
+
+# Get columns with more than 10% missing data
+columns_to_remove <- names(missing_percentage[missing_percentage > 10])
+length(columns_to_remove)
+dim(d)
+
+# Print the selected columns
+cat("Columns with more than 10% missing values:\n")
+print(columns_to_remove)
+
+d <- d %>% select(-all_of(columns_to_remove))
+dim(d)
+
+head(d)
 
 ```
 
+## Data type transformations
+```{r}
+# Function to convert non-numeric values to "other"
+convert_to_other <- function(x) {
+  ifelse(grepl("^[0-9]+$", x) | x == "other" | is.na(x), x, "other")
+}
+
+# Apply transformation to some columns
+selected_columns <- c("D_CHLD", "D_HH_SIZE")
+d <- d %>%
+  mutate(across(all_of(selected_columns), ~ convert_to_other(as.character(.))))
+
+# Specify the columns where transformation should be applied
+columns_to_transform <- c("HLTH_SMK", "HLTH_TTM", "HLTH_CPAIN")  # Replace with actual column names
+
+# Convert "yes" to 1, "no" to 0, and everything else to "other"
+d <- d %>%
+  mutate(across(all_of(columns_to_transform), ~ case_when(
+    . == "Yes" ~ "1",
+    . == "No"  ~ "0",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
+# Convert numeric-coded columns to numeric where applicable
+d <- d %>%
+  mutate(across(where(~ all(. %in% c("0", "1", "other", NA_character_))), as.character))  # Ensure consistency
+
+print(d)
+
+```
+
+## Select cleaned columns
+
+```{r}
+#Keep columns relevant/cleaned
+columns_to_keep2 <- c("ID", "D_YRBR", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK","HLTH_CPAIN", "SES_SC_Total")
+d <- d %>% select(all_of(columns_to_keep2))
+write.csv(d,"./data/00.SCREENING_V2.csv")
+
+```
+
+# Merge with HWISE data
+
+```{r}
+
+
+file2 <- "./data/02.HWISE_PSS.csv"
+file3 <- "./data/Chronic_pain_illness.csv"
+df1 <- d
+df2 <- read.csv(file2, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df3 <- read.csv(file3, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+# Identify the common column for merging
+common_column <- "ID"  # Change this if needed
+
+# Ensure the common column is of the same type in all datasets
+df1[[common_column]] <- as.character(df1[[common_column]])
+df2[[common_column]] <- as.character(df2[[common_column]])
+df3[[common_column]] <- as.character(df3[[common_column]])
+
+# Merge datasets sequentially by the common column
+merged_df <- df1 %>%
+  full_join(df2, by = common_column) %>%
+  full_join(df3, by = common_column)
+
+merged_df <- merged_df %>% select(!HW_INFO, PSS_INFO, PSS_TOTAL, SEASON, W_WS_LOC)
+
+
+# Print merged dataset dimensions
+cat("Merged dataset dimensions:", dim(merged_df), "\n")
+print(merged_df, n=20)
+# Save the merged dataset
+write.csv(merged_df, "./data/Merged_Dataset.csv", row.names = FALSE)
+cat("Merged dataset saved as 'Merged_Dataset.csv'.\n")
+
+
+```
