@@ -145,7 +145,7 @@ convert_to_other <- function(x) {
   ifelse(grepl("^[0-9]+$", x) | x == "other" | is.na(x), x, "other")
 }
 
-# Apply transformation to some columns
+# Apply transformation from yes and no to 1 and 0, to some columns
 selected_columns <- c("D_CHLD", "D_HH_SIZE")
 d <- d %>%
   mutate(across(all_of(selected_columns), ~ convert_to_other(as.character(.))))
@@ -174,7 +174,7 @@ print(d)
 
 ```{r}
 #Keep columns relevant/cleaned
-columns_to_keep2 <- c("ID", "D_YRBR", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK","HLTH_CPAIN", "SES_SC_Total")
+columns_to_keep2 <- c("ID", "D_YRBR", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK", "SES_SC_Total")
 d <- d %>% select(all_of(columns_to_keep2))
 write.csv(d,"./data/00.SCREENING_V2.csv")
 
@@ -204,15 +204,29 @@ merged_df <- df1 %>%
   full_join(df2, by = common_column) %>%
   full_join(df3, by = common_column)
 
-merged_df <- merged_df %>% select(!HW_INFO, PSS_INFO, PSS_TOTAL, SEASON, W_WS_LOC)
+cols_to_remove<- c("HW_INFO", "PSS_INFO", "PSS_TOTAL", "HW_TOTAL")
+
+merged_df <- merged_df %>% select(-all_of(cols_to_remove))
+
+##### Calculate final HW score
+# Identify columns that start with "HW_"
+hw_columns <- grep("^HW_", names(merged_df), value = TRUE)
+
+# Sum up all HW_ columns row-wise, keeping NA if any HW_ column has NA
+merged_df <- merged_df %>%
+  rowwise() %>%
+  mutate(HW_TOTAL = if_else(any(is.na(c_across(all_of(hw_columns)))),
+                            NA_real_, 
+                            sum(c_across(all_of(hw_columns)), 
+                                na.rm = TRUE))) %>%
+  ungroup()
 
 
 # Print merged dataset dimensions
 cat("Merged dataset dimensions:", dim(merged_df), "\n")
 print(merged_df, n=20)
 # Save the merged dataset
-write.csv(merged_df, "./data/Merged_Dataset.csv", row.names = FALSE)
-cat("Merged dataset saved as 'Merged_Dataset.csv'.\n")
-
+write.csv(merged_df, "./data/Cleaned_Dataset_Screening_HWISE_PSS.csv", row.names = FALSE)
+cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
 
 ```

@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-02-28
+<strong>Last updated:</strong> 2025-03-03
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2511fe2c3a7ceb5c1a66cb6ea10e1eba2f98037btargetblank2511fe2a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5c8e9b81e9adf7205df5e86e3639ab5ac0ce1d9ctargetblank5c8e9b8a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2511fe2c3a7ceb5c1a66cb6ea10e1eba2f98037b" target="_blank">2511fe2</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5c8e9b81e9adf7205df5e86e3639ab5ac0ce1d9c" target="_blank">5c8e9b8</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2511fe2c3a7ceb5c1a66cb6ea10e1eba2f98037btargetblank2511fe2a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5c8e9b81e9adf7205df5e86e3639ab5ac0ce1d9ctargetblank5c8e9b8a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2511fe2c3a7ceb5c1a66cb6ea10e1eba2f98037b" target="_blank">2511fe2</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5c8e9b81e9adf7205df5e86e3639ab5ac0ce1d9c" target="_blank">5c8e9b8</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -559,15 +559,13 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  Filtered_Screening.csv
-    Untracked:  Merged_Dataset.csv
-    Untracked:  SES_SC_Missing_Values_Report.csv
-    Untracked:  analysis/Filtered_Screening.csv
-    Untracked:  data/00.SCREENING_V2.csv
-    Untracked:  data/Merged_Dataset.csv
+    Untracked:  output/HLTH_counts_by_SES.png
 
 Unstaged changes:
+    Deleted:    HLTH_counts_by_SES.png
     Modified:   analysis/HBA2025_results.Rmd
+    Modified:   data/00.SCREENING_V2.csv
+    Modified:   data/Merged_Dataset.csv
 
 </code></pre>
 <p>
@@ -612,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/5c8e9b81e9adf7205df5e86e3639ab5ac0ce1d9c/analysis/HBA2025_results.Rmd" target="_blank">5c8e9b8</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-02-28
+</td>
+<td>
+merged datasets
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/5c8e9b81e9adf7205df5e86e3639ab5ac0ce1d9c/docs/HBA2025_results.html" target="_blank">5c8e9b8</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-02-28
+</td>
+<td>
+merged datasets
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -910,7 +942,7 @@ convert_to_other &lt;- function(x) {
   ifelse(grepl(&quot;^[0-9]+$&quot;, x) | x == &quot;other&quot; | is.na(x), x, &quot;other&quot;)
 }
 
-# Apply transformation to some columns
+# Apply transformation from yes and no to 1 and 0, to some columns
 selected_columns &lt;- c(&quot;D_CHLD&quot;, &quot;D_HH_SIZE&quot;)
 d &lt;- d %&gt;%
   mutate(across(all_of(selected_columns), ~ convert_to_other(as.character(.))))
@@ -955,7 +987,7 @@ print(d)</code></pre>
 <div id="select-cleaned-columns" class="section level2">
 <h2>Select cleaned columns</h2>
 <pre class="r"><code>#Keep columns relevant/cleaned
-columns_to_keep2 &lt;- c(&quot;ID&quot;, &quot;D_YRBR&quot;, &quot;D_AGE&quot;, &quot;D_HH_SIZE&quot;, &quot;D_CHLD&quot;, &quot;HLTH_SMK&quot;,&quot;HLTH_CPAIN&quot;, &quot;SES_SC_Total&quot;)
+columns_to_keep2 &lt;- c(&quot;ID&quot;, &quot;D_YRBR&quot;, &quot;D_AGE&quot;, &quot;D_HH_SIZE&quot;, &quot;D_CHLD&quot;, &quot;HLTH_SMK&quot;, &quot;SES_SC_Total&quot;)
 d &lt;- d %&gt;% select(all_of(columns_to_keep2))
 write.csv(d,&quot;./data/00.SCREENING_V2.csv&quot;)</code></pre>
 </div>
@@ -984,40 +1016,41 @@ merged_df &lt;- df1 %&gt;%
 merged_df &lt;- merged_df %&gt;% select(!HW_INFO, PSS_INFO, PSS_TOTAL, SEASON, W_WS_LOC)
 
 
+
 # Print merged dataset dimensions
 cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</code></pre>
-<pre><code>Merged dataset dimensions: 400 41 </code></pre>
+<pre><code>Merged dataset dimensions: 400 40 </code></pre>
 <pre class="r"><code>print(merged_df, n=20)</code></pre>
-<pre><code># A tibble: 400 × 41
-   ID    D_YRBR D_AGE D_HH_SIZE D_CHLD HLTH_SMK HLTH_CPAIN SES_SC_Total SEASON 
-   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;  
- 1 1     1987      35 4         0      0        0                   149 Oct-Dec
- 2 2     1990      32 12        2      1        0                   196 Oct-Dec
- 3 3     1992      30 7         2      0        0                    52 Oct-Dec
- 4 4     1982      40 4         1      0        0                   214 Oct-Dec
- 5 5     1976      46 4         other  0        1                   117 Oct-Dec
- 6 6     1990      32 6         1      other    0                   220 Oct-Dec
- 7 7     1997      25 4         2      other    1                   130 Oct-Dec
- 8 8     1985      37 4         2      0        0                    NA Oct-Dec
- 9 9     1982      40 6         4      0        other                71 Oct-Dec
-10 10    1979      49 3         1      0        0                   117 Oct-Dec
-11 11    1992      30 10        2      0        1                    NA Oct-Dec
-12 12    1996      26 17        2      0        0                    NA Oct-Dec
-13 13    1998      24 6         2      0        0                   159 Oct-Dec
-14 14    2000      22 6         0      0        0                   132 Oct-Dec
-15 15    1997      25 5         1      1        0                   113 Oct-Dec
-16 16    1990      32 5         other  0        0                   104 Oct-Dec
-17 17    1988      34 6         3      0        0                   127 Oct-Dec
-18 18    1978      44 &lt;NA&gt;      &lt;NA&gt;   &lt;NA&gt;     1                    NA Oct-Dec
-19 19    1991      31 4         2      0        1                   110 Oct-Dec
-20 20    1992      30 10        2      0        0                   199 Oct-Dec
+<pre><code># A tibble: 400 × 40
+   ID    D_YRBR D_AGE D_HH_SIZE D_CHLD HLTH_SMK SES_SC_Total SEASON  W_WS_LOC
+   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   
+ 1 1     1987      35 4         0      0                 149 Oct-Dec WI      
+ 2 2     1990      32 12        2      1                 196 Oct-Dec WI      
+ 3 3     1992      30 7         2      0                  52 Oct-Dec WI      
+ 4 4     1982      40 4         1      0                 214 Oct-Dec WI      
+ 5 5     1976      46 4         other  0                 117 Oct-Dec WI      
+ 6 6     1990      32 6         1      other             220 Oct-Dec WI      
+ 7 7     1997      25 4         2      other             130 Oct-Dec WI      
+ 8 8     1985      37 4         2      0                  NA Oct-Dec WI      
+ 9 9     1982      40 6         4      0                  71 Oct-Dec WI      
+10 10    1979      49 3         1      0                 117 Oct-Dec WI      
+11 11    1992      30 10        2      0                  NA Oct-Dec WI      
+12 12    1996      26 17        2      0                  NA Oct-Dec WI      
+13 13    1998      24 6         2      0                 159 Oct-Dec WI      
+14 14    2000      22 6         0      0                 132 Oct-Dec WI      
+15 15    1997      25 5         1      1                 113 Oct-Dec WI      
+16 16    1990      32 5         other  0                 104 Oct-Dec WI      
+17 17    1988      34 6         3      0                 127 Oct-Dec WI      
+18 18    1978      44 &lt;NA&gt;      &lt;NA&gt;   &lt;NA&gt;               NA Oct-Dec WI      
+19 19    1991      31 4         2      0                 110 Oct-Dec WI      
+20 20    1992      30 10        2      0                 199 Oct-Dec WI      
 # ℹ 380 more rows
-# ℹ 32 more variables: W_WS_LOC &lt;chr&gt;, HW_TOTAL &lt;lgl&gt;, HW_WORRY &lt;int&gt;,
-#   HW_INTERR &lt;int&gt;, HW_CLOTHES &lt;int&gt;, HW_PLANS &lt;int&gt;, HW_FOOD &lt;int&gt;,
-#   HW_HANDS &lt;int&gt;, HW_BODY &lt;int&gt;, HW_DRINK &lt;int&gt;, HW_ANGRY &lt;int&gt;,
-#   HW_SLEEP &lt;int&gt;, HW_NONE &lt;int&gt;, HW_SHAME &lt;int&gt;, PSS1 &lt;int&gt;, PSS2 &lt;int&gt;,
-#   PSS3 &lt;int&gt;, PSS4 &lt;int&gt;, PSS5 &lt;int&gt;, PSS6 &lt;int&gt;, PSS7 &lt;int&gt;, PSS8 &lt;int&gt;,
-#   PSS9 &lt;int&gt;, PSS10 &lt;int&gt;, PSS11 &lt;int&gt;, PSS12 &lt;int&gt;, PSS13 &lt;int&gt;, …</code></pre>
+# ℹ 31 more variables: HW_TOTAL &lt;lgl&gt;, HW_WORRY &lt;int&gt;, HW_INTERR &lt;int&gt;,
+#   HW_CLOTHES &lt;int&gt;, HW_PLANS &lt;int&gt;, HW_FOOD &lt;int&gt;, HW_HANDS &lt;int&gt;,
+#   HW_BODY &lt;int&gt;, HW_DRINK &lt;int&gt;, HW_ANGRY &lt;int&gt;, HW_SLEEP &lt;int&gt;,
+#   HW_NONE &lt;int&gt;, HW_SHAME &lt;int&gt;, PSS1 &lt;int&gt;, PSS2 &lt;int&gt;, PSS3 &lt;int&gt;,
+#   PSS4 &lt;int&gt;, PSS5 &lt;int&gt;, PSS6 &lt;int&gt;, PSS7 &lt;int&gt;, PSS8 &lt;int&gt;, PSS9 &lt;int&gt;,
+#   PSS10 &lt;int&gt;, PSS11 &lt;int&gt;, PSS12 &lt;int&gt;, PSS13 &lt;int&gt;, PSS14 &lt;int&gt;, …</code></pre>
 <pre class="r"><code># Save the merged dataset
 write.csv(merged_df, &quot;./data/Merged_Dataset.csv&quot;, row.names = FALSE)
 cat(&quot;Merged dataset saved as &#39;Merged_Dataset.csv&#39;.\n&quot;)</code></pre>
