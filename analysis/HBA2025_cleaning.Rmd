@@ -162,19 +162,24 @@ d <- d %>%
     TRUE ~ NA_character_
   )))
 
-# Convert numeric-coded columns to numeric where applicable
+# Convert numeric-coded columns to factors where applicable
 d <- d %>%
-  mutate(across(where(~ all(. %in% c("0", "1", "other", NA_character_))), as.character))  # Ensure consistency
+  mutate(across(where(~ all(. %in% c("0", "1", "other", NA_character_))), as.factor))  # Ensure consistency
+
+# Convert variables to numeric when appropriate
+## Pending: D_YRBR, D_LOC_TIME, D_CHLD, D_HH_SIZE
+
+##
 
 print(d)
-
+summary(d)
 ```
 
 ## Select cleaned columns
 
 ```{r}
 #Keep columns relevant/cleaned
-columns_to_keep2 <- c("ID", "D_YRBR", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK", "SES_SC_Total")
+columns_to_keep2 <- c("ID", "D_YRBR", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK", "SES_SC_Total")
 d <- d %>% select(all_of(columns_to_keep2))
 write.csv(d,"./data/00.SCREENING_V2.csv")
 
@@ -183,7 +188,6 @@ write.csv(d,"./data/00.SCREENING_V2.csv")
 # Merge with HWISE data
 
 ```{r}
-
 
 file2 <- "./data/02.HWISE_PSS.csv"
 file3 <- "./data/Chronic_pain_illness.csv"
@@ -208,6 +212,7 @@ cols_to_remove<- c("HW_INFO", "PSS_INFO", "PSS_TOTAL", "HW_TOTAL")
 
 merged_df <- merged_df %>% select(-all_of(cols_to_remove))
 
+
 ##### Calculate final HW score
 # Identify columns that start with "HW_"
 hw_columns <- grep("^HW_", names(merged_df), value = TRUE)
@@ -230,3 +235,61 @@ write.csv(merged_df, "./data/Cleaned_Dataset_Screening_HWISE_PSS.csv", row.names
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
 
 ```
+
+# Merge dataset with info on hours of water supply
+
+```{r}
+
+data_path = "./data"
+# merged dataset
+df1 = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df2 = read.csv(file.path(data_path, "hours_water_supply.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+
+# Merge datasets sequentially by the common column
+merged_df <- df1 %>%
+  full_join(df2, by = "ID") 
+
+seas <- c("SEASON")
+merged_df <- merged_df %>%
+  mutate(across(all_of(seas), ~ case_when(
+    . == "Oct-Dec" ~ "1",
+    . == "Apr-Jun"  ~ "0",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
+# Specify the columns where transformation should be applied
+columns_to_transform <- c("W_WC_WI") #  # Replace with actual column names
+
+# Convert "intermitent" to 1, "continuous" to 0, and everything else to "other"
+merged_df <- merged_df %>%
+  mutate(across(all_of(columns_to_transform), ~ case_when(
+    . == "Intermitente" ~ "1",
+    . == "Continua"  ~ "0",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
+# Define the list of variables to convert to numeric
+col_to_num <- c("D_YRBR", "D_LOC_TIME", "D_HH_SIZE", "D_CHLD", "HRS_WEEK")
+
+# Convert the specified columns to numeric
+merged_df <- merged_df %>%
+  mutate(across(all_of(col_to_num), ~as.numeric(as.character(.)), .names = "{.col}"))
+
+```
+
+```{r}
+
+# Print merged dataset dimensions
+cat("Merged dataset dimensions:", dim(merged_df), "\n")
+head(merged_df, 20)
+summary(merged_df)
+# Save the merged dataset
+write.csv(merged_df, "./data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv", row.names = FALSE)
+cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")
+
+```
+
+

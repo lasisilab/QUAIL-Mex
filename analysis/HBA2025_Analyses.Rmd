@@ -31,7 +31,7 @@ library(tidyr)
 library(reshape2) 
 # Load the dataset
 
-df <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS.csv")
+df <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
 
 # Ensure HW_TOTAL is numeric
 df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
@@ -69,6 +69,10 @@ cat("Number of individuals with HW_TOTAL > 8:", count_hw_above_8$count,
     "(", round(percent_hw_above_8, 2), "%)\n")
 
 ```
+I will separate samples according to their total HWISE score:
+
+- equal or higher than 12
+- lower than 12
 
 # BOXPLOTS
 

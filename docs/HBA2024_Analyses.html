@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-03
+<strong>Last updated:</strong> 2025-03-04
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -528,10 +528,10 @@ relative
 <tbody>
 <tr>
 <td style="text-align:left;">
-/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS.csv
+/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
 </td>
 <td style="text-align:left;">
-data/Cleaned_Dataset_Screening_HWISE_PSS.csv
+data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
 </td>
 </tr>
 </tbody>
@@ -542,15 +542,15 @@ data/Cleaned_Dataset_Screening_HWISE_PSS.csv
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree1b8f52ea31a2a88e8809b85aac653de707e527detargetblank1b8f52ea">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/1b8f52ea31a2a88e8809b85aac653de707e527de" target="_blank">1b8f52e</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree1b8f52ea31a2a88e8809b85aac653de707e527detargetblank1b8f52ea"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -560,7 +560,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/1b8f52ea31a2a88e8809b85aac653de707e527de" target="_blank">1b8f52e</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -585,11 +585,12 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  temp.Rmd
-    Untracked:  temp.html
+    Untracked:  data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
 
 Unstaged changes:
     Modified:   analysis/HBA2024_Analyses.Rmd
+    Modified:   analysis/HBA2025_cleaning.Rmd
+    Modified:   data/hours_water_supply.csv
 
 </code></pre>
 <p>
@@ -634,6 +635,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/analysis/HBA2024_Analyses.Rmd" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+exploratory
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/HBA2024_Analyses.html" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+exploratory
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -687,8 +722,13 @@ highlight the urgent need for policy interventions that address water
 insecurity with a gender-sensitive approach, recognizing the
 disproportionate burden placed on women as primary water managers in
 their households.</p>
-<pre><code>Number of individuals with HW_TOTAL &gt; 12: 97 ( 24.25 %)</code></pre>
-<pre><code>Number of individuals with HW_TOTAL &gt; 8: 172 ( 43 %)</code></pre>
+<pre><code>Number of individuals with HW_TOTAL &gt; 12: 97 ( 24.13 %)</code></pre>
+<pre><code>Number of individuals with HW_TOTAL &gt; 8: 172 ( 42.79 %)</code></pre>
+<p>I will separate samples according to their total HWISE score:</p>
+<ul>
+<li>equal or higher than 12</li>
+<li>lower than 12</li>
+</ul>
 </div>
 <div id="boxplots" class="section level1">
 <h1>BOXPLOTS</h1>
@@ -718,146 +758,1182 @@ for (var in numeric_columns) {
   plot_list[[var]] &lt;- p
   print(p)  # Print each plot
 }</code></pre>
-<pre><code>Warning: Removed 17 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 18 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 17 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 18 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 51 rows containing non-finite outside the scale range
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-1.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 52 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 51 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 52 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
+Past versions of unnamed-chunk-3-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-2.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-3">
+Past versions of unnamed-chunk-3-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-3.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
 (`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
+Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-6.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-8.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-9.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-10.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-11.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-12.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-13.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-14.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-15.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-16.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-17.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-18.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-19.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-20.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-21.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-22.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-23.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-24.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-25.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-26.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-4">
+Past versions of unnamed-chunk-3-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-4.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-27.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-5">
+Past versions of unnamed-chunk-3-5.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-5.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-6">
+Past versions of unnamed-chunk-3-6.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-6.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-7">
+Past versions of unnamed-chunk-3-7.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-7.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-8">
+Past versions of unnamed-chunk-3-8.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-8.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-9">
+Past versions of unnamed-chunk-3-9.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-9.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-10">
+Past versions of unnamed-chunk-3-10.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-10" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-10.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-11.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-11">
+Past versions of unnamed-chunk-3-11.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-11.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-12">
+Past versions of unnamed-chunk-3-12.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-12.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-13.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-13">
+Past versions of unnamed-chunk-3-13.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-13.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-14">
+Past versions of unnamed-chunk-3-14.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-14.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-15.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-15">
+Past versions of unnamed-chunk-3-15.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-15.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-16">
+Past versions of unnamed-chunk-3-16.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-16" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-16.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-17.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-17">
+Past versions of unnamed-chunk-3-17.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-17" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-17.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-18.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-18">
+Past versions of unnamed-chunk-3-18.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-18" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-18.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-19.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-19">
+Past versions of unnamed-chunk-3-19.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-19" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-19.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-20.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-20">
+Past versions of unnamed-chunk-3-20.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-20" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-20.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-21.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-21">
+Past versions of unnamed-chunk-3-21.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-21" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-21.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-22.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-22">
+Past versions of unnamed-chunk-3-22.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-22" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-22.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-23.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-23">
+Past versions of unnamed-chunk-3-23.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-23" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-23.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-24.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-24">
+Past versions of unnamed-chunk-3-24.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-24" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-24.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-25.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-25">
+Past versions of unnamed-chunk-3-25.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-25" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-25.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-26.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-26">
+Past versions of unnamed-chunk-3-26.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-26" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-26.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-27.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-27">
+Past versions of unnamed-chunk-3-27.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-27" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-27.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-28.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-28">
+Past versions of unnamed-chunk-3-28.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-28" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-3-28.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cat(&quot;Generated comparison plots for all numeric variables based on HW_TOTAL.\n&quot;)</code></pre>
 <pre><code>Generated comparison plots for all numeric variables based on HW_TOTAL.</code></pre>
 </div>
@@ -882,7 +1958,82 @@ for (var in cat_columns) {
   cat_plot_list[[var]] &lt;- p_cat
   print(p_cat)  # Print each plot
 }</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-4-1.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-4-2.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cat(&quot;Generated comparison plots for all categorical variables based on HW_TOTAL.\n&quot;)</code></pre>
 <pre><code>Generated comparison plots for all categorical variables based on HW_TOTAL.</code></pre>
 <pre class="r"><code>## Explore HWISE total scores
@@ -914,10 +2065,10 @@ percent_hw_above_8 &lt;- (count_hw_above_8$count / total_individuals) * 100
 # Print results
 cat(&quot;Number of individuals with HW_Total &gt; 12:&quot;, count_hw_above_12$count, 
     &quot;(&quot;, round(percent_hw_above_12, 2), &quot;%)\n&quot;)</code></pre>
-<pre><code>Number of individuals with HW_Total &gt; 12: 97 ( 24.25 %)</code></pre>
+<pre><code>Number of individuals with HW_Total &gt; 12: 97 ( 24.13 %)</code></pre>
 <pre class="r"><code>cat(&quot;Number of individuals with HW_Total &gt; 8:&quot;, count_hw_above_8$count, 
     &quot;(&quot;, round(percent_hw_above_8, 2), &quot;%)\n&quot;)</code></pre>
-<pre><code>Number of individuals with HW_Total &gt; 8: 172 ( 43 %)</code></pre>
+<pre><code>Number of individuals with HW_Total &gt; 8: 172 ( 42.79 %)</code></pre>
 <pre class="r"><code># Create a categorical variable for HW_Total threshold
 df &lt;- df %&gt;%
   mutate(HW_Group = ifelse(HW_TOTAL &gt; 8, &quot;Above 8&quot;, &quot;Below 8&quot;))
@@ -945,146 +2096,1182 @@ for (var in numeric_columns) {
   plot_list[[var]] &lt;- p
   print(p)  # Print each plot
 }</code></pre>
-<pre><code>Warning: Removed 17 rows containing non-finite outside the scale range
+<pre><code>Warning: Removed 18 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 17 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 18 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 51 rows containing non-finite outside the scale range
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-1.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 52 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 51 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 52 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-2">
+Past versions of unnamed-chunk-5-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-2.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-3">
+Past versions of unnamed-chunk-5-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-3.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
 (`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
+Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-6.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-8.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-9.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-10.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-11.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-12.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-13.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-14.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-15.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-16.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-17.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-18.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-19.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 2 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 2 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-20.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-21.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-22.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-23.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-24.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-25.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-26.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-4">
+Past versions of unnamed-chunk-5-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-4.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-27.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-5">
+Past versions of unnamed-chunk-5-5.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-5.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
 <pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
 (`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-6.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-6">
+Past versions of unnamed-chunk-5-6.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-6" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-6.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-7.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-7">
+Past versions of unnamed-chunk-5-7.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-7" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-7.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-8.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-8">
+Past versions of unnamed-chunk-5-8.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-8" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-8.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-9.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-9">
+Past versions of unnamed-chunk-5-9.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-9" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-9.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-10.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-10">
+Past versions of unnamed-chunk-5-10.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-10" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-10.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-11.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-11">
+Past versions of unnamed-chunk-5-11.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-11" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-11.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-12.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-12">
+Past versions of unnamed-chunk-5-12.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-12" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-12.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-13.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-13">
+Past versions of unnamed-chunk-5-13.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-13" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-13.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-14.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-14">
+Past versions of unnamed-chunk-5-14.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-14" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-14.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-15.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-15">
+Past versions of unnamed-chunk-5-15.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-15" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-15.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-16.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-16">
+Past versions of unnamed-chunk-5-16.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-16" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-16.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-17.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-17">
+Past versions of unnamed-chunk-5-17.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-17" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-17.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-18.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-18">
+Past versions of unnamed-chunk-5-18.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-18" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-18.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-19.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-19">
+Past versions of unnamed-chunk-5-19.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-19" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-19.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 3 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-20.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-20">
+Past versions of unnamed-chunk-5-20.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-20" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-20.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-21.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-21">
+Past versions of unnamed-chunk-5-21.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-21" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-21.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-22.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-22">
+Past versions of unnamed-chunk-5-22.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-22" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-22.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-23.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-23">
+Past versions of unnamed-chunk-5-23.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-23" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-23.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-24.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-24">
+Past versions of unnamed-chunk-5-24.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-24" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-24.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-25.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-25">
+Past versions of unnamed-chunk-5-25.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-25" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-25.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).
+Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-26.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-26">
+Past versions of unnamed-chunk-5-26.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-26" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-26.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-27.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-27">
+Past versions of unnamed-chunk-5-27.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-27" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-27.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-28.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-28">
+Past versions of unnamed-chunk-5-28.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-28" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-5-28.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cat(&quot;Generated comparison plots for all numeric variables based on HW_Total.\n&quot;)</code></pre>
 <pre><code>Generated comparison plots for all numeric variables based on HW_Total.</code></pre>
 <pre class="r"><code># Subset only numeric columns
@@ -1111,8 +3298,157 @@ ggplot(cor_data, aes(Var1, Var2, fill = value)) +
   labs(title = &quot;Correlation Heatmap&quot;,
        x = &quot;&quot;, y = &quot;&quot;)</code></pre>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-6-1.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-7-1.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-2">
+Past versions of unnamed-chunk-7-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-7-2.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><img src="figure/HBA2024_Analyses.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ecbf7a48d6c4d99ff3f1fae28968a5649a0d2de1/docs/figure/HBA2024_Analyses.Rmd/unnamed-chunk-8-1.png" target="_blank">ecbf7a4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
