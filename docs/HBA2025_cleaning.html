@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>HBA2025_cleaning.knit.md</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-03-04
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+
+Unstaged changes:
+    Modified:   QUAIL-Mex.Rproj
+    Modified:   analysis/HBA2025_cleaning.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/HBA2025_cleaning.Rmd</code>) and
+HTML (<code>docs/HBA2025_cleaning.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/1b8f52ea31a2a88e8809b85aac653de707e527de/analysis/HBA2025_cleaning.Rmd" target="_blank">1b8f52e</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-03
+</td>
+<td>
+cleaning
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>wflow— title: “HBA2025_results” author: “Paloma” date: “2025-01-27”
+output: workflowr::wflow_html editor_options: chunk_output_type: console
+—</p>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Here you will find the code used to obtain results shown in the
+annual meeting of the HBA, 2025.</p>
+<p>Abstract:</p>
+<p><strong>Coping with water insecurity: women’s strategies and
+emotional responses in Iztapalapa, Mexico City</strong></p>
+<p>Water insecurity in urban areas presents distinctive challenges,
+particularly in marginalized communities. While past studies have
+documented how households adapt to poor water services, many of these
+coping strategies come at a significant personal cost. Here we examine
+the <strong>coping strategies and emotional impacts of unreliable water
+services</strong> among 400 women in Iztapalapa, Mexico City. Data were
+collected through surveys over the Fall of 2022 and Spring of 2023. We
+assessed <strong>household water access, water management practices, and
+emotional responses to local water services.</strong></p>
+<p>Results indicate that during acute water shortages, women can spend
+extended periods (several hours, or sometimes days) waiting for water
+trucks. Additionally, 57% of respondents reported feeling frustrated or
+angry about their water situation, while around 20% experienced family
+conflicts over water use or community-level conflicts around water
+management, often involving water vendors or government services.</p>
+<p>This study offers one of the first in-depth examinations of how water
+insecurity specifically affects women in Iztapalapa, a densely populated
+region of Mexico City with severe water access challenges. The findings
+highlight the urgent need for policy interventions that address water
+insecurity with a gender-sensitive approach, recognizing the
+disproportionate burden placed on women as primary water managers in
+their households.</p>
+</div>
+<div id="cleaning-screening-file" class="section level1">
+<h1>Cleaning screening file</h1>
+<pre class="r"><code># Load necessary libraries
+library(dplyr)</code></pre>
+<pre><code>
+Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag</code></pre>
+<pre><code>The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyr)
+
+# Load the dataset
+file_path &lt;- &quot;./data/01.SCREENING.csv&quot;
+df &lt;- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;))
+
+# Convert all character columns to NA where values match missing patterns
+df &lt;- df %&gt;%
+  mutate(across(where(is.character), ~ ifelse(. %in% c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;), NA, .)))
+
+# Remove duplicate IDs and keep rows with at least 10 non-NA values
+df_filtered &lt;- df %&gt;%
+  mutate(Non_NA_Count = rowSums(!is.na(.))) %&gt;%
+  filter(!duplicated(ID) &amp; Non_NA_Count &gt;= 10) %&gt;%
+  select(-Non_NA_Count) # Remove helper column
+
+
+# Display the filtered dataset
+print(dim(df_filtered)) # Show dimensions for confirmation</code></pre>
+<pre><code>[1] 385  35</code></pre>
+<pre class="r"><code>write.csv(df_filtered, &quot;./analysis/Filtered_Screening.csv&quot;, row.names = FALSE)
+
+d &lt;- df_filtered
+
+# Confirm total number of unique participants
+cat(&quot;Total unique participants:&quot;, length(unique(d$ID)), &quot;\n&quot;) </code></pre>
+<pre><code>Total unique participants: 385 </code></pre>
+<pre class="r"><code># Identify missing ID numbers in the first and second trip ranges
+missing_first_trip &lt;- setdiff(1:204, d$ID)
+cat(&quot;Missing IDs in the first trip:&quot;, missing_first_trip, &quot;\n&quot;)</code></pre>
+<pre><code>Missing IDs in the first trip: 71 164 </code></pre>
+<pre class="r"><code>missing_second_trip &lt;- setdiff(301:497, d$ID)
+cat(&quot;Missing IDs in the second trip:&quot;, missing_second_trip, &quot;\n&quot;)</code></pre>
+<pre><code>Missing IDs in the second trip: 346 347 348 349 350 351 352 354 355 356 357 358 360 375 </code></pre>
+<pre class="r"><code># Count participants within ID ranges
+cat(&quot;Num of Participants first trip ≤ 250:&quot;, sum(d$ID &lt;= 250, na.rm = TRUE), &quot;\n&quot;)</code></pre>
+<pre><code>Num of Participants first trip ≤ 250: 202 </code></pre>
+<pre class="r"><code>cat(&quot;Num of Participants second trip ≥ 250:&quot;, sum(d$ID &gt;= 250, na.rm = TRUE), &quot;\n&quot;)</code></pre>
+<pre><code>Num of Participants second trip ≥ 250: 183 </code></pre>
+<pre class="r"><code># Confirm total number of rows
+cat(&quot;Total number of rows:&quot;, nrow(d), &quot;\n&quot;)</code></pre>
+<pre><code>Total number of rows: 385 </code></pre>
+<pre class="r"><code># Set ID as row names (ensuring IDs are unique and non-NA)
+if (!any(duplicated(d$ID)) &amp;&amp; !any(is.na(d$ID))) {
+    rownames(d) &lt;- as.character(d$ID)
+} else {
+    warning(&quot;Some IDs are duplicated or NA, row names were not set.&quot;)
+}
+
+# Count and report rows containing NAs
+num_na_rows &lt;- sum(!complete.cases(d))
+cat(&quot;Rows with missing values:&quot;, num_na_rows, &quot;\n&quot;)</code></pre>
+<pre><code>Rows with missing values: 385 </code></pre>
+<pre class="r"><code># Identify columns that start with &quot;SES&quot; and end with &quot;SC&quot;
+ses_sc_columns &lt;- grep(&quot;^SES.*SC$&quot;, names(d), value = TRUE)
+
+# Count total number of NA values in each SES_SC column
+na_counts &lt;- colSums(is.na(d[ses_sc_columns]))
+
+# Count total NA values across all SES_SC columns
+total_na_count &lt;- sum(na_counts)
+
+# Print results
+cat(&quot;Number of NA values per SES_SC column:\n&quot;)</code></pre>
+<pre><code>Number of NA values per SES_SC column:</code></pre>
+<pre class="r"><code>print(na_counts)</code></pre>
+<pre><code> SES_EDU_SC SES_BTHR_SC  SES_CAR_SC  SES_INT_SC  SES_WRK_SC SES_BEDR_SC 
+         14          16           5           2           2           4 </code></pre>
+<pre class="r"><code>cat(&quot;\nTotal NA values across all SES_SC columns:&quot;, total_na_count, &quot;\n&quot;)</code></pre>
+<pre><code>
+Total NA values across all SES_SC columns: 43 </code></pre>
+<pre class="r"><code># Check if SES_SC columns exist before proceeding
+if (length(ses_sc_columns) &gt; 0) {
+  
+  # Convert SES_SC columns to numeric (handles factors and character types)
+  d[ses_sc_columns] &lt;- lapply(d[ses_sc_columns], function(x) as.numeric(as.character(x)))
+  
+  # Sum SES_SC columns row-wise, keeping NA if any SES_SC value is missing
+  d &lt;- d %&gt;%
+    rowwise() %&gt;%
+    mutate(SES_SC_Total = if_else(any(is.na(c_across(all_of(ses_sc_columns)))),
+                                  NA_real_, 
+                                  sum(c_across(all_of(ses_sc_columns)), na.rm = TRUE))) %&gt;%
+    ungroup()
+  
+  # Display confirmation message
+  cat(&quot;Added SES_SC_Total column, maintaining NA where any SES_SC column has NA.\n&quot;)
+  
+} else {
+  cat(&quot;No SES_SC columns found in the dataset.\n&quot;)
+}</code></pre>
+<pre><code>Warning in FUN(X[[i]], ...): NAs introduced by coercion
+Warning in FUN(X[[i]], ...): NAs introduced by coercion</code></pre>
+<pre><code>Added SES_SC_Total column, maintaining NA where any SES_SC column has NA.</code></pre>
+<pre class="r"><code># Count the number of NAs in the SES_SC_Total column
+num_na_ses_sc_total &lt;- sum(is.na(d$SES_SC_Total))
+
+# Print the count
+cat(&quot;Number of NA values in SES_SC_Total:&quot;, num_na_ses_sc_total, &quot;\n&quot;)</code></pre>
+<pre><code>Number of NA values in SES_SC_Total: 36 </code></pre>
+<pre class="r"><code>print(d[is.na(d$SES_SC_Total),c(&quot;ID&quot;,ses_sc_columns)], n=50)</code></pre>
+<pre><code># A tibble: 36 × 7
+      ID SES_EDU_SC SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC SES_BEDR_SC
+   &lt;int&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+ 1     8         31          NA         18         31         15          12
+ 2    11         35          NA          0         31         46          23
+ 3    12         35          47         18         31         61          NA
+ 4    18         NA          NA         NA         NA         NA          NA
+ 5    22         31          NA         NA         NA         NA          NA
+ 6    57         31          NA          0         31         15           6
+ 7    58         43          NA          0         31         31          23
+ 8    81         NA          47          0          0         31          23
+ 9    85         31          47         18         31         61          NA
+10    95         NA          24         18          0         61          12
+11   101         NA          47          0         31         46          17
+12   103         NA          24         18         31         31          17
+13   107         NA          47          0         31         31          12
+14   108         NA          24         18         31         31          12
+15   109         35          NA          0         31         46          23
+16   125         43          NA          0         31         31          23
+17   127         73          NA          0         31         61          23
+18   156         NA           0          0          0         31           6
+19   182         31          NA         18         31         15          17
+20   194         23          NA          0          0         15           6
+21   198         NA          47          0         31         46          23
+22   302         31          24         NA          0         31           6
+23   312         31           0         NA         31         61           6
+24   325         NA           0          0          0         15           6
+25   362         43          NA          0          0         15          12
+26   371         73          NA          0         31         31          12
+27   387         NA          24          0         31         46          12
+28   395         31          24         NA         31         31          12
+29   397         23          NA          0          0         15           6
+30   411         43          NA          0         31         15           6
+31   417         35          NA          0         31         31          12
+32   427         NA           0          0          0         15           6
+33   461         NA          24          0         31         15           6
+34   470         31          NA          0         31         46          12
+35   486         NA          24          0         31         15          12
+36   497         NA          47          0         31         61          17</code></pre>
+<pre class="r"><code># Calculate the percentage of missing values per column
+missing_percentage &lt;- colMeans(is.na(d)) * 100
+
+# Get columns with more than 10% missing data
+columns_to_remove &lt;- names(missing_percentage[missing_percentage &gt; 10])
+length(columns_to_remove)</code></pre>
+<pre><code>[1] 11</code></pre>
+<pre class="r"><code>dim(d)</code></pre>
+<pre><code>[1] 385  36</code></pre>
+<pre class="r"><code># Print the selected columns
+cat(&quot;Columns with more than 10% missing values:\n&quot;)</code></pre>
+<pre><code>Columns with more than 10% missing values:</code></pre>
+<pre class="r"><code>print(columns_to_remove)</code></pre>
+<pre><code> [1] &quot;D_LOC&quot;          &quot;D_LOC_CODE&quot;     &quot;D_LOC_INFO&quot;     &quot;HLTH_CPAIN_CAT&quot;
+ [5] &quot;HLTH_CDIS_CAT&quot;  &quot;D_HH_SIZE_INFO&quot; &quot;D_EMP_DAYS&quot;     &quot;W_HH_SIZE&quot;     
+ [9] &quot;W_STORAGE&quot;      &quot;D_INFO&quot;         &quot;SES_INFO&quot;      </code></pre>
+<pre class="r"><code>d &lt;- d %&gt;% select(-all_of(columns_to_remove))
+dim(d)</code></pre>
+<pre><code>[1] 385  25</code></pre>
+<pre class="r"><code>head(d)</code></pre>
+<pre><code># A tibble: 6 × 25
+     ID D_YRBR D_AGE D_LOC_TIME HLTH_SMK  HLTH_TTM HLTH_MED HLTH_CPAIN HLTH_CDIS
+  &lt;int&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    
+1     1 1987      35 35         &quot;No&quot;      No       &quot;No&quot;     No         &quot;Tuve co…
+2     2 1990      32 32         &quot;Yes&quot;     No       &quot;Lorata… No         &quot;No&quot;     
+3     3 1992      30 8          &quot;No&quot;      No       &quot;No&quot;     No         &quot;No&quot;     
+4     4 1982      40 32         &quot;No&quot;      No       &quot;No&quot;     No         &quot;No&quot;     
+5     5 1976      46 45         &quot;No&quot;      No       &quot;Yes,om… Yes        &quot;Dolor c…
+6     6 1990      32 8          &quot;a veces… no       &quot;no&quot;     No         &quot;no&quot;     
+# ℹ 16 more variables: D_HH_SIZE &lt;chr&gt;, D_CHLD &lt;chr&gt;, D_EMP_TYPE &lt;chr&gt;,
+#   SES_EDU_CAT &lt;chr&gt;, SES_EDU_SC &lt;dbl&gt;, SES_BTHR_CAT &lt;chr&gt;, SES_BTHR_SC &lt;dbl&gt;,
+#   SES_CAR_CAT &lt;chr&gt;, SES_CAR_SC &lt;dbl&gt;, SES_INT_CAT &lt;chr&gt;, SES_INT_SC &lt;dbl&gt;,
+#   SES_WRK_CAT &lt;chr&gt;, SES_WRK_SC &lt;dbl&gt;, SES_BEDR_CAT &lt;chr&gt;, SES_BEDR_SC &lt;dbl&gt;,
+#   SES_SC_Total &lt;dbl&gt;</code></pre>
+<div id="data-type-transformations" class="section level2">
+<h2>Data type transformations</h2>
+<pre class="r"><code># Function to convert non-numeric values to &quot;other&quot;
+convert_to_other &lt;- function(x) {
+  ifelse(grepl(&quot;^[0-9]+$&quot;, x) | x == &quot;other&quot; | is.na(x), x, &quot;other&quot;)
+}
+
+# Apply transformation from yes and no to 1 and 0, to some columns
+selected_columns &lt;- c(&quot;D_CHLD&quot;, &quot;D_HH_SIZE&quot;)
+d &lt;- d %&gt;%
+  mutate(across(all_of(selected_columns), ~ convert_to_other(as.character(.))))
+
+# Specify the columns where transformation should be applied
+columns_to_transform &lt;- c(&quot;HLTH_SMK&quot;, &quot;HLTH_TTM&quot;, &quot;HLTH_CPAIN&quot;)  # Replace with actual column names
+
+# Convert &quot;yes&quot; to 1, &quot;no&quot; to 0, and everything else to &quot;other&quot;
+d &lt;- d %&gt;%
+  mutate(across(all_of(columns_to_transform), ~ case_when(
+    . == &quot;Yes&quot; ~ &quot;1&quot;,
+    . == &quot;No&quot;  ~ &quot;0&quot;,
+    !is.na(.)  ~ &quot;other&quot;,  # Assign &quot;other&quot; to all non-missing values that are not &quot;yes&quot; or &quot;no&quot;
+    TRUE ~ NA_character_
+  )))
+
+# Convert numeric-coded columns to numeric where applicable
+d &lt;- d %&gt;%
+  mutate(across(where(~ all(. %in% c(&quot;0&quot;, &quot;1&quot;, &quot;other&quot;, NA_character_))), as.character))  # Ensure consistency
+
+print(d)</code></pre>
+<pre><code># A tibble: 385 × 25
+      ID D_YRBR D_AGE D_LOC_TIME HLTH_SMK HLTH_TTM HLTH_MED HLTH_CPAIN HLTH_CDIS
+   &lt;int&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;    
+ 1     1 1987      35 35         0        0        &quot;No&quot;     0          &quot;Tuve co…
+ 2     2 1990      32 32         1        0        &quot;Lorata… 0          &quot;No&quot;     
+ 3     3 1992      30 8          0        0        &quot;No&quot;     0          &quot;No&quot;     
+ 4     4 1982      40 32         0        0        &quot;No&quot;     0          &quot;No&quot;     
+ 5     5 1976      46 45         0        0        &quot;Yes,om… 1          &quot;Dolor c…
+ 6     6 1990      32 8          other    other    &quot;no&quot;     0          &quot;no&quot;     
+ 7     7 1997      25 &lt;NA&gt;       other    other    &quot;no&quot;     1          &quot;dolor c…
+ 8     8 1985      37 10         0        other    &quot;no&quot;     0          &quot;No diab…
+ 9     9 1982      40 40         0        0        &quot;No&quot;     other      &quot;No&quot;     
+10    10 1979      49 43         0        0        &quot;No&quot;     0          &quot;No&quot;     
+# ℹ 375 more rows
+# ℹ 16 more variables: D_HH_SIZE &lt;chr&gt;, D_CHLD &lt;chr&gt;, D_EMP_TYPE &lt;chr&gt;,
+#   SES_EDU_CAT &lt;chr&gt;, SES_EDU_SC &lt;dbl&gt;, SES_BTHR_CAT &lt;chr&gt;, SES_BTHR_SC &lt;dbl&gt;,
+#   SES_CAR_CAT &lt;chr&gt;, SES_CAR_SC &lt;dbl&gt;, SES_INT_CAT &lt;chr&gt;, SES_INT_SC &lt;dbl&gt;,
+#   SES_WRK_CAT &lt;chr&gt;, SES_WRK_SC &lt;dbl&gt;, SES_BEDR_CAT &lt;chr&gt;, SES_BEDR_SC &lt;dbl&gt;,
+#   SES_SC_Total &lt;dbl&gt;</code></pre>
+</div>
+<div id="select-cleaned-columns" class="section level2">
+<h2>Select cleaned columns</h2>
+<pre class="r"><code>#Keep columns relevant/cleaned
+columns_to_keep2 &lt;- c(&quot;ID&quot;, &quot;D_YRBR&quot;, &quot;D_AGE&quot;, &quot;D_HH_SIZE&quot;, &quot;D_CHLD&quot;, &quot;HLTH_SMK&quot;, &quot;SES_SC_Total&quot;)
+d &lt;- d %&gt;% select(all_of(columns_to_keep2))
+write.csv(d,&quot;./data/00.SCREENING_V2.csv&quot;)</code></pre>
+</div>
+</div>
+<div id="merge-with-hwise-data" class="section level1">
+<h1>Merge with HWISE data</h1>
+<pre class="r"><code>file2 &lt;- &quot;./data/02.HWISE_PSS.csv&quot;
+file3 &lt;- &quot;./data/Chronic_pain_illness.csv&quot;
+df1 &lt;- d
+df2 &lt;- read.csv(file2, stringsAsFactors = FALSE, na.strings = c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;))
+df3 &lt;- read.csv(file3, stringsAsFactors = FALSE, na.strings = c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;))
+
+# Identify the common column for merging
+common_column &lt;- &quot;ID&quot;  # Change this if needed
+
+# Ensure the common column is of the same type in all datasets
+df1[[common_column]] &lt;- as.character(df1[[common_column]])
+df2[[common_column]] &lt;- as.character(df2[[common_column]])
+df3[[common_column]] &lt;- as.character(df3[[common_column]])
+
+# Merge datasets sequentially by the common column
+merged_df &lt;- df1 %&gt;%
+  full_join(df2, by = common_column) %&gt;%
+  full_join(df3, by = common_column)
+
+cols_to_remove&lt;- c(&quot;HW_INFO&quot;, &quot;PSS_INFO&quot;, &quot;PSS_TOTAL&quot;, &quot;HW_TOTAL&quot;)
+
+merged_df &lt;- merged_df %&gt;% select(-all_of(cols_to_remove))
+
+##### Calculate final HW score
+# Identify columns that start with &quot;HW_&quot;
+hw_columns &lt;- grep(&quot;^HW_&quot;, names(merged_df), value = TRUE)
+
+# Sum up all HW_ columns row-wise, keeping NA if any HW_ column has NA
+merged_df &lt;- merged_df %&gt;%
+  rowwise() %&gt;%
+  mutate(HW_TOTAL = if_else(any(is.na(c_across(all_of(hw_columns)))),
+                            NA_real_, 
+                            sum(c_across(all_of(hw_columns)), 
+                                na.rm = TRUE))) %&gt;%
+  ungroup()
+
+
+# Print merged dataset dimensions
+cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</code></pre>
+<pre><code>Merged dataset dimensions: 400 38 </code></pre>
+<pre class="r"><code>print(merged_df, n=20)</code></pre>
+<pre><code># A tibble: 400 × 38
+   ID    D_YRBR D_AGE D_HH_SIZE D_CHLD HLTH_SMK SES_SC_Total SEASON  W_WS_LOC
+   &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   
+ 1 1     1987      35 4         0      0                 149 Oct-Dec WI      
+ 2 2     1990      32 12        2      1                 196 Oct-Dec WI      
+ 3 3     1992      30 7         2      0                  52 Oct-Dec WI      
+ 4 4     1982      40 4         1      0                 214 Oct-Dec WI      
+ 5 5     1976      46 4         other  0                 117 Oct-Dec WI      
+ 6 6     1990      32 6         1      other             220 Oct-Dec WI      
+ 7 7     1997      25 4         2      other             130 Oct-Dec WI      
+ 8 8     1985      37 4         2      0                  NA Oct-Dec WI      
+ 9 9     1982      40 6         4      0                  71 Oct-Dec WI      
+10 10    1979      49 3         1      0                 117 Oct-Dec WI      
+11 11    1992      30 10        2      0                  NA Oct-Dec WI      
+12 12    1996      26 17        2      0                  NA Oct-Dec WI      
+13 13    1998      24 6         2      0                 159 Oct-Dec WI      
+14 14    2000      22 6         0      0                 132 Oct-Dec WI      
+15 15    1997      25 5         1      1                 113 Oct-Dec WI      
+16 16    1990      32 5         other  0                 104 Oct-Dec WI      
+17 17    1988      34 6         3      0                 127 Oct-Dec WI      
+18 18    1978      44 &lt;NA&gt;      &lt;NA&gt;   &lt;NA&gt;               NA Oct-Dec WI      
+19 19    1991      31 4         2      0                 110 Oct-Dec WI      
+20 20    1992      30 10        2      0                 199 Oct-Dec WI      
+# ℹ 380 more rows
+# ℹ 29 more variables: HW_WORRY &lt;int&gt;, HW_INTERR &lt;int&gt;, HW_CLOTHES &lt;int&gt;,
+#   HW_PLANS &lt;int&gt;, HW_FOOD &lt;int&gt;, HW_HANDS &lt;int&gt;, HW_BODY &lt;int&gt;,
+#   HW_DRINK &lt;int&gt;, HW_ANGRY &lt;int&gt;, HW_SLEEP &lt;int&gt;, HW_NONE &lt;int&gt;,
+#   HW_SHAME &lt;int&gt;, PSS1 &lt;int&gt;, PSS2 &lt;int&gt;, PSS3 &lt;int&gt;, PSS4 &lt;int&gt;, PSS5 &lt;int&gt;,
+#   PSS6 &lt;int&gt;, PSS7 &lt;int&gt;, PSS8 &lt;int&gt;, PSS9 &lt;int&gt;, PSS10 &lt;int&gt;, PSS11 &lt;int&gt;,
+#   PSS12 &lt;int&gt;, PSS13 &lt;int&gt;, PSS14 &lt;int&gt;, HLTH_CPAIN_CAT &lt;int&gt;, …</code></pre>
+<pre class="r"><code># Save the merged dataset
+write.csv(merged_df, &quot;./data/Cleaned_Dataset_Screening_HWISE_PSS.csv&quot;, row.names = FALSE)
+cat(&quot;Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS.csv&#39;.\n&quot;)</code></pre>
+<pre><code>Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS.csv&#39;.</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.4.2 (2024-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sequoia 15.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] tidyr_1.3.1     dplyr_1.1.4     workflowr_1.7.1
+
+loaded via a namespace (and not attached):
+ [1] jsonlite_1.8.9    compiler_4.4.2    promises_1.3.2    tidyselect_1.2.1 
+ [5] Rcpp_1.0.14       stringr_1.5.1     git2r_0.35.0      callr_3.7.6      
+ [9] later_1.4.1       jquerylib_0.1.4   yaml_2.3.10       fastmap_1.2.0    
+[13] R6_2.5.1          generics_0.1.3    knitr_1.49        tibble_3.2.1     
+[17] rprojroot_2.0.4   bslib_0.9.0       pillar_1.10.1     rlang_1.1.5      
+[21] utf8_1.2.4        cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15    
+[25] xfun_0.50         getPass_0.2-4     fs_1.6.5          sass_0.4.9       
+[29] cli_3.6.3         withr_3.0.2       magrittr_2.0.3    ps_1.8.1         
+[33] digest_0.6.37     processx_3.8.5    rstudioapi_0.17.1 lifecycle_1.0.4  
+[37] vctrs_0.6.5       evaluate_1.0.3    glue_1.8.0        whisker_0.4.1    
+[41] purrr_1.0.4       rmarkdown_2.29    httr_1.4.7        tools_4.4.2      
+[45] pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
