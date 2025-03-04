@@ -1,0 +1,115 @@
+---
+title: "Linear Regression Analysis"
+author: "Junhui He"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, include = FALSE)
+```
+
+```{r package}
+# load packages
+library(mice)
+library(ggplot2)
+library(naniar)
+library(glmnet)
+```
+
+## 1 Introduction
+
+The research project QUAIL-Mex investigates the relationship between perceived water insecurity, psychological stress, and biological markers of stress among adult women. In this report, we focus on the dependencies between HW_TOTAL, PSS_TOTAL and some predictors of interest. Specifically, we run two linear regression models as follows:
+
+1. HW_TOTAL ~ D_AGE + D_HH_SIZE + D_CHLD + HLTH_SMK + HLTH_CPAIN_CAT + HLTH_CDIS_CAT + SES_SC_Total
+
+2. PSS_TOTAL ~ D_AGE + D_HH_SIZE + D_CHLD + HLTH_SMK + HLTH_CPAIN_CAT + HLTH_CDIS_CAT + SES_SC_Total
+
+## 2 Data preparation
+
+1. We remove rows with missing data.
+
+2. HW_TOTAL is calculated by adding up all the HWISE scores; PSS_TOTAL is calculated by adding up PSS 1,2,3, 8, 11, 12, 14, and substracting 4,5,6,7,9,10, and 13.
+
+```{r read-data}
+data_path = "data"
+# merged dataset
+merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"))
+for (i in 1:dim(merged_dataset)[2]) {
+  merged_dataset[[i]] = as.numeric(merged_dataset[[i]])
+}
+
+# create regression dataset
+reg_dataset = merged_dataset[c(1:6, 36, 37, 7)]
+reg_dataset$HW_TOTAL = rowSums(merged_dataset[10:21])
+reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(21 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(21 + c(4,5,6,7,9,10,13))])
+
+# remove missing rows
+reg_dataset = na.omit(reg_dataset)
+```
+
+## 3 Results
+
+### 3.1 HW
+
+The regression results for HW is summarized as follows.
+
+```{r regression-HW, include=TRUE}
+HW_lm = lm(HW_TOTAL ~ D_AGE+D_HH_SIZE+D_CHLD+HLTH_SMK+HLTH_CPAIN_CAT+HLTH_CDIS_CAT+SES_SC_Total, data = reg_dataset)
+summary(HW_lm)
+```
+
+The goodness-of-fit for HW regression is given as follow.
+
+```{r goodness-of-fit-HW, include=TRUE}
+ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) + geom_abline(linetype='longdash', linewidth=1) + xlab("Ground truth of HW_TOTAL") + ylab("Fitted value") + ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+```
+
+### 3.2 PSS
+
+The regression results for PSS is summarized as follows.
+
+```{r regression-PSS, include=TRUE}
+PSS_lm = lm(PSS_TOTAL ~ D_AGE+D_HH_SIZE+D_CHLD+HLTH_SMK+HLTH_CPAIN_CAT+HLTH_CDIS_CAT+SES_SC_Total, data = reg_dataset)
+summary(PSS_lm)
+```
+
+The goodness-of-fit for PSS regression is given as follow.
+
+
+```{r goodness-of-fit-PSS, include=TRUE}
+ggplot() + geom_point(aes(reg_dataset$PSS_TOTAL, PSS_lm$fitted.values)) + geom_abline(linetype='longdash', linewidth=1) + xlab("Ground truth of PSS_TOTAL") + ylab("Fitted value") + ggtitle("Goodness of Fit for PSS_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+```
+
+
+```{r HW-elastic-net}
+x = as.matrix(reg_dataset[3:9])
+HW_TOTAL = c(reg_dataset$HW_TOTAL)
+set.seed(123)
+cv_HW_net = cv.glmnet(x, HW_TOTAL, alpha = 0.5) # 10-fold cross validation
+# cv_HW_net$lambda.min
+HW_final_model = glmnet(x, HW_TOTAL, alpha = 0.5, lambda = cv_HW_net$lambda.min)
+# coef(HW_final_model)
+```
+
+```{r PSS-elastic-net}
+PSS_TOTAL = c(reg_dataset$PSS_TOTAL)
+set.seed(123)
+cv_PSS_net = cv.glmnet(x, PSS_TOTAL, alpha = 0.5) # 10-fold cross validation
+PSS_final_model = glmnet(x, PSS_TOTAL, alpha = 0.5, lambda = cv_PSS_net$lambda.min)
+# coef(PSS_final_model)
+```
+
+## 4 Discussion
+
+### 4.1 Comments on results
+
+1. Unfortunately, the coefficient estimates are not significant except for a few predictors. This indicates the linear dependency between the response (HW_TOTAL or PSS_TOTAL) and the predictors are not significant.
+
+2. Based on the goodness-of-fit figures, the predictive performance is really bad, which is consistent with the last comment.
+
+### 4.2 Questions
+
+1. Is it reasonable to use HW_TOTAL or PSS_TOTAL as response variables and other aforementioned variables as predictors? If not, how should I choose response variables and predictors?
+
+2. Previously, I mentioned feature selection, a method used to identify the most influential variables among a set of predictors. Here, "the most influential variable" refers to one that has a significant impact on the response. However, since your cleaned dataset contains only eight predictors, I believe feature selection is unnecessary. Moreover, feature selection is typically employed to prevent overfitting, whereas our primary problem is underfitting.
