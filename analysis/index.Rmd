@@ -9,3 +9,11 @@ editor_options:
 ---
 
 Welcome to my research website.
+
+[HBA 2025 Data Cleaning](HBA2025_cleaning.html)
+
+[HBA 2025 Analyses](HBA2024_Analyses.html)
+
+[Sanaa Presentation](Plots_Latinx_research_week.html)
+
+[Regression Analysis](Regression-Analysis.html)
