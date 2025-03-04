@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Paloma" />
 
-<meta name="date" content="2025-01-27" />
 
-<title>HBA2025_results</title>
+<title>HBA2025_cleaning.knit.md</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -351,9 +349,6 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HBA2025_results</h1>
-<h4 class="author">Paloma</h4>
-<h4 class="date">2025-01-27</h4>
 
 </div>
 
@@ -361,7 +356,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +367,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +381,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +406,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +508,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7e9bbe936ec822dd2c8bdff9e26b2cce518a463atargetblank7e9bbe9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7e9bbe936ec822dd2c8bdff9e26b2cce518a463a" target="_blank">7e9bbe9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7e9bbe936ec822dd2c8bdff9e26b2cce518a463atargetblank7e9bbe9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +526,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7e9bbe936ec822dd2c8bdff9e26b2cce518a463a" target="_blank">7e9bbe9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -557,17 +549,6 @@ Ignored files:
     Ignored:    analysis/.Rhistory
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
-
-Untracked files:
-    Untracked:  analysis/HBA2025_Analyses.Rmd
-    Untracked:  data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
-
-Unstaged changes:
-    Deleted:    analysis/HBA2024_Analyses.Rmd
-    Modified:   analysis/HBA2025_cleaning.Rmd
-    Modified:   data/00.SCREENING_V2.csv
-    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS.csv
-    Modified:   data/hours_water_supply.csv
 
 </code></pre>
 <p>
@@ -617,6 +598,92 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7e9bbe936ec822dd2c8bdff9e26b2cce518a463a/analysis/HBA2025_cleaning.Rmd" target="_blank">7e9bbe9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+Merge branch ‘main’ of <a href="https://github.com/lasisilab/QUAIL-Mex"
+class="uri">https://github.com/lasisilab/QUAIL-Mex</a>
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/analysis/HBA2025_cleaning.Rmd" target="_blank">3704a5a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+add more vars
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/HBA2025_cleaning.html" target="_blank">3704a5a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+add more vars
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/16af92dcb0c052aa67cfb2d3ee389f7608924c8d/analysis/HBA2025_cleaning.Rmd" target="_blank">16af92d</a>
+</td>
+<td>
+Tina Lasisi
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+Updating files
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/16af92dcb0c052aa67cfb2d3ee389f7608924c8d/docs/HBA2025_cleaning.html" target="_blank">16af92d</a>
+</td>
+<td>
+Tina Lasisi
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+Updating files
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/1b8f52ea31a2a88e8809b85aac653de707e527de/analysis/HBA2025_cleaning.Rmd" target="_blank">1b8f52e</a>
 </td>
 <td>
@@ -636,6 +703,9 @@ cleaning
 </div>
 </div>
 </div>
+<p>wflow— title: “HBA2025_results” author: “Paloma” date: “2025-01-27”
+output: workflowr::wflow_html editor_options: chunk_output_type: console
+—</p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Here you will find the code used to obtain results shown in the
