@@ -1,0 +1,183 @@
+---
+title: "temp"
+output: html_document
+date: "2025-03-03"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load necessary libraries
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(reshape2)
+library(scales)  # For percentage formatting
+
+# Load the dataset
+file_path <- "/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS.csv"
+df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+
+
+# Identify discrete variables: all columns starting with "HW" or "PSS"
+discrete_columns <- grep("^HW|^PSS", names(df), value = TRUE)
+
+# Convert all discrete variables to factors
+df <- df %>% mutate(across(all_of(discrete_columns), as.factor))
+
+# Identify categorical variables (columns ending in "CAT") and convert them to factors
+cat_columns <- grep("CAT$", names(df), value = TRUE)
+df <- df %>% mutate(across(all_of(cat_columns), as.factor))
+
+# Identify numeric variables (excluding ID, HW_TOTAL, and discrete variables)
+numeric_columns <- df %>%
+  select(-all_of("ID"))  %>%
+  select(-all_of(discrete_columns)) %>%
+  select(where(is.numeric)) %>%
+  names()
+
+# Ensure HW_TOTAL is numeric
+df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
+
+# Define a categorical variable for HW_TOTAL threshold
+df <- df %>% mutate(HW_Group = ifelse(HW_TOTAL > 8, "Above 8", "Below 8"))
+
+# ===================================
+# Numeric Variable Boxplots by HW_Group
+# ===================================
+for (var in numeric_columns) {
+  p <- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
+    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+    geom_jitter(width = 0.1, alpha = 0.5) +
+    labs(title = paste("Comparison of", var, "by HWISE score group"),
+         x = "HW Group", y = var) +
+    theme_minimal() +
+    theme(legend.position = "none")
+  print(p)
+}
+
+# ===================================
+# Categorical & Discrete Variable Bar Plots (Using Percentages)
+# ===================================
+cat_discrete_vars <- c(cat_columns, discrete_columns)  # Include discrete variables
+
+for (var in cat_discrete_vars) {
+  p_cat <- df %>%
+    group_by(HW_Group, .data[[var]]) %>%
+    summarise(count = n(), .groups = "drop") %>%
+    group_by(HW_Group) %>%
+    mutate(percent = count / sum(count)) %>%
+    
+    ggplot(aes(x = .data[[var]], y = percent, fill = HW_Group)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    scale_y_continuous(labels = percent_format(), limits = c(0,1)) +  # Format y-axis as percentages
+    labs(title = paste("Percentage Distribution of", var, "by HWISE score group"),
+         x = var, y = "Percentage") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+  print(p_cat)
+}
+
+```
+
+
+```{r}
+
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(reshape2)
+library(scales)  # For percentage formatting
+
+# Load the dataset
+file_path <- "/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS.csv"
+df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+# Identify discrete variables: all columns starting with "HW" or "PSS"
+discrete_columns <- grep("^HW|^PSS", names(df), value = TRUE)
+
+# Convert all discrete variables to factors
+df <- df %>% mutate(across(all_of(discrete_columns), as.factor))
+
+# Identify categorical variables (columns ending in "CAT") and convert them to factors
+cat_columns <- grep("CAT$", names(df), value = TRUE)
+df <- df %>% mutate(across(all_of(cat_columns), as.factor))
+
+# Identify numeric variables (excluding ID, HW_TOTAL, and discrete variables)
+numeric_columns <- df %>%
+  select(-all_of("ID"))  %>%
+  select(-all_of(discrete_columns)) %>%
+  select(where(is.numeric)) %>%
+  names()
+
+# Ensure HW_TOTAL is numeric
+df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
+# Define a categorical variable for HW_TOTAL threshold (Above/Below 12)
+df <- df %>% mutate(HW_Group = ifelse(HW_TOTAL > 12, "Above 12", "Below 12"))
+
+
+# ===================================
+# Categorical & Discrete Variable Bar Plots (Using Percentages)
+# ===================================
+cat_discrete_vars <- c(cat_columns, discrete_columns)  # Include discrete variables
+
+for (var in cat_discrete_vars) {
+  p_cat <- df %>%
+    group_by(HW_Group, .data[[var]]) %>%
+    summarise(count = n(), .groups = "drop") %>%
+    group_by(HW_Group) %>%
+    mutate(percent = count / sum(count)) %>%
+    
+    ggplot(aes(x = .data[[var]], y = percent, fill = HW_Group)) +
+    geom_bar(stat = "identity", position = "dodge") +
+    scale_y_continuous(limits = c(0, 1), labels = percent_format()) +  # Set y-axis from 0 to 1
+    labs(title = paste("Percentage Distribution of", var, "by HWISE score group"),
+         x = var, y = "Percentage") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+  print(p_cat)
+}
+
+
+# Identify numeric columns (excluding ID and HW_TOTAL)
+numeric_columns <- df %>%
+  select(where(is.numeric)) %>%
+  select(-ID) %>%
+  names()
+
+# Remove numeric columns that contain only NA values
+numeric_columns <- numeric_columns[sapply(df[numeric_columns], function(x) !all(is.na(x)))]
+
+# Create histograms for each numeric variable with shared y-axis
+for (var in numeric_columns) {
+  
+  # Get the max count across HW Groups to set consistent y-axis limits
+  max_count <- df %>%
+    group_by(HW_Group) %>%
+    summarise(count = sum(!is.na(.data[[var]])), .groups = "drop") %>%
+    pull(count) %>%
+    max(na.rm = TRUE)
+  
+  p <- ggplot(df, aes(x = .data[[var]], fill = HW_Group)) +
+    geom_histogram(binwidth = 2, color = "black", alpha = 0.7, position = "identity") +
+    facet_wrap(~HW_Group, scales = "free_x") +  # Free x-axis but fixed y-axis
+    ylim(0, max_count) +  # Set consistent y-axis limits
+    labs(title = paste("Distribution of", var, "by HW_TOTAL Group"),
+         x = var,
+         y = "Count") +
+    scale_fill_manual(values = c("Above 8" = "blue", "Below 8" = "red")) +
+    theme_minimal()
+  
+  print(p)  # Print each histogram
+}
+
+
+```
+

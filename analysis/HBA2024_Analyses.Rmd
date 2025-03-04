@@ -1,29 +1,330 @@
 ---
-title: "HBA_2025_analyses"
-output: html_document
-date: "2025-03-03"
+title: "HBA2025_results"
+author: "Paloma"
+date: "2025-01-27"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Introduction
+
+Here you will find the code used to obtain results shown in the annual meeting of the HBA, 2025. 
+
+Abstract:
+
+**Coping with water insecurity: women's strategies and emotional responses in Iztapalapa,
+Mexico City**
+
+Water insecurity in urban areas presents distinctive challenges, particularly in marginalized communities. While past studies have documented how households adapt to poor water services, many of these coping strategies come at a significant personal cost. Here we examine the **coping strategies and emotional impacts of unreliable water services** among 400 women in Iztapalapa, Mexico City. Data were collected through surveys over the Fall of 2022 and Spring of 2023. We assessed **household water access, water management practices, and emotional responses to local water services.** 
+
+Results indicate that during acute water shortages, women can spend extended periods (several hours, or sometimes days) waiting for water trucks. Additionally, 57% of respondents reported feeling frustrated or angry about their water situation, while around 20% experienced family conflicts over water use or community-level conflicts around water management, often involving water vendors or government services. 
+
+This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
+
+```{r echo = FALSE, warning = FALSE, message= FALSE}
+
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(reshape2) 
+# Load the dataset
+
+df <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS.csv")
+
+# Ensure HW_TOTAL is numeric
+df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
+
+# Identify categorical variables (columns ending in "CAT") and convert them to factors
+cat_columns <- grep("CAT$", names(df), value = TRUE)
+df <- df %>%
+  mutate(across(all_of(cat_columns), as.factor))
+
 ```
 
-## R Markdown
+```{r echo=FALSE}
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+# Get total number of individuals
+total_individuals <- nrow(df)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+# Count individuals with HW_TOTAL > 12 and HW_TOTAL > 8
+count_hw_above_12 <- df %>%
+  filter(HW_TOTAL > 12) %>%
+  summarise(count = n())
 
-```{r cars}
-summary(cars)
+count_hw_above_8 <- df %>%
+  filter(HW_TOTAL > 8) %>%
+  summarise(count = n())
+
+# Calculate percentages
+percent_hw_above_12 <- (count_hw_above_12$count / total_individuals) * 100
+percent_hw_above_8 <- (count_hw_above_8$count / total_individuals) * 100
+
+# Print results
+cat("Number of individuals with HW_TOTAL > 12:", count_hw_above_12$count, 
+    "(", round(percent_hw_above_12, 2), "%)\n")
+
+cat("Number of individuals with HW_TOTAL > 8:", count_hw_above_8$count, 
+    "(", round(percent_hw_above_8, 2), "%)\n")
+
 ```
 
-## Including Plots
+# BOXPLOTS
 
-You can also embed plots, for example:
+```{r}
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Create a categorical variable for HW_TOTAL threshold
+df <- df %>%
+  mutate(HW_Group = ifelse(HW_TOTAL > 8, "Above 8", "Below 8"))
+
+# Identify numeric columns for plotting (excluding HW_TOTAL and ID)
+numeric_columns <- df %>%
+  select(where(is.numeric)) %>%
+  select(-c(HW_TOTAL, ID)) %>%
+  names()
+
+# Create plots for all numeric variables
+plot_list <- list()
+
+for (var in numeric_columns) {
+  p <- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
+    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+    geom_jitter(width = 0.03, alpha = 0.35) +
+    labs(title = paste("Comparison of", var, "by HWISE score group"),
+         x = "HW Group",
+         y = var) +
+    theme_minimal() +
+    theme(legend.position = "none")
+
+  plot_list[[var]] <- p
+  print(p)  # Print each plot
+}
+
+cat("Generated comparison plots for all numeric variables based on HW_TOTAL.\n")
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# BARPLOTS
+```{r}
+
+# ========================
+# Visualizing Categorical Variables
+# ========================
+
+# Create bar plots for categorical variables by HW_Group
+cat_plot_list <- list()
+
+for (var in cat_columns) {
+  p_cat <- ggplot(df, aes(x = .data[[var]], fill = HW_Group)) +
+    geom_bar(position = "dodge") +
+    labs(title = paste("Distribution of", var, "by HWISE score group"),
+         x = var,
+         y = "Count") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
+
+  cat_plot_list[[var]] <- p_cat
+  print(p_cat)  # Print each plot
+}
+
+cat("Generated comparison plots for all categorical variables based on HW_TOTAL.\n")
+
+```
+
+```{r}
+
+## Explore HWISE total scores
+
+# Ensure HW_Total is numeric
+df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
+
+# Ensure categorical variables are factors
+cat_columns <- grep("CAT$", names(df), value = TRUE)
+df <- df %>%
+  mutate(across(all_of(cat_columns), as.factor))
+
+# Get total number of individuals
+total_individuals <- nrow(df)
+
+# Count individuals with HW_Total > 12 and HW_Total > 8
+count_hw_above_12 <- df %>%
+  filter(HW_TOTAL > 12) %>%
+  summarise(count = n())
+
+count_hw_above_8 <- df %>%
+  filter(HW_TOTAL > 8) %>%
+  summarise(count = n())
+
+# Calculate percentages
+percent_hw_above_12 <- (count_hw_above_12$count / total_individuals) * 100
+percent_hw_above_8 <- (count_hw_above_8$count / total_individuals) * 100
+
+# Print results
+cat("Number of individuals with HW_Total > 12:", count_hw_above_12$count, 
+    "(", round(percent_hw_above_12, 2), "%)\n")
+
+cat("Number of individuals with HW_Total > 8:", count_hw_above_8$count, 
+    "(", round(percent_hw_above_8, 2), "%)\n")
+
+
+
+# Create a categorical variable for HW_Total threshold
+df <- df %>%
+  mutate(HW_Group = ifelse(HW_TOTAL > 8, "Above 8", "Below 8"))
+
+"Identify numeric columns for plotting (excluding HW_Total and ID)"
+numeric_columns <- df %>%
+  select(where(is.numeric)) %>%
+  select(-c(HW_TOTAL, ID)) %>%
+  names()
+
+# Create plots for all numeric variables
+plot_list <- list()
+
+for (var in numeric_columns) {
+  p <- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
+    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+    geom_jitter(width = 0.1, alpha = 0.5) +
+    labs(title = paste("Comparison of", var, "by HWISE score group"),
+         x = "HW Group",
+         y = var) +
+    theme_minimal() +
+    theme(legend.position = "none")
+
+  plot_list[[var]] <- p
+  print(p)  # Print each plot
+}
+
+cat("Generated comparison plots for all numeric variables based on HW_Total.\n")
+
+```
+
+
+```{r}
+
+# Subset only numeric columns
+df_numeric <- df %>% select(all_of(numeric_columns))
+
+# Compute correlation matrix (excluding NAs)
+cor_matrix <- cor(df_numeric, use = "pairwise.complete.obs")
+
+# ========================
+# Heatmap using ggplot2
+# ========================
+
+# Convert the correlation matrix into a format suitable for ggplot2
+cor_data <- melt(cor_matrix)
+
+# Create heatmap plot
+ggplot(cor_data, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab",
+                       name="Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Correlation Heatmap",
+       x = "", y = "")
+
+```
+
+```{r echo = FALSE}
+# Load the dataset
+file_path <- "./data/Cleaned_Dataset_Screening_HWISE_PSS.csv"  # Update if needed
+df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+# Ensure HW_TOTAL is numeric
+df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
+
+# Identify numeric columns (excluding ID)
+numeric_columns <- df %>%
+  select(where(is.numeric)) %>%
+  select(-c(ID)) %>%
+  names()
+
+# Subset only numeric columns
+df_numeric <- df %>% select(all_of(numeric_columns))
+
+# Split dataset into two groups based on HW_TOTAL
+df_above_8 <- df %>% filter(HW_TOTAL > 8) %>% select(all_of(numeric_columns))
+df_below_8 <- df %>% filter(HW_TOTAL <= 8) %>% select(all_of(numeric_columns))
+
+# Compute correlation matrices
+cor_matrix_above_8 <- cor(df_above_8, use = "pairwise.complete.obs")
+cor_matrix_below_8 <- cor(df_below_8, use = "pairwise.complete.obs")
+
+# ========================
+# Heatmap for HW_TOTAL > 8
+# ========================
+cor_data_above_8 <- melt(cor_matrix_above_8)
+
+ggplot(cor_data_above_8, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab",
+                       name="Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Correlation Heatmap (HW_TOTAL > 8)",
+       x = "", y = "")
+
+# ========================
+# Heatmap for HW_TOTAL ≤ 8
+# ========================
+cor_data_below_8 <- melt(cor_matrix_below_8)
+
+ggplot(cor_data_below_8, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab",
+                       name="Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Correlation Heatmap (HW_TOTAL ≤ 8)",
+       x = "", y = "")
+
+```
+
+
+```{r echo=FALSE}
+
+# Split dataset into two groups based on HW_TOTAL
+df_above_8 <- df %>% filter(HW_TOTAL > 8) %>% select(all_of(numeric_columns))
+df_below_8 <- df %>% filter(HW_TOTAL <= 8) %>% select(all_of(numeric_columns))
+
+# Compute correlation matrices
+cor_matrix_above_8 <- cor(df_above_8, use = "pairwise.complete.obs")
+cor_matrix_below_8 <- cor(df_below_8, use = "pairwise.complete.obs")
+
+# Compute the difference between both correlation matrices
+cor_matrix_diff <- cor_matrix_above_8 - cor_matrix_below_8
+
+# Convert the difference matrix to long format for ggplot2
+cor_diff_data <- melt(cor_matrix_diff)
+
+# Create an order based on absolute correlation differences
+cor_diff_data <- cor_diff_data %>%
+  mutate(abs_value = abs(value)) %>%
+  arrange(desc(abs_value))  # Order by magnitude of difference
+
+# Convert factors for ordered visualization
+cor_diff_data$Var1 <- factor(cor_diff_data$Var1, levels = unique(cor_diff_data$Var1))
+cor_diff_data$Var2 <- factor(cor_diff_data$Var2, levels = unique(cor_diff_data$Var2))
+
+# ========================
+# Ordered Heatmap of Correlation Differences
+# ========================
+ggplot(cor_diff_data, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab",
+                       name="Correlation\nDifference") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "Ordered Correlation Differences: HW_TOTAL > 8 vs ≤ 8",
+       x = "", y = "")
+
+
+```
+
