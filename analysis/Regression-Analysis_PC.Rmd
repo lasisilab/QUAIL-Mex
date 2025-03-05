@@ -21,8 +21,11 @@ library(glmnet)
 
 Our research questions are:
 A) What variables measured using Paloma's questionnaires are good predictors of HWISE total scores?
-B) What questions are good predictors of alternative water insecurity measurements, such as hours of water supply, or type of supply (continuous or intermittent)?
+
+B) What HWISE questions are good predictors of alternative water insecurity measurements, such as hours of water supply (HRS_WEEK), or type of supply (continuous or intermittent, W_WC_WI)?
+
 C) Does water insecurity has any association with Perceived stress scores (PSS)? If so, what variables/aspects of water insecurity are driving this stress levels?
+
 
 Here I repeat the analyses conducted by Junhui He, but adding and removing a few variables that could make more sense as predictors of the Total HWISE score or Total PSS score. These are the two linear regression models we run earlier:
 

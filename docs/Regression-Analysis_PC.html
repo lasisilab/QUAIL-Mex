@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreef0811f0270bd969dc1a9c59f2f628749ca63208etargetblankf0811f0a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree673871844ffcd912c8db410ccd13720822c394d5targetblank6738718a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/f0811f0270bd969dc1a9c59f2f628749ca63208e" target="_blank">f0811f0</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/673871844ffcd912c8db410ccd13720822c394d5" target="_blank">6738718</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreef0811f0270bd969dc1a9c59f2f628749ca63208etargetblankf0811f0a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree673871844ffcd912c8db410ccd13720822c394d5targetblank6738718a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/f0811f0270bd969dc1a9c59f2f628749ca63208e" target="_blank">f0811f0</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/673871844ffcd912c8db410ccd13720822c394d5" target="_blank">6738718</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -611,6 +611,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/673871844ffcd912c8db410ccd13720822c394d5/analysis/Regression-Analysis_PC.Rmd" target="_blank">6738718</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+new regressions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/673871844ffcd912c8db410ccd13720822c394d5/docs/Regression-Analysis_PC.html" target="_blank">6738718</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+new regressions
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/f0811f0270bd969dc1a9c59f2f628749ca63208e/analysis/Regression-Analysis_PC.Rmd" target="_blank">f0811f0</a>
 </td>
 <td>
@@ -643,13 +677,15 @@ Attaching package: &#39;mice&#39;</code></pre>
 <div id="introduction" class="section level2">
 <h2>1 Introduction</h2>
 <p>Our research questions are: A) What variables measured using Paloma’s
-questionnaires are good predictors of HWISE total scores? B) What
-questions are good predictors of alternative water insecurity
-measurements, such as hours of water supply, or type of supply
-(continuous or intermittent)? C) Does water insecurity has any
-association with Perceived stress scores (PSS)? If so, what
-variables/aspects of water insecurity are driving this stress
-levels?</p>
+questionnaires are good predictors of HWISE total scores?</p>
+<ol start="2" style="list-style-type: upper-alpha">
+<li><p>What HWISE questions are good predictors of alternative water
+insecurity measurements, such as hours of water supply (HRS_WEEK), or
+type of supply (continuous or intermittent, W_WC_WI)?</p></li>
+<li><p>Does water insecurity has any association with Perceived stress
+scores (PSS)? If so, what variables/aspects of water insecurity are
+driving this stress levels?</p></li>
+</ol>
 <p>Here I repeat the analyses conducted by Junhui He, but adding and
 removing a few variables that could make more sense as predictors of the
 Total HWISE score or Total PSS score. These are the two linear
@@ -723,8 +759,47 @@ Residual standard error: 6.124 on 257 degrees of freedom
 Multiple R-squared:  0.02832,   Adjusted R-squared:  0.0132 
 F-statistic: 1.873 on 4 and 257 DF,  p-value: 0.1156</code></pre>
 <p>The goodness-of-fit for HW regression is given as follow.</p>
-<p><img src="figure/Regression-Analysis_PC.Rmd/goodness-of-fit-HW-1.png" width="672" style="display: block; margin: auto;" />
-### 3.2 HWISE scores, variable set 2</p>
+<p><img src="figure/Regression-Analysis_PC.Rmd/goodness-of-fit-HW-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-goodness-of-fit-HW-1">
+Past versions of goodness-of-fit-HW-1.png
+</button>
+</p>
+<div id="fig-goodness-of-fit-HW-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/673871844ffcd912c8db410ccd13720822c394d5/docs/figure/Regression-Analysis_PC.Rmd/goodness-of-fit-HW-1.png" target="_blank">6738718</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="hwise-scores-variable-set-2" class="section level3">
+<h3>3.2 HWISE scores, variable set 2</h3>
 <pre><code>
 Call:
 lm(formula = HW_TOTAL ~ D_LOC_TIME + SEASON + W_WS_LOC + W_WC_WI + 
@@ -754,6 +829,43 @@ Multiple R-squared:  0.2054,    Adjusted R-squared:  0.1771
 F-statistic:  7.24 on 9 and 252 DF,  p-value: 2.344e-09</code></pre>
 <p>The goodness-of-fit for HW regression is given as follow.</p>
 <p><img src="figure/Regression-Analysis_PC.Rmd/goodness-of-fit-HW-V2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-goodness-of-fit-HW-V2-1">
+Past versions of goodness-of-fit-HW-V2-1.png
+</button>
+</p>
+<div id="fig-goodness-of-fit-HW-V2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/673871844ffcd912c8db410ccd13720822c394d5/docs/figure/Regression-Analysis_PC.Rmd/goodness-of-fit-HW-V2-1.png" target="_blank">6738718</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="pss" class="section level3">
 <h3>3.3 PSS</h3>
@@ -789,6 +901,43 @@ Multiple R-squared:  0.06021,   Adjusted R-squared:  0.02277
 F-statistic: 1.608 on 10 and 251 DF,  p-value: 0.1045</code></pre>
 <p>The goodness-of-fit for PSS regression is given as follow.</p>
 <p><img src="figure/Regression-Analysis_PC.Rmd/goodness-of-fit-PSS-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-goodness-of-fit-PSS-1">
+Past versions of goodness-of-fit-PSS-1.png
+</button>
+</p>
+<div id="fig-goodness-of-fit-PSS-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/673871844ffcd912c8db410ccd13720822c394d5/docs/figure/Regression-Analysis_PC.Rmd/goodness-of-fit-PSS-1.png" target="_blank">6738718</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre><code>8 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
                     s0
 (Intercept)  0.2513164
