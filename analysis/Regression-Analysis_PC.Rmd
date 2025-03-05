@@ -1,6 +1,6 @@
 ---
 title: "Linear Regression Analysis"
-author: "Junhui He"
+author: "Junhui He, edited by Paloma C."
 date: "`r Sys.Date()`"
 output: html_document
 ---
@@ -19,11 +19,26 @@ library(glmnet)
 
 ## 1 Introduction
 
-The research project QUAIL-Mex investigates the relationship between perceived water insecurity, psychological stress, and biological markers of stress among adult women. In this report, we focus on the dependencies between HW_TOTAL, PSS_TOTAL and some predictors of interest. Specifically, we run two linear regression models as follows:
+Our research questions are:
+A) What variables measured using Paloma's questionnaires are good predictors of HWISE total scores?
+B) What questions are good predictors of alternative water insecurity measurements, such as hours of water supply, or type of supply (continuous or intermittent)?
+C) Does water insecurity has any association with Perceived stress scores (PSS)? If so, what variables/aspects of water insecurity are driving this stress levels?
+
+Here I repeat the analyses conducted by Junhui He, but adding and removing a few variables that could make more sense as predictors of the Total HWISE score or Total PSS score. These are the two linear regression models we run earlier:
 
 1. HW_TOTAL ~ D_AGE + D_HH_SIZE + D_CHLD + HLTH_SMK + HLTH_CPAIN_CAT + HLTH_CDIS_CAT + SES_SC_Total
 
 2. PSS_TOTAL ~ D_AGE + D_HH_SIZE + D_CHLD + HLTH_SMK + HLTH_CPAIN_CAT + HLTH_CDIS_CAT + SES_SC_Total
+
+The two new linear regression models are different from the previous ones:
+1. I removed HLTH_SMK, HLTH_CPAIN_CAT, and HLTH_CDIS_CAT
+2. I added D_LOC_TIME, SEASON, W_WS_LOC, W_WC_WI, HRS_WEEK
+I also added HWISE_TOTAL as potential predictor of PSS
+
+## 1.b Variable descriptions for quick reference
+
+Pending
+
 
 ## 2 Data preparation
 
@@ -32,10 +47,11 @@ The research project QUAIL-Mex investigates the relationship between perceived w
 2. HW_TOTAL is calculated by adding up all the HWISE scores; PSS_TOTAL is calculated by adding up PSS 1,2,3, 8, 11, 12, 14, and substracting 4,5,6,7,9,10, and 13.
 
 ```{r read-data}
-getwd()
-data_path = ".data"
+
+data_path = "./data"
 # merged dataset
 merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"), stringsAsFactors = FALSE)
+
 for (i in 1:dim(merged_dataset)[2]) {
   merged_dataset[[i]] = as.numeric(merged_dataset[[i]])
 }
@@ -53,7 +69,7 @@ colnames(reg_dataset)
 
 ## 3 Results
 
-### 3.1 HW
+### 3.1 HWISE scores, variable set 1
 
 The regression results for HW is summarized as follows.
 
@@ -61,12 +77,6 @@ The regression results for HW is summarized as follows.
 HW_lm = lm(HW_TOTAL ~ D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
 summary(HW_lm)
 ```
-```{r regression-HW-V2, include=TRUE}
-HW_lm = lm(HW_TOTAL ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
-summary(HW_lm)
-```
-
-
 The goodness-of-fit for HW regression is given as follow.
 
 ```{r goodness-of-fit-HW, include=TRUE}
@@ -76,8 +86,25 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
   ylab("Fitted value") + 
   ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
 ```
+### 3.2 HWISE scores, variable set 2
 
-### 3.2 PSS
+```{r regression-HW-V2, include=TRUE}
+HW_lm = lm(HW_TOTAL ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
+summary(HW_lm)
+```
+
+
+The goodness-of-fit for HW regression is given as follow.
+
+```{r goodness-of-fit-HW-V2, include=TRUE}
+ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
+  geom_abline(linetype='longdash', linewidth=1) +
+  xlab("Ground truth of HW_TOTAL") + 
+  ylab("Fitted value") + 
+  ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+```
+
+### 3.3 PSS
 
 The regression results for PSS is summarized as follows.
 
