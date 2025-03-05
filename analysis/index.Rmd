@@ -17,3 +17,5 @@ Welcome to my research website.
 [Sanaa Presentation](Plots_Latinx_research_week.html)
 
 [Regression Analysis](Regression-Analysis.html)
+
+[Regression Analysis 2nd attempt](Regression-Analysis_PC.html)
