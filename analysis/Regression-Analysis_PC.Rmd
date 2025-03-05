@@ -33,21 +33,22 @@ The research project QUAIL-Mex investigates the relationship between perceived w
 
 ```{r read-data}
 getwd()
-data_path = "../data"
+data_path = ".data"
 # merged dataset
 merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"), stringsAsFactors = FALSE)
 for (i in 1:dim(merged_dataset)[2]) {
   merged_dataset[[i]] = as.numeric(merged_dataset[[i]])
 }
-
+colnames(merged_dataset)
 # create regression dataset
-reg_dataset = merged_dataset[c(1, 3:7, 37, 38, 8, 9, 10, 39)]
-reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(21 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(21 + c(4,5,6,7,9,10,13))])
+reg_dataset = merged_dataset[c(1, 3:6, 8, 9, 10, 39, 40, 41)]
+reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(22 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(22 + c(4,5,6,7,9,10,13))])
 
 dim(reg_dataset)
 # remove missing rows
 reg_dataset = na.omit(reg_dataset)
 dim(reg_dataset)
+colnames(reg_dataset)
 ```
 
 ## 3 Results
@@ -57,14 +58,23 @@ dim(reg_dataset)
 The regression results for HW is summarized as follows.
 
 ```{r regression-HW, include=TRUE}
-HW_lm = lm(HW_TOTAL ~ D_AGE+D_HH_SIZE+D_CHLD+HLTH_SMK+HLTH_CPAIN_CAT+HLTH_CDIS_CAT+SES_SC_Total, data = reg_dataset)
+HW_lm = lm(HW_TOTAL ~ D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
 summary(HW_lm)
 ```
+```{r regression-HW-V2, include=TRUE}
+HW_lm = lm(HW_TOTAL ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
+summary(HW_lm)
+```
+
 
 The goodness-of-fit for HW regression is given as follow.
 
 ```{r goodness-of-fit-HW, include=TRUE}
-ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) + geom_abline(linetype='longdash', linewidth=1) + xlab("Ground truth of HW_TOTAL") + ylab("Fitted value") + ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
+  geom_abline(linetype='longdash', linewidth=1) +
+  xlab("Ground truth of HW_TOTAL") + 
+  ylab("Fitted value") + 
+  ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
 ```
 
 ### 3.2 PSS
@@ -72,7 +82,7 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) + geom_abl
 The regression results for PSS is summarized as follows.
 
 ```{r regression-PSS, include=TRUE}
-PSS_lm = lm(PSS_TOTAL ~ D_AGE+D_HH_SIZE+D_CHLD+HLTH_SMK+HLTH_CPAIN_CAT+HLTH_CDIS_CAT+SES_SC_Total, data = reg_dataset)
+PSS_lm = lm(PSS_TOTAL ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total+HW_TOTAL, data = reg_dataset)
 summary(PSS_lm)
 ```
 
@@ -91,7 +101,7 @@ set.seed(123)
 cv_HW_net = cv.glmnet(x, HW_TOTAL, alpha = 0.5) # 10-fold cross validation
 # cv_HW_net$lambda.min
 HW_final_model = glmnet(x, HW_TOTAL, alpha = 0.5, lambda = cv_HW_net$lambda.min)
-# coef(HW_final_model)
+ coef(HW_final_model)
 ```
 
 ```{r PSS-elastic-net}
@@ -99,7 +109,7 @@ PSS_TOTAL = c(reg_dataset$PSS_TOTAL)
 set.seed(123)
 cv_PSS_net = cv.glmnet(x, PSS_TOTAL, alpha = 0.5) # 10-fold cross validation
 PSS_final_model = glmnet(x, PSS_TOTAL, alpha = 0.5, lambda = cv_PSS_net$lambda.min)
-# coef(PSS_final_model)
+ coef(PSS_final_model)
 ```
 
 ## 4 Discussion

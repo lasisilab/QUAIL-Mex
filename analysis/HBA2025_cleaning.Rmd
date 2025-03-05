@@ -259,7 +259,8 @@ merged_df <- merged_df %>%
     TRUE ~ NA_character_
   )))
 
-# Specify the columns where transformation should be applied
+#### THIS COL SHOULD BE REMOVED. TOO MANY NAs
+#Specify the columns where transformation should be applied
 columns_to_transform <- c("W_WC_WI") #  # Replace with actual column names
 
 # Convert "intermitent" to 1, "continuous" to 0, and everything else to "other"
@@ -271,8 +272,18 @@ merged_df <- merged_df %>%
     TRUE ~ NA_character_
   )))
 
+columns_to_transform <- c("W_WS_LOC")
+# Convert "WI" to 1, "WS" to 0, and everything else to "other"
+merged_df <- merged_df %>%
+  mutate(across(all_of(columns_to_transform), ~ case_when(
+    . == "WI" ~ "1",
+    . == "WS"  ~ "0",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
 # Define the list of variables to convert to numeric
-col_to_num <- c("D_YRBR", "D_LOC_TIME", "D_HH_SIZE", "D_CHLD", "HRS_WEEK")
+col_to_num <- c("D_YRBR", "D_LOC_TIME", "D_HH_SIZE", "D_CHLD", "HRS_WEEK", "HLTH_SMK", "W_WS_LOC", "SEASON", "HRS_WEEK", "W_WC_WI")
 
 # Convert the specified columns to numeric
 merged_df <- merged_df %>%
@@ -286,6 +297,7 @@ merged_df <- merged_df %>%
 cat("Merged dataset dimensions:", dim(merged_df), "\n")
 head(merged_df, 20)
 summary(merged_df)
+dim(merged_df)
 # Save the merged dataset
 write.csv(merged_df, "./data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv", row.names = FALSE)
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")

@@ -356,7 +356,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -367,8 +367,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -381,9 +381,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -406,18 +406,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -508,15 +511,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7e9bbe936ec822dd2c8bdff9e26b2cce518a463atargetblank7e9bbe9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree74c067fc7f26f3087019bbd82ad3137d797bdeb6targetblank74c067fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7e9bbe936ec822dd2c8bdff9e26b2cce518a463a" target="_blank">7e9bbe9</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/74c067fc7f26f3087019bbd82ad3137d797bdeb6" target="_blank">74c067f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7e9bbe936ec822dd2c8bdff9e26b2cce518a463atargetblank7e9bbe9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree74c067fc7f26f3087019bbd82ad3137d797bdeb6targetblank74c067fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -526,7 +529,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7e9bbe936ec822dd2c8bdff9e26b2cce518a463a" target="_blank">7e9bbe9</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/74c067fc7f26f3087019bbd82ad3137d797bdeb6" target="_blank">74c067f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -544,11 +547,21 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/Regression-Analysis_PC.Rmd
+
+Unstaged changes:
+    Modified:   analysis/HBA2025_cleaning.Rmd
+    Modified:   analysis/Regression-Analysis.Rmd
+    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
+    Modified:   data/hours_water_supply.csv
 
 </code></pre>
 <p>
@@ -593,6 +606,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/74c067fc7f26f3087019bbd82ad3137d797bdeb6/docs/HBA2025_cleaning.html" target="_blank">74c067f</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+Update HBA2025_cleaning.html
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1134,7 +1164,8 @@ merged_df &lt;- merged_df %&gt;%
     TRUE ~ NA_character_
   )))
 
-# Specify the columns where transformation should be applied
+#### THIS COL SHOULD BE REMOVED. TOO MANY NAs
+#Specify the columns where transformation should be applied
 columns_to_transform &lt;- c(&quot;W_WC_WI&quot;) #  # Replace with actual column names
 
 # Convert &quot;intermitent&quot; to 1, &quot;continuous&quot; to 0, and everything else to &quot;other&quot;
@@ -1146,19 +1177,29 @@ merged_df &lt;- merged_df %&gt;%
     TRUE ~ NA_character_
   )))
 
+columns_to_transform &lt;- c(&quot;W_WS_LOC&quot;)
+# Convert &quot;WI&quot; to 1, &quot;WS&quot; to 0, and everything else to &quot;other&quot;
+merged_df &lt;- merged_df %&gt;%
+  mutate(across(all_of(columns_to_transform), ~ case_when(
+    . == &quot;WI&quot; ~ &quot;1&quot;,
+    . == &quot;WS&quot;  ~ &quot;0&quot;,
+    !is.na(.)  ~ &quot;other&quot;,  # Assign &quot;other&quot; to all non-missing values that are not &quot;yes&quot; or &quot;no&quot;
+    TRUE ~ NA_character_
+  )))
+
 # Define the list of variables to convert to numeric
-col_to_num &lt;- c(&quot;D_YRBR&quot;, &quot;D_LOC_TIME&quot;, &quot;D_HH_SIZE&quot;, &quot;D_CHLD&quot;, &quot;HRS_WEEK&quot;)
+col_to_num &lt;- c(&quot;D_YRBR&quot;, &quot;D_LOC_TIME&quot;, &quot;D_HH_SIZE&quot;, &quot;D_CHLD&quot;, &quot;HRS_WEEK&quot;, &quot;HLTH_SMK&quot;, &quot;W_WS_LOC&quot;, &quot;SEASON&quot;, &quot;HRS_WEEK&quot;, &quot;W_WC_WI&quot;)
 
 # Convert the specified columns to numeric
 merged_df &lt;- merged_df %&gt;%
   mutate(across(all_of(col_to_num), ~as.numeric(as.character(.)), .names = &quot;{.col}&quot;))</code></pre>
-<pre><code>Warning: There were 5 warnings in `mutate()`.
+<pre><code>Warning: There were 7 warnings in `mutate()`.
 The first warning was:
 ℹ In argument: `across(all_of(col_to_num), ~as.numeric(as.character(.)), .names
   = &quot;{.col}&quot;)`.
 Caused by warning:
 ! NAs introduced by coercion
-ℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.</code></pre>
+ℹ Run `dplyr::last_dplyr_warnings()` to see the 6 remaining warnings.</code></pre>
 <pre class="r"><code># Print merged dataset dimensions
 cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</code></pre>
 <pre><code>Merged dataset dimensions: 402 41 </code></pre>
@@ -1169,8 +1210,8 @@ cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</cod
 3   3   1992          8    30         7      2        0           52      1
 4   4   1982         32    40         4      1        0          214      1
 5   5   1976         45    46         4     NA        0          117      1
-6   6   1990          8    32         6      1    other          220      1
-7   7   1997         NA    25         4      2    other          130      1
+6   6   1990          8    32         6      1       NA          220      1
+7   7   1997         NA    25         4      2       NA          130      1
 8   8   1985         10    37         4      2        0           NA      1
 9   9   1982         40    40         6      4        0           71      1
 10 10   1979         43    49         3      1        0          117      1
@@ -1181,30 +1222,30 @@ cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</cod
 15 15   1997         13    25         5      1        1          113      1
 16 16   1990         14    32         5     NA        0          104      1
 17 17   1988         34    34         6      3        0          127      1
-18 18   1978         NA    44        NA     NA     &lt;NA&gt;           NA      1
+18 18   1978         NA    44        NA     NA       NA           NA      1
 19 19   1991         10    31         4      2        0          110      1
 20 20   1992         11    30        10      2        0          199      1
    W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES HW_PLANS HW_FOOD HW_HANDS HW_BODY
-1        WI        2         0          0        0       0        0       0
-2        WI        0         0          0        0       0        0       1
-3        WI        0         0          0        0       0        0       0
-4        WI        0         0          0        0       0        0       0
-5        WI        2         1          1        1       1        0       1
-6        WI        1         1          2        1       3        1       1
-7        WI        0         1          1        1       1        1       1
-8        WI        2         2          2        0       0        2       0
-9        WI        0         2          0        0       0        0       0
-10       WI        2         2          2        0       0        0       0
-11       WI        1         0          0        1       1        0       2
-12       WI        1         1          0        0       0        0       0
-13       WI        1         1          0        1       0        0       0
-14       WI        1         2          0        0       0        0       0
-15       WI        0         0          1        0       0        0       0
-16       WI        3         2          2        0       1        0       3
-17       WI        1         1          2        1       0        0       1
-18       WI        0         1          1        0       0        0       0
-19       WI        1         1          2        1       0        0       1
-20       WI        2         2          1        2       1        0       2
+1         1        2         0          0        0       0        0       0
+2         1        0         0          0        0       0        0       1
+3         1        0         0          0        0       0        0       0
+4         1        0         0          0        0       0        0       0
+5         1        2         1          1        1       1        0       1
+6         1        1         1          2        1       3        1       1
+7         1        0         1          1        1       1        1       1
+8         1        2         2          2        0       0        2       0
+9         1        0         2          0        0       0        0       0
+10        1        2         2          2        0       0        0       0
+11        1        1         0          0        1       1        0       2
+12        1        1         1          0        0       0        0       0
+13        1        1         1          0        1       0        0       0
+14        1        1         2          0        0       0        0       0
+15        1        0         0          1        0       0        0       0
+16        1        3         2          2        0       1        0       3
+17        1        1         1          2        1       0        0       1
+18        1        0         1          1        0       0        0       0
+19        1        1         1          2        1       0        0       1
+20        1        2         2          1        2       1        0       2
    HW_DRINK HW_ANGRY HW_SLEEP HW_NONE HW_SHAME PSS1 PSS2 PSS3 PSS4 PSS5 PSS6
 1         0        1        0       1        0    2    3    2    4    3    2
 2         0        2        0       2        0    2    2    3    3    3    4
@@ -1277,22 +1318,22 @@ cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</cod
  3rd Qu.:396.8   3rd Qu.:1996   3rd Qu.: 31.00   3rd Qu.:38.00  
  Max.   :497.0   Max.   :2005   Max.   : 46.00   Max.   :49.00  
                  NA&#39;s   :17     NA&#39;s   :36       NA&#39;s   :18     
-   D_HH_SIZE          D_CHLD        HLTH_SMK          SES_SC_Total  
- Min.   : 2.000   Min.   :0.000   Length:402         Min.   : 25.0  
- 1st Qu.: 4.000   1st Qu.:1.000   Class :character   1st Qu.:104.2  
- Median : 5.000   Median :2.000   Mode  :character   Median :129.5  
- Mean   : 5.578   Mean   :1.857                      Mean   :133.2  
- 3rd Qu.: 6.000   3rd Qu.:3.000                      3rd Qu.:159.0  
- Max.   :40.000   Max.   :8.000                      Max.   :263.0  
- NA&#39;s   :23       NA&#39;s   :24                         NA&#39;s   :52     
-    SEASON            W_WS_LOC            HW_WORRY      HW_INTERR    
- Length:402         Length:402         Min.   :0.00   Min.   :0.000  
- Class :character   Class :character   1st Qu.:0.00   1st Qu.:1.000  
- Mode  :character   Mode  :character   Median :1.00   Median :1.000  
-                                       Mean   :1.16   Mean   :1.316  
-                                       3rd Qu.:2.00   3rd Qu.:2.000  
-                                       Max.   :3.00   Max.   :3.000  
-                                       NA&#39;s   :3      NA&#39;s   :3      
+   D_HH_SIZE          D_CHLD         HLTH_SMK       SES_SC_Total  
+ Min.   : 2.000   Min.   :0.000   Min.   :0.0000   Min.   : 25.0  
+ 1st Qu.: 4.000   1st Qu.:1.000   1st Qu.:0.0000   1st Qu.:104.2  
+ Median : 5.000   Median :2.000   Median :0.0000   Median :129.5  
+ Mean   : 5.578   Mean   :1.857   Mean   :0.1698   Mean   :133.2  
+ 3rd Qu.: 6.000   3rd Qu.:3.000   3rd Qu.:0.0000   3rd Qu.:159.0  
+ Max.   :40.000   Max.   :8.000   Max.   :1.0000   Max.   :263.0  
+ NA&#39;s   :23       NA&#39;s   :24      NA&#39;s   :78       NA&#39;s   :52     
+     SEASON          W_WS_LOC         HW_WORRY      HW_INTERR    
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.00   Min.   :0.000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00   1st Qu.:1.000  
+ Median :1.0000   Median :1.0000   Median :1.00   Median :1.000  
+ Mean   :0.5088   Mean   :0.5063   Mean   :1.16   Mean   :1.316  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:2.00   3rd Qu.:2.000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :3.00   Max.   :3.000  
+ NA&#39;s   :3        NA&#39;s   :3        NA&#39;s   :3      NA&#39;s   :3      
    HW_CLOTHES        HW_PLANS         HW_FOOD          HW_HANDS     
  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
@@ -1341,14 +1382,16 @@ cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</cod
  3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:1.0000  
  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :1.0000  
  NA&#39;s   :4       NA&#39;s   :5       NA&#39;s   :4       NA&#39;s   :4       
- HLTH_CDIS_CAT       HW_TOTAL        W_WC_WI             HRS_WEEK     
- Min.   :0.0000   Min.   : 0.000   Length:402         Min.   :  0.00  
- 1st Qu.:0.0000   1st Qu.: 3.000   Class :character   1st Qu.: 21.00  
- Median :0.0000   Median : 8.000   Mode  :character   Median : 42.00  
- Mean   :0.1646   Mean   : 8.419                      Mean   : 85.13  
- 3rd Qu.:0.0000   3rd Qu.:12.000                      3rd Qu.:168.00  
- Max.   :1.0000   Max.   :27.000                      Max.   :168.00  
- NA&#39;s   :1        NA&#39;s   :11                          NA&#39;s   :39      </code></pre>
+ HLTH_CDIS_CAT       HW_TOTAL         W_WC_WI          HRS_WEEK     
+ Min.   :0.0000   Min.   : 0.000   Min.   :0.0000   Min.   :  0.00  
+ 1st Qu.:0.0000   1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.: 21.00  
+ Median :0.0000   Median : 8.000   Median :1.0000   Median : 42.00  
+ Mean   :0.1646   Mean   : 8.419   Mean   :0.7158   Mean   : 85.13  
+ 3rd Qu.:0.0000   3rd Qu.:12.000   3rd Qu.:1.0000   3rd Qu.:168.00  
+ Max.   :1.0000   Max.   :27.000   Max.   :1.0000   Max.   :168.00  
+ NA&#39;s   :1        NA&#39;s   :11       NA&#39;s   :22       NA&#39;s   :39      </code></pre>
+<pre class="r"><code>dim(merged_df)</code></pre>
+<pre><code>[1] 402  41</code></pre>
 <pre class="r"><code># Save the merged dataset
 write.csv(merged_df, &quot;./data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&quot;, row.names = FALSE)
 cat(&quot;Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&#39;.\n&quot;)</code></pre>
