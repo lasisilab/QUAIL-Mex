@@ -29,7 +29,7 @@ library(dplyr)
 library(tidyr)
 
 # Load the dataset
-file_path <- "./data/01.SCREENING.csv"
+file_path <- "../data/01.SCREENING.csv"
 df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
 
 # Convert all character columns to NA where values match missing patterns
@@ -45,7 +45,7 @@ df_filtered <- df %>%
 
 # Display the filtered dataset
 print(dim(df_filtered)) # Show dimensions for confirmation
-write.csv(df_filtered, "./analysis/Filtered_Screening.csv", row.names = FALSE)
+write.csv(df_filtered, "./Filtered_Screening.csv", row.names = FALSE)
 
 d <- df_filtered
 
@@ -181,7 +181,7 @@ summary(d)
 #Keep columns relevant/cleaned
 columns_to_keep2 <- c("ID", "D_YRBR", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK", "SES_SC_Total")
 d <- d %>% select(all_of(columns_to_keep2))
-write.csv(d,"./data/00.SCREENING_V2.csv")
+write.csv(d,"../data/00.SCREENING_V2.csv")
 
 ```
 
@@ -189,8 +189,8 @@ write.csv(d,"./data/00.SCREENING_V2.csv")
 
 ```{r}
 
-file2 <- "./data/02.HWISE_PSS.csv"
-file3 <- "./data/Chronic_pain_illness.csv"
+file2 <- "../data/02.HWISE_PSS.csv"
+file3 <- "../data/Chronic_pain_illness.csv"
 df1 <- d
 df2 <- read.csv(file2, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
 df3 <- read.csv(file3, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
@@ -240,7 +240,7 @@ cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
 
 ```{r}
 
-data_path = "./data"
+data_path = "../data"
 # merged dataset
 df1 = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
 df2 = read.csv(file.path(data_path, "hours_water_supply.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
@@ -299,7 +299,7 @@ head(merged_df, 20)
 summary(merged_df)
 dim(merged_df)
 # Save the merged dataset
-write.csv(merged_df, "./data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv", row.names = FALSE)
+write.csv(merged_df, "../data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv", row.names = FALSE)
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")
 
 ```

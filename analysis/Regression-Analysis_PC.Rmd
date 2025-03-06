@@ -19,7 +19,8 @@ library(glmnet)
 
 ## 1 Introduction
 
-Our research questions are:
+Our **research questions** are:
+
 A) What variables measured using Paloma's questionnaires are good predictors of HWISE total scores?
 
 B) What HWISE questions are good predictors of alternative water insecurity measurements, such as hours of water supply (HRS_WEEK), or type of supply (continuous or intermittent, W_WC_WI)?
@@ -34,13 +35,29 @@ Here I repeat the analyses conducted by Junhui He, but adding and removing a few
 2. PSS_TOTAL ~ D_AGE + D_HH_SIZE + D_CHLD + HLTH_SMK + HLTH_CPAIN_CAT + HLTH_CDIS_CAT + SES_SC_Total
 
 The two new linear regression models are different from the previous ones:
-1. I removed HLTH_SMK, HLTH_CPAIN_CAT, and HLTH_CDIS_CAT
-2. I added D_LOC_TIME, SEASON, W_WS_LOC, W_WC_WI, HRS_WEEK
-I also added HWISE_TOTAL as potential predictor of PSS
+
+1. Removed HLTH_SMK, HLTH_CPAIN_CAT, and HLTH_CDIS_CAT
+
+2. Added D_LOC_TIME, SEASON, W_WS_LOC, W_WC_WI, HRS_WEEK
+
+3. Added HWISE_TOTAL as potential predictor of PSS
 
 ## 1.b Variable descriptions for quick reference
 
-Pending
+- D_AGE: Participants' age (18:49)
+- D_CHLD: Number of children participant has birthed (0:8)
+- D_HH_SIZE: Household size (2:40)
+- D_LOC_TIME: For how long have you lived in this neighborhood? (1:46 years)
+- HLTH_CDIS_CAT: Presence of chronic disease (1= yes, 0 = no)
+- HLTH_CPAIN_CAT: Presence of chronic pain (1= yes, 0 = no)
+- HLTH_SMK: Tabacco smoker (1= yes, 0 = no)
+- HRS_WEEK: Hours of water supply in the household per week (0:168)
+- HW_TOTAL: Sum of all 12-items in HWISE questionnaire (0:27)
+- PSS_TOTAL: Total Perceived Stress Score (-19:19)
+- SEASON: Fall or Spring (when data collection happened) (Fall= 1, Spring = 0)
+- SES_SC_Total: Socioeconomic status score (25:263)
+- W_WS_LOC: Classification of neighborhoods as water secure or insecure, according to reports from Mexico City water system (1= water insecure, 0= water secure)
+- W_WC_WI: Classification of water supply as continuous or intermittent, according to participants (1= intermittent, 0 = continuous)
 
 
 ## 2 Data preparation
@@ -58,7 +75,7 @@ merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_
 for (i in 1:dim(merged_dataset)[2]) {
   merged_dataset[[i]] = as.numeric(merged_dataset[[i]])
 }
-colnames(merged_dataset)
+
 # create regression dataset
 reg_dataset = merged_dataset[c(1, 3:6, 8, 9, 10, 39, 40, 41)]
 reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(22 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(22 + c(4,5,6,7,9,10,13))])
@@ -107,6 +124,43 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
   ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
 ```
 
+### 3.2 HWISE scores, variable set 3
+
+```{r regression-HW-V3, include=TRUE}
+HW_lm = lm(HW_TOTAL ~ SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
+summary(HW_lm)
+```
+
+The goodness-of-fit for HW regression is given as follow.
+
+```{r goodness-of-fit-HW-3, include=TRUE}
+ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
+  geom_abline(linetype='longdash', linewidth=1) +
+  xlab("Ground truth of HW_TOTAL") + 
+  ylab("Fitted value") + 
+  ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+
+```
+
+### 3.2 HWISE scores, variable set 4
+
+```{r regression-HW-V4, include=TRUE}
+HW_lm = lm(HW_TOTAL ~ SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_CHLD+SES_SC_Total, data = reg_dataset)
+summary(HW_lm)
+```
+
+The goodness-of-fit for HW regression is given as follow.
+
+```{r goodness-of-fit-HW-4, include=TRUE}
+ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
+  geom_abline(linetype='longdash', linewidth=1) +
+  xlab("Ground truth of HW_TOTAL") + 
+  ylab("Fitted value") + 
+  ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+
+```
+
+
 ### 3.3 PSS
 
 The regression results for PSS is summarized as follows.
@@ -122,6 +176,30 @@ The goodness-of-fit for PSS regression is given as follow.
 ```{r goodness-of-fit-PSS, include=TRUE}
 ggplot() + geom_point(aes(reg_dataset$PSS_TOTAL, PSS_lm$fitted.values)) + geom_abline(linetype='longdash', linewidth=1) + xlab("Ground truth of PSS_TOTAL") + ylab("Fitted value") + ggtitle("Goodness of Fit for PSS_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
 ```
+
+### 3.4 Predictors for hours of water supply
+
+WORK IN PROGRESS
+I intend to add each HWISE question in these models
+
+```{r regression-HW-V5, include=TRUE}
+HW_lm = lm(HRS_WEEK ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HW_TOTAL+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
+summary(HW_lm)
+```
+
+The goodness-of-fit for HW regression is given as follow.
+
+```{r goodness-of-fit-HW-5, include=TRUE}
+ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
+  geom_abline(linetype='longdash', linewidth=1) +
+  xlab("Ground truth of HW_TOTAL") + 
+  ylab("Fitted value") + 
+  ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+
+```
+
+
+
 
 
 ```{r HW-elastic-net}
