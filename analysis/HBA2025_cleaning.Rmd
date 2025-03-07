@@ -1,4 +1,5 @@
-wflow---
+wflow
+---
 title: "HBA2025_results"
 author: "Paloma"
 date: "2025-01-27"
@@ -231,7 +232,7 @@ merged_df <- merged_df %>%
 cat("Merged dataset dimensions:", dim(merged_df), "\n")
 print(merged_df, n=20)
 # Save the merged dataset
-write.csv(merged_df, "./data/Cleaned_Dataset_Screening_HWISE_PSS.csv", row.names = FALSE)
+write.csv(merged_df, "../data/Cleaned_Dataset_Screening_HWISE_PSS.csv", row.names = FALSE)
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
 
 ```
@@ -304,4 +305,52 @@ cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")
 
 ```
 
+
+```{r}
+# Load the dataset
+file_path <- "../data/Q8-26-28.csv"
+df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df2 <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
+
+# Ensure HW_TOTAL is numeric
+df2$HW_TOTAL <- as.numeric(df2$HW_TOTAL)
+
+# Convert all character columns to NA where values match missing patterns
+df <- df %>%
+  select(ID, MX28_WQ_COMP) %>%
+  mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
+
+#remove rows with NAs
+df <- na.omit(df)
+df <- unique(df)
+
+# Merge datasets sequentially by the common column
+merged_df <- df %>%
+  full_join(df2, by = "ID") 
+
+# Convert 
+merged_df <- merged_df %>%
+  mutate(across(all_of(columns_to_transform), ~ case_when(
+    . == "Worse" ~ "0",
+    . == "Same"  ~ "1",
+    . == "Better"  ~ "2",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
+merged_df$MX28_WQ_COMP <- as.factor(merged_df$MX28_WQ_COMP)
+```
+
+
+```{r}
+# Print merged dataset dimensions
+cat("Merged dataset dimensions:", dim(merged_df), "\n")
+head(merged_df, 20)
+summary(merged_df)
+dim(merged_df)
+# Save the merged dataset
+write.csv(merged_df, "../data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv", row.names = FALSE)
+cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V3.csv'.\n")
+
+```
 

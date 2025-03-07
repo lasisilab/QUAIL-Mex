@@ -1,0 +1,86 @@
+---
+title: "HBA2025_results"
+author: "Paloma"
+date: "2025-03-06"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(corrplot)
+
+# Read the dataset
+data <- read.csv("data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+
+data$MX28_WQ_COMP <- as.numeric(data$MX28_WQ_COMP)
+
+rm_columns <- c("MX28_WQ_COMP",
+                "D_LOC_TIME",
+                "D_AGE",
+                "D_HH_SIZE",
+                "D_CHLD",
+                "HLTH_SMK",
+                "SES_SC_Total",
+                "SEASON",
+                "HW_TOTAL",
+                "W_WC_WI",
+                "HRS_WEEK")
+
+data <- data %>% 
+  select(rm_columns) 
+
+# Check if the column exists
+if("MX28_WQ_COMP" %in% colnames(data)) {
+  
+  # Select numeric columns for correlation analysis
+  numeric_data <- data %>% select(where(is.numeric))
+  
+  # Compute correlation matrix
+  correlation_matrix <- cor(numeric_data, use = "pairwise.complete.obs")
+  
+  # Extract correlations with MX28_WQ_COMP
+  correlations <- as.data.frame(correlation_matrix["MX28_WQ_COMP", ])
+  correlations$Variable <- rownames(correlations)
+  colnames(correlations)[1] <- "Correlation"
+  
+  # Print correlation values sorted in descending order
+  print(correlations %>% arrange(desc(Correlation)))
+  
+  # Visualize correlation matrix as a heatmap
+  corrplot(correlation_matrix, method = "color", type = "upper", tl.col = "black", tl.srt = 45)
+  
+  # Scatterplots for highly correlated variables
+  top_variables <- correlations %>% arrange(desc(abs(Correlation))) %>% filter(Variable != "MX28_WQ_COMP") %>% head(4)
+
+  # Generate scatterplots for the top correlated variables
+  for (var in top_variables$Variable) {
+    p <- ggplot(data, aes_string(x = var, y = "MX28_WQ_COMP")) +
+      geom_point(alpha = 0.5) +
+      geom_smooth(method = "lm", se = FALSE, color = "blue") +
+      labs(title = paste("Scatterplot of MX28_WQ_COMP vs", var),
+           x = var, y = "MX28_WQ_COMP") +
+      theme_minimal()
+    
+    print(p)  # Display the plot
+  }
+  
+} else {
+  print("The variable 'MX28_WQ_COMP' is not found in the dataset.")
+}
+
+
+```
+
+
+```{r}
+
+```
