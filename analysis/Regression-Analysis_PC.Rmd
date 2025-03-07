@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, include = FALSE)
 ```
 
 ```{r package}
@@ -68,7 +68,7 @@ The two new linear regression models are different from the previous ones:
 
 ```{r read-data}
 
-data_path = "./data"
+data_path = "data"
 # merged dataset
 merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"), stringsAsFactors = FALSE)
 
@@ -198,25 +198,32 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
 
 ```
 
+### 3.5 Feature selection
+
+Using Elastic-Net Algorithm with $\alpha=0.5$, the selected predictors for HW_TOTAL include D_LOC_TIME, D_CHILD, SES_SC_TOTAL, SEASON, W_WS_LOC, W_WC_WI, and HRS_WEEK.
 
 
-
-
-```{r HW-elastic-net}
-x = as.matrix(reg_dataset[3:9])
+```{r HW-elastic-net, include=TRUE}
+x_HW = as.matrix(reg_dataset[c(2:8, 10:11)])
 HW_TOTAL = c(reg_dataset$HW_TOTAL)
 set.seed(123)
-cv_HW_net = cv.glmnet(x, HW_TOTAL, alpha = 0.5) # 10-fold cross validation
+# Try more alphas to find the best value
+alpha_1 = 0.5
+cv_HW_net = cv.glmnet(x_HW, HW_TOTAL, alpha = alpha_1) # 10-fold cross validation
 # cv_HW_net$lambda.min
-HW_final_model = glmnet(x, HW_TOTAL, alpha = 0.5, lambda = cv_HW_net$lambda.min)
+HW_final_model = glmnet(x_HW, HW_TOTAL, alpha = alpha_1, lambda = cv_HW_net$lambda.min)
  coef(HW_final_model)
 ```
 
+
 ```{r PSS-elastic-net}
+x_PSS = as.matrix(reg_dataset[c(2:11)])
 PSS_TOTAL = c(reg_dataset$PSS_TOTAL)
 set.seed(123)
-cv_PSS_net = cv.glmnet(x, PSS_TOTAL, alpha = 0.5) # 10-fold cross validation
-PSS_final_model = glmnet(x, PSS_TOTAL, alpha = 0.5, lambda = cv_PSS_net$lambda.min)
+# Try more alphas to find the best value
+alpha_2 = 0.5
+cv_PSS_net = cv.glmnet(x_PSS, PSS_TOTAL, alpha = alpha_2) # 10-fold cross validation
+PSS_final_model = glmnet(x_PSS, PSS_TOTAL, alpha = alpha_2, lambda = cv_PSS_net$lambda.min)
  coef(PSS_final_model)
 ```
 
