@@ -1,0 +1,119 @@
+---
+title: "Tests"
+output: html_document
+date: "2025-03-08"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(rstatix)
+library(ggpubr)
+library(coin)
+
+# Load the dataset
+data_path = "data"
+
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+```
+
+```{r}
+# Categorize HW_TOTAL into four groups
+data <- data %>%
+  filter(!is.na(HRS_WEEK), !is.na(HW_TOTAL)) %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+# Convert to factor
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+print(table(data$HW_TOTAL_category))
+
+# Check normality using Shapiro-Wilk test for each group
+shapiro_results <- data %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(p_value = shapiro.test(HRS_WEEK)$p.value)
+print(shapiro_results)
+
+```
+
+```{r}
+
+# Perform Kruskal-Wallis test
+kruskal_result <- kruskal.test(HRS_WEEK ~ HW_TOTAL_category, data = data)
+print(kruskal_result)
+
+# Perform Wilcoxon pairwise comparisons
+wilcox_results <- pairwise_wilcox_test(data, HRS_WEEK ~ HW_TOTAL_category, 
+                                       p.adjust.method = "bonferroni")
+
+# Rename columns for ggpubr compatibility
+wilcox_results <- wilcox_results %>%
+  rename(group1 = group1, group2 = group2, p.adj = p.adj) %>%
+  mutate(p.adj.signif = case_when(
+    p.adj < 0.001 ~ "***",
+    p.adj < 0.01  ~ "**",
+    p.adj < 0.05  ~ "*",
+    TRUE          ~ "ns"
+  ))
+
+# Print results
+print(wilcox_results)
+
+# Ensure positions for p-value labels
+wilcox_results <- wilcox_results %>%
+  add_xy_position(x = "HW_TOTAL_category")
+
+# Define y-axis positions for p-value labels (adjust as needed)
+y_positions <- c(170, 180, 190, 200, 210, 220)  # Adjust these manually
+
+# Add y position column manually
+wilcox_results <- wilcox_results %>%
+  mutate(y.position = y_positions[1:n()])  # Assign y positions
+
+# Modify Wilcoxon results to include sample size (n1) in the annotation label
+significant_wilcox_results <- wilcox_results %>%
+  filter(p.adj < 0.05) %>%  # Remove non-significant results
+  mutate(label = paste0("n=", n1, "\n", p.adj.signif))  # Combine sample size and significance
+
+# Print the significant comparisons
+print(significant_wilcox_results)
+
+
+# Count the number of data points per Water insecurity level (HWISE)
+ summary_stats <- data %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
+
+ hrs.w <- data$HRS_WEEK
+ means <- aggregate(hrs.w ~ HW_TOTAL_category, data, mean)
+means$hrs.w <- round(means$hrs.w, 2)
+
+
+# Create a boxplot with only significant Wilcoxon p-value annotations
+ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7, width = 0.5) +  # Boxplot
+  geom_jitter(aes(color = HW_TOTAL_category), size = 1.5, width = 0.2, alpha = 0.5) +  # Individual points
+  stat_pvalue_manual(significant_wilcox_results, label = "p.adj.signif", 
+                     xmin = "xmin", xmax = "xmax", y.position = "y.position", 
+                     tip.length = 0.02, inherit.aes = FALSE) +  # Annotate only significant p-values
+  labs(title = "Comparing hours of water supply by HWISE category (Wilcoxon Post-Hoc)",
+       x = "HWISE Category",
+       y = "Hours of Water Supply per Week",
+       subtitle = "Level of significance (*** for p < 0.001 ** for p < 0.01).") +
+  theme_minimal() +
+  theme(legend.position = "none") + 
+    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+                                 " (n=", summary_stats$Count, ")")) 
+
+```

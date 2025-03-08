@@ -37,11 +37,19 @@ data_path = "data"
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
          stringsAsFactors = FALSE,  
          na.strings = c("", "N/A", "NA", "pending"))
-
-
 ```
+# HWISE ordinal categories
+Frongillo et al. 2024 reports that total HWISE scores can be associated with four ordinal categories that predict level of dissatisfaction about water service. This water insecurity categorization has four levels.
 
-```{r HWISE categ}
+0 - 2 = "No-to-Marginal",
+
+3 - 11 = "Low",
+
+12 - 23 = "Moderate",
+
+24 - 36 = "High"
+
+```{r HWISE categ and summary, echo = FALSE}
 
 # Ensure HW_TOTAL is numeric
 data$HW_TOTAL <- as.numeric(data$HW_TOTAL)
@@ -66,9 +74,6 @@ summary(data$HW_TOTAL)
 temp <- table(data$HW_TOTAL_category)
 table(data$HW_TOTAL_category)
 
-```
-
-```{r echo=FALSE}
 
 # Create a data frame with category counts
 hw_total_counts <- data.frame(
@@ -94,21 +99,11 @@ ggplot(hw_total_counts, aes(x = HW_TOTAL_category, y = Percentage, fill = HW_TOT
 
 ```
 
-
+## Comparing rainy and dry season
 ```{r echo=FALSE}
 
 # Convert SEASON to a factor with labels
 data$SEASON <- factor(data$SEASON, levels = c(0, 1), labels = c("Dry", "Rainy"))
-
-# Create HW_TOTAL categories
-data <- data %>%
-  mutate(HW_TOTAL_category = case_when(
-    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
-    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
-    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
-    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High",
-    TRUE ~ NA_character_  # Assign NA for missing or out-of-range values
-  ))
 
 # Convert to factor with proper ordering
 data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, 
@@ -137,16 +132,19 @@ ggplot(hw_total_counts, aes(x = HW_TOTAL_category, y = Percentage, fill = HW_TOT
 # HWISE scores 
 dry <- data[c(data$SEASON == "Dry"), ]
 rainy <- data[c(data$SEASON == "Rainy"), ]
+cat("HWISE score summary, dry season")
 summary(dry$HW_TOTAL)
+cat("HWISE score summary, rainy season")
 summary(rainy$HW_TOTAL)
 # Check the new variable distribution
+cat("Water insecurity categories, dry season")
 table(dry$HW_TOTAL_category)
+cat("Water insecurity categories, rainy season")
 table(rainy$HW_TOTAL_category)
 ```
 
-# Rainy season to dry season
-
-```{r}
+## Plot seasonal change
+```{r season change, echo = FALSE}
 
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
          stringsAsFactors = FALSE,  
@@ -203,9 +201,8 @@ ggplot(hw_diff, aes(x = HW_TOTAL_category, y = Difference, fill = Difference > 0
 
 ```
 
-# BOXPLOTS
-
-```{r}
+## Distribution hours of water supply by category
+```{r violin plots, echo = FALSE, warning=FALSE}
 
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
          stringsAsFactors = FALSE,  
@@ -237,7 +234,7 @@ means$hrs.w <- round(means$hrs.w, 2)
 # Define color palette
 color_palette <- c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")
 
-# Create box-and-whisker plot with individual data points
+# Create violin plot and boxplot with individual data points
 ggplot(data, aes(x = HW_TOTAL_category, 
                  y = HRS_WEEK, 
                  fill = HW_TOTAL_category)) +
@@ -273,10 +270,10 @@ ggplot(data, aes(x = HW_TOTAL_category,
 
 ```
 
+# Perception w/respect to water supply in the City
+We asked participants if they consider their own water service as worse, same or better than in other parts of Mexico City
+```{r echo=FALSE}
 
-```{r}
-
-# Categorize HW_TOTAL into groups
 data <- data %>%
   filter(!is.na(MX28_WQ_COMP)) %>%  # Remove missing values
   mutate(MX28_WQ_COMP_category = case_when(
@@ -288,6 +285,34 @@ data <- data %>%
 # Convert to factor with proper order
 data$MX28_WQ_COMP_category <- factor(data$MX28_WQ_COMP_category, 
                                  levels = c("Worse", "Same", "Better"))
+
+# Create the grouped bar plot with percentages
+# Compute percentage of each category
+percent_data <- data %>%
+  filter(!is.na(MX28_WQ_COMP_category)) %>%
+  group_by(MX28_WQ_COMP_category) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Percentage = (Count / sum(Count)) * 100)
+
+color_palette <- c("#ff7f00", "#a6cee3",  "#1f78b4")
+
+# Create barplot with percentages
+ggplot(percent_data, aes(x = MX28_WQ_COMP_category, y = Percentage, fill = MX28_WQ_COMP_category)) +
+  geom_bar(stat = "identity", width = 0.6, alpha = 0.8) +  # Use 'identity' for percentages
+  geom_text(aes(label = paste0(round(Percentage, 1), "%")), 
+            vjust = -0.5, size = 5, fontface = "bold") +  # Add percentage labels
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Format y-axis as percentage
+  labs(title = "Perception of Water Service in Mexico City",
+       x = "Water Service Perception",
+       y = "Percentage") +
+  scale_fill_manual(values = color_palette) +  # Custom colors
+  theme_minimal() +
+  theme(legend.position = "none") 
+
+```
+
+## Hours of water supply by group
+```{r echo=FALSE, warning=FALSE}
 
 # Count the number of data points per Water insecurity level (HWISE)
  summary_stats <- data %>%
@@ -327,7 +352,8 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
                                  " (n=", summary_stats$Count, ")")) 
 ```
 
-```{r}
+## HWISE score by group
+```{r echo = FALSE}
 
 # Count the number of data points per Water insecurity level (HWISE)
  summary_stats <- data %>%
@@ -372,11 +398,9 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
                                  " (n=", summary_stats$Count, ")")) 
 ```
 
-
-
-
-
-```{r}
+# Hours of water supply by HWISE score
+Boxplots including mean values
+```{r echo=FALSE}
 
 # Load the dataset 
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
@@ -413,13 +437,10 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
    scale_x_discrete(labels = paste0(summary_stats$Response, 
                                  " (n=", summary_stats$Count, ")"))  
 
+```
 
-
-
-
-# Define color palette
-#color_palette <- c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")
-
+Boxplots not including mean values
+```{r}
 # Generate boxplots
 ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Response))) +
   geom_boxplot(outlier.shape = NA, width = 0.5, alpha = 0.7) +  # Thinner boxes
@@ -432,12 +453,11 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
 #  scale_color_manual(values = color_palette) +  # Custom colors for points
   theme(legend.position = "none")# +  # Remove legend for clarity
  
-
 ```
 
-
-```{r}
-
+## Hours of water supply by HWISE question
+Response numbers correspond to frequency of the event over the last four weeks (0=never/almost never, 1=sometimes, 2=often, 3=very often or always)
+```{r echo = FALSE}
 # Load the dataset 
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
          stringsAsFactors = FALSE,  
@@ -459,7 +479,6 @@ mean_values <- data_long %>%
   group_by(HW_Question, Response) %>%
   summarise(Mean_HRS_WEEK = mean(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
 
-
 # Generate boxplots with mean values
 ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Response))) +
   geom_boxplot(outlier.shape = NA,  alpha = 0.4, varwidth = TRUE) +  # Thinner boxes
@@ -470,7 +489,7 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
             # label = round(Mean_HRS_WEEK, 1)), color = "red", vjust = -0.5, size = 3.5) +  # Add numeric mean label
   theme_minimal() +
   labs(title = "Distribution of Hours water of supply by HWISE Question",
-       subtitle = "Red dots show mean num. hours per week",
+       subtitle = "Red dots show mean num. hours per week for that group",
        x = "Response", 
        y = "Hours of Water Supply per Week") +
   theme(legend.position = "none") +  # Remove legend for clarity
@@ -478,4 +497,223 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
 
 ```
 
+# HWISE categories and Perception of own water supply
+```{r echo=FALSE}
 
+# Load the dataset 
+#data_path <- "../data"
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+
+# Categorize HW_TOTAL into four groups
+data <- data %>%
+  filter(!is.na(HW_TOTAL), !is.na(MX28_WQ_COMP)) %>%  # Remove missing values
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+
+# Categorize HW_TOTAL into groups
+data <- data %>%
+  filter(!is.na(MX28_WQ_COMP)) %>%  # Remove missing values
+  mutate(MX28_WQ_COMP_category = case_when(
+    MX28_WQ_COMP == 0 ~ "Worse",
+    MX28_WQ_COMP == 1 ~ "Same",
+    MX28_WQ_COMP == 2 ~ "Better",
+  ))
+
+# Convert to factor with proper order
+data$MX28_WQ_COMP_category <- factor(data$MX28_WQ_COMP_category, 
+                                 levels = c("Worse", "Same", "Better"))
+
+# Convert to factors
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+
+```
+## Stacked bar plot
+```{r echo=FALSE}
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX28_WQ_COMP_category)) +
+  geom_bar(position = "fill") +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Stacked Bar Plot: Water Service Perception vs. HWISE Category",
+       x = "HWISE Category",
+       y = "Proportion",
+       fill = "Water Service Perception") +
+  theme_minimal()
+
+```
+
+## Grouped bar plots
+ 
+```{r echo= FALSE}
+# Calculate percentages within each HW_TOTAL_category
+percent_data <- data %>%
+  group_by(HW_TOTAL_category, MX28_WQ_COMP_category) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Percentage = (Count / sum(Count)) * 100)
+
+# Create the grouped bar plot with percentages
+ggplot(percent_data, aes(x = HW_TOTAL_category, y = Percentage, fill = MX28_WQ_COMP_category)) +
+  geom_bar(stat = "identity", position = "dodge") +  # "dodge" for side-by-side bars
+  labs(title = "Grouped Bar Plot: Water Service Perception vs. HWISE Category",
+       x = "HWISE Category",
+       y = "Percentage",
+       fill = "Water Service Perception") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert to percentage format
+  theme_minimal() 
+
+# Calculate percentages within each HW_TOTAL_category
+percent_data <- data %>%
+  group_by(HW_TOTAL_category, MX28_WQ_COMP_category) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Percentage = (Count / sum(Count)) * 100)
+
+# Create the grouped bar plot with percentages
+ggplot(percent_data, aes(x = HW_TOTAL_category, y = Percentage, fill = MX28_WQ_COMP_category)) +
+  geom_bar(stat = "identity", position = "dodge") +  # "dodge" for side-by-side bars
+  labs(title = "Grouped Bar Plot: Water Service Perception vs. HWISE Category",
+       x = "HWISE Category",
+       y = "Percentage",
+       fill = "Water Service Perception") +
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert to percentage format
+  theme_minimal() +
+  facet_wrap( ~ MX28_WQ_COMP_category)
+
+
+
+
+```
+ 
+## Heatmap
+ 
+```{r echo = FALSE}
+# Create a contingency table
+table_data <- as.data.frame(table(data$HW_TOTAL_category, data$MX28_WQ_COMP_category))
+colnames(table_data) <- c("HW_TOTAL_category", "MX28_WQ_COMP_category", "Count")
+
+# Create heatmap
+ggplot(table_data, aes(x = HW_TOTAL_category, y = MX28_WQ_COMP_category, fill = Count)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  labs(title = "Heatmap: Water Service Perception vs. HWISE Category",
+       x = "HWISE Category",
+       y = "Water Service Perception",
+       fill = "Count") +
+  theme_minimal()
+
+```
+ 
+ 
+ 
+ 
+ 
+ 
+```{r}
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+data <- data %>% 
+  select(-HW_TOTAL)
+
+# Identify all HW_ variables
+hw_vars <- grep("^HW_", names(data), value = TRUE)
+
+# Filter relevant columns (HW_ questions and HRS_WEEK)
+data_long <- data %>%
+  select(all_of(hw_vars), HRS_WEEK) %>%
+  pivot_longer(cols = all_of(hw_vars), names_to = "HW_Question", values_to = "Response") %>%
+  filter(!is.na(HRS_WEEK), !is.na(Response))  # Remove NAs
+
+
+# Generate heatmaps using facet_wrap to create one per HW_ question
+ggplot(data_long, aes(x = Response, y = HRS_WEEK, fill = ..count..)) +
+  geom_tile(stat = "bin2d", bins = 30) +  # Heatmap using binning
+  scale_fill_gradient(low = "white", high = "red") +  # Color scale for counts
+  labs(title = "Heatmaps of HW_ Questions vs. Hours of Water Supply",
+       x = "HW_ Question Response",
+       y = "Hours of Water Supply per Week",
+       fill = "Count") +
+  theme_minimal() +
+  facet_wrap(~HW_Question, scales = "free_x")  # Separate heatmaps for each HW_ question
+```
+
+```{r}
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+
+# Create  categories
+data <- data %>%
+  mutate(MX8_TRUST_CAT = case_when(
+ MX8_TRUST == "0" ~ "Yes",
+ MX8_TRUST == "1" ~ "Neutral",
+ MX8_TRUST == "2" ~ "No",
+    TRUE ~ NA_character_  # Assign NA for missing or out-of-range values
+  ))
+
+# Convert Season_Type to a factor
+data$MX8_TRUST_CAT <- factor(data$MX8_TRUST_CAT, levels = c("Yes", "Neutral", "No"))
+
+
+# Select relevant columns (HW_ questions + MX8_TRUST)
+data_long <- data %>%
+  select(all_of(hw_vars), MX8_TRUST_CAT) %>%
+  pivot_longer(cols = all_of(hw_vars), names_to = "HW_Question", values_to = "Response") %>%
+  filter(!is.na(MX8_TRUST_CAT), !is.na(Response))  # Remove NAs
+
+
+```
+
+```{r}
+
+ggplot(data_long, aes(x = Response, fill = MX8_TRUST_CAT)) +
+  geom_bar(position = "fill") +  # "fill" makes bars proportional
+  facet_wrap(~HW_Question, scales = "free_x") +  # Create separate plots for each HW_ question
+  labs(title = "Trust in Tap Water by HW_ Questions",
+       x = "Response to HW_ Question",
+       y = "Proportion",
+       fill = "Trust in Tap Water") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(scale = 1))
+
+```
+
+ 
+```{r}
+
+ggplot(data_long, aes(x = Response, fill = MX8_TRUST_CAT)) +
+  geom_bar(position = "dodge") +  # "dodge" places bars side by side
+  facet_wrap(~HW_Question, scales = "free_x") +
+  labs(title = "Trust in Tap Water by HW_ Questions",
+       x = "Response to HW_ Question",
+       y = "Count",
+       fill = "Trust in Tap Water") +
+  theme_minimal()
+
+```
+
+
+```{r}
+
+# Create a contingency table
+table_data <- as.data.frame(table(data_long$Response, data_long$MX8_TRUST_CAT, data_long$HW_Question))
+colnames(table_data) <- c("Response", "MX8_TRUST", "HW_Question", "Count")
+
+# Generate heatmap
+ggplot(table_data, aes(x = Response, y = MX8_TRUST, fill = Count)) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "blue") +
+  facet_wrap(~HW_Question, scales = "free_x") +
+  labs(title = "Heatmap of Trust in Tap Water by HW_ Questions",
+       x = "Response to HW_ Question",
+       y = "Trust in Tap Water",
+       fill = "Count") +
+  theme_minimal()
+
+```
+
+ 
+ 
