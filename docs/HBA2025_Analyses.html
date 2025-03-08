@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7866aba09a227328475597669733f7d20b457d15targetblank7866abaa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503targetblank77cc174a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7866aba09a227328475597669733f7d20b457d15" target="_blank">7866aba</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503" target="_blank">77cc174</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7866aba09a227328475597669733f7d20b457d15targetblank7866abaa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503targetblank77cc174a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7866aba09a227328475597669733f7d20b457d15" target="_blank">7866aba</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503" target="_blank">77cc174</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -562,8 +562,6 @@ Ignored files:
 
 Unstaged changes:
     Modified:   analysis/HBA2025_Analyses.Rmd
-    Modified:   analysis/HBA2025_cleaning.Rmd
-    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
 
 </code></pre>
 <p>
@@ -608,6 +606,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/analysis/HBA2025_Analyses.Rmd" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+<td>
+more plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/HBA2025_Analyses.html" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+<td>
+more plots
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -734,6 +766,7 @@ summary(data$HW_TOTAL)</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
   0.000   3.000   8.000   8.419  12.000  27.000      11 </code></pre>
 <pre class="r"><code># Check the new variable distribution
+temp &lt;- table(data$HW_TOTAL_category)
 table(data$HW_TOTAL_category)</code></pre>
 <pre><code>
 No-to-Marginal            Low       Moderate           High 
@@ -873,8 +906,8 @@ hw_diff &lt;- hw_season_counts %&gt;%
 ggplot(hw_diff, aes(x = HW_TOTAL_category, y = Difference, fill = Difference &gt; 0)) +
   geom_bar(stat = &quot;identity&quot;) +  # Use precomputed differences
   theme_minimal() +
-  labs(title = &quot;Change in HW_TOTAL Category Percentages (Rainy to Dry Season)&quot;,
-       x = &quot;HW_TOTAL Category&quot;, 
+  labs(title = &quot;Seasonal change: Rainy compared to Dry Season&quot;,
+       x = &quot;Water insecurity level (HWISE)&quot;, 
        y = &quot;Percentage Difference (Rainy to Dry season)&quot;) +
   scale_fill_manual(values = c(&quot;#1f78b4&quot;, &quot;#ff7f00&quot;), labels = c(&quot;Decrease&quot;, &quot;Increase&quot;)) +  # Assign colors
   theme(legend.position = &quot;right&quot;) +  # Keep legend
@@ -949,7 +982,7 @@ data &lt;- data %&gt;%
 data$HW_TOTAL_category &lt;- factor(data$HW_TOTAL_category, 
                                  levels = c(&quot;No-to-Marginal&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;))
 
-# Count the number of data points per HW_TOTAL category
+# Count the number of data points per Water insecurity level (HWISE)
  summary_stats &lt;- data %&gt;%
   group_by(HW_TOTAL_category) %&gt;%
   summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = &#39;drop&#39;)
@@ -981,8 +1014,8 @@ ggplot(data, aes(x = HW_TOTAL_category,
              aes(label = hrs.w, y = hrs.w + 1, hjust=-1), 
              size = 3, color = &quot;darkred&quot;) + #adds average labels
   theme_minimal() +
-  labs(title = &quot;HRS_WEEK by HWISE Category&quot;,
-       x = &quot;HWISE&quot;, 
+  labs(title = &quot;Hours water of supply by Water Insecurity group (HWISE)&quot;,
+       x = &quot;HWISE Group&quot;, 
        y = &quot;Hours of Water Supply per Week&quot;) +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
@@ -1031,6 +1064,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -1068,7 +1112,7 @@ data &lt;- data %&gt;%
 data$MX28_WQ_COMP_category &lt;- factor(data$MX28_WQ_COMP_category, 
                                  levels = c(&quot;Worse&quot;, &quot;Same&quot;, &quot;Better&quot;))
 
-# Count the number of data points per HW_TOTAL category
+# Count the number of data points per Water insecurity level (HWISE)
  summary_stats &lt;- data %&gt;%
   group_by(MX28_WQ_COMP_category) %&gt;%
   summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = &#39;drop&#39;)
@@ -1093,8 +1137,8 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
              aes(label = hrs.w, y = hrs.w + 1, hjust=-0.8), 
              size = 3, color = &quot;darkred&quot;) + #adds average labels
   theme_minimal() +
-  labs(title = &quot;HRS_WEEK by Group considering their water supply as worse, same or better than in other parts of the city&quot;,
-       x = &quot;&quot;, 
+  labs(title = &quot;Hours of water supply and comparison to other parts of the city&quot;,
+       x = &quot;Own water service is considered&quot;, 
        y = &quot;Hours of Water Supply per Week&quot;) +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
@@ -1137,6 +1181,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-1.png" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-1.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -1161,7 +1216,7 @@ Paloma
 </table>
 </div>
 </div>
-<pre class="r"><code># Count the number of data points per HW_TOTAL category
+<pre class="r"><code># Count the number of data points per Water insecurity level (HWISE)
  summary_stats &lt;- data %&gt;%
   group_by(MX28_WQ_COMP_category) %&gt;%
   summarise(Count = n(), SD = sd(HW_TOTAL, na.rm = TRUE), .groups = &#39;drop&#39;)
@@ -1191,8 +1246,8 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
                   label = paste0(&quot;SD = &quot;, round(SD, 1))), 
               size = 4, fontface = &quot;bold&quot;) +    # Add SD text annotations above the boxes
   theme_minimal() +
-  labs(title = &quot;HWISE score by Group considering their water supply as worse, same or better than in other parts of the city&quot;,
-       x = &quot;&quot;, 
+  labs(title =  &quot;Hours of water supply and comparison to other parts of the city&quot;,
+       x = &quot;Own water service is considered&quot;, 
        y = &quot;HWISE score&quot;) +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
@@ -1225,6 +1280,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-6-1.png" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-6-1.png" target="_blank">7866aba</a>
@@ -1276,7 +1342,8 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
   geom_text(data = summary_stats, aes(x = as.factor(Response), y =  Mean_HRS_WEEK, 
              label = round(Mean_HRS_WEEK, 0)), color = &quot;black&quot;, hjust =  -0.35, size = 2.8) +  # Add numeric mean label
   theme_minimal() +
-  labs(title = &quot;Distribution of HRS_WEEK by total HWISE score&quot;,
+  labs(title = &quot;Distribution of Hours water of supply by total HWISE score&quot;,
+       subtitle = &quot;Black dots show mean num. hours per week&quot;,
        x = &quot;HWISE score&quot;, 
        y = &quot;Hours of Water Supply per Week&quot;) +
  # scale_fill_manual(values = color_palette) +  # Custom colors for boxes
@@ -1309,6 +1376,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-7-1.png" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-7-1.png" target="_blank">3704a5a</a>
 </td>
 <td>
@@ -1330,8 +1408,8 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
   geom_boxplot(outlier.shape = NA, width = 0.5, alpha = 0.7) +  # Thinner boxes
   geom_jitter(aes(color = as.factor(Response)), size = 1.5, width = 0.2, alpha = 0.5) +  
   theme_minimal() +
-  labs(title = &quot;Distribution of HRS_WEEK by HW_ Questions&quot;,
-       x = &quot;Response&quot;, 
+  labs(title = &quot;Distribution of Hours water of supply by total HWISE score&quot;,
+       x = &quot;Score&quot;, 
        y = &quot;Hours of Water Supply per Week&quot;) +
 #  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
 #  scale_color_manual(values = color_palette) +  # Custom colors for points
@@ -1359,6 +1437,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-7-2.png" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-7-2.png" target="_blank">3704a5a</a>
@@ -1405,10 +1494,11 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
  # geom_text(data = mean_values, aes(x = as.factor(Response), y = Mean_HRS_WEEK, 
             # label = round(Mean_HRS_WEEK, 1)), color = &quot;red&quot;, vjust = -0.5, size = 3.5) +  # Add numeric mean label
   theme_minimal() +
-  labs(title = &quot;Distribution of HRS_WEEK by HW_ Questions&quot;,
+  labs(title = &quot;Distribution of Hours water of supply by HWISE Question&quot;,
+       subtitle = &quot;Red dots show mean num. hours per week&quot;,
        x = &quot;Response&quot;, 
        y = &quot;Hours of Water Supply per Week&quot;) +
- # theme(legend.position = &quot;none&quot;) +  # Remove legend for clarity
+  theme(legend.position = &quot;none&quot;) +  # Remove legend for clarity
   facet_wrap(~HW_Question, scales = &quot;free_y&quot;)  # Create separate plots for each HW_ question</code></pre>
 <p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1433,6 +1523,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/77cc174bcb1521cfc4ff6c1e126b7b7f7bc83503/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-8-1.png" target="_blank">77cc174</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-8-1.png" target="_blank">3704a5a</a>

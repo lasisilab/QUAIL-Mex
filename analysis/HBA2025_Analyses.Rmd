@@ -63,6 +63,7 @@ data$HW_TOTAL_category <- factor(data$HW_TOTAL_category,
 # HWISE scores 
 summary(data$HW_TOTAL)
 # Check the new variable distribution
+temp <- table(data$HW_TOTAL_category)
 table(data$HW_TOTAL_category)
 
 ```
@@ -73,7 +74,7 @@ table(data$HW_TOTAL_category)
 hw_total_counts <- data.frame(
   HW_TOTAL_category = factor(c("No-to-Marginal", "Low", "Moderate", "High"), 
                              levels = c("No-to-Marginal", "Low", "Moderate", "High")),
-  Count = c(76, 205, 104, 6)  # Given category frequencies
+  Count = c(temp[1], temp[2], temp[3], temp[4])  # Given category frequencies
 )
 
 # Calculate the total count and percentage for each category
@@ -84,8 +85,8 @@ hw_total_counts <- hw_total_counts %>%
 ggplot(hw_total_counts, aes(x = HW_TOTAL_category, y = Percentage, fill = HW_TOTAL_category)) +
   geom_bar(stat = "identity") +  # Use stat="identity" for predefined percentages
   theme_minimal() +
-  labs(title = "Distribution of HWISE Categories (Percentages)",
-       x = "HW_TOTAL Category", 
+  labs(title = "Distribution of HWISE Categories",
+       x = "Water insecurity level (HWISE)", 
        y = "Percentage") +
   scale_fill_manual(values = c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")) +  # Custom colors
   theme(legend.position = "none") +  # Remove legend
@@ -193,8 +194,8 @@ hw_diff <- hw_season_counts %>%
 ggplot(hw_diff, aes(x = HW_TOTAL_category, y = Difference, fill = Difference > 0)) +
   geom_bar(stat = "identity") +  # Use precomputed differences
   theme_minimal() +
-  labs(title = "Change in HW_TOTAL Category Percentages (Rainy to Dry Season)",
-       x = "HW_TOTAL Category", 
+  labs(title = "Seasonal change: Rainy compared to Dry Season",
+       x = "Water insecurity level (HWISE)", 
        y = "Percentage Difference (Rainy to Dry season)") +
   scale_fill_manual(values = c("#1f78b4", "#ff7f00"), labels = c("Decrease", "Increase")) +  # Assign colors
   theme(legend.position = "right") +  # Keep legend
@@ -224,7 +225,7 @@ data <- data %>%
 data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, 
                                  levels = c("No-to-Marginal", "Low", "Moderate", "High"))
 
-# Count the number of data points per HW_TOTAL category
+# Count the number of data points per Water insecurity level (HWISE)
  summary_stats <- data %>%
   group_by(HW_TOTAL_category) %>%
   summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
@@ -256,8 +257,8 @@ ggplot(data, aes(x = HW_TOTAL_category,
              aes(label = hrs.w, y = hrs.w + 1, hjust=-1), 
              size = 3, color = "darkred") + #adds average labels
   theme_minimal() +
-  labs(title = "HRS_WEEK by HWISE Category",
-       x = "HWISE", 
+  labs(title = "Hours water of supply by Water Insecurity group (HWISE)",
+       x = "HWISE Group", 
        y = "Hours of Water Supply per Week") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
@@ -288,7 +289,7 @@ data <- data %>%
 data$MX28_WQ_COMP_category <- factor(data$MX28_WQ_COMP_category, 
                                  levels = c("Worse", "Same", "Better"))
 
-# Count the number of data points per HW_TOTAL category
+# Count the number of data points per Water insecurity level (HWISE)
  summary_stats <- data %>%
   group_by(MX28_WQ_COMP_category) %>%
   summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
@@ -313,8 +314,8 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
              aes(label = hrs.w, y = hrs.w + 1, hjust=-0.8), 
              size = 3, color = "darkred") + #adds average labels
   theme_minimal() +
-  labs(title = "HRS_WEEK by Group considering their water supply as worse, same or better than in other parts of the city",
-       x = "", 
+  labs(title = "Hours of water supply and comparison to other parts of the city",
+       x = "Own water service is considered", 
        y = "Hours of Water Supply per Week") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
@@ -328,7 +329,7 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
 
 ```{r}
 
-# Count the number of data points per HW_TOTAL category
+# Count the number of data points per Water insecurity level (HWISE)
  summary_stats <- data %>%
   group_by(MX28_WQ_COMP_category) %>%
   summarise(Count = n(), SD = sd(HW_TOTAL, na.rm = TRUE), .groups = 'drop')
@@ -358,8 +359,8 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
                   label = paste0("SD = ", round(SD, 1))), 
               size = 4, fontface = "bold") +    # Add SD text annotations above the boxes
   theme_minimal() +
-  labs(title = "HWISE score by Group considering their water supply as worse, same or better than in other parts of the city",
-       x = "", 
+  labs(title =  "Hours of water supply and comparison to other parts of the city",
+       x = "Own water service is considered", 
        y = "HWISE score") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
@@ -402,7 +403,8 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
   geom_text(data = summary_stats, aes(x = as.factor(Response), y =  Mean_HRS_WEEK, 
              label = round(Mean_HRS_WEEK, 0)), color = "black", hjust =  -0.35, size = 2.8) +  # Add numeric mean label
   theme_minimal() +
-  labs(title = "Distribution of HRS_WEEK by total HWISE score",
+  labs(title = "Distribution of Hours water of supply by total HWISE score",
+       subtitle = "Black dots show mean num. hours per week",
        x = "HWISE score", 
        y = "Hours of Water Supply per Week") +
  # scale_fill_manual(values = color_palette) +  # Custom colors for boxes
@@ -423,8 +425,8 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
   geom_boxplot(outlier.shape = NA, width = 0.5, alpha = 0.7) +  # Thinner boxes
   geom_jitter(aes(color = as.factor(Response)), size = 1.5, width = 0.2, alpha = 0.5) +  
   theme_minimal() +
-  labs(title = "Distribution of HRS_WEEK by HW_ Questions",
-       x = "Response", 
+  labs(title = "Distribution of Hours water of supply by total HWISE score",
+       x = "Score", 
        y = "Hours of Water Supply per Week") +
 #  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
 #  scale_color_manual(values = color_palette) +  # Custom colors for points
@@ -467,7 +469,8 @@ ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Re
  # geom_text(data = mean_values, aes(x = as.factor(Response), y = Mean_HRS_WEEK, 
             # label = round(Mean_HRS_WEEK, 1)), color = "red", vjust = -0.5, size = 3.5) +  # Add numeric mean label
   theme_minimal() +
-  labs(title = "Distribution of HRS_WEEK by HW_ Questions",
+  labs(title = "Distribution of Hours water of supply by HWISE Question",
+       subtitle = "Red dots show mean num. hours per week",
        x = "Response", 
        y = "Hours of Water Supply per Week") +
   theme(legend.position = "none") +  # Remove legend for clarity
