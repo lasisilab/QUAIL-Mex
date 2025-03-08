@@ -22,313 +22,221 @@ Results indicate that during acute water shortages, women can spend extended per
 
 This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
 
-```{r echo = FALSE, warning = FALSE, message= FALSE}
+```{r libraries, echo = FALSE, warning = FALSE, message= FALSE}
 
 # Load necessary libraries
 library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(reshape2) 
+library(knitr)
 # Load the dataset
 
-df <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
+data <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+
+```
+
+```{r HWISE categ}
 
 # Ensure HW_TOTAL is numeric
-df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
+data$HW_TOTAL <- as.numeric(data$HW_TOTAL)
 
-# Identify categorical variables (columns ending in "CAT") and convert them to factors
-cat_columns <- grep("CAT$", names(df), value = TRUE)
-df <- df %>%
-  mutate(across(all_of(cat_columns), as.factor))
+# Categorize HW_TOTAL into four groups
+data <- data %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High",
+    TRUE ~ NA_character_  # Assign NA if value is missing or out of range
+  ))
+
+# Convert to factor to maintain categorical order
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, 
+                                 levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+
+# HWISE scores 
+summary(data$HW_TOTAL)
+# Check the new variable distribution
+table(data$HW_TOTAL_category)
 
 ```
 
 ```{r echo=FALSE}
 
-# Get total number of individuals
-total_individuals <- nrow(df)
+# Create a data frame with category counts
+hw_total_counts <- data.frame(
+  HW_TOTAL_category = factor(c("No-to-Marginal", "Low", "Moderate", "High"), 
+                             levels = c("No-to-Marginal", "Low", "Moderate", "High")),
+  Count = c(76, 205, 104, 6)  # Given category frequencies
+)
 
-# Count individuals with HW_TOTAL > 12 and HW_TOTAL > 8
-count_hw_above_12 <- df %>%
-  filter(HW_TOTAL > 12) %>%
-  summarise(count = n())
+# Calculate the total count and percentage for each category
+hw_total_counts <- hw_total_counts %>%
+  mutate(Percentage = (Count / sum(Count)) * 100)
 
-count_hw_above_8 <- df %>%
-  filter(HW_TOTAL > 8) %>%
-  summarise(count = n())
-
-# Calculate percentages
-percent_hw_above_12 <- (count_hw_above_12$count / total_individuals) * 100
-percent_hw_above_8 <- (count_hw_above_8$count / total_individuals) * 100
-
-# Print results
-cat("Number of individuals with HW_TOTAL > 12:", count_hw_above_12$count, 
-    "(", round(percent_hw_above_12, 2), "%)\n")
-
-cat("Number of individuals with HW_TOTAL > 8:", count_hw_above_8$count, 
-    "(", round(percent_hw_above_8, 2), "%)\n")
+# Create the bar plot with percentages
+ggplot(hw_total_counts, aes(x = HW_TOTAL_category, y = Percentage, fill = HW_TOTAL_category)) +
+  geom_bar(stat = "identity") +  # Use stat="identity" for predefined percentages
+  theme_minimal() +
+  labs(title = "Distribution of HWISE Categories (Percentages)",
+       x = "HW_TOTAL Category", 
+       y = "Percentage") +
+  scale_fill_manual(values = c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")) +  # Custom colors
+  theme(legend.position = "none") +  # Remove legend
+  geom_text(aes(label = paste0(round(Percentage, 1), "%")), vjust = -0.5) # Add percentage labels
 
 ```
-I will separate samples according to their total HWISE score:
 
-- equal or higher than 12
-- lower than 12
+
+```{r echo=FALSE}
+
+# Convert SEASON to a factor with labels
+data$SEASON <- factor(data$SEASON, levels = c(0, 1), labels = c("Dry", "Rainy"))
+
+# Create HW_TOTAL categories
+data <- data %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High",
+    TRUE ~ NA_character_  # Assign NA for missing or out-of-range values
+  ))
+
+# Convert to factor with proper ordering
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, 
+                                 levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+
+# Calculate percentages within each season
+hw_total_counts <- data %>%
+  filter(!is.na(HW_TOTAL_category)) %>% 
+  group_by(SEASON, HW_TOTAL_category) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  group_by(SEASON) %>%
+  mutate(Percentage = (Count / sum(Count)) * 100)
+
+# Create the bar plot with percentages, faceted by SEASON
+ggplot(hw_total_counts, aes(x = HW_TOTAL_category, y = Percentage, fill = HW_TOTAL_category)) +
+  geom_bar(stat = "identity") +  # Use predefined percentages
+  theme_minimal() +
+  labs(title = "Distribution of HWISE Categories by Season",
+       x = "HWISE Category", 
+       y = "Percentage") +
+  scale_fill_manual(values = c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")) +
+  theme(legend.position = "none") +  # Remove legend
+  geom_text(aes(label = paste0(round(Percentage, 1), "%")), vjust = -0.5) +  # Add percentage labels
+  facet_wrap(~SEASON)  # Separate plots by season
+
+# HWISE scores 
+dry <- data[c(data$SEASON == "Dry"), ]
+rainy <- data[c(data$SEASON == "Rainy"), ]
+summary(dry$HW_TOTAL)
+summary(rainy$HW_TOTAL)
+# Check the new variable distribution
+table(dry$HW_TOTAL_category)
+table(rainy$HW_TOTAL_category)
+```
+
+# Rainy season to dry season
+
+```{r}
+
+data <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+
+# Define Rainy (Fall = 1) and Dry (Spring = 0) seasons
+data <- data %>%
+  mutate(Season_Type = case_when(
+    SEASON == 1 ~ "Rainy",
+    SEASON == 0 ~ "Dry"
+  ))
+
+# Convert Season_Type to a factor
+data$Season_Type <- factor(data$Season_Type, levels = c("Rainy", "Dry"))
+
+# Categorize HW_TOTAL into four groups
+data <- data %>%
+  filter(!is.na(HW_TOTAL)) %>%  # Remove missing values
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+# Convert to factor with correct ordering
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, 
+                                 levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+
+# Calculate the percentage for each category within each season
+hw_season_counts <- data %>%
+  filter(!is.na(HW_TOTAL_category)) %>%  # Ensure no NA categories
+  group_by(Season_Type, HW_TOTAL_category) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  group_by(Season_Type) %>%
+  mutate(Percentage = (Count / sum(Count)) * 100)
+
+# Reshape data to calculate the percentage difference (Dry - Rainy)
+hw_diff <- hw_season_counts %>%
+  select(Season_Type, HW_TOTAL_category, Percentage) %>%
+  spread(Season_Type, Percentage) %>%  # Convert to wide format
+  mutate(Difference = Dry - Rainy)  # Compute difference from Rainy to Dry
+
+# Create the bar plot showing the percentage difference
+ggplot(hw_diff, aes(x = HW_TOTAL_category, y = Difference, fill = Difference > 0)) +
+  geom_bar(stat = "identity") +  # Use precomputed differences
+  theme_minimal() +
+  labs(title = "Change in HW_TOTAL Category Percentages (Rainy to Dry Season)",
+       x = "HW_TOTAL Category", 
+       y = "Percentage Difference (Rainy to Dry season)") +
+  scale_fill_manual(values = c("#1f78b4", "#ff7f00"), labels = c("Decrease", "Increase")) +  # Assign colors
+  theme(legend.position = "right") +  # Keep legend
+  geom_text(aes(label = paste0(round(Difference, 1), "%")), vjust = -0.5)  # Add percentage labels
+
+```
 
 # BOXPLOTS
 
 ```{r}
 
-# Create a categorical variable for HW_TOTAL threshold
-df <- df %>%
-  mutate(HW_Group = ifelse(HW_TOTAL > 8, "Above 8", "Below 8"))
+data <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
 
-# Identify numeric columns for plotting (excluding HW_TOTAL and ID)
-numeric_columns <- df %>%
-  select(where(is.numeric)) %>%
-  select(-c(HW_TOTAL, ID)) %>%
-  names()
+# Categorize HW_TOTAL into four groups
+data <- data %>%
+  filter(!is.na(HW_TOTAL)) %>%  # Remove missing values
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
 
-# Create plots for all numeric variables
-plot_list <- list()
+# Convert to factor with proper order
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, 
+                                 levels = c("No-to-Marginal", "Low", "Moderate", "High"))
 
-for (var in numeric_columns) {
-  p <- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
-    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-    geom_jitter(width = 0.03, alpha = 0.35) +
-    labs(title = paste("Comparison of", var, "by HWISE score group"),
-         x = "HW Group",
-         y = var) +
-    theme_minimal() +
-    theme(legend.position = "none")
+# Count the number of data points per HW_TOTAL category
+category_counts <- data %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(Count = n(), .groups = 'drop')
 
-  plot_list[[var]] <- p
-  print(p)  # Print each plot
-}
+# Define color palette
+color_palette <- c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")
 
-cat("Generated comparison plots for all numeric variables based on HW_TOTAL.\n")
-
-```
-
-# BARPLOTS
-```{r}
-
-# ========================
-# Visualizing Categorical Variables
-# ========================
-
-# Create bar plots for categorical variables by HW_Group
-cat_plot_list <- list()
-
-for (var in cat_columns) {
-  p_cat <- ggplot(df, aes(x = .data[[var]], fill = HW_Group)) +
-    geom_bar(position = "dodge") +
-    labs(title = paste("Distribution of", var, "by HWISE score group"),
-         x = var,
-         y = "Count") +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
-
-  cat_plot_list[[var]] <- p_cat
-  print(p_cat)  # Print each plot
-}
-
-cat("Generated comparison plots for all categorical variables based on HW_TOTAL.\n")
-
-```
-
-```{r}
-
-## Explore HWISE total scores
-
-# Ensure HW_Total is numeric
-df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
-
-# Ensure categorical variables are factors
-cat_columns <- grep("CAT$", names(df), value = TRUE)
-df <- df %>%
-  mutate(across(all_of(cat_columns), as.factor))
-
-# Get total number of individuals
-total_individuals <- nrow(df)
-
-# Count individuals with HW_Total > 12 and HW_Total > 8
-count_hw_above_12 <- df %>%
-  filter(HW_TOTAL > 12) %>%
-  summarise(count = n())
-
-count_hw_above_8 <- df %>%
-  filter(HW_TOTAL > 8) %>%
-  summarise(count = n())
-
-# Calculate percentages
-percent_hw_above_12 <- (count_hw_above_12$count / total_individuals) * 100
-percent_hw_above_8 <- (count_hw_above_8$count / total_individuals) * 100
-
-# Print results
-cat("Number of individuals with HW_Total > 12:", count_hw_above_12$count, 
-    "(", round(percent_hw_above_12, 2), "%)\n")
-
-cat("Number of individuals with HW_Total > 8:", count_hw_above_8$count, 
-    "(", round(percent_hw_above_8, 2), "%)\n")
-
-
-
-# Create a categorical variable for HW_Total threshold
-df <- df %>%
-  mutate(HW_Group = ifelse(HW_TOTAL > 8, "Above 8", "Below 8"))
-
-"Identify numeric columns for plotting (excluding HW_Total and ID)"
-numeric_columns <- df %>%
-  select(where(is.numeric)) %>%
-  select(-c(HW_TOTAL, ID)) %>%
-  names()
-
-# Create plots for all numeric variables
-plot_list <- list()
-
-for (var in numeric_columns) {
-  p <- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
-    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-    geom_jitter(width = 0.1, alpha = 0.5) +
-    labs(title = paste("Comparison of", var, "by HWISE score group"),
-         x = "HW Group",
-         y = var) +
-    theme_minimal() +
-    theme(legend.position = "none")
-
-  plot_list[[var]] <- p
-  print(p)  # Print each plot
-}
-
-cat("Generated comparison plots for all numeric variables based on HW_Total.\n")
-
-```
-
-
-```{r}
-
-# Subset only numeric columns
-df_numeric <- df %>% select(all_of(numeric_columns))
-
-# Compute correlation matrix (excluding NAs)
-cor_matrix <- cor(df_numeric, use = "pairwise.complete.obs")
-
-# ========================
-# Heatmap using ggplot2
-# ========================
-
-# Convert the correlation matrix into a format suitable for ggplot2
-cor_data <- melt(cor_matrix)
-
-# Create heatmap plot
-ggplot(cor_data, aes(Var1, Var2, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
-                       midpoint = 0, limit = c(-1,1), space = "Lab",
-                       name="Correlation") +
+# Create box-and-whisker plot with individual data points
+ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category)) +
+    geom_jitter(aes(color = HW_TOTAL_category), size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+  geom_boxplot(outlier.shape = 1, alpha = 0.6, width = 0.4) +  # Boxplot without displaying outliers separately
+ # geom_violin(alpha = 0.6, width = 1.4) +  # Boxplot without displaying outliers separately +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Correlation Heatmap",
-       x = "", y = "")
-
-```
-
-```{r echo = FALSE}
-# Load the dataset
-file_path <- "./data/Cleaned_Dataset_Screening_HWISE_PSS.csv"  # Update if needed
-df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-
-# Ensure HW_TOTAL is numeric
-df$HW_TOTAL <- as.numeric(df$HW_TOTAL)
-
-# Identify numeric columns (excluding ID)
-numeric_columns <- df %>%
-  select(where(is.numeric)) %>%
-  select(-c(ID)) %>%
-  names()
-
-# Subset only numeric columns
-df_numeric <- df %>% select(all_of(numeric_columns))
-
-# Split dataset into two groups based on HW_TOTAL
-df_above_8 <- df %>% filter(HW_TOTAL > 8) %>% select(all_of(numeric_columns))
-df_below_8 <- df %>% filter(HW_TOTAL <= 8) %>% select(all_of(numeric_columns))
-
-# Compute correlation matrices
-cor_matrix_above_8 <- cor(df_above_8, use = "pairwise.complete.obs")
-cor_matrix_below_8 <- cor(df_below_8, use = "pairwise.complete.obs")
-
-# ========================
-# Heatmap for HW_TOTAL > 8
-# ========================
-cor_data_above_8 <- melt(cor_matrix_above_8)
-
-ggplot(cor_data_above_8, aes(Var1, Var2, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
-                       midpoint = 0, limit = c(-1,1), space = "Lab",
-                       name="Correlation") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Correlation Heatmap (HW_TOTAL > 8)",
-       x = "", y = "")
-
-# ========================
-# Heatmap for HW_TOTAL ≤ 8
-# ========================
-cor_data_below_8 <- melt(cor_matrix_below_8)
-
-ggplot(cor_data_below_8, aes(Var1, Var2, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
-                       midpoint = 0, limit = c(-1,1), space = "Lab",
-                       name="Correlation") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Correlation Heatmap (HW_TOTAL ≤ 8)",
-       x = "", y = "")
-
-```
-
-
-```{r echo=FALSE}
-
-# Split dataset into two groups based on HW_TOTAL
-df_above_8 <- df %>% filter(HW_TOTAL > 8) %>% select(all_of(numeric_columns))
-df_below_8 <- df %>% filter(HW_TOTAL <= 8) %>% select(all_of(numeric_columns))
-
-# Compute correlation matrices
-cor_matrix_above_8 <- cor(df_above_8, use = "pairwise.complete.obs")
-cor_matrix_below_8 <- cor(df_below_8, use = "pairwise.complete.obs")
-
-# Compute the difference between both correlation matrices
-cor_matrix_diff <- cor_matrix_above_8 - cor_matrix_below_8
-
-# Convert the difference matrix to long format for ggplot2
-cor_diff_data <- melt(cor_matrix_diff)
-
-# Create an order based on absolute correlation differences
-cor_diff_data <- cor_diff_data %>%
-  mutate(abs_value = abs(value)) %>%
-  arrange(desc(abs_value))  # Order by magnitude of difference
-
-# Convert factors for ordered visualization
-cor_diff_data$Var1 <- factor(cor_diff_data$Var1, levels = unique(cor_diff_data$Var1))
-cor_diff_data$Var2 <- factor(cor_diff_data$Var2, levels = unique(cor_diff_data$Var2))
-
-# ========================
-# Ordered Heatmap of Correlation Differences
-# ========================
-ggplot(cor_diff_data, aes(x = Var1, y = Var2, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
-                       midpoint = 0, limit = c(-1,1), space = "Lab",
-                       name="Correlation\nDifference") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = "Ordered Correlation Differences: HW_TOTAL > 8 vs ≤ 8",
-       x = "", y = "")
-
+  labs(title = "Box-and-Whisker Plot: HRS_WEEK by HWISE Category",
+       x = "HWISE", 
+       y = "Hours of Water Supply per Week") +
+  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+  scale_color_manual(values = color_palette) +  # Custom colors for points
+  theme(legend.position = "none") + # Remove legend for clarity 
+scale_x_discrete(labels = paste0(category_counts$HW_TOTAL_category, " (n=", category_counts$Count, ")"))  # Add count to x-axis labels
 
 ```
 

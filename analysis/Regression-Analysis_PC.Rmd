@@ -6,15 +6,17 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, include = FALSE)
+knitr::opts_chunk$set(echo = FALSE, include = TRUE)
 ```
 
-```{r package}
+```{r package, include = FALSE}
 # load packages
+library(dplyr)
 library(mice)
 library(ggplot2)
 library(naniar)
 library(glmnet)
+library(knitr)
 ```
 
 ## 1 Introduction
@@ -44,20 +46,56 @@ The two new linear regression models are different from the previous ones:
 
 ## 1.b Variable descriptions for quick reference
 
-- D_AGE: Participants' age (18:49)
-- D_CHLD: Number of children participant has birthed (0:8)
-- D_HH_SIZE: Household size (2:40)
-- D_LOC_TIME: For how long have you lived in this neighborhood? (1:46 years)
-- HLTH_CDIS_CAT: Presence of chronic disease (1= yes, 0 = no)
-- HLTH_CPAIN_CAT: Presence of chronic pain (1= yes, 0 = no)
-- HLTH_SMK: Tabacco smoker (1= yes, 0 = no)
-- HRS_WEEK: Hours of water supply in the household per week (0:168)
-- HW_TOTAL: Sum of all 12-items in HWISE questionnaire (0:27)
-- PSS_TOTAL: Total Perceived Stress Score (-19:19)
-- SEASON: Fall or Spring (when data collection happened) (Fall= 1, Spring = 0)
-- SES_SC_Total: Socioeconomic status score (25:263)
-- W_WS_LOC: Classification of neighborhoods as water secure or insecure, according to reports from Mexico City water system (1= water insecure, 0= water secure)
-- W_WC_WI: Classification of water supply as continuous or intermittent, according to participants (1= intermittent, 0 = continuous)
+Ordered alphabetically
+
+```{r table info variables, echo=FALSE, results='asis'}
+# Load necessary package
+library(knitr)
+
+# Create a data frame with variable descriptions, classes, and additional details
+variables_info <- data.frame(
+  Variable = c("D_AGE", "D_CHLD", "D_HH_SIZE", "D_LOC_TIME", "HLTH_CDIS_CAT", "HLTH_CPAIN_CAT", 
+               "HLTH_SMK", "HRS_WEEK", "HW_TOTAL", "MX28_WQ_COMP", "PSS_TOTAL", "SEASON", 
+               "SES_SC_Total", "W_WS_LOC", "W_WC_WI"),
+  Description = c("Participants' age", 
+                  "Number of children participant has birthed",
+                  "Household size",
+                  "For how long have you lived in this neighborhood?",
+                  "Presence of chronic disease",
+                  "Presence of chronic pain",
+                  "Tobacco smoker",
+                  "Hours of water supply in the household per week",
+                  "Sum of all 12-items in HWISE questionnaire",
+                  "Perception of water service as worse, same, or better than rest of Mexico City",
+                  "Total Perceived Stress Score",
+                  "Fall or Spring (when data collection happened)",
+                  "Socioeconomic status score",
+                  "Classification of neighborhoods as water secure or insecure",
+                  "Classification of water supply as continuous or intermittent"),
+  Class = c("Numeric", "Numeric", "Numeric", "Numeric", "Categorical (Binary)", "Categorical (Binary)", 
+            "Categorical (Binary)", "Numeric", "Numeric", "Categorical (Ordinal)", "Numeric", "Categorical (Binary)",
+            "Numeric", "Categorical (Binary)", "Categorical (Binary)"),
+  Values = c("18:49", 
+              "0:8", 
+              "2:40", 
+              "1:46 (years)", 
+              "1 = yes, 0 = no", 
+              "1 = yes, 0 = no", 
+              "1 = yes, 0 = no", 
+              "0:168", 
+              "0:27", 
+              "0 = worse, 1 = same, 2 = better", 
+              "-19:19", 
+              "Fall = 1, Spring = 0", 
+              "25:263", 
+              "1 = water insecure, 0 = water secure", 
+              "1 = intermittent, 0 = continuous")
+)
+
+# Print the table using kable
+kable(variables_info, caption = "Variable Descriptions, Classes, and Additional Details")
+
+```
 
 
 ## 2 Data preparation
@@ -66,25 +104,53 @@ The two new linear regression models are different from the previous ones:
 
 2. HW_TOTAL is calculated by adding up all the HWISE scores; PSS_TOTAL is calculated by adding up PSS 1,2,3, 8, 11, 12, 14, and substracting 4,5,6,7,9,10, and 13.
 
+```{r function to count missing info}
+# Function to count missing information per varaible
+create_na_table <- function(data) {
+  # Create a data frame with variable names and count of missing values
+  na_info <- data.frame(
+    Variable = names(data),
+    Missing_Values = colSums(is.na(data))
+  ) %>%
+    arrange(desc(Missing_Values))
+    # Generate a kable table
+  kable(na_info, caption = "Number of Missing Values per Variable")
+}
+```
+
+
+
 ```{r read-data}
 
 data_path = "data"
 # merged dataset
-merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"), stringsAsFactors = FALSE)
+merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), stringsAsFactors = FALSE)
+colnames(merged_dataset)
 
+# Initial number of unique participants
+cat("Initial number of unique participants:", length(unique(merged_dataset$ID)), "\n") 
+cat("Initial number of variables:", ncol(merged_dataset), "\n") 
+
+# Keep only numeric data
 for (i in 1:dim(merged_dataset)[2]) {
   merged_dataset[[i]] = as.numeric(merged_dataset[[i]])
 }
 
-# create regression dataset
-reg_dataset = merged_dataset[c(1, 3:6, 8, 9, 10, 39, 40, 41)]
-reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(22 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(22 + c(4,5,6,7,9,10,13))])
 
-dim(reg_dataset)
+# create regression dataset
+reg_dataset = merged_dataset[c(1, 2, 4:7, 9:11, 38:42)]
+reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(23 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(23 + c(4,5,6,7,9,10,13))])
+
+create_na_table(reg_dataset)
+
 # remove missing rows
 reg_dataset = na.omit(reg_dataset)
-dim(reg_dataset)
-colnames(reg_dataset)
+
+
+cat("Final number of unique participants:", length(unique(reg_dataset$ID)), "\n") 
+cat("Final number of variables:", ncol(reg_dataset), "\n") 
+
+
 ```
 
 ## 3 Results
@@ -145,7 +211,7 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
 ### 3.2 HWISE scores, variable set 4
 
 ```{r regression-HW-V4, include=TRUE}
-HW_lm = lm(HW_TOTAL ~ SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_CHLD+SES_SC_Total, data = reg_dataset)
+HW_lm = lm(HW_TOTAL ~ MX28_WQ_COMP+ SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_CHLD+SES_SC_Total, data = reg_dataset)
 summary(HW_lm)
 ```
 
@@ -166,7 +232,7 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
 The regression results for PSS is summarized as follows.
 
 ```{r regression-PSS, include=TRUE}
-PSS_lm = lm(PSS_TOTAL ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total+HW_TOTAL, data = reg_dataset)
+PSS_lm = lm(PSS_TOTAL ~ D_LOC_TIME+MX28_WQ_COMP+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total+HW_TOTAL, data = reg_dataset)
 summary(PSS_lm)
 ```
 
@@ -183,22 +249,28 @@ WORK IN PROGRESS
 I intend to add each HWISE question in these models
 
 ```{r regression-HW-V5, include=TRUE}
-HW_lm = lm(HRS_WEEK ~ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HW_TOTAL+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
+HW_lm = lm(HRS_WEEK ~ MX28_WQ_COMP+ D_LOC_TIME+SEASON+W_WS_LOC+W_WC_WI+HW_TOTAL+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total, data = reg_dataset)
 summary(HW_lm)
 ```
 
 The goodness-of-fit for HW regression is given as follow.
 
 ```{r goodness-of-fit-HW-5, include=TRUE}
-ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
+ggplot() + geom_point(aes(reg_dataset$HRS_WEEK, HW_lm$fitted.values)) +
   geom_abline(linetype='longdash', linewidth=1) +
-  xlab("Ground truth of HW_TOTAL") + 
+  xlab("Ground truth of HRS_WEEK") + 
   ylab("Fitted value") + 
-  ggtitle("Goodness of Fit for HW_TOTAL", subtitle = "(Fitted value versus ground truth for HW_TOTAL)")
+  ggtitle("Goodness of Fit for HRS_WEEK", subtitle = "(Fitted value versus ground truth for HRS_WEEK)")
 
 ```
 
-### 3.5 Feature selection
+
+### 3.5 Predictors for perception of W. supply as better, same or worse
+
+WORK IN PROGRESS --> outcome variable is categorical, can't be runned as other vars
+
+
+### 4 Feature selection
 
 Using Elastic-Net Algorithm with $\alpha=0.5$, the selected predictors for HW_TOTAL include D_LOC_TIME, D_CHILD, SES_SC_TOTAL, SEASON, W_WS_LOC, W_WC_WI, and HRS_WEEK.
 
@@ -227,15 +299,15 @@ PSS_final_model = glmnet(x_PSS, PSS_TOTAL, alpha = alpha_2, lambda = cv_PSS_net$
  coef(PSS_final_model)
 ```
 
-## 4 Discussion
+## 5 Discussion
 
-### 4.1 Comments on results
+### 5.1 Comments on results
 
 1. Unfortunately, the coefficient estimates are not significant except for a few predictors. This indicates the linear dependency between the response (HW_TOTAL or PSS_TOTAL) and the predictors are not significant.
 
 2. Based on the goodness-of-fit figures, the predictive performance is really bad, which is consistent with the last comment.
 
-### 4.2 Questions
+### 5.2 Questions
 
 1. Is it reasonable to use HW_TOTAL or PSS_TOTAL as response variables and other aforementioned variables as predictors? If not, how should I choose response variables and predictors?
 

@@ -30,8 +30,15 @@ library(dplyr)
 library(tidyr)
 
 # Load the dataset
-file_path <- "../data/01.SCREENING.csv"
-df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+
+data_path = "data"
+
+```
+
+```{r}
+
+# merged dataset
+df = read.csv(file.path(data_path, "01.SCREENING.csv"), stringsAsFactors = FALSE,  na.strings = c("", "N/A", "NA", "pending"))
 
 # Convert all character columns to NA where values match missing patterns
 df <- df %>%
@@ -46,7 +53,7 @@ df_filtered <- df %>%
 
 # Display the filtered dataset
 print(dim(df_filtered)) # Show dimensions for confirmation
-write.csv(df_filtered, "./Filtered_Screening.csv", row.names = FALSE)
+write.csv(df_filtered, file.path(data_path, "Filtered_Screening.csv"), row.names = FALSE)
 
 d <- df_filtered
 
@@ -118,7 +125,7 @@ num_na_ses_sc_total <- sum(is.na(d$SES_SC_Total))
 
 # Print the count
 cat("Number of NA values in SES_SC_Total:", num_na_ses_sc_total, "\n")
-print(d[is.na(d$SES_SC_Total),c("ID",ses_sc_columns)], n=50)
+print(d[is.na(d$SES_SC_Total),c("ID",ses_sc_columns)], n=20)
 
 # Calculate the percentage of missing values per column
 missing_percentage <- colMeans(is.na(d)) * 100
@@ -170,8 +177,6 @@ d <- d %>%
 # Convert variables to numeric when appropriate
 ## Pending: D_YRBR, D_LOC_TIME, D_CHLD, D_HH_SIZE
 
-##
-
 print(d)
 summary(d)
 ```
@@ -182,19 +187,21 @@ summary(d)
 #Keep columns relevant/cleaned
 columns_to_keep2 <- c("ID", "D_YRBR", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK", "SES_SC_Total")
 d <- d %>% select(all_of(columns_to_keep2))
-write.csv(d,"../data/00.SCREENING_V2.csv")
+
+
+write.csv(d, file.path(data_path, "00.SCREENING_V2.csv"))
 
 ```
 
-# Merge with HWISE data
+# Merge with HWISE data & disease/pain data
 
 ```{r}
 
-file2 <- "../data/02.HWISE_PSS.csv"
-file3 <- "../data/Chronic_pain_illness.csv"
+file2 <- "02.HWISE_PSS.csv"
+file3 <- "Chronic_pain_illness.csv"
 df1 <- d
-df2 <- read.csv(file2, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-df3 <- read.csv(file3, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df2 <- read.csv(file.path(data_path, file2), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df3 <- read.csv(file.path(data_path, file3), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
 
 # Identify the common column for merging
 common_column <- "ID"  # Change this if needed
@@ -209,6 +216,7 @@ merged_df <- df1 %>%
   full_join(df2, by = common_column) %>%
   full_join(df3, by = common_column)
 
+colnames(merged_df)
 cols_to_remove<- c("HW_INFO", "PSS_INFO", "PSS_TOTAL", "HW_TOTAL")
 
 merged_df <- merged_df %>% select(-all_of(cols_to_remove))
@@ -232,7 +240,7 @@ merged_df <- merged_df %>%
 cat("Merged dataset dimensions:", dim(merged_df), "\n")
 print(merged_df, n=20)
 # Save the merged dataset
-write.csv(merged_df, "../data/Cleaned_Dataset_Screening_HWISE_PSS.csv", row.names = FALSE)
+write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"), row.names = FALSE)
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
 
 ```
@@ -241,7 +249,6 @@ cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
 
 ```{r}
 
-data_path = "../data"
 # merged dataset
 df1 = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
 df2 = read.csv(file.path(data_path, "hours_water_supply.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
@@ -260,9 +267,8 @@ merged_df <- merged_df %>%
     TRUE ~ NA_character_
   )))
 
-#### THIS COL SHOULD BE REMOVED. TOO MANY NAs
 #Specify the columns where transformation should be applied
-columns_to_transform <- c("W_WC_WI") #  # Replace with actual column names
+columns_to_transform <- c("W_WC_WI")  
 
 # Convert "intermitent" to 1, "continuous" to 0, and everything else to "other"
 merged_df <- merged_df %>%
@@ -300,17 +306,18 @@ head(merged_df, 20)
 summary(merged_df)
 dim(merged_df)
 # Save the merged dataset
-write.csv(merged_df, "../data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv", row.names = FALSE)
+write.csv(merged_df, file.path( "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"), row.names = FALSE)
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")
 
 ```
 
+Merge dataset with Q8, 26, 28
 
 ```{r}
 # Load the dataset
-file_path <- "../data/Q8-26-28.csv"
-df <- read.csv(file_path, stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-df2 <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
+file4 <- "Q8-26-28.csv"
+df <- read.csv(file.path(data_path, file4), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df2 <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"))
 
 # Ensure HW_TOTAL is numeric
 df2$HW_TOTAL <- as.numeric(df2$HW_TOTAL)
@@ -330,7 +337,7 @@ merged_df <- df %>%
 
 # Convert 
 merged_df <- merged_df %>%
-  mutate(across(all_of(columns_to_transform), ~ case_when(
+  mutate(across(all_of("MX28_WQ_COMP"), ~ case_when(
     . == "Worse" ~ "0",
     . == "Same"  ~ "1",
     . == "Better"  ~ "2",
@@ -349,7 +356,7 @@ head(merged_df, 20)
 summary(merged_df)
 dim(merged_df)
 # Save the merged dataset
-write.csv(merged_df, "../data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv", row.names = FALSE)
+write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), row.names = FALSE)
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V3.csv'.\n")
 
 ```

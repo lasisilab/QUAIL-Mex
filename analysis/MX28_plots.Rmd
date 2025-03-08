@@ -12,18 +12,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-
 # Load necessary libraries
 library(ggplot2)
 library(dplyr)
 library(corrplot)
 
 # Read the dataset
-data <- read.csv("data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+data <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
 
 data$MX28_WQ_COMP <- as.numeric(data$MX28_WQ_COMP)
 
-rm_columns <- c("MX28_WQ_COMP",
+keep_columns <- c("MX28_WQ_COMP",
                 "D_LOC_TIME",
                 "D_AGE",
                 "D_HH_SIZE",
@@ -33,10 +32,13 @@ rm_columns <- c("MX28_WQ_COMP",
                 "SEASON",
                 "HW_TOTAL",
                 "W_WC_WI",
+                "W_WS_LOC",
                 "HRS_WEEK")
 
 data <- data %>% 
-  select(rm_columns) 
+  select(keep_columns)
+
+
 
 # Check if the column exists
 if("MX28_WQ_COMP" %in% colnames(data)) {
@@ -57,24 +59,61 @@ if("MX28_WQ_COMP" %in% colnames(data)) {
   
   # Visualize correlation matrix as a heatmap
   corrplot(correlation_matrix, method = "color", type = "upper", tl.col = "black", tl.srt = 45)
-  
-  # Scatterplots for highly correlated variables
-  top_variables <- correlations %>% arrange(desc(abs(Correlation))) %>% filter(Variable != "MX28_WQ_COMP") %>% head(4)
-
-  # Generate scatterplots for the top correlated variables
-  for (var in top_variables$Variable) {
-    p <- ggplot(data, aes_string(x = var, y = "MX28_WQ_COMP")) +
-      geom_point(alpha = 0.5) +
-      geom_smooth(method = "lm", se = FALSE, color = "blue") +
-      labs(title = paste("Scatterplot of MX28_WQ_COMP vs", var),
-           x = var, y = "MX28_WQ_COMP") +
-      theme_minimal()
     
-    print(p)  # Display the plot
   }
+
+
+```
+
+# Comparing to Mexico City's water supply
+```{r}
+# visualize data from Q28
+
+# Convert selected variables to factors
+categorical_vars <- c("MX28_WQ_COMP", "HLTH_SMK", "SEASON", "W_WC_WI", "W_WS_LOC")
+
+data <- data %>%
+  mutate(across(all_of(categorical_vars), as.factor))
+
+# Verify conversion
+str(data[categorical_vars])
+
+# Define the main categorical variable
+main_var <- "MX28_WQ_COMP"
+
+
+# Convert MX28_WQ_COMP to a factor and ensure levels are correct
+data$MX28_WQ_COMP <- factor(data$MX28_WQ_COMP)
+
+# Check unique levels to confirm
+print(levels(data$MX28_WQ_COMP))
+
+# Rename levels of MX28_WQ_COMP
+levels(data$MX28_WQ_COMP) <- c("Worse", "Same", "Better")
+
+# Verify that levels have been updated
+print(levels(data$MX28_WQ_COMP))
+
+# Print factor levels to confirm
+levels(data$MX28_WQ_COMP)
+
+# Exclude MX28_WQ_COMP from the list of categorical variables
+cat_vars <- setdiff(categorical_vars, main_var)
+
+
+
+# Define the main categorical variable
+main_var <- "MX28_WQ_COMP"
+
+# Generate bar plots
+for (var in cat_vars) {
+  p <- ggplot(data, aes_string(x = main_var, fill = var)) +
+    geom_bar(position = "dodge") +
+    theme_minimal() +
+    labs(title = paste("Bar Plot of", main_var, "vs", var),
+         x = main_var, y = "Count", fill = var)
   
-} else {
-  print("The variable 'MX28_WQ_COMP' is not found in the dataset.")
+  print(p)  # Display each bar plot
 }
 
 
@@ -82,5 +121,22 @@ if("MX28_WQ_COMP" %in% colnames(data)) {
 
 
 ```{r}
+# Define the main categorical variable
+main_var <- "MX28_WQ_COMP"
+
+# Exclude MX28_WQ_COMP from the list of categorical variables
+cat_vars <- setdiff(categorical_vars, main_var)
+
+# Generate bar plots with percentages
+for (var in cat_vars) {
+  p <- ggplot(data, aes_string(x = main_var, fill = var)) +
+    geom_bar(aes(y = (..count..) / sum(..count..) * 100), position = "fill") +
+    scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert to percentage format
+    theme_minimal() +
+    labs(title = paste("Percentage Bar Plot of", main_var, "vs", var),
+         x = main_var, y = "Percentage", fill = var)
+  
+  print(p)  # Display each bar plot
+}
 
 ```

@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-04
+<strong>Last updated:</strong> 2025-03-07
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -420,10 +420,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -528,10 +528,10 @@ relative
 <tbody>
 <tr>
 <td style="text-align:left;">
-/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
+/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
 </td>
 <td style="text-align:left;">
-data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
+data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
 </td>
 </tr>
 </tbody>
@@ -542,15 +542,15 @@ data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree4c407eb6540acea46aaa1a4b4c435d3af4402f11targetblank4c407eba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/4c407eb6540acea46aaa1a4b4c435d3af4402f11" target="_blank">4c407eb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2284e7fc1d2a72bb89f977502b9eaa63255b7162targetblank2284e7fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree4c407eb6540acea46aaa1a4b4c435d3af4402f11targetblank4c407eba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -560,7 +560,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2284e7fc1d2a72bb89f977502b9eaa63255b7162" target="_blank">2284e7f</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/4c407eb6540acea46aaa1a4b4c435d3af4402f11" target="_blank">4c407eb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -578,6 +578,7 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
@@ -585,13 +586,16 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  analysis/HBA2025_Analyses.Rmd
-    Untracked:  data/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
+    Untracked:  Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
+    Untracked:  analysis/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
+    Untracked:  data/Filtered_Screening.csv
 
 Unstaged changes:
-    Deleted:    analysis/HBA2024_Analyses.Rmd
+    Modified:   analysis/HBA2025_Analyses.Rmd
     Modified:   analysis/HBA2025_cleaning.Rmd
-    Modified:   data/hours_water_supply.csv
+    Modified:   analysis/MX28_plots.Rmd
+    Modified:   analysis/Regression-Analysis_PC.Rmd
+    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
 
 </code></pre>
 <p>
@@ -607,9 +611,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/HBA2025_Analyses.Rmd</code>) and
+HTML (<code>docs/HBA2025_Analyses.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/analysis/HBA2025_Analyses.Rmd" target="_blank">3704a5a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+add more vars
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/HBA2025_Analyses.html" target="_blank">3704a5a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+<td>
+add more vars
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -643,437 +710,218 @@ highlight the urgent need for policy interventions that address water
 insecurity with a gender-sensitive approach, recognizing the
 disproportionate burden placed on women as primary water managers in
 their households.</p>
-<pre><code>Number of individuals with HW_TOTAL &gt; 12: 97 ( 24.13 %)</code></pre>
-<pre><code>Number of individuals with HW_TOTAL &gt; 8: 172 ( 42.79 %)</code></pre>
-<p>I will separate samples according to their total HWISE score:</p>
-<ul>
-<li>equal or higher than 12</li>
-<li>lower than 12</li>
-</ul>
+<pre class="r"><code># Ensure HW_TOTAL is numeric
+data$HW_TOTAL &lt;- as.numeric(data$HW_TOTAL)
+
+# Categorize HW_TOTAL into four groups
+data &lt;- data %&gt;%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL &gt;= 0 &amp; HW_TOTAL &lt;= 2  ~ &quot;No-to-Marginal&quot;,
+    HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
+    HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
+    HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;,
+    TRUE ~ NA_character_  # Assign NA if value is missing or out of range
+  ))
+
+# Convert to factor to maintain categorical order
+data$HW_TOTAL_category &lt;- factor(data$HW_TOTAL_category, 
+                                 levels = c(&quot;No-to-Marginal&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;))
+
+# HWISE scores 
+summary(data$HW_TOTAL)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   3.000   8.000   8.419  12.000  27.000      11 </code></pre>
+<pre class="r"><code># Check the new variable distribution
+table(data$HW_TOTAL_category)</code></pre>
+<pre><code>
+No-to-Marginal            Low       Moderate           High 
+            76            205            104              6 </code></pre>
+<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   5.000   9.000   9.715  14.000  27.000       6 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   2.000   6.000   7.157  11.000  27.000       8 </code></pre>
+<pre><code>
+No-to-Marginal            Low       Moderate           High 
+            25            104             60              4 </code></pre>
+<pre><code>
+No-to-Marginal            Low       Moderate           High 
+            51            101             44              2 </code></pre>
+</div>
+<div id="rainy-season-to-dry-season" class="section level1">
+<h1>Rainy season to dry season</h1>
+<pre class="r"><code>data &lt;- read.csv(&quot;/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;)
+
+# Define Rainy (Fall = 1) and Dry (Spring = 0) seasons
+data &lt;- data %&gt;%
+  mutate(Season_Type = case_when(
+    SEASON == 1 ~ &quot;Rainy&quot;,
+    SEASON == 0 ~ &quot;Dry&quot;
+  ))
+
+# Convert Season_Type to a factor
+data$Season_Type &lt;- factor(data$Season_Type, levels = c(&quot;Rainy&quot;, &quot;Dry&quot;))
+
+# Categorize HW_TOTAL into four groups
+data &lt;- data %&gt;%
+  filter(!is.na(HW_TOTAL)) %&gt;%  # Remove missing values
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL &gt;= 0 &amp; HW_TOTAL &lt;= 2  ~ &quot;No-to-Marginal&quot;,
+    HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
+    HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
+    HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;
+  ))
+
+# Convert to factor with correct ordering
+data$HW_TOTAL_category &lt;- factor(data$HW_TOTAL_category, 
+                                 levels = c(&quot;No-to-Marginal&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;))
+
+# Calculate the percentage for each category within each season
+hw_season_counts &lt;- data %&gt;%
+  filter(!is.na(HW_TOTAL_category)) %&gt;%  # Ensure no NA categories
+  group_by(Season_Type, HW_TOTAL_category) %&gt;%
+  summarise(Count = n(), .groups = &#39;drop&#39;) %&gt;%
+  group_by(Season_Type) %&gt;%
+  mutate(Percentage = (Count / sum(Count)) * 100)
+
+# Reshape data to calculate the percentage difference (Dry - Rainy)
+hw_diff &lt;- hw_season_counts %&gt;%
+  select(Season_Type, HW_TOTAL_category, Percentage) %&gt;%
+  spread(Season_Type, Percentage) %&gt;%  # Convert to wide format
+  mutate(Difference = Dry - Rainy)  # Compute difference from Rainy to Dry
+
+# Create the bar plot showing the percentage difference
+ggplot(hw_diff, aes(x = HW_TOTAL_category, y = Difference, fill = Difference &gt; 0)) +
+  geom_bar(stat = &quot;identity&quot;) +  # Use precomputed differences
+  theme_minimal() +
+  labs(title = &quot;Change in HW_TOTAL Category Percentages (Rainy to Dry Season)&quot;,
+       x = &quot;HW_TOTAL Category&quot;, 
+       y = &quot;Percentage Difference (Rainy to Dry season)&quot;) +
+  scale_fill_manual(values = c(&quot;#1f78b4&quot;, &quot;#ff7f00&quot;), labels = c(&quot;Decrease&quot;, &quot;Increase&quot;)) +  # Assign colors
+  theme(legend.position = &quot;right&quot;) +  # Keep legend
+  geom_text(aes(label = paste0(round(Difference, 1), &quot;%&quot;)), vjust = -0.5)  # Add percentage labels</code></pre>
+<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-1.png" target="_blank">3704a5a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="boxplots" class="section level1">
 <h1>BOXPLOTS</h1>
-<pre class="r"><code># Create a categorical variable for HW_TOTAL threshold
-df &lt;- df %&gt;%
-  mutate(HW_Group = ifelse(HW_TOTAL &gt; 8, &quot;Above 8&quot;, &quot;Below 8&quot;))
+<pre class="r"><code>data &lt;- read.csv(&quot;./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;)
 
-# Identify numeric columns for plotting (excluding HW_TOTAL and ID)
-numeric_columns &lt;- df %&gt;%
-  select(where(is.numeric)) %&gt;%
-  select(-c(HW_TOTAL, ID)) %&gt;%
-  names()
+# Categorize HW_TOTAL into four groups
+data &lt;- data %&gt;%
+  filter(!is.na(HW_TOTAL)) %&gt;%  # Remove missing values
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL &gt;= 0 &amp; HW_TOTAL &lt;= 2  ~ &quot;No-to-Marginal&quot;,
+    HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
+    HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
+    HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;
+  ))
 
-# Create plots for all numeric variables
-plot_list &lt;- list()
+# Convert to factor with proper order
+data$HW_TOTAL_category &lt;- factor(data$HW_TOTAL_category, 
+                                 levels = c(&quot;No-to-Marginal&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;))
 
-for (var in numeric_columns) {
-  p &lt;- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
-    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-    geom_jitter(width = 0.03, alpha = 0.35) +
-    labs(title = paste(&quot;Comparison of&quot;, var, &quot;by HWISE score group&quot;),
-         x = &quot;HW Group&quot;,
-         y = var) +
-    theme_minimal() +
-    theme(legend.position = &quot;none&quot;)
+# Count the number of data points per HW_TOTAL category
+category_counts &lt;- data %&gt;%
+  group_by(HW_TOTAL_category) %&gt;%
+  summarise(Count = n(), .groups = &#39;drop&#39;)
 
-  plot_list[[var]] &lt;- p
-  print(p)  # Print each plot
-}</code></pre>
-<pre><code>Warning: Removed 18 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 18 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 52 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 52 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-6.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-8.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-9.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-10.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-11.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-12.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-13.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-14.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-15.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-16.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-17.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-18.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-19.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-20.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-21.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-22.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-23.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-24.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-25.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-26.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-27.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-28.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>cat(&quot;Generated comparison plots for all numeric variables based on HW_TOTAL.\n&quot;)</code></pre>
-<pre><code>Generated comparison plots for all numeric variables based on HW_TOTAL.</code></pre>
-</div>
-<div id="barplots" class="section level1">
-<h1>BARPLOTS</h1>
-<pre class="r"><code># ========================
-# Visualizing Categorical Variables
-# ========================
+# Define color palette
+color_palette &lt;- c(&quot;#1f78b4&quot;, &quot;#a6cee3&quot;, &quot;#fdbf6f&quot;, &quot;#ff7f00&quot;)
 
-# Create bar plots for categorical variables by HW_Group
-cat_plot_list &lt;- list()
-
-for (var in cat_columns) {
-  p_cat &lt;- ggplot(df, aes(x = .data[[var]], fill = HW_Group)) +
-    geom_bar(position = &quot;dodge&quot;) +
-    labs(title = paste(&quot;Distribution of&quot;, var, &quot;by HWISE score group&quot;),
-         x = var,
-         y = &quot;Count&quot;) +
-    theme_minimal() +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for readability
-
-  cat_plot_list[[var]] &lt;- p_cat
-  print(p_cat)  # Print each plot
-}</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>cat(&quot;Generated comparison plots for all categorical variables based on HW_TOTAL.\n&quot;)</code></pre>
-<pre><code>Generated comparison plots for all categorical variables based on HW_TOTAL.</code></pre>
-<pre class="r"><code>## Explore HWISE total scores
-
-# Ensure HW_Total is numeric
-df$HW_TOTAL &lt;- as.numeric(df$HW_TOTAL)
-
-# Ensure categorical variables are factors
-cat_columns &lt;- grep(&quot;CAT$&quot;, names(df), value = TRUE)
-df &lt;- df %&gt;%
-  mutate(across(all_of(cat_columns), as.factor))
-
-# Get total number of individuals
-total_individuals &lt;- nrow(df)
-
-# Count individuals with HW_Total &gt; 12 and HW_Total &gt; 8
-count_hw_above_12 &lt;- df %&gt;%
-  filter(HW_TOTAL &gt; 12) %&gt;%
-  summarise(count = n())
-
-count_hw_above_8 &lt;- df %&gt;%
-  filter(HW_TOTAL &gt; 8) %&gt;%
-  summarise(count = n())
-
-# Calculate percentages
-percent_hw_above_12 &lt;- (count_hw_above_12$count / total_individuals) * 100
-percent_hw_above_8 &lt;- (count_hw_above_8$count / total_individuals) * 100
-
-# Print results
-cat(&quot;Number of individuals with HW_Total &gt; 12:&quot;, count_hw_above_12$count, 
-    &quot;(&quot;, round(percent_hw_above_12, 2), &quot;%)\n&quot;)</code></pre>
-<pre><code>Number of individuals with HW_Total &gt; 12: 97 ( 24.13 %)</code></pre>
-<pre class="r"><code>cat(&quot;Number of individuals with HW_Total &gt; 8:&quot;, count_hw_above_8$count, 
-    &quot;(&quot;, round(percent_hw_above_8, 2), &quot;%)\n&quot;)</code></pre>
-<pre><code>Number of individuals with HW_Total &gt; 8: 172 ( 42.79 %)</code></pre>
-<pre class="r"><code># Create a categorical variable for HW_Total threshold
-df &lt;- df %&gt;%
-  mutate(HW_Group = ifelse(HW_TOTAL &gt; 8, &quot;Above 8&quot;, &quot;Below 8&quot;))
-
-&quot;Identify numeric columns for plotting (excluding HW_Total and ID)&quot;</code></pre>
-<pre><code>[1] &quot;Identify numeric columns for plotting (excluding HW_Total and ID)&quot;</code></pre>
-<pre class="r"><code>numeric_columns &lt;- df %&gt;%
-  select(where(is.numeric)) %&gt;%
-  select(-c(HW_TOTAL, ID)) %&gt;%
-  names()
-
-# Create plots for all numeric variables
-plot_list &lt;- list()
-
-for (var in numeric_columns) {
-  p &lt;- ggplot(df, aes(x = HW_Group, y = .data[[var]], fill = HW_Group)) +
-    geom_boxplot(alpha = 0.7, outlier.shape = NA) +
-    geom_jitter(width = 0.1, alpha = 0.5) +
-    labs(title = paste(&quot;Comparison of&quot;, var, &quot;by HWISE score group&quot;),
-         x = &quot;HW Group&quot;,
-         y = var) +
-    theme_minimal() +
-    theme(legend.position = &quot;none&quot;)
-
-  plot_list[[var]] &lt;- p
-  print(p)  # Print each plot
-}</code></pre>
-<pre><code>Warning: Removed 18 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 18 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 52 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 52 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-4.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-5.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-6.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-7.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-8.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-9.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-10.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-11.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-12.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-13.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-14.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-15.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-16.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-17.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-18.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-19.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 3 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 3 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-20.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-21.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-22.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-23.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-24.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-25.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).
-Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-26.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 5 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 5 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-27.png" width="672" style="display: block; margin: auto;" /></p>
-<pre><code>Warning: Removed 4 rows containing non-finite outside the scale range
-(`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 4 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-5-28.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>cat(&quot;Generated comparison plots for all numeric variables based on HW_Total.\n&quot;)</code></pre>
-<pre><code>Generated comparison plots for all numeric variables based on HW_Total.</code></pre>
-<pre class="r"><code># Subset only numeric columns
-df_numeric &lt;- df %&gt;% select(all_of(numeric_columns))
-
-# Compute correlation matrix (excluding NAs)
-cor_matrix &lt;- cor(df_numeric, use = &quot;pairwise.complete.obs&quot;)
-
-# ========================
-# Heatmap using ggplot2
-# ========================
-
-# Convert the correlation matrix into a format suitable for ggplot2
-cor_data &lt;- melt(cor_matrix)
-
-# Create heatmap plot
-ggplot(cor_data, aes(Var1, Var2, fill = value)) +
-  geom_tile() +
-  scale_fill_gradient2(low = &quot;blue&quot;, high = &quot;red&quot;, mid = &quot;white&quot;, 
-                       midpoint = 0, limit = c(-1,1), space = &quot;Lab&quot;,
-                       name=&quot;Correlation&quot;) +
+# Create box-and-whisker plot with individual data points
+ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category)) +
+    geom_jitter(aes(color = HW_TOTAL_category), size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+  geom_boxplot(outlier.shape = 1, alpha = 0.6, width = 0.4) +  # Boxplot without displaying outliers separately
+ # geom_violin(alpha = 0.6, width = 1.4) +  # Boxplot without displaying outliers separately +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(title = &quot;Correlation Heatmap&quot;,
-       x = &quot;&quot;, y = &quot;&quot;)</code></pre>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+  labs(title = &quot;Box-and-Whisker Plot: HRS_WEEK by HWISE Category&quot;,
+       x = &quot;HWISE&quot;, 
+       y = &quot;Hours of Water Supply per Week&quot;) +
+  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+  scale_color_manual(values = color_palette) +  # Custom colors for points
+  theme(legend.position = &quot;none&quot;) + # Remove legend for clarity 
+scale_x_discrete(labels = paste0(category_counts$HW_TOTAL_category, &quot; (n=&quot;, category_counts$Count, &quot;)&quot;))  # Add count to x-axis labels</code></pre>
+<pre><code>Warning: Removed 37 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 37 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3704a5a65b3afbf00bebecf3fa1751049806cba5/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" target="_blank">3704a5a</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1083,7 +931,7 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.4.2 (2024-10-31)
+<pre><code>R version 4.4.3 (2025-02-28)
 Platform: aarch64-apple-darwin20
 Running under: macOS Sequoia 15.3.1
 
@@ -1101,21 +949,21 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] reshape2_1.4.4 tidyr_1.3.1    ggplot2_3.5.1  dplyr_1.1.4   
+[1] knitr_1.49     reshape2_1.4.4 tidyr_1.3.1    ggplot2_3.5.1  dplyr_1.1.4   
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.6      jsonlite_1.8.9    compiler_4.4.2    promises_1.3.0   
+ [1] gtable_0.3.6      jsonlite_1.8.9    compiler_4.4.3    promises_1.3.0   
  [5] tidyselect_1.2.1  Rcpp_1.0.13-1     stringr_1.5.1     git2r_0.35.0     
  [9] later_1.3.2       jquerylib_0.1.4   scales_1.3.0      yaml_2.3.10      
 [13] fastmap_1.2.0     plyr_1.8.9        R6_2.5.1          labeling_0.4.3   
-[17] generics_0.1.3    workflowr_1.7.1   knitr_1.49        tibble_3.2.1     
-[21] munsell_0.5.1     rprojroot_2.0.4   bslib_0.8.0       pillar_1.9.0     
-[25] rlang_1.1.4       utf8_1.2.4        cachem_1.1.0      stringi_1.8.4    
-[29] httpuv_1.6.15     xfun_0.49         fs_1.6.5          sass_0.4.9       
-[33] cli_3.6.3         withr_3.0.2       magrittr_2.0.3    digest_0.6.37    
-[37] grid_4.4.2        rstudioapi_0.17.1 lifecycle_1.0.4   vctrs_0.6.5      
-[41] evaluate_1.0.1    glue_1.8.0        farver_2.1.2      colorspace_2.1-1 
-[45] fansi_1.0.6       purrr_1.0.2       rmarkdown_2.29    tools_4.4.2      
+[17] generics_0.1.3    workflowr_1.7.1   tibble_3.2.1      munsell_0.5.1    
+[21] rprojroot_2.0.4   bslib_0.8.0       pillar_1.9.0      rlang_1.1.4      
+[25] utf8_1.2.4        cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15    
+[29] xfun_0.49         fs_1.6.5          sass_0.4.9        cli_3.6.3        
+[33] withr_3.0.2       magrittr_2.0.3    grid_4.4.3        digest_0.6.37    
+[37] rstudioapi_0.17.1 lifecycle_1.0.4   vctrs_0.6.5       evaluate_1.0.1   
+[41] glue_1.8.0        farver_2.1.2      whisker_0.4.1     colorspace_2.1-1 
+[45] fansi_1.0.6       purrr_1.0.2       rmarkdown_2.29    tools_4.4.3      
 [49] pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
 </div>
 </div>
