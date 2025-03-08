@@ -311,7 +311,7 @@ cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")
 
 ```
 
-Merge dataset with Q8, 26, 28
+# Merge dataset with Q8, 26, 28
 
 ```{r}
 # Load the dataset
@@ -319,12 +319,9 @@ file4 <- "Q8-26-28.csv"
 df <- read.csv(file.path(data_path, file4), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
 df2 <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"))
 
-# Ensure HW_TOTAL is numeric
-df2$HW_TOTAL <- as.numeric(df2$HW_TOTAL)
-
 # Convert all character columns to NA where values match missing patterns
 df <- df %>%
-  select(ID, MX28_WQ_COMP) %>%
+  select(ID, MX28_WQ_COMP, MX26_EM_HHW_TYPE) %>%
   mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
 
 #remove rows with NAs
@@ -345,7 +342,18 @@ merged_df <- merged_df %>%
     TRUE ~ NA_character_
   )))
 
+# Convert 
+merged_df <- merged_df %>%
+  mutate(across(all_of("MX26_EM_HHW_TYPE"), ~ case_when(
+    . == "positive" ~ "0",
+    . == "negative"  ~ "1",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
 merged_df$MX28_WQ_COMP <- as.factor(merged_df$MX28_WQ_COMP)
+merged_df$MX26_EM_HHW_TYPE <- as.factor(merged_df$MX26_EM_HHW_TYPE)
+
 ```
 
 

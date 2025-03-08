@@ -32,7 +32,12 @@ library(reshape2)
 library(knitr)
 # Load the dataset
 
-data <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+data_path = "data"
+
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+
 
 ```
 
@@ -142,7 +147,9 @@ table(rainy$HW_TOTAL_category)
 
 ```{r}
 
-data <- read.csv("/Users/palomacz/Documents/GitHub/QUAIL-Mex/data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
 
 # Define Rainy (Fall = 1) and Dry (Spring = 0) seasons
 data <- data %>%
@@ -199,7 +206,9 @@ ggplot(hw_diff, aes(x = HW_TOTAL_category, y = Difference, fill = Difference > 0
 
 ```{r}
 
-data <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
 
 # Categorize HW_TOTAL into four groups
 data <- data %>%
@@ -216,27 +225,254 @@ data$HW_TOTAL_category <- factor(data$HW_TOTAL_category,
                                  levels = c("No-to-Marginal", "Low", "Moderate", "High"))
 
 # Count the number of data points per HW_TOTAL category
-category_counts <- data %>%
+ summary_stats <- data %>%
   group_by(HW_TOTAL_category) %>%
-  summarise(Count = n(), .groups = 'drop')
+  summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
 
+ hrs.w <- data$HRS_WEEK
+ means <- aggregate(hrs.w ~ HW_TOTAL_category, data, mean)
+means$hrs.w <- round(means$hrs.w, 2)
+ 
 # Define color palette
 color_palette <- c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")
 
 # Create box-and-whisker plot with individual data points
-ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category)) +
-    geom_jitter(aes(color = HW_TOTAL_category), size = 1, width = 0.25) +  
+ggplot(data, aes(x = HW_TOTAL_category, 
+                 y = HRS_WEEK, 
+                 fill = HW_TOTAL_category)) +
+    geom_jitter(aes(color = HW_TOTAL_category), 
+                size = 1, width = 0.25) +  
   # Jitter adds individual data points
-  geom_boxplot(outlier.shape = 1, alpha = 0.6, width = 0.4) +  # Boxplot without displaying outliers separately
- # geom_violin(alpha = 0.6, width = 1.4) +  # Boxplot without displaying outliers separately +
+    geom_violin(alpha = 0.6, width = 1.4) + # violin
+  geom_boxplot(outlier.shape = 1, alpha = 0.5, 
+               width = 0.08, color = "grey30") + # Boxplot
+    geom_text(data = summary_stats, 
+              aes(x = HW_TOTAL_category, 
+                  y = max(data$HRS_WEEK, 
+                          na.rm = TRUE) + 10, 
+                  label = paste0("SD = ", round(SD, 1))), 
+              size = 4, fontface = "bold") +    # Add SD text annotations above the boxes
+   geom_text(data = means, 
+             aes(label = hrs.w, y = hrs.w + 1, hjust=-1), 
+             size = 3, color = "darkred") + #adds average labels
   theme_minimal() +
-  labs(title = "Box-and-Whisker Plot: HRS_WEEK by HWISE Category",
+  labs(title = "HRS_WEEK by HWISE Category",
        x = "HWISE", 
        y = "Hours of Water Supply per Week") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
-  scale_color_manual(values = color_palette) +  # Custom colors for points
-  theme(legend.position = "none") + # Remove legend for clarity 
-scale_x_discrete(labels = paste0(category_counts$HW_TOTAL_category, " (n=", category_counts$Count, ")"))  # Add count to x-axis labels
+  scale_color_manual(values = color_palette) +  # Custom colors for points +
+   stat_summary(fun.y=mean, geom="point", shape=23, 
+                size=5, color="darkred", fill="darkred") +
+  theme(legend.position = "none", 
+        axis.text = element_text(size = 10)) + # Remove legend for clarity 
+  scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+                                 " (n=", summary_stats$Count, ")"))  # Add count to x-axis labels
+
+
 
 ```
+
+
+```{r}
+
+# Categorize HW_TOTAL into groups
+data <- data %>%
+  filter(!is.na(MX28_WQ_COMP)) %>%  # Remove missing values
+  mutate(MX28_WQ_COMP_category = case_when(
+    MX28_WQ_COMP == 0 ~ "Worse",
+    MX28_WQ_COMP == 1 ~ "Same",
+    MX28_WQ_COMP == 2 ~ "Better",
+  ))
+
+# Convert to factor with proper order
+data$MX28_WQ_COMP_category <- factor(data$MX28_WQ_COMP_category, 
+                                 levels = c("Worse", "Same", "Better"))
+
+# Count the number of data points per HW_TOTAL category
+ summary_stats <- data %>%
+  group_by(MX28_WQ_COMP_category) %>%
+  summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
+
+ hrs.w <- data$HRS_WEEK
+ means <- aggregate(hrs.w ~ MX28_WQ_COMP_category, data, mean)
+means$hrs.w <- round(means$hrs.w, 2)
+
+color_palette <- c("#ff7f00", "#a6cee3",  "#1f78b4")
+
+# Create box-and-whisker plot with individual data points
+ggplot(data, aes(x = MX28_WQ_COMP_category, 
+                 y = HRS_WEEK, 
+                 fill = MX28_WQ_COMP_category)) +
+    geom_jitter(aes(color = MX28_WQ_COMP_category), 
+                size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+    geom_violin(alpha = 0.6, width = 1) + # violin
+  geom_boxplot(outlier.shape = 1, alpha = 0.5, 
+               width = 0.08, color = "grey30") + # Boxplot
+      geom_text(data = means, 
+             aes(label = hrs.w, y = hrs.w + 1, hjust=-0.8), 
+             size = 3, color = "darkred") + #adds average labels
+  theme_minimal() +
+  labs(title = "HRS_WEEK by Group considering their water supply as worse, same or better than in other parts of the city",
+       x = "", 
+       y = "Hours of Water Supply per Week") +
+  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+  scale_color_manual(values = color_palette) +  # Custom colors for points +
+   stat_summary(fun.y=mean, geom="point", shape=23, 
+                size=5, color="darkred", fill="darkred") +
+  theme(legend.position = "none", 
+        axis.text = element_text(size = 10)) +  
+  scale_x_discrete(labels = paste0(summary_stats$MX28_WQ_COMP_category, 
+                                 " (n=", summary_stats$Count, ")")) 
+```
+
+```{r}
+
+# Count the number of data points per HW_TOTAL category
+ summary_stats <- data %>%
+  group_by(MX28_WQ_COMP_category) %>%
+  summarise(Count = n(), SD = sd(HW_TOTAL, na.rm = TRUE), .groups = 'drop')
+
+ hrs.w <- data$HW_TOTAL
+ means <- aggregate(hrs.w ~ MX28_WQ_COMP_category, data, mean)
+means$hrs.w <- round(means$hrs.w, 2)
+
+
+# Create box-and-whisker plot with individual data points
+ggplot(data, aes(x = MX28_WQ_COMP_category, 
+                 y = HW_TOTAL, 
+                 fill = MX28_WQ_COMP_category)) +
+    geom_jitter(aes(color = MX28_WQ_COMP_category), 
+               size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+    geom_violin(alpha = 0.4, width = 1) + # violin
+  geom_boxplot(outlier.shape = 1, alpha = 0.3, 
+               width = 0.15, color = "grey30") + # Boxplot
+    geom_text(data = means, 
+             aes(label = hrs.w, y = hrs.w + 0.8, hjust=-0.85), 
+             size = 3, color = "darkred") + #adds average labels
+      geom_text(data = summary_stats, 
+              aes(x = MX28_WQ_COMP_category, 
+                  y = max(data$HW_TOTAL, 
+                          na.rm = TRUE) + 2, 
+                  label = paste0("SD = ", round(SD, 1))), 
+              size = 4, fontface = "bold") +    # Add SD text annotations above the boxes
+  theme_minimal() +
+  labs(title = "HWISE score by Group considering their water supply as worse, same or better than in other parts of the city",
+       x = "", 
+       y = "HWISE score") +
+  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+  scale_color_manual(values = color_palette) +  # Custom colors for points +
+   stat_summary(fun.y=mean, geom="point", shape=23, 
+               size=5, color="darkred", fill="darkred") +
+  theme(legend.position = "none", 
+        axis.text = element_text(size = 10)) +  
+  scale_x_discrete(labels = paste0(summary_stats$MX28_WQ_COMP_category, 
+                                 " (n=", summary_stats$Count, ")")) 
+```
+
+
+
+
+
+```{r}
+
+# Load the dataset 
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+
+# Keep only relevant columns (HW_ questions and HRS_WEEK)
+data_long <- data %>%
+  select(HW_TOTAL, HRS_WEEK) %>%
+  pivot_longer(cols = HW_TOTAL, names_to = "HW_Question", values_to = "Response") %>%
+  filter(!is.na(HRS_WEEK), !is.na(Response))  # Remove NAs
+
+# Compute mean HRS_WEEK for each HW_Question & Response category
+summary_stats <- data_long %>%
+  group_by(HW_Question, Response) %>%
+  summarise(Mean_HRS_WEEK = mean(HRS_WEEK, na.rm = TRUE), Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
+
+# Generate boxplots with mean values
+ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Response))) +
+  geom_jitter(aes(color = as.factor(Response)), size = 1.5, width = 0.2, alpha = 0.2) +  
+   geom_boxplot(outlier.shape = NA, width = 0.5, alpha = 0.4, color = "gray70") +  # Thinner boxes
+  geom_point(data = summary_stats, aes(x = as.factor(Response), y = Mean_HRS_WEEK), 
+             color = "black", size = 1.5) +  # Add red dot for mean value
+  geom_text(data = summary_stats, aes(x = as.factor(Response), y =  Mean_HRS_WEEK, 
+             label = round(Mean_HRS_WEEK, 0)), color = "black", hjust =  -0.35, size = 2.8) +  # Add numeric mean label
+  theme_minimal() +
+  labs(title = "Distribution of HRS_WEEK by total HWISE score",
+       x = "HWISE score", 
+       y = "Hours of Water Supply per Week") +
+ # scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+ # scale_color_manual(values = color_palette) +  # Custom colors for points
+  theme(legend.position = "none", axis.text.x = element_text(size = 5, angle = 45)) + 
+   scale_x_discrete(labels = paste0(summary_stats$Response, 
+                                 " (n=", summary_stats$Count, ")"))  
+
+
+
+
+
+# Define color palette
+#color_palette <- c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")
+
+# Generate boxplots
+ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Response))) +
+  geom_boxplot(outlier.shape = NA, width = 0.5, alpha = 0.7) +  # Thinner boxes
+  geom_jitter(aes(color = as.factor(Response)), size = 1.5, width = 0.2, alpha = 0.5) +  
+  theme_minimal() +
+  labs(title = "Distribution of HRS_WEEK by HW_ Questions",
+       x = "Response", 
+       y = "Hours of Water Supply per Week") +
+#  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+#  scale_color_manual(values = color_palette) +  # Custom colors for points
+  theme(legend.position = "none")# +  # Remove legend for clarity
+ 
+
+```
+
+
+```{r}
+
+# Load the dataset 
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+data <- data %>% 
+  select(-HW_TOTAL)
+
+# Select all columns that start with "HW_"
+hw_vars <- grep("^HW_", names(data), value = TRUE)
+
+# Keep only relevant columns (HW_ questions and HRS_WEEK)
+data_long <- data %>%
+  select(all_of(hw_vars), HRS_WEEK) %>%
+  pivot_longer(cols = all_of(hw_vars), names_to = "HW_Question", values_to = "Response") %>%
+  filter(!is.na(HRS_WEEK), !is.na(Response))  # Remove NAs
+
+# Compute mean HRS_WEEK for each HW_Question & Response category
+mean_values <- data_long %>%
+  group_by(HW_Question, Response) %>%
+  summarise(Mean_HRS_WEEK = mean(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
+
+
+# Generate boxplots with mean values
+ggplot(data_long, aes(x = as.factor(Response), y = HRS_WEEK, fill = as.factor(Response))) +
+  geom_boxplot(outlier.shape = NA,  alpha = 0.4, varwidth = TRUE) +  # Thinner boxes
+  geom_jitter(aes(color = as.factor(Response)), size = 1.5, width = 0.2, alpha = 0.4) +  
+  geom_point(data = mean_values, aes(x = as.factor(Response), y = Mean_HRS_WEEK), 
+             color = "red", size = 2) +  # Add red dot for mean value
+ # geom_text(data = mean_values, aes(x = as.factor(Response), y = Mean_HRS_WEEK, 
+            # label = round(Mean_HRS_WEEK, 1)), color = "red", vjust = -0.5, size = 3.5) +  # Add numeric mean label
+  theme_minimal() +
+  labs(title = "Distribution of HRS_WEEK by HW_ Questions",
+       x = "Response", 
+       y = "Hours of Water Supply per Week") +
+  theme(legend.position = "none") +  # Remove legend for clarity
+  facet_wrap(~HW_Question, scales = "free_y")  # Create separate plots for each HW_ question
+
+```
+
 

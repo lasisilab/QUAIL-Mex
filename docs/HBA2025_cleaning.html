@@ -381,7 +381,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-07
+<strong>Last updated:</strong> 2025-03-08
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -515,15 +515,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree4c407eb6540acea46aaa1a4b4c435d3af4402f11targetblank4c407eba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7866aba09a227328475597669733f7d20b457d15targetblank7866abaa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/4c407eb6540acea46aaa1a4b4c435d3af4402f11" target="_blank">4c407eb</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7866aba09a227328475597669733f7d20b457d15" target="_blank">7866aba</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree4c407eb6540acea46aaa1a4b4c435d3af4402f11targetblank4c407eba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree7866aba09a227328475597669733f7d20b457d15targetblank7866abaa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -533,7 +533,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/4c407eb6540acea46aaa1a4b4c435d3af4402f11" target="_blank">4c407eb</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/7866aba09a227328475597669733f7d20b457d15" target="_blank">7866aba</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,16 +558,8 @@ Ignored files:
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
-Untracked files:
-    Untracked:  Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
-    Untracked:  analysis/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
-    Untracked:  data/Filtered_Screening.csv
-
 Unstaged changes:
-    Modified:   analysis/HBA2025_Analyses.Rmd
     Modified:   analysis/HBA2025_cleaning.Rmd
-    Modified:   analysis/MX28_plots.Rmd
-    Modified:   analysis/Regression-Analysis_PC.Rmd
     Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
 
 </code></pre>
@@ -613,6 +605,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/analysis/HBA2025_cleaning.Rmd" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+<td>
+newplots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/7866aba09a227328475597669733f7d20b457d15/docs/HBA2025_cleaning.html" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+<td>
+newplots
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1482,18 +1508,17 @@ cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</cod
 write.csv(merged_df, file.path( &quot;Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&quot;), row.names = FALSE)
 cat(&quot;Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&#39;.\n&quot;)</code></pre>
 <pre><code>Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&#39;.</code></pre>
-<p>Merge dataset with Q8, 26, 28</p>
+</div>
+<div id="merge-dataset-with-q8-26-28" class="section level1">
+<h1>Merge dataset with Q8, 26, 28</h1>
 <pre class="r"><code># Load the dataset
 file4 &lt;- &quot;Q8-26-28.csv&quot;
 df &lt;- read.csv(file.path(data_path, file4), stringsAsFactors = FALSE, na.strings = c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;))
 df2 &lt;- read.csv(file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&quot;))
 
-# Ensure HW_TOTAL is numeric
-df2$HW_TOTAL &lt;- as.numeric(df2$HW_TOTAL)
-
 # Convert all character columns to NA where values match missing patterns
 df &lt;- df %&gt;%
-  select(ID, MX28_WQ_COMP) %&gt;%
+  select(ID, MX28_WQ_COMP, MX26_EM_HHW_TYPE) %&gt;%
   mutate(across(where(is.character), ~ ifelse(. %in% c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;), NA, .)))
 
 #remove rows with NAs
@@ -1514,199 +1539,217 @@ merged_df &lt;- merged_df %&gt;%
     TRUE ~ NA_character_
   )))
 
-merged_df$MX28_WQ_COMP &lt;- as.factor(merged_df$MX28_WQ_COMP)</code></pre>
+# Convert 
+merged_df &lt;- merged_df %&gt;%
+  mutate(across(all_of(&quot;MX26_EM_HHW_TYPE&quot;), ~ case_when(
+    . == &quot;positive&quot; ~ &quot;0&quot;,
+    . == &quot;negative&quot;  ~ &quot;1&quot;,
+    !is.na(.)  ~ &quot;other&quot;,  # Assign &quot;other&quot; to all non-missing values that are not &quot;yes&quot; or &quot;no&quot;
+    TRUE ~ NA_character_
+  )))
+
+merged_df$MX28_WQ_COMP &lt;- as.factor(merged_df$MX28_WQ_COMP)
+merged_df$MX26_EM_HHW_TYPE &lt;- as.factor(merged_df$MX26_EM_HHW_TYPE)</code></pre>
 <pre class="r"><code># Print merged dataset dimensions
 cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</code></pre>
-<pre><code>Merged dataset dimensions: 402 42 </code></pre>
+<pre><code>Merged dataset dimensions: 402 43 </code></pre>
 <pre class="r"><code>head(merged_df, 20)</code></pre>
-<pre><code>   ID MX28_WQ_COMP D_YRBR D_LOC_TIME D_AGE D_HH_SIZE D_CHLD HLTH_SMK
-1   1            0   1987         35    35         4      0        0
-2   2            2   1990         32    32        12      2        1
-3   3            1   1992          8    30         7      2        0
-4   4            0   1982         32    40         4      1        0
-5   5            2   1976         45    46         4     NA        0
-6   6            0   1990          8    32         6      1       NA
-7   7            1   1997         NA    25         4      2       NA
-8   8            1   1985         10    37         4      2        0
-9   9            1   1982         40    40         6      4        0
-10 10            0   1979         43    49         3      1        0
-11 11            0   1992         21    30        10      2        0
-12 12            1   1996         26    26        17      2        0
-13 13            1   1998         24    24         6      2        0
-14 14            0   2000         22    22         6      0        0
-15 15            2   1997         13    25         5      1        1
-16 16            1   1990         14    32         5     NA        0
-17 17            0   1988         34    34         6      3        0
-18 18            0   1978         NA    44        NA     NA       NA
-19 19            0   1991         10    31         4      2        0
-20 20            0   1992         11    30        10      2        0
-   SES_SC_Total SEASON W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES HW_PLANS HW_FOOD
-1           149      1        1        2         0          0        0       0
-2           196      1        1        0         0          0        0       0
-3            52      1        1        0         0          0        0       0
-4           214      1        1        0         0          0        0       0
-5           117      1        1        2         1          1        1       1
-6           220      1        1        1         1          2        1       3
-7           130      1        1        0         1          1        1       1
-8            NA      1        1        2         2          2        0       0
-9            71      1        1        0         2          0        0       0
-10          117      1        1        2         2          2        0       0
-11           NA      1        1        1         0          0        1       1
-12           NA      1        1        1         1          0        0       0
-13          159      1        1        1         1          0        1       0
-14          132      1        1        1         2          0        0       0
-15          113      1        1        0         0          1        0       0
-16          104      1        1        3         2          2        0       1
-17          127      1        1        1         1          2        1       0
-18           NA      1        1        0         1          1        0       0
-19          110      1        1        1         1          2        1       0
-20          199      1        1        2         2          1        2       1
-   HW_HANDS HW_BODY HW_DRINK HW_ANGRY HW_SLEEP HW_NONE HW_SHAME PSS1 PSS2 PSS3
-1         0       0        0        1        0       1        0    2    3    2
-2         0       1        0        2        0       2        0    2    2    3
-3         0       0        0        1        0       0        0    2    2    2
-4         0       0        0        1        0       0        1    2    3    2
-5         0       1        0        1        0       3        1    2    2    3
-6         1       1        0        1        0       2        2    2    2    3
-7         1       1        0        1        0       1        1    2    2    2
-8         2       0        0        0        0       0        0    2    1    3
-9         0       0        0        1        0       0        0    2    3    2
-10        0       0        0        0        0       0        0    1    2    1
-11        0       2        0        3        0       3        0    3    3    4
-12        0       0        0        1        0       1        1    3    4    4
-13        0       0        0        0        1       1        0    4    3    4
-14        0       0        0        0        0       0        0    2    2    2
-15        0       0        0        0        0       0        0    3    3    3
-16        0       3        0        3        0       3        2    3    3    2
-17        0       1        0        0        0       0        0    2    0    2
-18        0       0        1        2        1       1        0    2    1    2
-19        0       1        0        0        0       2        0    1    3    3
-20        0       2        1        2        0       0        1    1    2    4
-   PSS4 PSS5 PSS6 PSS7 PSS8 PSS9 PSS10 PSS11 PSS12 PSS13 PSS14 HLTH_CPAIN_CAT
-1     4    3    2    2    1    2     3     1     4     2     1              0
-2     3    3    4    3    2    3     2     2     4     3     2              0
-3     2    2    3    3    2    3     2     2     2     3     2              0
-4     3    3    3    3    1    3     2     2     2     3     1              0
-5     2    2    2    3    2    2     1     3     3     2     3              1
-6     2    3    3    4    1    3     3     2     3     1     2              0
-7     2    3    2    2    2    2     2     2     2     2     2              1
-8     3    3    2    3    1    3     3     4     2     2     2              0
-9     3    2    2    2    3    3     2     2     2     2     2              1
-10    3    3    3    3    2    3     0     2     3     3     2              0
-11    4    2    1    2    3    3     1     4     3     4     1              1
-12    1    2    2    2    2    2     1     4     3     2     4              0
-13    4    2    3    4    2    1     1     3     3     2     3              0
-14    3    3    3    3    2    3     3     2     2     3     1              0
-15    2    2    2    1    2    1     1     3     3     2     3              0
-16    2    1    3    3    1    2     2     2     3     2     4              0
-17    3    3    3    3    2    3     2     2     3     3     3              0
-18    3    2    2    2    3    2     2     3     3     1     2              1
-19    3    2    2    2    3    2     3     3     3     3     2              1
-20    2    1    3    3    2    3     2     3     3     2     2              0
-   HLTH_CDIS_CAT HW_TOTAL W_WC_WI HRS_WEEK
-1              1        4       1   168.00
-2              0        5       0    35.00
-3              0        1       1       NA
-4              0        2       1    28.00
-5              0       12       1   156.00
-6              0       15       1    12.00
-7              0        9       1    11.00
-8              1        8       1    39.00
-9              0        3       1     5.25
-10             0        6       1    24.50
-11             0       11       1    20.00
-12             0        5       1    77.00
-13             0        5       1    21.00
-14             0        3       1    21.00
-15             0        1       1    84.00
-16             0       19       1    35.00
-17             0        6       1     9.00
-18             0        7       1    17.50
-19             0        8       1     8.00
-20             0       14       1    42.00</code></pre>
+<pre><code>   ID MX28_WQ_COMP MX26_EM_HHW_TYPE D_YRBR D_LOC_TIME D_AGE D_HH_SIZE D_CHLD
+1   1            0                0   1987         35    35         4      0
+2   2            2                0   1990         32    32        12      2
+3   3            1                0   1992          8    30         7      2
+4   4            0                1   1982         32    40         4      1
+5   5            2                1   1976         45    46         4     NA
+6   6            0                1   1990          8    32         6      1
+7   7            1                1   1997         NA    25         4      2
+8   8            1                1   1985         10    37         4      2
+9   9            1                1   1982         40    40         6      4
+10 10            0                0   1979         43    49         3      1
+11 11            0                1   1992         21    30        10      2
+12 12            1                0   1996         26    26        17      2
+13 13            1                1   1998         24    24         6      2
+14 15            2                0   1997         13    25         5      1
+15 16            1                1   1990         14    32         5     NA
+16 17            0                1   1988         34    34         6      3
+17 18            0                1   1978         NA    44        NA     NA
+18 19            0                1   1991         10    31         4      2
+19 20            0                1   1992         11    30        10      2
+20 21            1                0   1985         34    37         4      2
+   HLTH_SMK SES_SC_Total SEASON W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES HW_PLANS
+1         0          149      1        1        2         0          0        0
+2         1          196      1        1        0         0          0        0
+3         0           52      1        1        0         0          0        0
+4         0          214      1        1        0         0          0        0
+5         0          117      1        1        2         1          1        1
+6        NA          220      1        1        1         1          2        1
+7        NA          130      1        1        0         1          1        1
+8         0           NA      1        1        2         2          2        0
+9         0           71      1        1        0         2          0        0
+10        0          117      1        1        2         2          2        0
+11        0           NA      1        1        1         0          0        1
+12        0           NA      1        1        1         1          0        0
+13        0          159      1        1        1         1          0        1
+14        1          113      1        1        0         0          1        0
+15        0          104      1        1        3         2          2        0
+16        0          127      1        1        1         1          2        1
+17       NA           NA      1        1        0         1          1        0
+18        0          110      1        1        1         1          2        1
+19        0          199      1        1        2         2          1        2
+20        0           86      1        1        0         0          0        0
+   HW_FOOD HW_HANDS HW_BODY HW_DRINK HW_ANGRY HW_SLEEP HW_NONE HW_SHAME PSS1
+1        0        0       0        0        1        0       1        0    2
+2        0        0       1        0        2        0       2        0    2
+3        0        0       0        0        1        0       0        0    2
+4        0        0       0        0        1        0       0        1    2
+5        1        0       1        0        1        0       3        1    2
+6        3        1       1        0        1        0       2        2    2
+7        1        1       1        0        1        0       1        1    2
+8        0        2       0        0        0        0       0        0    2
+9        0        0       0        0        1        0       0        0    2
+10       0        0       0        0        0        0       0        0    1
+11       1        0       2        0        3        0       3        0    3
+12       0        0       0        0        1        0       1        1    3
+13       0        0       0        0        0        1       1        0    4
+14       0        0       0        0        0        0       0        0    3
+15       1        0       3        0        3        0       3        2    3
+16       0        0       1        0        0        0       0        0    2
+17       0        0       0        1        2        1       1        0    2
+18       0        0       1        0        0        0       2        0    1
+19       1        0       2        1        2        0       0        1    1
+20       0        0       0        0        1        0       0        0    2
+   PSS2 PSS3 PSS4 PSS5 PSS6 PSS7 PSS8 PSS9 PSS10 PSS11 PSS12 PSS13 PSS14
+1     3    2    4    3    2    2    1    2     3     1     4     2     1
+2     2    3    3    3    4    3    2    3     2     2     4     3     2
+3     2    2    2    2    3    3    2    3     2     2     2     3     2
+4     3    2    3    3    3    3    1    3     2     2     2     3     1
+5     2    3    2    2    2    3    2    2     1     3     3     2     3
+6     2    3    2    3    3    4    1    3     3     2     3     1     2
+7     2    2    2    3    2    2    2    2     2     2     2     2     2
+8     1    3    3    3    2    3    1    3     3     4     2     2     2
+9     3    2    3    2    2    2    3    3     2     2     2     2     2
+10    2    1    3    3    3    3    2    3     0     2     3     3     2
+11    3    4    4    2    1    2    3    3     1     4     3     4     1
+12    4    4    1    2    2    2    2    2     1     4     3     2     4
+13    3    4    4    2    3    4    2    1     1     3     3     2     3
+14    3    3    2    2    2    1    2    1     1     3     3     2     3
+15    3    2    2    1    3    3    1    2     2     2     3     2     4
+16    0    2    3    3    3    3    2    3     2     2     3     3     3
+17    1    2    3    2    2    2    3    2     2     3     3     1     2
+18    3    3    3    2    2    2    3    2     3     3     3     3     2
+19    2    4    2    1    3    3    2    3     2     3     3     2     2
+20    2    2    3    2    4    3    2    3     2     2     2     2     2
+   HLTH_CPAIN_CAT HLTH_CDIS_CAT HW_TOTAL W_WC_WI HRS_WEEK
+1               0             1        4       1   168.00
+2               0             0        5       0    35.00
+3               0             0        1       1       NA
+4               0             0        2       1    28.00
+5               1             0       12       1   156.00
+6               0             0       15       1    12.00
+7               1             0        9       1    11.00
+8               0             1        8       1    39.00
+9               1             0        3       1     5.25
+10              0             0        6       1    24.50
+11              1             0       11       1    20.00
+12              0             0        5       1    77.00
+13              0             0        5       1    21.00
+14              0             0        1       1    84.00
+15              0             0       19       1    35.00
+16              0             0        6       1     9.00
+17              1             0        7       1    17.50
+18              1             0        8       1     8.00
+19              0             0       14       1    42.00
+20              0             0        1       1    21.00</code></pre>
 <pre class="r"><code>summary(merged_df)</code></pre>
-<pre><code>       ID        MX28_WQ_COMP     D_YRBR       D_LOC_TIME        D_AGE      
- Min.   :  1.0   0   :145     Min.   :1976   Min.   : 2.00   Min.   :18.00  
- 1st Qu.:101.2   1   :159     1st Qu.:1984   1st Qu.:13.00   1st Qu.:26.00  
- Median :201.5   2   : 94     Median :1990   Median :23.00   Median :32.00  
- Mean   :248.3   NA&#39;s:  4     Mean   :1990   Mean   :22.46   Mean   :32.11  
- 3rd Qu.:396.8                3rd Qu.:1996   3rd Qu.:31.00   3rd Qu.:38.00  
- Max.   :497.0                Max.   :2005   Max.   :46.00   Max.   :49.00  
-                              NA&#39;s   :17     NA&#39;s   :36      NA&#39;s   :18     
-   D_HH_SIZE          D_CHLD         HLTH_SMK       SES_SC_Total  
- Min.   : 2.000   Min.   :0.000   Min.   :0.0000   Min.   : 25.0  
- 1st Qu.: 4.000   1st Qu.:1.000   1st Qu.:0.0000   1st Qu.:104.2  
- Median : 5.000   Median :2.000   Median :0.0000   Median :129.5  
- Mean   : 5.578   Mean   :1.857   Mean   :0.1698   Mean   :133.2  
- 3rd Qu.: 6.000   3rd Qu.:3.000   3rd Qu.:0.0000   3rd Qu.:159.0  
- Max.   :40.000   Max.   :8.000   Max.   :1.0000   Max.   :263.0  
- NA&#39;s   :23       NA&#39;s   :24      NA&#39;s   :78       NA&#39;s   :52     
-     SEASON          W_WS_LOC         HW_WORRY      HW_INTERR    
- Min.   :0.0000   Min.   :0.0000   Min.   :0.00   Min.   :0.000  
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00   1st Qu.:1.000  
- Median :1.0000   Median :1.0000   Median :1.00   Median :1.000  
- Mean   :0.5088   Mean   :0.5063   Mean   :1.16   Mean   :1.316  
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:2.00   3rd Qu.:2.000  
- Max.   :1.0000   Max.   :1.0000   Max.   :3.00   Max.   :3.000  
- NA&#39;s   :3        NA&#39;s   :3        NA&#39;s   :3      NA&#39;s   :3      
-   HW_CLOTHES        HW_PLANS         HW_FOOD          HW_HANDS     
- Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
- Median :1.0000   Median :1.0000   Median :0.0000   Median :0.0000  
- Mean   :0.9874   Mean   :0.8571   Mean   :0.4422   Mean   :0.2682  
- 3rd Qu.:2.0000   3rd Qu.:2.0000   3rd Qu.:1.0000   3rd Qu.:0.0000  
- Max.   :3.0000   Max.   :3.0000   Max.   :3.0000   Max.   :3.0000  
- NA&#39;s   :4        NA&#39;s   :3        NA&#39;s   :4        NA&#39;s   :3       
-    HW_BODY          HW_DRINK         HW_ANGRY       HW_SLEEP     
- Min.   :0.0000   Min.   :0.0000   Min.   :0.00   Min.   :0.0000  
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00   1st Qu.:0.0000  
- Median :0.0000   Median :0.0000   Median :1.00   Median :0.0000  
- Mean   :0.6792   Mean   :0.4261   Mean   :1.04   Mean   :0.2638  
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:2.00   3rd Qu.:0.0000  
- Max.   :3.0000   Max.   :3.0000   Max.   :3.00   Max.   :2.0000  
- NA&#39;s   :3        NA&#39;s   :3        NA&#39;s   :4      NA&#39;s   :4       
-    HW_NONE          HW_SHAME           PSS1            PSS2      
- Min.   :0.0000   Min.   :0.0000   Min.   :0.000   Min.   :0.000  
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:2.000  
- Median :0.0000   Median :0.0000   Median :2.000   Median :2.000  
- Mean   :0.7513   Mean   :0.2197   Mean   :2.111   Mean   :2.219  
- 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:3.000   3rd Qu.:3.000  
- Max.   :3.0000   Max.   :3.0000   Max.   :4.000   Max.   :4.000  
- NA&#39;s   :4        NA&#39;s   :6        NA&#39;s   :4       NA&#39;s   :4      
-      PSS3           PSS4            PSS5            PSS6           PSS7      
- Min.   :0.00   Min.   :0.000   Min.   :0.000   Min.   :0.00   Min.   :0.000  
- 1st Qu.:2.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000  
- Median :3.00   Median :3.000   Median :3.000   Median :3.00   Median :3.000  
- Mean   :2.93   Mean   :2.573   Mean   :2.664   Mean   :2.83   Mean   :2.578  
- 3rd Qu.:4.00   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:4.00   3rd Qu.:3.000  
- Max.   :4.00   Max.   :4.000   Max.   :4.000   Max.   :4.00   Max.   :4.000  
- NA&#39;s   :4      NA&#39;s   :6       NA&#39;s   :3       NA&#39;s   :3      NA&#39;s   :4      
-      PSS8            PSS9           PSS10           PSS11      
+<pre><code>       ID        MX28_WQ_COMP MX26_EM_HHW_TYPE     D_YRBR       D_LOC_TIME   
+ Min.   :  1.0   0   :144     0    :132        Min.   :1976   Min.   : 2.00  
+ 1st Qu.:101.2   1   :158     1    :261        1st Qu.:1984   1st Qu.:13.00  
+ Median :201.5   2   : 94     other:  3        Median :1990   Median :23.00  
+ Mean   :248.3   NA&#39;s:  6     NA&#39;s :  6        Mean   :1990   Mean   :22.46  
+ 3rd Qu.:396.8                                 3rd Qu.:1996   3rd Qu.:31.00  
+ Max.   :497.0                                 Max.   :2005   Max.   :46.00  
+                                               NA&#39;s   :17     NA&#39;s   :36     
+     D_AGE         D_HH_SIZE          D_CHLD         HLTH_SMK     
+ Min.   :18.00   Min.   : 2.000   Min.   :0.000   Min.   :0.0000  
+ 1st Qu.:26.00   1st Qu.: 4.000   1st Qu.:1.000   1st Qu.:0.0000  
+ Median :32.00   Median : 5.000   Median :2.000   Median :0.0000  
+ Mean   :32.11   Mean   : 5.578   Mean   :1.857   Mean   :0.1698  
+ 3rd Qu.:38.00   3rd Qu.: 6.000   3rd Qu.:3.000   3rd Qu.:0.0000  
+ Max.   :49.00   Max.   :40.000   Max.   :8.000   Max.   :1.0000  
+ NA&#39;s   :18      NA&#39;s   :23       NA&#39;s   :24      NA&#39;s   :78      
+  SES_SC_Total       SEASON          W_WS_LOC         HW_WORRY   
+ Min.   : 25.0   Min.   :0.0000   Min.   :0.0000   Min.   :0.00  
+ 1st Qu.:104.2   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00  
+ Median :129.5   Median :1.0000   Median :1.0000   Median :1.00  
+ Mean   :133.2   Mean   :0.5088   Mean   :0.5063   Mean   :1.16  
+ 3rd Qu.:159.0   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:2.00  
+ Max.   :263.0   Max.   :1.0000   Max.   :1.0000   Max.   :3.00  
+ NA&#39;s   :52      NA&#39;s   :3        NA&#39;s   :3        NA&#39;s   :3     
+   HW_INTERR       HW_CLOTHES        HW_PLANS         HW_FOOD      
+ Min.   :0.000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:1.000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :1.000   Median :1.0000   Median :1.0000   Median :0.0000  
+ Mean   :1.316   Mean   :0.9874   Mean   :0.8571   Mean   :0.4422  
+ 3rd Qu.:2.000   3rd Qu.:2.0000   3rd Qu.:2.0000   3rd Qu.:1.0000  
+ Max.   :3.000   Max.   :3.0000   Max.   :3.0000   Max.   :3.0000  
+ NA&#39;s   :3       NA&#39;s   :4        NA&#39;s   :3        NA&#39;s   :4       
+    HW_HANDS         HW_BODY          HW_DRINK         HW_ANGRY   
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.00  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00  
+ Median :0.0000   Median :0.0000   Median :0.0000   Median :1.00  
+ Mean   :0.2682   Mean   :0.6792   Mean   :0.4261   Mean   :1.04  
+ 3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:2.00  
+ Max.   :3.0000   Max.   :3.0000   Max.   :3.0000   Max.   :3.00  
+ NA&#39;s   :3        NA&#39;s   :3        NA&#39;s   :3        NA&#39;s   :4     
+    HW_SLEEP         HW_NONE          HW_SHAME           PSS1      
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:2.000  
+ Median :0.0000   Median :0.0000   Median :0.0000   Median :2.000  
+ Mean   :0.2638   Mean   :0.7513   Mean   :0.2197   Mean   :2.111  
+ 3rd Qu.:0.0000   3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:3.000  
+ Max.   :2.0000   Max.   :3.0000   Max.   :3.0000   Max.   :4.000  
+ NA&#39;s   :4        NA&#39;s   :4        NA&#39;s   :6        NA&#39;s   :4      
+      PSS2            PSS3           PSS4            PSS5            PSS6     
+ Min.   :0.000   Min.   :0.00   Min.   :0.000   Min.   :0.000   Min.   :0.00  
+ 1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00  
+ Median :2.000   Median :3.00   Median :3.000   Median :3.000   Median :3.00  
+ Mean   :2.219   Mean   :2.93   Mean   :2.573   Mean   :2.664   Mean   :2.83  
+ 3rd Qu.:3.000   3rd Qu.:4.00   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:4.00  
+ Max.   :4.000   Max.   :4.00   Max.   :4.000   Max.   :4.000   Max.   :4.00  
+ NA&#39;s   :4       NA&#39;s   :4      NA&#39;s   :6       NA&#39;s   :3       NA&#39;s   :3     
+      PSS7            PSS8            PSS9           PSS10      
  Min.   :0.000   Min.   :0.000   Min.   :0.000   Min.   :0.000  
- 1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000   1st Qu.:2.000  
- Median :2.000   Median :3.000   Median :2.000   Median :3.000  
- Mean   :2.133   Mean   :2.653   Mean   :1.992   Mean   :2.565  
+ 1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000  
+ Median :3.000   Median :2.000   Median :3.000   Median :2.000  
+ Mean   :2.578   Mean   :2.133   Mean   :2.653   Mean   :1.992  
  3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000  
  Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
  NA&#39;s   :4       NA&#39;s   :4       NA&#39;s   :4       NA&#39;s   :4      
-     PSS12           PSS13           PSS14       HLTH_CPAIN_CAT  
- Min.   :0.000   Min.   :0.000   Min.   :0.000   Min.   :0.0000  
- 1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000   1st Qu.:0.0000  
- Median :3.000   Median :3.000   Median :2.000   Median :0.0000  
- Mean   :2.957   Mean   :2.547   Mean   :2.168   Mean   :0.2663  
- 3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:1.0000  
- Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :1.0000  
- NA&#39;s   :4       NA&#39;s   :5       NA&#39;s   :4       NA&#39;s   :4       
- HLTH_CDIS_CAT       HW_TOTAL         W_WC_WI          HRS_WEEK     
- Min.   :0.0000   Min.   : 0.000   Min.   :0.0000   Min.   :  0.00  
- 1st Qu.:0.0000   1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.: 21.00  
- Median :0.0000   Median : 8.000   Median :1.0000   Median : 42.00  
- Mean   :0.1646   Mean   : 8.419   Mean   :0.7158   Mean   : 85.13  
- 3rd Qu.:0.0000   3rd Qu.:12.000   3rd Qu.:1.0000   3rd Qu.:168.00  
- Max.   :1.0000   Max.   :27.000   Max.   :1.0000   Max.   :168.00  
- NA&#39;s   :1        NA&#39;s   :11       NA&#39;s   :22       NA&#39;s   :39      </code></pre>
+     PSS11           PSS12           PSS13           PSS14      
+ Min.   :0.000   Min.   :0.000   Min.   :0.000   Min.   :0.000  
+ 1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:1.000  
+ Median :3.000   Median :3.000   Median :3.000   Median :2.000  
+ Mean   :2.565   Mean   :2.957   Mean   :2.547   Mean   :2.168  
+ 3rd Qu.:3.000   3rd Qu.:4.000   3rd Qu.:3.000   3rd Qu.:3.000  
+ Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
+ NA&#39;s   :4       NA&#39;s   :4       NA&#39;s   :5       NA&#39;s   :4      
+ HLTH_CPAIN_CAT   HLTH_CDIS_CAT       HW_TOTAL         W_WC_WI      
+ Min.   :0.0000   Min.   :0.0000   Min.   : 0.000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.: 3.000   1st Qu.:0.0000  
+ Median :0.0000   Median :0.0000   Median : 8.000   Median :1.0000  
+ Mean   :0.2663   Mean   :0.1646   Mean   : 8.419   Mean   :0.7158  
+ 3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:12.000   3rd Qu.:1.0000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :27.000   Max.   :1.0000  
+ NA&#39;s   :4        NA&#39;s   :1        NA&#39;s   :11       NA&#39;s   :22      
+    HRS_WEEK     
+ Min.   :  0.00  
+ 1st Qu.: 21.00  
+ Median : 42.00  
+ Mean   : 85.13  
+ 3rd Qu.:168.00  
+ Max.   :168.00  
+ NA&#39;s   :39      </code></pre>
 <pre class="r"><code>dim(merged_df)</code></pre>
-<pre><code>[1] 402  42</code></pre>
+<pre><code>[1] 402  43</code></pre>
 <pre class="r"><code># Save the merged dataset
 write.csv(merged_df, file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;), row.names = FALSE)
 cat(&quot;Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&#39;.\n&quot;)</code></pre>
