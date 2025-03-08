@@ -22,6 +22,62 @@ Results indicate that during acute water shortages, women can spend extended per
 
 This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
 
+## 1.b Variable descriptions for quick reference
+
+Ordered alphabetically
+
+```{r table info variables, echo=FALSE, results='asis'}
+# Load necessary package
+library(knitr)
+
+# Create a data frame with variable descriptions, classes, and additional details
+variables_info <- data.frame(
+  Variable = c("D_AGE", "D_CHLD", "D_HH_SIZE", "D_LOC_TIME", "HLTH_CDIS_CAT", "HLTH_CPAIN_CAT", 
+               "HLTH_SMK", "HRS_WEEK", "HW_TOTAL", "MX8_TRUST", "MX26_EM_HHW_TYPE", "MX28_WQ_COMP", "PSS_TOTAL", "SEASON", 
+               "SES_SC_Total", "W_WS_LOC", "W_WC_WI"),
+  Description = c("Participants' age", 
+                  "Number of children participant has birthed",
+                  "Household size",
+                  "For how long have you lived in this neighborhood?",
+                  "Presence of chronic disease",
+                  "Presence of chronic pain",
+                  "Tobacco smoker",
+                  "Hours of water supply in the household per week",
+                  "Sum of all 12-items in HWISE questionnaire",
+                  "Trust in water",
+                  "Feelings about water supply",
+                  "Perception of water service as worse, same, or better than rest of Mexico City",
+                  "Total Perceived Stress Score",
+                  "Fall or Spring (when data collection happened)",
+                  "Socioeconomic status score",
+                  "Classification of neighborhoods as water secure or insecure",
+                  "Classification of water supply as continuous or intermittent"),
+  Class = c("Numeric", "Numeric", "Numeric", "Numeric", "Categorical (Binary)", "Categorical (Binary)", 
+            "Categorical (Binary)", "Numeric", "Numeric", "Categorical (Binary)", "Categorical (Binary)", "Categorical (Ordinal)", "Numeric", "Categorical (Binary)",
+            "Numeric", "Categorical (Binary)", "Categorical (Binary)"),
+  Values = c("18:49", 
+              "0:8", 
+              "2:40", 
+              "1:46 (years)", 
+              "1 = yes, 0 = no", 
+              "1 = yes, 0 = no", 
+              "1 = yes, 0 = no", 
+              "0:168", 
+              "0:27", 
+              "1 = no, 1 = yes",
+              "1 = negative, 0 = positive",
+              "0 = worse, 1 = same, 2 = better", 
+              "-19:19", 
+              "Fall = 1, Spring = 0", 
+              "25:263", 
+              "1 = water insecure, 0 = water secure", 
+              "1 = intermittent, 0 = continuous")
+)
+
+# Print the table using kable
+kable(variables_info, caption = "Variable Descriptions, Classes, and Additional Details")
+
+```
 ```{r libraries, echo = FALSE, warning = FALSE, message= FALSE}
 
 # Load necessary libraries

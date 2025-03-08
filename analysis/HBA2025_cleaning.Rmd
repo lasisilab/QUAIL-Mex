@@ -321,7 +321,7 @@ df2 <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
 
 # Convert all character columns to NA where values match missing patterns
 df <- df %>%
-  select(ID, MX28_WQ_COMP, MX26_EM_HHW_TYPE) %>%
+  select(ID, MX8_TRUST, MX28_WQ_COMP, MX26_EM_HHW_TYPE) %>%
   mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
 
 #remove rows with NAs
@@ -331,6 +331,17 @@ df <- unique(df)
 # Merge datasets sequentially by the common column
 merged_df <- df %>%
   full_join(df2, by = "ID") 
+
+# Convert 
+merged_df <- merged_df %>%
+  mutate(across(all_of("MX8_TRUST"), ~ case_when(
+    . == "Yes" ~ "0",
+    . == "Neutral"  ~ "1",
+    . == "No"  ~ "2",
+    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  )))
+
 
 # Convert 
 merged_df <- merged_df %>%
@@ -350,7 +361,7 @@ merged_df <- merged_df %>%
     !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
     TRUE ~ NA_character_
   )))
-
+merged_df$MX8_TRUST <- as.factor(merged_df$MX8_TRUST)
 merged_df$MX28_WQ_COMP <- as.factor(merged_df$MX28_WQ_COMP)
 merged_df$MX26_EM_HHW_TYPE <- as.factor(merged_df$MX26_EM_HHW_TYPE)
 
@@ -368,4 +379,6 @@ write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V3.csv'.\n")
 
 ```
+
+
 
