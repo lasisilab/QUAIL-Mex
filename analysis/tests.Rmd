@@ -294,6 +294,7 @@ ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.hig
 
 
 ```{r}
+
 # Extract odds ratios and confidence intervals
 odds_ratios <- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
 
@@ -302,9 +303,97 @@ ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.hig
   geom_pointrange(color = "blue") +
   geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # OR = 1 reference line
   coord_flip() +
-  labs(title = "Odds Ratios for Predictors of Negative Perceived Water Service",
+  labs(title = "Odds Ratios for Predictors of Perceived Water Hardship",
        x = "Predictor", y = "Odds Ratio") +
   theme_minimal()
 
+
+
 ```
+
+```{r}
+# Load necessary libraries
+library(MASS)  # For stepwise regression
+library(broom) # For model output
+library(car)   # For VIF check
+
+# Run a "full model" with previously excluded variables forced in
+full_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
+                  MX10_WSTORAGE + SES_SC_Total, 
+                  family = binomial, data = data)
+
+# Compare with optimized model
+optimized_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                       HRS_WEEK + MX28_WQ_COMP, 
+                       family = binomial, data = data)
+
+# Display summaries of both models
+summary(full_model)
+summary(optimized_model)
+
+# Compare AIC values
+AIC(full_model, optimized_model)
+
+# Check significance of forced-in variables
+tidy(full_model)
+
+# Check if adding them improves model fit
+anova(optimized_model, full_model, test = "Chisq") 
+
+# Check for multicollinearity
+vif(full_model)
+
+
+
+
+
+
+# Run a full model forcing in previously excluded variables + interactions
+full_model_interactions <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                               HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
+                               MX10_WSTORAGE + SES_SC_Total + 
+                               HW_TOTAL * SEASON + HW_TOTAL * PSS_TOTAL + 
+                               HRS_WEEK * W_WC_WI,  # Adding interactions
+                               family = binomial, data = data)
+
+# Compare with optimized model
+optimized_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                       HRS_WEEK + MX28_WQ_COMP, 
+                       family = binomial, data = data)
+
+# Display summaries of models
+summary(full_model_interactions)
+summary(optimized_model)
+
+# Compare AIC values
+AIC(full_model_interactions, optimized_model)
+
+# Check significance of forced-in variables and interactions
+tidy(full_model_interactions)
+
+# Compare models using ANOVA test (Chi-square)
+anova(optimized_model, full_model_interactions, test = "Chisq") 
+
+# Check for multicollinearity
+vif(full_model_interactions)
+
+# Visualize interaction effects using marginal effects plots
+library(ggeffects)
+library(ggplot2)
+
+# Plot interaction effects for HW_TOTAL * SEASON
+plot(ggpredict(full_model_interactions, terms = c("HW_TOTAL", "SEASON")))
+
+# Plot interaction effects for HW_TOTAL * PSS_TOTAL
+plot(ggpredict(full_model_interactions, terms = c("HW_TOTAL", "PSS_TOTAL")))
+
+# Plot interaction effects for HRS_WEEK * W_WC_WI
+plot(ggpredict(full_model_interactions, terms = c("HRS_WEEK", "W_WC_WI")))
+
+
+```
+
+
+
 
