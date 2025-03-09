@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-07
+<strong>Last updated:</strong> 2025-03-08
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree4c407eb6540acea46aaa1a4b4c435d3af4402f11targetblank4c407eba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/4c407eb6540acea46aaa1a4b4c435d3af4402f11" target="_blank">4c407eb</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree4c407eb6540acea46aaa1a4b4c435d3af4402f11targetblank4c407eba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/4c407eb6540acea46aaa1a4b4c435d3af4402f11" target="_blank">4c407eb</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -556,20 +556,15 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
-Untracked files:
-    Untracked:  Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
-    Untracked:  analysis/Cleaned_Dataset_Screening_HWISE_PSS_V2.csv
-    Untracked:  data/Filtered_Screening.csv
-
 Unstaged changes:
     Modified:   analysis/HBA2025_Analyses.Rmd
-    Modified:   analysis/HBA2025_cleaning.Rmd
     Modified:   analysis/MX28_plots.Rmd
     Modified:   analysis/Regression-Analysis_PC.Rmd
-    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
+    Modified:   analysis/tests.Rmd
 
 </code></pre>
 <p>
@@ -614,6 +609,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/analysis/MX28_plots.Rmd" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+<td>
+newplots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/7866aba09a227328475597669733f7d20b457d15/docs/MX28_plots.html" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+<td>
+newplots
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -668,8 +697,17 @@ Attaching package: &#39;dplyr&#39;</code></pre>
     intersect, setdiff, setequal, union</code></pre>
 <pre class="r"><code>library(corrplot)</code></pre>
 <pre><code>corrplot 0.95 loaded</code></pre>
-<pre class="r"><code># Read the dataset
-data &lt;- read.csv(&quot;./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;)
+<pre class="r"><code>library(rstatix)</code></pre>
+<pre><code>
+Attaching package: &#39;rstatix&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:stats&#39;:
+
+    filter</code></pre>
+<pre class="r"><code>library(rcompanion)
+
+data.file &lt;- &quot;data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;
+# Read the dataset
+data &lt;- read.csv(data.file)
 
 data$MX28_WQ_COMP &lt;- as.numeric(data$MX28_WQ_COMP)
 
@@ -723,17 +761,17 @@ if(&quot;MX28_WQ_COMP&quot; %in% colnames(data)) {
   }</code></pre>
 <pre><code>              Correlation     Variable
 MX28_WQ_COMP  1.000000000 MX28_WQ_COMP
-HRS_WEEK      0.187468292     HRS_WEEK
-HLTH_SMK      0.054375849     HLTH_SMK
-D_HH_SIZE     0.015907200    D_HH_SIZE
-D_LOC_TIME    0.011858719   D_LOC_TIME
-D_CHLD       -0.004489633       D_CHLD
-SEASON       -0.033107994       SEASON
-HW_TOTAL     -0.086129588     HW_TOTAL
-SES_SC_Total -0.094563601 SES_SC_Total
-D_AGE        -0.131738320        D_AGE
-W_WC_WI      -0.174376672      W_WC_WI
-W_WS_LOC     -0.226542933     W_WS_LOC</code></pre>
+HRS_WEEK      0.189231915     HRS_WEEK
+HLTH_SMK      0.056946187     HLTH_SMK
+D_HH_SIZE     0.018513083    D_HH_SIZE
+D_LOC_TIME    0.008561469   D_LOC_TIME
+D_CHLD       -0.006968213       D_CHLD
+SEASON       -0.030525479       SEASON
+HW_TOTAL     -0.087034087     HW_TOTAL
+SES_SC_Total -0.099965323 SES_SC_Total
+D_AGE        -0.132354749        D_AGE
+W_WC_WI      -0.178893866      W_WC_WI
+W_WS_LOC     -0.225819366     W_WS_LOC</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
@@ -757,6 +795,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/4c407eb6540acea46aaa1a4b4c435d3af4402f11/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">4c407eb</a>
@@ -813,7 +862,6 @@ levels(data$MX28_WQ_COMP)</code></pre>
 cat_vars &lt;- setdiff(categorical_vars, main_var)
 
 
-
 # Define the main categorical variable
 main_var &lt;- &quot;MX28_WQ_COMP&quot;
 
@@ -833,7 +881,158 @@ for (var in cat_vars) {
 This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-2">
+Past versions of unnamed-chunk-2-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-3">
+Past versions of unnamed-chunk-2-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-4">
+Past versions of unnamed-chunk-2-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Define the main categorical variable
 main_var &lt;- &quot;MX28_WQ_COMP&quot;
 
@@ -856,7 +1055,748 @@ for (var in cat_vars) {
 This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
+Past versions of unnamed-chunk-3-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-3">
+Past versions of unnamed-chunk-3-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-4">
+Past versions of unnamed-chunk-3-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" target="_blank">7866aba</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-07
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>data &lt;- read.csv(data.file)
+# Ensure HW_TOTAL_category is correctly categorized
+
+data &lt;- data %&gt;%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL &gt;= 0 &amp; HW_TOTAL &lt;= 2  ~ &quot;No-to-Marginal&quot;,
+    HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
+    HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
+    HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;
+  ))
+
+data &lt;- data %&gt;%
+  mutate(MX26_EM_HHW_TYPE = case_when(
+    MX26_EM_HHW_TYPE == &quot;0&quot; ~ &quot;positive&quot;,
+    MX26_EM_HHW_TYPE == &quot;1&quot; ~ &quot;negative&quot;,
+    MX26_EM_HHW_TYPE == !is.na(.) ~ &quot;other&quot;,  # Assign &quot;other&quot; to all non-missing values that are not &quot;yes&quot; or &quot;no&quot;
+    TRUE ~ NA_character_
+  ))
+
+data &lt;- data %&gt;% 
+  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
+
+# Convert to factor for correct ordering
+data$HW_TOTAL_category &lt;- factor(data$HW_TOTAL_category, levels = c(&quot;No-to-Marginal&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;))
+data$MX26_EM_HHW_TYPE &lt;- as.factor(data$MX26_EM_HHW_TYPE)  # Convert to factor
+
+# Calculate proportions
+data_prop &lt;- data %&gt;%
+  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
+  summarise(count = n(), .groups = &quot;drop&quot;) %&gt;%
+  mutate(percentage = count / sum(count) * 100)
+
+# Barplot of MX26_EM_HHW_TYPE by HW_TOTAL_category
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(position = &quot;dodge&quot;) +
+  labs(title = &quot;Proportion of Positive and negative emotional responses by HW Category&quot;,
+       x = &quot;HWISE Category&quot;,
+       y = &quot;Count&quot;,
+       fill = &quot;Emotions&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Calculate proportions
+data_prop &lt;- data %&gt;%
+  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
+  summarise(count = n(), .groups = &quot;drop&quot;) %&gt;%
+  mutate(percentage = count / sum(count) * 100)
+
+# Create percentage barplot
+ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  labs(title = &quot;Proportion of Positive and negative emotional responses by HW Category&quot;,
+       x = &quot;HWISE Category&quot;,
+       y = &quot;Percentage&quot;,
+       fill = &quot;Emotions&quot;) +
+  theme_minimal() </code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Stacked barplot using counts
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(position = &quot;stack&quot;) +
+  labs(title = &quot;Stacked Barplot: Household Water Type by HW Category&quot;,
+       x = &quot;HWISE Category&quot;,
+       y = &quot;Count&quot;,
+       fill = &quot;Household Water Type&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Calculate proportions
+data_prop &lt;- data %&gt;%
+  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
+  summarise(count = n(), .groups = &quot;drop&quot;) %&gt;%
+  mutate(percentage = count / sum(count) * 100)
+
+# Stacked percentage barplot
+ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;fill&quot;) +  # &quot;fill&quot; makes it a 100% stacked barplot
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert y-axis to percentage
+  labs(title = &quot;Stacked Barplot: Proportion of Household Water Type by HW Category&quot;,
+       x = &quot;HWISE Category&quot;,
+       y = &quot;Percentage&quot;,
+       fill = &quot;Household Water Type&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Create a contingency table
+contingency_table &lt;- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
+
+# Print the table
+print(contingency_table)</code></pre>
+<pre><code>                
+                 negative positive
+  No-to-Marginal       26       48
+  Low                 131       67
+  Moderate             91       11
+  High                  6        0</code></pre>
+<pre class="r"><code>  fisher_test &lt;- fisher.test(contingency_table)
+  print(fisher_test)  # Print Fisher&#39;s test results</code></pre>
+<pre><code>
+    Fisher&#39;s Exact Test for Count Data
+
+data:  contingency_table
+p-value = 1.268e-13
+alternative hypothesis: two.sided</code></pre>
+<pre class="r"><code># Compute Cramér&#39;s V for effect size
+cramer_v &lt;- cramerV(contingency_table)
+print(cramer_v)</code></pre>
+<pre><code>Cramer V 
+  0.3961 </code></pre>
+<p>Interpreting Cramér’s V:</p>
+<p>0.1 → Small association</p>
+<p>0.3 → Moderate association</p>
+<p>0.5 → Strong association</p>
+<p>The Cramér’s V value of 0.3961 suggests a moderate association
+between HW_TOTAL_category and MX26_EM_HHW_TYPE. Cramér’s V ranges from 0
+to 1, where 0 indicates no association, and 1 indicates a perfect
+association. A value of 0.3961 falls in the moderate range (0.3 - 0.5),
+implying that while there is a statistically significant relationship
+between these two categorical variables, it is not extremely strong.
+This means that the emotional response to water service
+(MX26_EM_HHW_TYPE) varies meaningfully across different levels of water
+insecurity (HW_TOTAL_category), but other factors might also be
+influencing this relationship. Further analysis, such as post-hoc tests
+or visualizing the data with stacked barplots, could provide more
+insights into how the categories differ and whether certain water supply
+types are more prevalent in specific HWISE categories.</p>
+<pre class="r"><code># Load necessary libraries
+library(dplyr)
+library(rstatix)
+
+# Ensure categorical variables are factors
+data &lt;- data %&gt;%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+
+# Remove NAs
+data &lt;- data %&gt;% 
+  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
+
+# Create contingency table
+contingency_table &lt;- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
+
+# Print table
+print(contingency_table)</code></pre>
+<pre><code>                
+                 negative positive
+  No-to-Marginal       26       48
+  Low                 131       67
+  Moderate             91       11
+  High                  6        0</code></pre>
+<pre class="r"><code># Run Fisher’s Exact Test
+fisher_test &lt;- fisher.test(contingency_table)
+
+# Print results
+print(fisher_test)</code></pre>
+<pre><code>
+    Fisher&#39;s Exact Test for Count Data
+
+data:  contingency_table
+p-value = 1.268e-13
+alternative hypothesis: two.sided</code></pre>
+<pre class="r"><code># Get unique categories of HW_TOTAL_category
+categories &lt;- levels(data$HW_TOTAL_category)
+
+# Create an empty list to store results
+pairwise_results &lt;- list()
+
+# Loop through all pairs of HW_TOTAL_category
+for (i in 1:(length(categories) - 1)) {
+  for (j in (i + 1):length(categories)) {
+    cat1 &lt;- categories[i]
+    cat2 &lt;- categories[j]
+    
+    # Subset the data for the two categories
+    subset_data &lt;- data %&gt;%
+      filter(HW_TOTAL_category %in% c(cat1, cat2))
+    
+    # Create a 2xN contingency table
+    sub_table &lt;- table(subset_data$HW_TOTAL_category, subset_data$MX26_EM_HHW_TYPE)
+    
+    # Run Fisher’s Exact Test
+    fisher_res &lt;- fisher.test(sub_table)
+    
+    # Store results in a data frame
+    pairwise_results[[paste(cat1, &quot;vs&quot;, cat2)]] &lt;- data.frame(
+      Group1 = cat1,
+      Group2 = cat2,
+      p_value = fisher_res$p.value
+    )
+  }
+}
+
+# Combine results into a single data frame
+pairwise_fisher_results &lt;- bind_rows(pairwise_results)
+
+# Apply Bonferroni correction for multiple comparisons
+pairwise_fisher_results &lt;- pairwise_fisher_results %&gt;%
+  mutate(p_adj = p.adjust(p_value, method = &quot;bonferroni&quot;))
+
+# Print results
+print(pairwise_fisher_results)</code></pre>
+<pre><code>          Group1   Group2      p_value        p_adj
+1 No-to-Marginal      Low 7.767053e-06 4.660232e-05
+2 No-to-Marginal Moderate 3.646354e-14 2.187812e-13
+3 No-to-Marginal     High 3.015612e-03 1.809367e-02
+4            Low Moderate 1.240483e-05 7.442901e-05
+5            Low     High 1.805580e-01 1.000000e+00
+6       Moderate     High 1.000000e+00 1.000000e+00</code></pre>
+<p>If p_adj &lt; 0.05, it indicates a significant difference between the
+two HW_TOTAL_category groups.</p>
+<p>If p_adj &gt; 0.05, the difference is not statistically significant
+after Bonferroni correction</p>
+<p>✅ Significant Differences (p_adj &lt; 0.05): Comparison
+Interpretation No-to-Marginal vs. Low Significant difference (p_adj =
+4.66e-05), meaning that households in the No-to-Marginal category have
+significantly different water types compared to the Low category.
+No-to-Marginal vs. Moderate Highly significant difference (p_adj =
+2.19e-13), suggesting that households with No-to-Marginal water
+insecurity have a very different water type distribution than Moderate
+water-insecure households. No-to-Marginal vs. High Significant
+difference (p_adj = 0.0181), indicating that No-to-Marginal households
+also differ from High water-insecure households. Low vs. Moderate
+Significant difference (p_adj = 7.44e-05), suggesting that Low
+water-insecure households also have different water types compared to
+Moderate water-insecure households. ❌ Non-Significant Differences
+(p_adj &gt; 0.05): Comparison Interpretation Low vs. High p_adj = 1.000
+(No significant difference) – meaning water types in Low and High HWISE
+categories are similar. Moderate vs. High p_adj = 1.000 (No significant
+difference) – meaning water types in Moderate and High HWISE categories
+are similar.</p>
+<p>📝 Key Takeaways There are significant differences between
+No-to-Marginal households and all other categories (Low, Moderate,
+High). Low and Moderate categories are also significantly different.
+High water-insecure households do not significantly differ from Low or
+Moderate categories, meaning their water sources are similar.</p>
+<div id="plots-emotionhwise-category" class="section level2">
+<h2>Plots Emotion/HWISE category</h2>
+<pre class="r"><code># Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Ensure variables are factors
+data &lt;- data %&gt;%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+
+# Create the stacked barplot
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(position = &quot;fill&quot;) +  # Fill ensures bars are proportional
+  labs(title = &quot;Proportion of Household Water Types by HW_TOTAL_category&quot;,
+       x = &quot;HW_TOTAL Category&quot;,
+       y = &quot;Proportion&quot;,
+       fill = &quot;Water Type&quot;) +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="regression" class="section level2">
+<h2>regression</h2>
+<p>Why Logistic Regression? Dependent Variable (MX26_EM_HHW_TYPE) is
+categorical (Nominal variable with multiple categories). Independent
+Variable (HW_TOTAL_category) is categorical. Logistic regression is
+appropriate for categorical outcomes, unlike linear regression which
+assumes continuous data.</p>
+<p>Need to run binary logistic regression.</p>
+<pre class="r"><code># Load necessary libraries
+library(dplyr)
+
+# Ensure variables are factors
+data &lt;- data %&gt;%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+
+# Run Binary Logistic Regression
+logit_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL_category, 
+                   data = data, 
+                   family = binomial)
+
+# Show summary of model
+summary(logit_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL_category, family = binomial, 
+    data = data)
+
+Coefficients:
+                          Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                 0.6131     0.2435   2.518   0.0118 *  
+HW_TOTAL_categoryLow       -1.2836     0.2861  -4.487 7.24e-06 ***
+HW_TOTAL_categoryModerate  -2.7261     0.4015  -6.790 1.12e-11 ***
+HW_TOTAL_categoryHigh     -16.1792   594.1636  -0.027   0.9783    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 482.82  on 379  degrees of freedom
+Residual deviance: 419.13  on 376  degrees of freedom
+AIC: 427.13
+
+Number of Fisher Scoring iterations: 14</code></pre>
+<pre class="r"><code># Compute odds ratios
+exp(coef(logit_model))</code></pre>
+<pre><code>              (Intercept)      HW_TOTAL_categoryLow HW_TOTAL_categoryModerate 
+             1.846154e+00              2.770356e-01              6.547619e-02 
+    HW_TOTAL_categoryHigh 
+             9.407507e-08 </code></pre>
+<p>✔ Odds ratios &lt; 1 → Decreased likelihood ✔ Odds ratios &gt; 1 →
+Increased likelihood</p>
+<p>Suggests that any level of water insecurity decreases the probability
+of having positive feelings about water supply.</p>
+<p>Predictor Odds Ratio (OR) (Intercept) 1.846 HW_TOTAL_categoryLow
+0.277 HW_TOTAL_categoryModerate 0.0655 HW_TOTAL_categoryHigh
+9.41e-08</p>
+<p>Reference category is MX26_EM_HHW_TYPE == positive
+HW_TOTAL_categoryLow OR = 0.277 → Individuals in the “Low” category are
+72.3% less likely (1 - 0.277) to belong to MX26_EM_HHW_TYPE compared to
+the reference. HW_TOTAL_categoryModerate OR = 0.0655 → Individuals in
+the “Moderate” category are 93.45% less likely (1 - 0.0655).
+HW_TOTAL_categoryHigh OR = 9.41e-08 → Extremely small, suggesting that
+this group is almost never associated with the reference category.</p>
+<p>The “High” HWISE category (OR = 9.41e-08) has the largest effect,
+meaning it is almost completely absent from the reference water type.
+Moderate category (OR = 0.0655) has a strong negative effect as well.
+Low category (OR = 0.277) has a smaller negative effect than Moderate
+and High. Intercept is just the baseline, not a comparison.</p>
+<p>Check model fit</p>
+<pre class="r"><code># Compute pseudo R-squared (Nagelkerke)
+library(pscl)</code></pre>
+<pre><code>Classes and Methods for R originally developed in the
+Political Science Computational Laboratory
+Department of Political Science
+Stanford University (2002-2015),
+by and under the direction of Simon Jackman.
+hurdle and zeroinfl functions by Achim Zeileis.</code></pre>
+<pre class="r"><code>pR2(logit_model)</code></pre>
+<pre><code>fitting null model for pseudo-r2</code></pre>
+<pre><code>         llh      llhNull           G2     McFadden         r2ML         r2CU 
+-209.5664405 -241.4106519   63.6884228    0.1319089    0.1543089    0.2145170 </code></pre>
+<p>If the High category has very few cases, consider merging it with
+another category. ✔ Higher values (~0.2–0.5) indicate a better
+model.</p>
+<pre class="r"><code># Create a data frame with odds ratios, confidence intervals, and p-values
+effect_sizes &lt;- data.frame(
+  Category = c(&quot;Intercept&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;),
+  Odds_Ratio = c(1.846, 0.277, 0.0655, 9.41e-08),
+  Lower_CI = c(1.2, 0.18, 0.03, 1e-10),  # Replace with actual confidence interval values
+  Upper_CI = c(2.8, 0.42, 0.15, 1e-05),  # Replace with actual confidence interval values
+  p_value = c(0.012, 0.0001, 0.00001, 0.99)  # Replace with actual p-values
+)
+
+# Convert Category into a factor for ordered plotting
+effect_sizes$Category &lt;- factor(effect_sizes$Category, levels = rev(effect_sizes$Category))  # Reverse for horizontal plotting
+
+ggplot(effect_sizes, aes(x = Odds_Ratio, y = Category)) +
+  geom_point(size = 4, color = &quot;blue&quot;) +  # Plot odds ratios as points
+  geom_errorbarh(aes(xmin = Lower_CI, xmax = Upper_CI), height = 0.2, color = &quot;black&quot;) +  # Add confidence intervals (horizontal)
+  scale_x_log10() +  # Log-scale for better visualization
+  geom_vline(xintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;, linewidth = 1) +  # Add reference line at OR = 1
+  geom_text(aes(label = paste0(&quot;p = &quot;, formatC(p_value, format = &quot;e&quot;, digits = 2))), 
+            hjust = 2, vjust = 1, size = 5, color = &quot;black&quot;) +  # Annotate p-values
+  labs(title = &quot;Effect Sizes (Odds Ratios) of HW_TOTAL_category&quot;,
+       x = &quot;Odds Ratio (Log Scale)&quot;,
+       y = &quot;HWISE Category&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>data &lt;- data %&gt;% filter(!is.na(HRS_WEEK) &amp; !is.na(MX26_EM_HHW_TYPE))
+
+wilcox.test(HRS_WEEK ~ MX26_EM_HHW_TYPE, data = data)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  HRS_WEEK by MX26_EM_HHW_TYPE
+W = 9869, p-value = 0.0001252
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>library(effsize)
+cliff.delta(HRS_WEEK ~ MX26_EM_HHW_TYPE, data = data)</code></pre>
+<pre><code>
+Cliff&#39;s Delta
+
+delta estimate: -0.2472159 (small)
+95 percent confidence interval:
+     lower      upper 
+-0.3633836 -0.1234784 </code></pre>
+<p>Interpretation of Cliff’s Delta:</p>
+<p>|d| &lt; 0.147 → Negligible effect 0.147 ≤ |d| &lt; 0.33 → Small
+effect 0.33 ≤ |d| &lt; 0.474 → Medium effect |d| ≥ 0.474 → Large
+effect</p>
+<pre class="r"><code>logit_model &lt;- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK, 
+                   data = data, 
+                   family = binomial)
+summary(logit_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HRS_WEEK, family = binomial, 
+    data = data)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.309778   0.200125  -6.545 5.96e-11 ***
+HRS_WEEK     0.006687   0.001688   3.962 7.42e-05 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 436.99  on 343  degrees of freedom
+Residual deviance: 420.87  on 342  degrees of freedom
+AIC: 424.87
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>data$predicted &lt;- predict(logit_model, type = &quot;response&quot;)
+
+# Ensure correct row alignment
+if(nrow(data) != length(data$predicted)) {
+    stop(&quot;Mismatch in row counts: Check for missing values or inconsistent dataset.&quot;)
+}</code></pre>
+<p>✅ Interpreting Logistic Regression: Significant HRS_WEEK (p &lt;
+0.05) → Water supply duration is linked to positive/negative
+perceptions.</p>
+<pre class="r"><code>exp(coef(logit_model))</code></pre>
+<pre><code>(Intercept)    HRS_WEEK 
+  0.2698801   1.0067090 </code></pre>
+<p>When HRS_WEEK = 0 (i.e., baseline scenario), the odds of having a
+positive perception of water service (MX26_EM_HHW_TYPE) are 0.2699. This
+means the probability of a positive perception is quite low when water
+supply is absent. In terms of probability, 21% prob. of positive
+perception</p>
+<p>HRS_WEEK (OR = 1.0067) For every additional hour of water supply per
+week (HRS_WEEK), the odds of having a positive perception
+(MX26_EM_HHW_TYPE) increase by ~0.67%. Since OR &gt; 1, more hours of
+water supply are associated with a higher likelihood of positive
+perception</p>
+<p>Practical Interpretation A small effect: Since the OR is very close
+to 1, an increase in HRS_WEEK has a very small impact on perception.
+Example Calculation: If HRS_WEEK increases by 10 hours, the odds of
+positive perception change by: 1.0067^{10} = 1.0693  (\text{~6.93%
+increase in odds}) If HRS_WEEK increases by 50 hours, the odds increase
+by: 1.0067^{50} = 1.398  (\text{~39.8% increase in odds})</p>
+<p>Water supply duration (HRS_WEEK) positively influences water service
+perception (MX26_EM_HHW_TYPE). ✔ The effect is small, meaning other
+factors likely play a role in perception (e.g., water quality,
+socioeconomic status). ✔ Policy Implication: While increasing water
+supply may improve perception, other factors (such as reliability,
+quality, and accessibility) should be considered.</p>
+<pre class="r"><code>data &lt;- data %&gt;% 
+  filter(!is.na(W_WC_WI), !is.na(SES_SC_Total), !is.na(SEASON))
+# add covariates
+logit_model &lt;- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + W_WC_WI + SEASON, 
+                   data = data, family = binomial)
+exp(coef(logit_model))  # Get updated odds ratios</code></pre>
+<pre><code> (Intercept)     HRS_WEEK SES_SC_Total      W_WC_WI       SEASON 
+   0.5219487    1.0023190    1.0024298    0.4293454    0.8726002 </code></pre>
+<pre class="r"><code>data$predicted &lt;- predict(logit_model, type = &quot;response&quot;)
+
+ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = &quot;glm&quot;, method.args = list(family = &quot;binomial&quot;), color = &quot;blue&quot;) +
+  labs(title = &quot;Effect of HRS_WEEK on Perceived Water Service&quot;,
+       x = &quot;Hours of Water Supply per Week&quot;,
+       y = &quot;Predicted Probability of Positive Perception&quot;) +
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>library(ggplot2)
+ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  labs(title = &quot;Distribution of HRS_WEEK by Perceived Water Service&quot;,
+       x = &quot;Perception of Water Service&quot;,
+       y = &quot;Hours of Water Supply per Week&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>data$predicted &lt;- predict(logit_model, type = &quot;response&quot;)
+
+# Ensure correct row alignment
+if(nrow(data) != length(data$predicted)) {
+    stop(&quot;Mismatch in row counts: Check for missing values or inconsistent dataset.&quot;)
+}
+
+
+
+
+ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = &quot;glm&quot;, method.args = list(family = &quot;binomial&quot;), color = &quot;blue&quot;) +
+  labs(title = &quot;Effect of HRS_WEEK on Water Perception&quot;,
+       x = &quot;Hours of Water Supply per Week&quot;,
+       y = &quot;Predicted Probability of Positive Perception&quot;) +
+  theme_minimal()</code></pre>
+<pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  labs(title = &quot;Distribution of HRS_WEEK by Perceived Water Service&quot;,
+       x = &quot;Perception of Water Service&quot;,
+       y = &quot;Hours of Water Supply per Week&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>logit_model &lt;- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + SEASON, 
+                   data = data, 
+                   family = binomial)
+summary(logit_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + SEASON, 
+    family = binomial, data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -1.649640   0.444060  -3.715 0.000203 ***
+HRS_WEEK      0.006638   0.001870   3.550 0.000385 ***
+SES_SC_Total  0.002968   0.002894   1.026 0.304988    
+SEASON       -0.154461   0.264747  -0.583 0.559605    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 359.98  on 284  degrees of freedom
+Residual deviance: 345.76  on 281  degrees of freedom
+AIC: 353.76
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<p>Null Deviance = 387.61 → The model with no predictors. Residual
+Deviance = 371.68 → The model with predictors. AIC = 379.68 → Lower AIC
+values indicate a better model fit. 42 observations deleted due to
+missing values → Consider imputing or removing predictors with excessive
+missingness. 📌 The model explains some variation in perception, but
+additional covariates may improve the fit.</p>
+<p>Interpretation of Coefficients Intercept (-1.509241) When HRS_WEEK,
+SES_SC_Total, and SEASON = 0, the odds of a positive perception of water
+service (MX26_EM_HHW_TYPE = 1) are: 0.221 This means that in the
+baseline condition, the probability of positive perception is very
+low.</p>
+<p>Effect of HRS_WEEK (0.006903, p = 0.000119) ✔ Statistically
+significant at p &lt; 0.001 (*).** ✔ For every additional hour of water
+supply per week (HRS_WEEK), the odds of a positive perception increase
+by: This means a 0.69% increase in odds per additional hour of water
+supply. While significant, the effect size is small. Example: A 50-hour
+increase in water supply: 𝑒 0.006903 × 50 = 1.37</p>
+<p>37% increase in odds of a positive perception. More hours of water
+supply are associated with a higher likelihood of positive perception.
+However, the effect size is small, suggesting that other factors may
+play a more significant role</p>
+<p>Effect of SES_SC_Total (0.002020, p = 0.469056) ❌ Not statistically
+significant (p = 0.469). ❌ Socioeconomic status (SES) does not
+significantly predict positive water service perception in this model.
+💡 This suggests that water perception is not strongly related to SES
+after adjusting for water supply hours.</p>
+<p>Effect of SEASON (-0.096373, p = 0.705301) ❌ Not statistically
+significant (p = 0.705). ❌ Season (Fall vs. Spring) does not
+significantly predict positive water perception. 💡 This suggests that
+water perception remains stable across seasons in your dataset.</p>
+<p>Conclusion More water supply hours (HRS_WEEK) significantly increase
+the odds of positive water perception. Socioeconomic status
+(SES_SC_Total) and season (SEASON) do not have a statistically
+significant effect. The effect of HRS_WEEK is small, meaning other
+factors may be more influential. To improve the model, consider adding
+more variables (e.g., water quality concerns, reliability of service,
+household stress).</p>
+<pre class="r"><code>library(ggplot2)
+library(broom)
+
+# Convert coefficients to odds ratios
+odds_ratios &lt;- tidy(logit_model, exponentiate = TRUE, conf.int = TRUE)
+
+ggplot(odds_ratios, aes(x = term, y = estimate)) +
+  geom_point(size = 4, color = &quot;blue&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for Predicting Positive Water Service Perception&quot;,
+       y = &quot;Odds Ratio&quot;, x = &quot;Predictor Variable&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>library(ggeffects)
+predicted_data &lt;- ggpredict(logit_model, terms = &quot;HRS_WEEK [all]&quot;)
+
+ggplot(predicted_data, aes(x = x, y = predicted)) +
+  geom_line(color = &quot;blue&quot;) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+  labs(title = &quot;Effect of Water Supply Hours on Water Perception&quot;,
+       x = &quot;Hours of Water Supply per Week&quot;,
+       y = &quot;Predicted Probability of Positive Perception&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>✔ Try adding interaction effects (e.g., HRS_WEEK * SES_SC_Total) to
+see if SES influences water perception at different supply levels. ✔
+Include more predictors related to water quality, infrastructure, or
+trust in tap water. ✔ Run diagnostics to check model assumptions.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -884,22 +1824,45 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] corrplot_0.95 dplyr_1.1.4   ggplot2_3.5.1
+[1] ggeffects_2.2.0  broom_1.0.7      effsize_0.8.1    pscl_1.5.9      
+[5] rcompanion_2.5.0 rstatix_0.7.2    corrplot_0.95    dplyr_1.1.4     
+[9] ggplot2_3.5.1   
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.6      jsonlite_1.8.9    crayon_1.5.3      compiler_4.4.3   
- [5] promises_1.3.0    tidyselect_1.2.1  Rcpp_1.0.13-1     stringr_1.5.1    
- [9] git2r_0.35.0      later_1.3.2       jquerylib_0.1.4   scales_1.3.0     
-[13] yaml_2.3.10       fastmap_1.2.0     R6_2.5.1          labeling_0.4.3   
-[17] generics_0.1.3    workflowr_1.7.1   knitr_1.49        tibble_3.2.1     
-[21] munsell_0.5.1     rprojroot_2.0.4   bslib_0.8.0       pillar_1.9.0     
-[25] rlang_1.1.4       utf8_1.2.4        cachem_1.1.0      stringi_1.8.4    
-[29] httpuv_1.6.15     xfun_0.49         fs_1.6.5          sass_0.4.9       
-[33] cli_3.6.3         withr_3.0.2       magrittr_2.0.3    digest_0.6.37    
-[37] grid_4.4.3        rstudioapi_0.17.1 lifecycle_1.0.4   vctrs_0.6.5      
-[41] evaluate_1.0.1    glue_1.8.0        farver_2.1.2      whisker_0.4.1    
-[45] colorspace_2.1-1  fansi_1.0.6       rmarkdown_2.29    tools_4.4.3      
-[49] pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+ [1] gld_2.6.7           sandwich_3.1-1      readxl_1.4.3       
+ [4] rlang_1.1.4         magrittr_2.0.3      git2r_0.35.0       
+ [7] multcomp_1.4-28     matrixStats_1.5.0   e1071_1.7-16       
+[10] compiler_4.4.3      mgcv_1.9-1          vctrs_0.6.5        
+[13] stringr_1.5.1       pkgconfig_2.0.3     crayon_1.5.3       
+[16] fastmap_1.2.0       backports_1.5.0     labeling_0.4.3     
+[19] utf8_1.2.4          promises_1.3.0      rmarkdown_2.29     
+[22] haven_2.5.4         purrr_1.0.2         xfun_0.49          
+[25] modeltools_0.2-23   cachem_1.1.0        jsonlite_1.8.9     
+[28] later_1.3.2         parallel_4.4.3      DescTools_0.99.59  
+[31] R6_2.5.1            coin_1.4-3          bslib_0.8.0        
+[34] stringi_1.8.4       car_3.1-3           boot_1.3-31        
+[37] lmtest_0.9-40       jquerylib_0.1.4     cellranger_1.1.0   
+[40] Rcpp_1.0.13-1       knitr_1.49          zoo_1.8-12         
+[43] httpuv_1.6.15       Matrix_1.7-2        splines_4.4.3      
+[46] tidyselect_1.2.1    rstudioapi_0.17.1   abind_1.4-8        
+[49] yaml_2.3.10         codetools_0.2-20    lattice_0.22-6     
+[52] tibble_3.2.1        plyr_1.8.9          withr_3.0.2        
+[55] evaluate_1.0.1      survival_3.8-3      proxy_0.4-27       
+[58] pillar_1.9.0        carData_3.0-5       whisker_0.4.1      
+[61] nortest_1.0-4       stats4_4.4.3        insight_1.1.0      
+[64] generics_0.1.3      rprojroot_2.0.4     hms_1.1.3          
+[67] munsell_0.5.1       scales_1.3.0        rootSolve_1.8.2.4  
+[70] class_7.3-23        glue_1.8.0          lmom_3.2           
+[73] tools_4.4.3         data.table_1.16.2   forcats_1.0.0      
+[76] Exact_3.3           fs_1.6.5            mvtnorm_1.3-2      
+[79] grid_4.4.3          tidyr_1.3.1         libcoin_1.0-10     
+[82] datawizard_1.0.1    colorspace_2.1-1    nlme_3.1-167       
+[85] Formula_1.2-5       cli_3.6.3           workflowr_1.7.1    
+[88] fansi_1.0.6         expm_1.0-0          gtable_0.3.6       
+[91] sass_0.4.9          digest_0.6.37       TH.data_1.1-3      
+[94] farver_2.1.2        htmltools_0.5.8.1   lifecycle_1.0.4    
+[97] httr_1.4.7          multcompView_0.1-10 MASS_7.3-64        </code></pre>
+</div>
 </div>
 </div>
 </div>

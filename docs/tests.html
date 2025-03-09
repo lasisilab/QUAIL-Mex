@@ -380,7 +380,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-08
+<strong>Last updated:</strong> 2025-03-09
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -418,10 +418,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -514,15 +514,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8cdddab64a0374f2d0d17718232374c48b175b42targetblank8cdddaba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8cdddab64a0374f2d0d17718232374c48b175b42" target="_blank">8cdddab</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8cdddab64a0374f2d0d17718232374c48b175b42targetblank8cdddaba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -532,7 +532,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8cdddab64a0374f2d0d17718232374c48b175b42" target="_blank">8cdddab</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -559,12 +559,15 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  analysis/tests.Rmd
+    Untracked:  data/Cleaned_Dataset_Screening_HWISE_PSS_V4.csv
 
 Unstaged changes:
     Modified:   analysis/HBA2025_Analyses.Rmd
+    Modified:   analysis/HBA2025_cleaning.Rmd
+    Modified:   analysis/MX28_plots.Rmd
+    Modified:   analysis/Regression-Analysis_PC.Rmd
+    Modified:   analysis/tests.Rmd
     Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
-    Modified:   data/Q8-26-28.csv
 
 </code></pre>
 <p>
@@ -580,42 +583,86 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/tests.Rmd</code>) and HTML
+(<code>docs/tests.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/analysis/tests.Rmd" target="_blank">a8b976c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+<td>
+hrs water supply vs hwise
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/tests.html" target="_blank">a8b976c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+<td>
+hrs water supply vs hwise
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <pre class="r"><code># Load necessary libraries
-library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
+library(dplyr)
+library(ggplot2)
+library(rstatix)
+library(ggpubr)
+library(coin)
 
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(ggplot2)
-library(rstatix)</code></pre>
-<pre><code>
-Attaching package: &#39;rstatix&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:stats&#39;:
-
-    filter</code></pre>
-<pre class="r"><code>library(ggpubr)
-library(coin)</code></pre>
-<pre><code>Loading required package: survival</code></pre>
-<pre><code>
-Attaching package: &#39;coin&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:rstatix&#39;:
-
-    chisq_test, friedman_test, kruskal_test, sign_test, wilcox_test</code></pre>
-<pre class="r"><code># Load the dataset
+# Load the dataset
 data_path = &quot;data&quot;
 
-data &lt;- read.csv(file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;), 
+data &lt;- read.csv(file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V4.csv&quot;), 
          stringsAsFactors = FALSE,  
          na.strings = c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;))</code></pre>
 <pre class="r"><code># Categorize HW_TOTAL into four groups
@@ -731,6 +778,1009 @@ ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category))
     scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
                                  &quot; (n=&quot;, summary_stats$Count, &quot;)&quot;)) </code></pre>
 <p><img src="figure/tests.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/tests.Rmd/unnamed-chunk-3-1.png" target="_blank">a8b976c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code># Load necessary packages
+library(MASS)  # For stepAIC</code></pre>
+<pre><code>
+Attaching package: &#39;MASS&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:rstatix&#39;:
+
+    select</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    select</code></pre>
+<pre class="r"><code>library(broom) # For model output formatting
+library(dplyr) # For data manipulation
+
+# Ensure it&#39;s properly coded as 0 or 1
+data$MX26_EM_HHW_TYPE &lt;- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
+# Remove rows where MX26_EM_HHW_TYPE is 2
+data &lt;- data %&gt;% filter(MX26_EM_HHW_TYPE != 2)
+
+# Check unique values to confirm only 0 and 1 remain
+table(data$MX26_EM_HHW_TYPE)</code></pre>
+<pre><code>
+  0   1 
+114 230 </code></pre>
+<pre class="r"><code>dim(data)</code></pre>
+<pre><code>[1] 344  48</code></pre>
+<pre class="r"><code># Define dependent (outcome) variable
+outcome_var &lt;- &quot;MX26_EM_HHW_TYPE&quot;  # Binary outcome (0 = negative, 1 = positive)
+
+# Define independent (predictor) variables
+predictors &lt;- c(&quot;HRS_WEEK&quot;, &quot;W_WC_WI&quot;, &quot;MX28_WQ_COMP&quot;, &quot;W_WS_LOC&quot;,
+                &quot;SES_SC_Total&quot;, &quot;HW_TOTAL&quot;, &quot;D_HH_SIZE&quot;, &quot;D_LOC_TIME&quot;,
+                &quot;PSS_TOTAL&quot;, &quot;HLTH_CPAIN_CAT&quot;, &quot;HLTH_CDIS_CAT&quot;, 
+                &quot;MX9_DRINK_W&quot;, &quot;MX10_WSTORAGE&quot;, &quot;SEASON&quot;)
+
+# Run univariate logistic regression for each predictor
+univariate_results &lt;- list()
+aic_values &lt;- data.frame(Predictor = character(), AIC = numeric(), stringsAsFactors = FALSE)
+
+data &lt;- data %&gt;% drop_na(predictors)</code></pre>
+<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+ℹ Please use `all_of()` or `any_of()` instead.
+  # Was:
+  data %&gt;% select(predictors)
+
+  # Now:
+  data %&gt;% select(all_of(predictors))
+
+See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<pre class="r"><code>dim(data)</code></pre>
+<pre><code>[1] 251  48</code></pre>
+<pre class="r"><code>for (var in predictors) {
+    # Build formula dynamically
+    formula &lt;- as.formula(paste(outcome_var, &quot;~&quot;, var))
+    
+    # Fit univariate logistic regression model
+    model &lt;- glm(formula, data = data, family = binomial)
+    
+    # Store model summary
+    univariate_results[[var]] &lt;- summary(model)
+    
+    # Store AIC values
+    aic_values &lt;- rbind(aic_values, data.frame(Predictor = var, AIC = AIC(model)))
+}
+
+univariate_results</code></pre>
+<pre><code>$HRS_WEEK
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  1.376987   0.237924   5.788 7.14e-09 ***
+HRS_WEEK    -0.006911   0.001979  -3.493 0.000478 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 303.13  on 249  degrees of freedom
+AIC: 307.13
+
+Number of Fisher Scoring iterations: 4
+
+
+$W_WC_WI
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -0.04763    0.21828  -0.218    0.827    
+W_WC_WI      1.26985    0.28586   4.442  8.9e-06 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 295.52  on 249  degrees of freedom
+AIC: 299.52
+
+Number of Fisher Scoring iterations: 4
+
+
+$MX28_WQ_COMP
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)    1.3442     0.2323   5.786 7.19e-09 ***
+MX28_WQ_COMP  -0.6114     0.1777  -3.440 0.000582 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 303.36  on 249  degrees of freedom
+AIC: 307.36
+
+Number of Fisher Scoring iterations: 4
+
+
+$W_WS_LOC
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)   0.4463     0.1848   2.414   0.0158 *
+W_WS_LOC      0.6111     0.2739   2.231   0.0257 *
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 310.65  on 249  degrees of freedom
+AIC: 314.65
+
+Number of Fisher Scoring iterations: 4
+
+
+$SES_SC_Total
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)   1.240625   0.416560   2.978   0.0029 **
+SES_SC_Total -0.003745   0.002925  -1.280   0.2005   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 314.06  on 249  degrees of freedom
+AIC: 318.06
+
+Number of Fisher Scoring iterations: 4
+
+
+$HW_TOTAL
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -0.80034    0.25605  -3.126  0.00177 ** 
+HW_TOTAL     0.21313    0.03389   6.288 3.21e-10 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 257.93  on 249  degrees of freedom
+AIC: 261.93
+
+Number of Fisher Scoring iterations: 5
+
+
+$D_HH_SIZE
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)  0.59431    0.25613   2.320   0.0203 *
+D_HH_SIZE    0.02741    0.04112   0.667   0.5050  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 315.22  on 249  degrees of freedom
+AIC: 319.22
+
+Number of Fisher Scoring iterations: 4
+
+
+$D_LOC_TIME
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+             Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)  0.875994   0.300219   2.918  0.00352 **
+D_LOC_TIME  -0.006001   0.011876  -0.505  0.61337   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 315.45  on 249  degrees of freedom
+AIC: 319.45
+
+Number of Fisher Scoring iterations: 4
+
+
+$PSS_TOTAL
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  0.82030    0.14281   5.744 9.24e-09 ***
+PSS_TOTAL    0.06842    0.01975   3.464 0.000532 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 302.82  on 249  degrees of freedom
+AIC: 306.82
+
+Number of Fisher Scoring iterations: 4
+
+
+$HLTH_CPAIN_CAT
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)      0.6306     0.1524   4.139 3.49e-05 ***
+HLTH_CPAIN_CAT   0.4900     0.3341   1.467    0.143    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 313.45  on 249  degrees of freedom
+AIC: 317.45
+
+Number of Fisher Scoring iterations: 4
+
+
+$HLTH_CDIS_CAT
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)     0.7631     0.1458   5.235 1.65e-07 ***
+HLTH_CDIS_CAT  -0.1570     0.3873  -0.405    0.685    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 315.54  on 249  degrees of freedom
+AIC: 319.54
+
+Number of Fisher Scoring iterations: 4
+
+
+$MX9_DRINK_W
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+                                                                                                                  Estimate
+(Intercept)                                                                                                      2.629e-14
+MX9_DRINK_Wa) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua                     -3.224e-14
+MX9_DRINK_Wd) Garrafon de marca                                                                                 -6.931e-01
+MX9_DRINK_WD) Garrafon de marca                                                                                 -4.055e-01
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora                                                    -1.657e+01
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora                                                     1.792e+00
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                               -3.618e-14
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                1.386e+00
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua, Garrafon por 5x a la semana   1.657e+01
+MX9_DRINK_WD) Garrafon de marca, G) Botellas de Agua                                                             1.657e+01
+MX9_DRINK_WE) Garrafon de purificadora                                                                           8.377e-01
+MX9_DRINK_WE) Garrafon de purificadora, G) Botellas de Agua                                                      7.397e-01
+MX9_DRINK_WE) Garrafon de purificadora, tiene filtro para usar la del suministro publico                        -1.657e+01
+MX9_DRINK_WG) Botellas de Agua                                                                                  -6.931e-01
+                                                                                                                Std. Error
+(Intercept)                                                                                                      1.000e+00
+MX9_DRINK_Wa) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua                      1.732e+00
+MX9_DRINK_Wd) Garrafon de marca                                                                                  1.581e+00
+MX9_DRINK_WD) Garrafon de marca                                                                                  1.354e+00
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora                                                     2.400e+03
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora                                                     1.472e+00
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                1.732e+00
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                1.500e+00
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua, Garrafon por 5x a la semana   2.400e+03
+MX9_DRINK_WD) Garrafon de marca, G) Botellas de Agua                                                             1.385e+03
+MX9_DRINK_WE) Garrafon de purificadora                                                                           1.016e+00
+MX9_DRINK_WE) Garrafon de purificadora, G) Botellas de Agua                                                      1.035e+00
+MX9_DRINK_WE) Garrafon de purificadora, tiene filtro para usar la del suministro publico                         2.400e+03
+MX9_DRINK_WG) Botellas de Agua                                                                                   1.581e+00
+                                                                                                                z value
+(Intercept)                                                                                                       0.000
+MX9_DRINK_Wa) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua                       0.000
+MX9_DRINK_Wd) Garrafon de marca                                                                                  -0.438
+MX9_DRINK_WD) Garrafon de marca                                                                                  -0.299
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora                                                     -0.007
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora                                                      1.217
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                 0.000
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                 0.924
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua, Garrafon por 5x a la semana    0.007
+MX9_DRINK_WD) Garrafon de marca, G) Botellas de Agua                                                              0.012
+MX9_DRINK_WE) Garrafon de purificadora                                                                            0.825
+MX9_DRINK_WE) Garrafon de purificadora, G) Botellas de Agua                                                       0.715
+MX9_DRINK_WE) Garrafon de purificadora, tiene filtro para usar la del suministro publico                         -0.007
+MX9_DRINK_WG) Botellas de Agua                                                                                   -0.438
+                                                                                                                Pr(&gt;|z|)
+(Intercept)                                                                                                        1.000
+MX9_DRINK_Wa) agua del suministro publico, E) Garrafon de purificadora, G) Botellas de Agua                        1.000
+MX9_DRINK_Wd) Garrafon de marca                                                                                    0.661
+MX9_DRINK_WD) Garrafon de marca                                                                                    0.765
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora                                                       0.994
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora                                                       0.224
+MX9_DRINK_Wd) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                  1.000
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua                                  0.355
+MX9_DRINK_WD) Garrafon de marca, E) Garrafon de purificadora, G) Botellas de Agua, Garrafon por 5x a la semana     0.994
+MX9_DRINK_WD) Garrafon de marca, G) Botellas de Agua                                                               0.990
+MX9_DRINK_WE) Garrafon de purificadora                                                                             0.410
+MX9_DRINK_WE) Garrafon de purificadora, G) Botellas de Agua                                                        0.475
+MX9_DRINK_WE) Garrafon de purificadora, tiene filtro para usar la del suministro publico                           0.994
+MX9_DRINK_WG) Botellas de Agua                                                                                     0.661
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 300.54  on 237  degrees of freedom
+AIC: 328.54
+
+Number of Fisher Scoring iterations: 15
+
+
+$MX10_WSTORAGE
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+                                                                                              Estimate
+(Intercept)                                                                                    -0.4055
+MX10_WSTORAGEA) No se almacena, E) Cubeta con tapa                                             18.9715
+MX10_WSTORAGEB) Tinaco                                                                          0.4055
+MX10_WSTORAGEB) Tinaco, agua de lluvia: reducir consumo--&gt; lavar patio, gastos, llavar bano    18.9715
+MX10_WSTORAGEB) Tinaco, C) Cisterna                                                             0.6817
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo                                                   2.0794
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa                              18.9715
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa                               1.7918
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa                                        18.9715
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta            18.9715
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa                                         1.3863
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa, pileta                               -18.1606
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                    18.9715
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                   -18.1606
+MX10_WSTORAGEB) Tinaco, cubeta con bolsa                                                      -18.1606
+MX10_WSTORAGEB) Tinaco, D) Tambo                                                                1.0341
+MX10_WSTORAGEB) Tinaco, D) Tambo, Botes tina                                                   18.9715
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa                                            2.1972
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                       18.9715
+MX10_WSTORAGEB) Tinaco, D) Tambo, F) Cubeta sin tapa                                            0.5596
+MX10_WSTORAGEB) Tinaco, D) Tambo, pileta                                                       18.9715
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa                                                     18.9715
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa                                 18.9715
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, G) Otro, Pileta                                   -18.1606
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, Pileta                                             18.9715
+MX10_WSTORAGEB) Tinaco, F) Cubeta sin tapa                                                      0.4055
+MX10_WSTORAGEB) Tinaco, pileta                                                                 18.9715
+MX10_WSTORAGEB) Tinaco, Pileta                                                                -18.1606
+MX10_WSTORAGEB) Tinaco, Pileta                                                                 18.9715
+MX10_WSTORAGEC) Cisterna                                                                        0.6931
+MX10_WSTORAGEC) Cisterna, D) Tambo                                                              1.5041
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa                                         18.9715
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa, G) Otro                                18.9715
+MX10_WSTORAGEC) Cisterna, D) Tambo, F) Cubeta sin tapa                                         18.9715
+MX10_WSTORAGEC) Cisterna, E) Cubeta con tapa                                                   18.9715
+MX10_WSTORAGEC) Cisterna, F) Cubeta sin tapa                                                    1.5041
+MX10_WSTORAGEC) Cisterna, pileta                                                              -18.1606
+MX10_WSTORAGEC) Cisterna, tina botes                                                           18.9715
+MX10_WSTORAGED) Tambo                                                                           1.7918
+MX10_WSTORAGED) Tambo, botes 4 con tapa                                                        18.9715
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa                                                       1.7918
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                                  18.9715
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa                                                       0.9651
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa, Pileta                                              18.9715
+MX10_WSTORAGED) Tambo, G) Otro                                                                 18.9715
+MX10_WSTORAGED) Tambo, pileta, botes                                                           18.9715
+MX10_WSTORAGEE) Cubeta con tapa                                                                18.9715
+MX10_WSTORAGEF) Cubeta sin tapa                                                                18.9715
+MX10_WSTORAGEF) Cubeta sin tapa, Pileta                                                        18.9715
+MX10_WSTORAGEpileta                                                                            18.9715
+MX10_WSTORAGEpileta                                                                             0.4055
+                                                                                             Std. Error
+(Intercept)                                                                                      0.9129
+MX10_WSTORAGEA) No se almacena, E) Cubeta con tapa                                            6522.6387
+MX10_WSTORAGEB) Tinaco                                                                           0.9936
+MX10_WSTORAGEB) Tinaco, agua de lluvia: reducir consumo--&gt; lavar patio, gastos, llavar bano   6522.6387
+MX10_WSTORAGEB) Tinaco, C) Cisterna                                                              0.9557
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo                                                    1.1087
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa                             3261.3194
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa                                1.4434
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa                                       3765.8473
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta           4612.2021
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa                                          1.1365
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa, pileta                               6522.6387
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                   6522.6387
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                   6522.6387
+MX10_WSTORAGEB) Tinaco, cubeta con bolsa                                                      6522.6387
+MX10_WSTORAGEB) Tinaco, D) Tambo                                                                 1.0124
+MX10_WSTORAGEB) Tinaco, D) Tambo, Botes tina                                                  6522.6387
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa                                             1.4142
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                      6522.6387
+MX10_WSTORAGEB) Tinaco, D) Tambo, F) Cubeta sin tapa                                             1.0690
+MX10_WSTORAGEB) Tinaco, D) Tambo, pileta                                                      6522.6387
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa                                                    6522.6387
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa                                6522.6387
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, G) Otro, Pileta                                   6522.6387
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, Pileta                                            6522.6387
+MX10_WSTORAGEB) Tinaco, F) Cubeta sin tapa                                                       1.3540
+MX10_WSTORAGEB) Tinaco, pileta                                                                6522.6387
+MX10_WSTORAGEB) Tinaco, Pileta                                                                6522.6387
+MX10_WSTORAGEB) Tinaco, Pileta                                                                6522.6387
+MX10_WSTORAGEC) Cisterna                                                                         1.1902
+MX10_WSTORAGEC) Cisterna, D) Tambo                                                               1.2247
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa                                        4612.2021
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa, G) Otro                               6522.6387
+MX10_WSTORAGEC) Cisterna, D) Tambo, F) Cubeta sin tapa                                        6522.6387
+MX10_WSTORAGEC) Cisterna, E) Cubeta con tapa                                                  6522.6387
+MX10_WSTORAGEC) Cisterna, F) Cubeta sin tapa                                                     1.4720
+MX10_WSTORAGEC) Cisterna, pileta                                                              6522.6387
+MX10_WSTORAGEC) Cisterna, tina botes                                                          6522.6387
+MX10_WSTORAGED) Tambo                                                                            1.4434
+MX10_WSTORAGED) Tambo, botes 4 con tapa                                                       6522.6387
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa                                                        1.4434
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                                 4612.2021
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa                                                        1.1073
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa, Pileta                                             6522.6387
+MX10_WSTORAGED) Tambo, G) Otro                                                                6522.6387
+MX10_WSTORAGED) Tambo, pileta, botes                                                          6522.6387
+MX10_WSTORAGEE) Cubeta con tapa                                                               4612.2021
+MX10_WSTORAGEF) Cubeta sin tapa                                                               3765.8473
+MX10_WSTORAGEF) Cubeta sin tapa, Pileta                                                       6522.6387
+MX10_WSTORAGEpileta                                                                           6522.6387
+MX10_WSTORAGEpileta                                                                              1.6833
+                                                                                             z value
+(Intercept)                                                                                   -0.444
+MX10_WSTORAGEA) No se almacena, E) Cubeta con tapa                                             0.003
+MX10_WSTORAGEB) Tinaco                                                                         0.408
+MX10_WSTORAGEB) Tinaco, agua de lluvia: reducir consumo--&gt; lavar patio, gastos, llavar bano    0.003
+MX10_WSTORAGEB) Tinaco, C) Cisterna                                                            0.713
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo                                                  1.876
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa                              0.006
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa                              1.241
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa                                        0.005
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta            0.004
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa                                        1.220
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa, pileta                               -0.003
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                    0.003
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                   -0.003
+MX10_WSTORAGEB) Tinaco, cubeta con bolsa                                                      -0.003
+MX10_WSTORAGEB) Tinaco, D) Tambo                                                               1.021
+MX10_WSTORAGEB) Tinaco, D) Tambo, Botes tina                                                   0.003
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa                                           1.554
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                       0.003
+MX10_WSTORAGEB) Tinaco, D) Tambo, F) Cubeta sin tapa                                           0.523
+MX10_WSTORAGEB) Tinaco, D) Tambo, pileta                                                       0.003
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa                                                     0.003
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa                                 0.003
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, G) Otro, Pileta                                   -0.003
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, Pileta                                             0.003
+MX10_WSTORAGEB) Tinaco, F) Cubeta sin tapa                                                     0.299
+MX10_WSTORAGEB) Tinaco, pileta                                                                 0.003
+MX10_WSTORAGEB) Tinaco, Pileta                                                                -0.003
+MX10_WSTORAGEB) Tinaco, Pileta                                                                 0.003
+MX10_WSTORAGEC) Cisterna                                                                       0.582
+MX10_WSTORAGEC) Cisterna, D) Tambo                                                             1.228
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa                                         0.004
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa, G) Otro                                0.003
+MX10_WSTORAGEC) Cisterna, D) Tambo, F) Cubeta sin tapa                                         0.003
+MX10_WSTORAGEC) Cisterna, E) Cubeta con tapa                                                   0.003
+MX10_WSTORAGEC) Cisterna, F) Cubeta sin tapa                                                   1.022
+MX10_WSTORAGEC) Cisterna, pileta                                                              -0.003
+MX10_WSTORAGEC) Cisterna, tina botes                                                           0.003
+MX10_WSTORAGED) Tambo                                                                          1.241
+MX10_WSTORAGED) Tambo, botes 4 con tapa                                                        0.003
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa                                                      1.241
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                                  0.004
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa                                                      0.872
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa, Pileta                                              0.003
+MX10_WSTORAGED) Tambo, G) Otro                                                                 0.003
+MX10_WSTORAGED) Tambo, pileta, botes                                                           0.003
+MX10_WSTORAGEE) Cubeta con tapa                                                                0.004
+MX10_WSTORAGEF) Cubeta sin tapa                                                                0.005
+MX10_WSTORAGEF) Cubeta sin tapa, Pileta                                                        0.003
+MX10_WSTORAGEpileta                                                                            0.003
+MX10_WSTORAGEpileta                                                                            0.241
+                                                                                             Pr(&gt;|z|)
+(Intercept)                                                                                    0.6569
+MX10_WSTORAGEA) No se almacena, E) Cubeta con tapa                                             0.9977
+MX10_WSTORAGEB) Tinaco                                                                         0.6832
+MX10_WSTORAGEB) Tinaco, agua de lluvia: reducir consumo--&gt; lavar patio, gastos, llavar bano    0.9977
+MX10_WSTORAGEB) Tinaco, C) Cisterna                                                            0.4756
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo                                                  0.0607
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa                              0.9954
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa                              0.2145
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa                                        0.9960
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta            0.9967
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa                                        0.2225
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa, pileta                                0.9978
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                    0.9977
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                    0.9978
+MX10_WSTORAGEB) Tinaco, cubeta con bolsa                                                       0.9978
+MX10_WSTORAGEB) Tinaco, D) Tambo                                                               0.3071
+MX10_WSTORAGEB) Tinaco, D) Tambo, Botes tina                                                   0.9977
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa                                           0.1203
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                       0.9977
+MX10_WSTORAGEB) Tinaco, D) Tambo, F) Cubeta sin tapa                                           0.6006
+MX10_WSTORAGEB) Tinaco, D) Tambo, pileta                                                       0.9977
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa                                                     0.9977
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa                                 0.9977
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, G) Otro, Pileta                                    0.9978
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, Pileta                                             0.9977
+MX10_WSTORAGEB) Tinaco, F) Cubeta sin tapa                                                     0.7646
+MX10_WSTORAGEB) Tinaco, pileta                                                                 0.9977
+MX10_WSTORAGEB) Tinaco, Pileta                                                                 0.9978
+MX10_WSTORAGEB) Tinaco, Pileta                                                                 0.9977
+MX10_WSTORAGEC) Cisterna                                                                       0.5603
+MX10_WSTORAGEC) Cisterna, D) Tambo                                                             0.2194
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa                                         0.9967
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa, G) Otro                                0.9977
+MX10_WSTORAGEC) Cisterna, D) Tambo, F) Cubeta sin tapa                                         0.9977
+MX10_WSTORAGEC) Cisterna, E) Cubeta con tapa                                                   0.9977
+MX10_WSTORAGEC) Cisterna, F) Cubeta sin tapa                                                   0.3069
+MX10_WSTORAGEC) Cisterna, pileta                                                               0.9978
+MX10_WSTORAGEC) Cisterna, tina botes                                                           0.9977
+MX10_WSTORAGED) Tambo                                                                          0.2145
+MX10_WSTORAGED) Tambo, botes 4 con tapa                                                        0.9977
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa                                                      0.2145
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                                  0.9967
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa                                                      0.3835
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa, Pileta                                              0.9977
+MX10_WSTORAGED) Tambo, G) Otro                                                                 0.9977
+MX10_WSTORAGED) Tambo, pileta, botes                                                           0.9977
+MX10_WSTORAGEE) Cubeta con tapa                                                                0.9967
+MX10_WSTORAGEF) Cubeta sin tapa                                                                0.9960
+MX10_WSTORAGEF) Cubeta sin tapa, Pileta                                                        0.9977
+MX10_WSTORAGEpileta                                                                            0.9977
+MX10_WSTORAGEpileta                                                                            0.8096
+                                                                                              
+(Intercept)                                                                                   
+MX10_WSTORAGEA) No se almacena, E) Cubeta con tapa                                            
+MX10_WSTORAGEB) Tinaco                                                                        
+MX10_WSTORAGEB) Tinaco, agua de lluvia: reducir consumo--&gt; lavar patio, gastos, llavar bano   
+MX10_WSTORAGEB) Tinaco, C) Cisterna                                                           
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo                                                .
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, E) Cubeta con tapa                             
+MX10_WSTORAGEB) Tinaco, C) Cisterna, D) Tambo, F) Cubeta sin tapa                             
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa                                       
+MX10_WSTORAGEB) Tinaco, C) Cisterna, E) Cubeta con tapa, F) Cubeta sin tapa, pileta           
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa                                       
+MX10_WSTORAGEB) Tinaco, C) Cisterna, F) Cubeta sin tapa, pileta                               
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                   
+MX10_WSTORAGEB) Tinaco, C) Cisterna, pileta                                                   
+MX10_WSTORAGEB) Tinaco, cubeta con bolsa                                                      
+MX10_WSTORAGEB) Tinaco, D) Tambo                                                              
+MX10_WSTORAGEB) Tinaco, D) Tambo, Botes tina                                                  
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa                                          
+MX10_WSTORAGEB) Tinaco, D) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                      
+MX10_WSTORAGEB) Tinaco, D) Tambo, F) Cubeta sin tapa                                          
+MX10_WSTORAGEB) Tinaco, D) Tambo, pileta                                                      
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa                                                    
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, F) Cubeta sin tapa                                
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, G) Otro, Pileta                                   
+MX10_WSTORAGEB) Tinaco, E) Cubeta con tapa, Pileta                                            
+MX10_WSTORAGEB) Tinaco, F) Cubeta sin tapa                                                    
+MX10_WSTORAGEB) Tinaco, pileta                                                                
+MX10_WSTORAGEB) Tinaco, Pileta                                                                
+MX10_WSTORAGEB) Tinaco, Pileta                                                                
+MX10_WSTORAGEC) Cisterna                                                                      
+MX10_WSTORAGEC) Cisterna, D) Tambo                                                            
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa                                        
+MX10_WSTORAGEC) Cisterna, D) Tambo, E) Cubeta con tapa, G) Otro                               
+MX10_WSTORAGEC) Cisterna, D) Tambo, F) Cubeta sin tapa                                        
+MX10_WSTORAGEC) Cisterna, E) Cubeta con tapa                                                  
+MX10_WSTORAGEC) Cisterna, F) Cubeta sin tapa                                                  
+MX10_WSTORAGEC) Cisterna, pileta                                                              
+MX10_WSTORAGEC) Cisterna, tina botes                                                          
+MX10_WSTORAGED) Tambo                                                                         
+MX10_WSTORAGED) Tambo, botes 4 con tapa                                                       
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa                                                     
+MX10_WSTORAGED) Tambo, E) Cubeta con tapa, F) Cubeta sin tapa                                 
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa                                                     
+MX10_WSTORAGED) Tambo, F) Cubeta sin tapa, Pileta                                             
+MX10_WSTORAGED) Tambo, G) Otro                                                                
+MX10_WSTORAGED) Tambo, pileta, botes                                                          
+MX10_WSTORAGEE) Cubeta con tapa                                                               
+MX10_WSTORAGEF) Cubeta sin tapa                                                               
+MX10_WSTORAGEF) Cubeta sin tapa, Pileta                                                       
+MX10_WSTORAGEpileta                                                                           
+MX10_WSTORAGEpileta                                                                           
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 256.19  on 200  degrees of freedom
+AIC: 358.19
+
+Number of Fisher Scoring iterations: 17
+
+
+$SEASON
+
+Call:
+glm(formula = formula, family = binomial, data = data)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   0.7319     0.1974   3.707  0.00021 ***
+SEASON        0.0178     0.2706   0.066  0.94756    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 315.70  on 249  degrees of freedom
+AIC: 319.7
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code># Display AIC values sorted in ascending order (lower AIC = better fit)
+aic_values &lt;- aic_values %&gt;% arrange(AIC)
+print(aic_values)</code></pre>
+<pre><code>        Predictor      AIC
+1        HW_TOTAL 261.9321
+2         W_WC_WI 299.5229
+3       PSS_TOTAL 306.8192
+4        HRS_WEEK 307.1284
+5    MX28_WQ_COMP 307.3601
+6        W_WS_LOC 314.6525
+7  HLTH_CPAIN_CAT 317.4550
+8    SES_SC_Total 318.0615
+9       D_HH_SIZE 319.2246
+10     D_LOC_TIME 319.4496
+11  HLTH_CDIS_CAT 319.5428
+12         SEASON 319.7008
+13    MX9_DRINK_W 328.5391
+14  MX10_WSTORAGE 358.1899</code></pre>
+<pre class="r"><code># Select best predictors based on AIC (top 6 with lowest AIC)
+top_predictors &lt;- head(aic_values$Predictor, 6)
+
+# Create multivariable model with top predictors
+multivariable_formula &lt;- as.formula(paste(outcome_var, &quot;~&quot;, paste(top_predictors, collapse = &quot; + &quot;)))
+multivariable_model &lt;- glm(multivariable_formula, data = data, family = binomial)
+
+# Display summary of multivariable model
+summary(multivariable_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = multivariable_formula, family = binomial, data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -0.845508   0.905685  -0.934 0.350533    
+HW_TOTAL      0.204400   0.036730   5.565 2.62e-08 ***
+W_WC_WI       1.141862   0.535763   2.131 0.033066 *  
+PSS_TOTAL     0.074589   0.024297   3.070 0.002142 ** 
+HRS_WEEK      0.004302   0.004609   0.933 0.350661    
+MX28_WQ_COMP -0.797236   0.228343  -3.491 0.000481 ***
+W_WS_LOC     -0.253768   0.531435  -0.478 0.632996    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 231.47  on 244  degrees of freedom
+AIC: 245.47
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># Perform stepwise selection to find the best model
+optimized_model &lt;- stepAIC(multivariable_model, direction = &quot;both&quot;)</code></pre>
+<pre><code>Start:  AIC=245.47
+MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP + W_WS_LOC
+
+               Df Deviance    AIC
+- W_WS_LOC      1   231.70 243.70
+- HRS_WEEK      1   232.34 244.34
+&lt;none&gt;              231.47 245.47
+- W_WC_WI       1   236.24 248.24
+- PSS_TOTAL     1   241.74 253.74
+- MX28_WQ_COMP  1   244.65 256.64
+- HW_TOTAL      1   272.28 284.28
+
+Step:  AIC=243.7
+MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP
+
+               Df Deviance    AIC
+&lt;none&gt;              231.70 243.70
+- HRS_WEEK      1   233.95 243.95
++ W_WS_LOC      1   231.47 245.47
+- W_WC_WI       1   236.32 246.32
+- PSS_TOTAL     1   241.74 251.74
+- MX28_WQ_COMP  1   244.65 254.65
+- HW_TOTAL      1   274.23 284.23</code></pre>
+<pre class="r"><code># Display summary of optimized model
+summary(optimized_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -1.094315   0.738982  -1.481 0.138649    
+HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
+W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
+PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
+HRS_WEEK      0.005550   0.003788   1.465 0.142810    
+MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 231.70  on 245  degrees of freedom
+AIC: 243.7
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<p>The Akaike Information Criterion (AIC) values indicate how well each
+predictor explains variations in MX26_EM_HHW_TYPE (perceived water
+service quality). Lower AIC values indicate better model fit.</p>
+<p>1️⃣ HW_TOTAL (HWISE score) had the lowest AIC (261.93), suggesting
+that water insecurity is the strongest predictor of negative perceptions
+of water service. 2️⃣ W_WC_WI (intermittent vs. continuous water supply)
+was the second-best predictor (AIC = 299.52), reinforcing the idea that
+inconsistent water access influences perceptions. 3️⃣ Psychological
+stress (PSS_TOTAL) also emerged as a key factor (AIC = 306.81),
+highlighting a possible connection between water insecurity and mental
+well-being. 4️⃣ HRS_WEEK (hours of water supply per week) (AIC = 307.12)
+and MX28_WQ_COMP (perceived comparison to other areas) (AIC = 307.36)
+suggest that actual water availability and perceived relative quality
+both shape opinions. 5️⃣ W_WS_LOC (water insecurity classification by
+Mexico City authorities) had an AIC of 314.65, suggesting that official
+designations align with, but do not fully predict, personal
+experiences.</p>
+<pre class="r"><code># Load required packages
+library(broom)
+
+# Run multivariable logistic regression
+final_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                   HRS_WEEK + MX28_WQ_COMP, 
+                   data = data, family = binomial)
+
+# Extract coefficients and confidence intervals
+odds_ratios &lt;- tidy(final_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for Predictors of Perceived Water Service Quality&quot;,
+       x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/tests.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Load required libraries
+library(ggplot2)
+library(broom)
+library(dplyr)
+library(MASS)  # For stepAIC
+
+# Remove missing values for selected variables
+data_clean &lt;- data %&gt;%
+  drop_na(MX26_EM_HHW_TYPE, HW_TOTAL, W_WC_WI, PSS_TOTAL, HRS_WEEK, MX28_WQ_COMP)
+
+# Ensure outcome variable is a binary factor (0/1)
+data_clean$MX26_EM_HHW_TYPE &lt;- factor(data_clean$MX26_EM_HHW_TYPE, levels = c(0, 1))
+
+# ---------------------------
+# 1️⃣ Multivariable Logistic Regression Model
+# ---------------------------
+full_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP, 
+                  data = data_clean, family = binomial)
+
+# Display summary
+summary(full_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -1.094315   0.738982  -1.481 0.138649    
+HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
+W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
+PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
+HRS_WEEK      0.005550   0.003788   1.465 0.142810    
+MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 231.70  on 245  degrees of freedom
+AIC: 243.7
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># ---------------------------
+# 2️⃣ Interaction Analysis: HW_TOTAL * PSS_TOTAL
+# ---------------------------
+interaction_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + 
+                         W_WC_WI + HRS_WEEK + MX28_WQ_COMP, 
+                         data = data_clean, family = binomial)
+
+summary(interaction_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + W_WC_WI + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
+
+Coefficients:
+                    Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)        -1.084805   0.740174  -1.466 0.142755    
+HW_TOTAL            0.204914   0.036712   5.582 2.38e-08 ***
+PSS_TOTAL           0.081631   0.039127   2.086 0.036950 *  
+W_WC_WI             1.116790   0.531346   2.102 0.035570 *  
+HRS_WEEK            0.005615   0.003797   1.479 0.139246    
+MX28_WQ_COMP       -0.793527   0.228746  -3.469 0.000522 ***
+HW_TOTAL:PSS_TOTAL -0.001483   0.005186  -0.286 0.774902    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 231.62  on 244  degrees of freedom
+AIC: 245.62
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># ---------------------------
+# 3️⃣ Model Comparison Using AIC
+# ---------------------------
+# Compare AIC values
+aic_values &lt;- data.frame(
+  Model = c(&quot;Full Model&quot;, &quot;Interaction Model&quot;),
+  AIC = c(AIC(full_model), AIC(interaction_model))
+)
+
+print(aic_values)</code></pre>
+<pre><code>              Model      AIC
+1        Full Model 243.6981
+2 Interaction Model 245.6166</code></pre>
+<pre class="r"><code># Stepwise model selection using stepAIC
+optimized_model &lt;- stepAIC(full_model, direction = &quot;both&quot;)</code></pre>
+<pre><code>Start:  AIC=243.7
+MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP
+
+               Df Deviance    AIC
+&lt;none&gt;              231.70 243.70
+- HRS_WEEK      1   233.95 243.95
+- W_WC_WI       1   236.32 246.32
+- PSS_TOTAL     1   241.74 251.74
+- MX28_WQ_COMP  1   244.65 254.65
+- HW_TOTAL      1   274.23 284.23</code></pre>
+<pre class="r"><code># Display optimized model summary
+summary(optimized_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  -1.094315   0.738982  -1.481 0.138649    
+HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
+W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
+PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
+HRS_WEEK      0.005550   0.003788   1.465 0.142810    
+MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 231.70  on 245  degrees of freedom
+AIC: 243.7
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># ---------------------------
+# 4️⃣ Visualizing Odds Ratios
+# ---------------------------
+# Extract odds ratios from the optimized model
+odds_ratios &lt;- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Reference line at OR = 1
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for Predictors of Perceived Water Service Quality&quot;,
+       x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/tests.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Extract odds ratios and confidence intervals
+odds_ratios &lt;- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange(color = &quot;blue&quot;) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for Predictors of Negative Perceived Water Service&quot;,
+       x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/tests.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -758,23 +1808,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] coin_1.4-3     survival_3.8-3 ggpubr_0.6.0   rstatix_0.7.2  ggplot2_3.5.1 
-[6] dplyr_1.1.4   
+[1] broom_1.0.7    MASS_7.3-64    coin_1.4-3     survival_3.8-3 ggpubr_0.6.0  
+[6] rstatix_0.7.2  ggplot2_3.5.1  dplyr_1.1.4   
 
 loaded via a namespace (and not attached):
  [1] gtable_0.3.6      xfun_0.49         bslib_0.8.0       lattice_0.22-6   
- [5] vctrs_0.6.5       tools_4.4.3       generics_0.1.3    stats4_4.4.3     
- [9] parallel_4.4.3    sandwich_3.1-1    tibble_3.2.1      fansi_1.0.6      
+ [5] vctrs_0.6.5       tools_4.4.3       generics_0.1.3    sandwich_3.1-1   
+ [9] stats4_4.4.3      parallel_4.4.3    tibble_3.2.1      fansi_1.0.6      
 [13] pkgconfig_2.0.3   Matrix_1.7-2      lifecycle_1.0.4   farver_2.1.2     
 [17] compiler_4.4.3    stringr_1.5.1     git2r_0.35.0      munsell_0.5.1    
 [21] codetools_0.2-20  carData_3.0-5     httpuv_1.6.15     htmltools_0.5.8.1
-[25] sass_0.4.9        yaml_2.3.10       Formula_1.2-5     later_1.3.2      
-[29] pillar_1.9.0      car_3.1-3         jquerylib_0.1.4   tidyr_1.3.1      
-[33] MASS_7.3-64       cachem_1.1.0      abind_1.4-8       multcomp_1.4-28  
-[37] tidyselect_1.2.1  digest_0.6.37     mvtnorm_1.3-2     stringi_1.8.4    
-[41] purrr_1.0.2       labeling_0.4.3    splines_4.4.3     rprojroot_2.0.4  
-[45] fastmap_1.2.0     grid_4.4.3        colorspace_2.1-1  cli_3.6.3        
-[49] magrittr_2.0.3    utf8_1.2.4        TH.data_1.1-3     broom_1.0.7      
+[25] sass_0.4.9        yaml_2.3.10       Formula_1.2-5     crayon_1.5.3     
+[29] later_1.3.2       pillar_1.9.0      car_3.1-3         jquerylib_0.1.4  
+[33] whisker_0.4.1     tidyr_1.3.1       cachem_1.1.0      abind_1.4-8      
+[37] multcomp_1.4-28   tidyselect_1.2.1  digest_0.6.37     mvtnorm_1.3-2    
+[41] stringi_1.8.4     purrr_1.0.2       labeling_0.4.3    splines_4.4.3    
+[45] rprojroot_2.0.4   fastmap_1.2.0     grid_4.4.3        colorspace_2.1-1 
+[49] cli_3.6.3         magrittr_2.0.3    utf8_1.2.4        TH.data_1.1-3    
 [53] libcoin_1.0-10    withr_3.0.2       scales_1.3.0      promises_1.3.0   
 [57] backports_1.5.0   rmarkdown_2.29    matrixStats_1.5.0 ggsignif_0.6.4   
 [61] workflowr_1.7.1   zoo_1.8-12        modeltools_0.2-23 evaluate_1.0.1   

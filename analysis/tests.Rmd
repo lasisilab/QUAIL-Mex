@@ -8,7 +8,7 @@ date: "2025-03-08"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r message=FALSE}
 # Load necessary libraries
 library(dplyr)
 library(ggplot2)
@@ -19,7 +19,7 @@ library(coin)
 # Load the dataset
 data_path = "data"
 
-data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), 
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), 
          stringsAsFactors = FALSE,  
          na.strings = c("", "N/A", "NA", "pending"))
 ```
@@ -117,3 +117,194 @@ ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category))
                                  " (n=", summary_stats$Count, ")")) 
 
 ```
+
+
+```{r echo = TRUE}
+# Load necessary packages
+library(MASS)  # For stepAIC
+library(broom) # For model output formatting
+library(dplyr) # For data manipulation
+
+# Ensure it's properly coded as 0 or 1
+data$MX26_EM_HHW_TYPE <- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
+# Remove rows where MX26_EM_HHW_TYPE is 2
+data <- data %>% filter(MX26_EM_HHW_TYPE != 2)
+
+# Check unique values to confirm only 0 and 1 remain
+table(data$MX26_EM_HHW_TYPE)
+dim(data)
+
+# Define dependent (outcome) variable
+outcome_var <- "MX26_EM_HHW_TYPE"  # Binary outcome (0 = negative, 1 = positive)
+
+# Define independent (predictor) variables
+predictors <- c("HRS_WEEK", "W_WC_WI", "MX28_WQ_COMP", "W_WS_LOC",
+                "SES_SC_Total", "HW_TOTAL", "D_HH_SIZE", "D_LOC_TIME",
+                "PSS_TOTAL", "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT", 
+                "MX9_DRINK_W", "MX10_WSTORAGE", "SEASON")
+
+# Run univariate logistic regression for each predictor
+univariate_results <- list()
+aic_values <- data.frame(Predictor = character(), AIC = numeric(), stringsAsFactors = FALSE)
+
+data <- data %>% drop_na(predictors)
+dim(data)
+
+for (var in predictors) {
+    # Build formula dynamically
+    formula <- as.formula(paste(outcome_var, "~", var))
+    
+    # Fit univariate logistic regression model
+    model <- glm(formula, data = data, family = binomial)
+    
+    # Store model summary
+    univariate_results[[var]] <- summary(model)
+    
+    # Store AIC values
+    aic_values <- rbind(aic_values, data.frame(Predictor = var, AIC = AIC(model)))
+}
+
+univariate_results
+
+# Display AIC values sorted in ascending order (lower AIC = better fit)
+aic_values <- aic_values %>% arrange(AIC)
+print(aic_values)
+
+# Select best predictors based on AIC (top 6 with lowest AIC)
+top_predictors <- head(aic_values$Predictor, 6)
+
+# Create multivariable model with top predictors
+multivariable_formula <- as.formula(paste(outcome_var, "~", paste(top_predictors, collapse = " + ")))
+multivariable_model <- glm(multivariable_formula, data = data, family = binomial)
+
+# Display summary of multivariable model
+summary(multivariable_model)
+
+# Perform stepwise selection to find the best model
+optimized_model <- stepAIC(multivariable_model, direction = "both")
+
+# Display summary of optimized model
+summary(optimized_model)
+
+```
+
+The Akaike Information Criterion (AIC) values indicate how well each predictor explains variations in MX26_EM_HHW_TYPE (perceived water service quality). Lower AIC values indicate better model fit.
+
+1️⃣ HW_TOTAL (HWISE score) had the lowest AIC (261.93), suggesting that water insecurity is the strongest predictor of negative perceptions of water service.
+2️⃣ W_WC_WI (intermittent vs. continuous water supply) was the second-best predictor (AIC = 299.52), reinforcing the idea that inconsistent water access influences perceptions.
+3️⃣ Psychological stress (PSS_TOTAL) also emerged as a key factor (AIC = 306.81), highlighting a possible connection between water insecurity and mental well-being.
+4️⃣ HRS_WEEK (hours of water supply per week) (AIC = 307.12) and MX28_WQ_COMP (perceived comparison to other areas) (AIC = 307.36) suggest that actual water availability and perceived relative quality both shape opinions.
+5️⃣ W_WS_LOC (water insecurity classification by Mexico City authorities) had an AIC of 314.65, suggesting that official designations align with, but do not fully predict, personal experiences.
+
+
+```{r}
+# Load required packages
+library(broom)
+
+# Run multivariable logistic regression
+final_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                   HRS_WEEK + MX28_WQ_COMP, 
+                   data = data, family = binomial)
+
+# Extract coefficients and confidence intervals
+odds_ratios <- tidy(final_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = "Odds Ratios for Predictors of Perceived Water Service Quality",
+       x = "Predictor", y = "Odds Ratio") +
+  theme_minimal()
+
+```
+
+
+
+
+```{r}
+
+# Load required libraries
+library(ggplot2)
+library(broom)
+library(dplyr)
+library(MASS)  # For stepAIC
+
+# Remove missing values for selected variables
+data_clean <- data %>%
+  drop_na(MX26_EM_HHW_TYPE, HW_TOTAL, W_WC_WI, PSS_TOTAL, HRS_WEEK, MX28_WQ_COMP)
+
+# Ensure outcome variable is a binary factor (0/1)
+data_clean$MX26_EM_HHW_TYPE <- factor(data_clean$MX26_EM_HHW_TYPE, levels = c(0, 1))
+
+# ---------------------------
+# 1️⃣ Multivariable Logistic Regression Model
+# ---------------------------
+full_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP, 
+                  data = data_clean, family = binomial)
+
+# Display summary
+summary(full_model)
+
+# ---------------------------
+# 2️⃣ Interaction Analysis: HW_TOTAL * PSS_TOTAL
+# ---------------------------
+interaction_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + 
+                         W_WC_WI + HRS_WEEK + MX28_WQ_COMP, 
+                         data = data_clean, family = binomial)
+
+summary(interaction_model)
+
+# ---------------------------
+# 3️⃣ Model Comparison Using AIC
+# ---------------------------
+# Compare AIC values
+aic_values <- data.frame(
+  Model = c("Full Model", "Interaction Model"),
+  AIC = c(AIC(full_model), AIC(interaction_model))
+)
+
+print(aic_values)
+
+# Stepwise model selection using stepAIC
+optimized_model <- stepAIC(full_model, direction = "both")
+
+# Display optimized model summary
+summary(optimized_model)
+
+# ---------------------------
+# 4️⃣ Visualizing Odds Ratios
+# ---------------------------
+# Extract odds ratios from the optimized model
+odds_ratios <- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # Reference line at OR = 1
+  coord_flip() +
+  labs(title = "Odds Ratios for Predictors of Perceived Water Service Quality",
+       x = "Predictor", y = "Odds Ratio") +
+  theme_minimal()
+
+```
+
+
+
+```{r}
+# Extract odds ratios and confidence intervals
+odds_ratios <- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange(color = "blue") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = "Odds Ratios for Predictors of Negative Perceived Water Service",
+       x = "Predictor", y = "Odds Ratio") +
+  theme_minimal()
+
+```
+

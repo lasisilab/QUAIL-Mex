@@ -16,9 +16,12 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(dplyr)
 library(corrplot)
+library(rstatix)
+library(rcompanion)
 
+data.file <- "data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"
 # Read the dataset
-data <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+data <- read.csv(data.file)
 
 data$MX28_WQ_COMP <- as.numeric(data$MX28_WQ_COMP)
 
@@ -101,7 +104,6 @@ levels(data$MX28_WQ_COMP)
 cat_vars <- setdiff(categorical_vars, main_var)
 
 
-
 # Define the main categorical variable
 main_var <- "MX28_WQ_COMP"
 
@@ -115,7 +117,6 @@ for (var in cat_vars) {
   
   print(p)  # Display each bar plot
 }
-
 
 ```
 
@@ -140,3 +141,554 @@ for (var in cat_vars) {
 }
 
 ```
+
+```{r}
+data <- read.csv(data.file)
+# Ensure HW_TOTAL_category is correctly categorized
+
+data <- data %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+data <- data %>%
+  mutate(MX26_EM_HHW_TYPE = case_when(
+    MX26_EM_HHW_TYPE == "0" ~ "positive",
+    MX26_EM_HHW_TYPE == "1" ~ "negative",
+    MX26_EM_HHW_TYPE == !is.na(.) ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  ))
+
+data <- data %>% 
+  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
+
+# Convert to factor for correct ordering
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+data$MX26_EM_HHW_TYPE <- as.factor(data$MX26_EM_HHW_TYPE)  # Convert to factor
+
+# Calculate proportions
+data_prop <- data %>%
+  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Barplot of MX26_EM_HHW_TYPE by HW_TOTAL_category
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Proportion of Positive and negative emotional responses by HW Category",
+       x = "HWISE Category",
+       y = "Count",
+       fill = "Emotions") +
+  theme_minimal()
+
+
+# Calculate proportions
+data_prop <- data %>%
+  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Create percentage barplot
+ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Proportion of Positive and negative emotional responses by HW Category",
+       x = "HWISE Category",
+       y = "Percentage",
+       fill = "Emotions") +
+  theme_minimal() 
+
+```
+
+```{r}
+
+# Stacked barplot using counts
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(position = "stack") +
+  labs(title = "Stacked Barplot: Household Water Type by HW Category",
+       x = "HWISE Category",
+       y = "Count",
+       fill = "Household Water Type") +
+  theme_minimal()
+```
+
+```{r}
+# Calculate proportions
+data_prop <- data %>%
+  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Stacked percentage barplot
+ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(stat = "identity", position = "fill") +  # "fill" makes it a 100% stacked barplot
+  scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert y-axis to percentage
+  labs(title = "Stacked Barplot: Proportion of Household Water Type by HW Category",
+       x = "HWISE Category",
+       y = "Percentage",
+       fill = "Household Water Type") +
+  theme_minimal()
+
+
+```
+
+
+```{r}
+# Create a contingency table
+contingency_table <- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
+
+# Print the table
+print(contingency_table)
+
+  fisher_test <- fisher.test(contingency_table)
+  print(fisher_test)  # Print Fisher's test results
+
+
+# Compute Cramér's V for effect size
+cramer_v <- cramerV(contingency_table)
+print(cramer_v)
+
+
+```
+
+
+Interpreting Cramér’s V:
+
+0.1 → Small association
+
+0.3 → Moderate association
+
+0.5 → Strong association
+
+
+The Cramér’s V value of 0.3961 suggests a moderate association between HW_TOTAL_category and MX26_EM_HHW_TYPE. Cramér’s V ranges from 0 to 1, where 0 indicates no association, and 1 indicates a perfect association. A value of 0.3961 falls in the moderate range (0.3 - 0.5), implying that while there is a statistically significant relationship between these two categorical variables, it is not extremely strong. This means that the emotional response to water service (MX26_EM_HHW_TYPE) varies meaningfully across different levels of water insecurity (HW_TOTAL_category), but other factors might also be influencing this relationship. Further analysis, such as post-hoc tests or visualizing the data with stacked barplots, could provide more insights into how the categories differ and whether certain water supply types are more prevalent in specific HWISE categories.
+
+
+```{r}
+
+# Load necessary libraries
+library(dplyr)
+library(rstatix)
+
+# Ensure categorical variables are factors
+data <- data %>%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+
+# Remove NAs
+data <- data %>% 
+  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
+
+# Create contingency table
+contingency_table <- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
+
+# Print table
+print(contingency_table)
+
+# Run Fisher’s Exact Test
+fisher_test <- fisher.test(contingency_table)
+
+# Print results
+print(fisher_test)
+# Get unique categories of HW_TOTAL_category
+categories <- levels(data$HW_TOTAL_category)
+
+# Create an empty list to store results
+pairwise_results <- list()
+
+# Loop through all pairs of HW_TOTAL_category
+for (i in 1:(length(categories) - 1)) {
+  for (j in (i + 1):length(categories)) {
+    cat1 <- categories[i]
+    cat2 <- categories[j]
+    
+    # Subset the data for the two categories
+    subset_data <- data %>%
+      filter(HW_TOTAL_category %in% c(cat1, cat2))
+    
+    # Create a 2xN contingency table
+    sub_table <- table(subset_data$HW_TOTAL_category, subset_data$MX26_EM_HHW_TYPE)
+    
+    # Run Fisher’s Exact Test
+    fisher_res <- fisher.test(sub_table)
+    
+    # Store results in a data frame
+    pairwise_results[[paste(cat1, "vs", cat2)]] <- data.frame(
+      Group1 = cat1,
+      Group2 = cat2,
+      p_value = fisher_res$p.value
+    )
+  }
+}
+
+# Combine results into a single data frame
+pairwise_fisher_results <- bind_rows(pairwise_results)
+
+# Apply Bonferroni correction for multiple comparisons
+pairwise_fisher_results <- pairwise_fisher_results %>%
+  mutate(p_adj = p.adjust(p_value, method = "bonferroni"))
+
+# Print results
+print(pairwise_fisher_results)
+
+```
+If p_adj < 0.05, it indicates a significant difference between the two HW_TOTAL_category groups.
+
+If p_adj > 0.05, the difference is not statistically significant after Bonferroni correction
+
+
+
+✅ Significant Differences (p_adj < 0.05):
+Comparison	Interpretation
+No-to-Marginal vs. Low	Significant difference (p_adj = 4.66e-05), meaning that households in the No-to-Marginal category have significantly different water types compared to the Low category.
+No-to-Marginal vs. Moderate	Highly significant difference (p_adj = 2.19e-13), suggesting that households with No-to-Marginal water insecurity have a very different water type distribution than Moderate water-insecure households.
+No-to-Marginal vs. High	Significant difference (p_adj = 0.0181), indicating that No-to-Marginal households also differ from High water-insecure households.
+Low vs. Moderate	Significant difference (p_adj = 7.44e-05), suggesting that Low water-insecure households also have different water types compared to Moderate water-insecure households.
+❌ Non-Significant Differences (p_adj > 0.05):
+Comparison	Interpretation
+Low vs. High	p_adj = 1.000 (No significant difference) – meaning water types in Low and High HWISE categories are similar.
+Moderate vs. High	p_adj = 1.000 (No significant difference) – meaning water types in Moderate and High HWISE categories are similar.
+
+📝 Key Takeaways
+There are significant differences between No-to-Marginal households and all other categories (Low, Moderate, High).
+Low and Moderate categories are also significantly different.
+High water-insecure households do not significantly differ from Low or Moderate categories, meaning their water sources are similar.
+
+## Plots Emotion/HWISE category
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Ensure variables are factors
+data <- data %>%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+
+# Create the stacked barplot
+ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(position = "fill") +  # Fill ensures bars are proportional
+  labs(title = "Proportion of Household Water Types by HW_TOTAL_category",
+       x = "HW_TOTAL Category",
+       y = "Proportion",
+       fill = "Water Type") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+```
+
+## regression
+
+Why Logistic Regression?
+Dependent Variable (MX26_EM_HHW_TYPE) is categorical (Nominal variable with multiple categories).
+Independent Variable (HW_TOTAL_category) is categorical.
+Logistic regression is appropriate for categorical outcomes, unlike linear regression which assumes continuous data.
+
+Need to run binary logistic regression.
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+
+# Ensure variables are factors
+data <- data %>%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+
+# Run Binary Logistic Regression
+logit_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL_category, 
+                   data = data, 
+                   family = binomial)
+
+# Show summary of model
+summary(logit_model)
+
+```
+
+
+```{r}
+# Compute odds ratios
+exp(coef(logit_model))
+```
+✔ Odds ratios < 1 → Decreased likelihood
+✔ Odds ratios > 1 → Increased likelihood
+
+Suggests that any level of water insecurity decreases the probability of having positive feelings about water supply. 
+
+Predictor	Odds Ratio (OR)
+(Intercept)	1.846
+HW_TOTAL_categoryLow	0.277
+HW_TOTAL_categoryModerate	0.0655
+HW_TOTAL_categoryHigh	9.41e-08
+
+Reference category is MX26_EM_HHW_TYPE == positive
+HW_TOTAL_categoryLow OR = 0.277 → Individuals in the "Low" category are 72.3% less likely (1 - 0.277) to belong to MX26_EM_HHW_TYPE compared to the reference.
+HW_TOTAL_categoryModerate OR = 0.0655 → Individuals in the "Moderate" category are 93.45% less likely (1 - 0.0655).
+HW_TOTAL_categoryHigh OR = 9.41e-08 → Extremely small, suggesting that this group is almost never associated with the reference category.
+
+The "High" HWISE category (OR = 9.41e-08) has the largest effect, meaning it is almost completely absent from the reference water type.
+Moderate category (OR = 0.0655) has a strong negative effect as well.
+Low category (OR = 0.277) has a smaller negative effect than Moderate and High.
+Intercept is just the baseline, not a comparison.
+
+
+Check model fit
+
+```{r}
+# Compute pseudo R-squared (Nagelkerke)
+library(pscl)
+pR2(logit_model)
+
+```
+If the High category has very few cases, consider merging it with another category.
+✔ Higher values (~0.2–0.5) indicate a better model.
+
+```{r}
+# Create a data frame with odds ratios, confidence intervals, and p-values
+effect_sizes <- data.frame(
+  Category = c("Intercept", "Low", "Moderate", "High"),
+  Odds_Ratio = c(1.846, 0.277, 0.0655, 9.41e-08),
+  Lower_CI = c(1.2, 0.18, 0.03, 1e-10),  # Replace with actual confidence interval values
+  Upper_CI = c(2.8, 0.42, 0.15, 1e-05),  # Replace with actual confidence interval values
+  p_value = c(0.012, 0.0001, 0.00001, 0.99)  # Replace with actual p-values
+)
+
+# Convert Category into a factor for ordered plotting
+effect_sizes$Category <- factor(effect_sizes$Category, levels = rev(effect_sizes$Category))  # Reverse for horizontal plotting
+
+ggplot(effect_sizes, aes(x = Odds_Ratio, y = Category)) +
+  geom_point(size = 4, color = "blue") +  # Plot odds ratios as points
+  geom_errorbarh(aes(xmin = Lower_CI, xmax = Upper_CI), height = 0.2, color = "black") +  # Add confidence intervals (horizontal)
+  scale_x_log10() +  # Log-scale for better visualization
+  geom_vline(xintercept = 1, linetype = "dashed", color = "red", linewidth = 1) +  # Add reference line at OR = 1
+  geom_text(aes(label = paste0("p = ", formatC(p_value, format = "e", digits = 2))), 
+            hjust = 2, vjust = 1, size = 5, color = "black") +  # Annotate p-values
+  labs(title = "Effect Sizes (Odds Ratios) of HW_TOTAL_category",
+       x = "Odds Ratio (Log Scale)",
+       y = "HWISE Category") +
+  theme_minimal()
+
+
+```
+
+
+
+```{r}
+data <- data %>% filter(!is.na(HRS_WEEK) & !is.na(MX26_EM_HHW_TYPE))
+
+wilcox.test(HRS_WEEK ~ MX26_EM_HHW_TYPE, data = data)
+library(effsize)
+cliff.delta(HRS_WEEK ~ MX26_EM_HHW_TYPE, data = data)
+
+```
+
+Interpretation of Cliff's Delta:
+
+|d| < 0.147 → Negligible effect
+0.147 ≤ |d| < 0.33 → Small effect
+0.33 ≤ |d| < 0.474 → Medium effect
+|d| ≥ 0.474 → Large effect
+
+```{r}
+logit_model <- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK, 
+                   data = data, 
+                   family = binomial)
+summary(logit_model)
+
+
+data$predicted <- predict(logit_model, type = "response")
+
+# Ensure correct row alignment
+if(nrow(data) != length(data$predicted)) {
+    stop("Mismatch in row counts: Check for missing values or inconsistent dataset.")
+}
+
+```
+
+✅ Interpreting Logistic Regression:
+Significant HRS_WEEK (p < 0.05) → Water supply duration is linked to positive/negative perceptions.
+
+
+```{r}
+exp(coef(logit_model))
+
+```
+When HRS_WEEK = 0 (i.e., baseline scenario), the odds of having a positive perception of water service (MX26_EM_HHW_TYPE) are 0.2699.
+This means the probability of a positive perception is quite low when water supply is absent. In terms of probability, 21% prob. of positive perception
+
+
+HRS_WEEK (OR = 1.0067)
+For every additional hour of water supply per week (HRS_WEEK), the odds of having a positive perception (MX26_EM_HHW_TYPE) increase by ~0.67%.
+Since OR > 1, more hours of water supply are associated with a higher likelihood of positive perception
+
+Practical Interpretation
+A small effect: Since the OR is very close to 1, an increase in HRS_WEEK has a very small impact on perception.
+Example Calculation:
+If HRS_WEEK increases by 10 hours, the odds of positive perception change by: 1.0067^{10} = 1.0693 \ (\text{~6.93% increase in odds})
+If HRS_WEEK increases by 50 hours, the odds increase by: 1.0067^{50} = 1.398 \ (\text{~39.8% increase in odds})
+
+
+Water supply duration (HRS_WEEK) positively influences water service perception (MX26_EM_HHW_TYPE).
+✔ The effect is small, meaning other factors likely play a role in perception (e.g., water quality, socioeconomic status).
+✔ Policy Implication: While increasing water supply may improve perception, other factors (such as reliability, quality, and accessibility) should be considered.
+
+
+```{r}
+
+data <- data %>% 
+  filter(!is.na(W_WC_WI), !is.na(SES_SC_Total), !is.na(SEASON))
+# add covariates
+logit_model <- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + W_WC_WI + SEASON, 
+                   data = data, family = binomial)
+exp(coef(logit_model))  # Get updated odds ratios
+
+
+data$predicted <- predict(logit_model, type = "response")
+
+ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), color = "blue") +
+  labs(title = "Effect of HRS_WEEK on Perceived Water Service",
+       x = "Hours of Water Supply per Week",
+       y = "Predicted Probability of Positive Perception") +
+  theme_minimal()
+
+```
+
+
+
+
+```{r}
+library(ggplot2)
+ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  labs(title = "Distribution of HRS_WEEK by Perceived Water Service",
+       x = "Perception of Water Service",
+       y = "Hours of Water Supply per Week") +
+  theme_minimal()
+
+
+data$predicted <- predict(logit_model, type = "response")
+
+# Ensure correct row alignment
+if(nrow(data) != length(data$predicted)) {
+    stop("Mismatch in row counts: Check for missing values or inconsistent dataset.")
+}
+
+
+
+
+ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), color = "blue") +
+  labs(title = "Effect of HRS_WEEK on Water Perception",
+       x = "Hours of Water Supply per Week",
+       y = "Predicted Probability of Positive Perception") +
+  theme_minimal()
+
+
+ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
+  geom_boxplot(alpha = 0.7) +
+  geom_jitter(width = 0.2, alpha = 0.5) +
+  labs(title = "Distribution of HRS_WEEK by Perceived Water Service",
+       x = "Perception of Water Service",
+       y = "Hours of Water Supply per Week") +
+  theme_minimal()
+```
+
+
+```{r}
+logit_model <- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + SEASON, 
+                   data = data, 
+                   family = binomial)
+summary(logit_model)
+
+```
+Null Deviance = 387.61 → The model with no predictors.
+Residual Deviance = 371.68 → The model with predictors.
+AIC = 379.68 → Lower AIC values indicate a better model fit.
+42 observations deleted due to missing values → Consider imputing or removing predictors with excessive missingness.
+📌 The model explains some variation in perception, but additional covariates may improve the fit.
+
+
+Interpretation of Coefficients
+Intercept (-1.509241)
+When HRS_WEEK, SES_SC_Total, and SEASON = 0, the odds of a positive perception of water service (MX26_EM_HHW_TYPE = 1) are: 0.221
+This means that in the baseline condition, the probability of positive perception is very low.
+
+Effect of HRS_WEEK (0.006903, p = 0.000119)
+✔ Statistically significant at p < 0.001 (*).**
+✔ For every additional hour of water supply per week (HRS_WEEK), the odds of a positive perception increase by: 
+This means a 0.69% increase in odds per additional hour of water supply.
+While significant, the effect size is small.
+Example: A 50-hour increase in water supply:
+𝑒
+0.006903
+×
+50
+=
+1.37
+
+37% increase in odds of a positive perception.
+More hours of water supply are associated with a higher likelihood of positive perception. However, the effect size is small, suggesting that other factors may play a more significant role
+
+Effect of SES_SC_Total (0.002020, p = 0.469056)
+❌ Not statistically significant (p = 0.469).
+❌ Socioeconomic status (SES) does not significantly predict positive water service perception in this model.
+💡 This suggests that water perception is not strongly related to SES after adjusting for water supply hours.
+
+
+Effect of SEASON (-0.096373, p = 0.705301)
+❌ Not statistically significant (p = 0.705).
+❌ Season (Fall vs. Spring) does not significantly predict positive water perception.
+💡 This suggests that water perception remains stable across seasons in your dataset.
+
+Conclusion
+More water supply hours (HRS_WEEK) significantly increase the odds of positive water perception.
+Socioeconomic status (SES_SC_Total) and season (SEASON) do not have a statistically significant effect.
+The effect of HRS_WEEK is small, meaning other factors may be more influential.
+To improve the model, consider adding more variables (e.g., water quality concerns, reliability of service, household stress).
+
+
+```{r}
+
+library(ggplot2)
+library(broom)
+
+# Convert coefficients to odds ratios
+odds_ratios <- tidy(logit_model, exponentiate = TRUE, conf.int = TRUE)
+
+ggplot(odds_ratios, aes(x = term, y = estimate)) +
+  geom_point(size = 4, color = "blue") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +
+  coord_flip() +
+  labs(title = "Odds Ratios for Predicting Positive Water Service Perception",
+       y = "Odds Ratio", x = "Predictor Variable") +
+  theme_minimal()
+
+```
+
+
+```{r}
+
+
+library(ggeffects)
+predicted_data <- ggpredict(logit_model, terms = "HRS_WEEK [all]")
+
+ggplot(predicted_data, aes(x = x, y = predicted)) +
+  geom_line(color = "blue") +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.2) +
+  labs(title = "Effect of Water Supply Hours on Water Perception",
+       x = "Hours of Water Supply per Week",
+       y = "Predicted Probability of Positive Perception") +
+  theme_minimal()
+
+```
+
+✔ Try adding interaction effects (e.g., HRS_WEEK * SES_SC_Total) to see if SES influences water perception at different supply levels.
+✔ Include more predictors related to water quality, infrastructure, or trust in tap water.
+✔ Run diagnostics to check model assumptions.

@@ -365,6 +365,10 @@ merged_df$MX8_TRUST <- as.factor(merged_df$MX8_TRUST)
 merged_df$MX28_WQ_COMP <- as.factor(merged_df$MX28_WQ_COMP)
 merged_df$MX26_EM_HHW_TYPE <- as.factor(merged_df$MX26_EM_HHW_TYPE)
 
+
+
+merged_df$PSS_TOTAL = rowSums(merged_df[(25 + c(1,2,3,8,11,12,14))]) - rowSums(merged_df[(25 + c(4,5,6,7,9,10,13))])
+
 ```
 
 

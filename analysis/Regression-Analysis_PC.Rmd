@@ -3,6 +3,8 @@ title: "Linear Regression Analysis"
 author: "Junhui He, edited by Paloma C."
 date: "`r Sys.Date()`"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -118,8 +120,6 @@ create_na_table <- function(data) {
 }
 ```
 
-
-
 ```{r read-data}
 
 data_path = "data"
@@ -136,12 +136,10 @@ for (i in 1:dim(merged_dataset)[2]) {
   merged_dataset[[i]] = as.numeric(merged_dataset[[i]])
 }
 
-
+create_na_table(merged_dataset)
 # create regression dataset
-reg_dataset = merged_dataset[c(1, 2, 4:7, 9:11, 38:42)]
-reg_dataset$PSS_TOTAL = rowSums(merged_dataset[(23 + c(1,2,3,8,11,12,14))]) - rowSums(merged_dataset[(23 + c(4,5,6,7,9,10,13))])
+reg_dataset = merged_dataset[c(1, 2:4, 6:9, 11:13, 40:45)]
 
-create_na_table(reg_dataset)
 
 # remove missing rows
 reg_dataset = na.omit(reg_dataset)
@@ -150,7 +148,7 @@ reg_dataset = na.omit(reg_dataset)
 cat("Final number of unique participants:", length(unique(reg_dataset$ID)), "\n") 
 cat("Final number of variables:", ncol(reg_dataset), "\n") 
 
-
+colnames(reg_dataset)
 ```
 
 ## 3 Results
@@ -211,7 +209,7 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
 ### 3.2 HWISE scores, variable set 4
 
 ```{r regression-HW-V4, include=TRUE}
-HW_lm = lm(HW_TOTAL ~ MX28_WQ_COMP+ SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_CHLD+SES_SC_Total, data = reg_dataset)
+HW_lm = lm(HW_TOTAL ~ MX8_TRUST+MX28_WQ_COMP+ SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_CHLD+SES_SC_Total+PSS_TOTAL, data = reg_dataset)
 summary(HW_lm)
 ```
 
@@ -232,7 +230,7 @@ ggplot() + geom_point(aes(reg_dataset$HW_TOTAL, HW_lm$fitted.values)) +
 The regression results for PSS is summarized as follows.
 
 ```{r regression-PSS, include=TRUE}
-PSS_lm = lm(PSS_TOTAL ~ D_LOC_TIME+MX28_WQ_COMP+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total+HW_TOTAL, data = reg_dataset)
+PSS_lm = lm(PSS_TOTAL ~ MX28_WQ_COMP+MX8_TRUST+MX26_EM_HHW_TYPE+SEASON+W_WS_LOC+W_WC_WI+HRS_WEEK+D_AGE+D_HH_SIZE+D_CHLD+SES_SC_Total+HW_TOTAL, data = reg_dataset)
 summary(PSS_lm)
 ```
 

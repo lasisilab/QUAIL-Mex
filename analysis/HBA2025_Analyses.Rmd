@@ -78,6 +78,8 @@ variables_info <- data.frame(
 kable(variables_info, caption = "Variable Descriptions, Classes, and Additional Details")
 
 ```
+
+
 ```{r libraries, echo = FALSE, warning = FALSE, message= FALSE}
 
 # Load necessary libraries
