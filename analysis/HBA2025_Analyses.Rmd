@@ -290,7 +290,8 @@ data$HW_TOTAL_category <- factor(data$HW_TOTAL_category,
 means$hrs.w <- round(means$hrs.w, 2)
  
 # Define color palette
-color_palette <- c("#1f78b4", "#a6cee3", "#fdbf6f", "#ff7f00")
+color_palette <- c("#1f78b4",  "#a6cee3", "#fdbf6f", "#ff7f00")
+
 
 # Create violin plot and boxplot with individual data points
 ggplot(data, aes(x = HW_TOTAL_category, 
@@ -299,30 +300,26 @@ ggplot(data, aes(x = HW_TOTAL_category,
     geom_jitter(aes(color = HW_TOTAL_category), 
                 size = 1, width = 0.25) +  
   # Jitter adds individual data points
-    geom_violin(alpha = 0.6, width = 1.4) + # violin
+    geom_violin(alpha = 0.6, width = 1.2) + ####### was 1
   geom_boxplot(outlier.shape = 1, alpha = 0.5, 
                width = 0.08, color = "grey30") + # Boxplot
-    geom_text(data = summary_stats, 
-              aes(x = HW_TOTAL_category, 
-                  y = max(data$HRS_WEEK, 
-                          na.rm = TRUE) + 10, 
-                  label = paste0("SD = ", round(SD, 1))), 
-              size = 4, fontface = "bold") +    # Add SD text annotations above the boxes
    geom_text(data = means, 
-             aes(label = hrs.w, y = hrs.w + 1, hjust=-1), 
-             size = 3, color = "darkred") + #adds average labels
+             aes(label = hrs.w, y = hrs.w + 0.5, hjust=-0.7), 
+             size = 5, color = "darkred") + #adds average labels
   theme_minimal() +
-  labs(title = "Hours water of supply by Water Insecurity group (HWISE)",
+  labs(#title = "Hours water of supply by water Insecurity group\n(HWISE)",
        x = "HWISE Group", 
        y = "Hours of Water Supply per Week") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
    stat_summary(fun.y=mean, geom="point", shape=23, 
                 size=5, color="darkred", fill="darkred") +
-  theme(legend.position = "none", 
-        axis.text = element_text(size = 10)) + # Remove legend for clarity 
+    theme(legend.position = "none", 
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 14),  
+        plot.title = element_text(size = 18)) +  
   scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
-                                 " (n=", summary_stats$Count, ")"))  # Add count to x-axis labels
+                                 "\n(n=", summary_stats$Count, ")"))  # Add count to x-axis labels
 
 
 summary(data$HRS_WEEK)
@@ -395,20 +392,22 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
   geom_boxplot(outlier.shape = 1, alpha = 0.5, 
                width = 0.08, color = "grey30") + # Boxplot
       geom_text(data = means, 
-             aes(label = hrs.w, y = hrs.w + 1, hjust=-0.8), 
-             size = 3, color = "darkred") + #adds average labels
+             aes(label = hrs.w, y = hrs.w +0.5 , hjust=-0.7), 
+             size = 5, color = "darkred") + #adds average labels
   theme_minimal() +
-  labs(title = "Hours of water supply and comparison to other parts of the city",
-       x = "Own water service is considered", 
+  labs(title = "Hours of water supply & perception of water service\n(compared to other neighborhoods in Mexico city)",
+       x = "Perception of water service", 
        y = "Hours of Water Supply per Week") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
    stat_summary(fun.y=mean, geom="point", shape=23, 
                 size=5, color="darkred", fill="darkred") +
   theme(legend.position = "none", 
-        axis.text = element_text(size = 10)) +  
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18)) +  
   scale_x_discrete(labels = paste0(summary_stats$MX28_WQ_COMP_category, 
-                                 " (n=", summary_stats$Count, ")")) 
+                                 "\n(n=", summary_stats$Count, ")")) 
 ```
 
 ## HWISE score by group
@@ -431,30 +430,26 @@ ggplot(data, aes(x = MX28_WQ_COMP_category,
     geom_jitter(aes(color = MX28_WQ_COMP_category), 
                size = 1, width = 0.25) +  
   # Jitter adds individual data points
-    geom_violin(alpha = 0.4, width = 1) + # violin
-  geom_boxplot(outlier.shape = 1, alpha = 0.3, 
-               width = 0.15, color = "grey30") + # Boxplot
-    geom_text(data = means, 
-             aes(label = hrs.w, y = hrs.w + 0.8, hjust=-0.85), 
-             size = 3, color = "darkred") + #adds average labels
-      geom_text(data = summary_stats, 
-              aes(x = MX28_WQ_COMP_category, 
-                  y = max(data$HW_TOTAL, 
-                          na.rm = TRUE) + 2, 
-                  label = paste0("SD = ", round(SD, 1))), 
-              size = 4, fontface = "bold") +    # Add SD text annotations above the boxes
+    geom_violin(alpha = 0.6, width = 1) + # violin
+  geom_boxplot(outlier.shape = 1, alpha = 0.5, 
+               width = 0.08, color = "grey30") + # Boxplot
+      geom_text(data = means, 
+             aes(label = hrs.w, y = hrs.w +0.5 , hjust=-0.7), 
+             size = 5, color = "darkred") + #adds average labels
   theme_minimal() +
-  labs(title =  "Hours of water supply and comparison to other parts of the city",
-       x = "Own water service is considered", 
+ labs(title = "Hours of water supply & perception of water service\n(compared to other neighborhoods in Mexico city)",
+       x = "Perception of water service", 
        y = "HWISE score") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
    stat_summary(fun.y=mean, geom="point", shape=23, 
                size=5, color="darkred", fill="darkred") +
   theme(legend.position = "none", 
-        axis.text = element_text(size = 10)) +  
+        axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18))  +  
   scale_x_discrete(labels = paste0(summary_stats$MX28_WQ_COMP_category, 
-                                 " (n=", summary_stats$Count, ")")) 
+                                 "\n(n=", summary_stats$Count, ")")) 
 ```
 
 # Hours of water supply by HWISE score
@@ -594,14 +589,48 @@ data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Margi
 
 ```
 ## Stacked bar plot
-```{r echo=FALSE}
+```{r brplot, echo=FALSE}
+summary_stats <- data %>%
+  group_by(MX28_WQ_COMP_category) %>%
+  summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
+
+color_palette <- c("#1f78b4",  "#a6cee3", "#fdbf6f", "#ff7f00")
+ggsave("stacked_barplot.png", width = 6, height = 3, dpi = 300) 
+
+ggplot(data, aes(x = MX28_WQ_COMP_category, fill = HW_TOTAL_category)) +
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Perception of water service\nvs. HWISE Category",
+       x = "Perception of water service",
+       y = "Percentage",
+       fill = "HWISE\nWater insecurity\ncategory") +
+   scale_fill_manual(values = color_palette) +
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) + 
+  theme_minimal() +
+   theme( 
+        axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18),
+        plot.margin = margin(1, 1, 1, 1)
+       )  +
+  
+    scale_x_discrete(labels = paste0(summary_stats$MX28_WQ_COMP_category, 
+                                 "\n(n=", summary_stats$Count, ")")) +
+  coord_flip() 
+
+color_palette <- c("#ff7f00", "#a6cee3",  "#1f78b4")
 ggplot(data, aes(x = HW_TOTAL_category, fill = MX28_WQ_COMP_category)) +
-  geom_bar(position = "fill") +  # "fill" makes the bars proportional (percentages)
-  labs(title = "Stacked Bar Plot: Water Service Perception vs. HWISE Category",
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Perception of water service\nvs. HWISE Category",
        x = "HWISE Category",
-       y = "Proportion",
-       fill = "Water Service Perception") +
-  theme_minimal()
+       y = "Percentage",
+       fill = "Water Service\n Perception") +
+   scale_fill_manual(values = color_palette) +
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) + 
+  theme_minimal() +
+   theme(axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18)) 
+  
 
 ```
 
