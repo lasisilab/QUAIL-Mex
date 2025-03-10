@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-08
+<strong>Last updated:</strong> 2025-03-09
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree77cc8103a4c660082d84faff7cb55e29ea0e26dftargetblank77cc810a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/77cc8103a4c660082d84faff7cb55e29ea0e26df" target="_blank">77cc810</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree77cc8103a4c660082d84faff7cb55e29ea0e26dftargetblank77cc810a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/77cc8103a4c660082d84faff7cb55e29ea0e26df" target="_blank">77cc810</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -561,10 +558,10 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Unstaged changes:
-    Modified:   analysis/HBA2025_Analyses.Rmd
-    Modified:   analysis/MX28_plots.Rmd
-    Modified:   analysis/Regression-Analysis_PC.Rmd
+    Modified:   analysis/HBA2025_cleaning.Rmd
     Modified:   analysis/tests.Rmd
+    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V4.csv
+    Modified:   data/Q9-10-11-29-31.csv
 
 </code></pre>
 <p>
@@ -609,6 +606,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/analysis/MX28_plots.Rmd" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+<td>
+analyses
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/MX28_plots.html" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+<td>
+analyses
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -797,6 +828,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -906,6 +948,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -942,6 +995,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" target="_blank">7866aba</a>
@@ -982,6 +1046,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -1018,6 +1093,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" target="_blank">7866aba</a>
@@ -1080,6 +1166,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -1116,6 +1213,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" target="_blank">7866aba</a>
@@ -1156,6 +1264,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" target="_blank">7866aba</a>
 </td>
 <td>
@@ -1192,6 +1311,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" target="_blank">7866aba</a>
@@ -1248,6 +1378,43 @@ ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
        fill = &quot;Emotions&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-4-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Calculate proportions
 data_prop &lt;- data %&gt;%
   group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
@@ -1263,6 +1430,43 @@ ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_
        fill = &quot;Emotions&quot;) +
   theme_minimal() </code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
+Past versions of unnamed-chunk-4-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-4-2.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Stacked barplot using counts
 ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
   geom_bar(position = &quot;stack&quot;) +
@@ -1272,6 +1476,43 @@ ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
        fill = &quot;Household Water Type&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Calculate proportions
 data_prop &lt;- data %&gt;%
   group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
@@ -1288,6 +1529,43 @@ ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_
        fill = &quot;Household Water Type&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-6-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Create a contingency table
 contingency_table &lt;- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
 
@@ -1459,6 +1737,43 @@ ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
   scale_y_continuous(labels = scales::percent) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="regression" class="section level2">
 <h2>regression</h2>
@@ -1569,6 +1884,43 @@ ggplot(effect_sizes, aes(x = Odds_Ratio, y = Category)) +
        y = &quot;HWISE Category&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>data &lt;- data %&gt;% filter(!is.na(HRS_WEEK) &amp; !is.na(MX26_EM_HHW_TYPE))
 
 wilcox.test(HRS_WEEK ~ MX26_EM_HHW_TYPE, data = data)</code></pre>
@@ -1668,6 +2020,43 @@ ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
+Past versions of unnamed-chunk-17-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-17-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>library(ggplot2)
 ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
   geom_boxplot(alpha = 0.7) +
@@ -1677,6 +2066,43 @@ ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
        y = &quot;Hours of Water Supply per Week&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
+Past versions of unnamed-chunk-18-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-18-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>data$predicted &lt;- predict(logit_model, type = &quot;response&quot;)
 
 # Ensure correct row alignment
@@ -1697,6 +2123,43 @@ ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-2">
+Past versions of unnamed-chunk-18-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-18-2.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.5) +
@@ -1705,6 +2168,43 @@ ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
        y = &quot;Hours of Water Supply per Week&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-3">
+Past versions of unnamed-chunk-18-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-18-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-18-3.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>logit_model &lt;- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + SEASON, 
                    data = data, 
                    family = binomial)
@@ -1782,6 +2282,43 @@ ggplot(odds_ratios, aes(x = term, y = estimate)) +
        y = &quot;Odds Ratio&quot;, x = &quot;Predictor Variable&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
+Past versions of unnamed-chunk-20-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-20-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>library(ggeffects)
 predicted_data &lt;- ggpredict(logit_model, terms = &quot;HRS_WEEK [all]&quot;)
 
@@ -1793,6 +2330,43 @@ ggplot(predicted_data, aes(x = x, y = predicted)) +
        y = &quot;Predicted Probability of Positive Perception&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/MX28_plots.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-21-1">
+Past versions of unnamed-chunk-21-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-21-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-21-1.png" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>✔ Try adding interaction effects (e.g., HRS_WEEK * SES_SC_Total) to
 see if SES influences water perception at different supply levels. ✔
 Include more predictors related to water quality, infrastructure, or

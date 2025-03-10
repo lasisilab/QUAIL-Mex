@@ -8,13 +8,18 @@ date: "2025-03-08"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r message=FALSE}
+```{r message=FALSE, echo = FALSE}
 # Load necessary libraries
 library(dplyr)
 library(ggplot2)
 library(rstatix)
 library(ggpubr)
 library(coin)
+library(tidyr)
+library(MASS)  # For stepAIC
+library(broom) # For model output formatting
+library(dplyr) # For data manipulation
+
 
 # Load the dataset
 data_path = "data"
@@ -22,8 +27,10 @@ data_path = "data"
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), 
          stringsAsFactors = FALSE,  
          na.strings = c("", "N/A", "NA", "pending"))
+
 ```
 
+#Categorical groups using HWISE
 ```{r}
 # Categorize HW_TOTAL into four groups
 data <- data %>%
@@ -35,22 +42,28 @@ data <- data %>%
     HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
   ))
 
+```
+## Significant differences in hours of water supply per week
+```{r echo = FALSE}
 # Convert to factor
 data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+cat("Number of samples falling in each category:")
 print(table(data$HW_TOTAL_category))
 
 # Check normality using Shapiro-Wilk test for each group
 shapiro_results <- data %>%
   group_by(HW_TOTAL_category) %>%
   summarise(p_value = shapiro.test(HRS_WEEK)$p.value)
+cat("Check normality using Shapiro-Wilk test for each group:")
 print(shapiro_results)
 
 ```
 
-```{r}
+```{r echo = FALSE}
 
 # Perform Kruskal-Wallis test
 kruskal_result <- kruskal.test(HRS_WEEK ~ HW_TOTAL_category, data = data)
+cat("Results Kruskal-Wallis test:")
 print(kruskal_result)
 
 # Perform Wilcoxon pairwise comparisons
@@ -68,8 +81,19 @@ wilcox_results <- wilcox_results %>%
   ))
 
 # Print results
-print(wilcox_results)
 
+cat("Results Wilcoxon pairwise comparisons")
+print(wilcox_results)
+```
+Interpretation: 
+
+    p.adj < 0.001 ~ "***",
+    p.adj < 0.01  ~ "**",
+    p.adj < 0.05  ~ "*",
+    TRUE          ~ "ns"
+  
+```{r echo =FALSE}
+  
 # Ensure positions for p-value labels
 wilcox_results <- wilcox_results %>%
   add_xy_position(x = "HW_TOTAL_category")
@@ -87,6 +111,7 @@ significant_wilcox_results <- wilcox_results %>%
   mutate(label = paste0("n=", n1, "\n", p.adj.signif))  # Combine sample size and significance
 
 # Print the significant comparisons
+cat("Printing significant results only:")
 print(significant_wilcox_results)
 
 
@@ -98,7 +123,6 @@ print(significant_wilcox_results)
  hrs.w <- data$HRS_WEEK
  means <- aggregate(hrs.w ~ HW_TOTAL_category, data, mean)
 means$hrs.w <- round(means$hrs.w, 2)
-
 
 # Create a boxplot with only significant Wilcoxon p-value annotations
 ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category)) +
@@ -114,16 +138,13 @@ ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category))
   theme_minimal() +
   theme(legend.position = "none") + 
     scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
-                                 " (n=", summary_stats$Count, ")")) 
+                                 " (n=", summary_stats$Count, ")")) +
+  stat_summary(fun.y=mean, geom="point", shape=23, 
+                size=5, color="darkred", fill="darkred") 
 
 ```
 
-
 ```{r echo = TRUE}
-# Load necessary packages
-library(MASS)  # For stepAIC
-library(broom) # For model output formatting
-library(dplyr) # For data manipulation
 
 # Ensure it's properly coded as 0 or 1
 data$MX26_EM_HHW_TYPE <- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
@@ -380,7 +401,6 @@ vif(full_model_interactions)
 
 # Visualize interaction effects using marginal effects plots
 library(ggeffects)
-library(ggplot2)
 
 # Plot interaction effects for HW_TOTAL * SEASON
 plot(ggpredict(full_model_interactions, terms = c("HW_TOTAL", "SEASON")))

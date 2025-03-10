@@ -515,15 +515,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree77cc8103a4c660082d84faff7cb55e29ea0e26dftargetblank77cc810a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/77cc8103a4c660082d84faff7cb55e29ea0e26df" target="_blank">77cc810</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree8e33bbc5acc4b87b2389c5d13edacef5e59fc198targetblank8e33bbca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree77cc8103a4c660082d84faff7cb55e29ea0e26dftargetblank77cc810a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -533,7 +533,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/8e33bbc5acc4b87b2389c5d13edacef5e59fc198" target="_blank">8e33bbc</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/77cc8103a4c660082d84faff7cb55e29ea0e26df" target="_blank">77cc810</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -560,12 +560,10 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Unstaged changes:
-    Modified:   analysis/HBA2025_Analyses.Rmd
     Modified:   analysis/HBA2025_cleaning.Rmd
-    Modified:   analysis/MX28_plots.Rmd
-    Modified:   analysis/Regression-Analysis_PC.Rmd
     Modified:   analysis/tests.Rmd
-    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv
+    Modified:   data/Cleaned_Dataset_Screening_HWISE_PSS_V4.csv
+    Modified:   data/Q9-10-11-29-31.csv
 
 </code></pre>
 <p>
@@ -610,6 +608,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/analysis/HBA2025_cleaning.Rmd" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+<td>
+analyses
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/HBA2025_cleaning.html" target="_blank">9502a37</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-09
+</td>
+<td>
+analyses
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1842,6 +1874,348 @@ cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</cod
 write.csv(merged_df, file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;), row.names = FALSE)
 cat(&quot;Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&#39;.\n&quot;)</code></pre>
 <pre><code>Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&#39;.</code></pre>
+</div>
+<div id="do-not-use-v4---format-is-not-usable" class="section level1">
+<h1>Do not use V4 - format is not usable</h1>
+<pre class="r"><code># Load the dataset
+file5 &lt;- &quot;Q9-10-11-29-31.csv&quot;
+df &lt;- read.csv(file.path(data_path, file5), stringsAsFactors = FALSE, na.strings = c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;))
+df2 &lt;- read.csv(file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;))
+
+summary(df)</code></pre>
+<pre><code>       ID         MX9_DRINK_W        MX9_DRINK_BOTPUR   MX9_DRINK_BOT     
+ Min.   :  1.00   Length:396         Length:396         Length:396        
+ 1st Qu.: 99.75   Class :character   Class :character   Class :character  
+ Median :198.50   Mode  :character   Mode  :character   Mode  :character  
+ Mean   :245.05                                                           
+ 3rd Qu.:393.25                                                           
+ Max.   :492.00                                                           
+ MX10_WSTORAGE       MX11_WCOST        MX11_WCOST_2MNTHS  MX11_WCOST_2MNTHS_NUM
+ Length:396         Length:396         Length:396         Length:396           
+ Class :character   Class :character   Class :character   Class :character     
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character     
+                                                                               
+                                                                               
+                                                                               
+ MX11_WCOST_NUL     MX29_IDL_WS        MX29_IDL_WS_CAT    MX29_IDL_WS_LKLY  
+ Length:396         Length:396         Length:396         Length:396        
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+ MX29_IDL_WS_INFO   MX31_WCOST_BOTL   
+ Length:396         Length:396        
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      </code></pre>
+<pre class="r"><code>head(df)</code></pre>
+<pre><code>  ID                                                MX9_DRINK_W
+1  1                                                       &lt;NA&gt;
+2  2 a) agua del suministro publico,E) Garrafon de purificadora
+3  3                                E) Garrafon de purificadora
+4  4                                E) Garrafon de purificadora
+5  5                                E) Garrafon de purificadora
+6  6            E) Garrafon de purificadora,G) Botellas de Agua
+  MX9_DRINK_BOTPUR MX9_DRINK_BOT
+1             &lt;NA&gt;          &lt;NA&gt;
+2             &lt;NA&gt;          &lt;NA&gt;
+3             &lt;NA&gt;          &lt;NA&gt;
+4             &lt;NA&gt;          &lt;NA&gt;
+5             &lt;NA&gt;          &lt;NA&gt;
+6             &lt;NA&gt;          &lt;NA&gt;
+                                      MX10_WSTORAGE MX11_WCOST
+1                                              &lt;NA&gt;       &lt;NA&gt;
+2                    B) Tinaco,C) Cisterna,D) Tambo       &lt;NA&gt;
+3                             B) Tinaco,C) Cisterna       &lt;NA&gt;
+4                             B) Tinaco,C) Cisterna       &lt;NA&gt;
+5                              C) Cisterna,D) Tambo       &lt;NA&gt;
+6 B) Tinaco,C) Cisterna,D) Tambo,F) Cubeta sin tapa       &lt;NA&gt;
+  MX11_WCOST_2MNTHS MX11_WCOST_2MNTHS_NUM MX11_WCOST_NUL MX29_IDL_WS
+1              &lt;NA&gt;                  &lt;NA&gt;           &lt;NA&gt;        &lt;NA&gt;
+2                 0                     0            yes        &lt;NA&gt;
+3                60                    60             no        &lt;NA&gt;
+4                 0                     0            yes        &lt;NA&gt;
+5                DK                    DK             no        &lt;NA&gt;
+6                 0                     0            yes        &lt;NA&gt;
+  MX29_IDL_WS_CAT MX29_IDL_WS_LKLY MX29_IDL_WS_INFO MX31_WCOST_BOTL
+1            &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;            &lt;NA&gt;
+2         quality              n/a             &lt;NA&gt;        doubled 
+3        quantity               no             &lt;NA&gt;         7--&gt; 15
+4        quantity               no             &lt;NA&gt;      no change 
+5         quality              n/a             &lt;NA&gt;         8--&gt; 15
+6         quality               no             &lt;NA&gt;        11--&gt; 18</code></pre>
+<pre class="r"><code># Convert all character columns to NA where values match missing patterns
+df &lt;- df %&gt;%
+  select(ID, MX9_DRINK_W, MX10_WSTORAGE) %&gt;%
+  mutate(across(where(is.character), ~ ifelse(. %in% c(&quot;&quot;, &quot;N/A&quot;, &quot;NA&quot;, &quot;pending&quot;), NA, .)))
+
+#remove rows with NAs
+df &lt;- na.omit(df)
+df &lt;- unique(df)
+
+dim(df)</code></pre>
+<pre><code>[1] 379   3</code></pre>
+<pre class="r"><code># Merge datasets sequentially by the common column
+merged_df &lt;- df2 %&gt;%
+  full_join(df, by = &quot;ID&quot;) 
+
+# Print merged dataset dimensions
+cat(&quot;Merged dataset dimensions:&quot;, dim(merged_df), &quot;\n&quot;)</code></pre>
+<pre><code>Merged dataset dimensions: 402 47 </code></pre>
+<pre class="r"><code>head(merged_df, 20)</code></pre>
+<pre><code>   ID MX8_TRUST MX28_WQ_COMP MX26_EM_HHW_TYPE D_YRBR D_LOC_TIME D_AGE D_HH_SIZE
+1   1         2            0                0   1987         35    35         4
+2   2         2            2                0   1990         32    32        12
+3   3         0            1                0   1992          8    30         7
+4   4         2            0                1   1982         32    40         4
+5   5         2            2                1   1976         45    46         4
+6   6         2            0                1   1990          8    32         6
+7   7         2            1                1   1997         NA    25         4
+8   8         2            1                1   1985         10    37         4
+9   9         2            1                1   1982         40    40         6
+10 10         2            0                0   1979         43    49         3
+11 11         2            0                1   1992         21    30        10
+12 12         2            1                0   1996         26    26        17
+13 13         2            1                1   1998         24    24         6
+14 15         2            2                0   1997         13    25         5
+15 16         2            1                1   1990         14    32         5
+16 17         2            0                1   1988         34    34         6
+17 18         2            0                1   1978         NA    44        NA
+18 19         2            0                1   1991         10    31         4
+19 20         2            0                1   1992         11    30        10
+20 21         2            1                0   1985         34    37         4
+   D_CHLD HLTH_SMK SES_SC_Total SEASON W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES
+1       0        0          149      1        1        2         0          0
+2       2        1          196      1        1        0         0          0
+3       2        0           52      1        1        0         0          0
+4       1        0          214      1        1        0         0          0
+5      NA        0          117      1        1        2         1          1
+6       1       NA          220      1        1        1         1          2
+7       2       NA          130      1        1        0         1          1
+8       2        0           NA      1        1        2         2          2
+9       4        0           71      1        1        0         2          0
+10      1        0          117      1        1        2         2          2
+11      2        0           NA      1        1        1         0          0
+12      2        0           NA      1        1        1         1          0
+13      2        0          159      1        1        1         1          0
+14      1        1          113      1        1        0         0          1
+15     NA        0          104      1        1        3         2          2
+16      3        0          127      1        1        1         1          2
+17     NA       NA           NA      1        1        0         1          1
+18      2        0          110      1        1        1         1          2
+19      2        0          199      1        1        2         2          1
+20      2        0           86      1        1        0         0          0
+   HW_PLANS HW_FOOD HW_HANDS HW_BODY HW_DRINK HW_ANGRY HW_SLEEP HW_NONE
+1         0       0        0       0        0        1        0       1
+2         0       0        0       1        0        2        0       2
+3         0       0        0       0        0        1        0       0
+4         0       0        0       0        0        1        0       0
+5         1       1        0       1        0        1        0       3
+6         1       3        1       1        0        1        0       2
+7         1       1        1       1        0        1        0       1
+8         0       0        2       0        0        0        0       0
+9         0       0        0       0        0        1        0       0
+10        0       0        0       0        0        0        0       0
+11        1       1        0       2        0        3        0       3
+12        0       0        0       0        0        1        0       1
+13        1       0        0       0        0        0        1       1
+14        0       0        0       0        0        0        0       0
+15        0       1        0       3        0        3        0       3
+16        1       0        0       1        0        0        0       0
+17        0       0        0       0        1        2        1       1
+18        1       0        0       1        0        0        0       2
+19        2       1        0       2        1        2        0       0
+20        0       0        0       0        0        1        0       0
+   HW_SHAME PSS1 PSS2 PSS3 PSS4 PSS5 PSS6 PSS7 PSS8 PSS9 PSS10 PSS11 PSS12
+1         0    2    3    2    4    3    2    2    1    2     3     1     4
+2         0    2    2    3    3    3    4    3    2    3     2     2     4
+3         0    2    2    2    2    2    3    3    2    3     2     2     2
+4         1    2    3    2    3    3    3    3    1    3     2     2     2
+5         1    2    2    3    2    2    2    3    2    2     1     3     3
+6         2    2    2    3    2    3    3    4    1    3     3     2     3
+7         1    2    2    2    2    3    2    2    2    2     2     2     2
+8         0    2    1    3    3    3    2    3    1    3     3     4     2
+9         0    2    3    2    3    2    2    2    3    3     2     2     2
+10        0    1    2    1    3    3    3    3    2    3     0     2     3
+11        0    3    3    4    4    2    1    2    3    3     1     4     3
+12        1    3    4    4    1    2    2    2    2    2     1     4     3
+13        0    4    3    4    4    2    3    4    2    1     1     3     3
+14        0    3    3    3    2    2    2    1    2    1     1     3     3
+15        2    3    3    2    2    1    3    3    1    2     2     2     3
+16        0    2    0    2    3    3    3    3    2    3     2     2     3
+17        0    2    1    2    3    2    2    2    3    2     2     3     3
+18        0    1    3    3    3    2    2    2    3    2     3     3     3
+19        1    1    2    4    2    1    3    3    2    3     2     3     3
+20        0    2    2    2    3    2    4    3    2    3     2     2     2
+   PSS13 PSS14 HLTH_CPAIN_CAT HLTH_CDIS_CAT HW_TOTAL W_WC_WI HRS_WEEK PSS_TOTAL
+1      2     1              0             1        4       1   168.00        -4
+2      3     2              0             0        5       0    35.00        -4
+3      3     2              0             0        1       1       NA        -4
+4      3     1              0             0        2       1    28.00        -7
+5      2     3              1             0       12       1   156.00         4
+6      1     2              0             0       15       1    12.00        -4
+7      2     2              1             0        9       1    11.00        -1
+8      2     2              0             1        8       1    39.00        -4
+9      2     2              1             0        3       1     5.25         0
+10     3     2              0             0        6       1    24.50        -5
+11     4     1              1             0       11       1    20.00         4
+12     2     4              0             0        5       1    77.00        12
+13     2     3              0             0        5       1    21.00         5
+14     2     3              0             0        1       1    84.00         9
+15     2     4              0             0       19       1    35.00         3
+16     3     3              0             0        6       1     9.00        -6
+17     1     2              1             0        7       1    17.50         2
+18     3     2              1             0        8       1     8.00         1
+19     2     2              0             0       14       1    42.00         1
+20     2     2              0             0        1       1    21.00        -5
+                                                  MX9_DRINK_W
+1                                                        &lt;NA&gt;
+2  a) agua del suministro publico,E) Garrafon de purificadora
+3                                 E) Garrafon de purificadora
+4                                 E) Garrafon de purificadora
+5                                 E) Garrafon de purificadora
+6             E) Garrafon de purificadora,G) Botellas de Agua
+7                                 E) Garrafon de purificadora
+8             E) Garrafon de purificadora,G) Botellas de Agua
+9  a) agua del suministro publico,E) Garrafon de purificadora
+10            E) Garrafon de purificadora,G) Botellas de Agua
+11            E) Garrafon de purificadora,G) Botellas de Agua
+12                                E) Garrafon de purificadora
+13            E) Garrafon de purificadora,G) Botellas de Agua
+14                                E) Garrafon de purificadora
+15                                E) Garrafon de purificadora
+16 a) agua del suministro publico,E) Garrafon de purificadora
+17           d) Garrafon de marca,E) Garrafon de purificadora
+18            E) Garrafon de purificadora,G) Botellas de Agua
+19                                E) Garrafon de purificadora
+20                                E) Garrafon de purificadora
+                                       MX10_WSTORAGE
+1                                               &lt;NA&gt;
+2                     B) Tinaco,C) Cisterna,D) Tambo
+3                              B) Tinaco,C) Cisterna
+4                              B) Tinaco,C) Cisterna
+5                               C) Cisterna,D) Tambo
+6  B) Tinaco,C) Cisterna,D) Tambo,F) Cubeta sin tapa
+7           B) Tinaco,C) Cisterna,E) Cubeta con tapa
+8                                   B) Tinaco,pileta
+9  B) Tinaco,C) Cisterna,D) Tambo,E) Cubeta con tapa
+10                             B) Tinaco,C) Cisterna
+11                    B) Tinaco,C) Cisterna,D) Tambo
+12 B) Tinaco,C) Cisterna,D) Tambo,F) Cubeta sin tapa
+13                    B) Tinaco,C) Cisterna,D) Tambo
+14                                B) Tinaco,D) Tambo
+15                       D) Tambo,E) Cubeta con tapa
+16                    B) Tinaco,C) Cisterna,D) Tambo
+17                                         B) Tinaco
+18                       D) Tambo,F) Cubeta sin tapa
+19           C) Cisterna,D) Tambo,F) Cubeta sin tapa
+20                                         B) Tinaco</code></pre>
+<pre class="r"><code>summary(merged_df)</code></pre>
+<pre><code>       ID         MX8_TRUST          MX28_WQ_COMP    MX26_EM_HHW_TYPE  
+ Min.   :  1.0   Length:402         Min.   :0.0000   Length:402        
+ 1st Qu.:101.2   Class :character   1st Qu.:0.0000   Class :character  
+ Median :201.5   Mode  :character   Median :1.0000   Mode  :character  
+ Mean   :248.3                      Mean   :0.8677                     
+ 3rd Qu.:396.8                      3rd Qu.:1.0000                     
+ Max.   :497.0                      Max.   :2.0000                     
+                                    NA&#39;s   :9                          
+     D_YRBR       D_LOC_TIME        D_AGE         D_HH_SIZE     
+ Min.   :1976   Min.   : 2.00   Min.   :18.00   Min.   : 2.000  
+ 1st Qu.:1984   1st Qu.:13.00   1st Qu.:26.00   1st Qu.: 4.000  
+ Median :1990   Median :23.00   Median :32.00   Median : 5.000  
+ Mean   :1990   Mean   :22.46   Mean   :32.11   Mean   : 5.578  
+ 3rd Qu.:1996   3rd Qu.:31.00   3rd Qu.:38.00   3rd Qu.: 6.000  
+ Max.   :2005   Max.   :46.00   Max.   :49.00   Max.   :40.000  
+ NA&#39;s   :17     NA&#39;s   :36      NA&#39;s   :18      NA&#39;s   :23      
+     D_CHLD         HLTH_SMK       SES_SC_Total       SEASON      
+ Min.   :0.000   Min.   :0.0000   Min.   : 25.0   Min.   :0.0000  
+ 1st Qu.:1.000   1st Qu.:0.0000   1st Qu.:104.2   1st Qu.:0.0000  
+ Median :2.000   Median :0.0000   Median :129.5   Median :1.0000  
+ Mean   :1.857   Mean   :0.1698   Mean   :133.2   Mean   :0.5088  
+ 3rd Qu.:3.000   3rd Qu.:0.0000   3rd Qu.:159.0   3rd Qu.:1.0000  
+ Max.   :8.000   Max.   :1.0000   Max.   :263.0   Max.   :1.0000  
+ NA&#39;s   :24      NA&#39;s   :78       NA&#39;s   :52      NA&#39;s   :3       
+    W_WS_LOC         HW_WORRY      HW_INTERR       HW_CLOTHES    
+ Min.   :0.0000   Min.   :0.00   Min.   :0.000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.00   1st Qu.:1.000   1st Qu.:0.0000  
+ Median :1.0000   Median :1.00   Median :1.000   Median :1.0000  
+ Mean   :0.5063   Mean   :1.16   Mean   :1.316   Mean   :0.9874  
+ 3rd Qu.:1.0000   3rd Qu.:2.00   3rd Qu.:2.000   3rd Qu.:2.0000  
+ Max.   :1.0000   Max.   :3.00   Max.   :3.000   Max.   :3.0000  
+ NA&#39;s   :3        NA&#39;s   :3      NA&#39;s   :3       NA&#39;s   :4       
+    HW_PLANS         HW_FOOD          HW_HANDS         HW_BODY      
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :1.0000   Median :0.0000   Median :0.0000   Median :0.0000  
+ Mean   :0.8571   Mean   :0.4422   Mean   :0.2682   Mean   :0.6792  
+ 3rd Qu.:2.0000   3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000  
+ Max.   :3.0000   Max.   :3.0000   Max.   :3.0000   Max.   :3.0000  
+ NA&#39;s   :3        NA&#39;s   :4        NA&#39;s   :3        NA&#39;s   :3       
+    HW_DRINK         HW_ANGRY       HW_SLEEP         HW_NONE      
+ Min.   :0.0000   Min.   :0.00   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:0.0000   1st Qu.:0.00   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :0.0000   Median :1.00   Median :0.0000   Median :0.0000  
+ Mean   :0.4261   Mean   :1.04   Mean   :0.2638   Mean   :0.7513  
+ 3rd Qu.:1.0000   3rd Qu.:2.00   3rd Qu.:0.0000   3rd Qu.:1.0000  
+ Max.   :3.0000   Max.   :3.00   Max.   :2.0000   Max.   :3.0000  
+ NA&#39;s   :3        NA&#39;s   :4      NA&#39;s   :4        NA&#39;s   :4       
+    HW_SHAME           PSS1            PSS2            PSS3     
+ Min.   :0.0000   Min.   :0.000   Min.   :0.000   Min.   :0.00  
+ 1st Qu.:0.0000   1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00  
+ Median :0.0000   Median :2.000   Median :2.000   Median :3.00  
+ Mean   :0.2197   Mean   :2.111   Mean   :2.219   Mean   :2.93  
+ 3rd Qu.:0.0000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:4.00  
+ Max.   :3.0000   Max.   :4.000   Max.   :4.000   Max.   :4.00  
+ NA&#39;s   :6        NA&#39;s   :4       NA&#39;s   :4       NA&#39;s   :4     
+      PSS4            PSS5            PSS6           PSS7            PSS8      
+ Min.   :0.000   Min.   :0.000   Min.   :0.00   Min.   :0.000   Min.   :0.000  
+ 1st Qu.:2.000   1st Qu.:2.000   1st Qu.:2.00   1st Qu.:2.000   1st Qu.:2.000  
+ Median :3.000   Median :3.000   Median :3.00   Median :3.000   Median :2.000  
+ Mean   :2.573   Mean   :2.664   Mean   :2.83   Mean   :2.578   Mean   :2.133  
+ 3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:4.00   3rd Qu.:3.000   3rd Qu.:3.000  
+ Max.   :4.000   Max.   :4.000   Max.   :4.00   Max.   :4.000   Max.   :4.000  
+ NA&#39;s   :6       NA&#39;s   :3       NA&#39;s   :3      NA&#39;s   :4       NA&#39;s   :4      
+      PSS9           PSS10           PSS11           PSS12      
+ Min.   :0.000   Min.   :0.000   Min.   :0.000   Min.   :0.000  
+ 1st Qu.:2.000   1st Qu.:1.000   1st Qu.:2.000   1st Qu.:2.000  
+ Median :3.000   Median :2.000   Median :3.000   Median :3.000  
+ Mean   :2.653   Mean   :1.992   Mean   :2.565   Mean   :2.957  
+ 3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:4.000  
+ Max.   :4.000   Max.   :4.000   Max.   :4.000   Max.   :4.000  
+ NA&#39;s   :4       NA&#39;s   :4       NA&#39;s   :4       NA&#39;s   :4      
+     PSS13           PSS14       HLTH_CPAIN_CAT   HLTH_CDIS_CAT   
+ Min.   :0.000   Min.   :0.000   Min.   :0.0000   Min.   :0.0000  
+ 1st Qu.:2.000   1st Qu.:1.000   1st Qu.:0.0000   1st Qu.:0.0000  
+ Median :3.000   Median :2.000   Median :0.0000   Median :0.0000  
+ Mean   :2.547   Mean   :2.168   Mean   :0.2663   Mean   :0.1646  
+ 3rd Qu.:3.000   3rd Qu.:3.000   3rd Qu.:1.0000   3rd Qu.:0.0000  
+ Max.   :4.000   Max.   :4.000   Max.   :1.0000   Max.   :1.0000  
+ NA&#39;s   :5       NA&#39;s   :4       NA&#39;s   :4        NA&#39;s   :1       
+    HW_TOTAL         W_WC_WI          HRS_WEEK        PSS_TOTAL       
+ Min.   : 0.000   Min.   :0.0000   Min.   :  0.00   Min.   :-19.0000  
+ 1st Qu.: 3.000   1st Qu.:0.0000   1st Qu.: 21.00   1st Qu.: -6.0000  
+ Median : 8.000   Median :1.0000   Median : 42.00   Median :  0.0000  
+ Mean   : 8.419   Mean   :0.7158   Mean   : 85.13   Mean   : -0.7215  
+ 3rd Qu.:12.000   3rd Qu.:1.0000   3rd Qu.:168.00   3rd Qu.:  4.0000  
+ Max.   :27.000   Max.   :1.0000   Max.   :168.00   Max.   : 19.0000  
+ NA&#39;s   :11       NA&#39;s   :22       NA&#39;s   :39       NA&#39;s   :7         
+ MX9_DRINK_W        MX10_WSTORAGE     
+ Length:402         Length:402        
+ Class :character   Class :character  
+ Mode  :character   Mode  :character  
+                                      
+                                      
+                                      
+                                      </code></pre>
+<pre class="r"><code>dim(merged_df)</code></pre>
+<pre><code>[1] 402  47</code></pre>
+<pre class="r"><code># Save the merged dataset
+write.csv(merged_df, file.path(data_path, &quot;Cleaned_Dataset_Screening_HWISE_PSS_V4.csv&quot;), row.names = FALSE)
+cat(&quot;Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V4.csv&#39;.\n&quot;)</code></pre>
+<pre><code>Merged dataset saved as &#39;Cleaned_Dataset_Screening_HWISE_PSS_V4.csv&#39;.</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

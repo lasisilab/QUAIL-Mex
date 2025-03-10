@@ -383,6 +383,38 @@ write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V
 cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V3.csv'.\n")
 
 ```
+ 
+# Do not use V4 - format is not usable 
 
+```{r mx9 and mx 10 unusable}
+# Load the dataset
+file5 <- "Q9-10-11-29-31.csv"
+df <- read.csv(file.path(data_path, file5), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+df2 <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"))
 
+summary(df)
+head(df)
+# Convert all character columns to NA where values match missing patterns
+df <- df %>%
+  select(ID, MX9_DRINK_W, MX10_WSTORAGE) %>%
+  mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
 
+#remove rows with NAs
+df <- na.omit(df)
+df <- unique(df)
+
+dim(df)
+# Merge datasets sequentially by the common column
+merged_df <- df2 %>%
+  full_join(df, by = "ID") 
+
+# Print merged dataset dimensions
+cat("Merged dataset dimensions:", dim(merged_df), "\n")
+head(merged_df, 20)
+summary(merged_df)
+dim(merged_df)
+# Save the merged dataset
+write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), row.names = FALSE)
+cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V4.csv'.\n")
+
+```

@@ -325,6 +325,7 @@ ggplot(data, aes(x = HW_TOTAL_category,
                                  " (n=", summary_stats$Count, ")"))  # Add count to x-axis labels
 
 
+summary(data$HRS_WEEK)
 
 ```
 
