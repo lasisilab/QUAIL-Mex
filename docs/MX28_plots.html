@@ -9,11 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Paloma" />
+<meta name="author" content="Paloma C." />
 
 <meta name="date" content="2025-03-06" />
 
-<title>HBA2025_results</title>
+<title>HBA2025_MX28</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -351,8 +351,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HBA2025_results</h1>
-<h4 class="author">Paloma</h4>
+<h1 class="title toc-ignore">HBA2025_MX28</h1>
+<h4 class="author">Paloma C.</h4>
 <h4 class="date">2025-03-06</h4>
 
 </div>
@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +386,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,18 +411,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -513,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree811be83406ed5fb7930eb547081e0df21c9b9244targetblank811be83a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee4f1deb3bfb0101f0e1185a549fb83c0eafc8543targetblanke4f1deba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/811be83406ed5fb7930eb547081e0df21c9b9244" target="_blank">811be83</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543" target="_blank">e4f1deb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree811be83406ed5fb7930eb547081e0df21c9b9244targetblank811be83a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee4f1deb3bfb0101f0e1185a549fb83c0eafc8543targetblanke4f1deba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/811be83406ed5fb7930eb547081e0df21c9b9244" target="_blank">811be83</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543" target="_blank">e4f1deb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -555,15 +558,12 @@ Ignored files:
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Hrs_by_HWISE score.png
     Ignored:    analysis/odds_ratio_plot.png
+    Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
-Untracked files:
-    Untracked:  odds_ratio_plot.png
-
 Unstaged changes:
-    Modified:   analysis/HBA2025_Analyses.Rmd
-    Modified:   analysis/tests.Rmd
+    Modified:   analysis/MX28_plots.Rmd
 
 </code></pre>
 <p>
@@ -608,6 +608,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/MX28_plots.html" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+<td>
+updates plots &amp; analyses
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -734,81 +751,23 @@ add question 28
 </div>
 </div>
 </div>
-<pre class="r"><code># Load necessary libraries
-library(ggplot2)
-library(dplyr)</code></pre>
-<pre><code>
-Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>The following objects are masked from &#39;package:stats&#39;:
-
-    filter, lag</code></pre>
-<pre><code>The following objects are masked from &#39;package:base&#39;:
-
-    intersect, setdiff, setequal, union</code></pre>
-<pre class="r"><code>library(corrplot)</code></pre>
-<pre><code>corrplot 0.95 loaded</code></pre>
-<pre class="r"><code>library(rstatix)</code></pre>
-<pre><code>
-Attaching package: &#39;rstatix&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:stats&#39;:
-
-    filter</code></pre>
-<pre class="r"><code>library(rcompanion)
-
-data.file &lt;- &quot;data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;
-# Read the dataset
-data &lt;- read.csv(data.file)
-
-data$MX28_WQ_COMP &lt;- as.numeric(data$MX28_WQ_COMP)
-
-keep_columns &lt;- c(&quot;MX28_WQ_COMP&quot;,
-                &quot;D_LOC_TIME&quot;,
-                &quot;D_AGE&quot;,
-                &quot;D_HH_SIZE&quot;,
-                &quot;D_CHLD&quot;,
-                &quot;HLTH_SMK&quot;,
-                &quot;SES_SC_Total&quot;,
-                &quot;SEASON&quot;,
-                &quot;HW_TOTAL&quot;,
-                &quot;W_WC_WI&quot;,
-                &quot;W_WS_LOC&quot;,
-                &quot;HRS_WEEK&quot;)
-
-data &lt;- data %&gt;% 
-  select(keep_columns)</code></pre>
-<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
-ℹ Please use `all_of()` or `any_of()` instead.
-  # Was:
-  data %&gt;% select(keep_columns)
-
-  # Now:
-  data %&gt;% select(all_of(keep_columns))
-
-See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-generated.</code></pre>
-<pre class="r"><code># Check if the column exists
-if(&quot;MX28_WQ_COMP&quot; %in% colnames(data)) {
-  
-  # Select numeric columns for correlation analysis
-  numeric_data &lt;- data %&gt;% select(where(is.numeric))
-  
-  # Compute correlation matrix
-  correlation_matrix &lt;- cor(numeric_data, use = &quot;pairwise.complete.obs&quot;)
-  
-  # Extract correlations with MX28_WQ_COMP
-  correlations &lt;- as.data.frame(correlation_matrix[&quot;MX28_WQ_COMP&quot;, ])
-  correlations$Variable &lt;- rownames(correlations)
-  colnames(correlations)[1] &lt;- &quot;Correlation&quot;
-  
-  # Print correlation values sorted in descending order
-  print(correlations %&gt;% arrange(desc(Correlation)))
-  
-  # Visualize correlation matrix as a heatmap
-  corrplot(correlation_matrix, method = &quot;color&quot;, type = &quot;upper&quot;, tl.col = &quot;black&quot;, tl.srt = 45)
-    
-  }</code></pre>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Here we explore the survey responses for questions 26 and 28.</p>
+<p>Question 28 of the QUAIL-Mex questionnaire reveals if participants
+think of their water service as worse, similar, or better than in other
+parts of Mexico City. Exploring this data and the factors that may
+influence this perception is an important dimension of how water
+insecurity is viewed by participants.</p>
+<p><em>warning</em>: some explanations and interpretations were written
+using Artificial Intelligence. They are in the process of being
+evaluated, filtered, and re-written by the author.</p>
+</div>
+<div id="q28" class="section level1">
+<h1>Q28</h1>
+<div id="compute-correlation-of-numeric-variables-in-data-set"
+class="section level2">
+<h2>Compute correlation of numeric variables in data set</h2>
 <pre><code>              Correlation     Variable
 MX28_WQ_COMP  1.000000000 MX28_WQ_COMP
 HRS_WEEK      0.189231915     HRS_WEEK
@@ -822,797 +781,58 @@ SES_SC_Total -0.099965323 SES_SC_Total
 D_AGE        -0.132354749        D_AGE
 W_WC_WI      -0.178893866      W_WC_WI
 W_WS_LOC     -0.225819366     W_WS_LOC</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
-Past versions of unnamed-chunk-1-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/4c407eb6540acea46aaa1a4b4c435d3af4402f11/docs/figure/MX28_plots.Rmd/unnamed-chunk-1-1.png" target="_blank">4c407eb</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/MX28_plots.Rmd/correlations-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-</div>
-<div id="comparing-to-mexico-citys-water-supply" class="section level1">
-<h1>Comparing to Mexico City’s water supply</h1>
-<pre class="r"><code># visualize data from Q28
-
-# Convert selected variables to factors
-categorical_vars &lt;- c(&quot;MX28_WQ_COMP&quot;, &quot;HLTH_SMK&quot;, &quot;SEASON&quot;, &quot;W_WC_WI&quot;, &quot;W_WS_LOC&quot;)
-
-data &lt;- data %&gt;%
-  mutate(across(all_of(categorical_vars), as.factor))
-
-# Verify conversion
-str(data[categorical_vars])</code></pre>
-<pre><code>&#39;data.frame&#39;:   402 obs. of  5 variables:
+<div id="barplots-using-two-categorical-variables-percentages"
+class="section level2">
+<h2>Barplots using two categorical variables (percentages)</h2>
+<pre><code>Verifying conversion of variables to factors</code></pre>
+<pre><code>&#39;data.frame&#39;:   402 obs. of  4 variables:
  $ MX28_WQ_COMP: Factor w/ 3 levels &quot;0&quot;,&quot;1&quot;,&quot;2&quot;: 1 3 2 1 3 1 2 2 2 1 ...
- $ HLTH_SMK    : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 1 2 1 1 1 NA NA 1 1 1 ...
  $ SEASON      : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 2 2 2 2 2 2 2 2 2 ...
  $ W_WC_WI     : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 1 2 2 2 2 2 2 2 2 ...
  $ W_WS_LOC    : Factor w/ 2 levels &quot;0&quot;,&quot;1&quot;: 2 2 2 2 2 2 2 2 2 2 ...</code></pre>
-<pre class="r"><code># Define the main categorical variable
-main_var &lt;- &quot;MX28_WQ_COMP&quot;
-
-
-# Convert MX28_WQ_COMP to a factor and ensure levels are correct
-data$MX28_WQ_COMP &lt;- factor(data$MX28_WQ_COMP)
-
-# Check unique levels to confirm
-print(levels(data$MX28_WQ_COMP))</code></pre>
-<pre><code>[1] &quot;0&quot; &quot;1&quot; &quot;2&quot;</code></pre>
-<pre class="r"><code># Rename levels of MX28_WQ_COMP
-levels(data$MX28_WQ_COMP) &lt;- c(&quot;Worse&quot;, &quot;Same&quot;, &quot;Better&quot;)
-
-# Verify that levels have been updated
-print(levels(data$MX28_WQ_COMP))</code></pre>
 <pre><code>[1] &quot;Worse&quot;  &quot;Same&quot;   &quot;Better&quot;</code></pre>
-<pre class="r"><code># Print factor levels to confirm
-levels(data$MX28_WQ_COMP)</code></pre>
-<pre><code>[1] &quot;Worse&quot;  &quot;Same&quot;   &quot;Better&quot;</code></pre>
-<pre class="r"><code># Exclude MX28_WQ_COMP from the list of categorical variables
-cat_vars &lt;- setdiff(categorical_vars, main_var)
-
-
-# Define the main categorical variable
-main_var &lt;- &quot;MX28_WQ_COMP&quot;
-
-# Generate bar plots
-for (var in cat_vars) {
-  p &lt;- ggplot(data, aes_string(x = main_var, fill = var)) +
-    geom_bar(position = &quot;dodge&quot;) +
-    theme_minimal() +
-    labs(title = paste(&quot;Bar Plot of&quot;, main_var, &quot;vs&quot;, var),
-         x = main_var, y = &quot;Count&quot;, fill = var)
-  
-  print(p)  # Display each bar plot
-}</code></pre>
-<pre><code>Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-ℹ Please use tidy evaluation idioms with `aes()`.
-ℹ See also `vignette(&quot;ggplot2-in-packages&quot;)` for more information.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-generated.</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
-Past versions of unnamed-chunk-2-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-1.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/MX28_plots.Rmd/barplots%20q28%20catvars-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/barplots%20q28%20catvars-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/barplots%20q28%20catvars-3.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-2">
-Past versions of unnamed-chunk-2-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-2.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
+<div id="q26" class="section level1">
+<h1>Q26</h1>
+<p>Question 26 asks: how do participants feel when they think about
+their water service? This is a question asked towards the end of the
+interview, after participants have evaluated and reflected on multiple
+aspects of their water service. Here we ask: what aspects influence a
+positive or negative emotional response? What elements can buffer other
+aspects of water insecurity and reduce their negative feelings about the
+service?</p>
+<div id="barplots-q26-and-hwise-categories" class="section level2">
+<h2>Barplots Q26 and HWISE categories</h2>
+<p>In the following plots we can visualize how people feel when they
+have different levels of water insecurity
+<img src="figure/MX28_plots.Rmd/barplots%20q26%20hwise%20cat-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/MX28_plots.Rmd/barplots%20q26%20hwise%20cat-2.png" width="672" style="display: block; margin: auto;" />
+<img src="figure/MX28_plots.Rmd/stacked%20plot%20-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-</div>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-3">
-Past versions of unnamed-chunk-2-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-3.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-4">
-Past versions of unnamed-chunk-2-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-2-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-2-4.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Define the main categorical variable
-main_var &lt;- &quot;MX28_WQ_COMP&quot;
-
-# Exclude MX28_WQ_COMP from the list of categorical variables
-cat_vars &lt;- setdiff(categorical_vars, main_var)
-
-# Generate bar plots with percentages
-for (var in cat_vars) {
-  p &lt;- ggplot(data, aes_string(x = main_var, fill = var)) +
-    geom_bar(aes(y = (..count..) / sum(..count..) * 100), position = &quot;fill&quot;) +
-    scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert to percentage format
-    theme_minimal() +
-    labs(title = paste(&quot;Percentage Bar Plot of&quot;, main_var, &quot;vs&quot;, var),
-         x = main_var, y = &quot;Percentage&quot;, fill = var)
-  
-  print(p)  # Display each bar plot
-}</code></pre>
-<pre><code>Warning: The dot-dot notation (`..count..`) was deprecated in ggplot2 3.4.0.
-ℹ Please use `after_stat(count)` instead.
-This warning is displayed once every 8 hours.
-Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-generated.</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
-Past versions of unnamed-chunk-3-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-1.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
-Past versions of unnamed-chunk-3-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-2.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-3">
-Past versions of unnamed-chunk-3-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-3.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-4">
-Past versions of unnamed-chunk-3-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7866aba09a227328475597669733f7d20b457d15/docs/figure/MX28_plots.Rmd/unnamed-chunk-3-4.png" target="_blank">7866aba</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-07
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>data &lt;- read.csv(data.file)
-# Ensure HW_TOTAL_category is correctly categorized
-
-data &lt;- data %&gt;%
-  mutate(HW_TOTAL_category = case_when(
-    HW_TOTAL &gt;= 0 &amp; HW_TOTAL &lt;= 2  ~ &quot;No-to-Marginal&quot;,
-    HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
-    HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
-    HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;
-  ))
-
-data &lt;- data %&gt;%
-  mutate(MX26_EM_HHW_TYPE = case_when(
-    MX26_EM_HHW_TYPE == &quot;0&quot; ~ &quot;positive&quot;,
-    MX26_EM_HHW_TYPE == &quot;1&quot; ~ &quot;negative&quot;,
-    MX26_EM_HHW_TYPE == !is.na(.) ~ &quot;other&quot;,  # Assign &quot;other&quot; to all non-missing values that are not &quot;yes&quot; or &quot;no&quot;
-    TRUE ~ NA_character_
-  ))
-
-data &lt;- data %&gt;% 
-  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
-
-# Convert to factor for correct ordering
-data$HW_TOTAL_category &lt;- factor(data$HW_TOTAL_category, levels = c(&quot;No-to-Marginal&quot;, &quot;Low&quot;, &quot;Moderate&quot;, &quot;High&quot;))
-data$MX26_EM_HHW_TYPE &lt;- as.factor(data$MX26_EM_HHW_TYPE)  # Convert to factor
-
-# Calculate proportions
-data_prop &lt;- data %&gt;%
-  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
-  summarise(count = n(), .groups = &quot;drop&quot;) %&gt;%
-  mutate(percentage = count / sum(count) * 100)
-
-# Barplot of MX26_EM_HHW_TYPE by HW_TOTAL_category
-ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
-  geom_bar(position = &quot;dodge&quot;) +
-  labs(title = &quot;Proportion of Positive and negative emotional responses by HW Category&quot;,
-       x = &quot;HWISE Category&quot;,
-       y = &quot;Count&quot;,
-       fill = &quot;Emotions&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
-Past versions of unnamed-chunk-4-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-4-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-4-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Calculate proportions
-data_prop &lt;- data %&gt;%
-  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
-  summarise(count = n(), .groups = &quot;drop&quot;) %&gt;%
-  mutate(percentage = count / sum(count) * 100)
-
-# Create percentage barplot
-ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
-  labs(title = &quot;Proportion of Positive and negative emotional responses by HW Category&quot;,
-       x = &quot;HWISE Category&quot;,
-       y = &quot;Percentage&quot;,
-       fill = &quot;Emotions&quot;) +
-  theme_minimal() </code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-4-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
-Past versions of unnamed-chunk-4-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-4-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-4-2.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Stacked barplot using counts
-ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
-  geom_bar(position = &quot;stack&quot;) +
-  labs(title = &quot;Stacked Barplot: Household Water Type by HW Category&quot;,
-       x = &quot;HWISE Category&quot;,
-       y = &quot;Count&quot;,
-       fill = &quot;Household Water Type&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
-Past versions of unnamed-chunk-5-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-5-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Calculate proportions
-data_prop &lt;- data %&gt;%
-  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %&gt;%
-  summarise(count = n(), .groups = &quot;drop&quot;) %&gt;%
-  mutate(percentage = count / sum(count) * 100)
-
-# Stacked percentage barplot
-ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;fill&quot;) +  # &quot;fill&quot; makes it a 100% stacked barplot
-  scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert y-axis to percentage
-  labs(title = &quot;Stacked Barplot: Proportion of Household Water Type by HW Category&quot;,
-       x = &quot;HWISE Category&quot;,
-       y = &quot;Percentage&quot;,
-       fill = &quot;Household Water Type&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-6-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Create a contingency table
-contingency_table &lt;- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
-
-# Print the table
-print(contingency_table)</code></pre>
+<div id="testing-associations-cramers-v" class="section level2">
+<h2>Testing associations: Cramer’s V</h2>
+<p>Contingency table comparing cases in each category</p>
 <pre><code>                
                  negative positive
   No-to-Marginal       26       48
   Low                 131       67
   Moderate             91       11
   High                  6        0</code></pre>
-<pre class="r"><code>  fisher_test &lt;- fisher.test(contingency_table)
-  print(fisher_test)  # Print Fisher&#39;s test results</code></pre>
 <pre><code>
     Fisher&#39;s Exact Test for Count Data
 
 data:  contingency_table
 p-value = 1.268e-13
 alternative hypothesis: two.sided</code></pre>
-<pre class="r"><code># Compute Cramér&#39;s V for effect size
-cramer_v &lt;- cramerV(contingency_table)
-print(cramer_v)</code></pre>
+<pre><code>Compute Cramér&#39;s V for effect size:
+ 0.1 → Small association
+ 0.3 → Moderate association
+ 0.5 → Strong association</code></pre>
 <pre><code>Cramer V 
   0.3961 </code></pre>
-<p>Interpreting Cramér’s V:</p>
-<p>0.1 → Small association</p>
-<p>0.3 → Moderate association</p>
-<p>0.5 → Strong association</p>
 <p>The Cramér’s V value of 0.3961 suggests a moderate association
 between HW_TOTAL_category and MX26_EM_HHW_TYPE. Cramér’s V ranges from 0
 to 1, where 0 indicates no association, and 1 indicates a perfect
@@ -1626,81 +846,17 @@ influencing this relationship. Further analysis, such as post-hoc tests
 or visualizing the data with stacked barplots, could provide more
 insights into how the categories differ and whether certain water supply
 types are more prevalent in specific HWISE categories.</p>
-<pre class="r"><code># Load necessary libraries
-library(dplyr)
-library(rstatix)
-
-# Ensure categorical variables are factors
-data &lt;- data %&gt;%
-  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
-         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
-
-# Remove NAs
-data &lt;- data %&gt;% 
-  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
-
-# Create contingency table
-contingency_table &lt;- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
-
-# Print table
-print(contingency_table)</code></pre>
-<pre><code>                
-                 negative positive
-  No-to-Marginal       26       48
-  Low                 131       67
-  Moderate             91       11
-  High                  6        0</code></pre>
-<pre class="r"><code># Run Fisher’s Exact Test
-fisher_test &lt;- fisher.test(contingency_table)
-
-# Print results
-print(fisher_test)</code></pre>
+</div>
+<div id="testing-associations-pairwise-fishers-exact-test"
+class="section level2">
+<h2>Testing associations: Pairwise Fisher’s Exact Test</h2>
+<p>Using Bonferroni correction for multiple comparisons</p>
 <pre><code>
     Fisher&#39;s Exact Test for Count Data
 
 data:  contingency_table
 p-value = 1.268e-13
 alternative hypothesis: two.sided</code></pre>
-<pre class="r"><code># Get unique categories of HW_TOTAL_category
-categories &lt;- levels(data$HW_TOTAL_category)
-
-# Create an empty list to store results
-pairwise_results &lt;- list()
-
-# Loop through all pairs of HW_TOTAL_category
-for (i in 1:(length(categories) - 1)) {
-  for (j in (i + 1):length(categories)) {
-    cat1 &lt;- categories[i]
-    cat2 &lt;- categories[j]
-    
-    # Subset the data for the two categories
-    subset_data &lt;- data %&gt;%
-      filter(HW_TOTAL_category %in% c(cat1, cat2))
-    
-    # Create a 2xN contingency table
-    sub_table &lt;- table(subset_data$HW_TOTAL_category, subset_data$MX26_EM_HHW_TYPE)
-    
-    # Run Fisher’s Exact Test
-    fisher_res &lt;- fisher.test(sub_table)
-    
-    # Store results in a data frame
-    pairwise_results[[paste(cat1, &quot;vs&quot;, cat2)]] &lt;- data.frame(
-      Group1 = cat1,
-      Group2 = cat2,
-      p_value = fisher_res$p.value
-    )
-  }
-}
-
-# Combine results into a single data frame
-pairwise_fisher_results &lt;- bind_rows(pairwise_results)
-
-# Apply Bonferroni correction for multiple comparisons
-pairwise_fisher_results &lt;- pairwise_fisher_results %&gt;%
-  mutate(p_adj = p.adjust(p_value, method = &quot;bonferroni&quot;))
-
-# Print results
-print(pairwise_fisher_results)</code></pre>
 <pre><code>          Group1   Group2      p_value        p_adj
 1 No-to-Marginal      Low 7.767053e-06 4.660232e-05
 2 No-to-Marginal Moderate 3.646354e-14 2.187812e-13
@@ -1735,67 +891,14 @@ No-to-Marginal households and all other categories (Low, Moderate,
 High). Low and Moderate categories are also significantly different.
 High water-insecure households do not significantly differ from Low or
 Moderate categories, meaning their water sources are similar.</p>
+</div>
 <div id="plots-emotionhwise-category" class="section level2">
 <h2>Plots Emotion/HWISE category</h2>
-<pre class="r"><code># Load necessary libraries
-library(ggplot2)
-library(dplyr)
-
-# Ensure variables are factors
-data &lt;- data %&gt;%
-  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
-         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
-
-# Create the stacked barplot
-ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
-  geom_bar(position = &quot;fill&quot;) +  # Fill ensures bars are proportional
-  labs(title = &quot;Proportion of Household Water Types by HW_TOTAL_category&quot;,
-       x = &quot;HW_TOTAL Category&quot;,
-       y = &quot;Proportion&quot;,
-       fill = &quot;Water Type&quot;) +
-  scale_y_continuous(labels = scales::percent) +
-  theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
+<p><img src="figure/MX28_plots.Rmd/plots%20emotion/hwise-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 </div>
-</div>
-<div id="regression" class="section level2">
-<h2>regression</h2>
+<div id="regressions" class="section level1">
+<h1>Regressions</h1>
 <p>Why Logistic Regression? Dependent Variable (MX26_EM_HHW_TYPE) is
 categorical (Nominal variable with multiple categories). Independent
 Variable (HW_TOTAL_category) is categorical. Logistic regression is
@@ -1902,13 +1005,13 @@ ggplot(effect_sizes, aes(x = Odds_Ratio, y = Category)) +
        x = &quot;Odds Ratio (Log Scale)&quot;,
        y = &quot;HWISE Category&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
-Past versions of unnamed-chunk-13-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div id="fig-unnamed-chunk-5-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1927,7 +1030,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" target="_blank">9502a37</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-5-1.png" target="_blank">9502a37</a>
 </td>
 <td>
 Paloma
@@ -2038,13 +1141,13 @@ ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
   theme_minimal()</code></pre>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-17-1">
-Past versions of unnamed-chunk-17-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-17-1" class="collapse">
+<div id="fig-unnamed-chunk-9-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2063,7 +1166,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-17-1.png" target="_blank">9502a37</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-9-1.png" target="_blank">9502a37</a>
 </td>
 <td>
 Paloma
@@ -2084,44 +1187,7 @@ ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
        x = &quot;Perception of Water Service&quot;,
        y = &quot;Hours of Water Supply per Week&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-1">
-Past versions of unnamed-chunk-18-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-18-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-18-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>data$predicted &lt;- predict(logit_model, type = &quot;response&quot;)
 
 # Ensure correct row alignment
@@ -2141,44 +1207,7 @@ ggplot(data, aes(x = HRS_WEEK, y = predicted)) +
   theme_minimal()</code></pre>
 <pre><code>`geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-2">
-Past versions of unnamed-chunk-18-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-18-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-18-2.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggplot(data, aes(x = MX26_EM_HHW_TYPE, y = HRS_WEEK, fill = MX26_EM_HHW_TYPE)) +
   geom_boxplot(alpha = 0.7) +
   geom_jitter(width = 0.2, alpha = 0.5) +
@@ -2186,44 +1215,7 @@ Paloma
        x = &quot;Perception of Water Service&quot;,
        y = &quot;Hours of Water Supply per Week&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-18-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-18-3">
-Past versions of unnamed-chunk-18-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-18-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-18-3.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>logit_model &lt;- glm(MX26_EM_HHW_TYPE ~ HRS_WEEK + SES_SC_Total + SEASON, 
                    data = data, 
                    family = binomial)
@@ -2300,44 +1292,7 @@ ggplot(odds_ratios, aes(x = term, y = estimate)) +
   labs(title = &quot;Odds Ratios for Predicting Positive Water Service Perception&quot;,
        y = &quot;Odds Ratio&quot;, x = &quot;Predictor Variable&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
-Past versions of unnamed-chunk-20-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-20-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-20-1.png" target="_blank">9502a37</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-03-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>library(ggeffects)
 predicted_data &lt;- ggpredict(logit_model, terms = &quot;HRS_WEEK [all]&quot;)
 
@@ -2348,13 +1303,13 @@ ggplot(predicted_data, aes(x = x, y = predicted)) +
        x = &quot;Hours of Water Supply per Week&quot;,
        y = &quot;Predicted Probability of Positive Perception&quot;) +
   theme_minimal()</code></pre>
-<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-21-1">
-Past versions of unnamed-chunk-21-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-21-1" class="collapse">
+<div id="fig-unnamed-chunk-13-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2373,7 +1328,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-21-1.png" target="_blank">9502a37</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/9502a37a8f4fdee3d861f7b4f148d34ed5383c84/docs/figure/MX28_plots.Rmd/unnamed-chunk-13-1.png" target="_blank">9502a37</a>
 </td>
 <td>
 Paloma
@@ -2426,36 +1381,35 @@ loaded via a namespace (and not attached):
  [4] rlang_1.1.4         magrittr_2.0.3      git2r_0.35.0       
  [7] multcomp_1.4-28     matrixStats_1.5.0   e1071_1.7-16       
 [10] compiler_4.4.3      mgcv_1.9-1          vctrs_0.6.5        
-[13] stringr_1.5.1       pkgconfig_2.0.3     crayon_1.5.3       
-[16] fastmap_1.2.0       backports_1.5.0     labeling_0.4.3     
-[19] utf8_1.2.4          promises_1.3.0      rmarkdown_2.29     
-[22] haven_2.5.4         purrr_1.0.2         xfun_0.49          
-[25] modeltools_0.2-23   cachem_1.1.0        jsonlite_1.8.9     
-[28] later_1.3.2         parallel_4.4.3      DescTools_0.99.59  
-[31] R6_2.5.1            coin_1.4-3          bslib_0.8.0        
-[34] stringi_1.8.4       car_3.1-3           boot_1.3-31        
-[37] lmtest_0.9-40       jquerylib_0.1.4     cellranger_1.1.0   
-[40] Rcpp_1.0.13-1       knitr_1.49          zoo_1.8-12         
-[43] httpuv_1.6.15       Matrix_1.7-2        splines_4.4.3      
-[46] tidyselect_1.2.1    rstudioapi_0.17.1   abind_1.4-8        
-[49] yaml_2.3.10         codetools_0.2-20    lattice_0.22-6     
-[52] tibble_3.2.1        plyr_1.8.9          withr_3.0.2        
-[55] evaluate_1.0.1      survival_3.8-3      proxy_0.4-27       
-[58] pillar_1.9.0        carData_3.0-5       whisker_0.4.1      
-[61] nortest_1.0-4       stats4_4.4.3        insight_1.1.0      
-[64] generics_0.1.3      rprojroot_2.0.4     hms_1.1.3          
-[67] munsell_0.5.1       scales_1.3.0        rootSolve_1.8.2.4  
-[70] class_7.3-23        glue_1.8.0          lmom_3.2           
-[73] tools_4.4.3         data.table_1.16.2   forcats_1.0.0      
-[76] Exact_3.3           fs_1.6.5            mvtnorm_1.3-2      
-[79] grid_4.4.3          tidyr_1.3.1         libcoin_1.0-10     
-[82] datawizard_1.0.1    colorspace_2.1-1    nlme_3.1-167       
-[85] Formula_1.2-5       cli_3.6.3           workflowr_1.7.1    
-[88] fansi_1.0.6         expm_1.0-0          gtable_0.3.6       
-[91] sass_0.4.9          digest_0.6.37       TH.data_1.1-3      
-[94] farver_2.1.2        htmltools_0.5.8.1   lifecycle_1.0.4    
-[97] httr_1.4.7          multcompView_0.1-10 MASS_7.3-64        </code></pre>
-</div>
+[13] stringr_1.5.1       pkgconfig_2.0.3     fastmap_1.2.0      
+[16] backports_1.5.0     labeling_0.4.3      utf8_1.2.4         
+[19] promises_1.3.0      rmarkdown_2.29      haven_2.5.4        
+[22] purrr_1.0.2         xfun_0.49           modeltools_0.2-23  
+[25] cachem_1.1.0        jsonlite_1.8.9      later_1.3.2        
+[28] parallel_4.4.3      DescTools_0.99.59   R6_2.5.1           
+[31] coin_1.4-3          bslib_0.8.0         stringi_1.8.4      
+[34] car_3.1-3           boot_1.3-31         lmtest_0.9-40      
+[37] jquerylib_0.1.4     cellranger_1.1.0    Rcpp_1.0.13-1      
+[40] knitr_1.49          zoo_1.8-12          httpuv_1.6.15      
+[43] Matrix_1.7-2        splines_4.4.3       tidyselect_1.2.1   
+[46] rstudioapi_0.17.1   abind_1.4-8         yaml_2.3.10        
+[49] codetools_0.2-20    lattice_0.22-6      tibble_3.2.1       
+[52] plyr_1.8.9          withr_3.0.2         evaluate_1.0.1     
+[55] survival_3.8-3      proxy_0.4-27        pillar_1.9.0       
+[58] carData_3.0-5       whisker_0.4.1       nortest_1.0-4      
+[61] stats4_4.4.3        insight_1.1.0       generics_0.1.3     
+[64] rprojroot_2.0.4     hms_1.1.3           munsell_0.5.1      
+[67] scales_1.3.0        rootSolve_1.8.2.4   class_7.3-23       
+[70] glue_1.8.0          lmom_3.2            tools_4.4.3        
+[73] data.table_1.16.2   forcats_1.0.0       Exact_3.3          
+[76] fs_1.6.5            mvtnorm_1.3-2       grid_4.4.3         
+[79] tidyr_1.3.1         libcoin_1.0-10      datawizard_1.0.1   
+[82] colorspace_2.1-1    nlme_3.1-167        Formula_1.2-5      
+[85] cli_3.6.3           workflowr_1.7.1     fansi_1.0.6        
+[88] expm_1.0-0          gtable_0.3.6        sass_0.4.9         
+[91] digest_0.6.37       TH.data_1.1-3       farver_2.1.2       
+[94] htmltools_0.5.8.1   lifecycle_1.0.4     httr_1.4.7         
+[97] multcompView_0.1-10 MASS_7.3-64        </code></pre>
 </div>
 </div>
 </div>

@@ -1,6 +1,6 @@
 ---
-title: "HBA2025_results"
-author: "Paloma"
+title: "HBA2025_MX28"
+author: "Paloma C."
 date: "2025-03-06"
 output: workflowr::wflow_html
 editor_options:
@@ -11,7 +11,14 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+# Introduction
+Here we explore the survey responses for questions 26 and 28.
+
+Question 28 of the QUAIL-Mex questionnaire reveals if participants think of their water service as worse, similar, or better than in other parts of Mexico City. Exploring this data and the factors that may influence this perception is an important dimension of how water insecurity is viewed by participants.
+
+*warning*: some explanations and interpretations were written using Artificial Intelligence. They are in the process of being evaluated, filtered, and re-written by the author.
+
+```{r load files, warning=FALSE, message=FALSE, echo = FALSE}
 # Load necessary libraries
 library(ggplot2)
 library(dplyr)
@@ -19,12 +26,13 @@ library(corrplot)
 library(rstatix)
 library(rcompanion)
 
-data.file <- "data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"
 # Read the dataset
+data.file <- "data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"
 data <- read.csv(data.file)
 
 data$MX28_WQ_COMP <- as.numeric(data$MX28_WQ_COMP)
 
+# select data
 keep_columns <- c("MX28_WQ_COMP",
                 "D_LOC_TIME",
                 "D_AGE",
@@ -40,10 +48,11 @@ keep_columns <- c("MX28_WQ_COMP",
 
 data <- data %>% 
   select(keep_columns)
+```
+# Q28
+## Compute correlation of numeric variables in data set
+```{r correlations,warning = FALSE, message=FALSE, echo = FALSE}
 
-
-
-# Check if the column exists
 if("MX28_WQ_COMP" %in% colnames(data)) {
   
   # Select numeric columns for correlation analysis
@@ -65,65 +74,30 @@ if("MX28_WQ_COMP" %in% colnames(data)) {
     
   }
 
-
 ```
 
-# Comparing to Mexico City's water supply
-```{r}
+## Barplots using two categorical variables (percentages)
+```{r barplots q28 catvars, echo = FALSE, warning=FALSE}
 # visualize data from Q28
-
 # Convert selected variables to factors
-categorical_vars <- c("MX28_WQ_COMP", "HLTH_SMK", "SEASON", "W_WC_WI", "W_WS_LOC")
-
+categorical_vars <- c("MX28_WQ_COMP", "SEASON", "W_WC_WI", "W_WS_LOC")
 data <- data %>%
   mutate(across(all_of(categorical_vars), as.factor))
 
-# Verify conversion
+cat("Verifying conversion of variables to factors")
 str(data[categorical_vars])
 
 # Define the main categorical variable
 main_var <- "MX28_WQ_COMP"
 
-
-# Convert MX28_WQ_COMP to a factor and ensure levels are correct
-data$MX28_WQ_COMP <- factor(data$MX28_WQ_COMP)
-
-# Check unique levels to confirm
-print(levels(data$MX28_WQ_COMP))
-
 # Rename levels of MX28_WQ_COMP
 levels(data$MX28_WQ_COMP) <- c("Worse", "Same", "Better")
+levels(data$SEASON) <- c("Fall", "Spring")
+levels(data$W_WC_WI) <- c("Continous water supply", "Intermittent")
+levels(data$W_WS_LOC) <- c("water secure neighborhood", "water insecure neighborhood")
 
 # Verify that levels have been updated
 print(levels(data$MX28_WQ_COMP))
-
-# Print factor levels to confirm
-levels(data$MX28_WQ_COMP)
-
-# Exclude MX28_WQ_COMP from the list of categorical variables
-cat_vars <- setdiff(categorical_vars, main_var)
-
-
-# Define the main categorical variable
-main_var <- "MX28_WQ_COMP"
-
-# Generate bar plots
-for (var in cat_vars) {
-  p <- ggplot(data, aes_string(x = main_var, fill = var)) +
-    geom_bar(position = "dodge") +
-    theme_minimal() +
-    labs(title = paste("Bar Plot of", main_var, "vs", var),
-         x = main_var, y = "Count", fill = var)
-  
-  print(p)  # Display each bar plot
-}
-
-```
-
-
-```{r}
-# Define the main categorical variable
-main_var <- "MX28_WQ_COMP"
 
 # Exclude MX28_WQ_COMP from the list of categorical variables
 cat_vars <- setdiff(categorical_vars, main_var)
@@ -134,18 +108,22 @@ for (var in cat_vars) {
     geom_bar(aes(y = (..count..) / sum(..count..) * 100), position = "fill") +
     scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert to percentage format
     theme_minimal() +
-    labs(title = paste("Percentage Bar Plot of", main_var, "vs", var),
-         x = main_var, y = "Percentage", fill = var)
+    labs(title = paste("Perceived service in relation to others", "vs", var),
+         x = "Perception of water service", y = "Percentage", fill = var)
   
   print(p)  # Display each bar plot
 }
 
 ```
 
-```{r}
+# Q26
+Question 26 asks: how do participants feel when they think about their water service? This is a question asked towards the end of the interview, after participants have evaluated and reflected on multiple aspects of their water service. Here we ask: what aspects influence a positive or negative emotional response? What elements can buffer other aspects of water insecurity and reduce their negative feelings about the service? 
+
+## Barplots Q26 and HWISE categories
+In the following plots we can visualize how people feel when they have different levels of water insecurity
+```{r barplots q26 hwise cat, echo = FALSE}
 data <- read.csv(data.file)
 # Ensure HW_TOTAL_category is correctly categorized
-
 data <- data %>%
   mutate(HW_TOTAL_category = case_when(
     HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
@@ -169,12 +147,6 @@ data <- data %>%
 data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
 data$MX26_EM_HHW_TYPE <- as.factor(data$MX26_EM_HHW_TYPE)  # Convert to factor
 
-# Calculate proportions
-data_prop <- data %>%
-  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %>%
-  summarise(count = n(), .groups = "drop") %>%
-  mutate(percentage = count / sum(count) * 100)
-
 # Barplot of MX26_EM_HHW_TYPE by HW_TOTAL_category
 ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
   geom_bar(position = "dodge") +
@@ -183,7 +155,6 @@ ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
        y = "Count",
        fill = "Emotions") +
   theme_minimal()
-
 
 # Calculate proportions
 data_prop <- data %>%
@@ -201,41 +172,23 @@ ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_
   theme_minimal() 
 
 ```
-
-```{r}
-
-# Stacked barplot using counts
-ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
-  geom_bar(position = "stack") +
-  labs(title = "Stacked Barplot: Household Water Type by HW Category",
-       x = "HWISE Category",
-       y = "Count",
-       fill = "Household Water Type") +
-  theme_minimal()
-```
-
-```{r}
-# Calculate proportions
-data_prop <- data %>%
-  group_by(HW_TOTAL_category, MX26_EM_HHW_TYPE) %>%
-  summarise(count = n(), .groups = "drop") %>%
-  mutate(percentage = count / sum(count) * 100)
+```{r stacked plot , echo = FALSE}
 
 # Stacked percentage barplot
 ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_TYPE)) +
   geom_bar(stat = "identity", position = "fill") +  # "fill" makes it a 100% stacked barplot
   scale_y_continuous(labels = scales::percent_format(scale = 1)) +  # Convert y-axis to percentage
-  labs(title = "Stacked Barplot: Proportion of Household Water Type by HW Category",
+  labs(title = "Proportion of Household Water Type by HW Category",
        x = "HWISE Category",
        y = "Percentage",
        fill = "Household Water Type") +
   theme_minimal()
 
-
 ```
 
-
-```{r}
+## Testing associations: Cramer's V 
+Contingency table comparing cases in each category 
+```{r echo = FALSE}
 # Create a contingency table
 contingency_table <- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
 
@@ -245,48 +198,18 @@ print(contingency_table)
   fisher_test <- fisher.test(contingency_table)
   print(fisher_test)  # Print Fisher's test results
 
-
 # Compute Cramér's V for effect size
+  cat("Compute Cramér's V for effect size:\n 0.1 → Small association\n 0.3 → Moderate association\n 0.5 → Strong association")
 cramer_v <- cramerV(contingency_table)
 print(cramer_v)
 
-
 ```
-
-
-Interpreting Cramér’s V:
-
-0.1 → Small association
-
-0.3 → Moderate association
-
-0.5 → Strong association
-
 
 The Cramér’s V value of 0.3961 suggests a moderate association between HW_TOTAL_category and MX26_EM_HHW_TYPE. Cramér’s V ranges from 0 to 1, where 0 indicates no association, and 1 indicates a perfect association. A value of 0.3961 falls in the moderate range (0.3 - 0.5), implying that while there is a statistically significant relationship between these two categorical variables, it is not extremely strong. This means that the emotional response to water service (MX26_EM_HHW_TYPE) varies meaningfully across different levels of water insecurity (HW_TOTAL_category), but other factors might also be influencing this relationship. Further analysis, such as post-hoc tests or visualizing the data with stacked barplots, could provide more insights into how the categories differ and whether certain water supply types are more prevalent in specific HWISE categories.
 
-
-```{r}
-
-# Load necessary libraries
-library(dplyr)
-library(rstatix)
-
-# Ensure categorical variables are factors
-data <- data %>%
-  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
-         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
-
-# Remove NAs
-data <- data %>% 
-  filter(!is.na(HW_TOTAL_category), !is.na(MX26_EM_HHW_TYPE))
-
-# Create contingency table
-contingency_table <- table(data$HW_TOTAL_category, data$MX26_EM_HHW_TYPE)
-
-# Print table
-print(contingency_table)
-
+## Testing associations: Pairwise Fisher's Exact Test
+Using Bonferroni correction for multiple comparisons
+```{r fisher, echo=FALSE}
 # Run Fisher’s Exact Test
 fisher_test <- fisher.test(contingency_table)
 
@@ -332,7 +255,6 @@ pairwise_fisher_results <- pairwise_fisher_results %>%
 
 # Print results
 print(pairwise_fisher_results)
-
 ```
 If p_adj < 0.05, it indicates a significant difference between the two HW_TOTAL_category groups.
 
@@ -357,15 +279,7 @@ Low and Moderate categories are also significantly different.
 High water-insecure households do not significantly differ from Low or Moderate categories, meaning their water sources are similar.
 
 ## Plots Emotion/HWISE category
-```{r}
-# Load necessary libraries
-library(ggplot2)
-library(dplyr)
-
-# Ensure variables are factors
-data <- data %>%
-  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
-         MX26_EM_HHW_TYPE = as.factor(MX26_EM_HHW_TYPE))
+```{r plots emotion/hwise, echo = FALSE}
 
 # Create the stacked barplot
 ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
@@ -379,7 +293,7 @@ ggplot(data, aes(x = HW_TOTAL_category, fill = MX26_EM_HHW_TYPE)) +
 
 ```
 
-## regression
+# Regressions
 
 Why Logistic Regression?
 Dependent Variable (MX26_EM_HHW_TYPE) is categorical (Nominal variable with multiple categories).
