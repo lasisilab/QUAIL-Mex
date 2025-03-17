@@ -1,0 +1,597 @@
+---
+title: "UROP_Brittany"
+output: html_document
+date: "2025-03-17"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(rstatix)
+library(ggpubr)
+library(coin)
+library(tidyr)
+library(MASS)  # For stepAIC
+library(broom) # For model output formatting
+library(dplyr) # For data manipulation
+library(car)   # For VIF check
+library(corrplot)
+library(rcompanion)
+
+# loading data set
+d <- read.csv("Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
+
+# taking a quick look at first rows
+head(d)
+
+d$HLTH_CDIS_CAT <- as.factor(d$HLTH_CDIS_CAT) # HLTH_CDIS_CAT = chronic disease
+# HW_TOTAL = Total HWISE score
+# HRS_WEEK = Hours of water supply per week
+
+# Create the stacked barplot
+ggplot(d, aes(x = as.factor(HLTH_CDIS_CAT), y = HW_TOTAL)) +
+  geom_boxplot() +
+  labs(title = "Title",
+       x = "Chronic disease",
+       y = "HWISE score") +
+  theme_minimal()
+
+```
+
+```{r}
+# Count the number of data points per Water insecurity level (HWISE)
+ summary_stats <- d %>%
+  group_by(HLTH_CDIS_CAT) %>%
+  summarise(Count = n(), na.rm = TRUE)
+
+ hw.total <- d$HW_TOTAL
+ means <- aggregate(hw.total ~ HLTH_CDIS_CAT, d, mean)
+means$hw.total <- round(means$hw.total, 2)
+
+color_palette <- c("#ff7f00", "#a6cee3",  "#1f78b4")
+
+ggplot(d, aes(x = HLTH_CDIS_CAT, 
+                 y = HW_TOTAL, 
+                 fill = HLTH_CDIS_CAT)) +
+  geom_jitter(aes(color = HLTH_CDIS_CAT), 
+                size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+  geom_violin(alpha = 0.6, width = 1.2) + 
+  geom_boxplot(outlier.shape = 1, alpha = 0.5, 
+               width = 0.1, color = "grey30") + # Boxplot
+  geom_text(data = means, 
+             aes(label = hw.total, y = hw.total + 0.5, hjust=-0.7), 
+             size = 5, color = "darkred") + #adds average labels
+  theme_minimal() +
+  labs(#title = "Hours water of supply by water Insecurity group\n(HWISE)",
+       x = "Presence/absence Chronic Disease", 
+       y = "HWISE score") +
+  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+  scale_color_manual(values = color_palette) +  # Custom colors for points +
+   stat_summary(fun.y=mean, geom="point", shape=23, 
+                size=5, color="darkred", fill="darkred") +
+    theme(legend.position = "none", 
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 14),  
+        plot.title = element_text(size = 18)) +  
+  scale_x_discrete(labels = paste0(summary_stats$HLTH_CDIS_CAT, 
+                                 "\n(n=", summary_stats$Count, ")"))
+
+```
+
+```{r}
+
+
+# Count the number of data points per Water insecurity level (HWISE)
+ summary_stats <- d %>%
+  group_by(HLTH_CDIS_CAT) %>%
+  summarise(Count = n(), na.rm = TRUE)
+
+ hw.total <- d$HRS_WEEK
+ means <- aggregate(hw.total ~ HLTH_CDIS_CAT, d, mean)
+means$hw.total <- round(means$hw.total, 2)
+
+ggplot(d, aes(x = HLTH_CDIS_CAT, 
+                 y = HRS_WEEK, 
+                 fill = HLTH_CDIS_CAT)) +
+  geom_jitter(aes(color = HLTH_CDIS_CAT), 
+                size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+  geom_violin(alpha = 0.6, width = 1.2) + 
+  geom_boxplot(outlier.shape = 1, alpha = 0.5, 
+               width = 0.1, color = "grey30") + # Boxplot
+  geom_text(data = means, 
+             aes(label = hw.total, y = hw.total + 0.5, hjust=-0.7), 
+             size = 5, color = "darkred") + #adds average labels
+  theme_minimal() +
+  labs(#title = "Hours water of supply by water Insecurity group\n(HWISE)",
+       x = "Presence/absence Chronic Disease", 
+       y = "Hours of water supply per week") +
+  scale_fill_manual(values = color_palette) +  # Custom colors for boxes
+  scale_color_manual(values = color_palette) +  # Custom colors for points +
+   stat_summary(fun.y=mean, geom="point", shape=23, 
+                size=5, color="darkred", fill="darkred") +
+    theme(legend.position = "none", 
+        axis.text = element_text(size = 13), 
+        axis.title = element_text(size = 14),  
+        plot.title = element_text(size = 18)) +  
+  scale_x_discrete(labels = paste0(summary_stats$HLTH_CDIS_CAT, 
+                                 "\n(n=", summary_stats$Count, ")"))  
+
+```
+
+
+```{r threshold 16}
+# Categorize HW_TOTAL into two groups
+d <- d %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 16 ~ "High",
+    HW_TOTAL < 16 ~ "Low",
+  ))
+
+```
+
+
+```{r}
+summary_stats <- d %>%
+  group_by(HLTH_CDIS_CAT) %>%
+  summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
+
+color_palette <- c("#1f78b4",  "#a6cee3", "#fdbf6f", "#ff7f00")
+ggsave("stacked_barplot.png", width = 6, height = 3, dpi = 300) 
+
+ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Chronic disease vs. HWISE",
+       x = "Presence/absence disease",
+       y = "Percentage",
+       fill = "HWISE\nWater insecurity\ncategory") +
+   scale_fill_manual(values = color_palette) +
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) + 
+  theme_minimal() +
+   theme( 
+        axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18),
+        plot.margin = margin(1, 1, 1, 1)
+       )  +
+  
+    scale_x_discrete(labels = paste0(summary_stats$HLTH_CDIS_CAT, 
+                                 "\n(n=", summary_stats$Count, ")")) +
+  coord_flip() 
+
+
+
+summary_stats <- d %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
+
+ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Chronic disease by water sec\ncategory (HWISE above or under 16)",
+       x = "Water security levels",
+       y = "Percentage",
+       fill = "Presence of\nchronic disease") +
+   scale_fill_manual(values = color_palette) +
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) + 
+  theme_minimal() +
+   theme( 
+        axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18),
+        plot.margin = margin(1, 1, 1, 1)
+       )  +
+  
+    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+                                 "\n(n=", summary_stats$Count, ")")) +
+  coord_flip() 
+
+
+```
+
+
+```{r threshold paper}
+d <- d %>%
+  filter(!is.na(HW_TOTAL)) %>%  # Remove missing values
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+```
+
+
+```{r}
+summary_stats <- d %>%
+  group_by(HLTH_CDIS_CAT) %>%
+  summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
+
+color_palette <- c("#1f78b4",  "#a6cee3", "#fdbf6f", "#ff7f00")
+ggsave("stacked_barplot.png", width = 6, height = 3, dpi = 300) 
+
+ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Chronic disease vs. HWISE",
+       x = "Presence/absence disease",
+       y = "Percentage",
+       fill = "HWISE\nWater insecurity\ncategory") +
+   scale_fill_manual(values = color_palette) +
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) + 
+  theme_minimal() +
+   theme( 
+        axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18),
+        plot.margin = margin(1, 1, 1, 1)
+       )  +
+  
+    scale_x_discrete(labels = paste0(summary_stats$HLTH_CDIS_CAT, 
+                                 "\n(n=", summary_stats$Count, ")")) +
+  coord_flip() 
+
+
+
+summary_stats <- d %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
+
+ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
+  labs(title = "Chronic disease by water sec\ncategory",
+       x = "Water security levels",
+       y = "Percentage",
+       fill = "Presence of\nchronic disease") +
+   scale_fill_manual(values = color_palette) +
+    scale_y_continuous(labels = scales::percent_format(scale = 100)) + 
+  theme_minimal() +
+   theme( 
+        axis.text = element_text(size = 13),
+        axis.title = element_text(size = 14),
+        plot.title = element_text(size = 18),
+        plot.margin = margin(1, 1, 1, 1)
+       )  +
+  
+    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+                                 "\n(n=", summary_stats$Count, ")")) +
+  coord_flip() 
+
+
+```
+
+## Picking HWISE categories
+```{r}
+#change types of grouping hwise
+
+# Categorize HW_TOTAL into two groups
+#data <- data %>%
+#  mutate(HW_TOTAL_category = case_when(
+#    HW_TOTAL >= 16 ~ "High",
+#    HW_TOTAL < 16 ~ "Low",
+#  ))
+
+d <- d %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+d$HW_TOTAL_category <- factor(d$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+```
+
+## Testing associations: Cramer's V 
+Contingency table comparing cases in each category 
+
+```{r}
+# Create a contingency table
+contingency_table <- table(d$HW_TOTAL_category, d$HLTH_CDIS_CAT)
+
+# Print the table
+print(contingency_table)
+
+  fisher_test <- fisher.test(contingency_table)
+  print(fisher_test)  # Print Fisher's test results
+
+# Compute Cramér's V for effect size
+  cat("Compute Cramér's V for effect size:\n 0.1 → Small association\n 0.3 → Moderate association\n 0.5 → Strong association")
+cramer_v <- cramerV(contingency_table)
+print(cramer_v)
+
+```
+
+## Testing associations: Pairwise Fisher's Exact Test
+Using Bonferroni correction for multiple comparisons
+```{r fisher, echo=FALSE}
+# Run Fisher’s Exact Test
+fisher_test <- fisher.test(contingency_table)
+
+# Print results
+print(fisher_test)
+# Get unique categories of HW_TOTAL_category
+categories <- levels(d$HW_TOTAL_category)
+
+# Create an empty list to store results
+pairwise_results <- list()
+
+# Loop through all pairs of HW_TOTAL_category
+for (i in 1:(length(categories) - 1)) {
+  for (j in (i + 1):length(categories)) {
+    cat1 <- categories[i]
+    cat2 <- categories[j]
+    
+    # Subset the data for the two categories
+    subset_data <- d %>%
+      filter(HW_TOTAL_category %in% c(cat1, cat2))
+    
+    # Create a 2xN contingency table
+    sub_table <- table(subset_data$HW_TOTAL_category, subset_data$HLTH_CDIS_CAT)
+    
+    # Run Fisher’s Exact Test
+    fisher_res <- fisher.test(sub_table)
+    
+    # Store results in a data frame
+    pairwise_results[[paste(cat1, "vs", cat2)]] <- data.frame(
+      Group1 = cat1,
+      Group2 = cat2,
+      p_value = fisher_res$p.value
+    )
+  }
+}
+
+# Combine results into a single data frame
+pairwise_fisher_results <- bind_rows(pairwise_results)
+
+# Apply Bonferroni correction for multiple comparisons
+pairwise_fisher_results <- pairwise_fisher_results %>%
+  mutate(p_adj = p.adjust(p_value, method = "bonferroni"))
+
+# Print results
+print(pairwise_fisher_results)
+```
+If p_adj < 0.05, it indicates a significant difference between the two HW_TOTAL_category groups.
+
+If p_adj > 0.05, the difference is not statistically significant after Bonferroni correction
+
+
+
+✅ Significant Differences (p_adj < 0.05):
+Comparison	Interpretation
+No-to-Marginal vs. Low	Significant difference (p_adj = 4.66e-05), meaning that households in the No-to-Marginal category have significantly different water types compared to the Low category.
+No-to-Marginal vs. Moderate	Highly significant difference (p_adj = 2.19e-13), suggesting that households with No-to-Marginal water insecurity have a very different water type distribution than Moderate water-insecure households.
+No-to-Marginal vs. High	Significant difference (p_adj = 0.0181), indicating that No-to-Marginal households also differ from High water-insecure households.
+Low vs. Moderate	Significant difference (p_adj = 7.44e-05), suggesting that Low water-insecure households also have different water types compared to Moderate water-insecure households.
+❌ Non-Significant Differences (p_adj > 0.05):
+Comparison	Interpretation
+Low vs. High	p_adj = 1.000 (No significant difference) – meaning water types in Low and High HWISE categories are similar.
+Moderate vs. High	p_adj = 1.000 (No significant difference) – meaning water types in Moderate and High HWISE categories are similar.
+
+📝 Key Takeaways
+There are significant differences between No-to-Marginal households and all other categories (Low, Moderate, High).
+Low and Moderate categories are also significantly different.
+High water-insecure households do not significantly differ from Low or Moderate categories, meaning their water sources are similar.
+
+## Plots Emotion/HWISE category
+```{r plots emotion/hwise, echo = FALSE}
+
+# Create the stacked barplot
+ggplot(d, aes(x = HW_TOTAL_category, fill = as.factor(HLTH_CDIS_CAT))) +
+  geom_bar(position = "fill") +  # Fill ensures bars are proportional
+  labs(title = "Proportion of Household Water Types by HW_TOTAL_category",
+       x = "HW_TOTAL Category",
+       y = "Proportion",
+       fill = "Disease presence") +
+#  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+```
+
+# Regressions
+
+Why Logistic Regression?
+Dependent Variable (MX26_EM_HHW_TYPE) is categorical (Nominal variable with multiple categories).
+Independent Variable (HW_TOTAL_category) is categorical.
+Logistic regression is appropriate for categorical outcomes, unlike linear regression which assumes continuous data.
+
+Need to run binary logistic regression.
+
+```{r}
+# Ensure variables are factors
+d <- d %>%
+  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+         HLTH_CDIS_CAT = as.factor(HLTH_CDIS_CAT))
+
+# Run Binary Logistic Regression
+logit_model1<- glm(HLTH_CDIS_CAT ~ HW_TOTAL_category, 
+                   data = d, 
+                   family = binomial)
+
+# Show summary of model
+summary(logit_model1)
+
+logit_model2 <- glm(HLTH_CDIS_CAT ~ HRS_WEEK + SES_SC_Total + SEASON, 
+                   data = d, 
+                   family = binomial)
+summary(logit_model2)
+
+
+logit_model3 <- glm(HLTH_CDIS_CAT ~ HRS_WEEK, 
+                   data = d, 
+                   family = binomial)
+summary(logit_model3)
+
+```
+
+
+```{r}
+# Compute odds ratios
+exp(coef(logit_model1))
+exp(coef(logit_model2))
+exp(coef(logit_model3))
+```
+✔ Odds ratios < 1 → Decreased likelihood
+✔ Odds ratios > 1 → Increased likelihood
+
+
+
+
+# Regressions
+
+## 1.b Variable descriptions for quick reference
+
+Ordered alphabetically
+
+```{r table info variables, echo=FALSE, results='asis'}
+# Load necessary package
+
+# Create a data frame with variable descriptions, classes, and additional details
+variables_info <- data.frame(
+  Variable = c("D_AGE", "D_CHLD", "D_HH_SIZE", "D_LOC_TIME", "HLTH_CDIS_CAT", "HLTH_CPAIN_CAT", 
+               "HLTH_SMK", "HRS_WEEK", "HW_TOTAL", "MX28_WQ_COMP", "PSS_TOTAL", "SEASON", 
+               "SES_SC_Total", "W_WS_LOC", "W_WC_WI"),
+  Description = c("Participants' age", 
+                  "Number of children participant has birthed",
+                  "Household size",
+                  "For how long have you lived in this neighborhood?",
+                  "Presence of chronic disease",
+                  "Presence of chronic pain",
+                  "Tobacco smoker",
+                  "Hours of water supply in the household per week",
+                  "Sum of all 12-items in HWISE questionnaire",
+                  "Perception of water service as worse, same, or better than rest of Mexico City",
+                  "Total Perceived Stress Score",
+                  "Fall or Spring (when data collection happened)",
+                  "Socioeconomic status score",
+                  "Classification of neighborhoods as water secure or insecure",
+                  "Classification of water supply as continuous or intermittent"),
+  Class = c("Numeric", "Numeric", "Numeric", "Numeric", "Categorical (Binary)", "Categorical (Binary)", 
+            "Categorical (Binary)", "Numeric", "Numeric", "Categorical (Ordinal)", "Numeric", "Categorical (Binary)",
+            "Numeric", "Categorical (Binary)", "Categorical (Binary)"),
+  Values = c("18:49", 
+              "0:8", 
+              "2:40", 
+              "1:46 (years)", 
+              "1 = yes, 0 = no", 
+              "1 = yes, 0 = no", 
+              "1 = yes, 0 = no", 
+              "0:168", 
+              "0:27", 
+              "0 = worse, 1 = same, 2 = better", 
+              "-19:19", 
+              "Fall = 1, Spring = 0", 
+              "25:263", 
+              "1 = water insecure, 0 = water secure", 
+              "1 = intermittent, 0 = continuous")
+)
+
+# Print the table using kable
+kable(variables_info, caption = "Variable Descriptions, Classes, and Additional Details")
+
+```
+
+## 2 Data preparation
+
+1. We remove rows with missing data.
+
+2. HW_TOTAL is calculated by adding up all the HWISE scores; PSS_TOTAL is calculated by adding up PSS 1,2,3, 8, 11, 12, 14, and substracting 4,5,6,7,9,10, and 13.
+
+```{r function to count missing info}
+# Function to count missing information per varaible
+create_na_table <- function(data) {
+  # Create a data frame with variable names and count of missing values
+  na_info <- data.frame(
+    Variable = names(data),
+    Missing_Values = colSums(is.na(data))
+  ) %>%
+    arrange(desc(Missing_Values))
+    # Generate a kable table
+  kable(na_info, caption = "Number of Missing Values per Variable")
+}
+```
+
+```{r read-data}
+
+# Load the dataset
+data_path = "data"
+
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+
+```
+
+## 3 Results
+
+### 3.1 HWISE scores, variable set 1
+
+The regression results for HW is summarized as follows.
+
+```{r echo = TRUE}
+
+# Check unique values to confirm only 0 and 1 remain
+table(data$HLTH_CDIS_CAT)
+dim(data)
+
+# Define dependent (outcome) variable
+outcome_var <- "HLTH_CDIS_CAT"  # Binary outcome (0 = negative, 1 = positive)
+
+# Define independent (predictor) variables
+predictors <- c("MX8_TRUST", "MX28_WQ_COMP", "MX26_EM_HHW_TYPE", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "D_CHLD", "SES_SC_Total", "SEASON", "W_WS_LOC", "HW_TOTAL", "W_WC_WI", "HRS_WEEK", "PSS_TOTAL")
+
+# Run univariate logistic regression for each predictor
+univariate_results <- list()
+aic_values <- data.frame(Predictor = character(), AIC = numeric(), stringsAsFactors = FALSE)
+
+data <- data %>% drop_na(all_of(predictors))
+dim(data)
+
+for (var in predictors) {
+    # Build formula dynamically
+    formula <- as.formula(paste(outcome_var, "~", var))
+    
+    # Fit univariate logistic regression model
+    model <- glm(formula, data = data, family = binomial)
+    
+    # Store model summary
+    univariate_results[[var]] <- summary(model)
+    
+    # Store AIC values
+    aic_values <- rbind(aic_values, data.frame(Predictor = var, AIC = AIC(model)))
+}
+
+univariate_results
+
+# Display AIC values sorted in ascending order (lower AIC = better fit)
+aic_values <- aic_values %>% arrange(AIC)
+print(aic_values)
+
+# Select best predictors based on AIC (top 6 with lowest AIC)
+top_predictors <- head(aic_values$Predictor, 9)
+
+# Create multivariable model with top predictors
+multivariable_formula <- as.formula(paste(outcome_var, "~", paste(top_predictors, collapse = " + ")))
+multivariable_model <- glm(multivariable_formula, data = data, family = binomial)
+
+# Display summary of multivariable model
+summary(multivariable_model)
+
+# Perform stepwise selection to find the best model
+optimized_model <- stepAIC(multivariable_model, direction = "both")
+
+# Display summary of optimized model
+summary(optimized_model)
+
+```
+
+

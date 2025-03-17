@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-03-10
+<strong>Last updated:</strong> 2025-03-17
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree811be83406ed5fb7930eb547081e0df21c9b9244targetblank811be83a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree06352ebe7177f0e7c0cab6c9db9e01879522f323targetblank06352eba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/811be83406ed5fb7930eb547081e0df21c9b9244" target="_blank">811be83</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/06352ebe7177f0e7c0cab6c9db9e01879522f323" target="_blank">06352eb</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree811be83406ed5fb7930eb547081e0df21c9b9244targetblank811be83a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree06352ebe7177f0e7c0cab6c9db9e01879522f323targetblank06352eba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/811be83406ed5fb7930eb547081e0df21c9b9244" target="_blank">811be83</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/06352ebe7177f0e7c0cab6c9db9e01879522f323" target="_blank">06352eb</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -563,12 +560,10 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  odds_ratio_plot.png
-    Untracked:  stacked_barplot.png
+    Untracked:  analysis/UROP_Brittany.Rmd
 
 Unstaged changes:
-    Modified:   analysis/HBA2025_Analyses.Rmd
-    Modified:   analysis/tests.Rmd
+    Deleted:    data/~$.Metadata-25-Feb-20.docx
 
 </code></pre>
 <p>
@@ -613,6 +608,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/analysis/HBA2025_Analyses.Rmd" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+<td>
+updates plots &amp; analyses
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/HBA2025_Analyses.html" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+<td>
+updates plots &amp; analyses
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1251,6 +1280,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/violin plots-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/violin plots-1.png" target="_blank">a8b976c</a>
 </td>
 <td>
@@ -1349,6 +1389,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-3-1.png" target="_blank">a8b976c</a>
 </td>
 <td>
@@ -1421,6 +1472,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-4-1.png" target="_blank">a8b976c</a>
@@ -1745,7 +1807,82 @@ class="section level1">
 <h1>HWISE categories and Perception of own water supply</h1>
 <div id="stacked-bar-plot" class="section level2">
 <h2>Stacked bar plot</h2>
-<p><img src="figure/HBA2025_Analyses.Rmd/brplot-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/HBA2025_Analyses.Rmd/brplot-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/HBA2025_Analyses.Rmd/brplot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-brplot-1">
+Past versions of brplot-1.png
+</button>
+</p>
+<div id="fig-brplot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/brplot-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/HBA2025_Analyses.Rmd/brplot-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-brplot-2">
+Past versions of brplot-2.png
+</button>
+</p>
+<div id="fig-brplot-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/brplot-2.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="grouped-bar-plots" class="section level2">
 <h2>Grouped bar plots</h2>
@@ -1772,6 +1909,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-9-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-9-1.png" target="_blank">a8b976c</a>
@@ -1810,6 +1958,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-9-2.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-9-2.png" target="_blank">a8b976c</a>
@@ -1851,6 +2010,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-10-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-10-1.png" target="_blank">a8b976c</a>
@@ -1922,6 +2092,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-11-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-11-1.png" target="_blank">a8b976c</a>
 </td>
 <td>
@@ -1967,6 +2148,43 @@ data_long &lt;- data %&gt;%
   theme_minimal() +
   scale_y_continuous(labels = scales::percent_format(scale = 1))</code></pre>
 <p><img src="figure/HBA2025_Analyses.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-13-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot(data_long, aes(x = Response, fill = MX8_TRUST_CAT)) +
   geom_bar(position = &quot;dodge&quot;) +  # &quot;dodge&quot; places bars side by side
   facet_wrap(~HW_Question, scales = &quot;free_x&quot;) +
@@ -1998,6 +2216,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-14-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-14-1.png" target="_blank">a8b976c</a>
@@ -2050,6 +2279,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e4f1deb3bfb0101f0e1185a549fb83c0eafc8543/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-15-1.png" target="_blank">e4f1deb</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-03-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/a8b976caae0f224ff25f389f22a0a17ff17a8259/docs/figure/HBA2025_Analyses.Rmd/unnamed-chunk-15-1.png" target="_blank">a8b976c</a>

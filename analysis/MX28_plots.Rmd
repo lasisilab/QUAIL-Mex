@@ -172,6 +172,7 @@ ggplot(data_prop, aes(x = HW_TOTAL_category, y = percentage, fill = MX26_EM_HHW_
   theme_minimal() 
 
 ```
+
 ```{r stacked plot , echo = FALSE}
 
 # Stacked percentage barplot
