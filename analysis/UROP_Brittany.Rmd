@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Markdown
 
-```{r}
+```{r echo = FALSE, message = FALSE}
 # Load necessary libraries
 library(dplyr)
 library(ggplot2)
@@ -27,7 +27,9 @@ library(dplyr) # For data manipulation
 library(car)   # For VIF check
 library(corrplot)
 library(rcompanion)
+```
 
+```{r}
 # loading data set
 d <- read.csv("Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
 
@@ -37,18 +39,19 @@ head(d)
 d$HLTH_CDIS_CAT <- as.factor(d$HLTH_CDIS_CAT) # HLTH_CDIS_CAT = chronic disease
 # HW_TOTAL = Total HWISE score
 # HRS_WEEK = Hours of water supply per week
-
-# Create the stacked barplot
-ggplot(d, aes(x = as.factor(HLTH_CDIS_CAT), y = HW_TOTAL)) +
-  geom_boxplot() +
-  labs(title = "Title",
-       x = "Chronic disease",
-       y = "HWISE score") +
-  theme_minimal()
-
 ```
 
 ```{r}
+d <- d %>%
+    filter(!is.na(HLTH_CDIS_CAT)) %>%
+  mutate(HLTH_CDIS_CAT = case_when(
+    HLTH_CDIS_CAT == "0" ~ "Absent",
+    HLTH_CDIS_CAT == "1" ~ "Present",
+    HLTH_CDIS_CAT == !is.na(.) ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  ))
+
+
 # Count the number of data points per Water insecurity level (HWISE)
  summary_stats <- d %>%
   group_by(HLTH_CDIS_CAT) %>%
@@ -58,7 +61,8 @@ ggplot(d, aes(x = as.factor(HLTH_CDIS_CAT), y = HW_TOTAL)) +
  means <- aggregate(hw.total ~ HLTH_CDIS_CAT, d, mean)
 means$hw.total <- round(means$hw.total, 2)
 
-color_palette <- c("#ff7f00", "#a6cee3",  "#1f78b4")
+color_palette <- c("#ff7f00", "#a6cee3",  "#1f78b4", "orange")
+
 
 ggplot(d, aes(x = HLTH_CDIS_CAT, 
                  y = HW_TOTAL, 
@@ -66,20 +70,20 @@ ggplot(d, aes(x = HLTH_CDIS_CAT,
   geom_jitter(aes(color = HLTH_CDIS_CAT), 
                 size = 1, width = 0.25) +  
   # Jitter adds individual data points
-  geom_violin(alpha = 0.6, width = 1.2) + 
+  geom_violin(alpha = 0.6, width = 1) + 
   geom_boxplot(outlier.shape = 1, alpha = 0.5, 
-               width = 0.1, color = "grey30") + # Boxplot
+               width = 0.15, color = "grey30") + # Boxplot
   geom_text(data = means, 
              aes(label = hw.total, y = hw.total + 0.5, hjust=-0.7), 
              size = 5, color = "darkred") + #adds average labels
   theme_minimal() +
   labs(#title = "Hours water of supply by water Insecurity group\n(HWISE)",
-       x = "Presence/absence Chronic Disease", 
+       x = "Chronic Disease", 
        y = "HWISE score") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
    stat_summary(fun.y=mean, geom="point", shape=23, 
-                size=5, color="darkred", fill="darkred") +
+                size=4, color="darkred", fill="darkred") +
     theme(legend.position = "none", 
         axis.text = element_text(size = 13), 
         axis.title = element_text(size = 14),  
@@ -107,7 +111,7 @@ ggplot(d, aes(x = HLTH_CDIS_CAT,
   geom_jitter(aes(color = HLTH_CDIS_CAT), 
                 size = 1, width = 0.25) +  
   # Jitter adds individual data points
-  geom_violin(alpha = 0.6, width = 1.2) + 
+  geom_violin(alpha = 0.6, width = 1) + 
   geom_boxplot(outlier.shape = 1, alpha = 0.5, 
                width = 0.1, color = "grey30") + # Boxplot
   geom_text(data = means, 
@@ -115,12 +119,12 @@ ggplot(d, aes(x = HLTH_CDIS_CAT,
              size = 5, color = "darkred") + #adds average labels
   theme_minimal() +
   labs(#title = "Hours water of supply by water Insecurity group\n(HWISE)",
-       x = "Presence/absence Chronic Disease", 
+       x = "Chronic Disease", 
        y = "Hours of water supply per week") +
   scale_fill_manual(values = color_palette) +  # Custom colors for boxes
   scale_color_manual(values = color_palette) +  # Custom colors for points +
    stat_summary(fun.y=mean, geom="point", shape=23, 
-                size=5, color="darkred", fill="darkred") +
+                size=4, color="darkred", fill="darkred") +
     theme(legend.position = "none", 
         axis.text = element_text(size = 13), 
         axis.title = element_text(size = 14),  
@@ -134,7 +138,7 @@ ggplot(d, aes(x = HLTH_CDIS_CAT,
 ```{r threshold 16}
 # Categorize HW_TOTAL into two groups
 d <- d %>%
-  mutate(HW_TOTAL_category = case_when(
+  mutate(HW_TOTAL_category16 = case_when(
     HW_TOTAL >= 16 ~ "High",
     HW_TOTAL < 16 ~ "Low",
   ))
@@ -150,9 +154,10 @@ summary_stats <- d %>%
 color_palette <- c("#1f78b4",  "#a6cee3", "#fdbf6f", "#ff7f00")
 ggsave("stacked_barplot.png", width = 6, height = 3, dpi = 300) 
 
-ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
+ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category16)) +
   geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
   labs(title = "Chronic disease vs. HWISE",
+       subtitle = "using HWISE = 16 as threshold",
        x = "Presence/absence disease",
        y = "Percentage",
        fill = "HWISE\nWater insecurity\ncategory") +
@@ -165,7 +170,6 @@ ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
         plot.title = element_text(size = 18),
         plot.margin = margin(1, 1, 1, 1)
        )  +
-  
     scale_x_discrete(labels = paste0(summary_stats$HLTH_CDIS_CAT, 
                                  "\n(n=", summary_stats$Count, ")")) +
   coord_flip() 
@@ -173,12 +177,13 @@ ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
 
 
 summary_stats <- d %>%
-  group_by(HW_TOTAL_category) %>%
+  group_by(HW_TOTAL_category16) %>%
   summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
 
-ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
+ggplot(d, aes(x = HW_TOTAL_category16, fill = HLTH_CDIS_CAT)) +
   geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
-  labs(title = "Chronic disease by water sec\ncategory (HWISE above or under 16)",
+  labs(title = "Chronic disease by water sec\ncategory",
+       subtitle = "Threshold is HWISE = 16)",
        x = "Water security levels",
        y = "Percentage",
        fill = "Presence of\nchronic disease") +
@@ -192,7 +197,7 @@ ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
         plot.margin = margin(1, 1, 1, 1)
        )  +
   
-    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category16, 
                                  "\n(n=", summary_stats$Count, ")")) +
   coord_flip() 
 
@@ -203,12 +208,14 @@ ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
 ```{r threshold paper}
 d <- d %>%
   filter(!is.na(HW_TOTAL)) %>%  # Remove missing values
-  mutate(HW_TOTAL_category = case_when(
+  mutate(HW_TOTAL_category4 = case_when(
     HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
     HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
     HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
     HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
   ))
+
+d$HW_TOTAL_category4 <- factor(d$HW_TOTAL_category4, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
 ```
 
 
@@ -220,9 +227,10 @@ summary_stats <- d %>%
 color_palette <- c("#1f78b4",  "#a6cee3", "#fdbf6f", "#ff7f00")
 ggsave("stacked_barplot.png", width = 6, height = 3, dpi = 300) 
 
-ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
+ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category4)) +
   geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
-  labs(title = "Chronic disease vs. HWISE",
+  labs(title = "Chronic disease vs. HWISE categories",
+       subtitle = "Using HWISE 4 categories",
        x = "Presence/absence disease",
        y = "Percentage",
        fill = "HWISE\nWater insecurity\ncategory") +
@@ -243,12 +251,13 @@ ggplot(d, aes(x = HLTH_CDIS_CAT, fill = HW_TOTAL_category)) +
 
 
 summary_stats <- d %>%
-  group_by(HW_TOTAL_category) %>%
+  group_by(HW_TOTAL_category4) %>%
   summarise(Count = n(), na.rm = TRUE, .groups = 'drop')
 
-ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
-  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  # "fill" makes the bars proportional (percentages)
-  labs(title = "Chronic disease by water sec\ncategory",
+ggplot(d, aes(x = HW_TOTAL_category4, fill = HLTH_CDIS_CAT)) +
+  geom_bar(position = "fill", alpha = 0.8, width=0.5) +  
+  labs(title = "HWISE category vs chronic disease",
+       subtitle = "",
        x = "Water security levels",
        y = "Percentage",
        fill = "Presence of\nchronic disease") +
@@ -261,88 +270,89 @@ ggplot(d, aes(x = HW_TOTAL_category, fill = HLTH_CDIS_CAT)) +
         plot.title = element_text(size = 18),
         plot.margin = margin(1, 1, 1, 1)
        )  +
-  
-    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+      scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category4, 
                                  "\n(n=", summary_stats$Count, ")")) +
   coord_flip() 
-
-
 ```
 
-## Picking HWISE categories
-```{r}
+```{r Picking HWISE categories, echo = FALSE}
 #change types of grouping hwise
 
 # Categorize HW_TOTAL into two groups
-#data <- data %>%
-#  mutate(HW_TOTAL_category = case_when(
-#    HW_TOTAL >= 16 ~ "High",
-#    HW_TOTAL < 16 ~ "Low",
-#  ))
 
 d <- d %>%
-  mutate(HW_TOTAL_category = case_when(
-    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
-    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
-    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
-    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  mutate(HW_TOTAL_category8 = case_when(
+    HW_TOTAL >= 8 ~ "High",
+    HW_TOTAL < 8 ~ "Low",
   ))
 
-d$HW_TOTAL_category <- factor(d$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+d$HW_TOTAL_category16 <- factor(d$HW_TOTAL_category16, levels = c("Low", "High"))
+d$HW_TOTAL_category8 <- factor(d$HW_TOTAL_category8, levels = c("Low", "High"))
+d$HW_TOTAL_category4 <- factor(d$HW_TOTAL_category4, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
 ```
 
-## Testing associations: Cramer's V 
+# Testing associations
 Contingency table comparing cases in each category 
 
 ```{r}
 # Create a contingency table
-contingency_table <- table(d$HW_TOTAL_category, d$HLTH_CDIS_CAT)
-
+contingency_table16 <- table(d$HW_TOTAL_category16, d$HLTH_CDIS_CAT)
+contingency_table8 <- table(d$HW_TOTAL_category8, d$HLTH_CDIS_CAT)
+contingency_table4 <- table(d$HW_TOTAL_category4, d$HLTH_CDIS_CAT)
 # Print the table
-print(contingency_table)
-
-  fisher_test <- fisher.test(contingency_table)
-  print(fisher_test)  # Print Fisher's test results
-
-# Compute Cramér's V for effect size
-  cat("Compute Cramér's V for effect size:\n 0.1 → Small association\n 0.3 → Moderate association\n 0.5 → Strong association")
-cramer_v <- cramerV(contingency_table)
-print(cramer_v)
-
+print(contingency_table16)
+print(contingency_table8)
+print(contingency_table4)
 ```
 
-## Testing associations: Pairwise Fisher's Exact Test
+## Cramer's V
+```{r}
+# Compute Cramér's V for effect size
+  cat("Compute Cramér's V for effect size:\n 0.1 → Small association\n 0.3 → Moderate association\n 0.5 → Strong association")
+cramerV(contingency_table16)
+cramerV(contingency_table8)
+cramerV(contingency_table4)
+```
+
+## Pairwise Fisher's Exact Test
 Using Bonferroni correction for multiple comparisons
-```{r fisher, echo=FALSE}
+```{r fisher, echo=TRUE}
 # Run Fisher’s Exact Test
-fisher_test <- fisher.test(contingency_table)
+fisher_test16 <- fisher.test(contingency_table16)
+fisher_test8 <- fisher.test(contingency_table8)
+fisher_test4 <- fisher.test(contingency_table4)
 
 # Print results
-print(fisher_test)
+print(fisher_test16)
+print(fisher_test8)
+print(fisher_test4)
 # Get unique categories of HW_TOTAL_category
-categories <- levels(d$HW_TOTAL_category)
-
+categories16 <- levels(d$HW_TOTAL_category16)
+categories8 <- levels(d$HW_TOTAL_category8)
+categories4 <- levels(d$HW_TOTAL_category4)
 # Create an empty list to store results
-pairwise_results <- list()
+pairwise_results16 <- list()
+pairwise_results8 <- list()
+pairwise_results4 <- list()
 
 # Loop through all pairs of HW_TOTAL_category
-for (i in 1:(length(categories) - 1)) {
-  for (j in (i + 1):length(categories)) {
-    cat1 <- categories[i]
-    cat2 <- categories[j]
+for (i in 1:(length(categories16) - 1)) {
+  for (j in (i + 1):length(categories16)) {
+    cat1 <- categories16[i]
+    cat2 <- categories16[j]
     
     # Subset the data for the two categories
     subset_data <- d %>%
-      filter(HW_TOTAL_category %in% c(cat1, cat2))
+      filter(HW_TOTAL_category16 %in% c(cat1, cat2))
     
     # Create a 2xN contingency table
-    sub_table <- table(subset_data$HW_TOTAL_category, subset_data$HLTH_CDIS_CAT)
+    sub_table <- table(subset_data$HW_TOTAL_category16, subset_data$HLTH_CDIS_CAT)
     
     # Run Fisher’s Exact Test
     fisher_res <- fisher.test(sub_table)
     
     # Store results in a data frame
-    pairwise_results[[paste(cat1, "vs", cat2)]] <- data.frame(
+    pairwise_results16[[paste(cat1, "vs", cat2)]] <- data.frame(
       Group1 = cat1,
       Group2 = cat2,
       p_value = fisher_res$p.value
@@ -351,45 +361,126 @@ for (i in 1:(length(categories) - 1)) {
 }
 
 # Combine results into a single data frame
-pairwise_fisher_results <- bind_rows(pairwise_results)
+pairwise_fisher_results16 <- bind_rows(pairwise_results16)
 
 # Apply Bonferroni correction for multiple comparisons
-pairwise_fisher_results <- pairwise_fisher_results %>%
+pairwise_fisher_results16 <- pairwise_fisher_results16 %>%
   mutate(p_adj = p.adjust(p_value, method = "bonferroni"))
 
 # Print results
-print(pairwise_fisher_results)
+print(pairwise_fisher_results16)
 ```
-If p_adj < 0.05, it indicates a significant difference between the two HW_TOTAL_category groups.
+If p_adj < 0.05, it indicates a significant difference 
 
 If p_adj > 0.05, the difference is not statistically significant after Bonferroni correction
 
 
+```{r}
+# Loop through all pairs of HW_TOTAL_category
+for (i in 1:(length(categories8) - 1)) {
+  for (j in (i + 1):length(categories8)) {
+    cat1 <- categories8[i]
+    cat2 <- categories8[j]
+    
+    # Subset the data for the two categories
+    subset_data <- d %>%
+      filter(HW_TOTAL_category8 %in% c(cat1, cat2))
+    
+    # Create a 2xN contingency table
+    sub_table <- table(subset_data$HW_TOTAL_category8, subset_data$HLTH_CDIS_CAT)
+    
+    # Run Fisher’s Exact Test
+    fisher_res <- fisher.test(sub_table)
+    
+    # Store results in a data frame
+    pairwise_results8[[paste(cat1, "vs", cat2)]] <- data.frame(
+      Group1 = cat1,
+      Group2 = cat2,
+      p_value = fisher_res$p.value
+    )
+  }
+}
 
-✅ Significant Differences (p_adj < 0.05):
-Comparison	Interpretation
-No-to-Marginal vs. Low	Significant difference (p_adj = 4.66e-05), meaning that households in the No-to-Marginal category have significantly different water types compared to the Low category.
-No-to-Marginal vs. Moderate	Highly significant difference (p_adj = 2.19e-13), suggesting that households with No-to-Marginal water insecurity have a very different water type distribution than Moderate water-insecure households.
-No-to-Marginal vs. High	Significant difference (p_adj = 0.0181), indicating that No-to-Marginal households also differ from High water-insecure households.
-Low vs. Moderate	Significant difference (p_adj = 7.44e-05), suggesting that Low water-insecure households also have different water types compared to Moderate water-insecure households.
-❌ Non-Significant Differences (p_adj > 0.05):
-Comparison	Interpretation
-Low vs. High	p_adj = 1.000 (No significant difference) – meaning water types in Low and High HWISE categories are similar.
-Moderate vs. High	p_adj = 1.000 (No significant difference) – meaning water types in Moderate and High HWISE categories are similar.
+# Combine results into a single data frame
+pairwise_fisher_results8 <- bind_rows(pairwise_results8)
 
-📝 Key Takeaways
-There are significant differences between No-to-Marginal households and all other categories (Low, Moderate, High).
-Low and Moderate categories are also significantly different.
-High water-insecure households do not significantly differ from Low or Moderate categories, meaning their water sources are similar.
+# Apply Bonferroni correction for multiple comparisons
+pairwise_fisher_results8 <- pairwise_fisher_results8 %>%
+  mutate(p_adj = p.adjust(p_value, method = "bonferroni"))
+
+# Print results
+print(pairwise_fisher_results8)
+```
+
+
+```{r}
+# Loop through all pairs of HW_TOTAL_category
+for (i in 1:(length(categories4) - 1)) {
+  for (j in (i + 1):length(categories4)) {
+    cat1 <- categories4[i]
+    cat2 <- categories4[j]
+    
+    # Subset the data for the two categories
+    subset_data <- d %>%
+      filter(HW_TOTAL_category4 %in% c(cat1, cat2))
+    
+    # Create a 2xN contingency table
+    sub_table <- table(subset_data$HW_TOTAL_category4, subset_data$HLTH_CDIS_CAT)
+    
+    # Run Fisher’s Exact Test
+    fisher_res <- fisher.test(sub_table)
+    
+    # Store results in a data frame
+    pairwise_results4[[paste(cat1, "vs", cat2)]] <- data.frame(
+      Group1 = cat1,
+      Group2 = cat2,
+      p_value = fisher_res$p.value
+    )
+  }
+}
+
+# Combine results into a single data frame
+pairwise_fisher_results4 <- bind_rows(pairwise_results4)
+
+# Apply Bonferroni correction for multiple comparisons
+pairwise_fisher_results4 <- pairwise_fisher_results4 %>%
+  mutate(p_adj = p.adjust(p_value, method = "bonferroni"))
+
+# Print results
+print(pairwise_fisher_results4)
+```
 
 ## Plots Emotion/HWISE category
 ```{r plots emotion/hwise, echo = FALSE}
 
 # Create the stacked barplot
-ggplot(d, aes(x = HW_TOTAL_category, fill = as.factor(HLTH_CDIS_CAT))) +
+ggplot(d, aes(x = HW_TOTAL_category16, fill = as.factor(HLTH_CDIS_CAT))) +
   geom_bar(position = "fill") +  # Fill ensures bars are proportional
-  labs(title = "Proportion of Household Water Types by HW_TOTAL_category",
-       x = "HW_TOTAL Category",
+  labs(title = "Proportion of participants reporting chronic disease, by HWISE category",
+       subtitle = "using 16 as threshold",
+       x = "HWISE Category",
+       y = "Proportion",
+       fill = "Disease presence") +
+#  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+# Create the stacked barplot
+ggplot(d, aes(x = HW_TOTAL_category8, fill = as.factor(HLTH_CDIS_CAT))) +
+  geom_bar(position = "fill") +  # Fill ensures bars are proportional
+  labs(title = "Proportion of participants reporting chronic disease, by HWISE category",
+              subtitle = "using 8 as threshold",
+       x = "HWISE Category",
+       y = "Proportion",
+       fill = "Disease presence") +
+#  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+# Create the stacked barplot
+ggplot(d, aes(x = HW_TOTAL_category4, fill = as.factor(HLTH_CDIS_CAT))) +
+  geom_bar(position = "fill") +  # Fill ensures bars are proportional
+  labs(title = "Proportion of participants reporting chronic disease, by HWISE category",
+              subtitle = "using 4 HWISE groups",
+       x = "HWISE Category",
        y = "Proportion",
        fill = "Disease presence") +
 #  scale_y_continuous(labels = scales::percent) +
@@ -400,7 +491,7 @@ ggplot(d, aes(x = HW_TOTAL_category, fill = as.factor(HLTH_CDIS_CAT))) +
 # Regressions
 
 Why Logistic Regression?
-Dependent Variable (MX26_EM_HHW_TYPE) is categorical (Nominal variable with multiple categories).
+Dependent Variable is categorical (Nominal variable with multiple categories).
 Independent Variable (HW_TOTAL_category) is categorical.
 Logistic regression is appropriate for categorical outcomes, unlike linear regression which assumes continuous data.
 
@@ -408,17 +499,48 @@ Need to run binary logistic regression.
 
 ```{r}
 # Ensure variables are factors
+
+#d <- d %>%
+ # mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
+  #       HLTH_CDIS_CAT = as.factor(HLTH_CDIS_CAT))
+
 d <- d %>%
-  mutate(HW_TOTAL_category = as.factor(HW_TOTAL_category),
-         HLTH_CDIS_CAT = as.factor(HLTH_CDIS_CAT))
+  mutate(HLTH_CDIS_CAT = case_when(
+    HLTH_CDIS_CAT == "Absent" ~ "0",
+    HLTH_CDIS_CAT == "Present" ~ "1",
+    HLTH_CDIS_CAT == !is.na(.) ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  ))
+
+d$HLTH_CDIS_CAT <- as.numeric(d$HLTH_CDIS_CAT)
 
 # Run Binary Logistic Regression
-logit_model1<- glm(HLTH_CDIS_CAT ~ HW_TOTAL_category, 
+logit_model1.16 <- glm(HLTH_CDIS_CAT ~ HW_TOTAL_category16, 
                    data = d, 
                    family = binomial)
 
 # Show summary of model
-summary(logit_model1)
+summary(logit_model1.16)
+
+
+# Run Binary Logistic Regression
+logit_model1.8 <- glm(HLTH_CDIS_CAT ~ HW_TOTAL_category8, 
+                   data = d, 
+                   family = binomial)
+
+# Show summary of model
+summary(logit_model1.8)
+
+
+# Run Binary Logistic Regression
+logit_model1.4 <- glm(HLTH_CDIS_CAT ~ HW_TOTAL_category4, 
+                   data = d, 
+                   family = binomial)
+
+# Show summary of model
+summary(logit_model1.4)
+
+
 
 logit_model2 <- glm(HLTH_CDIS_CAT ~ HRS_WEEK + SES_SC_Total + SEASON, 
                    data = d, 
@@ -436,11 +558,14 @@ summary(logit_model3)
 
 ```{r}
 # Compute odds ratios
-exp(coef(logit_model1))
-exp(coef(logit_model2))
-exp(coef(logit_model3))
-```
+exp(coef(logit_model1.16))
+exp(coef(logit_model1.8))
+exp(coef(logit_model1.4))
+exp(coef(logit_model2)) # these are not valid (non-categorical predictors)
+exp(coef(logit_model3)) # these are not valid
+``` 
 ✔ Odds ratios < 1 → Decreased likelihood
+
 ✔ Odds ratios > 1 → Increased likelihood
 
 
@@ -547,7 +672,7 @@ dim(data)
 outcome_var <- "HLTH_CDIS_CAT"  # Binary outcome (0 = negative, 1 = positive)
 
 # Define independent (predictor) variables
-predictors <- c("MX8_TRUST", "MX28_WQ_COMP", "MX26_EM_HHW_TYPE", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "D_CHLD", "SES_SC_Total", "SEASON", "W_WS_LOC", "HW_TOTAL", "W_WC_WI", "HRS_WEEK", "PSS_TOTAL")
+predictors <- c("MX8_TRUST", "MX28_WQ_COMP", "MX26_EM_HHW_TYPE", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "HLTH_SMK", "D_CHLD", "SES_SC_Total", "SEASON", "W_WS_LOC", "HW_TOTAL", "W_WC_WI", "HRS_WEEK", "PSS_TOTAL", "HW_WORRY")
 
 # Run univariate logistic regression for each predictor
 univariate_results <- list()
