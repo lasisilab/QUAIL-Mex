@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2025-04-04" />
+
+<title>UROP_Alexandra</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">UROP_Alexandra</h1>
+<h4 class="date">2025-04-04</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2025-04-04
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb1bea2396479db01f87f7e4b012392e96c37a8d2targetblankb1bea23a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b1bea2396479db01f87f7e4b012392e96c37a8d2" target="_blank">b1bea23</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb1bea2396479db01f87f7e4b012392e96c37a8d2targetblankb1bea23a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b1bea2396479db01f87f7e4b012392e96c37a8d2" target="_blank">b1bea23</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/odds_ratio_plot.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/UROP_Alexandra.Rmd
+    Untracked:  combined_summary_plots.png
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<pre class="r"><code># loading data set
+d &lt;- read.csv(&quot;./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;)
+
+# taking a quick look at first rows
+head(d,3)</code></pre>
+<pre><code>  ID MX8_TRUST MX28_WQ_COMP MX26_EM_HHW_TYPE D_YRBR D_LOC_TIME D_AGE D_HH_SIZE
+1  1         2            0                0   1987         35    35         4
+2  2         2            2                0   1990         32    32        12
+3  3         0            1                0   1992          8    30         7
+  D_CHLD HLTH_SMK SES_SC_Total SEASON W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES
+1      0        0          149      1        1        2         0          0
+2      2        1          196      1        1        0         0          0
+3      2        0           52      1        1        0         0          0
+  HW_PLANS HW_FOOD HW_HANDS HW_BODY HW_DRINK HW_ANGRY HW_SLEEP HW_NONE HW_SHAME
+1        0       0        0       0        0        1        0       1        0
+2        0       0        0       1        0        2        0       2        0
+3        0       0        0       0        0        1        0       0        0
+  PSS1 PSS2 PSS3 PSS4 PSS5 PSS6 PSS7 PSS8 PSS9 PSS10 PSS11 PSS12 PSS13 PSS14
+1    2    3    2    4    3    2    2    1    2     3     1     4     2     1
+2    2    2    3    3    3    4    3    2    3     2     2     4     3     2
+3    2    2    2    2    2    3    3    2    3     2     2     2     3     2
+  HLTH_CPAIN_CAT HLTH_CDIS_CAT HW_TOTAL W_WC_WI HRS_WEEK PSS_TOTAL
+1              0             1        4       1      168        -4
+2              0             0        5       0       35        -4
+3              0             0        1       1       NA        -4</code></pre>
+<pre class="r"><code>summary(d$D_CHLD)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   1.000   2.000   1.857   3.000   8.000      24 </code></pre>
+<pre class="r"><code>d &lt;- d %&gt;%
+    filter(!is.na(D_CHLD)) %&gt;%
+  mutate(D_CHLD_CAT = case_when(
+    D_CHLD == 0 ~ &quot;Non-mothers&quot;,
+    D_CHLD &gt;= 1 ~ &quot;Mothers&quot;,
+    D_CHLD == !is.na(.) ~ &quot;other&quot;,  # Assign &quot;other&quot; to all non-missing values that are not &quot;yes&quot; or &quot;no&quot;
+    TRUE ~ NA_character_
+  ))
+
+d &lt;- d %&gt;%
+  filter(!is.na(HW_TOTAL)) %&gt;%  # Remove missing values
+  mutate(HW_TOTAL_category4 = case_when(
+    HW_TOTAL &gt;= 0 &amp; HW_TOTAL &lt;= 2  ~ &quot;No-to-Marginal&quot;,
+    HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
+    HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
+    HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;
+  ))
+
+
+# Descriptive statistics
+
+# Create summary statistics table
+summary_stats &lt;- d %&gt;%
+  group_by(D_CHLD_CAT) %&gt;%
+  summarise(
+    n = n(),
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    median_ses = median(SES_SC_Total, na.rm = TRUE),
+
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+    median_age = median(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+    median_hwise = median(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    median_pss = median(PSS_TOTAL, na.rm = TRUE)
+  )
+
+# Format and display table
+summary_stats %&gt;%
+  rename(
+    &quot;Group&quot; = D_CHLD_CAT,
+    &quot;N&quot; = n,
+    &quot;Mean SES&quot; = mean_ses,
+    &quot;SD SES&quot; = sd_ses,
+    &quot;Median SES&quot; = median_ses,
+    &quot;Mean Age&quot; = mean_age,
+    &quot;SD Age&quot; = sd_age,
+    &quot;Median Age&quot; = median_age,
+    &quot;Mean HWISE&quot; = mean_hwise,
+    &quot;SD HWISE&quot; = sd_hwise,
+    &quot;Median HWISE&quot; = median_hwise,
+    &quot;Mean PSS&quot; = mean_pss,
+    &quot;SD PSS&quot; = sd_pss,
+    &quot;Median PSS&quot; = median_pss
+  ) %&gt;%
+  kable(&quot;html&quot;, digits = 2, caption = &quot;Descriptive Statistics by Child Category&quot;) %&gt;%
+  kable_styling(full_width = FALSE, bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;, &quot;responsive&quot;))</code></pre>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Descriptive Statistics by Child Category
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Group
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+Mean SES
+</th>
+<th style="text-align:right;">
+SD SES
+</th>
+<th style="text-align:right;">
+Median SES
+</th>
+<th style="text-align:right;">
+Mean Age
+</th>
+<th style="text-align:right;">
+SD Age
+</th>
+<th style="text-align:right;">
+Median Age
+</th>
+<th style="text-align:right;">
+Mean HWISE
+</th>
+<th style="text-align:right;">
+SD HWISE
+</th>
+<th style="text-align:right;">
+Median HWISE
+</th>
+<th style="text-align:right;">
+Mean PSS
+</th>
+<th style="text-align:right;">
+SD PSS
+</th>
+<th style="text-align:right;">
+Median PSS
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Mothers
+</td>
+<td style="text-align:right;">
+311
+</td>
+<td style="text-align:right;">
+127.51
+</td>
+<td style="text-align:right;">
+43.64
+</td>
+<td style="text-align:right;">
+124
+</td>
+<td style="text-align:right;">
+33.18
+</td>
+<td style="text-align:right;">
+6.87
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+8.18
+</td>
+<td style="text-align:right;">
+6.03
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+-0.69
+</td>
+<td style="text-align:right;">
+7.31
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mothers
+</td>
+<td style="text-align:right;">
+59
+</td>
+<td style="text-align:right;">
+158.49
+</td>
+<td style="text-align:right;">
+44.39
+</td>
+<td style="text-align:right;">
+149
+</td>
+<td style="text-align:right;">
+25.57
+</td>
+<td style="text-align:right;">
+7.42
+</td>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+8.66
+</td>
+<td style="text-align:right;">
+6.06
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+-0.19
+</td>
+<td style="text-align:right;">
+7.15
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summary_stats &lt;- summary_stats %&gt;%
+  mutate(D_CHLD_CAT = factor(D_CHLD_CAT, levels = c(&quot;Non-mothers&quot;, &quot;Mothers&quot;)))</code></pre>
+<pre class="r"><code># Step 1: Define color palette
+custom_colors &lt;- c(&quot;Non-mother&quot; = &quot;darkorange&quot;, &quot;Mother&quot; = &quot;olivedrab&quot;)
+
+# Step 2: Summarize and ensure consistent category labels
+summary_stats &lt;- d %&gt;%
+  group_by(D_CHLD_CAT) %&gt;%
+  summarise(
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE)
+  ) %&gt;%
+  mutate(D_CHLD_CAT = factor(D_CHLD_CAT, levels = c(&quot;Non-mothers&quot;, &quot;Mothers&quot;)))
+
+# Step 3: Reusable plotting function
+
+# Custom colors
+custom_colors &lt;- c(&quot;Non-mothers&quot; = &quot;darkorange&quot;, &quot;Mothers&quot; = &quot;olivedrab&quot;)
+
+# Recode and compute stats
+summary_stats &lt;- d %&gt;%
+  mutate(D_CHLD_CAT = case_when(
+    D_CHLD_CAT %in% c(&quot;Non-mother&quot;, &quot;non-mother&quot;, &quot;Non-mom&quot;) ~ &quot;Non-mother&quot;,
+    D_CHLD_CAT %in% c(&quot;Mother&quot;, &quot;mom&quot;, &quot;Mom&quot;) ~ &quot;Mother&quot;,
+    TRUE ~ as.character(D_CHLD_CAT)
+  )) %&gt;%
+  group_by(D_CHLD_CAT) %&gt;%
+  summarise(
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE)
+  )
+
+# Reusable plotting function
+plot_variable &lt;- function(df, mean_col, sd_col, title, ylab) {
+  ggplot(df, aes(x = D_CHLD_CAT, y = .data[[mean_col]], fill = D_CHLD_CAT)) +
+    geom_bar(stat = &quot;identity&quot;, width = 0.4) +
+    geom_errorbar(aes(ymin = .data[[mean_col]] - .data[[sd_col]],
+                      ymax = .data[[mean_col]] + .data[[sd_col]]),
+                  width = 0.1) +
+    scale_fill_manual(values = custom_colors) +
+    labs(title = title, x = NULL, y = ylab) +
+    theme_minimal() +
+    theme(legend.position = &quot;none&quot;)
+}
+
+# Create plots
+p1 &lt;- plot_variable(summary_stats, &quot;mean_ses&quot;, &quot;sd_ses&quot;, &quot;SES&quot;, &quot;Mean SES&quot;)
+p2 &lt;- plot_variable(summary_stats, &quot;mean_age&quot;, &quot;sd_age&quot;, &quot;Age&quot;, &quot;Mean Age&quot;)
+p3 &lt;- plot_variable(summary_stats, &quot;mean_hwise&quot;, &quot;sd_hwise&quot;, &quot;HWISE&quot;, &quot;Mean HWISE&quot;)
+
+# Combine horizontally
+combined_plot &lt;- p1 | p2 | p3
+
+# Save to file
+ggsave(&quot;combined_summary_plots.png&quot;, plot = combined_plot, width = 20, height = 5, dpi = 300)
+
+combined_plot </code></pre>
+<p><img src="figure/UROP_Alexandra.Rmd/plot%20summary%20stats-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Run Wilcoxon rank-sum tests (non-parametric alternative to t-test)
+
+# SES Score
+w_ses &lt;- wilcox.test(SES_SC_Total ~ D_CHLD_CAT, data = d)
+
+# Age
+w_age &lt;- wilcox.test(D_AGE ~ D_CHLD_CAT, data = d)
+
+# HWISE Score
+w_hwise &lt;- wilcox.test(HW_TOTAL ~ D_CHLD_CAT, data = d)
+
+# Create a summary table of p-values
+wilcox_results &lt;- data.frame(
+  Variable = c(&quot;SES&quot;, &quot;Age&quot;, &quot;HWISE&quot;),
+  W_statistic = c(w_ses$statistic, w_age$statistic, w_hwise$statistic),
+  p_value = c(w_ses$p.value, w_age$p.value, w_hwise$p.value)
+)
+
+# Round for clarity
+wilcox_results &lt;- wilcox_results %&gt;%
+  mutate(across(where(is.numeric), round, 3))</code></pre>
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `across(where(is.numeric), round, 3)`.
+Caused by warning:
+! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+Supply arguments directly to `.fns` through an anonymous function instead.
+
+  # Previously
+  across(a:b, mean, na.rm = TRUE)
+
+  # Now
+  across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
+<pre class="r"><code># Display the results table
+kable(wilcox_results, caption = &quot;Wilcoxon Test Results: Differences by Motherhood Status&quot;) %&gt;%
+  kable_styling(full_width = FALSE, bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Wilcoxon Test Results: Differences by Motherhood Status
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:right;">
+W_statistic
+</th>
+<th style="text-align:right;">
+p_value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+SES
+</td>
+<td style="text-align:right;">
+4690.0
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Age
+</td>
+<td style="text-align:right;">
+14185.5
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HWISE
+</td>
+<td style="text-align:right;">
+8788.0
+</td>
+<td style="text-align:right;">
+0.608
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># List of binary HW variables
+hw_vars &lt;- c(&quot;HW_WORRY&quot;, &quot;HW_INTERR&quot;, &quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;, &quot;HW_FOOD&quot;,
+             &quot;HW_HANDS&quot;, &quot;HW_BODY&quot;, &quot;HW_DRINK&quot;, &quot;HW_ANGRY&quot;, &quot;HW_SLEEP&quot;,
+             &quot;HW_NONE&quot;, &quot;HW_SHAME&quot;)
+
+# Recode mother status as factor
+d$D_CHLD_CAT &lt;- factor(ifelse(d$D_CHLD &gt;= 1, &quot;Mother&quot;, &quot;Non-mother&quot;), levels = c(&quot;Non-mother&quot;, &quot;Mother&quot;))
+
+# Convert HW variables to factors
+d[hw_vars] &lt;- lapply(d[hw_vars], function(x) factor(x, levels = c(0, 1)))
+
+# Initialize test results list
+results &lt;- data.frame()
+
+# Loop over each HW variable to test and collect proportions
+for (var in hw_vars) {
+  tbl &lt;- table(d$D_CHLD_CAT, d[[var]])
+  
+  # Run chi-square or fisher test based on counts
+  if (any(tbl &lt; 5)) {
+    test &lt;- fisher.test(tbl)
+    method &lt;- &quot;Fisher&quot;
+  } else {
+    test &lt;- chisq.test(tbl)
+    method &lt;- &quot;Chi-square&quot;
+  }
+  
+  # Get proportions for each group
+  prop_table &lt;- prop.table(tbl, margin = 1)[, &quot;1&quot;]
+  
+  # Store results
+  results &lt;- rbind(results, data.frame(
+    Variable = var,
+    Non_mother = round(prop_table[&quot;Non-mother&quot;], 3),
+    Mother = round(prop_table[&quot;Mother&quot;], 3),
+    p_value = round(test$p.value, 4),
+    test_type = method
+  ))
+}
+
+# View results table
+library(kableExtra)
+results %&gt;%
+  rename(&quot;Non-mother&quot; = Non_mother,
+         &quot;Mother&quot; = Mother,
+         &quot;p-value&quot; = p_value,
+         &quot;Test&quot; = test_type) %&gt;%
+  kable(&quot;html&quot;, caption = &quot;Differences in HW Responses by Motherhood Status&quot;) %&gt;%
+  kable_styling(full_width = FALSE, bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;, &quot;condensed&quot;))</code></pre>
+<table class="table table-striped table-hover table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Differences in HW Responses by Motherhood Status
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Variable
+</th>
+<th style="text-align:right;">
+Non-mother
+</th>
+<th style="text-align:right;">
+Mother
+</th>
+<th style="text-align:right;">
+p-value
+</th>
+<th style="text-align:left;">
+Test
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Non-mother
+</td>
+<td style="text-align:left;">
+HW_WORRY
+</td>
+<td style="text-align:right;">
+0.628
+</td>
+<td style="text-align:right;">
+0.482
+</td>
+<td style="text-align:right;">
+0.1182
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother1
+</td>
+<td style="text-align:left;">
+HW_INTERR
+</td>
+<td style="text-align:right;">
+0.686
+</td>
+<td style="text-align:right;">
+0.559
+</td>
+<td style="text-align:right;">
+0.2280
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother2
+</td>
+<td style="text-align:left;">
+HW_CLOTHES
+</td>
+<td style="text-align:right;">
+0.465
+</td>
+<td style="text-align:right;">
+0.416
+</td>
+<td style="text-align:right;">
+0.6694
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother3
+</td>
+<td style="text-align:left;">
+HW_PLANS
+</td>
+<td style="text-align:right;">
+0.310
+</td>
+<td style="text-align:right;">
+0.335
+</td>
+<td style="text-align:right;">
+0.8872
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother4
+</td>
+<td style="text-align:left;">
+HW_FOOD
+</td>
+<td style="text-align:right;">
+0.189
+</td>
+<td style="text-align:right;">
+0.209
+</td>
+<td style="text-align:right;">
+0.8855
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother5
+</td>
+<td style="text-align:left;">
+HW_HANDS
+</td>
+<td style="text-align:right;">
+0.161
+</td>
+<td style="text-align:right;">
+0.137
+</td>
+<td style="text-align:right;">
+0.7890
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother6
+</td>
+<td style="text-align:left;">
+HW_BODY
+</td>
+<td style="text-align:right;">
+0.318
+</td>
+<td style="text-align:right;">
+0.320
+</td>
+<td style="text-align:right;">
+1.0000
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother7
+</td>
+<td style="text-align:left;">
+HW_DRINK
+</td>
+<td style="text-align:right;">
+0.389
+</td>
+<td style="text-align:right;">
+0.275
+</td>
+<td style="text-align:right;">
+0.1266
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother8
+</td>
+<td style="text-align:left;">
+HW_ANGRY
+</td>
+<td style="text-align:right;">
+0.745
+</td>
+<td style="text-align:right;">
+0.518
+</td>
+<td style="text-align:right;">
+0.0072
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother9
+</td>
+<td style="text-align:left;">
+HW_SLEEP
+</td>
+<td style="text-align:right;">
+0.224
+</td>
+<td style="text-align:right;">
+0.193
+</td>
+<td style="text-align:right;">
+0.7198
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother10
+</td>
+<td style="text-align:left;">
+HW_NONE
+</td>
+<td style="text-align:right;">
+0.457
+</td>
+<td style="text-align:right;">
+0.328
+</td>
+<td style="text-align:right;">
+0.1299
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Non-mother11
+</td>
+<td style="text-align:left;">
+HW_SHAME
+</td>
+<td style="text-align:right;">
+0.107
+</td>
+<td style="text-align:right;">
+0.112
+</td>
+<td style="text-align:right;">
+1.0000
+</td>
+<td style="text-align:left;">
+Chi-square
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Prepare data for plot
+plot_data &lt;- results %&gt;%
+  select(Variable, Non_mother, Mother) %&gt;%
+  pivot_longer(cols = c(&quot;Non_mother&quot;, &quot;Mother&quot;), names_to = &quot;Group&quot;, values_to = &quot;Proportion&quot;) %&gt;%
+  mutate(Group = factor(Group, levels = c(&quot;Non_mother&quot;, &quot;Mother&quot;)))
+
+# Plot
+ggplot(plot_data, aes(x = reorder(Variable, -Proportion), y = Proportion, fill = Group)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  coord_flip() +
+  scale_fill_manual(values = c(&quot;Non_mother&quot; = &quot;darkorange&quot;, &quot;Mother&quot; = &quot;olivedrab&quot;)) +
+  labs(
+    title = &quot;Proportion Reporting Each HW Experience&quot;,
+    x = &quot;HW Variable&quot;,
+    y = &quot;Proportion Responding &#39;Yes&#39;&quot;,
+    fill = &quot;Group&quot;
+  ) +
+  theme_minimal(base_size = 13)</code></pre>
+<p><img src="figure/UROP_Alexandra.Rmd/plot%20differences%20hw%20questions-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.4.3 (2025-02-28)
+Platform: aarch64-apple-darwin20
+Running under: macOS Sequoia 15.3.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] patchwork_1.3.0  kableExtra_1.4.0 knitr_1.49       ggplot2_3.5.1   
+[5] tidyr_1.3.1      dplyr_1.1.4     
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    xml2_1.3.6       
+ [5] stringi_1.8.4     digest_0.6.37     magrittr_2.0.3    evaluate_1.0.1   
+ [9] grid_4.4.3        fastmap_1.2.0     rprojroot_2.0.4   workflowr_1.7.1  
+[13] jsonlite_1.8.9    promises_1.3.0    purrr_1.0.2       fansi_1.0.6      
+[17] viridisLite_0.4.2 scales_1.3.0      textshaping_0.4.0 jquerylib_0.1.4  
+[21] cli_3.6.3         rlang_1.1.4       munsell_0.5.1     withr_3.0.2      
+[25] cachem_1.1.0      yaml_2.3.10       tools_4.4.3       colorspace_2.1-1 
+[29] httpuv_1.6.15     vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
+[33] git2r_0.35.0      stringr_1.5.1     fs_1.6.5          ragg_1.3.3       
+[37] pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0       later_1.3.2      
+[41] gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1     systemfonts_1.1.0
+[45] xfun_0.49         tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1
+[49] farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3    rmarkdown_2.29   
+[53] svglite_2.1.3     compiler_4.4.3   </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

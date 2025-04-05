@@ -1,0 +1,287 @@
+---
+title: "UROP_Alexandra"
+output: html_document
+date: "`r Sys.Date()`"
+editor_options: 
+  chunk_output_type: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r echo = FALSE, message = FALSE}
+# Load necessary libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(knitr) 
+library(kableExtra)
+library(patchwork)  
+```
+
+```{r load file}
+# loading data set
+d <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+
+# taking a quick look at first rows
+head(d,3)
+summary(d$D_CHLD)
+```
+
+```{r}
+d <- d %>%
+    filter(!is.na(D_CHLD)) %>%
+  mutate(D_CHLD_CAT = case_when(
+    D_CHLD == 0 ~ "Non-mothers",
+    D_CHLD >= 1 ~ "Mothers",
+    D_CHLD == !is.na(.) ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  ))
+
+d <- d %>%
+  filter(!is.na(HW_TOTAL)) %>%  # Remove missing values
+  mutate(HW_TOTAL_category4 = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+
+# Descriptive statistics
+
+# Create summary statistics table
+summary_stats <- d %>%
+  group_by(D_CHLD_CAT) %>%
+  summarise(
+    n = n(),
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    median_ses = median(SES_SC_Total, na.rm = TRUE),
+
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+    median_age = median(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+    median_hwise = median(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    median_pss = median(PSS_TOTAL, na.rm = TRUE)
+  )
+
+# Format and display table
+summary_stats %>%
+  rename(
+    "Group" = D_CHLD_CAT,
+    "N" = n,
+    "Mean SES" = mean_ses,
+    "SD SES" = sd_ses,
+    "Median SES" = median_ses,
+    "Mean Age" = mean_age,
+    "SD Age" = sd_age,
+    "Median Age" = median_age,
+    "Mean HWISE" = mean_hwise,
+    "SD HWISE" = sd_hwise,
+    "Median HWISE" = median_hwise,
+    "Mean PSS" = mean_pss,
+    "SD PSS" = sd_pss,
+    "Median PSS" = median_pss
+  ) %>%
+  kable("html", digits = 2, caption = "Descriptive Statistics by Child Category") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
+summary_stats <- summary_stats %>%
+  mutate(D_CHLD_CAT = factor(D_CHLD_CAT, levels = c("Non-mothers", "Mothers")))
+
+```
+
+```{r plot summary stats}
+# Step 1: Define color palette
+custom_colors <- c("Non-mother" = "darkorange", "Mother" = "olivedrab")
+
+# Step 2: Summarize and ensure consistent category labels
+summary_stats <- d %>%
+  group_by(D_CHLD_CAT) %>%
+  summarise(
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE)
+  ) %>%
+  mutate(D_CHLD_CAT = factor(D_CHLD_CAT, levels = c("Non-mothers", "Mothers")))
+
+# Step 3: Reusable plotting function
+
+# Custom colors
+custom_colors <- c("Non-mothers" = "darkorange", "Mothers" = "olivedrab")
+
+# Recode and compute stats
+summary_stats <- d %>%
+  mutate(D_CHLD_CAT = case_when(
+    D_CHLD_CAT %in% c("Non-mother", "non-mother", "Non-mom") ~ "Non-mother",
+    D_CHLD_CAT %in% c("Mother", "mom", "Mom") ~ "Mother",
+    TRUE ~ as.character(D_CHLD_CAT)
+  )) %>%
+  group_by(D_CHLD_CAT) %>%
+  summarise(
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE)
+  )
+
+# Reusable plotting function
+plot_variable <- function(df, mean_col, sd_col, title, ylab) {
+  ggplot(df, aes(x = D_CHLD_CAT, y = .data[[mean_col]], fill = D_CHLD_CAT)) +
+    geom_bar(stat = "identity", width = 0.4) +
+    geom_errorbar(aes(ymin = .data[[mean_col]] - .data[[sd_col]],
+                      ymax = .data[[mean_col]] + .data[[sd_col]]),
+                  width = 0.1) +
+    scale_fill_manual(values = custom_colors) +
+    labs(title = title, x = NULL, y = ylab) +
+    theme_minimal() +
+    theme(legend.position = "none")
+}
+
+# Create plots
+p1 <- plot_variable(summary_stats, "mean_ses", "sd_ses", "SES", "Mean SES")
+p2 <- plot_variable(summary_stats, "mean_age", "sd_age", "Age", "Mean Age")
+p3 <- plot_variable(summary_stats, "mean_hwise", "sd_hwise", "HWISE", "Mean HWISE")
+
+# Combine horizontally
+combined_plot <- p1 | p2 | p3
+
+# Save to file
+ggsave("combined_summary_plots.png", plot = combined_plot, width = 20, height = 5, dpi = 300)
+
+combined_plot 
+```
+
+```{r testing differences}
+
+# Run Wilcoxon rank-sum tests (non-parametric alternative to t-test)
+
+# SES Score
+w_ses <- wilcox.test(SES_SC_Total ~ D_CHLD_CAT, data = d)
+
+# Age
+w_age <- wilcox.test(D_AGE ~ D_CHLD_CAT, data = d)
+
+# HWISE Score
+w_hwise <- wilcox.test(HW_TOTAL ~ D_CHLD_CAT, data = d)
+
+# Create a summary table of p-values
+wilcox_results <- data.frame(
+  Variable = c("SES", "Age", "HWISE"),
+  W_statistic = c(w_ses$statistic, w_age$statistic, w_hwise$statistic),
+  p_value = c(w_ses$p.value, w_age$p.value, w_hwise$p.value)
+)
+
+# Round for clarity
+wilcox_results <- wilcox_results %>%
+  mutate(across(where(is.numeric), round, 3))
+
+# Display the results table
+kable(wilcox_results, caption = "Wilcoxon Test Results: Differences by Motherhood Status") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+
+```
+
+
+```{r testing differences HWISE questions}
+# List of binary HW variables
+hw_vars <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS", "HW_FOOD",
+             "HW_HANDS", "HW_BODY", "HW_DRINK", "HW_ANGRY", "HW_SLEEP",
+             "HW_NONE", "HW_SHAME")
+
+# Recode mother status as factor
+d$D_CHLD_CAT <- factor(ifelse(d$D_CHLD >= 1, "Mother", "Non-mother"), levels = c("Non-mother", "Mother"))
+
+# Convert HW variables to factors
+d[hw_vars] <- lapply(d[hw_vars], function(x) factor(x, levels = c(0, 1)))
+
+# Initialize test results list
+results <- data.frame()
+
+# Loop over each HW variable to test and collect proportions
+for (var in hw_vars) {
+  tbl <- table(d$D_CHLD_CAT, d[[var]])
+  
+  # Run chi-square or fisher test based on counts
+  if (any(tbl < 5)) {
+    test <- fisher.test(tbl)
+    method <- "Fisher"
+  } else {
+    test <- chisq.test(tbl)
+    method <- "Chi-square"
+  }
+  
+  # Get proportions for each group
+  prop_table <- prop.table(tbl, margin = 1)[, "1"]
+  
+  # Store results
+  results <- rbind(results, data.frame(
+    Variable = var,
+    Non_mother = round(prop_table["Non-mother"], 3),
+    Mother = round(prop_table["Mother"], 3),
+    p_value = round(test$p.value, 4),
+    test_type = method
+  ))
+}
+
+# View results table
+library(kableExtra)
+results %>%
+  rename("Non-mother" = Non_mother,
+         "Mother" = Mother,
+         "p-value" = p_value,
+         "Test" = test_type) %>%
+  kable("html", caption = "Differences in HW Responses by Motherhood Status") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+
+```
+
+
+```{r plot differences hw questions}
+
+# Prepare data for plot
+plot_data <- results %>%
+  select(Variable, Non_mother, Mother) %>%
+  pivot_longer(cols = c("Non_mother", "Mother"), names_to = "Group", values_to = "Proportion") %>%
+  mutate(Group = factor(Group, levels = c("Non_mother", "Mother")))
+
+# Plot
+ggplot(plot_data, aes(x = reorder(Variable, -Proportion), y = Proportion, fill = Group)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  coord_flip() +
+  scale_fill_manual(values = c("Non_mother" = "darkorange", "Mother" = "olivedrab")) +
+  labs(
+    title = "Proportion Reporting Each HW Experience",
+    x = "HW Variable",
+    y = "Proportion Responding 'Yes'",
+    fill = "Group"
+  ) +
+  theme_minimal(base_size = 13)
+
+```
+
