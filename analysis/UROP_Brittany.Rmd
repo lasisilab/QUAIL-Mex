@@ -31,7 +31,7 @@ library(rcompanion)
 
 ```{r}
 # loading data set
-d <- read.csv("Cleaned_Dataset_Screening_HWISE_PSS_V2.csv")
+d <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
 
 # taking a quick look at first rows
 head(d)
@@ -39,7 +39,11 @@ head(d)
 d$HLTH_CDIS_CAT <- as.factor(d$HLTH_CDIS_CAT) # HLTH_CDIS_CAT = chronic disease
 # HW_TOTAL = Total HWISE score
 # HRS_WEEK = Hours of water supply per week
+
+
 ```
+
+
 
 ```{r}
 d <- d %>%
@@ -450,7 +454,10 @@ pairwise_fisher_results4 <- pairwise_fisher_results4 %>%
 print(pairwise_fisher_results4)
 ```
 
-## Plots Emotion/HWISE category
+
+
+## HWISE 
+
 ```{r plots emotion/hwise, echo = FALSE}
 
 # Create the stacked barplot
@@ -719,4 +726,181 @@ summary(optimized_model)
 
 ```
 
+
+## visualization
+```{r visualization}
+# Load necessary libraries
+data <- d
+
+# Fit final logistic regression model
+final_model <- glm(HLTH_CDIS_CAT ~ D_AGE + SEASON + PSS_TOTAL + D_CHLD, 
+                   data = data, 
+                   family = binomial)
+
+# Tidy the model output
+tidy_model <- tidy(final_model, conf.int = TRUE, exponentiate = TRUE)
+
+# Rename variables for clarity in the plot
+tidy_model <- tidy_model %>%
+  filter(term != "(Intercept)") %>%
+  mutate(term = case_when(
+    term == "D_AGE" ~ "Age",
+    term == "SEASON" ~ "Season (Fall vs. Spring)",
+    term == "PSS_TOTAL" ~ "Perceived Stress Score",
+    term == "D_CHLD" ~ "Number of Children",
+    TRUE ~ term  # Keep term as is if it doesn't match
+  ))
+
+# Add a column with significance stars
+tidy_model <- tidy_model %>%
+  mutate(sig_label = case_when(
+    p.value < 0.001 ~ "***",
+    p.value < 0.01 ~ "**",
+    p.value < 0.05 ~ "*",
+    TRUE ~ ""
+  ),
+  p_label = paste0("p = ", sprintf("%.4f", p.value), sig_label))
+
+# Plot
+ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = "darkred") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2, color = "gray30") +
+  geom_text(aes(label = p_label), 
+            vjust = -2.3, size = 4, color = "black") +  # vjust moves label above the point
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray50") +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "Odds Ratios from Logistic Regression",
+       x = NULL,
+       y = "Odds Ratio (95% CI)") +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 14, face = "bold"))
+
+
+```
+
+## hwise questions
+
+```{r hwise questions}
+# Step 1: Select HW variables
+
+hw_vars <- names(data)
+#[grepl("^SS", names(data))]
+hw_vars <- setdiff(hw_vars, c("HW_TOTAL_category8", "HW_TOTAL_category4", "HW_TOTAL_category16", "PSS1", "PSS2", "PSS3", "PSS4", "PSS5", "PSS6", "PSS7", "PSS8", "PSS9", "PSS10", "ID", "D_YRBR", "MX28_WQ_COMP", "W_WS_LOC", "HW_INTERR", "SEASON", "HLTH_CPAIN_CAT", "PSS12", "D_LOC_TIME", "MX8_TRUST", "W_WC_WI", "PSS11", "MX26_EM_HHW_TYPE", "PSS13", "PSS14", "HLTH_CDIS_CAT", "HLTH_SMK", "HW_TOTAL", "D_CHLD", "SES_SC_Total", "HRS_WEEK"))
+
+# Step 2: Drop rows with missing HLTH_CDIS_CAT or any HW variable
+model_data <- data %>%
+  dplyr::select(HLTH_CDIS_CAT, all_of(hw_vars)) %>%
+  drop_na()
+
+# Ensure outcome is binary factor
+model_data$HLTH_CDIS_CAT <- as.factor(model_data$HLTH_CDIS_CAT)
+
+# Step 3: Run univariate logistic regressions
+univ_results <- lapply(hw_vars, function(var) {
+  formula <- as.formula(paste("HLTH_CDIS_CAT ~", var))
+  model <- glm(formula, data = model_data, family = binomial)
+  tidy(model, exponentiate = TRUE, conf.int = TRUE) %>%
+    filter(term != "(Intercept)") %>%
+    mutate(variable = var)
+})
+
+# Combine results
+results_df <- bind_rows(univ_results)
+
+# Step 4: Sort by p-value
+results_df <- results_df %>%
+  arrange(p.value)
+
+# View top predictors
+print(results_df)
+
+# Optional Step 5: Visualize significant predictors (p < 0.05)
+sig_results <- results_df %>% filter(p.value < 0.05)
+
+ggplot(sig_results, aes(x = reorder(variable, estimate), y = estimate)) +
+  geom_point(size = 3, color = "blue") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  coord_flip() +
+  labs(title = "Odds Ratios for HW Predictors of Chronic Disease",
+       x = "HW Variable",
+       y = "Odds Ratio (95% CI)") +
+  theme_minimal()
+
+
+
+```
+
+
+
+```{r}
+
+# Run univariate logistic regressions for each HW_ variable
+hw_results <- lapply(hw_vars, function(var) {
+  model <- glm(as.formula(paste("HLTH_CDIS_CAT ~", var)),
+               data = data,
+               family = binomial)
+  tidy(model, exponentiate = TRUE, conf.int = TRUE) %>%
+    filter(term != "(Intercept)") %>%
+    mutate(variable = var)
+})
+
+# Combine into one data frame
+hw_df <- bind_rows(hw_results)
+
+# Add stars and formatted p-values
+hw_df <- hw_df %>%
+  mutate(
+    sig = case_when(
+      p.value < 0.001 ~ "***",
+      p.value < 0.01 ~ "**",
+      p.value < 0.05 ~ "*",
+      TRUE ~ ""
+    ),
+    p_label = paste0("p = ", sprintf("%.3f", p.value), sig)
+  )
+
+# Filter top 10 by smallest p-values
+top10_hw_df <- hw_df %>%
+  arrange(p.value) %>%
+  slice(1:10)
+
+# Plot
+# Add significance flag
+top10_hw_df <- top10_hw_df %>%
+  mutate(sig_flag = ifelse(p.value < 0.05, "Significant", "Not Significant"))
+
+top10_hw_df$term <- sub("^HW_?", "", top10_hw_df$term)
+top10_hw_df$term <- sub("^D_?", "", top10_hw_df$term)
+
+top10_hw_df$term[top10_hw_df$term == "PSS_TOTAL"] <- "Perceived Stress Score"
+top10_hw_df$term[top10_hw_df$term == "SLEEP"] <- "Went to sleep thirsty"
+top10_hw_df$term[top10_hw_df$term == "AGE"] <- "Age"
+top10_hw_df$term[top10_hw_df$term == "HH_SIZE"] <- "Household size"
+top10_hw_df$term[top10_hw_df$term == "RINK"] <- "No drinking water"
+top10_hw_df$term[top10_hw_df$term == "SHAME"] <- "Shame about water situation"
+top10_hw_df$term[top10_hw_df$term == "FOOD"] <- "Changed cooking plans"
+top10_hw_df$term[top10_hw_df$term == "PLANS"] <- "Changed plans"
+top10_hw_df$term[top10_hw_df$term == "ANGRY"] <- "Angry about water situation"
+top10_hw_df$term[top10_hw_df$term == "HANDS"] <- "No water to wash hands"
+top10_hw_df
+
+# Plot with color mapped to significance
+ggplot(top10_hw_df, aes(x = reorder(term, estimate), y = estimate, color = sig_flag)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_text(aes(label = p_label), vjust = -1.2, size = 3.5, color = "black") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray60") +
+  coord_flip() +
+  scale_color_manual(values = c("Significant" = "darkred", "Not Significant" = "steelblue")) +
+  labs(title = "Variables Associated with Chronic Disease",
+       x = "",
+       y = "Odds Ratio (95% CI)",
+       color = "P < 0.05") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 11),
+        plot.title = element_text(size = 14, face = "bold"))
+
+```
 

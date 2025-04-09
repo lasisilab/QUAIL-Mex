@@ -359,7 +359,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +370,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -380,13 +380,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-04
+<strong>Last updated:</strong> 2025-04-09
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -409,18 +409,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -511,15 +514,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb1bea2396479db01f87f7e4b012392e96c37a8d2targetblankb1bea23a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0fc4ea498df6193a45004c530e6fa28dbcadef1etargetblank0fc4ea4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b1bea2396479db01f87f7e4b012392e96c37a8d2" target="_blank">b1bea23</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0fc4ea498df6193a45004c530e6fa28dbcadef1e" target="_blank">0fc4ea4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb1bea2396479db01f87f7e4b012392e96c37a8d2targetblankb1bea23a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0fc4ea498df6193a45004c530e6fa28dbcadef1etargetblank0fc4ea4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -529,7 +532,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b1bea2396479db01f87f7e4b012392e96c37a8d2" target="_blank">b1bea23</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0fc4ea498df6193a45004c530e6fa28dbcadef1e" target="_blank">0fc4ea4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,15 +561,11 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  analysis/UROP_Alexandra.Rmd
-    Untracked:  combined_summary_colored_fixed.png
-    Untracked:  combined_summary_plots.png
-    Untracked:  combined_summary_plots_small_colored.png
-    Untracked:  plot_age.png
-    Untracked:  plot_hwise.png
-    Untracked:  plot_pss.png
-    Untracked:  plot_ses.png
-    Untracked:  summary_plots.png
+    Untracked:  HLTH_counts_by_SES.png
+
+Unstaged changes:
+    Modified:   analysis/UROP_Alexandra.Rmd
+    Modified:   analysis/UROP_Brittany.Rmd
 
 </code></pre>
 <p>
@@ -611,6 +610,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/0fc4ea498df6193a45004c530e6fa28dbcadef1e/docs/UROP_Brittany.html" target="_blank">0fc4ea4</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-05
+</td>
+<td>
+plots alexandra
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -689,45 +705,45 @@ plots brittany
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
 <pre class="r"><code># loading data set
-d &lt;- read.csv(&quot;Cleaned_Dataset_Screening_HWISE_PSS_V2.csv&quot;)
+d &lt;- read.csv(&quot;./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv&quot;)
 
 # taking a quick look at first rows
 head(d)</code></pre>
-<pre><code>  ID D_YRBR D_LOC_TIME D_AGE D_HH_SIZE D_CHLD HLTH_SMK SES_SC_Total SEASON
-1  1   1987         35    35         4      0        0          149      1
-2  2   1990         32    32        12      2        1          196      1
-3  3   1992          8    30         7      2        0           52      1
-4  4   1982         32    40         4      1        0          214      1
-5  5   1976         45    46         4     NA        0          117      1
-6  6   1990          8    32         6      1       NA          220      1
-  W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES HW_PLANS HW_FOOD HW_HANDS HW_BODY
-1        1        2         0          0        0       0        0       0
-2        1        0         0          0        0       0        0       1
-3        1        0         0          0        0       0        0       0
-4        1        0         0          0        0       0        0       0
-5        1        2         1          1        1       1        0       1
-6        1        1         1          2        1       3        1       1
-  HW_DRINK HW_ANGRY HW_SLEEP HW_NONE HW_SHAME PSS1 PSS2 PSS3 PSS4 PSS5 PSS6
-1        0        1        0       1        0    2    3    2    4    3    2
-2        0        2        0       2        0    2    2    3    3    3    4
-3        0        1        0       0        0    2    2    2    2    2    3
-4        0        1        0       0        1    2    3    2    3    3    3
-5        0        1        0       3        1    2    2    3    2    2    2
-6        0        1        0       2        2    2    2    3    2    3    3
-  PSS7 PSS8 PSS9 PSS10 PSS11 PSS12 PSS13 PSS14 HLTH_CPAIN_CAT HLTH_CDIS_CAT
-1    2    1    2     3     1     4     2     1              0             1
-2    3    2    3     2     2     4     3     2              0             0
-3    3    2    3     2     2     2     3     2              0             0
-4    3    1    3     2     2     2     3     1              0             0
-5    3    2    2     1     3     3     2     3              1             0
-6    4    1    3     3     2     3     1     2              0             0
-  HW_TOTAL W_WC_WI HRS_WEEK
-1        4       1      168
-2        5       0       35
-3        1       1       NA
-4        2       1       28
-5       12       1      156
-6       15       1       12</code></pre>
+<pre><code>  ID MX8_TRUST MX28_WQ_COMP MX26_EM_HHW_TYPE D_YRBR D_LOC_TIME D_AGE D_HH_SIZE
+1  1         2            0                0   1987         35    35         4
+2  2         2            2                0   1990         32    32        12
+3  3         0            1                0   1992          8    30         7
+4  4         2            0                1   1982         32    40         4
+5  5         2            2                1   1976         45    46         4
+6  6         2            0                1   1990          8    32         6
+  D_CHLD HLTH_SMK SES_SC_Total SEASON W_WS_LOC HW_WORRY HW_INTERR HW_CLOTHES
+1      0        0          149      1        1        2         0          0
+2      2        1          196      1        1        0         0          0
+3      2        0           52      1        1        0         0          0
+4      1        0          214      1        1        0         0          0
+5     NA        0          117      1        1        2         1          1
+6      1       NA          220      1        1        1         1          2
+  HW_PLANS HW_FOOD HW_HANDS HW_BODY HW_DRINK HW_ANGRY HW_SLEEP HW_NONE HW_SHAME
+1        0       0        0       0        0        1        0       1        0
+2        0       0        0       1        0        2        0       2        0
+3        0       0        0       0        0        1        0       0        0
+4        0       0        0       0        0        1        0       0        1
+5        1       1        0       1        0        1        0       3        1
+6        1       3        1       1        0        1        0       2        2
+  PSS1 PSS2 PSS3 PSS4 PSS5 PSS6 PSS7 PSS8 PSS9 PSS10 PSS11 PSS12 PSS13 PSS14
+1    2    3    2    4    3    2    2    1    2     3     1     4     2     1
+2    2    2    3    3    3    4    3    2    3     2     2     4     3     2
+3    2    2    2    2    2    3    3    2    3     2     2     2     3     2
+4    2    3    2    3    3    3    3    1    3     2     2     2     3     1
+5    2    2    3    2    2    2    3    2    2     1     3     3     2     3
+6    2    2    3    2    3    3    4    1    3     3     2     3     1     2
+  HLTH_CPAIN_CAT HLTH_CDIS_CAT HW_TOTAL W_WC_WI HRS_WEEK PSS_TOTAL
+1              0             1        4       1      168        -4
+2              0             0        5       0       35        -4
+3              0             0        1       1       NA        -4
+4              0             0        2       1       28        -7
+5              1             0       12       1      156         4
+6              0             0       15       1       12        -4</code></pre>
 <pre class="r"><code>d$HLTH_CDIS_CAT &lt;- as.factor(d$HLTH_CDIS_CAT) # HLTH_CDIS_CAT = chronic disease
 # HW_TOTAL = Total HWISE score
 # HRS_WEEK = Hours of water supply per week</code></pre>
@@ -1440,8 +1456,8 @@ print(pairwise_fisher_results4)</code></pre>
 5            Low     High 1.0000000 1.0000000
 6       Moderate     High 0.5930341 1.0000000</code></pre>
 </div>
-<div id="plots-emotionhwise-category" class="section level2">
-<h2>Plots Emotion/HWISE category</h2>
+<div id="hwise" class="section level2">
+<h2>HWISE</h2>
 <p><img src="figure/UROP_Brittany.Rmd/plots%20emotion/hwise-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-1">
@@ -2440,6 +2456,201 @@ Residual deviance: 164.86  on 214  degrees of freedom
 AIC: 174.86
 
 Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
+<div id="visualization" class="section level2">
+<h2>visualization</h2>
+<pre class="r"><code># Load necessary libraries
+data &lt;- d
+
+# Fit final logistic regression model
+final_model &lt;- glm(HLTH_CDIS_CAT ~ D_AGE + SEASON + PSS_TOTAL + D_CHLD, 
+                   data = data, 
+                   family = binomial)
+
+# Tidy the model output
+tidy_model &lt;- tidy(final_model, conf.int = TRUE, exponentiate = TRUE)
+
+# Rename variables for clarity in the plot
+tidy_model &lt;- tidy_model %&gt;%
+  filter(term != &quot;(Intercept)&quot;) %&gt;%
+  mutate(term = case_when(
+    term == &quot;D_AGE&quot; ~ &quot;Age&quot;,
+    term == &quot;SEASON&quot; ~ &quot;Season (Fall vs. Spring)&quot;,
+    term == &quot;PSS_TOTAL&quot; ~ &quot;Perceived Stress Score&quot;,
+    term == &quot;D_CHLD&quot; ~ &quot;Number of Children&quot;,
+    TRUE ~ term  # Keep term as is if it doesn&#39;t match
+  ))
+
+# Add a column with significance stars
+tidy_model &lt;- tidy_model %&gt;%
+  mutate(sig_label = case_when(
+    p.value &lt; 0.001 ~ &quot;***&quot;,
+    p.value &lt; 0.01 ~ &quot;**&quot;,
+    p.value &lt; 0.05 ~ &quot;*&quot;,
+    TRUE ~ &quot;&quot;
+  ),
+  p_label = paste0(&quot;p = &quot;, sprintf(&quot;%.4f&quot;, p.value), sig_label))
+
+# Plot
+ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = &quot;darkred&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2, color = &quot;gray30&quot;) +
+  geom_text(aes(label = p_label), 
+            vjust = -2.3, size = 4, color = &quot;black&quot;) +  # vjust moves label above the point
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;gray50&quot;) +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = &quot;Odds Ratios from Logistic Regression&quot;,
+       x = NULL,
+       y = &quot;Odds Ratio (95% CI)&quot;) +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 14, face = &quot;bold&quot;))</code></pre>
+<p><img src="figure/UROP_Brittany.Rmd/visualization-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="hwise-questions" class="section level2">
+<h2>hwise questions</h2>
+<pre class="r"><code># Step 1: Select HW variables
+
+hw_vars &lt;- names(data)
+#[grepl(&quot;^SS&quot;, names(data))]
+hw_vars &lt;- setdiff(hw_vars, c(&quot;HW_TOTAL_category8&quot;, &quot;HW_TOTAL_category4&quot;, &quot;HW_TOTAL_category16&quot;, &quot;PSS1&quot;, &quot;PSS2&quot;, &quot;PSS3&quot;, &quot;PSS4&quot;, &quot;PSS5&quot;, &quot;PSS6&quot;, &quot;PSS7&quot;, &quot;PSS8&quot;, &quot;PSS9&quot;, &quot;PSS10&quot;, &quot;ID&quot;, &quot;D_YRBR&quot;, &quot;MX28_WQ_COMP&quot;, &quot;W_WS_LOC&quot;, &quot;HW_INTERR&quot;, &quot;SEASON&quot;, &quot;HLTH_CPAIN_CAT&quot;, &quot;PSS12&quot;, &quot;D_LOC_TIME&quot;, &quot;MX8_TRUST&quot;, &quot;W_WC_WI&quot;, &quot;PSS11&quot;, &quot;MX26_EM_HHW_TYPE&quot;, &quot;PSS13&quot;, &quot;PSS14&quot;, &quot;HLTH_CDIS_CAT&quot;, &quot;HLTH_SMK&quot;, &quot;HW_TOTAL&quot;, &quot;D_CHLD&quot;, &quot;SES_SC_Total&quot;, &quot;HRS_WEEK&quot;))
+
+# Step 2: Drop rows with missing HLTH_CDIS_CAT or any HW variable
+model_data &lt;- data %&gt;%
+  dplyr::select(HLTH_CDIS_CAT, all_of(hw_vars)) %&gt;%
+  drop_na()
+
+# Ensure outcome is binary factor
+model_data$HLTH_CDIS_CAT &lt;- as.factor(model_data$HLTH_CDIS_CAT)
+
+# Step 3: Run univariate logistic regressions
+univ_results &lt;- lapply(hw_vars, function(var) {
+  formula &lt;- as.formula(paste(&quot;HLTH_CDIS_CAT ~&quot;, var))
+  model &lt;- glm(formula, data = model_data, family = binomial)
+  tidy(model, exponentiate = TRUE, conf.int = TRUE) %&gt;%
+    filter(term != &quot;(Intercept)&quot;) %&gt;%
+    mutate(variable = var)
+})
+
+# Combine results
+results_df &lt;- bind_rows(univ_results)
+
+# Step 4: Sort by p-value
+results_df &lt;- results_df %&gt;%
+  arrange(p.value)
+
+# View top predictors
+print(results_df)</code></pre>
+<pre><code># A tibble: 14 × 8
+   term       estimate std.error statistic p.value conf.low conf.high variable  
+   &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;     
+ 1 PSS_TOTAL     1.06     0.0202     2.69  0.00723    1.02      1.10  PSS_TOTAL 
+ 2 HW_SLEEP      1.73     0.246      2.22  0.0267     1.05      2.78  HW_SLEEP  
+ 3 D_AGE         1.04     0.0193     2.20  0.0277     1.01      1.08  D_AGE     
+ 4 D_HH_SIZE     0.895    0.0595    -1.87  0.0611     0.787     0.993 D_HH_SIZE 
+ 5 HW_DRINK      1.36     0.201      1.52  0.129      0.903     2.00  HW_DRINK  
+ 6 HW_SHAME      1.37     0.220      1.41  0.158      0.863     2.07  HW_SHAME  
+ 7 HW_FOOD       1.22     0.174      1.12  0.261      0.852     1.69  HW_FOOD   
+ 8 HW_HANDS      1.26     0.214      1.07  0.285      0.804     1.88  HW_HANDS  
+ 9 HW_PLANS      1.14     0.138      0.929 0.353      0.862     1.48  HW_PLANS  
+10 HW_ANGRY      0.907    0.161     -0.604 0.546      0.656     1.24  HW_ANGRY  
+11 HW_CLOTHES    0.921    0.148     -0.558 0.577      0.684     1.22  HW_CLOTHES
+12 HW_WORRY      1.07     0.137      0.525 0.599      0.818     1.40  HW_WORRY  
+13 HW_NONE       1.06     0.147      0.368 0.713      0.783     1.40  HW_NONE   
+14 HW_BODY       0.953    0.166     -0.289 0.772      0.679     1.31  HW_BODY   </code></pre>
+<pre class="r"><code># Optional Step 5: Visualize significant predictors (p &lt; 0.05)
+sig_results &lt;- results_df %&gt;% filter(p.value &lt; 0.05)
+
+ggplot(sig_results, aes(x = reorder(variable, estimate), y = estimate)) +
+  geom_point(size = 3, color = &quot;blue&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;) +
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for HW Predictors of Chronic Disease&quot;,
+       x = &quot;HW Variable&quot;,
+       y = &quot;Odds Ratio (95% CI)&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/UROP_Brittany.Rmd/hwise%20questions-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Run univariate logistic regressions for each HW_ variable
+hw_results &lt;- lapply(hw_vars, function(var) {
+  model &lt;- glm(as.formula(paste(&quot;HLTH_CDIS_CAT ~&quot;, var)),
+               data = data,
+               family = binomial)
+  tidy(model, exponentiate = TRUE, conf.int = TRUE) %&gt;%
+    filter(term != &quot;(Intercept)&quot;) %&gt;%
+    mutate(variable = var)
+})
+
+# Combine into one data frame
+hw_df &lt;- bind_rows(hw_results)
+
+# Add stars and formatted p-values
+hw_df &lt;- hw_df %&gt;%
+  mutate(
+    sig = case_when(
+      p.value &lt; 0.001 ~ &quot;***&quot;,
+      p.value &lt; 0.01 ~ &quot;**&quot;,
+      p.value &lt; 0.05 ~ &quot;*&quot;,
+      TRUE ~ &quot;&quot;
+    ),
+    p_label = paste0(&quot;p = &quot;, sprintf(&quot;%.3f&quot;, p.value), sig)
+  )
+
+# Filter top 10 by smallest p-values
+top10_hw_df &lt;- hw_df %&gt;%
+  arrange(p.value) %&gt;%
+  slice(1:10)
+
+# Plot
+# Add significance flag
+top10_hw_df &lt;- top10_hw_df %&gt;%
+  mutate(sig_flag = ifelse(p.value &lt; 0.05, &quot;Significant&quot;, &quot;Not Significant&quot;))
+
+top10_hw_df$term &lt;- sub(&quot;^HW_?&quot;, &quot;&quot;, top10_hw_df$term)
+top10_hw_df$term &lt;- sub(&quot;^D_?&quot;, &quot;&quot;, top10_hw_df$term)
+
+top10_hw_df$term[top10_hw_df$term == &quot;PSS_TOTAL&quot;] &lt;- &quot;Perceived Stress Score&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;SLEEP&quot;] &lt;- &quot;Went to sleep thirsty&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;AGE&quot;] &lt;- &quot;Age&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;HH_SIZE&quot;] &lt;- &quot;Household size&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;RINK&quot;] &lt;- &quot;No drinking water&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;SHAME&quot;] &lt;- &quot;Shame about water situation&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;FOOD&quot;] &lt;- &quot;Changed cooking plans&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;PLANS&quot;] &lt;- &quot;Changed plans&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;ANGRY&quot;] &lt;- &quot;Angry about water situation&quot;
+top10_hw_df$term[top10_hw_df$term == &quot;HANDS&quot;] &lt;- &quot;No water to wash hands&quot;
+top10_hw_df</code></pre>
+<pre><code># A tibble: 10 × 11
+   term   estimate std.error statistic p.value conf.low conf.high variable sig  
+   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;
+ 1 Perce…    1.05     0.0198     2.69  0.00714    1.02      1.10  PSS_TOT… &quot;**&quot; 
+ 2 Went …    1.68     0.235      2.21  0.0274     1.04      2.64  HW_SLEEP &quot;*&quot;  
+ 3 Age       1.04     0.0192     2.19  0.0283     1.00      1.08  D_AGE    &quot;*&quot;  
+ 4 House…    0.891    0.0599    -1.93  0.0538     0.783     0.990 D_HH_SI… &quot;&quot;   
+ 5 No dr…    1.40     0.194      1.73  0.0838     0.945     2.03  HW_DRINK &quot;&quot;   
+ 6 Shame…    1.44     0.215      1.71  0.0878     0.926     2.17  HW_SHAME &quot;&quot;   
+ 7 No wa…    1.27     0.209      1.13  0.260      0.820     1.88  HW_HANDS &quot;&quot;   
+ 8 Chang…    1.20     0.168      1.10  0.270      0.853     1.66  HW_FOOD  &quot;&quot;   
+ 9 Chang…    1.14     0.134      0.970 0.332      0.871     1.48  HW_PLANS &quot;&quot;   
+10 Angry…    0.907    0.153     -0.639 0.523      0.667     1.22  HW_ANGRY &quot;&quot;   
+# ℹ 2 more variables: p_label &lt;chr&gt;, sig_flag &lt;chr&gt;</code></pre>
+<pre class="r"><code># Plot with color mapped to significance
+ggplot(top10_hw_df, aes(x = reorder(term, estimate), y = estimate, color = sig_flag)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_text(aes(label = p_label), vjust = -1.2, size = 3.5, color = &quot;black&quot;) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;gray60&quot;) +
+  coord_flip() +
+  scale_color_manual(values = c(&quot;Significant&quot; = &quot;darkred&quot;, &quot;Not Significant&quot; = &quot;steelblue&quot;)) +
+  labs(title = &quot;Variables Associated with Chronic Disease&quot;,
+       x = &quot;&quot;,
+       y = &quot;Odds Ratio (95% CI)&quot;,
+       color = &quot;P &lt; 0.05&quot;) +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 11),
+        plot.title = element_text(size = 14, face = &quot;bold&quot;))</code></pre>
+<p><img src="figure/UROP_Brittany.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2451,7 +2662,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.4.3 (2025-02-28)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.3.2
+Running under: macOS Sequoia 15.4
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
@@ -2504,7 +2715,6 @@ loaded via a namespace (and not attached):
 [85] class_7.3-23        Rcpp_1.0.13-1       whisker_0.4.1      
 [88] xfun_0.49           forcats_1.0.0       fs_1.6.5           
 [91] zoo_1.8-12          pkgconfig_2.0.3    </code></pre>
-</div>
 </div>
 </div>
 </div>

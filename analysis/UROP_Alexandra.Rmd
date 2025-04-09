@@ -41,6 +41,13 @@ d <- d %>%
     TRUE ~ NA_character_
   ))
 
+d %>% 
+  group_by(D_CHLD_CAT, HW_NONE) %>%
+  summarise(n=n())
+
+(316-174)/316
+(59-25)/59
+
 d <- d %>%
   filter(!is.na(HW_TOTAL)) %>%  # Remove missing values
   mutate(HW_TOTAL_category4 = case_when(
@@ -102,8 +109,6 @@ summary_stats <- summary_stats %>%
 ```
 
 ```{r plot summary stats}
-# Step 1: Define color palette
-custom_colors <- c("Non-mother" = "darkorange", "Mother" = "olivedrab")
 
 # Step 2: Summarize and ensure consistent category labels
 summary_stats <- d %>%
@@ -124,9 +129,6 @@ summary_stats <- d %>%
   mutate(D_CHLD_CAT = factor(D_CHLD_CAT, levels = c("Non-mothers", "Mothers")))
 
 # Step 3: Reusable plotting function
-
-# Custom colors
-custom_colors <- c("Non-mothers" = "darkorange", "Mothers" = "olivedrab")
 
 # Recode and compute stats
 summary_stats <- d %>%
@@ -150,15 +152,17 @@ summary_stats <- d %>%
     sd_pss = sd(PSS_TOTAL, na.rm = TRUE)
   )
 
+
 # Reusable plotting function
+
 plot_variable <- function(df, mean_col, sd_col, title, ylab) {
   ggplot(df, aes(x = D_CHLD_CAT, y = .data[[mean_col]], fill = D_CHLD_CAT)) +
     geom_bar(stat = "identity", width = 0.4) +
+    scale_fill_manual(values = c("Non-mothers" = "darkblue", "Mothers" = "lightblue2")) +
     geom_errorbar(aes(ymin = .data[[mean_col]] - .data[[sd_col]],
                       ymax = .data[[mean_col]] + .data[[sd_col]]),
                   width = 0.1) +
-    scale_fill_manual(values = custom_colors) +
-    labs(title = title, x = NULL, y = ylab) +
+    labs(title = title, x = NULL, y = ylab, size = 4) +
     theme_minimal() +
     theme(legend.position = "none")
 }
@@ -172,7 +176,7 @@ p3 <- plot_variable(summary_stats, "mean_hwise", "sd_hwise", "HWISE", "Mean HWIS
 combined_plot <- p1 | p2 | p3
 
 # Save to file
-ggsave("combined_summary_plots.png", plot = combined_plot, width = 20, height = 5, dpi = 300)
+ggsave("combined_summary_plots.png", plot = combined_plot, width = 10, height = 3, dpi = 300)
 
 combined_plot 
 ```
@@ -210,24 +214,27 @@ kable(wilcox_results, caption = "Wilcoxon Test Results: Differences by Motherhoo
 
 ```{r testing differences HWISE questions}
 # List of binary HW variables
+# Define HW variables
 hw_vars <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS", "HW_FOOD",
              "HW_HANDS", "HW_BODY", "HW_DRINK", "HW_ANGRY", "HW_SLEEP",
              "HW_NONE", "HW_SHAME")
 
-# Recode mother status as factor
-d$D_CHLD_CAT <- factor(ifelse(d$D_CHLD >= 1, "Mother", "Non-mother"), levels = c("Non-mother", "Mother"))
+# Recode Likert responses: 0 = "No", 1–3 = "Yes"
+d[hw_vars] <- lapply(d[hw_vars], function(x) {
+  factor(ifelse(x == 0, "No", "Yes"), levels = c("No", "Yes"))
+})
 
-# Convert HW variables to factors
-d[hw_vars] <- lapply(d[hw_vars], function(x) factor(x, levels = c(0, 1)))
+# Recode D_CHLD_CAT for grouping
+d$D_CHLD_CAT <- factor(ifelse(d$D_CHLD >= 1, "Mother", "Non-mother"))
 
-# Initialize test results list
+# Initialize results container
 results <- data.frame()
 
-# Loop over each HW variable to test and collect proportions
+# Run tests and compute proportions
 for (var in hw_vars) {
   tbl <- table(d$D_CHLD_CAT, d[[var]])
-  
-  # Run chi-square or fisher test based on counts
+
+  # Select test method
   if (any(tbl < 5)) {
     test <- fisher.test(tbl)
     method <- "Fisher"
@@ -235,10 +242,10 @@ for (var in hw_vars) {
     test <- chisq.test(tbl)
     method <- "Chi-square"
   }
-  
-  # Get proportions for each group
-  prop_table <- prop.table(tbl, margin = 1)[, "1"]
-  
+
+  # Compute proportion of "Yes" in each group
+  prop_table <- prop.table(tbl, margin = 1)[, "Yes"]
+
   # Store results
   results <- rbind(results, data.frame(
     Variable = var,
@@ -248,40 +255,81 @@ for (var in hw_vars) {
     test_type = method
   ))
 }
+```
 
-# View results table
+```{r rewrite hwise}
+results <- results %>%
+  mutate(Variable = sub("^HW_?", "", Variable),
+         Variable = case_when(
+           Variable == "SLEEP" ~ "Went to sleep thirsty",
+           Variable == "DRINK" ~ "No drinking water",
+           Variable == "SHAME" ~ "Shame about water situation",
+           Variable == "FOOD" ~ "Changed cooking plans",
+           Variable == "PLANS" ~ "Changed plans",
+           Variable == "ANGRY" ~ "Angry about water situation",
+           Variable == "HANDS" ~ "No water to wash hands",
+           Variable == "BODY" ~ "No water to shower",
+           Variable == "NONE" ~ "No water at all",
+           Variable == "CLOTHES" ~ "No water to wash clothes",
+           Variable == "WORRY" ~ "Worried about water situation",
+                      Variable == "INTERR" ~ "Interruptions in water supply",
+           TRUE ~ Variable
+         ))
+```
+
+```{r}
+# View table
 library(kableExtra)
 results %>%
   rename("Non-mother" = Non_mother,
          "Mother" = Mother,
          "p-value" = p_value,
          "Test" = test_type) %>%
-  kable("html", caption = "Differences in HW Responses by Motherhood Status") %>%
-  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed"))
+  kable("html", caption = "Differences in HW Responses (Re-coded as Yes/No)") %>%
+  kable_styling(full_width = TRUE, bootstrap_options = c("striped", "hover", "condensed"))
 
 ```
+
+
+
 
 
 ```{r plot differences hw questions}
 
 # Prepare data for plot
 plot_data <- results %>%
-  select(Variable, Non_mother, Mother) %>%
-  pivot_longer(cols = c("Non_mother", "Mother"), names_to = "Group", values_to = "Proportion") %>%
+  dplyr::select(Variable, Non_mother, Mother) %>%
+  pivot_longer(cols = c("Non_mother", "Mother"),
+               names_to = "Group", values_to = "Proportion") %>%
   mutate(Group = factor(Group, levels = c("Non_mother", "Mother")))
 
 # Plot
 ggplot(plot_data, aes(x = reorder(Variable, -Proportion), y = Proportion, fill = Group)) +
   geom_bar(stat = "identity", position = "dodge") +
   coord_flip() +
-  scale_fill_manual(values = c("Non_mother" = "darkorange", "Mother" = "olivedrab")) +
+  scale_fill_manual(values = c("Non_mother" = "darkblue", "Mother" = "lightblue2")) +
   labs(
-    title = "Proportion Reporting Each HW Experience",
-    x = "HW Variable",
+    title = "Proportion of women experiencing water issues",
+    subtitle = "Likert responses recoded ( 0 = 'No', 1–3 = 'Yes')",
+    x = "",
     y = "Proportion Responding 'Yes'",
     fill = "Group"
   ) +
   theme_minimal(base_size = 13)
 
+
+
+results <- results %>%
+  mutate(diff = abs(Mother - Non_mother))
+
+# biggest difference in “Yes” responses between mothers and non-mothers
+results %>%
+  arrange(desc(diff)) %>%
+  slice(1:10)
+
 ```
+
+
+
+
 

@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-02-25
+<strong>Last updated:</strong> 2025-04-09
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree44474e3d53c3ea1cbf5cc9f32c13423f4bea34bbtargetblank44474e3a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0fc4ea498df6193a45004c530e6fa28dbcadef1etargetblank0fc4ea4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/44474e3d53c3ea1cbf5cc9f32c13423f4bea34bb" target="_blank">44474e3</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0fc4ea498df6193a45004c530e6fa28dbcadef1e" target="_blank">0fc4ea4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree44474e3d53c3ea1cbf5cc9f32c13423f4bea34bbtargetblank44474e3a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0fc4ea498df6193a45004c530e6fa28dbcadef1etargetblank0fc4ea4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/44474e3d53c3ea1cbf5cc9f32c13423f4bea34bb" target="_blank">44474e3</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0fc4ea498df6193a45004c530e6fa28dbcadef1e" target="_blank">0fc4ea4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -550,19 +547,21 @@ were generated:
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/odds_ratio_plot.png
+    Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
-Untracked files:
-    Untracked:  HLTH_counts_by_SES.png
-    Untracked:  data/c_pain.csv
-
 Unstaged changes:
-    Modified:   analysis/Plots_Latinx_research_week.Rmd
+    Modified:   analysis/UROP_Alexandra.Rmd
+    Modified:   analysis/UROP_Brittany.Rmd
 
 </code></pre>
 <p>
@@ -608,6 +607,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/c9896b146173f19200fc76202380d6cd911603ca/analysis/Plots_Latinx_research_week.Rmd" target="_blank">c9896b1</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-02-25
+</td>
+<td>
+ses-health
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/c9896b146173f19200fc76202380d6cd911603ca/docs/Plots_Latinx_research_week.html" target="_blank">c9896b1</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-02-25
+</td>
+<td>
+ses-health
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -793,6 +826,43 @@ ggplot(agg2, aes(x = SES, y = Total)) +
   xlab(&quot;Socioeconomic status&quot;) +
   ylab(&quot;Percent (%)&quot;)  </code></pre>
 <p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/c9896b146173f19200fc76202380d6cd911603ca/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-1.png" target="_blank">c9896b1</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-02-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>#dev.off()</code></pre>
 </div>
 <div id="ses-and-pss---work-in-progress" class="section level1">
@@ -886,9 +956,9 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.4.2 (2024-10-31)
+<pre><code>R version 4.4.3 (2025-02-28)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.3.1
+Running under: macOS Sequoia 15.4
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
@@ -917,14 +987,14 @@ loaded via a namespace (and not attached):
 [13] jsonlite_1.8.9    whisker_0.4.1     gridExtra_2.3     promises_1.3.0   
 [17] httr_1.4.7        fansi_1.0.6       scales_1.3.0      lazyeval_0.2.2   
 [21] jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4       munsell_0.5.1    
-[25] withr_3.0.2       cachem_1.1.0      yaml_2.3.10       tools_4.4.2      
+[25] withr_3.0.2       cachem_1.1.0      yaml_2.3.10       tools_4.4.3      
 [29] tzdb_0.4.0        colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
 [33] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      htmlwidgets_1.6.4
 [37] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
 [41] later_1.3.2       gtable_0.3.6      data.table_1.16.2 glue_1.8.0       
 [45] Rcpp_1.0.13-1     xfun_0.49         tidyselect_1.2.1  rstudioapi_0.17.1
 [49] knitr_1.49        farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3   
-[53] compiler_4.4.2   </code></pre>
+[53] compiler_4.4.3   </code></pre>
 </div>
 </div>
 </div>
