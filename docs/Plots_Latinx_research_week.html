@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -382,13 +382,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-09
+<strong>Last updated:</strong> 2025-04-10
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,18 +411,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -513,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0fc4ea498df6193a45004c530e6fa28dbcadef1etargetblank0fc4ea4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree1453f8b4e6c885e20f60a87fcea98f0e74081245targetblank1453f8ba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0fc4ea498df6193a45004c530e6fa28dbcadef1e" target="_blank">0fc4ea4</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/1453f8b4e6c885e20f60a87fcea98f0e74081245" target="_blank">1453f8b</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0fc4ea498df6193a45004c530e6fa28dbcadef1etargetblank0fc4ea4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree1453f8b4e6c885e20f60a87fcea98f0e74081245targetblank1453f8ba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -531,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0fc4ea498df6193a45004c530e6fa28dbcadef1e" target="_blank">0fc4ea4</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/1453f8b4e6c885e20f60a87fcea98f0e74081245" target="_blank">1453f8b</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -553,6 +556,7 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
+    Ignored:    analysis/HLTH_counts_by_SES.png
     Ignored:    analysis/Hrs_by_HWISE score.png
     Ignored:    analysis/odds_ratio_plot.png
     Ignored:    analysis/stacked_barplot.png
@@ -560,8 +564,8 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Unstaged changes:
-    Modified:   analysis/UROP_Alexandra.Rmd
-    Modified:   analysis/UROP_Brittany.Rmd
+    Modified:   HLTH_counts_by_SES.png
+    Modified:   analysis/Plots_Latinx_research_week.Rmd
 
 </code></pre>
 <p>
@@ -607,6 +611,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/1453f8b4e6c885e20f60a87fcea98f0e74081245/docs/Plots_Latinx_research_week.html" target="_blank">1453f8b</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-09
+</td>
+<td>
+new urop plots
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -665,8 +686,55 @@ Create Plots_Latinx_research_week.Rmd
 </div>
 </div>
 </div>
-<div id="data-cleaning" class="section level2">
-<h2>Data cleaning</h2>
+<pre><code>Rows: 402
+Columns: 45
+$ ID               &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17…
+$ MX8_TRUST        &lt;chr&gt; &quot;2&quot;, &quot;2&quot;, &quot;0&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;, &quot;2&quot;…
+$ MX28_WQ_COMP     &lt;int&gt; 0, 2, 1, 0, 2, 0, 1, 1, 1, 0, 0, 1, 1, 2, 1, 0, 0, 0,…
+$ MX26_EM_HHW_TYPE &lt;chr&gt; &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;0&quot;, &quot;1&quot;…
+$ D_YRBR           &lt;int&gt; 1987, 1990, 1992, 1982, 1976, 1990, 1997, 1985, 1982,…
+$ D_LOC_TIME       &lt;dbl&gt; 35, 32, 8, 32, 45, 8, NA, 10, 40, 43, 21, 26, 24, 13,…
+$ D_AGE            &lt;int&gt; 35, 32, 30, 40, 46, 32, 25, 37, 40, 49, 30, 26, 24, 2…
+$ D_HH_SIZE        &lt;int&gt; 4, 12, 7, 4, 4, 6, 4, 4, 6, 3, 10, 17, 6, 5, 5, 6, NA…
+$ D_CHLD           &lt;int&gt; 0, 2, 2, 1, NA, 1, 2, 2, 4, 1, 2, 2, 2, 1, NA, 3, NA,…
+$ HLTH_SMK         &lt;int&gt; 0, 1, 0, 0, 0, NA, NA, 0, 0, 0, 0, 0, 0, 1, 0, 0, NA,…
+$ SES_SC_Total     &lt;int&gt; 149, 196, 52, 214, 117, 220, 130, NA, 71, 117, NA, NA…
+$ SEASON           &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ W_WS_LOC         &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ HW_WORRY         &lt;int&gt; 2, 0, 0, 0, 2, 1, 0, 2, 0, 2, 1, 1, 1, 0, 3, 1, 0, 1,…
+$ HW_INTERR        &lt;int&gt; 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 0, 1, 1, 0, 2, 1, 1, 1,…
+$ HW_CLOTHES       &lt;int&gt; 0, 0, 0, 0, 1, 2, 1, 2, 0, 2, 0, 0, 0, 1, 2, 2, 1, 2,…
+$ HW_PLANS         &lt;int&gt; 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1,…
+$ HW_FOOD          &lt;int&gt; 0, 0, 0, 0, 1, 3, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,…
+$ HW_HANDS         &lt;int&gt; 0, 0, 0, 0, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ HW_BODY          &lt;int&gt; 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 2, 0, 0, 0, 3, 1, 0, 1,…
+$ HW_DRINK         &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0,…
+$ HW_ANGRY         &lt;int&gt; 1, 2, 1, 1, 1, 1, 1, 0, 1, 0, 3, 1, 0, 0, 3, 0, 2, 0,…
+$ HW_SLEEP         &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0,…
+$ HW_NONE          &lt;int&gt; 1, 2, 0, 0, 3, 2, 1, 0, 0, 0, 3, 1, 1, 0, 3, 0, 1, 2,…
+$ HW_SHAME         &lt;int&gt; 0, 0, 0, 1, 1, 2, 1, 0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0,…
+$ PSS1             &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 3, 3, 4, 3, 3, 2, 2, 1,…
+$ PSS2             &lt;int&gt; 3, 2, 2, 3, 2, 2, 2, 1, 3, 2, 3, 4, 3, 3, 3, 0, 1, 3,…
+$ PSS3             &lt;int&gt; 2, 3, 2, 2, 3, 3, 2, 3, 2, 1, 4, 4, 4, 3, 2, 2, 2, 3,…
+$ PSS4             &lt;int&gt; 4, 3, 2, 3, 2, 2, 2, 3, 3, 3, 4, 1, 4, 2, 2, 3, 3, 3,…
+$ PSS5             &lt;int&gt; 3, 3, 2, 3, 2, 3, 3, 3, 2, 3, 2, 2, 2, 2, 1, 3, 2, 2,…
+$ PSS6             &lt;int&gt; 2, 4, 3, 3, 2, 3, 2, 2, 2, 3, 1, 2, 3, 2, 3, 3, 2, 2,…
+$ PSS7             &lt;int&gt; 2, 3, 3, 3, 3, 4, 2, 3, 2, 3, 2, 2, 4, 1, 3, 3, 2, 2,…
+$ PSS8             &lt;int&gt; 1, 2, 2, 1, 2, 1, 2, 1, 3, 2, 3, 2, 2, 2, 1, 2, 3, 3,…
+$ PSS9             &lt;int&gt; 2, 3, 3, 3, 2, 3, 2, 3, 3, 3, 3, 2, 1, 1, 2, 3, 2, 2,…
+$ PSS10            &lt;int&gt; 3, 2, 2, 2, 1, 3, 2, 3, 2, 0, 1, 1, 1, 1, 2, 2, 2, 3,…
+$ PSS11            &lt;int&gt; 1, 2, 2, 2, 3, 2, 2, 4, 2, 2, 4, 4, 3, 3, 2, 2, 3, 3,…
+$ PSS12            &lt;int&gt; 4, 4, 2, 2, 3, 3, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3,…
+$ PSS13            &lt;int&gt; 2, 3, 3, 3, 2, 1, 2, 2, 2, 3, 4, 2, 2, 2, 2, 3, 1, 3,…
+$ PSS14            &lt;int&gt; 1, 2, 2, 1, 3, 2, 2, 2, 2, 2, 1, 4, 3, 3, 4, 3, 2, 2,…
+$ HLTH_CPAIN_CAT   &lt;int&gt; 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1,…
+$ HLTH_CDIS_CAT    &lt;int&gt; 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ HW_TOTAL         &lt;int&gt; 4, 5, 1, 2, 12, 15, 9, 8, 3, 6, 11, 5, 5, 1, 19, 6, 7…
+$ W_WC_WI          &lt;int&gt; 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ HRS_WEEK         &lt;dbl&gt; 168.00, 35.00, NA, 28.00, 156.00, 12.00, 11.00, 39.00…
+$ PSS_TOTAL        &lt;int&gt; -4, -4, -4, -7, 4, -4, -1, -4, 0, -5, 4, 12, 5, 9, 3,…</code></pre>
+<div id="data-cleaning" class="section level3">
+<h3>Data cleaning</h3>
 <pre class="r"><code>#Loading file and setting empty cells as &quot;NAs&quot;
 d &lt;- read.csv(&quot;./data/01.SCREENING.csv&quot;, stringsAsFactors = TRUE, na.strings = c(&quot;&quot;, &quot; &quot;,&quot;NA&quot;, &quot;N/A&quot;))
 
@@ -771,8 +839,8 @@ head(d)</code></pre>
 5       117   C-
 6       220  A/B</code></pre>
 </div>
-<div id="combining-data" class="section level1">
-<h1>combining data</h1>
+<div id="combining-data" class="section level3">
+<h3>combining data</h3>
 <pre class="r"><code>#Loading file and setting empty cells as &quot;NAs&quot;
 c &lt;- read.csv(&quot;./data/Chronic_pain_illness.csv&quot;, stringsAsFactors = TRUE, na.strings = c(&quot;&quot;, &quot; &quot;,&quot;NA&quot;, &quot;N/A&quot;))
 
@@ -788,7 +856,6 @@ m &lt;- m %&gt;%
   drop_na()
 
 m %&gt;%
-  select(ID, SES, chronic) %&gt;%
   group_by(SES) %&gt;%
   summarise(n_total = n())</code></pre>
 <pre><code># A tibble: 7 × 2
@@ -863,10 +930,189 @@ Paloma
 </table>
 </div>
 </div>
-<pre class="r"><code>#dev.off()</code></pre>
+<pre class="r"><code>#dev.off()
+
+data &lt;- m
+# Step 1: Create a frequency table by SES and chronic condition
+plot_data &lt;- data %&gt;%
+  count(SES, chronic) %&gt;%
+  group_by(SES) %&gt;%
+  mutate(percent = 100 * n / sum(n))
+
+# Step 2: Plot as grouped bar chart (percentage)
+ggplot(plot_data, aes(x = SES, y = percent, fill = chronic)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
+  scale_fill_manual(values = c(&quot;No&quot; = &quot;steelblue&quot;, &quot;Yes&quot; = &quot;firebrick&quot;)) +
+  labs(
+    title = &quot;Chronic Condition by Socioeconomic Status&quot;,
+    x = &quot;Socioeconomic Status&quot;,
+    y = &quot;Percentage&quot;,
+    fill = &quot;Chronic Condition&quot;
+  ) +
+  theme_minimal(base_size = 13)</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-2">
+Past versions of unnamed-chunk-2-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/c9896b146173f19200fc76202380d6cd911603ca/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-2.png" target="_blank">c9896b1</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-02-25
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="ses-and-pss---work-in-progress" class="section level1">
-<h1>SES and PSS - work in progress</h1>
+</div>
+</div>
+<div id="models" class="section level1">
+<h1>models</h1>
+<pre class="r"><code># Sample dataframe (assumes it&#39;s already loaded as `data`)
+data &lt;- m
+data$chronic &lt;- factor(data$chronic, levels = c(&quot;No&quot;, &quot;Yes&quot;))
+# Model 1: Overall SES score
+m1 &lt;- glm(chronic ~ SES_score, data = data, family = &quot;binomial&quot;)
+
+# Model 2: Overall SES category
+m2 &lt;- glm(chronic ~ SES, data = data, family = &quot;binomial&quot;)
+
+# Model 3: Individual SES components
+m3 &lt;- glm(chronic ~ SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC + SES_INT_SC +
+            SES_WRK_SC + SES_BEDR_SC, data = data, family = &quot;binomial&quot;)
+
+# Model 4: Components + categorical SES
+m4 &lt;- glm(chronic ~ SES + SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC + SES_INT_SC +
+            SES_WRK_SC + SES_BEDR_SC, data = data, family = &quot;binomial&quot;)
+
+# Model 5: SES components + interactions
+m5 &lt;- glm(chronic ~ SES_EDU_SC * SES_WRK_SC +
+                    SES_BTHR_SC * SES_INT_SC +
+                    SES_CAR_SC +
+                    SES_BEDR_SC, 
+          data = data, family = &quot;binomial&quot;)
+
+# Each model includes one SES component
+m6 &lt;- glm(chronic ~ SES_EDU_SC, data = data, family = &quot;binomial&quot;)
+m7 &lt;- glm(chronic ~ SES_BTHR_SC, data = data, family = &quot;binomial&quot;)
+m8 &lt;- glm(chronic ~ SES_CAR_SC, data = data, family = &quot;binomial&quot;)
+m9 &lt;- glm(chronic ~ SES_INT_SC, data = data, family = &quot;binomial&quot;)
+m10 &lt;- glm(chronic ~ SES_WRK_SC, data = data, family = &quot;binomial&quot;)
+m11 &lt;- glm(chronic ~ SES_BEDR_SC, data = data, family = &quot;binomial&quot;)
+m12 &lt;- glm(chronic ~ SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC +
+                     SES_INT_SC + SES_WRK_SC + SES_BEDR_SC,
+           data = data, family = &quot;binomial&quot;)
+
+
+aic_table &lt;- AIC(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10 , m11, m12) %&gt;%
+  as.data.frame() %&gt;%
+  arrange(AIC)
+
+print(aic_table)</code></pre>
+<pre><code>    df      AIC
+m7   2 443.9942
+m11  2 444.5681
+m4  13 446.7476
+m1   2 446.9714
+m2   7 447.6400
+m8   2 448.4072
+m10  2 448.4643
+m3   7 448.7560
+m12  7 448.7560
+m9   2 448.7796
+m6   2 449.2725
+m5   9 451.2714</code></pre>
+<pre class="r"><code>m7</code></pre>
+<pre><code>
+Call:  glm(formula = chronic ~ SES_BTHR_SC, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+(Intercept)  SES_BTHR_SC  
+   -0.30351     -0.01602  
+
+Degrees of Freedom: 345 Total (i.e. Null);  344 Residual
+Null Deviance:      445.4 
+Residual Deviance: 440  AIC: 444</code></pre>
+<pre class="r"><code>m11</code></pre>
+<pre><code>
+Call:  glm(formula = chronic ~ SES_BEDR_SC, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+(Intercept)  SES_BEDR_SC  
+   -0.04709     -0.04598  
+
+Degrees of Freedom: 345 Total (i.e. Null);  344 Residual
+Null Deviance:      445.4 
+Residual Deviance: 440.6    AIC: 444.6</code></pre>
+<pre class="r"><code>m4</code></pre>
+<pre><code>
+Call:  glm(formula = chronic ~ SES + SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC + 
+    SES_INT_SC + SES_WRK_SC + SES_BEDR_SC, family = &quot;binomial&quot;, 
+    data = data)
+
+Coefficients:
+(Intercept)         SESC        SESC-        SESC+         SESD      SESD-/E  
+   3.616415    -0.473660    -2.062135    -0.424885    -2.020778    -2.804706  
+       SESE   SES_EDU_SC  SES_BTHR_SC   SES_CAR_SC   SES_INT_SC   SES_WRK_SC  
+  -2.744422    -0.011838    -0.037944    -0.026188    -0.002267    -0.016084  
+SES_BEDR_SC  
+  -0.067022  
+
+Degrees of Freedom: 345 Total (i.e. Null);  333 Residual
+Null Deviance:      445.4 
+Residual Deviance: 420.7    AIC: 446.7</code></pre>
+<pre class="r"><code>m1</code></pre>
+<pre><code>
+Call:  glm(formula = chronic ~ SES_score, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+(Intercept)    SES_score  
+  -0.125478    -0.003945  
+
+Degrees of Freedom: 345 Total (i.e. Null);  344 Residual
+Null Deviance:      445.4 
+Residual Deviance: 443  AIC: 447</code></pre>
+<pre class="r"><code>best_model &lt;- m7  # or whichever had lowest AIC
+
+tidy_model &lt;- tidy(best_model, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+  filter(term != &quot;(Intercept)&quot;)
+
+ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = &quot;darkred&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2, color = &quot;gray40&quot;) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;gray60&quot;) +
+  coord_flip() +
+  labs(title = &quot;Odds Ratios from Logistic Regression&quot;,
+       subtitle = &quot;Predicting Chronic Condition from SES Factors&quot;,
+       x = &quot;Predictor&quot;,
+       y = &quot;Odds Ratio (95% CI)&quot;) +
+  theme_minimal(base_size = 13)</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="ses-and-pss---work-in-progress" class="section level4">
+<h4>SES and PSS - work in progress</h4>
 <pre class="r"><code>f&lt;-read.csv(&quot;./data/02.HWISE_PSS.csv&quot;)
 # Add more info to file
 dim(f)</code></pre>
@@ -889,40 +1135,13 @@ dim(pss)</code></pre>
 <pre><code>[1] 345  46</code></pre>
 <pre class="r"><code>pss[pss ==&#39;NA&#39;] &lt;- NA
 
-
-
-pss %&gt;%
-  select(ID, SES, chronic, Total_PSS) %&gt;%
-  drop_na(Total_PSS) %&gt;%
-  group_by(SES, chronic) %&gt;%
-  summarise(n_total = n(), mean = mean(Total_PSS))</code></pre>
-<pre><code>`summarise()` has grouped output by &#39;SES&#39;. You can override using the `.groups`
-argument.</code></pre>
-<pre><code># A tibble: 14 × 4
-# Groups:   SES [7]
-   SES   chronic n_total  mean
-   &lt;chr&gt; &lt;fct&gt;     &lt;int&gt; &lt;dbl&gt;
- 1 A/B   No           21 -2.43
- 2 A/B   Yes           5 -2.2 
- 3 C     No           41 -3.24
- 4 C     Yes          34 -1.97
- 5 C+    No           34 -2.91
- 6 C+    Yes          13 -3.69
- 7 C-    No           61 -2.61
- 8 C-    Yes          23 -2.70
- 9 D     No           29 -2.45
-10 D     Yes          21 -3.19
-11 D-/E  No           33 -1.76
-12 D-/E  Yes          16 -3.38
-13 E     No            5 -1.4 
-14 E     Yes           5 -4.6 </code></pre>
-<pre class="r"><code>agg&lt;- count(pss, SES, chronic, Total_PSS)
+agg&lt;- count(pss, SES, chronic, Total_PSS)
 agg2 &lt;- pivot_wider(agg, 
             names_from = chronic,
             values_from = n)
 agg2$Total &lt;- agg2$Yes/(agg2$Yes + agg2$No)*100
 
-png(file= &quot;HLTH_counts_by_SES.png&quot;, width = 700, height = 800 )
+#png(file= &quot;HLTH_counts_by_SES.png&quot;, width = 700, height = 800 )
 ggplot(agg2, aes(x = SES, y = Total)) +
     geom_bar(stat= &quot;identity&quot;, fill = &quot;orchid4&quot;, alpha = 0.9) +
      ylim(0, 55) + 
@@ -944,9 +1163,326 @@ ggplot(agg2, aes(x = SES, y = Total)) +
 (`geom_bar()`).</code></pre>
 <pre><code>Warning: Removed 52 rows containing missing values or values outside the scale range
 (`geom_text()`).</code></pre>
-<pre class="r"><code>dev.off()</code></pre>
-<pre><code>quartz_off_screen 
-                2 </code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+</div>
+</div>
+<div id="create-combined-chronic-condition-variable"
+class="section level1">
+<h1>2. Create Combined Chronic Condition Variable</h1>
+<pre class="r"><code># Create binary variable: 1 = has chronic pain or disease
+data &lt;- df %&gt;%
+  mutate(chronic_any = ifelse(HLTH_CPAIN_CAT == 1 | HLTH_CDIS_CAT == 1, 1, 0)) %&gt;%
+  mutate(chronic_any = factor(chronic_any, labels = c(&quot;No chronic condition&quot;, &quot;Chronic condition&quot;)))
+data &lt;- data %&gt;% 
+  filter(!is.na(chronic_any)) 
+dim(data)</code></pre>
+<pre><code>[1] 400  46</code></pre>
+</div>
+<div id="descriptive-stats" class="section level1">
+<h1>3. Descriptive stats</h1>
+<pre class="r"><code># Summary stats by chronic condition
+data %&gt;%
+  group_by(chronic_any) %&gt;%
+  summarise(
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    n = n()
+  )</code></pre>
+<pre><code># A tibble: 2 × 6
+  chronic_any          mean_pss sd_pss mean_ses sd_ses     n
+  &lt;fct&gt;                   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;int&gt;
+1 No chronic condition   -1.42    7.35     136.   46.3   249
+2 Chronic condition       0.436   6.82     127.   42.0   151</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>T-tests / Non-parametric Tests</li>
+</ol>
+<pre class="r"><code># PSS comparison
+wilcox.test(PSS_TOTAL ~ chronic_any, data = data)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  PSS_TOTAL by chronic_any
+W = 15572, p-value = 0.01439
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code># SES comparison
+wilcox.test(SES_SC_Total ~ chronic_any, data = data)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  SES_SC_Total by chronic_any
+W = 14914, p-value = 0.2122
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>There is a statistically significant difference in <strong>stress
+levels</strong> between people with and without chronic conditions.</p>
+<p>There is no statistically significant difference in SES between
+people with and without chronic conditions.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Visualizations: Boxplots</li>
+</ol>
+<pre class="r"><code># Stress and SES by chronic condition
+p1 &lt;- ggplot(data, aes(x = chronic_any, y = PSS_TOTAL, fill = chronic_any)) +
+  geom_point(aes(alpha = 0.8,  color = chronic_any), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = &quot;Perceived Stress (PSS)&quot;, y = &quot;PSS Score&quot;, x = NULL) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)
+
+p2 &lt;- ggplot(data, aes(x = chronic_any, y = SES_SC_Total, fill = chronic_any)) +
+  geom_point(aes(alpha = 0.8,  color = chronic_any), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = &quot;Socioeconomic Status&quot;, y = &quot;SES Score&quot;, x = NULL) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)
+
+# Combine plots
+p1 + p2</code></pre>
+<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
+(`stat_ydensity()`).</code></pre>
+<pre><code>Warning: Removed 6 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 6 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 51 rows containing non-finite outside the scale range
+(`stat_ydensity()`).</code></pre>
+<pre><code>Warning: Removed 51 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 51 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Correlations</li>
+</ol>
+<pre class="r"><code># Correlation matrix
+cor_data &lt;- data %&gt;%
+  select(PSS_TOTAL, SES_SC_Total, HW_TOTAL, D_AGE) %&gt;%
+  drop_na()
+
+cor_matrix &lt;- cor(cor_data)
+corrplot(cor_matrix, method = &quot;circle&quot;, type = &quot;upper&quot;, tl.col = &quot;black&quot;)</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Logistic Regression: Chronic condition ~ PSS + SES + Age</li>
+</ol>
+<pre class="r"><code>data &lt;- data %&gt;%
+  mutate(chronic_any_binary = ifelse(chronic_any == &quot;Chronic condition&quot;, 1, 0))
+
+model &lt;- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + D_AGE, data = data, family = &quot;binomial&quot;)
+
+summary(model)</code></pre>
+<pre><code>
+Call:
+glm(formula = chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + 
+    D_AGE, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+              Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)  -1.416056   0.655860  -2.159   0.0308 *
+PSS_TOTAL     0.035978   0.016141   2.229   0.0258 *
+SES_SC_Total -0.003553   0.002618  -1.357   0.1747  
+D_AGE         0.039526   0.015731   2.513   0.0120 *
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 441.98  on 341  degrees of freedom
+Residual deviance: 428.31  on 338  degrees of freedom
+  (58 observations deleted due to missingness)
+AIC: 436.31
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>exp(cbind(OR = coef(model), confint(model)))</code></pre>
+<pre><code>Waiting for profiling to be done...</code></pre>
+<pre><code>                    OR     2.5 %    97.5 %
+(Intercept)  0.2426692 0.0660444 0.8692806
+PSS_TOTAL    1.0366326 1.0046346 1.0704199
+SES_SC_Total 0.9964535 0.9912834 1.0015363
+D_AGE        1.0403180 1.0089896 1.0733125</code></pre>
+<ol start="8" style="list-style-type: decimal">
+<li>Plot Odds Ratios</li>
+</ol>
+<pre class="r"><code>library(broom)
+model_tidy &lt;- tidy(model, conf.int = TRUE, exponentiate = TRUE)
+
+ggplot(model_tidy, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = &quot;darkred&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;) +
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for Chronic Condition&quot;,
+       x = &quot;Predictor&quot;, y = &quot;Odds Ratio (95% CI)&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ol start="9" style="list-style-type: decimal">
+<li>Optional: Interaction Term (Stress × SES)</li>
+</ol>
+<pre class="r"><code>interaction_model &lt;- glm(chronic_any_binary ~ PSS_TOTAL * SES_SC_Total + D_AGE,
+                         data = data, family = &quot;binomial&quot;)
+
+summary(interaction_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = chronic_any_binary ~ PSS_TOTAL * SES_SC_Total + 
+    D_AGE, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+                         Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)            -1.4886649  0.6614362  -2.251  0.02441 * 
+PSS_TOTAL              -0.0379014  0.0529489  -0.716  0.47411   
+SES_SC_Total           -0.0033599  0.0026478  -1.269  0.20446   
+D_AGE                   0.0409832  0.0158167   2.591  0.00957 **
+PSS_TOTAL:SES_SC_Total  0.0005816  0.0003995   1.456  0.14540   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 441.98  on 341  degrees of freedom
+Residual deviance: 426.15  on 337  degrees of freedom
+  (58 observations deleted due to missingness)
+AIC: 436.15
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)
+library(broom)
+
+# Combine chronic pain + chronic disease
+data &lt;- data %&gt;%
+  mutate(chronic_any = ifelse(HLTH_CPAIN_CAT == 1 | HLTH_CDIS_CAT == 1, 1, 0),
+         chronic_any = factor(chronic_any, levels = c(0,1)),
+         chronic_any_binary = as.numeric(as.character(chronic_any)))  # for glm
+
+# Model 1: Stress only
+m1 &lt;- glm(chronic_any_binary ~ PSS_TOTAL, data = data, family = &quot;binomial&quot;)
+
+# Model 2: SES only
+m2 &lt;- glm(chronic_any_binary ~ SES_SC_Total, data = data, family = &quot;binomial&quot;)
+
+# Model 3: Stress + SES
+m3 &lt;- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total, data = data, family = &quot;binomial&quot;)
+
+# Model 4: Add age
+m4 &lt;- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + D_AGE, data = data, family = &quot;binomial&quot;)
+
+# Model 5: Add water insecurity
+m5 &lt;- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + D_AGE + HW_TOTAL, data = data, family = &quot;binomial&quot;)
+
+
+AIC_table &lt;- AIC(m1, m2, m3, m4, m5) %&gt;%
+  as.data.frame() %&gt;%
+  arrange(AIC)</code></pre>
+<pre><code>Warning in AIC.default(m1, m2, m3, m4, m5): models are not all fitted to the
+same number of observations</code></pre>
+<pre class="r"><code>print(AIC_table)</code></pre>
+<pre><code>   df      AIC
+m5  5 428.2207
+m4  4 436.3142
+m3  3 442.2878
+m2  2 451.5510
+m1  2 520.3572</code></pre>
+<pre class="r"><code>best_model &lt;- m5  # or choose based on AIC_table
+
+model_summary &lt;- tidy(best_model, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+  filter(term != &quot;(Intercept)&quot;)
+
+ggplot(model_summary, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = &quot;darkblue&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;gray60&quot;) +
+  coord_flip() +
+  labs(
+    title = &quot;Odds Ratios for Predicting Chronic Condition&quot;,
+    subtitle = &quot;Best model based on AIC&quot;,
+    x = &quot;Predictor&quot;,
+    y = &quot;Odds Ratio (95% CI)&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Interaction: Stress × SES
+m_interact &lt;- glm(chronic_any_binary ~ PSS_TOTAL * SES_SC_Total + D_AGE + HW_TOTAL,
+                  data = data, family = &quot;binomial&quot;)
+summary(m_interact)</code></pre>
+<pre><code>
+Call:
+glm(formula = chronic_any_binary ~ PSS_TOTAL * SES_SC_Total + 
+    D_AGE + HW_TOTAL, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+                         Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept)            -1.5438055  0.7178573  -2.151   0.0315 *
+PSS_TOTAL              -0.0269121  0.0536691  -0.501   0.6161  
+SES_SC_Total           -0.0031297  0.0026976  -1.160   0.2460  
+D_AGE                   0.0406790  0.0160154   2.540   0.0111 *
+HW_TOTAL                0.0010111  0.0198194   0.051   0.9593  
+PSS_TOTAL:SES_SC_Total  0.0005110  0.0004041   1.264   0.2061  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 431.78  on 335  degrees of freedom
+Residual deviance: 416.60  on 330  degrees of freedom
+  (64 observations deleted due to missingness)
+AIC: 428.6
+
+Number of Fisher Scoring iterations: 4</code></pre>
+<pre class="r"><code>tidy_interact &lt;- tidy(m_interact, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+  filter(term != &quot;(Intercept)&quot;)
+
+ggplot(tidy_interact, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = &quot;darkred&quot;) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;gray60&quot;) +
+  coord_flip() +
+  labs(
+    title = &quot;Odds Ratios with Stress × SES Interaction&quot;,
+    x = &quot;Predictor&quot;,
+    y = &quot;Odds Ratio (95% CI)&quot;
+  ) +
+  theme_minimal()</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-13-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Create Predicted Probabilities Across SES Levels
+#We’ll generate predicted probabilities of chronic condition at low, medium, and #high SES across a range of PSS (stress) values.
+
+# Create a new data pr predictions
+newdata &lt;- expand.grid(
+  PSS_TOTAL = seq(min(data$PSS_TOTAL, na.rm = TRUE),
+                  max(data$PSS_TOTAL, na.rm = TRUE), length.out = 100),
+  SES_SC_Total = quantile(data$SES_SC_Total, probs = c(0.25, 0.5, 0.75), na.rm = TRUE),
+  D_AGE = mean(data$D_AGE, na.rm = TRUE),
+  HW_TOTAL = mean(data$HW_TOTAL, na.rm = TRUE)
+)
+
+# Add a label for SES group
+newdata$SES_group &lt;- factor(newdata$SES_SC_Total,
+                            labels = c(&quot;Low SES&quot;, &quot;Medium SES&quot;, &quot;High SES&quot;))
+
+# Predict probabilities
+newdata$predicted &lt;- predict(m_interact, newdata, type = &quot;response&quot;)
+ggplot(newdata, aes(x = PSS_TOTAL, y = predicted, color = SES_group)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = &quot;Interaction of Stress and SES on Chronic Condition Risk&quot;,
+    subtitle = &quot;Predicted probability of chronic condition&quot;,
+    x = &quot;Perceived Stress Score&quot;,
+    y = &quot;Predicted Probability&quot;,
+    color = &quot;SES Level&quot;
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_color_manual(values = c(&quot;Low SES&quot; = &quot;firebrick&quot;, &quot;Medium SES&quot; = &quot;steelblue&quot;, &quot;High SES&quot; = &quot;forestgreen&quot;)) +
+  theme(legend.position = &quot;top&quot;)</code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<p><img src="figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-13-3.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -971,30 +1507,28 @@ time zone: America/Detroit
 tzcode source: internal
 
 attached base packages:
-[1] grid      stats     graphics  grDevices utils     datasets  methods  
-[8] base     
+[1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] RColorBrewer_1.1-3 viridis_0.6.5      viridisLite_0.4.2  plotly_4.10.4     
- [5] lubridate_1.9.3    forcats_1.0.0      stringr_1.5.1      dplyr_1.1.4       
- [9] purrr_1.0.2        readr_2.1.5        tidyr_1.3.1        tibble_3.2.1      
-[13] ggplot2_3.5.1      tidyverse_2.0.0    rmarkdown_2.29    
+[1] corrplot_0.95   patchwork_1.3.0 ggpubr_0.6.0    broom_1.0.7    
+[5] tidyr_1.3.1     ggplot2_3.5.1   dplyr_1.1.4    
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    stringi_1.8.4    
- [5] hms_1.1.3         digest_0.6.37     magrittr_2.0.3    timechange_0.3.0 
- [9] evaluate_1.0.1    fastmap_1.2.0     rprojroot_2.0.4   workflowr_1.7.1  
-[13] jsonlite_1.8.9    whisker_0.4.1     gridExtra_2.3     promises_1.3.0   
-[17] httr_1.4.7        fansi_1.0.6       scales_1.3.0      lazyeval_0.2.2   
-[21] jquerylib_0.1.4   cli_3.6.3         rlang_1.1.4       munsell_0.5.1    
-[25] withr_3.0.2       cachem_1.1.0      yaml_2.3.10       tools_4.4.3      
-[29] tzdb_0.4.0        colorspace_2.1-1  httpuv_1.6.15     vctrs_0.6.5      
-[33] R6_2.5.1          lifecycle_1.0.4   git2r_0.35.0      htmlwidgets_1.6.4
-[37] fs_1.6.5          pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0      
-[41] later_1.3.2       gtable_0.3.6      data.table_1.16.2 glue_1.8.0       
-[45] Rcpp_1.0.13-1     xfun_0.49         tidyselect_1.2.1  rstudioapi_0.17.1
-[49] knitr_1.49        farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3   
-[53] compiler_4.4.3   </code></pre>
+ [1] sass_0.4.9        utf8_1.2.4        generics_0.1.3    rstatix_0.7.2    
+ [5] stringi_1.8.4     digest_0.6.37     magrittr_2.0.3    evaluate_1.0.1   
+ [9] grid_4.4.3        fastmap_1.2.0     rprojroot_2.0.4   workflowr_1.7.1  
+[13] jsonlite_1.8.9    whisker_0.4.1     backports_1.5.0   Formula_1.2-5    
+[17] promises_1.3.0    purrr_1.0.2       fansi_1.0.6       scales_1.3.0     
+[21] jquerylib_0.1.4   abind_1.4-8       cli_3.6.3         crayon_1.5.3     
+[25] rlang_1.1.4       munsell_0.5.1     withr_3.0.2       cachem_1.1.0     
+[29] yaml_2.3.10       tools_4.4.3       ggsignif_0.6.4    colorspace_2.1-1 
+[33] httpuv_1.6.15     vctrs_0.6.5       R6_2.5.1          lifecycle_1.0.4  
+[37] git2r_0.35.0      stringr_1.5.1     car_3.1-3         fs_1.6.5         
+[41] pkgconfig_2.0.3   pillar_1.9.0      bslib_0.8.0       later_1.3.2      
+[45] gtable_0.3.6      glue_1.8.0        Rcpp_1.0.13-1     xfun_0.49        
+[49] tibble_3.2.1      tidyselect_1.2.1  rstudioapi_0.17.1 knitr_1.49       
+[53] farver_2.1.2      htmltools_0.5.8.1 labeling_0.4.3    carData_3.0-5    
+[57] rmarkdown_2.29    compiler_4.4.3   </code></pre>
 </div>
 </div>
 </div>

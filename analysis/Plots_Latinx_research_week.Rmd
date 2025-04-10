@@ -3,8 +3,6 @@ title: "Plots_Latinx_research_week"
 author: "Paloma"
 date: "2025-01-27"
 output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
 ---
 
 
@@ -14,15 +12,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r warnings = FALSE, echo = FALSE, message=FALSE}
 # Load libraries
-library(rmarkdown)
-library(tidyverse)
-library(plotly)
-library(viridis)
-library(grid)
-library(RColorBrewer)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(broom)
+library(ggpubr)
+library(patchwork)
+library(corrplot)
+
+# Load your data
+df <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+
+# View summary
+glimpse(df)
 ```
 
-## Data cleaning
+### Data cleaning
 
 ```{r screening data}
 
@@ -99,7 +104,7 @@ d$SES <- ifelse(d$SES_score <= 47,"E",
 head(d)
 ```
 
-# combining data
+###  combining data
 ```{r }
 
 #Loading file and setting empty cells as "NAs"
@@ -116,7 +121,6 @@ m <- m %>%
   drop_na()
 
 m %>%
-  select(ID, SES, chronic) %>%
   group_by(SES) %>%
   summarise(n_total = n())
 
@@ -145,12 +149,99 @@ ggplot(agg2, aes(x = SES, y = Total)) +
   labs(title="Proportion of participants suffering from \n chronic pain or chronic disease") +
   xlab("Socioeconomic status") +
   ylab("Percent (%)")  
+
 #dev.off()
+
+data <- m
+# Step 1: Create a frequency table by SES and chronic condition
+plot_data <- data %>%
+  count(SES, chronic) %>%
+  group_by(SES) %>%
+  mutate(percent = 100 * n / sum(n))
+
+# Step 2: Plot as grouped bar chart (percentage)
+ggplot(plot_data, aes(x = SES, y = percent, fill = chronic)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("No" = "steelblue", "Yes" = "firebrick")) +
+  labs(
+    title = "Chronic Condition by Socioeconomic Status",
+    x = "Socioeconomic Status",
+    y = "Percentage",
+    fill = "Chronic Condition"
+  ) +
+  theme_minimal(base_size = 13)
 
 
 ```
 
-# SES and PSS - work in progress
+# models
+```{r}
+# Sample dataframe (assumes it's already loaded as `data`)
+data <- m
+data$chronic <- factor(data$chronic, levels = c("No", "Yes"))
+# Model 1: Overall SES score
+m1 <- glm(chronic ~ SES_score, data = data, family = "binomial")
+
+# Model 2: Overall SES category
+m2 <- glm(chronic ~ SES, data = data, family = "binomial")
+
+# Model 3: Individual SES components
+m3 <- glm(chronic ~ SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC + SES_INT_SC +
+            SES_WRK_SC + SES_BEDR_SC, data = data, family = "binomial")
+
+# Model 4: Components + categorical SES
+m4 <- glm(chronic ~ SES + SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC + SES_INT_SC +
+            SES_WRK_SC + SES_BEDR_SC, data = data, family = "binomial")
+
+# Model 5: SES components + interactions
+m5 <- glm(chronic ~ SES_EDU_SC * SES_WRK_SC +
+                    SES_BTHR_SC * SES_INT_SC +
+                    SES_CAR_SC +
+                    SES_BEDR_SC, 
+          data = data, family = "binomial")
+
+# Each model includes one SES component
+m6 <- glm(chronic ~ SES_EDU_SC, data = data, family = "binomial")
+m7 <- glm(chronic ~ SES_BTHR_SC, data = data, family = "binomial")
+m8 <- glm(chronic ~ SES_CAR_SC, data = data, family = "binomial")
+m9 <- glm(chronic ~ SES_INT_SC, data = data, family = "binomial")
+m10 <- glm(chronic ~ SES_WRK_SC, data = data, family = "binomial")
+m11 <- glm(chronic ~ SES_BEDR_SC, data = data, family = "binomial")
+m12 <- glm(chronic ~ SES_EDU_SC + SES_BTHR_SC + SES_CAR_SC +
+                     SES_INT_SC + SES_WRK_SC + SES_BEDR_SC,
+           data = data, family = "binomial")
+
+
+aic_table <- AIC(m1, m2, m3, m4, m5, m6, m7, m8, m9, m10 , m11, m12) %>%
+  as.data.frame() %>%
+  arrange(AIC)
+
+print(aic_table)
+
+m7
+m11
+m4
+m1
+
+best_model <- m7  # or whichever had lowest AIC
+
+tidy_model <- tidy(best_model, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)")
+
+ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = "darkred") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2, color = "gray40") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray60") +
+  coord_flip() +
+  labs(title = "Odds Ratios from Logistic Regression",
+       subtitle = "Predicting Chronic Condition from SES Factors",
+       x = "Predictor",
+       y = "Odds Ratio (95% CI)") +
+  theme_minimal(base_size = 13)
+
+```
+
+#### SES and PSS - work in progress
 
 ```{r}
 f<-read.csv("./data/02.HWISE_PSS.csv")
@@ -172,22 +263,13 @@ pss <- merge(m,f, by="ID")
 dim(pss)
 pss[pss =='NA'] <- NA
 
-
-
-pss %>%
-  select(ID, SES, chronic, Total_PSS) %>%
-  drop_na(Total_PSS) %>%
-  group_by(SES, chronic) %>%
-  summarise(n_total = n(), mean = mean(Total_PSS))
-
-
 agg<- count(pss, SES, chronic, Total_PSS)
 agg2 <- pivot_wider(agg, 
             names_from = chronic,
             values_from = n)
 agg2$Total <- agg2$Yes/(agg2$Yes + agg2$No)*100
 
-png(file= "HLTH_counts_by_SES.png", width = 700, height = 800 )
+#png(file= "HLTH_counts_by_SES.png", width = 700, height = 800 )
 ggplot(agg2, aes(x = SES, y = Total)) +
     geom_bar(stat= "identity", fill = "orchid4", alpha = 0.9) +
      ylim(0, 55) + 
@@ -205,11 +287,240 @@ ggplot(agg2, aes(x = SES, y = Total)) +
   labs(title="Proportion of participants suffering from \n chronic pain or chronic disease") +
   xlab("Socioeconomic status") +
   ylab("Percent (%)")  
-dev.off()
+#dev.off()
 
 
 ```
 
 
+# 2. Create Combined Chronic Condition Variable
+```{r}
+# Create binary variable: 1 = has chronic pain or disease
+data <- df %>%
+  mutate(chronic_any = ifelse(HLTH_CPAIN_CAT == 1 | HLTH_CDIS_CAT == 1, 1, 0)) %>%
+  mutate(chronic_any = factor(chronic_any, labels = c("No chronic condition", "Chronic condition")))
+data <- data %>% 
+  filter(!is.na(chronic_any)) 
+dim(data)
+```
 
+# 3. Descriptive stats
+```{r}
+# Summary stats by chronic condition
+data %>%
+  group_by(chronic_any) %>%
+  summarise(
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    n = n()
+  )
+
+```
+
+4. T-tests / Non-parametric Tests
+
+
+```{r}
+# PSS comparison
+wilcox.test(PSS_TOTAL ~ chronic_any, data = data)
+
+# SES comparison
+wilcox.test(SES_SC_Total ~ chronic_any, data = data)
+
+```
+
+There is a statistically significant difference in **stress levels** between people with and without chronic conditions.
+
+There is no statistically significant difference in SES between people with and without chronic conditions.
+
+5. Visualizations: Boxplots
+
+```{r}
+
+# Stress and SES by chronic condition
+p1 <- ggplot(data, aes(x = chronic_any, y = PSS_TOTAL, fill = chronic_any)) +
+  geom_point(aes(alpha = 0.8,  color = chronic_any), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = "Perceived Stress (PSS)", y = "PSS Score", x = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+p2 <- ggplot(data, aes(x = chronic_any, y = SES_SC_Total, fill = chronic_any)) +
+  geom_point(aes(alpha = 0.8,  color = chronic_any), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = "Socioeconomic Status", y = "SES Score", x = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# Combine plots
+p1 + p2
+
+
+```
+
+6. Correlations
+```{r}
+# Correlation matrix
+cor_data <- data %>%
+  select(PSS_TOTAL, SES_SC_Total, HW_TOTAL, D_AGE) %>%
+  drop_na()
+
+cor_matrix <- cor(cor_data)
+corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black")
+
+```
+
+
+7. Logistic Regression: Chronic condition ~ PSS + SES + Age
+```{r}
+data <- data %>%
+  mutate(chronic_any_binary = ifelse(chronic_any == "Chronic condition", 1, 0))
+
+model <- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + D_AGE, data = data, family = "binomial")
+
+summary(model)
+exp(cbind(OR = coef(model), confint(model)))
+
+```
+
+8. Plot Odds Ratios
+```{r}
+
+library(broom)
+model_tidy <- tidy(model, conf.int = TRUE, exponentiate = TRUE)
+
+ggplot(model_tidy, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = "darkred") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  coord_flip() +
+  labs(title = "Odds Ratios for Chronic Condition",
+       x = "Predictor", y = "Odds Ratio (95% CI)") +
+  theme_minimal()
+
+```
+
+9. Optional: Interaction Term (Stress × SES)
+
+```{r}
+interaction_model <- glm(chronic_any_binary ~ PSS_TOTAL * SES_SC_Total + D_AGE,
+                         data = data, family = "binomial")
+
+summary(interaction_model)
+
+```
+
+
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(broom)
+
+# Combine chronic pain + chronic disease
+data <- data %>%
+  mutate(chronic_any = ifelse(HLTH_CPAIN_CAT == 1 | HLTH_CDIS_CAT == 1, 1, 0),
+         chronic_any = factor(chronic_any, levels = c(0,1)),
+         chronic_any_binary = as.numeric(as.character(chronic_any)))  # for glm
+
+# Model 1: Stress only
+m1 <- glm(chronic_any_binary ~ PSS_TOTAL, data = data, family = "binomial")
+
+# Model 2: SES only
+m2 <- glm(chronic_any_binary ~ SES_SC_Total, data = data, family = "binomial")
+
+# Model 3: Stress + SES
+m3 <- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total, data = data, family = "binomial")
+
+# Model 4: Add age
+m4 <- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + D_AGE, data = data, family = "binomial")
+
+# Model 5: Add water insecurity
+m5 <- glm(chronic_any_binary ~ PSS_TOTAL + SES_SC_Total + D_AGE + HW_TOTAL, data = data, family = "binomial")
+
+
+AIC_table <- AIC(m1, m2, m3, m4, m5) %>%
+  as.data.frame() %>%
+  arrange(AIC)
+
+print(AIC_table)
+
+
+best_model <- m5  # or choose based on AIC_table
+
+model_summary <- tidy(best_model, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)")
+
+ggplot(model_summary, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = "darkblue") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray60") +
+  coord_flip() +
+  labs(
+    title = "Odds Ratios for Predicting Chronic Condition",
+    subtitle = "Best model based on AIC",
+    x = "Predictor",
+    y = "Odds Ratio (95% CI)"
+  ) +
+  theme_minimal()
+
+# Interaction: Stress × SES
+m_interact <- glm(chronic_any_binary ~ PSS_TOTAL * SES_SC_Total + D_AGE + HW_TOTAL,
+                  data = data, family = "binomial")
+summary(m_interact)
+
+
+tidy_interact <- tidy(m_interact, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)")
+
+ggplot(tidy_interact, aes(x = reorder(term, estimate), y = estimate)) +
+  geom_point(size = 4, color = "darkred") +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray60") +
+  coord_flip() +
+  labs(
+    title = "Odds Ratios with Stress × SES Interaction",
+    x = "Predictor",
+    y = "Odds Ratio (95% CI)"
+  ) +
+  theme_minimal()
+
+# Create Predicted Probabilities Across SES Levels
+#We’ll generate predicted probabilities of chronic condition at low, medium, and #high SES across a range of PSS (stress) values.
+
+# Create a new data pr predictions
+newdata <- expand.grid(
+  PSS_TOTAL = seq(min(data$PSS_TOTAL, na.rm = TRUE),
+                  max(data$PSS_TOTAL, na.rm = TRUE), length.out = 100),
+  SES_SC_Total = quantile(data$SES_SC_Total, probs = c(0.25, 0.5, 0.75), na.rm = TRUE),
+  D_AGE = mean(data$D_AGE, na.rm = TRUE),
+  HW_TOTAL = mean(data$HW_TOTAL, na.rm = TRUE)
+)
+
+# Add a label for SES group
+newdata$SES_group <- factor(newdata$SES_SC_Total,
+                            labels = c("Low SES", "Medium SES", "High SES"))
+
+# Predict probabilities
+newdata$predicted <- predict(m_interact, newdata, type = "response")
+ggplot(newdata, aes(x = PSS_TOTAL, y = predicted, color = SES_group)) +
+  geom_line(size = 1.2) +
+  labs(
+    title = "Interaction of Stress and SES on Chronic Condition Risk",
+    subtitle = "Predicted probability of chronic condition",
+    x = "Perceived Stress Score",
+    y = "Predicted Probability",
+    color = "SES Level"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_color_manual(values = c("Low SES" = "firebrick", "Medium SES" = "steelblue", "High SES" = "forestgreen")) +
+  theme(legend.position = "top")
+
+
+```
 
