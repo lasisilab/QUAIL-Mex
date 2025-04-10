@@ -22,9 +22,6 @@ library(corrplot)
 
 # Load your data
 df <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
-
-# View summary
-glimpse(df)
 ```
 
 ### Data cleaning
@@ -38,7 +35,7 @@ d <- read.csv("./data/01.SCREENING.csv", stringsAsFactors = TRUE, na.strings = c
  # extract duplicates and compare values (removed manually for now)
 dup <- d$ID[duplicated(d$ID)] 
 length(dup) # 38
-print(dup)
+#print(dup)
 
 # remove duplicates
 d <- d[!duplicated(d$ID),]
@@ -94,17 +91,23 @@ head(d)
 d$SES_score <- rowSums(d[2:7], na.rm = TRUE)
 
 # SES categories
-d$SES <- ifelse(d$SES_score <= 47,"E", 
-                ifelse(d$SES_score <= 89, "D-/E", 
-                       ifelse(d$SES_score <= 111, "D", 
-                              ifelse(d$SES_score <= 135, "C-",
+d$SES <- #ifelse(d$SES_score <= 47,"E", 
+               # ifelse(d$SES_score <= 89, "D-/E", 
+                       ifelse(d$SES_score <= 111, "D/E", 
+                            #  ifelse(d$SES_score <= 135, "C-",
                                      ifelse(d$SES_score <= 165, "C",
-                                            ifelse(d$SES_score <= 204, "C+",
-                                                   "A/B"))))))
-head(d)
+                                         #   ifelse(d$SES_score <= 204, "C+",
+                                                   "A/B"))
+ #  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ #  25.0   104.0   129.0   133.1   159.0   263.0 
+
+d %>%
+  group_by(SES) %>%
+  summarise(n_total = n())
 ```
 
-###  combining data
+###  combining data 
+
 ```{r }
 
 #Loading file and setting empty cells as "NAs"
@@ -123,6 +126,7 @@ m <- m %>%
 m %>%
   group_by(SES) %>%
   summarise(n_total = n())
+
 
 
 agg<- count(m, SES, chronic)
@@ -418,10 +422,6 @@ summary(interaction_model)
 
 
 ```{r}
-library(dplyr)
-library(ggplot2)
-library(broom)
-
 # Combine chronic pain + chronic disease
 data <- data %>%
   mutate(chronic_any = ifelse(HLTH_CPAIN_CAT == 1 | HLTH_CDIS_CAT == 1, 1, 0),
