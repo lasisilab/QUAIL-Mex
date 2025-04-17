@@ -165,12 +165,16 @@ plot_data <- data %>%
 
 # Step 2: Plot as grouped bar chart (percentage)
 ggplot(plot_data, aes(x = SES, y = percent, fill = chronic)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  scale_fill_manual(values = c("No" = "steelblue", "Yes" = "firebrick")) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.8, color = "black") +
+ # scale_fill_manual(values = c("No" = "#fbaca7", "Yes" = "#52d8da")) +
+  geom_text(aes(label = paste(round(percent, 1), "%", sep="")), 
+            vjust = 2, 
+            colour = "gray20", 
+            size = 5) +
   labs(
     title = "Chronic Condition by Socioeconomic Status",
     x = "Socioeconomic Status",
-    y = "Percentage",
+    y = "Percentage (%)",
     fill = "Chronic Condition"
   ) +
   theme_minimal(base_size = 13)

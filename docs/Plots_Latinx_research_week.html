@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-04-10
+<strong>Last updated:</strong> 2025-04-15
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3ca49680d9c98b1c43c0ee1630121310abc3990ctargetblank3ca4968a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree1414b15bfff63feb82f4063c54605b88bc192e43targetblank1414b15a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3ca49680d9c98b1c43c0ee1630121310abc3990c" target="_blank">3ca4968</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/1414b15bfff63feb82f4063c54605b88bc192e43" target="_blank">1414b15</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3ca49680d9c98b1c43c0ee1630121310abc3990ctargetblank3ca4968a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree1414b15bfff63feb82f4063c54605b88bc192e43targetblank1414b15a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3ca49680d9c98b1c43c0ee1630121310abc3990c" target="_blank">3ca4968</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/1414b15bfff63feb82f4063c54605b88bc192e43" target="_blank">1414b15</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -610,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/1414b15bfff63feb82f4063c54605b88bc192e43/analysis/Plots_Latinx_research_week.Rmd" target="_blank">1414b15</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+<td>
+plots Sanaa
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/1414b15bfff63feb82f4063c54605b88bc192e43/docs/Plots_Latinx_research_week.html" target="_blank">1414b15</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+<td>
+plots Sanaa
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -889,6 +923,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/1414b15bfff63feb82f4063c54605b88bc192e43/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-1.png" target="_blank">1414b15</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/c9896b146173f19200fc76202380d6cd911603ca/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-1.png" target="_blank">c9896b1</a>
 </td>
 <td>
@@ -913,12 +958,16 @@ plot_data &lt;- data %&gt;%
 
 # Step 2: Plot as grouped bar chart (percentage)
 ggplot(plot_data, aes(x = SES, y = percent, fill = chronic)) +
-  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;) +
-  scale_fill_manual(values = c(&quot;No&quot; = &quot;steelblue&quot;, &quot;Yes&quot; = &quot;firebrick&quot;)) +
+  geom_bar(stat = &quot;identity&quot;, position = &quot;dodge&quot;, alpha = 0.8, color = &quot;black&quot;) +
+ # scale_fill_manual(values = c(&quot;No&quot; = &quot;#fbaca7&quot;, &quot;Yes&quot; = &quot;#52d8da&quot;)) +
+  geom_text(aes(label = paste(round(percent, 1), &quot;%&quot;, sep=&quot;&quot;)), 
+            vjust = 2, 
+            colour = &quot;gray20&quot;, 
+            size = 5) +
   labs(
     title = &quot;Chronic Condition by Socioeconomic Status&quot;,
     x = &quot;Socioeconomic Status&quot;,
-    y = &quot;Percentage&quot;,
+    y = &quot;Percentage (%)&quot;,
     fill = &quot;Chronic Condition&quot;
   ) +
   theme_minimal(base_size = 13)</code></pre>
@@ -945,6 +994,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/1414b15bfff63feb82f4063c54605b88bc192e43/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-2.png" target="_blank">1414b15</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/3ca49680d9c98b1c43c0ee1630121310abc3990c/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-2-2.png" target="_blank">3ca4968</a>
@@ -1204,6 +1264,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/1414b15bfff63feb82f4063c54605b88bc192e43/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-4-1.png" target="_blank">1414b15</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-04-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/3ca49680d9c98b1c43c0ee1630121310abc3990c/docs/figure/Plots_Latinx_research_week.Rmd/unnamed-chunk-4-1.png" target="_blank">3ca4968</a>
