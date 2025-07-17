@@ -14,6 +14,8 @@ Welcome to my research website.
 
 [HBA 2025 Analyses](HBA2025_Analyses.html)
 
+[HBA 2025 Positive-negative emotions](HBA2025_emotions.html)
+
 [Sanaa Presentation](Plots_Latinx_research_week.html)
 
 [Regression Analysis](Regression-Analysis.html)
