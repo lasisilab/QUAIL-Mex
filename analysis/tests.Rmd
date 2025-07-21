@@ -1,0 +1,535 @@
+---
+title: "Tests"
+output: html_document
+date: "2025-03-08"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, echo = FALSE}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(rstatix)
+library(ggpubr)
+library(coin)
+library(tidyr)
+library(MASS)  # For stepAIC
+library(broom) # For model output formatting
+library(dplyr) # For data manipulation
+library(car)   # For VIF check
+
+
+# Load the dataset
+data_path = "data"
+
+data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), 
+         stringsAsFactors = FALSE,  
+         na.strings = c("", "N/A", "NA", "pending"))
+
+```
+
+#Categorical groups using HWISE
+```{r}
+# Categorize HW_TOTAL into four groups
+data <- data %>%
+  filter(!is.na(HRS_WEEK), !is.na(HW_TOTAL)) %>%
+  mutate(HW_TOTAL_category = case_when(
+    HW_TOTAL >= 0 & HW_TOTAL <= 2  ~ "No-to-Marginal",
+    HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
+    HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
+    HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
+  ))
+
+```
+## Significant differences in hours of water supply per week
+```{r echo = FALSE}
+# Convert to factor
+data$HW_TOTAL_category <- factor(data$HW_TOTAL_category, levels = c("No-to-Marginal", "Low", "Moderate", "High"))
+cat("Number of samples falling in each category:")
+print(table(data$HW_TOTAL_category))
+
+# Check normality using Shapiro-Wilk test for each group
+shapiro_results <- data %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(p_value = shapiro.test(HRS_WEEK)$p.value)
+cat("Check normality using Shapiro-Wilk test for each group:")
+print(shapiro_results)
+
+```
+
+```{r echo = FALSE}
+
+# Perform Kruskal-Wallis test
+kruskal_result <- kruskal.test(HRS_WEEK ~ HW_TOTAL_category, data = data)
+cat("Results Kruskal-Wallis test:")
+print(kruskal_result)
+
+# Perform Wilcoxon pairwise comparisons
+wilcox_results <- pairwise_wilcox_test(data, HRS_WEEK ~ HW_TOTAL_category, 
+                                       p.adjust.method = "bonferroni")
+
+# Rename columns for ggpubr compatibility
+wilcox_results <- wilcox_results %>%
+  rename(group1 = group1, group2 = group2, p.adj = p.adj) %>%
+  mutate(p.adj.signif = case_when(
+    p.adj < 0.001 ~ "***",
+    p.adj < 0.01  ~ "**",
+    p.adj < 0.05  ~ "*",
+    TRUE          ~ "ns"
+  ))
+
+# Print results
+
+cat("Results Wilcoxon pairwise comparisons")
+print(wilcox_results)
+```
+Interpretation: 
+
+    p.adj < 0.001 ~ "***",
+    p.adj < 0.01  ~ "**",
+    p.adj < 0.05  ~ "*",
+    TRUE          ~ "ns"
+  
+```{r echo =FALSE}
+  
+# Ensure positions for p-value labels
+wilcox_results <- wilcox_results %>%
+  add_xy_position(x = "HW_TOTAL_category")
+
+# Define y-axis positions for p-value labels (adjust as needed)
+y_positions <- c(170, 180, 190, 200, 210, 220)  # Adjust these manually
+
+# Add y position column manually
+wilcox_results <- wilcox_results %>%
+  mutate(y.position = y_positions[1:n()])  # Assign y positions
+
+# Modify Wilcoxon results to include sample size (n1) in the annotation label
+significant_wilcox_results <- wilcox_results %>%
+  filter(p.adj < 0.05) %>%  # Remove non-significant results
+  mutate(label = paste0("n=", n1, "\n", p.adj.signif))  # Combine sample size and significance
+
+# Print the significant comparisons
+cat("Printing significant results only:")
+print(significant_wilcox_results)
+
+
+# Count the number of data points per Water insecurity level (HWISE)
+ summary_stats <- data %>%
+  group_by(HW_TOTAL_category) %>%
+  summarise(Count = n(), SD = sd(HRS_WEEK, na.rm = TRUE), .groups = 'drop')
+
+ hrs.w <- data$HRS_WEEK
+ means <- aggregate(hrs.w ~ HW_TOTAL_category, data, mean)
+means$hrs.w <- round(means$hrs.w, 2)
+
+# Create a boxplot with only significant Wilcoxon p-value annotations
+ggplot(data, aes(x = HW_TOTAL_category, y = HRS_WEEK, fill = HW_TOTAL_category)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7, width = 0.5) +  # Boxplot
+  geom_jitter(aes(color = HW_TOTAL_category), size = 1.5, width = 0.2, alpha = 0.5) +  # Individual points
+  stat_pvalue_manual(significant_wilcox_results, label = "p.adj.signif", 
+                     xmin = "xmin", xmax = "xmax", y.position = "y.position", 
+                     tip.length = 0.02, inherit.aes = FALSE) +  # Annotate only significant p-values
+  labs(title = "Comparing hours of water supply by HWISE category (Wilcoxon Post-Hoc)",
+       x = "HWISE Category",
+       y = "Hours of Water Supply per Week",
+       subtitle = "Level of significance (*** for p < 0.001 ** for p < 0.01).") +
+  theme_minimal() +
+  theme(legend.position = "none") + 
+    scale_x_discrete(labels = paste0(summary_stats$HW_TOTAL_category, 
+                                 " (n=", summary_stats$Count, ")")) +
+  stat_summary(fun.y=mean, geom="point", shape=23, 
+                size=5, color="darkred", fill="darkred") 
+
+```
+
+```{r echo = TRUE}
+
+# Ensure it's properly coded as 0 or 1
+data$MX26_EM_HHW_TYPE <- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
+# Remove rows where MX26_EM_HHW_TYPE is 2
+data <- data %>% filter(MX26_EM_HHW_TYPE != 2)
+
+# Check unique values to confirm only 0 and 1 remain
+table(data$MX26_EM_HHW_TYPE)
+dim(data)
+
+# Define dependent (outcome) variable
+outcome_var <- "MX26_EM_HHW_TYPE"  # Binary outcome (0 = negative, 1 = positive)
+
+# Define independent (predictor) variables
+predictors <- c("HRS_WEEK", "W_WC_WI", "MX28_WQ_COMP", "W_WS_LOC",
+                "SES_SC_Total", "HW_TOTAL", "D_HH_SIZE", "D_LOC_TIME",
+                "PSS_TOTAL", "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT", 
+                "MX9_DRINK_W", "MX10_WSTORAGE", "SEASON")
+
+# Run univariate logistic regression for each predictor
+univariate_results <- list()
+aic_values <- data.frame(Predictor = character(), AIC = numeric(), stringsAsFactors = FALSE)
+
+data <- data %>% drop_na(predictors)
+dim(data)
+
+for (var in predictors) {
+    # Build formula dynamically
+    formula <- as.formula(paste(outcome_var, "~", var))
+    
+    # Fit univariate logistic regression model
+    model <- glm(formula, data = data, family = binomial)
+    
+    # Store model summary
+    univariate_results[[var]] <- summary(model)
+    
+    # Store AIC values
+    aic_values <- rbind(aic_values, data.frame(Predictor = var, AIC = AIC(model)))
+}
+
+univariate_results
+
+# Display AIC values sorted in ascending order (lower AIC = better fit)
+aic_values <- aic_values %>% arrange(AIC)
+print(aic_values)
+
+# Select best predictors based on AIC (top 6 with lowest AIC)
+top_predictors <- head(aic_values$Predictor, 6)
+
+# Create multivariable model with top predictors
+multivariable_formula <- as.formula(paste(outcome_var, "~", paste(top_predictors, collapse = " + ")))
+multivariable_model <- glm(multivariable_formula, data = data, family = binomial)
+
+# Display summary of multivariable model
+summary(multivariable_model)
+
+# Perform stepwise selection to find the best model
+optimized_model <- stepAIC(multivariable_model, direction = "both")
+
+# Display summary of optimized model
+summary(optimized_model)
+
+```
+
+The Akaike Information Criterion (AIC) values indicate how well each predictor explains variations in MX26_EM_HHW_TYPE (perceived water service quality). Lower AIC values indicate better model fit.
+
+1️⃣ HW_TOTAL (HWISE score) had the lowest AIC (261.93), suggesting that water insecurity is the strongest predictor of negative perceptions of water service.
+2️⃣ W_WC_WI (intermittent vs. continuous water supply) was the second-best predictor (AIC = 299.52), reinforcing the idea that inconsistent water access influences perceptions.
+3️⃣ Psychological stress (PSS_TOTAL) also emerged as a key factor (AIC = 306.81), highlighting a possible connection between water insecurity and mental well-being.
+4️⃣ HRS_WEEK (hours of water supply per week) (AIC = 307.12) and MX28_WQ_COMP (perceived comparison to other areas) (AIC = 307.36) suggest that actual water availability and perceived relative quality both shape opinions.
+5️⃣ W_WS_LOC (water insecurity classification by Mexico City authorities) had an AIC of 314.65, suggesting that official designations align with, but do not fully predict, personal experiences.
+
+
+```{r}
+# Load required packages
+library(broom)
+
+# Run multivariable logistic regression
+final_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                   HRS_WEEK + MX28_WQ_COMP, 
+                   data = data, family = binomial)
+
+# Extract coefficients and confidence intervals
+odds_ratios <- tidy(final_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = "Odds Ratios for Predictors of Perceived Water Service Quality",
+       x = "Predictor", y = "Odds Ratio") +
+  theme_minimal()
+
+```
+
+
+
+
+```{r}
+
+# Load required libraries
+library(ggplot2)
+library(broom)
+library(dplyr)
+library(MASS)  # For stepAIC
+
+# Remove missing values for selected variables
+data_clean <- data %>%
+  drop_na(MX26_EM_HHW_TYPE, HW_TOTAL, W_WC_WI, PSS_TOTAL, HRS_WEEK, MX28_WQ_COMP)
+
+# Ensure outcome variable is a binary factor (0/1)
+data_clean$MX26_EM_HHW_TYPE <- factor(data_clean$MX26_EM_HHW_TYPE, levels = c(0, 1))
+
+# ---------------------------
+# 1️⃣ Multivariable Logistic Regression Model
+# ---------------------------
+full_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP, 
+                  data = data_clean, family = binomial)
+
+# Display summary
+summary(full_model)
+
+# ---------------------------
+# 2️⃣ Interaction Analysis: HW_TOTAL * PSS_TOTAL
+# ---------------------------
+interaction_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + 
+                         W_WC_WI + HRS_WEEK + MX28_WQ_COMP, 
+                         data = data_clean, family = binomial)
+
+summary(interaction_model)
+
+# ---------------------------
+# 3️⃣ Model Comparison Using AIC
+# ---------------------------
+# Compare AIC values
+aic_values <- data.frame(
+  Model = c("Full Model", "Interaction Model"),
+  AIC = c(AIC(full_model), AIC(interaction_model))
+)
+
+print(aic_values)
+
+# Stepwise model selection using stepAIC
+optimized_model <- stepAIC(full_model, direction = "both")
+
+# Display optimized model summary
+summary(optimized_model)
+
+# ---------------------------
+# 4️⃣ Visualizing Odds Ratios
+# ---------------------------
+# Extract odds ratios from the optimized model
+odds_ratios <- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # Reference line at OR = 1
+  coord_flip() +
+  labs(title = "Odds Ratios for Predictors of Perceived Water Service Quality",
+       x = "Predictor", y = "Odds Ratio") +
+  theme_minimal()
+
+```
+
+
+
+```{r}
+
+# Extract odds ratios and confidence intervals
+odds_ratios <- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
+
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange(color = "blue") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "red") +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = "Odds Ratios for Predictors of Perceived Water Hardship",
+       x = "Predictor", y = "Odds Ratio") +
+  theme_minimal()
+
+
+
+```
+
+```{r}
+
+# Run a "full model" with previously excluded variables forced in
+full_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
+                  MX10_WSTORAGE + SES_SC_Total, 
+                  family = binomial, data = data)
+
+# Compare with optimized model
+optimized_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                       HRS_WEEK + MX28_WQ_COMP, 
+                       family = binomial, data = data)
+
+# Display summaries of both models
+#summary(full_model)
+summary(optimized_model)
+
+# Compare AIC values
+AIC(full_model, optimized_model)
+
+# Check significance of forced-in variables
+tidy(full_model)
+
+# Check if adding them improves model fit
+anova(optimized_model, full_model, test = "Chisq") 
+
+# Check for multicollinearity
+vif(full_model)
+
+
+
+
+
+
+# Run a full model forcing in previously excluded variables + interactions
+full_model_interactions <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                               HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
+                               MX10_WSTORAGE + SES_SC_Total + 
+                               HW_TOTAL * SEASON + HW_TOTAL * PSS_TOTAL + 
+                               HRS_WEEK * W_WC_WI,  # Adding interactions
+                               family = binomial, data = data)
+
+# Compare with optimized model
+optimized_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                       HRS_WEEK + MX28_WQ_COMP, 
+                       family = binomial, data = data)
+
+# Display summaries of models
+#summary(full_model_interactions)
+summary(optimized_model)
+
+# Compare AIC values
+AIC(full_model_interactions, optimized_model)
+
+# Check significance of forced-in variables and interactions
+tidy(full_model_interactions)
+
+# Compare models using ANOVA test (Chi-square)
+anova(optimized_model, full_model_interactions, test = "Chisq") 
+
+# Check for multicollinearity
+vif(full_model_interactions)
+
+# Visualize interaction effects using marginal effects plots
+library(ggeffects)
+
+# Plot interaction effects for HW_TOTAL * SEASON
+plot(ggpredict(full_model_interactions, terms = c("HW_TOTAL", "SEASON")))
+
+# Plot interaction effects for HW_TOTAL * PSS_TOTAL
+plot(ggpredict(full_model_interactions, terms = c("HW_TOTAL", "PSS_TOTAL")))
+
+# Plot interaction effects for HRS_WEEK * W_WC_WI
+plot(ggpredict(full_model_interactions, terms = c("HRS_WEEK", "W_WC_WI")))
+
+interaction_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK * W_WC_WI + MX28_WQ_COMP, 
+                         family = binomial, data = data)
+
+```
+
+# Interactions
+```{r}
+library(MASS)  # For stepAIC
+library(car)   # For VIF
+
+# Baseline Model (Main Effects Only)
+model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + W_WC_WI + MX28_WQ_COMP, 
+              family = binomial, data = data)
+
+# Model with Interaction between HRS_WEEK and W_WC_WI
+model2 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK * W_WC_WI + MX28_WQ_COMP, 
+              family = binomial, data = data)
+
+# Model with Interaction between HW_TOTAL and W_WC_WI
+model3 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * W_WC_WI + PSS_TOTAL + HRS_WEEK + MX28_WQ_COMP, 
+              family = binomial, data = data)
+
+# Model with Interaction between HW_TOTAL and HRS_WEEK
+model4 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * HRS_WEEK + PSS_TOTAL + W_WC_WI + MX28_WQ_COMP, 
+              family = binomial, data = data)
+
+# Model with Multiple Interactions
+model5 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * W_WC_WI + HRS_WEEK * W_WC_WI + PSS_TOTAL + MX28_WQ_COMP, 
+              family = binomial, data = data)
+
+```
+# Comparing models 
+```{r}
+# Compare AIC values
+AIC_values <- data.frame(
+  Model = c("Main Effects", "HRS_WEEK * W_WC_WI", "HW_TOTAL * W_WC_WI", 
+            "HW_TOTAL * HRS_WEEK", "Multiple Interactions"),
+  AIC = c(AIC(model1), AIC(model2), AIC(model3), AIC(model4), AIC(model5))
+)
+
+# Order models by AIC (lower is better)
+AIC_values <- AIC_values[order(AIC_values$AIC), ]
+print(AIC_values)
+
+
+optimized_model <- stepAIC(model1, 
+                           scope = list(lower = model1, upper = model5),
+                           direction = "both", trace = TRUE)
+
+summary(optimized_model)  # Final optimized model
+
+
+vif(optimized_model)
+
+```
+
+
+# The chosen one
+```{r odds ratio}
+# Best model
+model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + MX28_WQ_COMP, 
+              family = binomial, data = data)
+
+# Compute Odds Ratios
+odds_ratios <- exp(coef(model1))
+odds_ratios
+
+# Compute Confidence Intervals for ORs
+conf_intervals <- exp(confint(model1))
+
+# Create a DataFrame for Plotting
+odds_df <- data.frame(
+  Predictor = names(odds_ratios),
+  OR = odds_ratios,
+  Lower_CI = conf_intervals[, 1],
+  Upper_CI = conf_intervals[, 2]
+)
+
+# Remove Intercept for Better Visualization
+#odds_df <- odds_df[-1, ]
+
+# Print Table of Odds Ratios
+print(odds_df)
+
+odds_df$Predictor <- factor(odds_df$Predictor, 
+                                  levels = c("(Intercept)", "HW_TOTAL", "PSS_TOTAL", "HRS_WEEK", "MX28_WQ_COMP"),
+                                  labels = c("Intercept",
+                                             "HWISE\nscore", 
+                                             "Perceived\nStress", 
+                                             "Hours of\nWater Supply", 
+                                             "Perception of water service\n(Same or Better than others)"))
+
+# Save the plot as a high-resolution PNG for a poster
+ggsave("odds_ratio_plot.png", width = 10, height = 5, dpi = 300)
+
+ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
+  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = "#1f78b4") +
+  geom_point(size = 4, color = "#ff7f00") +  # Points for ORs
+  geom_hline(yintercept = 1, linetype = "dashed", color = "#fdbf6f") +  # Reference Line at OR = 1
+  coord_flip() +  # Flip for better readability
+  labs(title = "Odds ratios of having \na negative emotional response",
+       x = "Predictors",
+       y = "Odds Ratio (95% CI)") +
+  theme_minimal() + 
+  theme(
+    axis.text.y = element_text(size = 14),  # Y-axis labels (predictors)
+    axis.text.x = element_text(size = 14),  # X-axis labels (odds ratio values)
+    axis.title.x = element_text(size = 16, face = "bold"),  # X-axis title
+    axis.title.y = element_text(size = 16, face = "bold"),  # Y-axis title
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Title (if any)
+  )
+
+
+
+
+```
+
+
+Variable	Odds Ratio (OR)	Interpretation
+HW_TOTAL	1.230	Higher water insecurity → More negative emotions (23% increase per unit).
+PSS_TOTAL	1.078	More stress → More negative emotions (7.8% increase per unit).
+MX28_WQ_COMP	0.449	Better perceived water service → Lower odds of negative emotion (55.1% lower odds per unit).
+HRS_WEEK	0.9996	Water availability (hours) has no significant effect on emotion.

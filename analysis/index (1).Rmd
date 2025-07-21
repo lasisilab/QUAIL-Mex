@@ -1,0 +1,21 @@
+---
+title: "Home"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+Welcome to my research website.
+
+[HBA 2025 Data Cleaning](HBA2025_cleaning.html)
+
+[HBA 2025 Analyses](HBA2024_Analyses.html)
+
+[Sanaa Presentation](Plots_Latinx_research_week.html)
+
+[Regression Analysis](Regression-Analysis.html)
+
+[Regression Analysis 2nd attempt](Regression-Analysis_PC.html)

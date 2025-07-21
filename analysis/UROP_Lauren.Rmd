@@ -1,0 +1,164 @@
+---
+title: "UROP_Lauren"
+output: html_document
+date: "2025-07-20"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = FALSE, message = FALSE}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(rstatix)
+library(ggpubr)
+library(coin)
+library(tidyr)
+library(MASS)  # For stepAIC
+library(broom) # For model output formatting
+library(dplyr) # For data manipulation
+library(car)   # For VIF check
+library(corrplot)
+library(rcompanion)
+library(kableExtra)
+library(patchwork)  
+```
+
+# Introduction
+
+*Research question*: Is there a relationship between perceived water insecurity (HWISE score) and emotional response to water conditions?
+
+*Hypothesis*: A higher perception of household water insecurity predicts more negative emotional responses to household water conditions.
+
+*Data*: 
+
+ - HWISE (final score)
+ 
+ - HWISE individual questions
+ 
+ - Q26 (positive/negative emotional response) ---> Outcome variable
+ 
+ - Q28 (better/worse service)
+ 
+ - Q19 (too much/ok time used in water management)
+ 
+ - PSS
+ 
+ Covariates: 
+ 
+ - SES
+ 
+ - number of children
+ 
+ - household size
+ 
+ - how long they have lived in the neighborhood (available?)
+
+
+*Model*: 
+
+```{r}
+# MX26_EM_HHW_TYPE ~ HW_TOTAL + MX28_WQ_COMP + Q19 + PSS_TOTAL + SES + D_HH_SIZE-SIZE + D_CHLD, 
+#                  data = d, 
+#                   family = binomial?
+                   
+# MX26_EM_HHW_TYPE ~ HW1 + HW2 + HW 3 (etc) + MX28_WQ_COMP + Q19 + PSS_TOTAL + SES_SC_Total + D_HH_SIZE + D_CHLD, 
+#                   data = d, 
+#                   family = binomial?
+           
+```
+
+# Loading
+
+```{r}
+# loading data set
+d <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+# taking a quick look at first rows
+head(d)
+
+
+
+
+```
+
+
+
+```{r}
+
+
+# Descriptive statistics
+
+# Create summary statistics table
+summary_stats <- d %>%
+  group_by(MX26_EM_HHW_TYPE) %>%
+  summarise(
+    n = n(),
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    median_ses = median(SES_SC_Total, na.rm = TRUE),
+
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+    median_age = median(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+    median_hwise = median(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    median_pss = median(PSS_TOTAL, na.rm = TRUE)
+  )
+
+# Format and display table
+summary_stats %>%
+  rename(
+    "Group" = MX26_EM_HHW_TYPE,
+    "N" = n,
+    "Mean SES" = mean_ses,
+    "SD SES" = sd_ses,
+    "Median SES" = median_ses,
+    "Mean Age" = mean_age,
+    "SD Age" = sd_age,
+    "Median Age" = median_age,
+    "Mean HWISE" = mean_hwise,
+    "SD HWISE" = sd_hwise,
+    "Median HWISE" = median_hwise,
+    "Mean PSS" = mean_pss,
+    "SD PSS" = sd_pss,
+    "Median PSS" = median_pss
+  ) %>%
+  kable("html", digits = 2, caption = "Descriptive Statistics by Emotion Type") %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+
+summary_stats <- summary_stats %>%
+  mutate(MX26_EM_HHW_TYPE = factor(MX26_EM_HHW_TYPE, levels = c("0", "1", "other", "NA")))
+
+```
+
+```{r plot summary stats}
+
+# Step 2: Summarize and ensure consistent category labels
+summary_stats <- d %>%
+  group_by(MX26_EM_HHW_TYPE) %>%
+  summarise(
+    mean_ses = mean(SES_SC_Total, na.rm = TRUE),
+    sd_ses = sd(SES_SC_Total, na.rm = TRUE),
+    
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE)
+  ) 
+
+summary_stats
+
+```
+
