@@ -75,12 +75,18 @@ library(patchwork)
 
 ```{r}
 # loading data set
-d <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+d <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V4.csv")
 # taking a quick look at first rows
 head(d)
 
-
-
+d <- d %>%
+    filter(!is.na(MX26_EM_HHW_TYPE)) %>%
+  mutate(HLTH_CDIS_CAT = case_when(
+    HLTH_CDIS_CAT == "0" ~ "Absent",
+    HLTH_CDIS_CAT == "1" ~ "Present",
+    HLTH_CDIS_CAT == !is.na(.) ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+    TRUE ~ NA_character_
+  ))
 
 ```
 
@@ -162,3 +168,186 @@ summary_stats
 
 ```
 
+
+```{r violin plots}
+
+ggplot(d, aes(x = MX26_EM_HHW_TYPE, 
+                 y = HW_TOTAL, 
+                 fill = MX26_EM_HHW_TYPE)) +
+  geom_jitter(aes(color = MX26_EM_HHW_TYPE), 
+                size = 1, width = 0.25) +  
+  # Jitter adds individual data points
+  geom_violin(alpha = 0.6, width = 1) + 
+  geom_boxplot(outlier.shape = 1, alpha = 0.5, 
+               width = 0.15, color = "grey30") + # Boxplot
+  theme_minimal() 
+
+```
+
+
+```{r}
+
+ggplot(d, aes(x = MX26_EM_HHW_TYPE, group = MX28_WQ_COMP, fill = factor(MX28_WQ_COMP))) +
+  geom_bar(position = "dodge") +
+  labs(
+    x = "Emotion Type",
+    y = "Count",
+    fill = "Service Perception"
+  ) +
+  theme_minimal()
+
+
+
+
+
+
+d %>%
+  count(MX28_WQ_COMP, MX26_EM_HHW_TYPE) %>%
+  group_by(MX28_WQ_COMP) %>%
+  mutate(Proportion = n / sum(n)) %>%
+  ggplot(aes(x = MX28_WQ_COMP, y = Proportion, fill = MX26_EM_HHW_TYPE)) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(
+    x = "Perceived Water Service Compared to Other Neighborhoods",
+    y = "Proportion of Emotional Responses",
+    fill = "Emotion Type"
+  ) +
+  theme_minimal()
+
+
+
+
+
+```
+
+
+# Regression
+
+```{r}
+
+# Ensure it's properly coded as 0 or 1
+data$MX26_EM_HHW_TYPE <- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
+# Remove rows where MX26_EM_HHW_TYPE is 2
+data <- data %>% filter(MX26_EM_HHW_TYPE != 2)
+
+# Check unique values to confirm only 0 and 1 remain
+table(data$MX26_EM_HHW_TYPE)
+dim(data)
+
+# Define dependent (outcome) variable
+outcome_var <- "MX26_EM_HHW_TYPE"  # Binary outcome (0 = negative, 1 = positive)
+
+# Define independent (predictor) variables
+predictors <- c("HRS_WEEK", "W_WC_WI", "MX28_WQ_COMP", "D_CHLD", 
+                "SES_SC_Total", "HW_TOTAL", "D_HH_SIZE", "D_LOC_TIME",
+                "PSS_TOTAL")
+
+
+# Run univariate logistic regression for each predictor
+univariate_results <- list()
+aic_values <- data.frame(Predictor = character(), AIC = numeric(), stringsAsFactors = FALSE)
+
+data <- data %>% drop_na(predictors)
+dim(data)
+
+for (var in predictors) {
+    # Build formula dynamically
+    formula <- as.formula(paste(outcome_var, "~", var))
+    
+    # Fit univariate logistic regression model
+    model <- glm(formula, data = data, family = binomial)
+    
+    # Store model summary
+    univariate_results[[var]] <- summary(model)
+    
+    # Store AIC values
+    aic_values <- rbind(aic_values, data.frame(Predictor = var, AIC = AIC(model)))
+}
+
+univariate_results
+
+# Display AIC values sorted in ascending order (lower AIC = better fit)
+aic_values <- aic_values %>% arrange(AIC)
+print(aic_values)
+
+# Select best predictors based on AIC (top 6 with lowest AIC)
+top_predictors <- head(aic_values$Predictor, 6)
+
+# Create multivariable model with top predictors
+multivariable_formula <- as.formula(paste(outcome_var, "~", paste(top_predictors, collapse = " + ")))
+multivariable_model <- glm(multivariable_formula, data = data, family = binomial)
+
+# Display summary of multivariable model
+summary(multivariable_model)
+
+# Perform stepwise selection to find the best model
+optimized_model <- stepAIC(multivariable_model, direction = "both")
+
+# Display summary of optimized model
+summary(optimized_model)
+
+
+```
+
+
+
+# The chosen one
+```{r odds ratio}
+# Best model
+model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + D_CHLD + MX28_WQ_COMP, 
+              family = binomial, data = d)
+
+# Compute Odds Ratios
+odds_ratios <- exp(coef(model1))
+odds_ratios
+
+# Compute Confidence Intervals for ORs
+conf_intervals <- exp(confint(model1))
+
+# Create a DataFrame for Plotting
+odds_df <- data.frame(
+  Predictor = names(odds_ratios),
+  OR = odds_ratios,
+  Lower_CI = conf_intervals[, 1],
+  Upper_CI = conf_intervals[, 2]
+)
+
+# Remove Intercept for Better Visualization
+#odds_df <- odds_df[-1, ]
+
+# Print Table of Odds Ratios
+print(odds_df)
+
+odds_df$Predictor <- factor(odds_df$Predictor, 
+                                  levels = c("(Intercept)", "HW_TOTAL", "PSS_TOTAL", "D_CHLD", "MX28_WQ_COMP"),
+                                  labels = c("Intercept",
+                                             "HWISE\nscore", 
+                                             "Perceived\nStress", 
+                                             "Hours of\nWater Supply", 
+                                             "Perception of water service\n(Same or Better than others)"))
+
+# Save the plot as a high-resolution PNG for a poster
+ggsave("odds_ratio_plot.png", width = 10, height = 5, dpi = 300)
+
+ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
+  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = "#1f78b4") +
+  geom_point(size = 4, color = "#ff7f00") +  # Points for ORs
+  geom_hline(yintercept = 1, linetype = "dashed", color = "#fdbf6f") +  # Reference Line at OR = 1
+  coord_flip() +  # Flip for better readability
+  labs(title = "Odds ratios of having \na negative emotional response",
+       x = "Predictors",
+       y = "Odds Ratio (95% CI)") +
+  theme_minimal() + 
+  theme(
+    axis.text.y = element_text(size = 14),  # Y-axis labels (predictors)
+    axis.text.x = element_text(size = 14),  # X-axis labels (odds ratio values)
+    axis.title.x = element_text(size = 16, face = "bold"),  # X-axis title
+    axis.title.y = element_text(size = 16, face = "bold"),  # Y-axis title
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Title (if any)
+  )
+
+
+
+
+```
