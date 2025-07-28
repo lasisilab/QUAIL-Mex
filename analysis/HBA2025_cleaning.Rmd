@@ -4,8 +4,6 @@ title: "HBA2025_results"
 author: "Paloma"
 date: "2025-01-27"
 output: workflowr::wflow_html
-editor_options:
-  chunk_output_type: console
 ---
 
 ## Introduction

@@ -10,21 +10,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r echo = FALSE, message = FALSE}
 # Load necessary libraries
-library(dplyr)
+
 library(ggplot2)
 library(knitr)
 library(rstatix)
 library(ggpubr)
 library(coin)
-library(tidyr)
-library(MASS)  # For stepAIC
-library(broom) # For model output formatting
-library(dplyr) # For data manipulation
-library(car)   # For VIF check
 library(corrplot)
 library(rcompanion)
 library(kableExtra)
 library(patchwork)  
+library(tidyr)
+library(MASS)  # For stepAIC
+library(broom) # For model output formatting
+library(dplyr) 
+library(car)   # For VIF check
+
 ```
 
 # Introduction
@@ -47,7 +48,7 @@ library(patchwork)
  
  - PSS
  
- Covariates: 
+ *Covariates*: 
  
  - SES
  
@@ -61,14 +62,18 @@ library(patchwork)
 *Model*: 
 
 ```{r}
-# MX26_EM_HHW_TYPE ~ HW_TOTAL + MX28_WQ_COMP + Q19 + PSS_TOTAL + SES + D_HH_SIZE-SIZE + D_CHLD, 
+# MX26_EM_HHW_TYPE ~ HW_TOTAL + MX28_WQ_COMP + Q19_CAT + PSS_TOTAL + SES + D_HH_SIZE-SIZE + D_CHLD, 
 #                  data = d, 
 #                   family = binomial?
                    
-# MX26_EM_HHW_TYPE ~ HW1 + HW2 + HW 3 (etc) + MX28_WQ_COMP + Q19 + PSS_TOTAL + SES_SC_Total + D_HH_SIZE + D_CHLD, 
+# MX26_EM_HHW_TYPE ~ HW1 + HW2 + HW 3 (etc) + MX28_WQ_COMP + Q19_CAT + PSS_TOTAL + SES_SC_Total + D_HH_SIZE + D_CHLD, 
 #                   data = d, 
 #                   family = binomial?
            
+
+# MX26_EM_HHW_TYPE: 0 = Positive; 1 = Negative
+# MX28_WQ_COMP: 0 = Worse, 1 = Same; 2 = Better
+# Q19_CAT: 0 = No; 1 = Somewhat; 1 = Yes
 ```
 
 # Loading
@@ -76,29 +81,69 @@ library(patchwork)
 ```{r}
 # loading data set
 d <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V4.csv")
-# taking a quick look at first rows
-head(d)
+q19 <- read.csv("./data/Q19.csv")
 
-d <- d %>%
-    filter(!is.na(MX26_EM_HHW_TYPE)) %>%
-  mutate(HLTH_CDIS_CAT = case_when(
-    HLTH_CDIS_CAT == "0" ~ "Absent",
-    HLTH_CDIS_CAT == "1" ~ "Present",
-    HLTH_CDIS_CAT == !is.na(.) ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
+# Identify the common column for merging
+common_column <- "ID"  
+
+# Ensure the common column is of the same type in all datasets
+d[[common_column]] <- as.character(d[[common_column]])
+q19[[common_column]] <- as.character(q19[[common_column]])
+
+# Merge datasets sequentially by the common column
+merged_df <- d %>%
+  full_join(q19, by = common_column) 
+
+colnames(merged_df)
+df <- merged_df
+
+
+# Q19_CAT: 0 = No; 1 = Somewhat; 2 = Yes; Other = NA
+merged_df <- df %>%
+    filter(!is.na(Q19_CAT)) %>%
+  mutate(Q19_CAT = case_when(
+    Q19_CAT == "No" ~ "0",
+    Q19_CAT == "Somewhat" ~ "1",
+    Q19_CAT == "Yes" ~ "2",
+    Q19_CAT == "Other" ~ "NA", 
+    Q19_CAT == !is.na(.) ~ "NA",  # Assign "other" to all non-missing values
     TRUE ~ NA_character_
   ))
+
+merged_df$Q19_CAT <- as.factor(merged_df$Q19_CAT)
+
+# MX28_WQ_COMP: 0 = Worse, 1 = Same; 2 = Better
+df <- df %>%
+    filter(!is.na(MX28_WQ_COMP)) %>%
+  mutate(MX28_WQ_COMP = case_when(
+    MX28_WQ_COMP == "0" ~ "Worse",
+    MX28_WQ_COMP == "1" ~ "Same",
+    MX28_WQ_COMP == "2" ~ "Better",
+    MX28_WQ_COMP == !is.na(.) ~ "Other",  # Assign "other" to all non-missing values
+    TRUE ~ NA_character_
+  ))
+
+
+# MX26_EM_HHW_TYPE: 0 = Positive; 1 = Negative
+df <- df %>%
+    filter(!is.na(MX26_EM_HHW_TYPE)) %>%
+  mutate(MX26_EM_HHW_TYPE = case_when(
+    MX26_EM_HHW_TYPE == "0" ~ "Positive",
+    MX26_EM_HHW_TYPE == "1" ~ "Negative",
+    MX26_EM_HHW_TYPE == !is.na(.) ~ "Other",  # Assign "other" to all non-missing values
+    TRUE ~ NA_character_
+  ))
+
 
 ```
 
 
 
 ```{r}
-
-
 # Descriptive statistics
 
 # Create summary statistics table
-summary_stats <- d %>%
+summary_stats <- df %>%
   group_by(MX26_EM_HHW_TYPE) %>%
   summarise(
     n = n(),
@@ -141,14 +186,14 @@ summary_stats %>%
   kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 
 summary_stats <- summary_stats %>%
-  mutate(MX26_EM_HHW_TYPE = factor(MX26_EM_HHW_TYPE, levels = c("0", "1", "other", "NA")))
+  mutate(MX26_EM_HHW_TYPE = factor(MX26_EM_HHW_TYPE, levels = c("Positive", "Negative", "Other")))
 
 ```
 
 ```{r plot summary stats}
 
 # Step 2: Summarize and ensure consistent category labels
-summary_stats <- d %>%
+summary_stats <- df %>%
   group_by(MX26_EM_HHW_TYPE) %>%
   summarise(
     mean_ses = mean(SES_SC_Total, na.rm = TRUE),
@@ -168,40 +213,58 @@ summary_stats
 
 ```
 
-
+# Emotions and Compared to other neighborhoods
 ```{r violin plots}
 
-ggplot(d, aes(x = MX26_EM_HHW_TYPE, 
+# Save the plot as a high-resolution PNG for a poster
+ggsave("violin_plot.png", width = 5, height = 4, dpi = 200)
+ggplot(df, aes(x = MX26_EM_HHW_TYPE, 
                  y = HW_TOTAL, 
                  fill = MX26_EM_HHW_TYPE)) +
-  geom_jitter(aes(color = MX26_EM_HHW_TYPE), 
-                size = 1, width = 0.25) +  
+ # geom_jitter(aes(color = MX26_EM_HHW_TYPE), 
+  #              size = 1, width = 0.25) +  
   # Jitter adds individual data points
   geom_violin(alpha = 0.6, width = 1) + 
   geom_boxplot(outlier.shape = 1, alpha = 0.5, 
                width = 0.15, color = "grey30") + # Boxplot
-  theme_minimal() 
-
+  theme_minimal(base_size = 16) +
+  labs(x = "Emotional reaction to water service", 
+       y = "HWISE Score (points)") +
+       theme(axis.text = element_text(size = 14),
+        plot.title = element_text(size = 14, face = "bold")) + 
+    theme(legend.position = "none") +
+    scale_fill_manual(values = c("Positive" = "#d5a6bd", "NA" = "#ead1dc", "Negative" = "#a64d79"))  
+       
 ```
 
+```{r barplots}
 
-```{r}
-
-ggplot(d, aes(x = MX26_EM_HHW_TYPE, group = MX28_WQ_COMP, fill = factor(MX28_WQ_COMP))) +
+# Option 1
+ggplot(df, aes(x = MX26_EM_HHW_TYPE, group = MX28_WQ_COMP, fill = factor(MX28_WQ_COMP))) +
   geom_bar(position = "dodge") +
   labs(
-    x = "Emotion Type",
+    x = "Emotional reaction to water service",
     y = "Count",
-    fill = "Service Perception"
+    fill = "Perception of water service\n(Same or Better than others)"
   ) +
-  theme_minimal()
+  theme_minimal(base_size = 14) +
+  scale_fill_manual(values = c("Better" = "seagreen3", "Same" = "lightblue2", "Worse" = "maroon"))  + 
+ theme(legend.key.size = unit(0.8, 'cm'))
 
+# Option 2
+ggplot(df, aes(x = MX28_WQ_COMP, group = MX26_EM_HHW_TYPE, fill = factor(MX26_EM_HHW_TYPE))) +
+  geom_bar(position = "dodge") +
+  labs(
+    x = "Perception of water service\n(Same or Better than others)",
+    y = "Count",
+    fill = "Emotional reaction to water service"
+  ) +
+  theme_minimal(base_size = 14) +
+  scale_fill_manual(values = c("Positive" = "#d5a6bd", "NA" = "#ead1dc", "Negative" = "#a64d79"))  + 
+ theme(legend.key.size = unit(0.8, 'cm'))
 
-
-
-
-
-d %>%
+# Option 3
+df %>%
   count(MX28_WQ_COMP, MX26_EM_HHW_TYPE) %>%
   group_by(MX28_WQ_COMP) %>%
   mutate(Proportion = n / sum(n)) %>%
@@ -213,18 +276,20 @@ d %>%
     y = "Proportion of Emotional Responses",
     fill = "Emotion Type"
   ) +
-  theme_minimal()
-
-
-
-
+  theme_minimal() + 
+  scale_fill_manual(values = c("Positive" = "#d5a6bd", "NA" = "#ead1dc", "Negative" = "#a64d79"))  
 
 ```
 
+# Q19 
 
-# Regression
+
+
+# Regression 1
 
 ```{r}
+
+data <- merged_df
 
 # Ensure it's properly coded as 0 or 1
 data$MX26_EM_HHW_TYPE <- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
@@ -235,13 +300,23 @@ data <- data %>% filter(MX26_EM_HHW_TYPE != 2)
 table(data$MX26_EM_HHW_TYPE)
 dim(data)
 
+
+# Ensure it's properly coded as 0 or 1
+data$Q19_CAT <- as.numeric(as.factor(data$Q19_CAT)) - 1  
+# Remove rows where Q19_CAT is 3
+data <- data %>% filter(Q19_CAT != 3)
+
+# Check unique values to confirm only 0 and 1 remain
+table(data$MX26_EM_HHW_TYPE)
+dim(data)
+
 # Define dependent (outcome) variable
-outcome_var <- "MX26_EM_HHW_TYPE"  # Binary outcome (0 = negative, 1 = positive)
+outcome_var <- "MX26_EM_HHW_TYPE"  # Binary outcome (0 = positive, 1 = negative)
 
 # Define independent (predictor) variables
-predictors <- c("HRS_WEEK", "W_WC_WI", "MX28_WQ_COMP", "D_CHLD", 
+predictors <- c("HRS_WEEK", "MX28_WQ_COMP", "D_CHLD", 
                 "SES_SC_Total", "HW_TOTAL", "D_HH_SIZE", "D_LOC_TIME",
-                "PSS_TOTAL")
+                "PSS_TOTAL", "Q19_CAT")
 
 
 # Run univariate logistic regression for each predictor
@@ -276,7 +351,8 @@ top_predictors <- head(aic_values$Predictor, 6)
 
 # Create multivariable model with top predictors
 multivariable_formula <- as.formula(paste(outcome_var, "~", paste(top_predictors, collapse = " + ")))
-multivariable_model <- glm(multivariable_formula, data = data, family = binomial)
+multivariable_model <- glm(multivariable_formula, 
+                           data = data, family = binomial)
 
 # Display summary of multivariable model
 summary(multivariable_model)
@@ -295,8 +371,8 @@ summary(optimized_model)
 # The chosen one
 ```{r odds ratio}
 # Best model
-model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + D_CHLD + MX28_WQ_COMP, 
-              family = binomial, data = d)
+model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + Q19_CAT + PSS_TOTAL + D_CHLD + MX28_WQ_COMP, 
+              family = binomial, data = data)
 
 # Compute Odds Ratios
 odds_ratios <- exp(coef(model1))
@@ -320,19 +396,22 @@ odds_df <- data.frame(
 print(odds_df)
 
 odds_df$Predictor <- factor(odds_df$Predictor, 
-                                  levels = c("(Intercept)", "HW_TOTAL", "PSS_TOTAL", "D_CHLD", "MX28_WQ_COMP"),
+                                  levels = c("(Intercept)", "HW_TOTAL", 
+                                             "PSS_TOTAL", "D_CHLD", 
+                                             "MX28_WQ_COMP", "Q19_CAT"),
                                   labels = c("Intercept",
                                              "HWISE\nscore", 
                                              "Perceived\nStress", 
-                                             "Hours of\nWater Supply", 
-                                             "Perception of water service\n(Same or Better than others)"))
+                                             "Number of Children", 
+                                             "Perception of water service\n(Same or Better than others)", 
+                                             "Time spent\nwater management"))
 
 # Save the plot as a high-resolution PNG for a poster
-ggsave("odds_ratio_plot.png", width = 10, height = 5, dpi = 300)
+ggsave("odds_ratio_plot.png", width = 7, height = 5, dpi = 200)
 
 ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
-  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = "#1f78b4") +
-  geom_point(size = 4, color = "#ff7f00") +  # Points for ORs
+  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = "#d5a6bd") +
+  geom_point(size = 4, color = "#a64d79") +  # Points for ORs
   geom_hline(yintercept = 1, linetype = "dashed", color = "#fdbf6f") +  # Reference Line at OR = 1
   coord_flip() +  # Flip for better readability
   labs(title = "Odds ratios of having \na negative emotional response",
@@ -351,3 +430,134 @@ ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
 
 
 ```
+
+# Regression 2
+
+```{r}
+
+data <- merged_df
+
+# Define dependent (outcome) variable
+outcome_var <- "MX26_EM_HHW_TYPE"  # Binary outcome (0 = positive, 1 = negative)
+
+# Define independent (predictor) variables
+predictors <- c("HRS_WEEK", "MX28_WQ_COMP", "D_CHLD", 
+                "SES_SC_Total", "HW_WORRY", "HW_INTERR", "HW_CLOTHES", 
+                "HW_PLANS", "HW_FOOD", "HW_HANDS", "HW_BODY", "HW_DRINK", 
+                "HW_ANGRY", "HW_SLEEP", "HW_NONE", "HW_SHAME", 
+                "D_HH_SIZE", "D_LOC_TIME",
+                "PSS_TOTAL", "Q19_CAT")
+
+
+# Run univariate logistic regression for each predictor
+univariate_results <- list()
+aic_values <- data.frame(Predictor = character(), AIC = numeric(), stringsAsFactors = FALSE)
+
+data <- data %>% drop_na(predictors)
+dim(data)
+
+for (var in predictors) {
+    # Build formula dynamically
+    formula <- as.formula(paste(outcome_var, "~", var))
+    
+    # Fit univariate logistic regression model
+    model <- glm(formula, data = data, family = binomial)
+    
+    # Store model summary
+    univariate_results[[var]] <- summary(model)
+    
+    # Store AIC values
+    aic_values <- rbind(aic_values, data.frame(Predictor = var, AIC = AIC(model)))
+}
+
+univariate_results
+
+# Display AIC values sorted in ascending order (lower AIC = better fit)
+aic_values <- aic_values %>% arrange(AIC)
+print(aic_values)
+
+# Select best predictors based on AIC (top 11 with lowest AIC)
+top_predictors <- head(aic_values$Predictor, 11)
+
+# Create multivariable model with top predictors
+multivariable_formula <- as.formula(paste(outcome_var, "~", paste(top_predictors, collapse = " + ")))
+multivariable_model <- glm(multivariable_formula, 
+                           data = data, family = binomial)
+
+# Display summary of multivariable model
+summary(multivariable_model)
+
+# Perform stepwise selection to find the best model
+optimized_model <- stepAIC(multivariable_model, direction = "both")
+
+# Display summary of optimized model
+summary(optimized_model)
+
+```
+
+
+
+# The chosen one
+```{r odds ratio2}
+# Best model
+model2 <- glm(MX26_EM_HHW_TYPE ~ HW_CLOTHES + HW_WORRY + HW_ANGRY + HW_PLANS + 
+    Q19_CAT + PSS_TOTAL, family = binomial, data = data)
+
+# Compute Odds Ratios
+odds_ratios <- exp(coef(model2))
+odds_ratios
+
+# Compute Confidence Intervals for ORs
+conf_intervals <- exp(confint(model2))
+
+# Create a DataFrame for Plotting
+odds_df <- data.frame(
+  Predictor = names(odds_ratios),
+  OR = odds_ratios,
+  Lower_CI = conf_intervals[, 1],
+  Upper_CI = conf_intervals[, 2]
+)
+
+# Remove Intercept for Better Visualization
+#odds_df <- odds_df[-1, ]
+
+# Print Table of Odds Ratios
+print(odds_df)
+
+odds_df$Predictor <- factor(odds_df$Predictor, 
+                                  levels = c("(Intercept)", "HW_CLOTHES", "HW_WORRY", "HW_ANGRY", "HW_PLANS", "Q19_CAT",
+                                             "PSS_TOTAL"),
+                                  labels = c("Intercept",
+                                             "HWISE Clothes", 
+                                             "HWISE Worry", 
+                                             "HWISE Anger", 
+                                             "HWISE Changing of plans", 
+                                             "Perception of time spent\nmanaging water",
+                                             "Perceived stress score"))
+
+# Save the plot as a high-resolution PNG for a poster
+ggsave("odds_ratio_plot.png", width = 10, height = 5, dpi = 300)
+
+ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
+  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = "#d5a6bd") +
+  geom_point(size = 4, color = "#a64d79") +  # Points for ORs
+  geom_hline(yintercept = 1, linetype = "dashed", color = "#fdbf6f") +    # Reference Line at OR = 1
+  coord_flip() +  # Flip for better readability
+  labs(title = "Odds ratios of having \na negative emotional response",
+       x = "Predictors",
+       y = "Odds Ratio (95% CI)") +
+  theme_minimal() + 
+  theme(
+    axis.text.y = element_text(size = 14),  # Y-axis labels (predictors)
+    axis.text.x = element_text(size = 14),  # X-axis labels (odds ratio values)
+    axis.title.x = element_text(size = 16, face = "bold"),  # X-axis title
+    axis.title.y = element_text(size = 16, face = "bold"),  # Y-axis title
+    plot.title = element_text(size = 18, face = "bold", hjust = 0.5)  # Title (if any)
+  )
+
+
+
+
+```
+
+
