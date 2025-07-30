@@ -382,7 +382,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-07-22
+<strong>Last updated:</strong> 2025-07-30
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -516,15 +516,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaf42e2ad3e28b54032623c1dd17450c646a17c48targetblankaf42e2aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3edf4ae244f167c33d13deb315f100ec888ba476targetblank3edf4aea">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/af42e2ad3e28b54032623c1dd17450c646a17c48" target="_blank">af42e2a</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3edf4ae244f167c33d13deb315f100ec888ba476" target="_blank">3edf4ae</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaf42e2ad3e28b54032623c1dd17450c646a17c48targetblankaf42e2aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3edf4ae244f167c33d13deb315f100ec888ba476targetblank3edf4aea"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +534,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/af42e2ad3e28b54032623c1dd17450c646a17c48" target="_blank">af42e2a</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3edf4ae244f167c33d13deb315f100ec888ba476" target="_blank">3edf4ae</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,18 +558,16 @@ Ignored files:
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/HLTH_counts_by_SES.png
     Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/figure/
     Ignored:    analysis/odds_ratio_plot.png
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
-Untracked files:
-    Untracked:  data/Q19.csv
-
 Unstaged changes:
-    Modified:   analysis/HBA2025_cleaning.Rmd
     Modified:   analysis/UROP_Lauren.Rmd
     Modified:   odds_ratio_plot.png
+    Modified:   violin_plot.png
 
 </code></pre>
 <p>
@@ -614,6 +612,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3edf4ae244f167c33d13deb315f100ec888ba476/analysis/UROP_Lauren.Rmd" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+<td>
+upd lauren
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/3edf4ae244f167c33d13deb315f100ec888ba476/docs/UROP_Lauren.html" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+<td>
+upd lauren
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1041,11 +1073,13 @@ summary_stats</code></pre>
 <div id="emotions-and-compared-to-other-neighborhoods"
 class="section level1">
 <h1>Emotions and Compared to other neighborhoods</h1>
-<pre class="r"><code>ggplot(df, aes(x = MX26_EM_HHW_TYPE, 
+<pre class="r"><code># Save the plot as a high-resolution PNG for a poster
+ggsave(&quot;violin_plot.png&quot;, width = 5, height = 4, dpi = 200)
+ggplot(df, aes(x = MX26_EM_HHW_TYPE, 
                  y = HW_TOTAL, 
                  fill = MX26_EM_HHW_TYPE)) +
-  geom_jitter(aes(color = MX26_EM_HHW_TYPE), 
-                size = 1, width = 0.25) +  
+ # geom_jitter(aes(color = MX26_EM_HHW_TYPE), 
+  #              size = 1, width = 0.25) +  
   # Jitter adds individual data points
   geom_violin(alpha = 0.6, width = 1) + 
   geom_boxplot(outlier.shape = 1, alpha = 0.5, 
@@ -1055,14 +1089,50 @@ class="section level1">
        y = &quot;HWISE Score (points)&quot;) +
        theme(axis.text = element_text(size = 14),
         plot.title = element_text(size = 14, face = &quot;bold&quot;)) + 
-    theme(legend.position = &quot;none&quot;)</code></pre>
+    theme(legend.position = &quot;none&quot;) +
+    scale_fill_manual(values = c(&quot;Positive&quot; = &quot;#d5a6bd&quot;, &quot;NA&quot; = &quot;#ead1dc&quot;, &quot;Negative&quot; = &quot;#a64d79&quot;))  </code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_ydensity()`).</code></pre>
 <pre><code>Warning: Removed 10 rows containing non-finite outside the scale range
 (`stat_boxplot()`).</code></pre>
-<pre><code>Warning: Removed 10 rows containing missing values or values outside the scale range
-(`geom_point()`).</code></pre>
 <p><img src="figure/UROP_Lauren.Rmd/violin%20plots-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-violin-plots-1">
+Past versions of "violin plots-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-violin-plots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3edf4ae244f167c33d13deb315f100ec888ba476/docs/figure/UROP_Lauren.Rmd/violin plots-1.png" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Option 1
 ggplot(df, aes(x = MX26_EM_HHW_TYPE, group = MX28_WQ_COMP, fill = factor(MX28_WQ_COMP))) +
   geom_bar(position = &quot;dodge&quot;) +
@@ -1075,6 +1145,43 @@ ggplot(df, aes(x = MX26_EM_HHW_TYPE, group = MX28_WQ_COMP, fill = factor(MX28_WQ
   scale_fill_manual(values = c(&quot;Better&quot; = &quot;seagreen3&quot;, &quot;Same&quot; = &quot;lightblue2&quot;, &quot;Worse&quot; = &quot;maroon&quot;))  + 
  theme(legend.key.size = unit(0.8, &#39;cm&#39;))</code></pre>
 <p><img src="figure/UROP_Lauren.Rmd/barplots-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-barplots-1">
+Past versions of barplots-1.png
+</button>
+</p>
+<div id="fig-barplots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3edf4ae244f167c33d13deb315f100ec888ba476/docs/figure/UROP_Lauren.Rmd/barplots-1.png" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Option 2
 ggplot(df, aes(x = MX28_WQ_COMP, group = MX26_EM_HHW_TYPE, fill = factor(MX26_EM_HHW_TYPE))) +
   geom_bar(position = &quot;dodge&quot;) +
@@ -1084,9 +1191,46 @@ ggplot(df, aes(x = MX28_WQ_COMP, group = MX26_EM_HHW_TYPE, fill = factor(MX26_EM
     fill = &quot;Emotional reaction to water service&quot;
   ) +
   theme_minimal(base_size = 14) +
-  scale_fill_manual(values = c(&quot;Positive&quot; = &quot;seagreen3&quot;, &quot;NA&quot; = &quot;lightblue2&quot;, &quot;Negative&quot; = &quot;maroon&quot;))  + 
+  scale_fill_manual(values = c(&quot;Positive&quot; = &quot;#d5a6bd&quot;, &quot;NA&quot; = &quot;#ead1dc&quot;, &quot;Negative&quot; = &quot;#a64d79&quot;))  + 
  theme(legend.key.size = unit(0.8, &#39;cm&#39;))</code></pre>
 <p><img src="figure/UROP_Lauren.Rmd/barplots-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-barplots-2">
+Past versions of barplots-2.png
+</button>
+</p>
+<div id="fig-barplots-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3edf4ae244f167c33d13deb315f100ec888ba476/docs/figure/UROP_Lauren.Rmd/barplots-2.png" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Option 3
 df %&gt;%
   count(MX28_WQ_COMP, MX26_EM_HHW_TYPE) %&gt;%
@@ -1101,14 +1245,51 @@ df %&gt;%
     fill = &quot;Emotion Type&quot;
   ) +
   theme_minimal() + 
-  scale_fill_manual(values = c(&quot;Positive&quot; = &quot;seagreen3&quot;, &quot;NA&quot; = &quot;lightblue2&quot;, &quot;Negative&quot; = &quot;maroon&quot;)) </code></pre>
+  scale_fill_manual(values = c(&quot;Positive&quot; = &quot;#d5a6bd&quot;, &quot;NA&quot; = &quot;#ead1dc&quot;, &quot;Negative&quot; = &quot;#a64d79&quot;))  </code></pre>
 <p><img src="figure/UROP_Lauren.Rmd/barplots-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-barplots-3">
+Past versions of barplots-3.png
+</button>
+</p>
+<div id="fig-barplots-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3edf4ae244f167c33d13deb315f100ec888ba476/docs/figure/UROP_Lauren.Rmd/barplots-3.png" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="q19" class="section level1">
 <h1>Q19</h1>
 </div>
-<div id="regression" class="section level1">
-<h1>Regression</h1>
+<div id="regression-1" class="section level1">
+<h1>Regression 1</h1>
 <pre class="r"><code>data &lt;- merged_df
 
 # Ensure it&#39;s properly coded as 0 or 1
@@ -1508,11 +1689,11 @@ MX28_WQ_COMP MX28_WQ_COMP 0.5920384 0.3862853 0.8931682</code></pre>
                                              &quot;Time spent\nwater management&quot;))
 
 # Save the plot as a high-resolution PNG for a poster
-ggsave(&quot;odds_ratio_plot.png&quot;, width = 10, height = 5, dpi = 300)
+ggsave(&quot;odds_ratio_plot.png&quot;, width = 7, height = 5, dpi = 200)
 
 ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
-  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = &quot;#1f78b4&quot;) +
-  geom_point(size = 4, color = &quot;#ff7f00&quot;) +  # Points for ORs
+  geom_errorbar(aes(ymin = Lower_CI, ymax = Upper_CI), width = 0.2, color = &quot;#d5a6bd&quot;) +
+  geom_point(size = 4, color = &quot;#a64d79&quot;) +  # Points for ORs
   geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;#fdbf6f&quot;) +  # Reference Line at OR = 1
   coord_flip() +  # Flip for better readability
   labs(title = &quot;Odds ratios of having \na negative emotional response&quot;,
@@ -1527,6 +1708,43 @@ ggplot(odds_df, aes(x = reorder(Predictor, OR), y = OR)) +
     plot.title = element_text(size = 18, face = &quot;bold&quot;, hjust = 0.5)  # Title (if any)
   )</code></pre>
 <p><img src="figure/UROP_Lauren.Rmd/odds%20ratio-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-odds-ratio-1">
+Past versions of "odds ratio-1.png"
+</button>
+</p>
+<div id="fig-no-spaces-odds-ratio-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/3edf4ae244f167c33d13deb315f100ec888ba476/docs/figure/UROP_Lauren.Rmd/odds ratio-1.png" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
