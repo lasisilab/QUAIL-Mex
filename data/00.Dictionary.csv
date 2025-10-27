@@ -1,4 +1,4 @@
-File Name,Groups,Variable name,Transcribed,Status,Original question,Notes,Explanation,"Data type (integer, string, float)",Possible values,Missing values,Comments,Preguntas Spanish,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+File Name,Question.Group,Variable name,Transcribed,Status,Original question,Notes,Explanation,"Data type (integer, string, float)",Possible values,Missing values,Comments,Spanish.original question,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 01.SCREENING,,ID,,,ID,,A unique identifier for each record.,Integer,"From 1 to 204, and then from 301 to 497. ",164;,This file has duplicates to confirm consistency in transcription. ,ID,,,,,,,,,,,Enojo,Suenio,Ninguno,Verguenza,Comments or additional information,PSS 1.,PSS 2.,PSS 3.,PSS 4.,PSS 5.,PSS 6.,PSS 7.,PSS 8.,PSS 9.,PSS 10.,PSS 11.,PSS 12.,PSS 13.,PSS 14.,Comments or additional information,Season
 01.SCREENING,Demographics,D_YRBR,100%,Ready,Year of birth,,,Integer,Between 1976 and 2005,,,Ano de nacimiento,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 01.SCREENING,Demographics,D_AGE,100%,Ready,Age,,,Integer,Between 18 and 49,,,Edad,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
