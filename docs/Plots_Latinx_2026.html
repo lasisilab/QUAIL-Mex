@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+<meta name="date" content="2025-01-27" />
+
+<title>Plots_Latinx_research_week</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Plots_Latinx_research_week</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2025-01-27</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-02-18
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb136ca64a9d41401bca16e8893b17585bfcaaef3targetblankb136ca6a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b136ca64a9d41401bca16e8893b17585bfcaaef3" target="_blank">b136ca6</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb136ca64a9d41401bca16e8893b17585bfcaaef3targetblankb136ca6a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b136ca64a9d41401bca16e8893b17585bfcaaef3" target="_blank">b136ca6</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/figure/
+    Ignored:    analysis/odds_ratio_plot.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  Time_by_SES.png
+    Untracked:  analysis/Data_cleaning.Rmd
+    Untracked:  analysis/Plots_Latinx_2026.Rmd
+    Untracked:  analysis/Q14-19-20-21.R
+    Untracked:  data/Q14-19-20-21_Alice.csv
+    Untracked:  data/Q14-19-20-21_Jocelyne.csv
+    Untracked:  data/Q19_combined.csv
+    Untracked:  data/Q19_consensus.csv
+
+Unstaged changes:
+    Deleted:    HLTH_counts_by_SES.png
+    Deleted:    analysis/HBA2025_cleaning.Rmd
+    Modified:   analysis/Regression-Analysis_PC.Rmd
+    Modified:   data/00.Metadata-25-Feb-20.docx
+    Modified:   odds_ratio_plot.png
+    Deleted:    violin_plot.png
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="data-cleaning" class="section level3">
+<h3>Data cleaning</h3>
+<pre class="r"><code>#Loading file and setting empty cells as &quot;NAs&quot;
+d &lt;- read.csv(&quot;./data/01.SCREENING.csv&quot;, stringsAsFactors = TRUE, na.strings = c(&quot;&quot;, &quot; &quot;,&quot;NA&quot;, &quot;N/A&quot;))
+
+
+ # extract duplicates and compare values (removed manually for now)
+dup &lt;- d$ID[duplicated(d$ID)] 
+length(dup) # 38</code></pre>
+<pre><code>[1] 138</code></pre>
+<pre class="r"><code>#print(dup)
+
+# remove duplicates
+d &lt;- d[!duplicated(d$ID),]
+# confirm total number of participants
+length(unique(d$ID)) # 433 rows, but 394 participants</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code># What numbers are missing? 
+ID &lt;- as.ordered(d$ID)
+# first trip
+setdiff(1:204, ID)</code></pre>
+<pre><code>[1]  71 164</code></pre>
+<pre class="r"><code>nrow(d[d$ID &lt;=250,])</code></pre>
+<pre><code>[1] 202</code></pre>
+<pre class="r"><code># second trip
+setdiff(301:497, ID)</code></pre>
+<pre><code>integer(0)</code></pre>
+<pre class="r"><code>nrow(d[d$ID &gt;=250,])</code></pre>
+<pre><code>[1] 197</code></pre>
+<pre class="r"><code>nrow(d)</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code> #make ID number the row names
+rownames(d) &lt;- d$ID
+
+# Code NAs
+d[d==&#39;NA&#39;] &lt;- NA
+d &lt;- d %&gt;% 
+    replace_na()
+
+# Count rows with NAs
+nrow(d[rowSums(is.na(d)) &gt; 0,]) # 12 rows</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code>nrow(d[!complete.cases(d),]) # 12 rows</code></pre>
+<pre><code>[1] 399</code></pre>
+<pre class="r"><code>#NAs &lt;- d[rowSums(is.na(d))&gt; 0,]
+#write.table(NAs, &quot;240301_SES_Age_NAs.csv&quot;, row.names=FALSE)
+
+names(d)</code></pre>
+<pre><code> [1] &quot;ID&quot;             &quot;D_YRBR&quot;         &quot;D_AGE&quot;          &quot;D_LOC&quot;         
+ [5] &quot;D_LOC_CODE&quot;     &quot;D_LOC_TIME&quot;     &quot;D_LOC_INFO&quot;     &quot;HLTH_SMK&quot;      
+ [9] &quot;HLTH_TTM&quot;       &quot;HLTH_MED&quot;       &quot;HLTH_CPAIN&quot;     &quot;HLTH_CPAIN_CAT&quot;
+[13] &quot;HLTH_CDIS&quot;      &quot;HLTH_CDIS_CAT&quot;  &quot;D_HH_SIZE&quot;      &quot;D_HH_SIZE_INFO&quot;
+[17] &quot;D_CHLD&quot;         &quot;D_EMP_TYPE&quot;     &quot;D_EMP_DAYS&quot;     &quot;W_HH_SIZE&quot;     
+[21] &quot;W_STORAGE&quot;      &quot;D_INFO&quot;         &quot;SES_EDU_CAT&quot;    &quot;SES_EDU_SC&quot;    
+[25] &quot;SES_BTHR_CAT&quot;   &quot;SES_BTHR_SC&quot;    &quot;SES_CAR_CAT&quot;    &quot;SES_CAR_SC&quot;    
+[29] &quot;SES_INT_CAT&quot;    &quot;SES_INT_SC&quot;     &quot;SES_WRK_CAT&quot;    &quot;SES_WRK_SC&quot;    
+[33] &quot;SES_BEDR_CAT&quot;   &quot;SES_BEDR_SC&quot;    &quot;SES_INFO&quot;      </code></pre>
+<pre class="r"><code># Select useful information
+d &lt;- d %&gt;% 
+  select(ID, D_YRBR, D_AGE, D_LOC, HLTH_CPAIN, HLTH_CPAIN_CAT,HLTH_CDIS, HLTH_CDIS_CAT, D_HH_SIZE, D_CHLD, D_EMP_TYPE, W_HH_SIZE, SES_EDU_CAT, SES_EDU_SC, SES_BTHR_CAT, SES_BTHR_SC, SES_CAR_CAT, SES_CAR_SC, SES_INT_CAT, SES_INT_SC, SES_WRK_CAT, SES_WRK_SC, SES_BEDR_CAT, SES_BEDR_SC)
+
+
+d &lt;- d %&gt;%
+  mutate(across(starts_with(&quot;SES&quot;) &amp; ends_with(&quot;SC&quot;), as.numeric)) %&gt;%
+  mutate(SES_score = rowSums(select(., starts_with(&quot;SES&quot;) &amp; ends_with(&quot;SC&quot;)), na.rm = TRUE))
+
+# transform factors to numbers
+for (i in c(2:length(d))) {
+    d[,i] &lt;- as.numeric(as.character(d[,i]))
+}</code></pre>
+<pre><code>Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion
+Warning: NAs introduced by coercion</code></pre>
+<pre class="r"><code>##### PREPING Q19
+time &lt;- time %&gt;% 
+  select(SampleID, Consensus) %&gt;%
+  mutate()
+
+colnames(time) &lt;- c(&quot;ID&quot;, &quot;Q19&quot;)
+
+# SES categories
+d$SES &lt;- ifelse(d$SES_score &lt;= 47,&quot;E&quot;, 
+                ifelse(d$SES_score &lt;= 89, &quot;D-/E&quot;, 
+                       ifelse(d$SES_score &lt;= 111, &quot;D/E&quot;, 
+                              ifelse(d$SES_score &lt;= 135, &quot;C-&quot;,
+                                     ifelse(d$SES_score &lt;= 165, &quot;C&quot;,
+                                            ifelse(d$SES_score &lt;= 204, &quot;C+&quot;,
+                                                   &quot;A/B&quot;))))))
+d %&gt;%
+  group_by(SES) %&gt;%
+  summarise(n_total = n())</code></pre>
+<pre><code># A tibble: 5 × 2
+  SES   n_total
+  &lt;chr&gt;   &lt;int&gt;
+1 C          21
+2 C-         38
+3 D-/E      191
+4 D/E        83
+5 E          66</code></pre>
+</div>
+<div id="combining-data" class="section level3">
+<h3>combining data</h3>
+<pre class="r"><code>m &lt;- merge(d,time, by=&quot;ID&quot;)
+dim(m)</code></pre>
+<pre><code>[1] 256  27</code></pre>
+<pre class="r"><code>m[m ==&#39;NA&#39;] &lt;- NA
+m &lt;- m %&gt;% 
+    replace_na()
+
+m %&gt;%
+  group_by(SES) %&gt;%
+  summarise(n_total = n())</code></pre>
+<pre><code># A tibble: 5 × 2
+  SES   n_total
+  &lt;chr&gt;   &lt;int&gt;
+1 C          15
+2 C-         21
+3 D-/E      128
+4 D/E        50
+5 E          42</code></pre>
+<pre class="r"><code>ggplot(m, aes(x = as.factor(Q19), y = D_HH_SIZE, fill = Q19)) +
+  geom_boxplot() + 
+  geom_jitter()</code></pre>
+<pre><code>Warning: Removed 13 rows containing non-finite outside the scale range
+(`stat_boxplot()`).</code></pre>
+<pre><code>Warning: Removed 13 rows containing missing values or values outside the scale range
+(`geom_point()`).</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>agg &lt;- count(m, SES, Q19)
+agg2 &lt;- pivot_wider(agg, 
+            names_from = Q19,
+            values_from = n)
+agg2$Total &lt;- agg2$yes/(agg2$yes + agg2$no)*100
+
+#png(file= &quot;Time_by_SES.png&quot;, width = 700, height = 800 )
+#
+ggplot(agg2, aes(x = SES, y = Total)) +
+    geom_bar(stat= &quot;identity&quot;, fill = &quot;orchid4&quot;, alpha = 0.9) +
+   ylim(0, 100) +
+   theme_minimal()  +
+   geom_text(aes(label = paste(round(Total, 1), &quot;%&quot;, sep=&quot;&quot;)), 
+            vjust = -0.5, 
+            colour = &quot;gray40&quot;, 
+            size = 9) +
+   theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 26, face = &quot;bold&quot;),
+    axis.title = element_text(size = 22),  
+    axis.text = element_text(size = 24)  
+  ) + 
+  labs(title=&quot;Participants reporting\n too much time spent in water management&quot;) +
+  xlab(&quot;Socioeconomic status&quot;) +
+  ylab(&quot;Percent (%)&quot;)  </code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+<div id="ses-and-pss---work-in-progress" class="section level4">
+<h4>SES and PSS - work in progress</h4>
+<pre class="r"><code>f&lt;-read.csv(&quot;./data/02.HWISE_PSS.csv&quot;)
+# Add more info to file
+dim(f)</code></pre>
+<pre><code>[1] 398  33</code></pre>
+<pre class="r"><code>f$ID &lt;- as.factor(f$ID)
+
+pss &lt;- f %&gt;%
+  mutate(across(c(PSS4, PSS5, PSS6, PSS7, PSS9, PSS10, PSS13),
+                ~recode(., `0` = 4L, `1` = 3L, `3` = 1L, `4` = 0L, .default = .))) %&gt;%  
+  select(!PSS_INFO &amp; !HW_INFO) %&gt;%
+  mutate(across(starts_with(&quot;PSS&quot;), as.numeric)) %&gt;%
+  mutate(PSS_TOTAL = rowSums(select(., starts_with(&quot;PSS&quot;)), na.rm = TRUE)) %&gt;%
+  mutate(across(starts_with(&quot;HW&quot;), as.numeric)) %&gt;%
+  mutate(HW_TOTAL = rowSums(select(., starts_with(&quot;HW&quot;)), na.rm = TRUE)) </code></pre>
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `across(starts_with(&quot;PSS&quot;), as.numeric)`.
+Caused by warning:
+! NAs introduced by coercion</code></pre>
+<pre class="r"><code>names(pss)</code></pre>
+<pre><code> [1] &quot;ID&quot;         &quot;SEASON&quot;     &quot;W_WS_LOC&quot;   &quot;HW_TOTAL&quot;   &quot;HW_WORRY&quot;  
+ [6] &quot;HW_INTERR&quot;  &quot;HW_CLOTHES&quot; &quot;HW_PLANS&quot;   &quot;HW_FOOD&quot;    &quot;HW_HANDS&quot;  
+[11] &quot;HW_BODY&quot;    &quot;HW_DRINK&quot;   &quot;HW_ANGRY&quot;   &quot;HW_SLEEP&quot;   &quot;HW_NONE&quot;   
+[16] &quot;HW_SHAME&quot;   &quot;PSS1&quot;       &quot;PSS2&quot;       &quot;PSS3&quot;       &quot;PSS4&quot;      
+[21] &quot;PSS5&quot;       &quot;PSS6&quot;       &quot;PSS7&quot;       &quot;PSS8&quot;       &quot;PSS9&quot;      
+[26] &quot;PSS10&quot;      &quot;PSS11&quot;      &quot;PSS12&quot;      &quot;PSS13&quot;      &quot;PSS14&quot;     
+[31] &quot;PSS_TOTAL&quot; </code></pre>
+<pre class="r"><code># Calculate total score PSS per participant
+summary(pss$PSS_TOTAL)</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   8.00   22.00   28.00   27.16   32.00   47.00 </code></pre>
+<pre class="r"><code>pss &lt;- merge(m,pss, by=&quot;ID&quot;)
+dim(pss)</code></pre>
+<pre><code>[1] 255  57</code></pre>
+<pre class="r"><code>pss[pss ==&#39;NA&#39;] &lt;- NA
+levs &lt;- c(&quot;yes&quot;, &quot;no&quot;, &quot;somewhat&quot;, &quot;other&quot;)
+
+pss &lt;- pss %&gt;% 
+  filter(Q19 != &quot;other&quot;) %&gt;%
+  mutate(Q19 = factor(Q19, levels = levs))
+         
+ggplot(pss, aes(x = as.factor(Q19), y = PSS_TOTAL, fill = Q19)) +
+  geom_boxplot() + 
+  geom_jitter(alpha= 0.2)</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(pss, aes(x = as.factor(Q19), y = HW_TOTAL, fill = Q19)) +
+  geom_boxplot() + 
+  geom_jitter(alpha= 0.2)</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="models" class="section level1">
+<h1>models</h1>
+<pre class="r"><code># Sample dataframe (assumes it&#39;s already loaded as `data`)
+data &lt;- pss %&gt;%
+  filter(Q19 != &quot;somewhat&quot;)
+
+data$Q19 &lt;- factor(data$Q19, levels = c(&quot;no&quot;, &quot;yes&quot;))
+data$SEASON &lt;- factor(data$SEASON, levels = c(&quot;Oct-Dec&quot;, &quot;Apr-Jun&quot;))
+# Model 1: Overall SES score
+m1 &lt;- glm(Q19 ~ SES_score, data = data, family = &quot;binomial&quot;)
+# Model 2: Overall SES category
+m3 &lt;- glm(Q19 ~ HW_TOTAL, data = data, family = &quot;binomial&quot;)
+# Model 4: PSS
+m4 &lt;- glm(Q19 ~ PSS_TOTAL, data = data, family = &quot;binomial&quot;)
+m5 &lt;- glm(Q19 ~ W_WS_LOC, data = data, family = &quot;binomial&quot;)
+m6 &lt;- glm(Q19 ~ D_AGE, data = data, family = &quot;binomial&quot;)
+m7 &lt;- glm(Q19 ~ D_HH_SIZE, data = data, family = &quot;binomial&quot;)
+m8 &lt;- glm(Q19 ~ D_CHLD, data = data, family = &quot;binomial&quot;)
+m9 &lt;- glm(Q19 ~ SEASON, data = data, family = &quot;binomial&quot;)
+m10 &lt;- glm(Q19 ~ SEASON + HW_TOTAL + PSS_TOTAL + D_AGE + SES_score + D_HH_SIZE,
+           data = data, family = &quot;binomial&quot;)
+m11 &lt;- glm(Q19 ~ HW_TOTAL + SEASON,
+           data = data, family = &quot;binomial&quot;)
+
+
+aic_table &lt;- AIC(m1, m3, m4, m5, m6, m7, m8, m9, m10, m11) %&gt;%
+  as.data.frame() %&gt;%
+  arrange(AIC)</code></pre>
+<pre><code>Warning in AIC.default(m1, m3, m4, m5, m6, m7, m8, m9, m10, m11): models are
+not all fitted to the same number of observations</code></pre>
+<pre class="r"><code>print(aic_table)</code></pre>
+<pre><code>    df      AIC
+m10  7 257.2509
+m11  3 273.0210
+m3   2 278.9145
+m9   2 321.2494
+m8   2 326.1145
+m7   2 328.9014
+m6   2 339.7016
+m4   2 347.1831
+m5   2 347.3356
+m1   2 347.5969</code></pre>
+<pre class="r"><code>m10</code></pre>
+<pre><code>
+Call:  glm(formula = Q19 ~ SEASON + HW_TOTAL + PSS_TOTAL + D_AGE + SES_score + 
+    D_HH_SIZE, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+  (Intercept)  SEASONApr-Jun       HW_TOTAL      PSS_TOTAL          D_AGE  
+    -1.515890       1.117153       0.194211      -0.017143      -0.022516  
+    SES_score      D_HH_SIZE  
+     0.005347       0.033248  
+
+Degrees of Freedom: 233 Total (i.e. Null);  227 Residual
+  (14 observations deleted due to missingness)
+Null Deviance:      324 
+Residual Deviance: 243.3    AIC: 257.3</code></pre>
+<pre class="r"><code>m11</code></pre>
+<pre><code>
+Call:  glm(formula = Q19 ~ HW_TOTAL + SEASON, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+  (Intercept)       HW_TOTAL  SEASONApr-Jun  
+      -1.8798         0.1775         0.8981  
+
+Degrees of Freedom: 247 Total (i.e. Null);  245 Residual
+Null Deviance:      343.7 
+Residual Deviance: 267  AIC: 273</code></pre>
+<pre class="r"><code>m3</code></pre>
+<pre><code>
+Call:  glm(formula = Q19 ~ HW_TOTAL, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+(Intercept)     HW_TOTAL  
+    -1.7212       0.1951  
+
+Degrees of Freedom: 247 Total (i.e. Null);  246 Residual
+Null Deviance:      343.7 
+Residual Deviance: 274.9    AIC: 278.9</code></pre>
+<pre class="r"><code>m9</code></pre>
+<pre><code>
+Call:  glm(formula = Q19 ~ SEASON, family = &quot;binomial&quot;, data = data)
+
+Coefficients:
+  (Intercept)  SEASONApr-Jun  
+      -0.5276         1.4127  
+
+Degrees of Freedom: 247 Total (i.e. Null);  246 Residual
+Null Deviance:      343.7 
+Residual Deviance: 317.2    AIC: 321.2</code></pre>
+<pre class="r"><code>best_model &lt;- m10 # or whichever had lowest AIC
+
+tidy_model &lt;- tidy(best_model, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+  filter(term != &quot;(Intercept)&quot;) %&gt;%
+  mutate(significant = ifelse(conf.low &gt; 1 | conf.high &lt; 1, &quot;Significant&quot;, &quot;Not Significant&quot;)) %&gt;%
+  mutate(term = recode(term,
+                       &quot;SEASONApr-Jun&quot; = &quot;Dry season (Apr-Jun)&quot;,
+                       &quot;HW_TOTAL&quot; = &quot;Water Insecurity Score\n(HWISE)&quot;,
+                       &quot;D_HH_SIZE&quot; = &quot;Household Size&quot;,
+                       &quot;SES_score&quot; = &quot;Socioeconomic Status&quot;,
+                       &quot;PSS_TOTAL&quot; = &quot;Perceived Stress (PSS)&quot;,
+                       &quot;D_AGE&quot; = &quot;Age&quot;))
+
+
+
+ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate, color = significant)) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;gray60&quot;, size = 0.8) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), 
+                width = 0.3, size = 1) +
+  geom_point(size = 4) +
+  scale_color_manual(values = c(&quot;Significant&quot; = &quot;#8B0000&quot;, &quot;Not Significant&quot; = &quot;gray50&quot;)) +
+  coord_flip() +
+  labs(title = &quot;Odds Ratios from Logistic Regression&quot;,
+       subtitle = &quot;Predicting Perception of Time Spent on Water Management as Excessive&quot;,
+       x = &quot;&quot;,
+       y = &quot;Odds Ratio (95% CI)&quot;) +
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(face = &quot;bold&quot;, size = 20, margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 14, color = &quot;gray30&quot;, margin = margin(b = 15)),
+    axis.title.x = element_text(size = 14, face = &quot;bold&quot;, margin = margin(t = 10)),
+    axis.text = element_text(size = 13, color = &quot;black&quot;),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.margin = margin(20, 20, 20, 20),
+    legend.position = &quot;none&quot;,
+  ) </code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;odds_ratio_plot.png&quot;, 
+       width = 10, 
+       height = 6, 
+       dpi = 300, 
+       bg = &quot;white&quot;)</code></pre>
+</div>
+<div id="descriptive-stats" class="section level1">
+<h1>3. Descriptive stats</h1>
+<pre class="r"><code># Summary stats by Q19 condition
+data %&gt;%
+  group_by(Q19) %&gt;%
+  summarise(
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    mean_ses = mean(SES_score, na.rm = TRUE),
+    sd_ses = sd(SES_score, na.rm = TRUE),
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+    n = n()
+  )</code></pre>
+<pre><code># A tibble: 2 × 10
+  Q19   mean_pss sd_pss mean_ses sd_ses mean_hwise sd_hwise mean_age sd_age
+  &lt;fct&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+1 no        27.1   7.18     78.7   31.6       5.74     4.68     33.8   6.93
+2 yes       27.8   7.34     77.1   35.3      12.2      6.60     31.4   7.59
+# ℹ 1 more variable: n &lt;int&gt;</code></pre>
+<pre class="r"><code># Frequency table with percentages (each season = 100%)
+prop.table(table(data$Q19, data$SEASON), margin = 2) * 100</code></pre>
+<pre><code>     
+       Oct-Dec  Apr-Jun
+  no  62.89308 29.21348
+  yes 37.10692 70.78652</code></pre>
+<pre class="r"><code># Plot with percentages (each season = 100%)
+barplot(prop.table(table(data$Q19, data$SEASON), margin = 2) * 100,
+        beside = TRUE,
+        legend = TRUE,
+        xlab = &quot;Season&quot;,
+        ylab = &quot;Percentage&quot;,
+        main = &quot;Q19 by Season (%)&quot;,
+        ylim = c(0, 100))</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data, aes(x = Q19, y = HW_TOTAL, fill = Q19, color = Q19)) +
+  geom_boxplot(alpha = 0.5) +
+  geom_jitter(width = 0.1) + 
+  theme_minimal() + 
+  xlab(&quot;&quot;) + ylab(&quot;HWISE score&quot;) +
+  geom_hline(yintercept = 12, linetype = &quot;dashed&quot;, color = &quot;gray80&quot;, linewidth = 0.6)</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-5-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggplot(data, aes(y = HW_TOTAL, x= Q19, fill = Q19, color = Q19)) +
+  geom_boxplot(alpha = 0.5) +
+  geom_jitter(alpha = 0.5, width = 0.1) +
+  theme_minimal() + 
+ # xlab(&quot;HWISE score&quot;) + ylab(&quot;Frequency&quot;) +
+  facet_wrap( ~ SEASON) </code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-5-3.png" width="672" style="display: block; margin: auto;" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>T-tests / Non-parametric Tests</li>
+</ol>
+<pre class="r"><code># PSS comparison
+wilcox.test(PSS_TOTAL ~ Q19, data = data)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  PSS_TOTAL by Q19
+W = 7243, p-value = 0.4328
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code># SES comparison
+wilcox.test(SES_score ~ Q19, data = data)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  SES_score by Q19
+W = 8168.5, p-value = 0.3934
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<pre class="r"><code>wilcox.test(HW_TOTAL ~ Q19, data = data)</code></pre>
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  HW_TOTAL by Q19
+W = 3307, p-value = 8.261e-15
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>There is a statistically significant difference in <strong>stress
+levels</strong> between people saying “yes” or “no”.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Visualizations: Boxplots</li>
+</ol>
+<pre class="r"><code># Stress and SES by Q19 condition
+p1 &lt;- ggplot(data, aes(x = Q19, y = PSS_TOTAL, fill = Q19)) +
+  geom_point(aes(alpha = 0.8,  color = Q19), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = &quot;Perceived Stress (PSS)&quot;, y = &quot;PSS Score&quot;, x = NULL) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)
+
+p2 &lt;- ggplot(data, aes(x = Q19, y = SES_score, fill = Q19)) +
+  geom_point(aes(alpha = 0.8,  color = Q19), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = &quot;Socioeconomic Status&quot;, y = &quot;SES Score&quot;, x = NULL) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;)
+
+# Combine plots
+p1 + p2</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Correlations</li>
+</ol>
+<pre class="r"><code># Correlation matrix
+cor_data &lt;- data %&gt;%
+  select(PSS_TOTAL, SES_score, HW_TOTAL, D_AGE) %&gt;%
+  drop_na()
+
+cor_matrix &lt;- cor(cor_data)
+corrplot(cor_matrix, method = &quot;circle&quot;, type = &quot;upper&quot;, tl.col = &quot;black&quot;)</code></pre>
+<p><img src="figure/Plots_Latinx_2026.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.2 (2025-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.2
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] corrplot_0.95   patchwork_1.3.1 ggpubr_0.6.1    broom_1.0.8    
+[5] tidyr_1.3.1     ggplot2_4.0.0   dplyr_1.1.4    
+
+loaded via a namespace (and not attached):
+ [1] utf8_1.2.4         sass_0.4.10        generics_0.1.3     rstatix_0.7.2     
+ [5] stringi_1.8.7      digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3    
+ [9] grid_4.5.2         RColorBrewer_1.1-3 fastmap_1.2.0      rprojroot_2.1.1   
+[13] workflowr_1.7.1    jsonlite_2.0.0     backports_1.5.0    Formula_1.2-5     
+[17] promises_1.3.2     purrr_1.0.4        scales_1.4.0       textshaping_1.0.0 
+[21] jquerylib_0.1.4    abind_1.4-8        cli_3.6.4          crayon_1.5.3      
+[25] rlang_1.1.6        withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
+[29] tools_4.5.2        ggsignif_0.6.4     httpuv_1.6.16      vctrs_0.6.5       
+[33] R6_2.6.1           lifecycle_1.0.4    git2r_0.36.2       stringr_1.5.1     
+[37] fs_1.6.6           car_3.1-3          ragg_1.4.0         pkgconfig_2.0.3   
+[41] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
+[45] glue_1.8.0         Rcpp_1.0.14        systemfonts_1.2.3  xfun_0.52         
+[49] tibble_3.2.1       tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50        
+[53] farver_2.1.2       htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29    
+[57] carData_3.0-5      compiler_4.5.2     S7_0.2.0          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

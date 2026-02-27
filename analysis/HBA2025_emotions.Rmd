@@ -30,7 +30,17 @@ data_path = "data"
 data <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), 
          stringsAsFactors = FALSE,  
          na.strings = c("", "N/A", "NA", "pending"))
+```
+# Transform comparision to rest of the city
+```{r}
+data <- data %>%
+  mutate(MX28_WQ_COMP = case_when(
+    MX28_WQ_COMP %in% c(1, 2) ~ 0, ## same or better recoded as zero
+    MX28_WQ_COMP == 0 ~ 1, # worse recoded as 1
+    TRUE ~ MX28_WQ_COMP
+  ))
 
+data$MX28_WQ_COMP <- factor(data$MX28_WQ_COMP, levels = c("0", "1"))
 ```
 
 #Categorical groups using HWISE
@@ -43,7 +53,8 @@ data <- data %>%
     HW_TOTAL >= 3 & HW_TOTAL <= 11 ~ "Low",
     HW_TOTAL >= 12 & HW_TOTAL <= 23 ~ "Moderate",
     HW_TOTAL >= 24 & HW_TOTAL <= 36 ~ "High"
-  ))
+  )) %>% 
+  rename(PSS_TOTAL = PSS_TOTAL_REV)
 
 ```
 ## Significant differences in hours of water supply per week
@@ -363,7 +374,7 @@ anova(optimized_model, full_model, test = "Chisq")
 
 # Check for multicollinearity
 vif(full_model)
-
+vif(optimized_model)
 
 
 
@@ -420,6 +431,7 @@ interaction_model <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK * W_
 library(MASS)  # For stepAIC
 library(car)   # For VIF
 
+
 # Baseline Model (Main Effects Only)
 model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + W_WC_WI + MX28_WQ_COMP, 
               family = binomial, data = data)
@@ -469,6 +481,9 @@ vif(optimized_model)
 
 # The chosen one
 ```{r odds ratio}
+
+
+
 # Best model
 model1 <- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + MX28_WQ_COMP, 
               family = binomial, data = data)
@@ -495,12 +510,12 @@ odds_df <- data.frame(
 print(odds_df)
 
 odds_df$Predictor <- factor(odds_df$Predictor, 
-                                  levels = c("(Intercept)", "HW_TOTAL", "PSS_TOTAL", "HRS_WEEK", "MX28_WQ_COMP"),
+                                  levels = c("(Intercept)", "HW_TOTAL", "PSS_TOTAL", "HRS_WEEK", "MX28_WQ_COMP1"),
                                   labels = c("Intercept",
                                              "HWISE\nscore", 
                                              "Perceived\nStress", 
                                              "Hours of\nWater Supply", 
-                                             "Perception of water service\n(Same or Better than others)"))
+                                             "Perception of water service\n(Worse than others)"))
 
 # Save the plot as a high-resolution PNG for a poster
 ggsave("odds_ratio_plot.png", width = 10, height = 5, dpi = 300)

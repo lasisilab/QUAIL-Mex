@@ -11,7 +11,7 @@ editor_options:
 knitr::opts_chunk$set(echo = FALSE, include = TRUE)
 ```
 
-```{r package, include = FALSE}
+```{r packages, include = FALSE}
 # load packages
 library(dplyr)
 library(mice)

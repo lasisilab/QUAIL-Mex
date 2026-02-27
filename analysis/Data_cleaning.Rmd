@@ -1,4 +1,3 @@
-wflow
 ---
 title: "HBA2025_results"
 author: "Paloma"
@@ -29,14 +28,15 @@ library(tidyr)
 
 # Load the dataset
 
-data_path = "data"
+data_path = "./data"
 
 ```
 
 ```{r}
 
 # merged dataset
-df = read.csv(file.path(data_path, "01.SCREENING.csv"), stringsAsFactors = FALSE,  na.strings = c("", "N/A", "NA", "pending"))
+df <- read.csv("../data/01.SCREENING.csv", stringsAsFactors = FALSE,  na.strings = c("", "N/A", "NA", "pending"))
+
 
 # Convert all character columns to NA where values match missing patterns
 df <- df %>%
@@ -46,7 +46,7 @@ df <- df %>%
 df_filtered <- df %>%
   mutate(Non_NA_Count = rowSums(!is.na(.))) %>%
   filter(!duplicated(ID) & Non_NA_Count >= 10) %>%
-  select(-Non_NA_Count) # Remove helper column
+  select(!Non_NA_Count) # Remove helper column
 
 
 # Display the filtered dataset

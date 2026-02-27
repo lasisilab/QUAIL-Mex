@@ -1,0 +1,444 @@
+---
+title: "Plots_Latinx_research_week"
+author: "Paloma"
+date: "2025-01-27"
+output: workflowr::wflow_html
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r warnings = FALSE, echo = FALSE, message=FALSE}
+# Load libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(broom)
+library(ggpubr)
+library(patchwork)
+library(corrplot)
+
+# Load your data
+df <- read.csv("./data/Cleaned_Dataset_Screening_HWISE_PSS_V3.csv")
+time <- read.csv("./data/Q19_consensus.csv")
+```
+
+### Data cleaning
+
+```{r screening data}
+#Loading file and setting empty cells as "NAs"
+d <- read.csv("./data/01.SCREENING.csv", stringsAsFactors = TRUE, na.strings = c("", " ","NA", "N/A"))
+
+
+ # extract duplicates and compare values (removed manually for now)
+dup <- d$ID[duplicated(d$ID)] 
+length(dup) # 38
+#print(dup)
+
+# remove duplicates
+d <- d[!duplicated(d$ID),]
+# confirm total number of participants
+length(unique(d$ID)) # 433 rows, but 394 participants
+
+
+# What numbers are missing? 
+ID <- as.ordered(d$ID)
+# first trip
+setdiff(1:204, ID)
+nrow(d[d$ID <=250,])
+
+# second trip
+setdiff(301:497, ID)
+nrow(d[d$ID >=250,])
+
+nrow(d)
+
+
+ #make ID number the row names
+rownames(d) <- d$ID
+
+# Code NAs
+d[d=='NA'] <- NA
+d <- d %>% 
+    replace_na()
+
+# Count rows with NAs
+nrow(d[rowSums(is.na(d)) > 0,]) # 12 rows
+nrow(d[!complete.cases(d),]) # 12 rows
+
+#NAs <- d[rowSums(is.na(d))> 0,]
+#write.table(NAs, "240301_SES_Age_NAs.csv", row.names=FALSE)
+
+names(d)
+# Select useful information
+d <- d %>% 
+  select(ID, D_YRBR, D_AGE, D_LOC, HLTH_CPAIN, HLTH_CPAIN_CAT,HLTH_CDIS, HLTH_CDIS_CAT, D_HH_SIZE, D_CHLD, D_EMP_TYPE, W_HH_SIZE, SES_EDU_CAT, SES_EDU_SC, SES_BTHR_CAT, SES_BTHR_SC, SES_CAR_CAT, SES_CAR_SC, SES_INT_CAT, SES_INT_SC, SES_WRK_CAT, SES_WRK_SC, SES_BEDR_CAT, SES_BEDR_SC)
+
+
+d <- d %>%
+  mutate(across(starts_with("SES") & ends_with("SC"), as.numeric)) %>%
+  mutate(SES_score = rowSums(select(., starts_with("SES") & ends_with("SC")), na.rm = TRUE))
+
+# transform factors to numbers
+for (i in c(2:length(d))) {
+    d[,i] <- as.numeric(as.character(d[,i]))
+}
+
+
+
+
+
+##### PREPING Q19
+time <- time %>% 
+  select(SampleID, Consensus) %>%
+  mutate()
+
+colnames(time) <- c("ID", "Q19")
+
+# SES categories
+d$SES <- ifelse(d$SES_score <= 47,"E", 
+                ifelse(d$SES_score <= 89, "D-/E", 
+                       ifelse(d$SES_score <= 111, "D/E", 
+                              ifelse(d$SES_score <= 135, "C-",
+                                     ifelse(d$SES_score <= 165, "C",
+                                            ifelse(d$SES_score <= 204, "C+",
+                                                   "A/B"))))))
+d %>%
+  group_by(SES) %>%
+  summarise(n_total = n())
+```
+
+###  combining data 
+
+```{r }
+
+m <- merge(d,time, by="ID")
+dim(m)
+m[m =='NA'] <- NA
+m <- m %>% 
+    replace_na()
+
+levs <- c("yes", "no", "somewhat", "other")
+
+count <- m %>%
+  mutate(Q19 = factor(Q19, levels = levs)) %>%
+  group_by(Q19) %>%
+  summarise(n_total = n()) 
+
+
+              
+
+ggplot(count, aes(x = Q19, y = n_total, fill = Q19)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  geom_text(aes(label = n_total), vjust = -0.5, size = 5, fontface = "bold") +
+  scale_fill_manual(values = c("no" = "#4682B4", "yes" = "#8B0000", "somewhat" = "purple4")) +
+  theme_minimal(base_size = 16) +
+  labs(title = "",
+       x = "",
+       y = "Count") +
+  theme(
+    plot.title = element_text(face = "bold", size = 20, margin = margin(b = 15)),
+    axis.title.y = element_text(size = 14, face = "bold", margin = margin(r = 10)),
+    axis.text = element_text(size = 13, color = "black"),
+    legend.position = "none",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.margin = margin(20, 20, 20, 20)
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+
+ggsave("q19_distribution.png", width = 10, height = 6, dpi = 300, bg = "white")
+
+agg <- count(m, SES, Q19)
+agg2 <- pivot_wider(agg, 
+            names_from = Q19,
+            values_from = n)
+agg2$Total <- agg2$yes/(agg2$yes + agg2$no)*100
+
+#png(file= "Time_by_SES.png", width = 700, height = 800 )
+#
+ggplot(agg2, aes(x = SES, y = Total)) +
+    geom_bar(stat= "identity", fill = "orchid4", alpha = 0.9) +
+   ylim(0, 100) +
+   theme_minimal()  +
+   geom_text(aes(label = paste(round(Total, 1), "%", sep="")), 
+            vjust = -0.5, 
+            colour = "gray40", 
+            size = 9) +
+   theme(
+    plot.title = element_text(hjust = 0.5, 
+                              size = 26, face = "bold"),
+    axis.title = element_text(size = 22),  
+    axis.text = element_text(size = 24)  
+  ) + 
+  labs(title="Participants reporting\n too much time spent in water management") +
+  xlab("Socioeconomic status") +
+  ylab("Percent (%)")  
+
+#dev.off()
+
+
+```
+
+
+#### SES and PSS - work in progress
+
+```{r}
+f<-read.csv("./data/02.HWISE_PSS.csv")
+# Add more info to file
+dim(f)
+
+f$ID <- as.factor(f$ID)
+
+pss <- f %>%
+  mutate(across(c(PSS4, PSS5, PSS6, PSS7, PSS9, PSS10, PSS13),
+                ~recode(., `0` = 4L, `1` = 3L, `3` = 1L, `4` = 0L, .default = .))) %>%  
+  select(!PSS_INFO & !HW_INFO) %>%
+  mutate(across(starts_with("PSS"), as.numeric)) %>%
+  mutate(PSS_TOTAL = rowSums(select(., starts_with("PSS")), na.rm = TRUE)) %>%
+  mutate(across(starts_with("HW"), as.numeric)) %>%
+  mutate(HW_TOTAL = rowSums(select(., starts_with("HW")), na.rm = TRUE)) 
+
+names(pss)
+
+  
+# Calculate total score PSS per participant
+summary(pss$PSS_TOTAL)
+
+pss <- merge(m,pss, by="ID")
+dim(pss)
+pss[pss =='NA'] <- NA
+
+         
+pss <- pss %>% 
+  filter(Q19 != "other")
+
+ggplot(pss, aes(x = as.factor(Q19), y = PSS_TOTAL, fill = Q19)) +
+  geom_boxplot() + 
+  geom_jitter(alpha= 0.2)
+
+ggplot(pss, aes(x = as.factor(Q19), y = HW_TOTAL, fill = Q19)) +
+  geom_boxplot() + 
+  geom_jitter(alpha= 0.2)
+
+
+```
+
+# models
+```{r}
+# Sample dataframe (assumes it's already loaded as `data`)
+data <- pss %>%
+  filter(Q19 != "somewhat")
+
+data$Q19 <- factor(data$Q19, levels = c("no", "yes"))
+data$SEASON <- factor(data$SEASON, levels = c("Oct-Dec", "Apr-Jun"))
+# Model 1: Overall SES score
+m1 <- glm(Q19 ~ SES_score, data = data, family = "binomial")
+# Model 2: Overall SES category
+m3 <- glm(Q19 ~ HW_TOTAL, data = data, family = "binomial")
+# Model 4: PSS
+m4 <- glm(Q19 ~ PSS_TOTAL, data = data, family = "binomial")
+m5 <- glm(Q19 ~ W_WS_LOC, data = data, family = "binomial")
+m6 <- glm(Q19 ~ D_AGE, data = data, family = "binomial")
+m7 <- glm(Q19 ~ D_HH_SIZE, data = data, family = "binomial")
+m8 <- glm(Q19 ~ D_CHLD, data = data, family = "binomial")
+m9 <- glm(Q19 ~ SEASON, data = data, family = "binomial")
+m10 <- glm(Q19 ~ SEASON + HW_TOTAL + PSS_TOTAL + D_AGE + SES_score + D_HH_SIZE,
+           data = data, family = "binomial")
+m11 <- glm(Q19 ~ HW_TOTAL + SEASON,
+           data = data, family = "binomial")
+
+
+aic_table <- AIC(m1, m3, m4, m5, m6, m7, m8, m9, m10, m11) %>%
+  as.data.frame() %>%
+  arrange(AIC)
+
+print(aic_table)
+
+
+m10
+m11
+m3
+m9
+best_model <- m10 # or whichever had lowest AIC
+
+tidy_model <- tidy(best_model, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(significant = ifelse(conf.low > 1 | conf.high < 1, "Significant", "Not Significant")) %>%
+  mutate(term = recode(term,
+                       "SEASONApr-Jun" = "Dry season (Apr-Jun)",
+                       "HW_TOTAL" = "Water Insecurity Score\n(HWISE)",
+                       "D_HH_SIZE" = "Household Size",
+                       "SES_score" = "Socioeconomic Status",
+                       "PSS_TOTAL" = "Perceived Stress (PSS)",
+                       "D_AGE" = "Age"))
+
+
+
+ggplot(tidy_model, aes(x = reorder(term, estimate), y = estimate, color = significant)) +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "gray60", size = 0.8) +
+  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), 
+                width = 0.3, size = 1) +
+  geom_point(size = 4) +
+  scale_color_manual(values = c("Significant" = "#8B0000", "Not Significant" = "gray50")) +
+  coord_flip() +
+  labs(title = "Odds Ratios from Logistic Regression",
+       subtitle = "Predicting Perception of Time Spent on Water Management as Excessive",
+       x = "",
+       y = "Odds Ratio (95% CI)") +
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(face = "bold", size = 20, margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 14, color = "gray30", margin = margin(b = 15)),
+    axis.title.x = element_text(size = 14, face = "bold", margin = margin(t = 10)),
+    axis.text = element_text(size = 13, color = "black"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.margin = margin(20, 20, 20, 20),
+    legend.position = "none",
+  ) 
+
+ggsave("odds_ratio_plot.png", 
+       width = 10, 
+       height = 6, 
+       dpi = 300, 
+       bg = "white")
+```
+
+
+# 3. Descriptive stats
+```{r}
+# Summary stats by Q19 condition
+data %>%
+  group_by(Q19) %>%
+  summarise(
+    mean_pss = mean(PSS_TOTAL, na.rm = TRUE),
+    sd_pss = sd(PSS_TOTAL, na.rm = TRUE),
+    mean_ses = mean(SES_score, na.rm = TRUE),
+    sd_ses = sd(SES_score, na.rm = TRUE),
+    mean_hwise = mean(HW_TOTAL, na.rm = TRUE),
+    sd_hwise = sd(HW_TOTAL, na.rm = TRUE),
+    mean_age = mean(D_AGE, na.rm = TRUE),
+    sd_age = sd(D_AGE, na.rm = TRUE),
+    n = n()
+  )
+
+# Frequency table with percentages (each season = 100%)
+perc_data <- prop.table(table(data$Q19, data$SEASON), margin = 2) * 100
+perc_data <- perc_data[1, ]
+# Plot with percentages (each season = 100%)
+png("q19_by_season.png", width = 10, height = 6, units = "in", res = 300)
+
+# Create plot
+bp <- barplot(perc_data,
+              beside = TRUE,
+              legend = FALSE,
+              xlab = "Season",
+              ylab = "Percentage",
+              main = "Perception of Excessive Time on Water Management by Season",
+              ylim = c(0, 110),
+              col = c("#8B0000", "#8B0000"),
+              border = NA,
+              cex.main = 1.5,
+              cex.lab = 1.2,
+              cex.axis = 1.1)
+
+# Add percentage labels on top of bars
+text(x = bp, 
+     y = perc_data + 3, 
+     labels = paste0(round(perc_data, 0), "%"),
+     cex = 1.1,
+     font = 2)
+dev.off()
+
+ggplot(data, aes(x = Q19, y = HW_TOTAL, fill = Q19, color = Q19)) +
+  geom_hline(yintercept = 12, linetype = "dashed", color = "gray60", linewidth = 0.8) +
+  geom_boxplot(alpha = 0.6, outlier.shape = NA, linewidth = 0.8) +
+  geom_jitter(width = 0.15, alpha = 0.4, size = 2.5) + 
+  scale_color_manual(values = c("no" = "#4682B4", "yes" = "#8B0000", "somewhat" = "purple4")) +
+  scale_fill_manual(values = c("no" = "#4682B4", "yes" = "#8B0000", "somewhat" = "purple4")) +
+  theme_minimal(base_size = 16) + 
+  labs(title = "Water Insecurity by Perception of Time Spent",
+       x = "",
+       y = "HWISE Score") +
+  theme(
+    plot.title = element_text(face = "bold", size = 20, margin = margin(b = 15)),
+    axis.title.y = element_text(size = 14, face = "bold", margin = margin(r = 10)),
+    axis.text = element_text(size = 13, color = "black"),
+    legend.position = "none",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.margin = margin(20, 20, 20, 20)
+  )
+
+ggsave("hwise_by_q19.png", width = 10, height = 6, dpi = 300, bg = "white")
+
+ggplot(data, aes(y = HW_TOTAL, x= Q19, fill = Q19, color = Q19)) +
+  geom_boxplot(alpha = 0.5) +
+  geom_jitter(alpha = 0.5, width = 0.1) +
+  theme_minimal() + 
+  facet_wrap( ~ SEASON) 
+
+
+```
+
+4. T-tests / Non-parametric Tests
+
+
+```{r}
+# PSS comparison
+wilcox.test(PSS_TOTAL ~ Q19, data = data)
+
+# SES comparison
+wilcox.test(SES_score ~ Q19, data = data)
+
+wilcox.test(HW_TOTAL ~ Q19, data = data)
+
+```
+
+There is a statistically significant difference in **stress levels** between people saying "yes" or "no". 
+
+
+
+5. Visualizations: Boxplots
+
+```{r}
+
+# Stress and SES by Q19 condition
+p1 <- ggplot(data, aes(x = Q19, y = PSS_TOTAL, fill = Q19)) +
+  geom_point(aes(alpha = 0.8,  color = Q19), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = "Perceived Stress (PSS)", y = "PSS Score", x = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+p2 <- ggplot(data, aes(x = Q19, y = SES_score, fill = Q19)) +
+  geom_point(aes(alpha = 0.8,  color = Q19), position = position_dodge2(width = 0.6)) +
+  geom_violin(alpha = 0.3) +
+  geom_boxplot(alpha = 0.8, width = 0.15) +
+  labs(title = "Socioeconomic Status", y = "SES Score", x = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# Combine plots
+p1 + p2
+
+
+```
+
+6. Correlations
+```{r}
+# Correlation matrix
+cor_data <- data %>%
+  select(PSS_TOTAL, SES_score, HW_TOTAL, D_AGE) %>%
+  drop_na()
+
+cor_matrix <- cor(cor_data)
+corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black")
+
+```
+
+

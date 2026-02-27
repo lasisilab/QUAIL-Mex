@@ -359,7 +359,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +370,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -380,13 +380,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-07-22
+<strong>Last updated:</strong> 2026-02-18
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -409,18 +409,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -511,15 +514,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaf42e2ad3e28b54032623c1dd17450c646a17c48targetblankaf42e2aa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb136ca64a9d41401bca16e8893b17585bfcaaef3targetblankb136ca6a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/af42e2ad3e28b54032623c1dd17450c646a17c48" target="_blank">af42e2a</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b136ca64a9d41401bca16e8893b17585bfcaaef3" target="_blank">b136ca6</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaf42e2ad3e28b54032623c1dd17450c646a17c48targetblankaf42e2aa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeb136ca64a9d41401bca16e8893b17585bfcaaef3targetblankb136ca6a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -529,7 +532,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/af42e2ad3e28b54032623c1dd17450c646a17c48" target="_blank">af42e2a</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/b136ca64a9d41401bca16e8893b17585bfcaaef3" target="_blank">b136ca6</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -551,20 +554,33 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/HLTH_counts_by_SES.png
     Ignored:    analysis/Hrs_by_HWISE score.png
-    Ignored:    analysis/odds_ratio_plot.png
+    Ignored:    analysis/figure/
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  data/Q19.csv
+    Untracked:  Time_by_SES.png
+    Untracked:  analysis/Data_cleaning.Rmd
+    Untracked:  analysis/Plots_Latinx_2026.Rmd
+    Untracked:  analysis/Q14-19-20-21.R
+    Untracked:  data/Q14-19-20-21_Alice.csv
+    Untracked:  data/Q14-19-20-21_Jocelyne.csv
+    Untracked:  data/Q19_combined.csv
+    Untracked:  data/Q19_consensus.csv
+    Untracked:  hwise_by_q19.png
+    Untracked:  q19_by_season.png
+    Untracked:  q19_distribution.png
 
 Unstaged changes:
-    Modified:   analysis/HBA2025_cleaning.Rmd
-    Modified:   analysis/UROP_Lauren.Rmd
+    Deleted:    HLTH_counts_by_SES.png
+    Deleted:    analysis/HBA2025_cleaning.Rmd
+    Modified:   analysis/HBA2025_emotions.Rmd
+    Modified:   analysis/Regression-Analysis_PC.Rmd
+    Modified:   data/00.Metadata-25-Feb-20.docx
     Modified:   odds_ratio_plot.png
+    Deleted:    violin_plot.png
 
 </code></pre>
 <p>
@@ -611,6 +627,23 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/3edf4ae244f167c33d13deb315f100ec888ba476/docs/HBA2025_emotions.html" target="_blank">3edf4ae</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2025-07-28
+</td>
+<td>
+upd lauren
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -650,6 +683,17 @@ fixed links to pages
 </div>
 </div>
 </div>
+<div id="transform-comparision-to-rest-of-the-city"
+class="section level1">
+<h1>Transform comparision to rest of the city</h1>
+<pre class="r"><code>data &lt;- data %&gt;%
+  mutate(MX28_WQ_COMP = case_when(
+    MX28_WQ_COMP %in% c(1, 2) ~ 0, ## same or better recoded as zero
+    MX28_WQ_COMP == 0 ~ 1, # worse recoded as 1
+    TRUE ~ MX28_WQ_COMP
+  ))
+
+data$MX28_WQ_COMP &lt;- factor(data$MX28_WQ_COMP, levels = c(&quot;0&quot;, &quot;1&quot;))</code></pre>
 <p>#Categorical groups using HWISE</p>
 <pre class="r"><code># Categorize HW_TOTAL into four groups
 data &lt;- data %&gt;%
@@ -659,7 +703,8 @@ data &lt;- data %&gt;%
     HW_TOTAL &gt;= 3 &amp; HW_TOTAL &lt;= 11 ~ &quot;Low&quot;,
     HW_TOTAL &gt;= 12 &amp; HW_TOTAL &lt;= 23 ~ &quot;Moderate&quot;,
     HW_TOTAL &gt;= 24 &amp; HW_TOTAL &lt;= 36 ~ &quot;High&quot;
-  ))</code></pre>
+  )) %&gt;% 
+  rename(PSS_TOTAL = PSS_TOTAL_REV)</code></pre>
 <div id="significant-differences-in-hours-of-water-supply-per-week"
 class="section level2">
 <h2>Significant differences in hours of water supply per week</h2>
@@ -710,44 +755,7 @@ TRUE          ~ &quot;ns&quot;</code></pre>
 This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
-<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
-Past versions of unnamed-chunk-5-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-5-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/f69ad127f1435bc7619dd199d0b2d07b7f59473c/docs/figure/HBA2025_emotions.Rmd/unnamed-chunk-5-1.png" target="_blank">f69ad12</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-07-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Ensure it&#39;s properly coded as 0 or 1
 data$MX26_EM_HHW_TYPE &lt;- as.numeric(as.factor(data$MX26_EM_HHW_TYPE)) - 1  
 # Remove rows where MX26_EM_HHW_TYPE is 2
@@ -851,17 +859,17 @@ Call:
 glm(formula = formula, family = binomial, data = data)
 
 Coefficients:
-             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)    1.3442     0.2323   5.786 7.19e-09 ***
-MX28_WQ_COMP  -0.6114     0.1777  -3.440 0.000582 ***
+              Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)     0.5042     0.1622   3.110  0.00187 **
+MX28_WQ_COMP1   0.7341     0.3013   2.436  0.01483 * 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 303.36  on 249  degrees of freedom
-AIC: 307.36
+Residual deviance: 309.44  on 249  degrees of freedom
+AIC: 313.44
 
 Number of Fisher Scoring iterations: 4
 
@@ -978,7 +986,7 @@ glm(formula = formula, family = binomial, data = data)
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  0.82030    0.14281   5.744 9.24e-09 ***
+(Intercept) -1.09534    0.53661  -2.041 0.041227 *  
 PSS_TOTAL    0.06842    0.01975   3.464 0.000532 ***
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -1041,13 +1049,13 @@ glm(formula = formula, family = binomial, data = data)
 
 Coefficients:
                                                                                             Estimate
-(Intercept)                                                                               -4.979e-15
-MX9_DRINK_Wa) agua del suministro publico,E) Garrafon de purificadora,G) Botellas de Agua  1.032e-14
+(Intercept)                                                                               -1.135e-14
+MX9_DRINK_Wa) agua del suministro publico,E) Garrafon de purificadora,G) Botellas de Agua  1.021e-14
 MX9_DRINK_Wd) Garrafon de marca                                                           -6.931e-01
 MX9_DRINK_WD) Garrafon de marca                                                           -4.055e-01
 MX9_DRINK_Wd) Garrafon de marca,E) Garrafon de purificadora                               -1.557e+01
 MX9_DRINK_WD) Garrafon de marca,E) Garrafon de purificadora                                1.792e+00
-MX9_DRINK_Wd) Garrafon de marca,E) Garrafon de purificadora,G) Botellas de Agua            5.674e-15
+MX9_DRINK_Wd) Garrafon de marca,E) Garrafon de purificadora,G) Botellas de Agua            9.688e-15
 MX9_DRINK_WD) Garrafon de marca,E) Garrafon de purificadora,G) Botellas de Agua            1.609e+00
 MX9_DRINK_WD) Garrafon de marca,G) Botellas de Agua                                        1.557e+01
 MX9_DRINK_WE) Garrafon de purificadora                                                     8.157e-01
@@ -1407,7 +1415,7 @@ print(aic_values)</code></pre>
 2         W_WC_WI 299.5229
 3       PSS_TOTAL 306.8192
 4        HRS_WEEK 307.1284
-5    MX28_WQ_COMP 307.3601
+5    MX28_WQ_COMP 313.4415
 6        W_WS_LOC 314.6525
 7  HLTH_CPAIN_CAT 317.4550
 8    SES_SC_Total 318.0615
@@ -1431,51 +1439,51 @@ Call:
 glm(formula = multivariable_formula, family = binomial, data = data)
 
 Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -0.845508   0.905685  -0.934 0.350533    
-HW_TOTAL      0.204400   0.036730   5.565 2.62e-08 ***
-W_WC_WI       1.141862   0.535763   2.131 0.033066 *  
-PSS_TOTAL     0.074589   0.024297   3.070 0.002142 ** 
-HRS_WEEK      0.004302   0.004609   0.933 0.350661    
-MX28_WQ_COMP -0.797236   0.228343  -3.491 0.000481 ***
-W_WS_LOC     -0.253768   0.531435  -0.478 0.632996    
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -3.863069   1.060532  -3.643  0.00027 ***
+HW_TOTAL       0.199228   0.036237   5.498 3.84e-08 ***
+W_WC_WI        1.208982   0.521925   2.316  0.02054 *  
+PSS_TOTAL      0.068087   0.023721   2.870  0.00410 ** 
+HRS_WEEK       0.004468   0.004525   0.987  0.32346    
+MX28_WQ_COMP1  0.895962   0.376027   2.383  0.01719 *  
+W_WS_LOC      -0.218157   0.521927  -0.418  0.67596    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.47  on 244  degrees of freedom
-AIC: 245.47
+Residual deviance: 238.69  on 244  degrees of freedom
+AIC: 252.69
 
 Number of Fisher Scoring iterations: 5</code></pre>
 <pre class="r"><code># Perform stepwise selection to find the best model
 optimized_model &lt;- stepAIC(multivariable_model, direction = &quot;both&quot;)</code></pre>
-<pre><code>Start:  AIC=245.47
+<pre><code>Start:  AIC=252.69
 MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
     MX28_WQ_COMP + W_WS_LOC
 
                Df Deviance    AIC
-- W_WS_LOC      1   231.70 243.70
-- HRS_WEEK      1   232.34 244.34
-&lt;none&gt;              231.47 245.47
-- W_WC_WI       1   236.24 248.24
-- PSS_TOTAL     1   241.74 253.74
+- W_WS_LOC      1   238.87 250.87
+- HRS_WEEK      1   239.67 251.67
+&lt;none&gt;              238.69 252.69
+- W_WC_WI       1   244.34 256.34
 - MX28_WQ_COMP  1   244.65 256.64
-- HW_TOTAL      1   272.28 284.28
+- PSS_TOTAL     1   247.54 259.54
+- HW_TOTAL      1   278.47 290.47
 
-Step:  AIC=243.7
+Step:  AIC=250.87
 MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
     MX28_WQ_COMP
 
                Df Deviance    AIC
-&lt;none&gt;              231.70 243.70
-- HRS_WEEK      1   233.95 243.95
-+ W_WS_LOC      1   231.47 245.47
-- W_WC_WI       1   236.32 246.32
-- PSS_TOTAL     1   241.74 251.74
+&lt;none&gt;              238.87 250.87
+- HRS_WEEK      1   241.18 251.18
++ W_WS_LOC      1   238.69 252.69
+- W_WC_WI       1   244.38 254.38
 - MX28_WQ_COMP  1   244.65 254.65
-- HW_TOTAL      1   274.23 284.23</code></pre>
+- PSS_TOTAL     1   247.55 257.55
+- HW_TOTAL      1   280.06 290.06</code></pre>
 <pre class="r"><code># Display summary of optimized model
 summary(optimized_model)</code></pre>
 <pre><code>
@@ -1484,21 +1492,21 @@ glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL +
     HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data)
 
 Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.094315   0.738982  -1.481 0.138649    
-HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
-W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
-PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
-HRS_WEEK      0.005550   0.003788   1.465 0.142810    
-MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -4.021188   0.990729  -4.059 4.93e-05 ***
+HW_TOTAL       0.200672   0.036085   5.561 2.68e-08 ***
+W_WC_WI        1.187375   0.518065   2.292  0.02191 *  
+PSS_TOTAL      0.066696   0.023388   2.852  0.00435 ** 
+HRS_WEEK       0.005541   0.003723   1.488  0.13665    
+MX28_WQ_COMP1  0.874142   0.372300   2.348  0.01888 *  
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.70  on 245  degrees of freedom
-AIC: 243.7
+Residual deviance: 238.87  on 245  degrees of freedom
+AIC: 250.87
 
 Number of Fisher Scoring iterations: 5</code></pre>
 <p>The Akaike Information Criterion (AIC) values indicate how well each
@@ -1533,186 +1541,6 @@ odds_ratios &lt;- tidy(final_model, exponentiate = TRUE, conf.int = TRUE)
 ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
   geom_pointrange() +
   geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # OR = 1 reference line
-  coord_flip() +
-  labs(title = &quot;Odds Ratios for Predictors of Perceived Water Service Quality&quot;,
-       x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
-Past versions of unnamed-chunk-7-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-7-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/f69ad127f1435bc7619dd199d0b2d07b7f59473c/docs/figure/HBA2025_emotions.Rmd/unnamed-chunk-7-1.png" target="_blank">f69ad12</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-07-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code># Load required libraries
-library(ggplot2)
-library(broom)
-library(dplyr)
-library(MASS)  # For stepAIC
-
-# Remove missing values for selected variables
-data_clean &lt;- data %&gt;%
-  drop_na(MX26_EM_HHW_TYPE, HW_TOTAL, W_WC_WI, PSS_TOTAL, HRS_WEEK, MX28_WQ_COMP)
-
-# Ensure outcome variable is a binary factor (0/1)
-data_clean$MX26_EM_HHW_TYPE &lt;- factor(data_clean$MX26_EM_HHW_TYPE, levels = c(0, 1))
-
-# ---------------------------
-# 1️⃣ Multivariable Logistic Regression Model
-# ---------------------------
-full_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-                  HRS_WEEK + MX28_WQ_COMP, 
-                  data = data_clean, family = binomial)
-
-# Display summary
-summary(full_model)</code></pre>
-<pre><code>
-Call:
-glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
-
-Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.094315   0.738982  -1.481 0.138649    
-HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
-W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
-PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
-HRS_WEEK      0.005550   0.003788   1.465 0.142810    
-MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.70  on 245  degrees of freedom
-AIC: 243.7
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<pre class="r"><code># ---------------------------
-# 2️⃣ Interaction Analysis: HW_TOTAL * PSS_TOTAL
-# ---------------------------
-interaction_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + 
-                         W_WC_WI + HRS_WEEK + MX28_WQ_COMP, 
-                         data = data_clean, family = binomial)
-
-summary(interaction_model)</code></pre>
-<pre><code>
-Call:
-glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + W_WC_WI + 
-    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
-
-Coefficients:
-                    Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)        -1.084805   0.740174  -1.466 0.142755    
-HW_TOTAL            0.204914   0.036712   5.582 2.38e-08 ***
-PSS_TOTAL           0.081631   0.039127   2.086 0.036950 *  
-W_WC_WI             1.116790   0.531346   2.102 0.035570 *  
-HRS_WEEK            0.005615   0.003797   1.479 0.139246    
-MX28_WQ_COMP       -0.793527   0.228746  -3.469 0.000522 ***
-HW_TOTAL:PSS_TOTAL -0.001483   0.005186  -0.286 0.774902    
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.62  on 244  degrees of freedom
-AIC: 245.62
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<pre class="r"><code># ---------------------------
-# 3️⃣ Model Comparison Using AIC
-# ---------------------------
-# Compare AIC values
-aic_values &lt;- data.frame(
-  Model = c(&quot;Full Model&quot;, &quot;Interaction Model&quot;),
-  AIC = c(AIC(full_model), AIC(interaction_model))
-)
-
-print(aic_values)</code></pre>
-<pre><code>              Model      AIC
-1        Full Model 243.6981
-2 Interaction Model 245.6166</code></pre>
-<pre class="r"><code># Stepwise model selection using stepAIC
-optimized_model &lt;- stepAIC(full_model, direction = &quot;both&quot;)</code></pre>
-<pre><code>Start:  AIC=243.7
-MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
-    MX28_WQ_COMP
-
-               Df Deviance    AIC
-&lt;none&gt;              231.70 243.70
-- HRS_WEEK      1   233.95 243.95
-- W_WC_WI       1   236.32 246.32
-- PSS_TOTAL     1   241.74 251.74
-- MX28_WQ_COMP  1   244.65 254.65
-- HW_TOTAL      1   274.23 284.23</code></pre>
-<pre class="r"><code># Display optimized model summary
-summary(optimized_model)</code></pre>
-<pre><code>
-Call:
-glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
-
-Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.094315   0.738982  -1.481 0.138649    
-HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
-W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
-PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
-HRS_WEEK      0.005550   0.003788   1.465 0.142810    
-MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.70  on 245  degrees of freedom
-AIC: 243.7
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<pre class="r"><code># ---------------------------
-# 4️⃣ Visualizing Odds Ratios
-# ---------------------------
-# Extract odds ratios from the optimized model
-odds_ratios &lt;- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
-
-# Plot odds ratios with confidence intervals
-ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
-  geom_pointrange() +
-  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Reference line at OR = 1
   coord_flip() +
   labs(title = &quot;Odds Ratios for Predictors of Perceived Water Service Quality&quot;,
        x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
@@ -1755,15 +1583,146 @@ Paloma
 </table>
 </div>
 </div>
-<pre class="r"><code># Extract odds ratios and confidence intervals
+<pre class="r"><code># Load required libraries
+library(ggplot2)
+library(broom)
+library(dplyr)
+library(MASS)  # For stepAIC
+
+# Remove missing values for selected variables
+data_clean &lt;- data %&gt;%
+  drop_na(MX26_EM_HHW_TYPE, HW_TOTAL, W_WC_WI, PSS_TOTAL, HRS_WEEK, MX28_WQ_COMP)
+
+# Ensure outcome variable is a binary factor (0/1)
+data_clean$MX26_EM_HHW_TYPE &lt;- factor(data_clean$MX26_EM_HHW_TYPE, levels = c(0, 1))
+
+# ---------------------------
+# 1️⃣ Multivariable Logistic Regression Model
+# ---------------------------
+full_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP, 
+                  data = data_clean, family = binomial)
+
+# Display summary
+summary(full_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
+
+Coefficients:
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -4.021188   0.990729  -4.059 4.93e-05 ***
+HW_TOTAL       0.200672   0.036085   5.561 2.68e-08 ***
+W_WC_WI        1.187375   0.518065   2.292  0.02191 *  
+PSS_TOTAL      0.066696   0.023388   2.852  0.00435 ** 
+HRS_WEEK       0.005541   0.003723   1.488  0.13665    
+MX28_WQ_COMP1  0.874142   0.372300   2.348  0.01888 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 238.87  on 245  degrees of freedom
+AIC: 250.87
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># ---------------------------
+# 2️⃣ Interaction Analysis: HW_TOTAL * PSS_TOTAL
+# ---------------------------
+interaction_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + 
+                         W_WC_WI + HRS_WEEK + MX28_WQ_COMP, 
+                         data = data_clean, family = binomial)
+
+summary(interaction_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL * PSS_TOTAL + W_WC_WI + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
+
+Coefficients:
+                     Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)        -4.1032941  1.3215608  -3.105   0.0019 **
+HW_TOTAL            0.2136677  0.1427306   1.497   0.1344   
+PSS_TOTAL           0.0695938  0.0386753   1.799   0.0719 . 
+W_WC_WI             1.1879058  0.5182400   2.292   0.0219 * 
+HRS_WEEK            0.0055634  0.0037314   1.491   0.1360   
+MX28_WQ_COMP1       0.8795711  0.3770241   2.333   0.0197 * 
+HW_TOTAL:PSS_TOTAL -0.0004843  0.0051364  -0.094   0.9249   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 238.86  on 244  degrees of freedom
+AIC: 252.86
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># ---------------------------
+# 3️⃣ Model Comparison Using AIC
+# ---------------------------
+# Compare AIC values
+aic_values &lt;- data.frame(
+  Model = c(&quot;Full Model&quot;, &quot;Interaction Model&quot;),
+  AIC = c(AIC(full_model), AIC(interaction_model))
+)
+
+print(aic_values)</code></pre>
+<pre><code>              Model      AIC
+1        Full Model 250.8687
+2 Interaction Model 252.8598</code></pre>
+<pre class="r"><code># Stepwise model selection using stepAIC
+optimized_model &lt;- stepAIC(full_model, direction = &quot;both&quot;)</code></pre>
+<pre><code>Start:  AIC=250.87
+MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP
+
+               Df Deviance    AIC
+&lt;none&gt;              238.87 250.87
+- HRS_WEEK      1   241.18 251.18
+- W_WC_WI       1   244.38 254.38
+- MX28_WQ_COMP  1   244.65 254.65
+- PSS_TOTAL     1   247.55 257.55
+- HW_TOTAL      1   280.06 290.06</code></pre>
+<pre class="r"><code># Display optimized model summary
+summary(optimized_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data_clean)
+
+Coefficients:
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -4.021188   0.990729  -4.059 4.93e-05 ***
+HW_TOTAL       0.200672   0.036085   5.561 2.68e-08 ***
+W_WC_WI        1.187375   0.518065   2.292  0.02191 *  
+PSS_TOTAL      0.066696   0.023388   2.852  0.00435 ** 
+HRS_WEEK       0.005541   0.003723   1.488  0.13665    
+MX28_WQ_COMP1  0.874142   0.372300   2.348  0.01888 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 238.87  on 245  degrees of freedom
+AIC: 250.87
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># ---------------------------
+# 4️⃣ Visualizing Odds Ratios
+# ---------------------------
+# Extract odds ratios from the optimized model
 odds_ratios &lt;- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
 
 # Plot odds ratios with confidence intervals
 ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
-  geom_pointrange(color = &quot;blue&quot;) +
-  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # OR = 1 reference line
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # Reference line at OR = 1
   coord_flip() +
-  labs(title = &quot;Odds Ratios for Predictors of Perceived Water Hardship&quot;,
+  labs(title = &quot;Odds Ratios for Predictors of Perceived Water Service Quality&quot;,
        x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -1804,183 +1763,17 @@ Paloma
 </table>
 </div>
 </div>
-<pre class="r"><code># Run a &quot;full model&quot; with previously excluded variables forced in
-full_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-                  HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
-                  MX10_WSTORAGE + SES_SC_Total, 
-                  family = binomial, data = data)
+<pre class="r"><code># Extract odds ratios and confidence intervals
+odds_ratios &lt;- tidy(optimized_model, exponentiate = TRUE, conf.int = TRUE)
 
-# Compare with optimized model
-optimized_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-                       HRS_WEEK + MX28_WQ_COMP, 
-                       family = binomial, data = data)
-
-# Display summaries of both models
-#summary(full_model)
-summary(optimized_model)</code></pre>
-<pre><code>
-Call:
-glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data)
-
-Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.094315   0.738982  -1.481 0.138649    
-HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
-W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
-PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
-HRS_WEEK      0.005550   0.003788   1.465 0.142810    
-MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.70  on 245  degrees of freedom
-AIC: 243.7
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<pre class="r"><code># Compare AIC values
-AIC(full_model, optimized_model)</code></pre>
-<pre><code>                df      AIC
-full_model      69 324.0633
-optimized_model  6 243.6981</code></pre>
-<pre class="r"><code># Check significance of forced-in variables
-tidy(full_model)</code></pre>
-<pre><code># A tibble: 69 × 5
-   term                                     estimate std.error statistic p.value
-   &lt;chr&gt;                                       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
- 1 (Intercept)                              -2.35      2.49       -0.946 3.44e-1
- 2 HW_TOTAL                                  0.213     0.0468      4.54  5.63e-6
- 3 W_WC_WI                                   1.14      0.663       1.72  8.58e-2
- 4 PSS_TOTAL                                 0.0619    0.0283      2.19  2.85e-2
- 5 HRS_WEEK                                  0.00458   0.00467     0.982 3.26e-1
- 6 MX28_WQ_COMP                             -0.808     0.269      -3.00  2.67e-3
- 7 SEASON                                    0.426     0.438       0.974 3.30e-1
- 8 MX9_DRINK_Wa) agua del suministro publi…  2.76      2.68        1.03  3.02e-1
- 9 MX9_DRINK_Wd) Garrafon de marca           1.28      2.51        0.510 6.10e-1
-10 MX9_DRINK_WD) Garrafon de marca           0.908     2.31        0.393 6.94e-1
-# ℹ 59 more rows</code></pre>
-<pre class="r"><code># Check if adding them improves model fit
-anova(optimized_model, full_model, test = &quot;Chisq&quot;) </code></pre>
-<pre><code>Analysis of Deviance Table
-
-Model 1: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
-    MX28_WQ_COMP
-Model 2: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
-    MX28_WQ_COMP + SEASON + MX9_DRINK_W + MX10_WSTORAGE + SES_SC_Total
-  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
-1       245     231.70                     
-2       182     186.06 63   45.635   0.9512</code></pre>
-<pre class="r"><code># Check for multicollinearity
-vif(full_model)</code></pre>
-<pre><code>                   GVIF Df GVIF^(1/(2*Df))
-HW_TOTAL       1.605750  1        1.267182
-W_WC_WI        3.213247  1        1.792553
-PSS_TOTAL      1.337397  1        1.156459
-HRS_WEEK       3.291158  1        1.814155
-MX28_WQ_COMP   1.372686  1        1.171617
-SEASON         1.443933  1        1.201638
-MX9_DRINK_W    5.390004 11        1.079578
-MX10_WSTORAGE 11.171679 50        1.024427
-SES_SC_Total   1.575563  1        1.255215</code></pre>
-<pre class="r"><code># Run a full model forcing in previously excluded variables + interactions
-full_model_interactions &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-                               HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
-                               MX10_WSTORAGE + SES_SC_Total + 
-                               HW_TOTAL * SEASON + HW_TOTAL * PSS_TOTAL + 
-                               HRS_WEEK * W_WC_WI,  # Adding interactions
-                               family = binomial, data = data)
-
-# Compare with optimized model
-optimized_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-                       HRS_WEEK + MX28_WQ_COMP, 
-                       family = binomial, data = data)
-
-# Display summaries of models
-#summary(full_model_interactions)
-summary(optimized_model)</code></pre>
-<pre><code>
-Call:
-glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
-    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data)
-
-Coefficients:
-              Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  -1.094315   0.738982  -1.481 0.138649    
-HW_TOTAL      0.206229   0.036552   5.642 1.68e-08 ***
-W_WC_WI       1.114721   0.530738   2.100 0.035700 *  
-PSS_TOTAL     0.072825   0.023904   3.047 0.002315 ** 
-HRS_WEEK      0.005550   0.003788   1.465 0.142810    
-MX28_WQ_COMP -0.783987   0.226096  -3.467 0.000525 ***
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 231.70  on 245  degrees of freedom
-AIC: 243.7
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<pre class="r"><code># Compare AIC values
-AIC(full_model_interactions, optimized_model)</code></pre>
-<pre><code>                        df      AIC
-full_model_interactions 72 323.6679
-optimized_model          6 243.6981</code></pre>
-<pre class="r"><code># Check significance of forced-in variables and interactions
-tidy(full_model_interactions)</code></pre>
-<pre><code># A tibble: 72 × 5
-   term                                     estimate std.error statistic p.value
-   &lt;chr&gt;                                       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
- 1 (Intercept)                               -4.37      3.48      -1.25  0.210  
- 2 HW_TOTAL                                   0.166     0.0613     2.71  0.00668
- 3 W_WC_WI                                    4.21      2.07       2.04  0.0415 
- 4 PSS_TOTAL                                  0.0768    0.0470     1.64  0.102  
- 5 HRS_WEEK                                   0.0231    0.0125     1.84  0.0655 
- 6 MX28_WQ_COMP                              -0.834     0.283     -2.95  0.00322
- 7 SEASON                                    -0.472     0.722     -0.653 0.514  
- 8 MX9_DRINK_Wa) agua del suministro publi…   2.44      3.03       0.803 0.422  
- 9 MX9_DRINK_Wd) Garrafon de marca            0.876     3.00       0.292 0.770  
-10 MX9_DRINK_WD) Garrafon de marca            0.308     2.68       0.115 0.909  
-# ℹ 62 more rows</code></pre>
-<pre class="r"><code># Compare models using ANOVA test (Chi-square)
-anova(optimized_model, full_model_interactions, test = &quot;Chisq&quot;) </code></pre>
-<pre><code>Analysis of Deviance Table
-
-Model 1: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
-    MX28_WQ_COMP
-Model 2: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
-    MX28_WQ_COMP + SEASON + MX9_DRINK_W + MX10_WSTORAGE + SES_SC_Total + 
-    HW_TOTAL * SEASON + HW_TOTAL * PSS_TOTAL + HRS_WEEK * W_WC_WI
-  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
-1       245     231.70                     
-2       179     179.67 66    52.03   0.8953</code></pre>
-<pre class="r"><code># Check for multicollinearity
-vif(full_model_interactions)</code></pre>
-<pre><code>there are higher-order terms (interactions) in this model
-consider setting type = &#39;predictor&#39;; see ?vif</code></pre>
-<pre><code>                        GVIF Df GVIF^(1/(2*Df))
-HW_TOTAL            2.697236  1        1.642326
-W_WC_WI            30.077412  1        5.484288
-PSS_TOTAL           3.605419  1        1.898794
-HRS_WEEK           22.875970  1        4.782883
-MX28_WQ_COMP        1.480294  1        1.216673
-SEASON              3.840797  1        1.959795
-MX9_DRINK_W         5.489961 11        1.080480
-MX10_WSTORAGE      14.924173 50        1.027398
-SES_SC_Total        1.678463  1        1.295555
-HW_TOTAL:SEASON     3.699105  1        1.923306
-HW_TOTAL:PSS_TOTAL  3.311344  1        1.819710
-W_WC_WI:HRS_WEEK   12.757317  1        3.571739</code></pre>
-<pre class="r"><code># Visualize interaction effects using marginal effects plots
-library(ggeffects)
-
-# Plot interaction effects for HW_TOTAL * SEASON
-plot(ggpredict(full_model_interactions, terms = c(&quot;HW_TOTAL&quot;, &quot;SEASON&quot;)))</code></pre>
-<pre><code>Data were &#39;prettified&#39;. Consider using `terms=&quot;HW_TOTAL [all]&quot;` to get
-  smooth plots.</code></pre>
+# Plot odds ratios with confidence intervals
+ggplot(odds_ratios, aes(x = term, y = estimate, ymin = conf.low, ymax = conf.high)) +
+  geom_pointrange(color = &quot;blue&quot;) +
+  geom_hline(yintercept = 1, linetype = &quot;dashed&quot;, color = &quot;red&quot;) +  # OR = 1 reference line
+  coord_flip() +
+  labs(title = &quot;Odds Ratios for Predictors of Perceived Water Hardship&quot;,
+       x = &quot;Predictor&quot;, y = &quot;Odds Ratio&quot;) +
+  theme_minimal()</code></pre>
 <p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
@@ -2019,97 +1812,206 @@ Paloma
 </table>
 </div>
 </div>
+<pre class="r"><code># Run a &quot;full model&quot; with previously excluded variables forced in
+full_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                  HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
+                  MX10_WSTORAGE + SES_SC_Total, 
+                  family = binomial, data = data)
+
+# Compare with optimized model
+optimized_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                       HRS_WEEK + MX28_WQ_COMP, 
+                       family = binomial, data = data)
+
+# Display summaries of both models
+#summary(full_model)
+summary(optimized_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data)
+
+Coefficients:
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -4.021188   0.990729  -4.059 4.93e-05 ***
+HW_TOTAL       0.200672   0.036085   5.561 2.68e-08 ***
+W_WC_WI        1.187375   0.518065   2.292  0.02191 *  
+PSS_TOTAL      0.066696   0.023388   2.852  0.00435 ** 
+HRS_WEEK       0.005541   0.003723   1.488  0.13665    
+MX28_WQ_COMP1  0.874142   0.372300   2.348  0.01888 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 238.87  on 245  degrees of freedom
+AIC: 250.87
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># Compare AIC values
+AIC(full_model, optimized_model)</code></pre>
+<pre><code>                df      AIC
+full_model      69 329.0010
+optimized_model  6 250.8687</code></pre>
+<pre class="r"><code># Check significance of forced-in variables
+tidy(full_model)</code></pre>
+<pre><code># A tibble: 69 × 5
+   term                                     estimate std.error statistic p.value
+   &lt;chr&gt;                                       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)                              -5.69      2.55       -2.23  2.55e-2
+ 2 HW_TOTAL                                  0.218     0.0467      4.67  3.00e-6
+ 3 W_WC_WI                                   1.24      0.645       1.93  5.39e-2
+ 4 PSS_TOTAL                                 0.0575    0.0276      2.09  3.69e-2
+ 5 HRS_WEEK                                  0.00501   0.00460     1.09  2.76e-1
+ 6 MX28_WQ_COMP1                             0.931     0.435       2.14  3.21e-2
+ 7 SEASON                                    0.574     0.430       1.34  1.82e-1
+ 8 MX9_DRINK_Wa) agua del suministro publi…  2.97      2.48        1.20  2.31e-1
+ 9 MX9_DRINK_Wd) Garrafon de marca           1.54      2.41        0.637 5.24e-1
+10 MX9_DRINK_WD) Garrafon de marca           1.10      2.20        0.499 6.18e-1
+# ℹ 59 more rows</code></pre>
+<pre class="r"><code># Check if adding them improves model fit
+anova(optimized_model, full_model, test = &quot;Chisq&quot;) </code></pre>
+<pre><code>Analysis of Deviance Table
+
+Model 1: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP
+Model 2: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP + SEASON + MX9_DRINK_W + MX10_WSTORAGE + SES_SC_Total
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+1       245     238.87                     
+2       182     191.00 63   47.868   0.9212</code></pre>
+<pre class="r"><code># Check for multicollinearity
+vif(full_model)</code></pre>
+<pre><code>                   GVIF Df GVIF^(1/(2*Df))
+HW_TOTAL       1.591980  1        1.261737
+W_WC_WI        3.146289  1        1.773778
+PSS_TOTAL      1.326252  1        1.151630
+HRS_WEEK       3.322943  1        1.822894
+MX28_WQ_COMP   1.364239  1        1.168007
+SEASON         1.439629  1        1.199845
+MX9_DRINK_W    5.206120 11        1.077876
+MX10_WSTORAGE 10.556860 50        1.023848
+SES_SC_Total   1.606729  1        1.267568</code></pre>
+<pre class="r"><code>vif(optimized_model)</code></pre>
+<pre><code>    HW_TOTAL      W_WC_WI    PSS_TOTAL     HRS_WEEK MX28_WQ_COMP 
+    1.086030     2.572476     1.094010     2.749352     1.147339 </code></pre>
+<pre class="r"><code># Run a full model forcing in previously excluded variables + interactions
+full_model_interactions &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                               HRS_WEEK + MX28_WQ_COMP + SEASON + MX9_DRINK_W + 
+                               MX10_WSTORAGE + SES_SC_Total + 
+                               HW_TOTAL * SEASON + HW_TOTAL * PSS_TOTAL + 
+                               HRS_WEEK * W_WC_WI,  # Adding interactions
+                               family = binomial, data = data)
+
+# Compare with optimized model
+optimized_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+                       HRS_WEEK + MX28_WQ_COMP, 
+                       family = binomial, data = data)
+
+# Display summaries of models
+#summary(full_model_interactions)
+summary(optimized_model)</code></pre>
+<pre><code>
+Call:
+glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + 
+    HRS_WEEK + MX28_WQ_COMP, family = binomial, data = data)
+
+Coefficients:
+               Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)   -4.021188   0.990729  -4.059 4.93e-05 ***
+HW_TOTAL       0.200672   0.036085   5.561 2.68e-08 ***
+W_WC_WI        1.187375   0.518065   2.292  0.02191 *  
+PSS_TOTAL      0.066696   0.023388   2.852  0.00435 ** 
+HRS_WEEK       0.005541   0.003723   1.488  0.13665    
+MX28_WQ_COMP1  0.874142   0.372300   2.348  0.01888 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 315.71  on 250  degrees of freedom
+Residual deviance: 238.87  on 245  degrees of freedom
+AIC: 250.87
+
+Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code># Compare AIC values
+AIC(full_model_interactions, optimized_model)</code></pre>
+<pre><code>                        df      AIC
+full_model_interactions 72 329.2901
+optimized_model          6 250.8687</code></pre>
+<pre class="r"><code># Check significance of forced-in variables and interactions
+tidy(full_model_interactions)</code></pre>
+<pre><code># A tibble: 72 × 5
+   term                                     estimate std.error statistic p.value
+   &lt;chr&gt;                                       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+ 1 (Intercept)                               -7.66      3.66      -2.09   0.0363
+ 2 HW_TOTAL                                   0.181     0.174      1.04   0.299 
+ 3 W_WC_WI                                    3.96      2.01       1.97   0.0487
+ 4 PSS_TOTAL                                  0.0665    0.0467     1.42   0.154 
+ 5 HRS_WEEK                                   0.0212    0.0121     1.74   0.0815
+ 6 MX28_WQ_COMP1                              0.884     0.464      1.91   0.0567
+ 7 SEASON                                    -0.293     0.712     -0.411  0.681 
+ 8 MX9_DRINK_Wa) agua del suministro publi…   2.63      2.70       0.976  0.329 
+ 9 MX9_DRINK_Wd) Garrafon de marca            1.15      2.78       0.413  0.680 
+10 MX9_DRINK_WD) Garrafon de marca            0.527     2.42       0.217  0.828 
+# ℹ 62 more rows</code></pre>
+<pre class="r"><code># Compare models using ANOVA test (Chi-square)
+anova(optimized_model, full_model_interactions, test = &quot;Chisq&quot;) </code></pre>
+<pre><code>Analysis of Deviance Table
+
+Model 1: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP
+Model 2: MX26_EM_HHW_TYPE ~ HW_TOTAL + W_WC_WI + PSS_TOTAL + HRS_WEEK + 
+    MX28_WQ_COMP + SEASON + MX9_DRINK_W + MX10_WSTORAGE + SES_SC_Total + 
+    HW_TOTAL * SEASON + HW_TOTAL * PSS_TOTAL + HRS_WEEK * W_WC_WI
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+1       245     238.87                     
+2       179     185.29 66   53.579    0.864</code></pre>
+<pre class="r"><code># Check for multicollinearity
+vif(full_model_interactions)</code></pre>
+<pre><code>there are higher-order terms (interactions) in this model
+consider setting type = &#39;predictor&#39;; see ?vif</code></pre>
+<pre><code>                        GVIF Df GVIF^(1/(2*Df))
+HW_TOTAL           21.791410  1        4.668127
+W_WC_WI            29.455122  1        5.427257
+PSS_TOTAL           3.715856  1        1.927656
+HRS_WEEK           22.467003  1        4.739937
+MX28_WQ_COMP        1.500962  1        1.225138
+SEASON              3.869493  1        1.967103
+MX9_DRINK_W         5.342567 11        1.079144
+MX10_WSTORAGE      14.085374 50        1.026804
+SES_SC_Total        1.697459  1        1.302866
+HW_TOTAL:SEASON     3.720877  1        1.928958
+HW_TOTAL:PSS_TOTAL 20.811404  1        4.561952
+W_WC_WI:HRS_WEEK   12.305568  1        3.507929</code></pre>
+<pre class="r"><code># Visualize interaction effects using marginal effects plots
+library(ggeffects)
+
+# Plot interaction effects for HW_TOTAL * SEASON
+plot(ggpredict(full_model_interactions, terms = c(&quot;HW_TOTAL&quot;, &quot;SEASON&quot;)))</code></pre>
+<pre><code>Data were &#39;prettified&#39;. Consider using `terms=&quot;HW_TOTAL [all]&quot;` to get
+  smooth plots.</code></pre>
+<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Plot interaction effects for HW_TOTAL * PSS_TOTAL
 plot(ggpredict(full_model_interactions, terms = c(&quot;HW_TOTAL&quot;, &quot;PSS_TOTAL&quot;)))</code></pre>
 <pre><code>Data were &#39;prettified&#39;. Consider using `terms=&quot;HW_TOTAL [all]&quot;` to get
   smooth plots.</code></pre>
-<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-2">
-Past versions of unnamed-chunk-10-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/f69ad127f1435bc7619dd199d0b2d07b7f59473c/docs/figure/HBA2025_emotions.Rmd/unnamed-chunk-10-2.png" target="_blank">f69ad12</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-07-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Plot interaction effects for HRS_WEEK * W_WC_WI
 plot(ggpredict(full_model_interactions, terms = c(&quot;HRS_WEEK&quot;, &quot;W_WC_WI&quot;)))</code></pre>
 <pre><code>Data were &#39;prettified&#39;. Consider using `terms=&quot;HRS_WEEK [all]&quot;` to get
   smooth plots.</code></pre>
-<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-10-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-3">
-Past versions of unnamed-chunk-10-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/f69ad127f1435bc7619dd199d0b2d07b7f59473c/docs/figure/HBA2025_emotions.Rmd/unnamed-chunk-10-3.png" target="_blank">f69ad12</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2025-07-17
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/HBA2025_emotions.Rmd/unnamed-chunk-11-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>interaction_model &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK * W_WC_WI + MX28_WQ_COMP, 
                          family = binomial, data = data)</code></pre>
+</div>
 </div>
 <div id="interactions" class="section level1">
 <h1>Interactions</h1>
 <pre class="r"><code>library(MASS)  # For stepAIC
 library(car)   # For VIF
+
 
 # Baseline Model (Main Effects Only)
 model1 &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + W_WC_WI + MX28_WQ_COMP, 
@@ -2144,31 +2046,31 @@ AIC_values &lt;- data.frame(
 AIC_values &lt;- AIC_values[order(AIC_values$AIC), ]
 print(AIC_values)</code></pre>
 <pre><code>                  Model      AIC
-2    HRS_WEEK * W_WC_WI 241.7577
-1          Main Effects 243.6981
-5 Multiple Interactions 243.7072
-3    HW_TOTAL * W_WC_WI 244.9458
-4   HW_TOTAL * HRS_WEEK 245.6921</code></pre>
+2    HRS_WEEK * W_WC_WI 249.8029
+1          Main Effects 250.8687
+5 Multiple Interactions 251.7719
+3    HW_TOTAL * W_WC_WI 252.3020
+4   HW_TOTAL * HRS_WEEK 252.8552</code></pre>
 <pre class="r"><code>optimized_model &lt;- stepAIC(model1, 
                            scope = list(lower = model1, upper = model5),
                            direction = &quot;both&quot;, trace = TRUE)</code></pre>
-<pre><code>Start:  AIC=243.7
+<pre><code>Start:  AIC=250.87
 MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + W_WC_WI + 
     MX28_WQ_COMP
 
                    Df Deviance    AIC
-+ W_WC_WI:HRS_WEEK  1   227.76 241.76
-&lt;none&gt;                  231.70 243.70
-+ HW_TOTAL:W_WC_WI  1   230.95 244.95
++ W_WC_WI:HRS_WEEK  1   235.80 249.80
+&lt;none&gt;                  238.87 250.87
++ HW_TOTAL:W_WC_WI  1   238.30 252.30
 
-Step:  AIC=241.76
+Step:  AIC=249.8
 MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + W_WC_WI + 
     MX28_WQ_COMP + HRS_WEEK:W_WC_WI
 
                    Df Deviance    AIC
-&lt;none&gt;                  227.76 241.76
-- HRS_WEEK:W_WC_WI  1   231.70 243.70
-+ HW_TOTAL:W_WC_WI  1   227.71 243.71</code></pre>
+&lt;none&gt;                  235.80 249.80
+- HRS_WEEK:W_WC_WI  1   238.87 250.87
++ HW_TOTAL:W_WC_WI  1   235.77 251.77</code></pre>
 <pre class="r"><code>summary(optimized_model)  # Final optimized model</code></pre>
 <pre><code>
 Call:
@@ -2178,30 +2080,30 @@ glm(formula = MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK +
 
 Coefficients:
                   Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)      -3.759858   1.561281  -2.408 0.016032 *  
-HW_TOTAL          0.219857   0.038252   5.748 9.05e-09 ***
-PSS_TOTAL         0.075143   0.024080   3.121 0.001805 ** 
-HRS_WEEK          0.021751   0.009189   2.367 0.017925 *  
-W_WC_WI           3.860486   1.507907   2.560 0.010462 *  
-MX28_WQ_COMP     -0.802290   0.228860  -3.506 0.000456 ***
-HRS_WEEK:W_WC_WI -0.019164   0.009829  -1.950 0.051220 .  
+(Intercept)      -6.303243   1.710908  -3.684 0.000229 ***
+HW_TOTAL          0.211512   0.037460   5.646 1.64e-08 ***
+PSS_TOTAL         0.067560   0.023474   2.878 0.004001 ** 
+HRS_WEEK          0.019242   0.008927   2.155 0.031129 *  
+W_WC_WI           3.526774   1.470151   2.399 0.016444 *  
+MX28_WQ_COMP1     0.834602   0.373465   2.235 0.025434 *  
+HRS_WEEK:W_WC_WI -0.016450   0.009587  -1.716 0.086198 .  
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 315.71  on 250  degrees of freedom
-Residual deviance: 227.76  on 244  degrees of freedom
-AIC: 241.76
+Residual deviance: 235.80  on 244  degrees of freedom
+AIC: 249.8
 
 Number of Fisher Scoring iterations: 5</code></pre>
 <pre class="r"><code>vif(optimized_model)</code></pre>
 <pre><code>there are higher-order terms (interactions) in this model
 consider setting type = &#39;predictor&#39;; see ?vif</code></pre>
 <pre><code>        HW_TOTAL        PSS_TOTAL         HRS_WEEK          W_WC_WI 
-        1.173584         1.109111        15.753474        20.561897 
+        1.143264         1.093606        15.575641        20.431430 
     MX28_WQ_COMP HRS_WEEK:W_WC_WI 
-        1.164241         8.764237 </code></pre>
+        1.147632         8.512593 </code></pre>
 </div>
 <div id="the-chosen-one" class="section level1">
 <h1>The chosen one</h1>
@@ -2212,8 +2114,8 @@ model1 &lt;- glm(MX26_EM_HHW_TYPE ~ HW_TOTAL + PSS_TOTAL + HRS_WEEK + MX28_WQ_CO
 # Compute Odds Ratios
 odds_ratios &lt;- exp(coef(model1))
 odds_ratios</code></pre>
-<pre><code> (Intercept)     HW_TOTAL    PSS_TOTAL     HRS_WEEK MX28_WQ_COMP 
-   1.1753227    1.2300701    1.0777347    0.9996209    0.4485783 </code></pre>
+<pre><code>  (Intercept)      HW_TOTAL     PSS_TOTAL      HRS_WEEK MX28_WQ_COMP1 
+   0.06377932    1.22152256    1.07107885    0.99918445    2.40693382 </code></pre>
 <pre class="r"><code># Compute Confidence Intervals for ORs
 conf_intervals &lt;- exp(confint(model1))</code></pre>
 <pre><code>Waiting for profiling to be done...</code></pre>
@@ -2230,19 +2132,19 @@ odds_df &lt;- data.frame(
 
 # Print Table of Odds Ratios
 print(odds_df)</code></pre>
-<pre><code>                Predictor        OR  Lower_CI  Upper_CI
-(Intercept)   (Intercept) 1.1753227 0.5150017 2.6991022
-HW_TOTAL         HW_TOTAL 1.2300701 1.1495511 1.3263093
-PSS_TOTAL       PSS_TOTAL 1.0777347 1.0306425 1.1303971
-HRS_WEEK         HRS_WEEK 0.9996209 0.9949548 1.0043822
-MX28_WQ_COMP MX28_WQ_COMP 0.4485783 0.2859698 0.6865234</code></pre>
+<pre><code>                  Predictor         OR   Lower_CI  Upper_CI
+(Intercept)     (Intercept) 0.06377932 0.01303503 0.2823093
+HW_TOTAL           HW_TOTAL 1.22152256 1.14297554 1.3151424
+PSS_TOTAL         PSS_TOTAL 1.07107885 1.02507738 1.1221490
+HRS_WEEK           HRS_WEEK 0.99918445 0.99457641 1.0038698
+MX28_WQ_COMP1 MX28_WQ_COMP1 2.40693382 1.18775548 5.0515330</code></pre>
 <pre class="r"><code>odds_df$Predictor &lt;- factor(odds_df$Predictor, 
-                                  levels = c(&quot;(Intercept)&quot;, &quot;HW_TOTAL&quot;, &quot;PSS_TOTAL&quot;, &quot;HRS_WEEK&quot;, &quot;MX28_WQ_COMP&quot;),
+                                  levels = c(&quot;(Intercept)&quot;, &quot;HW_TOTAL&quot;, &quot;PSS_TOTAL&quot;, &quot;HRS_WEEK&quot;, &quot;MX28_WQ_COMP1&quot;),
                                   labels = c(&quot;Intercept&quot;,
                                              &quot;HWISE\nscore&quot;, 
                                              &quot;Perceived\nStress&quot;, 
                                              &quot;Hours of\nWater Supply&quot;, 
-                                             &quot;Perception of water service\n(Same or Better than others)&quot;))
+                                             &quot;Perception of water service\n(Worse than others)&quot;))
 
 # Save the plot as a high-resolution PNG for a poster
 ggsave(&quot;odds_ratio_plot.png&quot;, width = 10, height = 5, dpi = 300)
@@ -2316,12 +2218,12 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.5.1 (2025-06-13)
+<pre><code>R version 4.5.2 (2025-10-31)
 Platform: aarch64-apple-darwin20
-Running under: macOS Sequoia 15.5
+Running under: macOS Tahoe 26.3
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
 LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
@@ -2336,28 +2238,28 @@ attached base packages:
 other attached packages:
  [1] ggeffects_2.3.0 car_3.1-3       carData_3.0-5   broom_1.0.8    
  [5] MASS_7.3-65     tidyr_1.3.1     coin_1.4-3      survival_3.8-3 
- [9] ggpubr_0.6.1    rstatix_0.7.2   ggplot2_3.5.2   dplyr_1.1.4    
+ [9] ggpubr_0.6.1    rstatix_0.7.2   ggplot2_4.0.0   dplyr_1.1.4    
 
 loaded via a namespace (and not attached):
- [1] gtable_0.3.6      xfun_0.52         bslib_0.9.0       insight_1.3.1    
- [5] lattice_0.22-7    vctrs_0.6.5       tools_4.5.1       generics_0.1.3   
- [9] datawizard_1.1.0  stats4_4.5.1      parallel_4.5.1    sandwich_3.1-1   
-[13] tibble_3.2.1      pkgconfig_2.0.3   Matrix_1.7-3      lifecycle_1.0.4  
-[17] farver_2.1.2      compiler_4.5.1    stringr_1.5.1     git2r_0.36.2     
-[21] textshaping_1.0.0 munsell_0.5.1     codetools_0.2-20  httpuv_1.6.16    
-[25] htmltools_0.5.8.1 sass_0.4.10       yaml_2.3.10       Formula_1.2-5    
-[29] crayon_1.5.3      later_1.4.2       pillar_1.10.2     jquerylib_0.1.4  
-[33] whisker_0.4.1     cachem_1.1.0      abind_1.4-8       multcomp_1.4-28  
-[37] tidyselect_1.2.1  digest_0.6.37     mvtnorm_1.3-3     stringi_1.8.7    
-[41] purrr_1.0.4       forcats_1.0.0     labeling_0.4.3    splines_4.5.1    
-[45] rprojroot_2.0.4   fastmap_1.2.0     grid_4.5.1        colorspace_2.1-1 
-[49] cli_3.6.4         magrittr_2.0.3    utf8_1.2.4        TH.data_1.1-3    
-[53] libcoin_1.0-10    withr_3.0.2       scales_1.3.0      promises_1.3.2   
-[57] backports_1.5.0   rmarkdown_2.29    matrixStats_1.5.0 ggsignif_0.6.4   
-[61] workflowr_1.7.1   ragg_1.4.0        hms_1.1.3         zoo_1.8-14       
-[65] modeltools_0.2-24 evaluate_1.0.3    haven_2.5.4       knitr_1.50       
-[69] rlang_1.1.6       Rcpp_1.0.14       glue_1.8.0        rstudioapi_0.17.1
-[73] jsonlite_2.0.0    R6_2.6.1          systemfonts_1.2.3 fs_1.6.6         </code></pre>
+ [1] gtable_0.3.6       xfun_0.52          bslib_0.9.0        insight_1.3.1     
+ [5] lattice_0.22-7     vctrs_0.6.5        tools_4.5.2        generics_0.1.3    
+ [9] datawizard_1.1.0   stats4_4.5.2       parallel_4.5.2     sandwich_3.1-1    
+[13] tibble_3.2.1       pkgconfig_2.0.3    Matrix_1.7-4       RColorBrewer_1.1-3
+[17] S7_0.2.0           lifecycle_1.0.4    compiler_4.5.2     farver_2.1.2      
+[21] stringr_1.5.1      git2r_0.36.2       textshaping_1.0.0  codetools_0.2-20  
+[25] httpuv_1.6.16      htmltools_0.5.8.1  sass_0.4.10        yaml_2.3.10       
+[29] Formula_1.2-5      crayon_1.5.3       later_1.4.2        pillar_1.10.2     
+[33] jquerylib_0.1.4    whisker_0.4.1      cachem_1.1.0       abind_1.4-8       
+[37] multcomp_1.4-28    tidyselect_1.2.1   digest_0.6.37      mvtnorm_1.3-3     
+[41] stringi_1.8.7      purrr_1.0.4        forcats_1.0.0      labeling_0.4.3    
+[45] splines_4.5.2      rprojroot_2.1.1    fastmap_1.2.0      grid_4.5.2        
+[49] cli_3.6.4          magrittr_2.0.3     utf8_1.2.4         TH.data_1.1-3     
+[53] libcoin_1.0-10     withr_3.0.2        scales_1.4.0       promises_1.3.2    
+[57] backports_1.5.0    rmarkdown_2.29     matrixStats_1.5.0  ggsignif_0.6.4    
+[61] workflowr_1.7.1    ragg_1.4.0         hms_1.1.3          zoo_1.8-14        
+[65] modeltools_0.2-24  evaluate_1.0.3     haven_2.5.4        knitr_1.50        
+[69] rlang_1.1.6        Rcpp_1.0.14        glue_1.8.0         rstudioapi_0.17.1 
+[73] jsonlite_2.0.0     R6_2.6.1           systemfonts_1.2.3  fs_1.6.6          </code></pre>
 </div>
 </div>
 </div>
