@@ -1,0 +1,106 @@
+---
+title: "Maps"
+output: html_document
+date: "2026-03-04"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# Install if needed:
+# install.packages(c("sf", "ggplot2", "dplyr"))
+
+library(sf)
+library(ggplot2)
+library(dplyr)
+
+# Download Mexico City borough boundaries from INEGI
+# Using the administrative boundaries available via rgeomex or direct download
+# install.packages("rgeomex")  # optional package with INEGI data
+
+# Alternative: use geodata package
+# install.packages("geodata")
+library(geodata)
+
+# Download Mexico administrative level 2 (municipalities/alcaldías)
+mex_adm2 <- geodata::gadm(country = "MEX", level = 2, path = tempdir()) |>
+  st_as_sf()
+
+# Filter to Mexico City (CDMX) - NAME_1 varies, try "Ciudad de México" or "Distrito Federal"
+cdmx <- mex_adm2 |>
+  filter(NAME_1 == "Distrito Federal")
+
+# Add highlight column
+cdmx <- cdmx |>
+  mutate(highlight = ifelse(NAME_2 == "Iztapalapa", "Iztapalapa", "Other boroughs"))
+
+# Plot
+ggplot(cdmx) +
+  geom_sf(aes(fill = highlight), color = "white", linewidth = 0.4) +
+  scale_fill_manual(
+    values = c("Iztapalapa" = "#05686D", "Other boroughs" = "#B0C4DE"),
+    name = NULL
+  ) +
+  labs(
+    title = "Mexico City Boroughs (Alcaldías)",
+    subtitle = "."
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(face = "bold"),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
+# Mapa de Iztapalapa
+```{r}
+
+
+# Download colonias shapefile from CDMX open data portal
+url <- "https://datos.cdmx.gob.mx/dataset/coloniascdmx/resource/8b68b8bc-f1b8-4ece-8671-ee3df92b1ce8"
+
+# Direct GeoJSON download
+colonias <- st_read("https://datos.cdmx.gob.mx/api/3/action/datastore_search?resource_id=8b68b8bc-f1b8-4ece-8671-ee3df92b1ce8")
+
+
+colonias <- st_read("path/to/colonias.shp")  # or .geojson
+
+# Check column names
+names(colonias)
+
+# Filter to Iztapalapa — check the exact column name for borough
+# likely "alcaldia", "municipio", or "delegacion"
+iztapalapa <- colonias |>
+  filter(grepl("iztapalapa", alcaldia, ignore.case = TRUE))
+
+ggplot(iztapalapa) +
+  geom_sf(fill = "#D94F3D", color = "white", linewidth = 0.3) +
+  labs(title = "Colonias in Iztapalapa") +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+ggplot(iztapalapa) +
+  geom_sf(fill = "#05686D", color = "white", linewidth = 0.3) +
+  labs(title = "Colonias in Iztapalapa") +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    panel.grid = element_blank()
+  )
+
+```
+
