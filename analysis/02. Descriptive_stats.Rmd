@@ -1,0 +1,543 @@
+---
+title: "Descriptive Statistics"
+author: "Paloma"
+date: "2026-03-06"
+output: workflowr::wflow_html
+---
+
+## Introduction
+
+This document produces descriptive statistics for the merged dataset
+(`Merged_Screening_HWISE_PSS.csv`, produced by `Data_merge_HWISE_PSS.Rmd`).
+It includes:
+
+1. A comprehensive descriptive statistics table (all analytic variables)
+
+2. A filtered table with only the variables relevant to the manuscript
+
+3. HWISE and PSS descriptive statistics (overall and by season)
+
+4. Sample characteristics stratified by water insecurity level (HWISE categories)
+
+5. A missing data summary table
+
+---
+
+# Setup
+
+```{r setup, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(gtsummary)
+library(gt)
+library(ggplot2)
+
+data_path <- "./data"
+
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+# Helper: convert sentinel codes and recode to NA for descriptive stats
+# Sentinel-coded values are treated as NA in tables (they are not true responses)
+clean_for_table <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES | is.na(x_num), NA, x_num)
+}
+```
+
+---
+
+# 1. Load cleaned data
+
+```{r load}
+df <- read.csv(file.path(data_path, "Merged_Screening_HWISE_PSS.csv"),
+               stringsAsFactors = FALSE,
+               na.strings = c(""))
+
+cat("Dimensions:", dim(df), "\n")
+cat("Participants:", nrow(df), "\n")
+```
+
+---
+
+# 2. Prepare analytic dataset
+
+Select and recode variables for the descriptive table.
+All sentinel codes are converted to NA here since they represent non-informative responses for descriptive purposes.
+
+```{r prepare}
+df_table <- df %>%
+  mutate(
+    # --- Demographics ---
+    Age          = clean_for_table(D_AGE),
+    Yrs_in_nbhd  = clean_for_table(D_LOC_TIME_CLEAN),
+    HH_size      = clean_for_table(D_HH_SIZE),
+    Parity       = clean_for_table(D_CHLD_CLEAN),
+
+    # --- Season ---
+    Season = factor(SEASON,
+                    levels = c(0, 1),
+                    labels = c("Rainy (Oct-Dec 2022)", "Dry (Apr-Jun 2023)")),
+
+    # --- SES ---
+    SES_Total    = clean_for_table(SES_SC_Total),
+    SES_Category = factor(SES_CAT_AMAI,
+                          levels = c("E", "D-", "D+", "C-", "C", "C+", "AB"),
+                          ordered = TRUE),
+
+    # --- Employment ---
+    Employed = factor(clean_for_table(D_EMP_CLEAN),
+                      levels = c(0, 1),
+                      labels = c("No", "Yes")),
+    Employment_type = factor(clean_for_table(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1),
+                             labels = c("Informal", "Formal")),
+
+    # --- Health ---
+    Smoking = factor(clean_for_table(HLTH_SMK_CLEAN),
+                     levels = c(0, 1, 2),
+                     labels = c("No", "Yes", "Occasionally")),
+    Hormonal_tx   = factor(clean_for_table(HLTH_TTM_CLEAN),
+                           levels = c(0, 1), labels = c("No", "Yes")),
+    Medication    = factor(clean_for_table(HLTH_MED_CLEAN),
+                           levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_pain  = factor(clean_for_table(HLTH_CPAIN_CLEAN),
+                           levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_dis   = factor(clean_for_table(HLTH_CDIS_CLEAN),
+                           levels = c(0, 1), labels = c("No", "Yes")),
+
+    # --- HWISE ---
+    HWISE_Total   = clean_for_table(HW_TOTAL),
+    # Standard HWISE categories (Young et al. 2019, BMJ Global Health)
+    # 0 = secure; 1-11 = marginal; 12-23 = moderate; 24-36 = severe
+    HWISE_Cat     = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))             ~ NA_character_,
+        clean_for_table(HW_TOTAL) == 0               ~ "Secure (0)",
+        clean_for_table(HW_TOTAL) <= 11              ~ "Marginal (1-11)",
+        clean_for_table(HW_TOTAL) <= 23              ~ "Moderate (12-23)",
+        TRUE                                         ~ "Severe (24-36)"
+      ),
+      levels = c("Secure (0)", "Marginal (1-11)",
+                 "Moderate (12-23)", "Severe (24-36)")
+    ),
+    Water_worry   = clean_for_table(HW_WORRY_SUB),
+
+    # --- PSS-14 ---
+    PSS_Total     = clean_for_table(PSS_TOTAL),
+    # Tertile-based PSS categories
+    PSS_Cat       = factor(
+      case_when(
+        is.na(clean_for_table(PSS_TOTAL))            ~ NA_character_,
+        clean_for_table(PSS_TOTAL) <= 22             ~ "Low stress (≤22)",
+        clean_for_table(PSS_TOTAL) <= 31             ~ "Moderate stress (23-31)",
+        TRUE                                         ~ "High stress (≥32)"
+      ),
+      levels = c("Low stress (≤22)", "Moderate stress (23-31)",
+                 "High stress (≥32)")
+    )
+  )
+df_table
+```
+
+---
+
+# 3. Comprehensive descriptive statistics table
+
+Includes all analytic variables to inspect the full sample before deciding what to include in the manuscript table.
+
+```{r table-full}
+tbl_full <- df_table %>%
+  select(
+    # Demographics
+    Season, Age, Yrs_in_nbhd, HH_size, Parity,
+    # SES
+    SES_Total, SES_Category,
+    # Employment
+    Employed, Employment_type,
+    # Health
+    Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis,
+    # Water insecurity
+    HWISE_Total, HWISE_Cat, Water_worry,
+    # Perceived stress
+    PSS_Total, PSS_Cat
+  ) %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits    = list(all_continuous() ~ 1),
+    missing   = "no",   # missing handled in separate table
+    label     = list(
+      Season          ~ "Season of data collection",
+      Age             ~ "Age (years)",
+      Yrs_in_nbhd     ~ "Years in neighborhood",
+      HH_size         ~ "Household size (n persons)",
+      Parity          ~ "Number of children",
+      SES_Total       ~ "SES composite score (NSE-AMAI)",
+      SES_Category    ~ "SES category (NSE-AMAI)",
+      Employed        ~ "Currently employed",
+      Employment_type ~ "Employment type (among employed)",
+      Smoking         ~ "Smoking status",
+      Hormonal_tx     ~ "Hormonal treatment",
+      Medication      ~ "Regular medication use",
+      Chronic_pain    ~ "Chronic pain",
+      Chronic_dis     ~ "Chronic disease",
+      HWISE_Total     ~ "HWISE total score (0–36)",
+      HWISE_Cat       ~ "Water insecurity level",
+      Water_worry     ~ "Water worry subscale (0–9)",
+      PSS_Total       ~ "PSS-14 total score (0–56)",
+      PSS_Cat         ~ "Perceived stress level"
+    )
+  ) %>%
+  bold_labels() %>%
+  modify_caption("**Table S1. Comprehensive descriptive statistics (n = {N})**")
+
+tbl_full
+```
+
+---
+
+# 4. Manuscript table (filtered)
+
+Contains only variables directly relevant to the paper (for now).
+Stratified by season to show comparability across data collection waves.
+
+```{r table-manuscript}
+tbl_ms <- df_table %>%
+  select(
+    Season, Age, Yrs_in_nbhd, HH_size, Parity,
+    SES_Total, SES_Category,
+    Employed, Employment_type,
+    Smoking, Chronic_pain, Chronic_dis
+  ) %>%
+  tbl_summary(
+    by        = Season,
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits    = list(all_continuous() ~ 1),
+    missing   = "no",
+    label     = list(
+      Age             ~ "Age (years)",
+      Yrs_in_nbhd     ~ "Years in neighborhood",
+      HH_size         ~ "Household size",
+      Parity          ~ "Parity (n children)",
+      SES_Total       ~ "SES score (NSE-AMAI)",
+      SES_Category    ~ "SES category",
+      Employed        ~ "Employed",
+      Employment_type ~ "Employment type",
+      Smoking         ~ "Smoking",
+      Chronic_pain    ~ "Chronic pain",
+      Chronic_dis     ~ "Chronic disease"
+    )
+  ) %>%
+  add_overall() %>%
+  add_p(test = list(
+    all_continuous()  ~ "t.test",
+    all_categorical() ~ "chisq.test"
+  )) %>%
+  bold_labels() %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season of data collection**") %>%
+  modify_caption("**Table 1. Sample characteristics by season (n = {N})**")
+
+tbl_ms
+```
+
+---
+
+# 5. Missing data summary table
+
+Reports true NAs and sentinel-coded values separately for all analytic
+variables. Include as supplementary table in dissertation; summarize
+in-text for the journal manuscript.
+
+```{r table-missing}
+# Variables to include in missing data report
+analytic_cols <- c(
+  "D_AGE", "D_LOC_TIME_CLEAN", "D_HH_SIZE", "D_CHLD_CLEAN",
+  "SEASON", "SES_SC_Total", "SES_CAT_AMAI",
+  "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
+  "HLTH_SMK_CLEAN", "HLTH_TTM_CLEAN", "HLTH_MED_CLEAN",
+  "HLTH_CPAIN_CLEAN", "HLTH_CDIS_CLEAN"
+)
+
+# Readable labels
+var_labels <- c(
+  D_AGE             = "Age",
+  D_LOC_TIME_CLEAN  = "Years in neighborhood",
+  D_HH_SIZE         = "Household size",
+  D_CHLD_CLEAN      = "Parity",
+  SEASON            = "Season",
+  SES_SC_Total      = "SES composite score",
+  SES_CAT_AMAI      = "SES category",
+  D_EMP_CLEAN       = "Employed (yes/no)",
+  D_EMP_FORM_CLEAN  = "Employment type",
+  HLTH_SMK_CLEAN    = "Smoking",
+  HLTH_TTM_CLEAN    = "Hormonal treatment",
+  HLTH_MED_CLEAN    = "Medication use",
+  HLTH_CPAIN_CLEAN  = "Chronic pain",
+  HLTH_CDIS_CLEAN   = "Chronic disease"
+)
+
+N <- nrow(df)
+
+missing_tbl <- df %>%
+  select(all_of(analytic_cols)) %>%
+  summarise(across(everything(), list(
+    n_na      = ~ sum(is.na(.)),
+    n_999     = ~ sum(as.character(.) == "999", na.rm = TRUE),
+    n_888     = ~ sum(as.character(.) == "888", na.rm = TRUE),
+    n_777     = ~ sum(as.character(.) == "777", na.rm = TRUE),
+    n_666     = ~ sum(as.character(.) == "666", na.rm = TRUE),
+    n_555     = ~ sum(as.character(.) == "555", na.rm = TRUE),
+    n_444     = ~ sum(as.character(.) == "444", na.rm = TRUE),
+    n_333     = ~ sum(as.character(.) == "333", na.rm = TRUE)
+  ))) %>%
+  pivot_longer(everything(),
+               names_to  = c("variable", ".value"),
+               names_sep = "_(?=n_)") %>%
+  mutate(
+    label        = var_labels[variable],
+    n_total      = N,
+    pct_na       = round(n_na   / N * 100, 1),
+    n_flagged    = n_999 + n_888 + n_777 + n_666 + n_555 + n_444 + n_333,
+    pct_flagged  = round(n_flagged / N * 100, 1),
+    n_complete   = N - n_na - n_flagged,
+    pct_complete = round(n_complete / N * 100, 1)
+  ) %>%
+  select(label, n_complete, pct_complete,
+         n_na, pct_na,
+         n_flagged, pct_flagged,
+         n_999, n_888, n_777, n_666, n_555, n_444, n_333) %>%
+  arrange(desc(n_na))
+
+# Print full missing table
+missing_tbl %>%
+  gt() %>%
+  tab_header(title = "Missing Data Summary") %>%
+  tab_spanner(label = "Complete",   columns = c(n_complete, pct_complete)) %>%
+  tab_spanner(label = "True NA",    columns = c(n_na, pct_na)) %>%
+  tab_spanner(label = "Flagged",    columns = c(n_flagged, pct_flagged)) %>%
+  tab_spanner(label = "Sentinel code breakdown",
+              columns = c(n_999, n_888, n_777, n_666, n_555, n_444, n_333)) %>%
+  cols_label(
+    label        = "Variable",
+    n_complete   = "n", pct_complete = "%",
+    n_na         = "n", pct_na       = "%",
+    n_flagged    = "n", pct_flagged  = "%",
+    n_999 = "999", n_888 = "888", n_777 = "777", n_666 = "666",
+    n_555 = "555", n_444 = "444", n_333 = "333"
+  ) %>%
+  fmt_number(columns = where(is.numeric), decimals = 0) %>%
+  tab_footnote(
+    footnote = "999=Missing/lost, 888=Don't know, 777=Refused, 666=Illegible, 555=Other, 444=Ambiguous, 333=Pending"
+  )
+```
+
+---
+
+# 6. Visualization: missing data overview
+
+```{r plot-missing, fig.width=8, fig.height=5}
+missing_tbl %>%
+  select(label, pct_complete, pct_na, pct_flagged) %>%
+  pivot_longer(-label, names_to = "type", values_to = "pct") %>%
+  mutate(type = factor(type,
+                       levels = c("pct_complete", "pct_na", "pct_flagged"),
+                       labels = c("Complete", "True NA", "Flagged (sentinel)")),
+         label = factor(label, levels = rev(missing_tbl$label))) %>%
+  ggplot(aes(x = label, y = pct, fill = type)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = c("Complete"            = "#5bc0de",
+                               "True NA"             = "#d9534f",
+                               "Flagged (sentinel)"  = "#f0ad4e")) +
+  labs(title = "Missing data by variable",
+       x = NULL, y = "Percentage (%)", fill = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+
+---
+
+# 7. HWISE and PSS descriptive statistics
+
+## 7.1 Overall HWISE and PSS summary
+
+```{r hwise-pss-overall}
+tbl_scores <- df_table %>%
+  select(HWISE_Total, HWISE_Cat, Water_worry, PSS_Total, PSS_Cat) %>%
+  tbl_summary(
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = "no",
+    label   = list(
+      HWISE_Total  ~ "HWISE total score (0-36)",
+      HWISE_Cat    ~ "Water insecurity level",
+      Water_worry  ~ "Water worry subscale (0-9)",
+      PSS_Total    ~ "PSS-14 total score (0-56)",
+      PSS_Cat      ~ "Perceived stress level"
+    )
+  ) %>%
+  bold_labels() %>%
+  modify_caption("**Table. HWISE and PSS scores — full sample (n = {N})**")
+
+tbl_scores
+```
+
+## 7.2 HWISE and PSS by season
+
+```{r hwise-pss-by-season}
+tbl_scores_season <- df_table %>%
+  select(Season, HWISE_Total, HWISE_Cat, Water_worry, PSS_Total, PSS_Cat) %>%
+  tbl_summary(
+    by        = Season,
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = "no",
+    label   = list(
+      HWISE_Total  ~ "HWISE total score (0-36)",
+      HWISE_Cat    ~ "Water insecurity level",
+      Water_worry  ~ "Water worry subscale (0-9)",
+      PSS_Total    ~ "PSS-14 total score (0-56)",
+      PSS_Cat      ~ "Perceived stress level"
+    )
+  ) %>%
+  add_overall() %>%
+  add_p(test = list(
+    all_continuous()  ~ "t.test",
+    all_categorical() ~ "chisq.test"
+  )) %>%
+  bold_labels() %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
+  modify_caption("**Table. HWISE and PSS scores by season (n = {N})**")
+
+tbl_scores_season
+```
+
+## 7.3 Distribution plots
+
+```{r hwise-pss-plots, fig.width=9, fig.height=4, message=FALSE, warning=FALSE}
+library(gridExtra)
+
+p_hwise <- ggplot(df_table %>% filter(!is.na(HWISE_Total)),
+                  aes(x = HWISE_Total, fill = Season)) +
+  geom_histogram(binwidth = 1, position = "identity", alpha = 0.6) +
+  scale_fill_manual(values = c("Rainy (Oct-Dec 2022)" = "#5bc0de",
+                               "Dry (Apr-Jun 2023)"   = "#d9534f")) +
+  labs(title = "HWISE total score", x = "Score (0-36)", y = "Count", fill = NULL) +
+  theme_minimal() + theme(legend.position = "bottom")
+
+p_pss <- ggplot(df_table %>% filter(!is.na(PSS_Total)),
+                aes(x = PSS_Total, fill = Season)) +
+  geom_histogram(binwidth = 2, position = "identity", alpha = 0.6) +
+  scale_fill_manual(values = c("Rainy (Oct-Dec 2022)" = "#5bc0de",
+                               "Dry (Apr-Jun 2023)"   = "#d9534f")) +
+  labs(title = "PSS-14 total score", x = "Score (0-56)", y = "Count", fill = NULL) +
+  theme_minimal() + theme(legend.position = "bottom")
+
+grid.arrange(p_hwise, p_pss, ncol = 2)
+```
+
+---
+
+# 8. Sample characteristics by water insecurity level
+
+Demographics and health variables stratified by HWISE category, using the
+standard cut-points from Young et al. (2019, *BMJ Global Health*):
+0 = water secure; 1-11 = marginal; 12-23 = moderate; 24-36 = severe.
+One-way ANOVA used for continuous variables; chi-square for categorical.
+
+```{r table-by-hwise}
+tbl_by_hwise <- df_table %>%
+  filter(!is.na(HWISE_Cat)) %>%
+  select(
+    HWISE_Cat,
+    Age, Yrs_in_nbhd, HH_size, Parity,
+    SES_Total, SES_Category,
+    Employed, Smoking, Chronic_pain, Chronic_dis,
+    PSS_Total, PSS_Cat, Water_worry
+  ) %>%
+  tbl_summary(
+    by        = HWISE_Cat,
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = "no",
+    label   = list(
+      Age          ~ "Age (years)",
+      Yrs_in_nbhd  ~ "Years in neighborhood",
+      HH_size      ~ "Household size",
+      Parity       ~ "Parity (n children)",
+      SES_Total    ~ "SES score",
+      SES_Category ~ "SES category",
+      Employed     ~ "Employed",
+      Smoking      ~ "Smoking",
+      Chronic_pain ~ "Chronic pain",
+      Chronic_dis  ~ "Chronic disease",
+      PSS_Total    ~ "PSS-14 total score",
+      PSS_Cat      ~ "Perceived stress level",
+      Water_worry  ~ "Water worry subscale"
+    )
+  ) %>%
+  add_overall() %>%
+  add_p(test = list(
+    all_continuous()  ~ "aov",
+    all_categorical() ~ "chisq.test"
+  )) %>%
+  bold_labels() %>%
+  modify_spanning_header(c("stat_1", "stat_2", "stat_3", "stat_4") ~
+                           "**Water insecurity level (HWISE)**") %>%
+  modify_caption("**Table. Sample characteristics by water insecurity level (n = {N})**")
+
+tbl_by_hwise
+```
+
+---
+
+# 9. PSS and water worry by water insecurity level
+
+```{r pss-by-hwise-plot, fig.width=9, fig.height=4}
+p_pss_hwise <- df_table %>%
+  filter(!is.na(HWISE_Cat) & !is.na(PSS_Total)) %>%
+  ggplot(aes(x = HWISE_Cat, y = PSS_Total, fill = HWISE_Cat)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
+  scale_fill_manual(values = c(
+    "Secure (0)"       = "#2ecc71",
+    "Marginal (1-11)"  = "#f1c40f",
+    "Moderate (12-23)" = "#e67e22",
+    "Severe (24-36)"   = "#e74c3c"
+  )) +
+  labs(title = "PSS-14 by water insecurity level",
+       x = NULL, y = "PSS-14 score (0-56)") +
+  theme_minimal() + theme(legend.position = "none")
+
+p_worry_hwise <- df_table %>%
+  filter(!is.na(HWISE_Cat) & !is.na(Water_worry)) %>%
+  ggplot(aes(x = HWISE_Cat, y = Water_worry, fill = HWISE_Cat)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
+  scale_fill_manual(values = c(
+    "Secure (0)"       = "#2ecc71",
+    "Marginal (1-11)"  = "#f1c40f",
+    "Moderate (12-23)" = "#e67e22",
+    "Severe (24-36)"   = "#e74c3c"
+  )) +
+  scale_y_continuous(breaks = 0:9) +
+  labs(title = "Water worry subscale by water insecurity level",
+       x = NULL, y = "Water worry score (0-9)") +
+  theme_minimal() + theme(legend.position = "none")
+
+grid.arrange(p_pss_hwise, p_worry_hwise, ncol = 2)
+```

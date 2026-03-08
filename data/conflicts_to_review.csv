@@ -1,0 +1,124 @@
+"ID","variable","value_1","value_2","resolution"
+"329","D_YRBR","2001","2002",NA
+"376","D_YRBR","1993","1998",NA
+"70","D_YRBR","1989","1984",NA
+"322","D_AGE","33","34",NA
+"324","D_AGE","20","21",NA
+"325","D_AGE","43","44",NA
+"326","D_AGE","35","36",NA
+"327","D_AGE","27","28",NA
+"328","D_AGE","43","44",NA
+"331","D_AGE","34","35",NA
+"332","D_AGE","45","46",NA
+"333","D_AGE","31","32",NA
+"335","D_AGE","27","28",NA
+"336","D_AGE","32","33",NA
+"337","D_AGE","33","34",NA
+"338","D_AGE","22","23",NA
+"339","D_AGE","37","38",NA
+"340","D_AGE","30","31",NA
+"341","D_AGE","33","34",NA
+"343","D_AGE","27","28",NA
+"344","D_AGE","30","31",NA
+"345","D_AGE","24","25",NA
+"362","D_AGE","28","29",NA
+"364","D_AGE","33","34",NA
+"365","D_AGE","32","33",NA
+"366","D_AGE","43","44",NA
+"367","D_AGE","32","33",NA
+"368","D_AGE","41","42",NA
+"369","D_AGE","32","33",NA
+"370","D_AGE","34","35",NA
+"371","D_AGE","37","38",NA
+"372","D_AGE","30","31",NA
+"373","D_AGE","31","32",NA
+"374","D_AGE","37","38",NA
+"375","D_AGE","25","24",NA
+"376","D_AGE","29","25",NA
+"377","D_AGE","19","20",NA
+"378","D_AGE","22","23",NA
+"379","D_AGE","38","39",NA
+"380","D_AGE","39","40",NA
+"381","D_AGE","18","19",NA
+"382","D_AGE","27","28",NA
+"383","D_AGE","24","25",NA
+"384","D_AGE","44","45",NA
+"385","D_AGE","21","22",NA
+"386","D_AGE","20","21",NA
+"387","D_AGE","22","23",NA
+"388","D_AGE","37","38",NA
+"389","D_AGE","33","34",NA
+"390","D_AGE","26","27",NA
+"391","D_AGE","29","30",NA
+"393","D_AGE","29","30",NA
+"395","D_AGE","18","19",NA
+"70","D_AGE","33","38",NA
+"391","D_LOC_CODE","9690","9640",NA
+"44","D_LOC_CODE","09900 09910","9900",NA
+"496","D_LOC_CODE","9960","9780",NA
+"70","D_LOC_CODE","9940","9620",NA
+"394","D_LOC_TIME","3","31",NA
+"70","D_LOC_TIME","15","38",NA
+"167","HLTH_SMK","No","Yes",NA
+"202","HLTH_SMK","1 al dia","No",NA
+"24","HLTH_SMK","No","Yes",NA
+"202","HLTH_MED","Lozzartan- presion","No",NA
+"70","HLTH_CPAIN","Si- Migrania","No",NA
+"75","HLTH_CPAIN","Si gastritis","No",NA
+"202","HLTH_CDIS","hipotension (presion baja)","No",NA
+"70","HLTH_CDIS","Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente","No",NA
+"9","HLTH_CDIS","No","Dolor cronico: dolor cabeza 2 al mes",NA
+"190","D_HH_SIZE","6","3",NA
+"191","D_HH_SIZE","3","8",NA
+"202","D_HH_SIZE","3","15",NA
+"310","D_HH_SIZE","3",NA,NA
+"70","D_HH_SIZE","20","9",NA
+"202","D_CHLD","2","1",NA
+"415","D_CHLD","333","2",NA
+"427","D_CHLD","1","4",NA
+"202","D_EMP_TYPE","informal--hace limpieza--vende ropa que regalan--> quedo sin trabajo. --> les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.","Formal",NA
+"302","D_EMP_TYPE","formal",NA,NA
+"320","D_EMP_TYPE","Trabajo domestico. Trabajo comerciante.",NA,NA
+"323","D_EMP_TYPE","tiene un negocio",NA,NA
+"334","D_EMP_TYPE","Si, seguridad privada.",NA,NA
+"394","D_EMP_TYPE","Comerciante","Informal",NA
+"453","W_HH_SIZE","15","viven mas familias ahi. llave sole en lavando",NA
+"483","W_HH_SIZE","Cisterna-mirasoles","Cisterna-mirasoles",NA
+"427","W_STORAGE","tambos chiquitos--> turnos (3 famen terreno) --> una toma de agua","tambos chiquitos --> turnos (3 fam en terreno) --> una toma de agua",NA
+"476","W_STORAGE","tinaco --> bathroom (baniarse)
+botes--> 2 llaves directo de calle","Tinaco--> bathroom. Botes--> 2 llaves directo de calle",NA
+"103","SES_EDU_CAT","Bachillerato, carrera tecnica completa. 35 (3 march 2023)","Preparatoria incompleta",NA
+"327","SES_EDU_CAT","Licenciatura incompleta","carrera tecnica bachi",NA
+"427","SES_EDU_CAT","5 to de primaria","Primaria incompleta",NA
+"70","SES_EDU_CAT","Secundaria completa","Preparatoria completa",NA
+"70","SES_EDU_SC","31","43",NA
+"70","SES_BTHR_CAT","1 bathroom","0 bathrooms",NA
+"70","SES_BTHR_SC","24","0",NA
+"70","SES_CAR_CAT","1 car","0 cars",NA
+"70","SES_CAR_SC","18","0",NA
+"202","SES_INT_CAT","NO","SI",NA
+"202","SES_INT_SC","0","31",NA
+"202","SES_WRK_CAT","1 persona","4 o mas personas",NA
+"70","SES_WRK_CAT","2 personas","3 personas",NA
+"202","SES_WRK_SC","15","61",NA
+"70","SES_WRK_SC","31","46",NA
+"70","SES_BEDR_CAT","2 cuartos","4 cuartos o mas",NA
+"70","SES_BEDR_SC","12","23",NA
+"202","HLTH_MED_RAW","Lozzartan- presion","No",NA
+"70","HLTH_CPAIN_RAW","Si- Migrania","No",NA
+"75","HLTH_CPAIN_RAW","Si gastritis","No",NA
+"202","HLTH_CDIS_RAW","hipotension (presion baja)","No",NA
+"70","HLTH_CDIS_RAW","Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente","No",NA
+"9","HLTH_CDIS_RAW","No","Dolor cronico: dolor cabeza 2 al mes",NA
+"167","HLTH_SMK_RAW","No","Yes",NA
+"202","HLTH_SMK_RAW","1 al dia","No",NA
+"24","HLTH_SMK_RAW","No","Yes",NA
+"202","D_EMP_TYPE_RAW","informal--hace limpieza--vende ropa que regalan--> quedo sin trabajo. --> les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.","Formal",NA
+"302","D_EMP_TYPE_RAW","formal",NA,NA
+"320","D_EMP_TYPE_RAW","Trabajo domestico. Trabajo comerciante.",NA,NA
+"323","D_EMP_TYPE_RAW","tiene un negocio",NA,NA
+"334","D_EMP_TYPE_RAW","Si, seguridad privada.",NA,NA
+"394","D_EMP_TYPE_RAW","Comerciante","Informal",NA
+"202","D_CHLD_RAW","2","1",NA
+"415","D_CHLD_RAW","333","2",NA
+"427","D_CHLD_RAW","1","4",NA

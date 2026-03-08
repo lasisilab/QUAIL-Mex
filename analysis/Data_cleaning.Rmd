@@ -1,434 +1,629 @@
 ---
-title: "HBA2025_results"
+title: "Data cleaning - Screening file"
 author: "Paloma"
-date: "2025-01-27"
+date: "2026-03-06"
 output: workflowr::wflow_html
 ---
 
 ## Introduction
 
-Here you will find the code used to obtain results shown in the annual meeting of the HBA, 2025. 
+Data cleaning script for `01.SCREENING.csv`. The goal is to produce a clean,
+analysis-ready dataset for the descriptive statistics table and regression
+models. This script covers: duplicate merging, missing code assignment,
+variable recoding, SES composite scoring, and a missingness summary.
 
-Abstract:
+Missing data coding scheme:
 
-**Coping with water insecurity: women's strategies and emotional responses in Iztapalapa,
-Mexico City**
+- 999 = Missing / lost / data entry error
+- 333 = Pending (data exists but not yet entered)  
+- 888 = Don't know  
+- 777 = Refused / prefer not to answer  
+- 666 = Illegible  
+- 555 = Other (answer outside allowed categories)  
+- 444 = Ambiguous  
 
-Water insecurity in urban areas presents distinctive challenges, particularly in marginalized communities. While past studies have documented how households adapt to poor water services, many of these coping strategies come at a significant personal cost. Here we examine the **coping strategies and emotional impacts of unreliable water services** among 400 women in Iztapalapa, Mexico City. Data were collected through surveys over the Fall of 2022 and Spring of 2023. We assessed **household water access, water management practices, and emotional responses to local water services.** 
+No = 0, Yes = 1, Occasionally = 2 (unless variable-specific rules apply).
+Sentinel codes are preserved in the master file and converted to NA only
+within analysis scripts.
 
-Results indicate that during acute water shortages, women can spend extended periods (several hours, or sometimes days) waiting for water trucks. Additionally, 57% of respondents reported feeling frustrated or angry about their water situation, while around 20% experienced family conflicts over water use or community-level conflicts around water management, often involving water vendors or government services. 
+*Important modifications to include in manuscript*
 
-This study offers one of the first in-depth examinations of how water insecurity specifically affects women in Iztapalapa, a densely populated region of Mexico City with severe water access challenges. The findings highlight the urgent need for policy interventions that address water insecurity with a gender-sensitive approach, recognizing the disproportionate burden placed on women as primary water managers in their households.
+- Age range was modified to 18-46 to include three participants
+- Participant 10 was labeled as "999" in all its variables, as age is 49.
+- Rainy season is 0, dry season is 1.
 
-# Cleaning screening file
-```{r}
-# Load necessary libraries
+---
+
+# Setup
+
+```{r setup, message=FALSE, warning=FALSE}
 library(dplyr)
 library(tidyr)
+library(stringr)
+library(readr)
+library(ggplot2)
 
-# Load the dataset
+data_path <- "./data"      # cleaned output
+raw_path  <- "./data"      # raw input
 
-data_path = "./data"
-
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
 ```
 
-```{r}
+---
 
-# merged dataset
-df <- read.csv("../data/01.SCREENING.csv", stringsAsFactors = FALSE,  na.strings = c("", "N/A", "NA", "pending"))
+# 1. Load raw data
 
+```{r load}
+df_raw <- read.csv(
+  file.path(raw_path, "01.SCREENING.csv"),
+  stringsAsFactors = FALSE,
+  na.strings = c("")   # only truly blank cells become NA at read time
+)
 
-# Convert all character columns to NA where values match missing patterns
-df <- df %>%
-  mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
+cat("Raw dimensions:", dim(df_raw), "\n")
+cat("Unique IDs in raw file:", length(unique(df_raw$ID)), "\n")
+cat("Duplicate IDs:", sum(duplicated(df_raw$ID)), "\n")
+```
 
-# Remove duplicate IDs and keep rows with at least 10 non-NA values
-df_filtered <- df %>%
-  mutate(Non_NA_Count = rowSums(!is.na(.))) %>%
-  filter(!duplicated(ID) & Non_NA_Count >= 10) %>%
-  select(!Non_NA_Count) # Remove helper column
+---
 
+# 2. Standardize text before merging
 
-# Display the filtered dataset
-print(dim(df_filtered)) # Show dimensions for confirmation
-write.csv(df_filtered, file.path(data_path, "Filtered_Screening.csv"), row.names = FALSE)
+Convert known missing-text patterns to NA so they don't interfere with
+the merge logic. All other values are preserved.
 
-d <- df_filtered
+```{r standardize-text}
+na_strings <- c("N/A", "n/a", "NA", "na",
+                "No hay niguna repuesta", "No hay ninguna repuesta")
 
-# Confirm total number of unique participants
-cat("Total unique participants:", length(unique(d$ID)), "\n") 
+# "pending" means data exists but was not entered — code as 333, not NA
+pending_strings <- c("pending", "Pending", "PENDING")
 
-# Identify missing ID numbers in the first and second trip ranges
-missing_first_trip <- setdiff(1:204, d$ID)
-cat("Missing IDs in the first trip:", missing_first_trip, "\n")
+df_raw <- df_raw %>%
+  mutate(across(where(is.character), ~ {
+    x <- str_trim(.)
+    case_when(
+      x %in% na_strings      ~ NA_character_,
+      x %in% pending_strings ~ "333",
+      TRUE                   ~ x
+    )
+  }))
+```
 
-missing_second_trip <- setdiff(301:497, d$ID)
-cat("Missing IDs in the second trip:", missing_second_trip, "\n")
+---
 
-# Count participants within ID ranges
-cat("Num of Participants first trip ≤ 250:", sum(d$ID <= 250, na.rm = TRUE), "\n")
-cat("Num of Participants second trip ≥ 250:", sum(d$ID >= 250, na.rm = TRUE), "\n")
+## 2.1 Preserve raw values before any recoding
 
-# Confirm total number of rows
-cat("Total number of rows:", nrow(d), "\n")
+Raw copies are created here, before merging or recoding, so that
+`_RAW` columns always reflect the original data entry.
 
-# Set ID as row names (ensuring IDs are unique and non-NA)
-if (!any(duplicated(d$ID)) && !any(is.na(d$ID))) {
-    rownames(d) <- as.character(d$ID)
-} else {
-    warning("Some IDs are duplicated or NA, row names were not set.")
+```{r preserve-raw}
+vars_to_preserve <- c("HLTH_TTM", "HLTH_MED", "HLTH_CPAIN",
+                      "HLTH_CDIS", "HLTH_SMK", "D_EMP_TYPE", "D_CHLD")
+
+df_raw <- df_raw %>%
+  mutate(across(all_of(vars_to_preserve),
+                ~ ., .names = "{.col}_RAW"))
+```
+
+---
+
+# 3. Merge duplicate rows
+
+For IDs with two rows, take the non-NA value when rows differ.
+If both rows have different non-NA values for the same field, the
+conflict is flagged with 444 (Ambiguous) so you can review manually.
+
+```{r merge-duplicates}
+merge_rows <- function(df_group) {
+  if (nrow(df_group) == 1) return(df_group)
+  
+  merged <- df_group[1, , drop = FALSE]  # start with first row as template
+  
+  # Skip ID — it is the same by definition
+  skip_cols <- c("ID")
+  
+  for (col in setdiff(names(df_group), skip_cols)) {
+    v1 <- df_group[[col]][1]
+    v2 <- df_group[[col]][2]
+    
+    both_na   <- is.na(v1) & is.na(v2)
+    only_v2   <- is.na(v1) & !is.na(v2)
+    both_same <- !is.na(v1) & !is.na(v2) &
+                 (str_trim(tolower(as.character(v1))) ==
+                  str_trim(tolower(as.character(v2))))
+    conflict  <- !is.na(v1) & !is.na(v2) &
+                 (str_trim(tolower(as.character(v1))) !=
+                  str_trim(tolower(as.character(v2))))
+    
+    if (both_na)        { merged[[col]] <- NA }
+    else if (only_v2)   { merged[[col]] <- v2 }
+    else if (both_same) { merged[[col]] <- v1 }
+    else if (conflict)  {
+      # Free-text/notes columns: concatenate instead of flagging
+      if (col %in% c("D_LOC_INFO", "D_HH_SIZE_INFO", "D_INFO",
+                     "SES_INFO", "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT")) {
+        merged[[col]] <- paste(v1, v2, sep = " | ")
+      } else {
+        merged[[col]] <- "444"   # Ambiguous — review manually
+      }
+    }
+  }
+  return(merged)
 }
 
-# Count and report rows containing NAs
-num_na_rows <- sum(!complete.cases(d))
-cat("Rows with missing values:", num_na_rows, "\n")
-
-# Identify columns that start with "SES" and end with "SC"
-ses_sc_columns <- grep("^SES.*SC$", names(d), value = TRUE)
-
-# Count total number of NA values in each SES_SC column
-na_counts <- colSums(is.na(d[ses_sc_columns]))
-
-# Count total NA values across all SES_SC columns
-total_na_count <- sum(na_counts)
-
-# Print results
-cat("Number of NA values per SES_SC column:\n")
-print(na_counts)
-cat("\nTotal NA values across all SES_SC columns:", total_na_count, "\n")
-
-# Check if SES_SC columns exist before proceeding
-if (length(ses_sc_columns) > 0) {
-  
-  # Convert SES_SC columns to numeric (handles factors and character types)
-  d[ses_sc_columns] <- lapply(d[ses_sc_columns], function(x) as.numeric(as.character(x)))
-  
-  # Sum SES_SC columns row-wise, keeping NA if any SES_SC value is missing
-  d <- d %>%
-    rowwise() %>%
-    mutate(SES_SC_Total = if_else(any(is.na(c_across(all_of(ses_sc_columns)))),
-                                  NA_real_, 
-                                  sum(c_across(all_of(ses_sc_columns)), na.rm = TRUE))) %>%
-    ungroup()
-  
-  # Display confirmation message
-  cat("Added SES_SC_Total column, maintaining NA where any SES_SC column has NA.\n")
-  
-} else {
-  cat("No SES_SC columns found in the dataset.\n")
-}
-
-# Count the number of NAs in the SES_SC_Total column
-num_na_ses_sc_total <- sum(is.na(d$SES_SC_Total))
-
-# Print the count
-cat("Number of NA values in SES_SC_Total:", num_na_ses_sc_total, "\n")
-print(d[is.na(d$SES_SC_Total),c("ID",ses_sc_columns)], n=20)
-
-# Calculate the percentage of missing values per column
-missing_percentage <- colMeans(is.na(d)) * 100
-
-# Get columns with more than 10% missing data
-columns_to_remove <- names(missing_percentage[missing_percentage > 10])
-length(columns_to_remove)
-dim(d)
-
-# Print the selected columns
-cat("Columns with more than 10% missing values:\n")
-print(columns_to_remove)
-
-d <- d %>% select(-all_of(columns_to_remove))
-dim(d)
-
-head(d)
-
-```
-
-## Data type transformations
-```{r}
-# Function to convert non-numeric values to "other"
-convert_to_other <- function(x) {
-  ifelse(grepl("^[0-9]+$", x) | x == "other" | is.na(x), x, "other")
-}
-
-# Apply transformation from yes and no to 1 and 0, to some columns
-selected_columns <- c("D_CHLD", "D_HH_SIZE")
-d <- d %>%
-  mutate(across(all_of(selected_columns), ~ convert_to_other(as.character(.))))
-
-# Specify the columns where transformation should be applied
-columns_to_transform <- c("HLTH_SMK", "HLTH_TTM", "HLTH_CPAIN")  # Replace with actual column names
-
-# Convert "yes" to 1, "no" to 0, and everything else to "other"
-d <- d %>%
-  mutate(across(all_of(columns_to_transform), ~ case_when(
-    . == "Yes" ~ "1",
-    . == "No"  ~ "0",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-
-# Convert numeric-coded columns to factors where applicable
-d <- d %>%
-  mutate(across(where(~ all(. %in% c("0", "1", "other", NA_character_))), as.factor))  # Ensure consistency
-
-# Convert variables to numeric when appropriate
-## Pending: D_YRBR, D_LOC_TIME, D_CHLD, D_HH_SIZE
-
-print(d)
-summary(d)
-```
-
-## Select cleaned columns
-
-```{r}
-#Keep columns relevant/cleaned
-columns_to_keep2 <- c("ID", "D_YRBR", "D_LOC_TIME", "D_AGE", "D_HH_SIZE", "D_CHLD", "HLTH_SMK", "SES_SC_Total")
-d <- d %>% select(all_of(columns_to_keep2))
-
-
-write.csv(d, file.path(data_path, "00.SCREENING_V2.csv"))
-
-```
-
-# Merge with HWISE data & disease/pain data
-
-```{r}
-
-file2 <- "02.HWISE_PSS.csv"
-file3 <- "Chronic_pain_illness.csv"
-df1 <- d
-df2 <- read.csv(file.path(data_path, file2), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-df3 <- read.csv(file.path(data_path, file3), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-
-# Identify the common column for merging
-common_column <- "ID"  # Change this if needed
-
-# Ensure the common column is of the same type in all datasets
-df1[[common_column]] <- as.character(df1[[common_column]])
-df2[[common_column]] <- as.character(df2[[common_column]])
-df3[[common_column]] <- as.character(df3[[common_column]])
-
-# Merge datasets sequentially by the common column
-merged_df <- df1 %>%
-  full_join(df2, by = common_column) %>%
-  full_join(df3, by = common_column)
-
-colnames(merged_df)
-cols_to_remove<- c("HW_INFO", "PSS_INFO", "PSS_TOTAL", "HW_TOTAL")
-
-merged_df <- merged_df %>% select(-all_of(cols_to_remove))
-
-
-##### Calculate final HW score
-# Identify columns that start with "HW_"
-hw_columns <- grep("^HW_", names(merged_df), value = TRUE)
-
-# Sum up all HW_ columns row-wise, keeping NA if any HW_ column has NA
-merged_df <- merged_df %>%
-  rowwise() %>%
-  mutate(HW_TOTAL = if_else(any(is.na(c_across(all_of(hw_columns)))),
-                            NA_real_, 
-                            sum(c_across(all_of(hw_columns)), 
-                                na.rm = TRUE))) %>%
+df <- df_raw %>%
+  group_by(ID) %>%
+  group_modify(~ merge_rows(.x)) %>%
   ungroup()
 
+cat("Rows after merging duplicates:", nrow(df), "\n")
 
-# Print merged dataset dimensions
-cat("Merged dataset dimensions:", dim(merged_df), "\n")
-print(merged_df, n=20)
-# Save the merged dataset
-write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"), row.names = FALSE)
-cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS.csv'.\n")
+# Report which fields were flagged as ambiguous
+ambig_flags <- df %>%
+  select(-ID) %>%
+  summarise(across(everything(), ~ sum(. == "444", na.rm = TRUE))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_ambiguous") %>%
+  filter(n_ambiguous > 0)
 
+cat("\nFields with ambiguous (444) values after merge:\n")
+print(ambig_flags, n=nrow(ambig_flags))
+
+# Print ID and conflicting values for manual review
+for (v in ambig_flags$variable) {
+  cat("\n---", v, "---\n")
+  conflict_ids <- df %>%
+    filter(.data[[v]] == "444") %>%
+    pull(ID)
+  print(df_raw %>%
+    filter(ID %in% conflict_ids) %>%
+    select(ID, all_of(v)))
+}
 ```
 
-# Merge dataset with info on hours of water supply
+## 3.1. Export conflicts for manual resolution
 
-```{r}
+```{r export-conflicts}
+conflict_rows <- list()
 
-# merged dataset
-df1 = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-df2 = read.csv(file.path(data_path, "hours_water_supply.csv"), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
+for (v in ambig_flags$variable) {
+  conflict_ids <- df %>%
+    filter(.data[[v]] == "444") %>%
+    pull(ID)
+  
+  tmp <- df_raw %>%
+    filter(ID %in% conflict_ids) %>%
+    select(ID, all_of(v)) %>%
+    mutate(across(c(ID, all_of(v)), as.character)) %>%
+    group_by(ID) %>%
+    summarise(value_1 = first(.data[[v]]),
+              value_2 = last(.data[[v]]),
+              .groups = "drop") %>%
+    mutate(variable = v, resolution = NA_character_)
+  
+  conflict_rows[[v]] <- tmp
+}
 
+conflicts <- bind_rows(conflict_rows) %>%
+  select(ID, variable, value_1, value_2, resolution)
 
-# Merge datasets sequentially by the common column
-merged_df <- df1 %>%
-  full_join(df2, by = "ID") 
-
-seas <- c("SEASON")
-merged_df <- merged_df %>%
-  mutate(across(all_of(seas), ~ case_when(
-    . == "Oct-Dec" ~ "1",
-    . == "Apr-Jun"  ~ "0",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-
-#Specify the columns where transformation should be applied
-columns_to_transform <- c("W_WC_WI")  
-
-# Convert "intermitent" to 1, "continuous" to 0, and everything else to "other"
-merged_df <- merged_df %>%
-  mutate(across(all_of(columns_to_transform), ~ case_when(
-    . == "Intermitente" ~ "1",
-    . == "Continua"  ~ "0",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-
-columns_to_transform <- c("W_WS_LOC")
-# Convert "WI" to 1, "WS" to 0, and everything else to "other"
-merged_df <- merged_df %>%
-  mutate(across(all_of(columns_to_transform), ~ case_when(
-    . == "WI" ~ "1",
-    . == "WS"  ~ "0",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-
-# Define the list of variables to convert to numeric
-col_to_num <- c("D_YRBR", "D_LOC_TIME", "D_HH_SIZE", "D_CHLD", "HRS_WEEK", "HLTH_SMK", "W_WS_LOC", "SEASON", "HRS_WEEK", "W_WC_WI")
-
-# Convert the specified columns to numeric
-merged_df <- merged_df %>%
-  mutate(across(all_of(col_to_num), ~as.numeric(as.character(.)), .names = "{.col}"))
-
+# Uncomment once ready to export:
+ write.csv(conflicts, file.path(data_path, "conflicts_to_review.csv"),
+           row.names = FALSE)
 ```
 
-```{r}
+## 3.2. Incorporate resolutions back into dataset
 
-# Print merged dataset dimensions
-cat("Merged dataset dimensions:", dim(merged_df), "\n")
-head(merged_df, 20)
-summary(merged_df)
-dim(merged_df)
-# Save the merged dataset
-write.csv(merged_df, file.path( "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"), row.names = FALSE)
-cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V2.csv'.\n")
+```{r apply-resolutions}
+resolved <- read.csv(file.path(data_path, "conflicts_to_review.csv"),
+                     stringsAsFactors = FALSE)
 
+for (i in seq_len(nrow(resolved))) {
+  id  <- resolved$ID[i]
+  v   <- resolved$variable[i]
+  val <- resolved$resolution[i]
+  df[df$ID == id, v] <- val
+}
 ```
 
-# Merge dataset with Q8, 26, 28
+---
 
-```{r}
-# Load the dataset
-file4 <- "Q8-26-28.csv"
-df <- read.csv(file.path(data_path, file4), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-df2 <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V2.csv"))
+# 4. Participant ID checks
 
-# Convert all character columns to NA where values match missing patterns
+```{r id-checks}
+cat("Total unique participants:", nrow(df), "\n")
+
+# Season 1: IDs 1-204 (rainy, Oct-Dec 2022)
+# Season 2: IDs 301-497 (dry, Apr-Jun 2023)
+missing_s1 <- setdiff(1:204, df$ID)
+missing_s2 <- setdiff(301:497, df$ID)
+
+cat("Missing IDs in Season 1 (1-204):",
+    ifelse(length(missing_s1) == 0, "none",
+           paste(missing_s1, collapse = ", ")), "\n")
+cat("Missing IDs in Season 2 (301-497):",
+    ifelse(length(missing_s2) == 0, "none",
+           paste(missing_s2, collapse = ", ")), "\n")
+
+# Age check: eligibility was 18-46
+out_of_range_age <- df %>%
+  filter(!is.na(D_AGE) & (as.numeric(D_AGE) < 18 | as.numeric(D_AGE) > 46)) %>%
+  select(ID, D_YRBR, D_AGE)
+
+cat("\nParticipants outside age eligibility range (18-46):\n")
+print(out_of_range_age)
+
+# Flag all non-NA data for out-of-range participants as 999
+# NA cells are left as NA (not converted to 999)
+out_of_range_ids <- out_of_range_age$ID
+
 df <- df %>%
-  select(ID, MX8_TRUST, MX28_WQ_COMP, MX26_EM_HHW_TYPE) %>%
-  mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
-
-#remove rows with NAs
-df <- na.omit(df)
-df <- unique(df)
-
-# Merge datasets sequentially by the common column
-merged_df <- df %>%
-  full_join(df2, by = "ID") 
-
-# Convert 
-merged_df <- merged_df %>%
-  mutate(across(all_of("MX8_TRUST"), ~ case_when(
-    . == "Yes" ~ "0",
-    . == "Neutral"  ~ "1",
-    . == "No"  ~ "2",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-
-
-# Convert 
-merged_df <- merged_df %>%
-  mutate(across(all_of("MX28_WQ_COMP"), ~ case_when(
-    . == "Worse" ~ "0",
-    . == "Same"  ~ "1",
-    . == "Better"  ~ "2",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-
-# Convert 
-merged_df <- merged_df %>%
-  mutate(across(all_of("MX26_EM_HHW_TYPE"), ~ case_when(
-    . == "positive" ~ "0",
-    . == "negative"  ~ "1",
-    !is.na(.)  ~ "other",  # Assign "other" to all non-missing values that are not "yes" or "no"
-    TRUE ~ NA_character_
-  )))
-merged_df$MX8_TRUST <- as.factor(merged_df$MX8_TRUST)
-merged_df$MX28_WQ_COMP <- as.factor(merged_df$MX28_WQ_COMP)
-merged_df$MX26_EM_HHW_TYPE <- as.factor(merged_df$MX26_EM_HHW_TYPE)
-
-
-## PSS: some questions should be coded backwards: 4 (very often) equals 0, 3 (fairly often) equals 1, 2 (sometimes) equals 2, 1 (almost never) equals 3, 0 (never) equals 4). This coding should apply to all the positive statements (Q4, 5, 6, 7, 9, 10 and 13)
-
-# Identify columns that start with "SES" and end with "SC"
-pss_columns <- grep("^PSS*", names(merged_df), value = TRUE)
-
-columns_to_transform <- c("PSS4", "PSS5", "PSS6", "PSS7", "PSS9", "PSS10", "PSS13")
-# Convert 
-merged_df <- merged_df %>%
-  mutate(across(all_of(columns_to_transform), ~ case_when(
-    . == 4 ~ 0,
-    . == 3 ~ 1,
-    . == 2 ~ 2,
-    . == 1 ~ 3,
-    . == 0 ~ 4
-  )))
-
-
-merged_df$PSS_TOTAL_REV <- rowSums(merged_df[(pss_columns)]) 
-
+  mutate(across(-ID, ~ {
+    x <- as.character(.)
+    ifelse(ID %in% out_of_range_ids & !is.na(x), "999", x)
+  }))
 ```
 
+---
 
-```{r}
-# Print merged dataset dimensions
-cat("Merged dataset dimensions:", dim(merged_df), "\n")
-head(merged_df, 20)
-summary(merged_df)
-dim(merged_df)
-# Save the merged dataset
-write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), row.names = FALSE)
-cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V3.csv'.\n")
+# 5. Assign season variable
 
-```
- 
-# Do not use V4 - format is not usable 
-
-```{r mx9 and mx 10 unusable}
-# Load the dataset
-file5 <- "Q9-10-11-29-31.csv"
-df <- read.csv(file.path(data_path, file5), stringsAsFactors = FALSE, na.strings = c("", "N/A", "NA", "pending"))
-df2 <- read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"))
-
-summary(df)
-head(df)
-# Convert all character columns to NA where values match missing patterns
+```{r season}
 df <- df %>%
-  select(ID, MX9_DRINK_W, MX10_WSTORAGE) %>%
-  mutate(across(where(is.character), ~ ifelse(. %in% c("", "N/A", "NA", "pending"), NA, .)))
+  mutate(SEASON = case_when(
+    ID >= 1   & ID <= 204 ~ 0,   # 0 = rainy (reference in models)
+    ID >= 301 & ID <= 497 ~ 1,   # 1 = dry
+    TRUE ~ NA_real_
+  ))
 
-#remove rows with NAs
-df <- na.omit(df)
-df <- unique(df)
+cat("Season distribution:\n")
+print(table(df$SEASON, useNA = "always"))
+```
 
-dim(df)
-# Merge datasets sequentially by the common column
-merged_df <- df2 %>%
-  full_join(df, by = "ID") 
+---
 
-# Print merged dataset dimensions
-cat("Merged dataset dimensions:", dim(merged_df), "\n")
-head(merged_df, 20)
-summary(merged_df)
-dim(merged_df)
-# Save the merged dataset
-write.csv(merged_df, file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V4.csv"), row.names = FALSE)
-cat("Merged dataset saved as 'Cleaned_Dataset_Screening_HWISE_PSS_V4.csv'.\n")
+# 6. Recode binary Yes/No variables
 
+No = 0, Yes = 1. Responses with extra text (e.g., "Yes, Loratadina") are
+recoded as 1 since the full text is captured in the corresponding _RAW column.
+Sentinel codes are passed through unchanged.
+
+```{r recode-binary}
+recode_yesno <- function(x) {
+  x <- str_trim(tolower(as.character(x)))
+  case_when(
+    is.na(x)                                          ~ NA_real_,
+    x %in% as.character(MISSING_CODES)               ~ suppressWarnings(as.numeric(x)),
+    x %in% c("no", "no.", "no -div")                 ~ 0,
+    str_starts(x, "yes") | str_starts(x, "si")       ~ 1,
+    x %in% c("no sabe", "ns")                        ~ 888,
+    x %in% c("refused", "prefiero no")               ~ 777,
+    TRUE                                              ~ 555
+  )
+}
+
+binary_vars <- c("HLTH_TTM", "HLTH_MED", "HLTH_CPAIN", "HLTH_CDIS")
+
+df <- df %>%
+  mutate(across(all_of(binary_vars),
+                recode_yesno, .names = "{.col}_CLEAN"))
+
+# Visualization: RAW vs CLEAN for all binary variables
+binary_long <- df %>%
+  select(ID,
+         all_of(paste0(binary_vars, "_RAW")),
+         all_of(paste0(binary_vars, "_CLEAN"))) %>%
+  mutate(across(everything(), as.character)) %>%
+  pivot_longer(-ID,
+               names_to  = c("variable", "version"),
+               names_pattern = "(.+)_(RAW|CLEAN)") %>%
+  mutate(value = as.character(value))
+
+ggplot(binary_long, aes(x = value, fill = version)) +
+  geom_bar(position = "dodge") +
+  facet_wrap(~ variable, scales = "free_x") +
+  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
+  labs(title = "Binary variables: RAW vs CLEAN value distribution",
+       x = "Value", y = "Count", fill = "Version") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+---
+
+# 7. Recode HLTH_SMK (smoking) → 3 categories
+
+0 = No, 1 = Yes/Daily, 2 = Occasionally.
+Sentinel codes are passed through unchanged.
+
+```{r recode-smoking}
+df <- df %>%
+  mutate(
+    HLTH_SMK_CLEAN = case_when(
+      is.na(HLTH_SMK)                                                              ~ NA_real_,
+      str_trim(tolower(as.character(HLTH_SMK))) %in% as.character(MISSING_CODES)  ~ suppressWarnings(as.numeric(HLTH_SMK)),
+      str_trim(tolower(HLTH_SMK)) %in% c("no", "ya no- 10 atras")                                     ~ 0,
+      str_trim(tolower(HLTH_SMK)) %in% c(
+        "de vez en cuando", "a veces", "aveces",
+        "casi nada", "poquito- 3 x semana", "3 x semana",
+        "si de vez en cuando", "1 diario", "1 cada 3 dia",
+        "a veces/ una vez por semana", "ocasionalmente",
+        "Ocasionalmente (1 vez x semana)", "c/6 meses",
+        "5 x mes", "A veces, 2-3 x semana", "Casi nada (1 c/2 meses)")                                             ~ 2,
+        str_starts(tolower(str_trim(HLTH_SMK)), "yes") |
+        str_starts(tolower(str_trim(HLTH_SMK)), "si") |
+        str_starts(tolower(str_trim(HLTH_SMK)), "1 al dia") |
+        str_starts(tolower(str_trim(HLTH_SMK)), "7 x dia") ~ 1,
+      TRUE                                                                         ~ 555
+    ),
+    HLTH_SMK_CAT = factor(HLTH_SMK_CLEAN,
+                          levels = c(0, 1, 2, 555),
+                          labels = c("No", "Yes", "Occasionally", "Other"))
+  )
+
+cat("Smoking distribution:\n")
+print(table(df$HLTH_SMK_CAT, useNA = "always"))
+
+cat("\nUnclassified smoking responses (555):\n")
+df %>% filter(HLTH_SMK_CLEAN == 555) %>%
+  select(ID, HLTH_SMK_RAW, HLTH_SMK_CLEAN) %>% print()
+
+# Visualization: RAW vs CLEAN
+smk_long <- df %>%
+  select(ID, HLTH_SMK_RAW, HLTH_SMK_CLEAN) %>%
+  mutate(across(everything(), as.character)) %>%
+  pivot_longer(-ID, names_to = "version", values_to = "value") %>%
+  mutate(version = str_remove(version, "HLTH_SMK_"))
+
+ggplot(smk_long, aes(x = value, fill = version)) +
+  geom_bar(position = "dodge") +
+  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
+  labs(title = "HLTH_SMK: RAW vs CLEAN value distribution",
+       x = "Value", y = "Count", fill = "Version") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+---
+
+# 8. Recode D_EMP_TYPE → two variables
+
+D_EMP_CLEAN: 0 = Not employed, 1 = Employed
+D_EMP_FORM_CLEAN: 0 = Informal, 1 = Formal (NA if not employed)
+Sentinel codes are passed through unchanged.
+
+```{r recode-employment}
+df <- df %>%
+  mutate(
+    D_EMP_TYPE_CLEAN = str_trim(tolower(D_EMP_TYPE)),
+
+    D_EMP_CLEAN = case_when(
+      is.na(D_EMP_TYPE_CLEAN)                                              ~ NA_real_,
+      D_EMP_TYPE_CLEAN %in% as.character(MISSING_CODES)                   ~ suppressWarnings(as.numeric(D_EMP_TYPE_CLEAN)),
+      D_EMP_TYPE_CLEAN %in% c("no", "no.", "niguna", "nada", "ninguna")   ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN, "no\\b") &
+        !str_detect(D_EMP_TYPE_CLEAN,
+                    "informal|formal|trabaj|vend|comerci")                 ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN,
+                 "yes|si|formal|informal|comerci|vend|trabaj|administrat|limpieza|estilista|ama de") ~ 1,
+      TRUE                                                                 ~ 555
+    ),
+
+    D_EMP_FORM_CLEAN = case_when(
+      is.na(D_EMP_CLEAN) | D_EMP_CLEAN != 1                               ~ NA_real_,
+      D_EMP_TYPE_CLEAN %in% as.character(MISSING_CODES)                   ~ suppressWarnings(as.numeric(D_EMP_TYPE_CLEAN)),
+      str_detect(D_EMP_TYPE_CLEAN, "formal(?!.*informal)")                ~ 1,
+      str_detect(D_EMP_TYPE_CLEAN, "informal")                            ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN,
+                 "vend|comerci|limpieza|chocolater|catalogo|ropa|dulces|postres|pintura|facebook") ~ 0,
+      TRUE                                                                 ~ 555
+    )
+  ) %>%
+  select(-D_EMP_TYPE_CLEAN)
+
+cat("\nEmployment (D_EMP_CLEAN):\n")
+print(table(df$D_EMP_CLEAN, useNA = "always"))
+
+cat("\nFormality (D_EMP_FORM_CLEAN, among employed):\n")
+print(table(df$D_EMP_FORM_CLEAN, useNA = "always"))
+
+cat("\nUnclassified employment responses (555):\n")
+df %>%
+  filter(D_EMP_CLEAN == 555 | D_EMP_FORM_CLEAN == 555) %>%
+  select(ID, D_EMP_TYPE_RAW, D_EMP_CLEAN, D_EMP_FORM_CLEAN) %>%
+  print()
+
+# Visualization: RAW vs CLEAN for both employment variables
+emp_long <- df %>%
+  select(ID, D_EMP_TYPE_RAW, D_EMP_CLEAN, D_EMP_FORM_CLEAN) %>%
+  mutate(across(everything(), as.character)) %>%
+  pivot_longer(-ID, names_to = "variable", values_to = "value") %>%
+  mutate(
+    version  = if_else(variable == "D_EMP_TYPE_RAW", "RAW", "CLEAN"),
+    variable = case_when(
+      variable == "D_EMP_TYPE_RAW"   ~ "D_EMP",
+      variable == "D_EMP_CLEAN"      ~ "D_EMP",
+      variable == "D_EMP_FORM_CLEAN" ~ "D_EMP_FORM"
+    )
+  )
+
+ggplot(emp_long, aes(x = value, fill = version)) +
+  geom_bar(position = "dodge") +
+  facet_wrap(~ variable, scales = "free_x") +
+  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
+  labs(title = "Employment variables: RAW vs CLEAN value distribution",
+       x = "Value", y = "Count", fill = "Version") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+---
+
+# 9. Recode D_CHLD (parity)
+
+Expected: integer 0-4. Non-numeric entries are flagged.
+Sentinel codes are passed through unchanged.
+
+```{r recode-parity}
+df <- df %>%
+  mutate(
+    D_CHLD_CLEAN = case_when(
+      is.na(D_CHLD)                                                          ~ NA_real_,
+      str_trim(as.character(D_CHLD)) %in% as.character(MISSING_CODES)       ~ suppressWarnings(as.numeric(D_CHLD)),
+      str_detect(tolower(as.character(D_CHLD)), "no hay nota")               ~ 444,
+      str_detect(tolower(as.character(D_CHLD)), "^si")                       ~ 444,
+      !is.na(suppressWarnings(as.numeric(D_CHLD)))                           ~ suppressWarnings(as.numeric(D_CHLD)),
+      TRUE                                                                   ~ 555
+    )
+  )
+
+cat("Parity distribution (D_CHLD_CLEAN):\n")
+print(table(df$D_CHLD_CLEAN, useNA = "always"))
+
+cat("\nFlagged parity values:\n")
+df %>%
+  filter(D_CHLD_CLEAN %in% c(333, 444, 555)) %>%
+  select(ID, D_CHLD_RAW, D_CHLD_CLEAN) %>%
+  print()
+
+# Visualization: RAW vs CLEAN
+chld_long <- df %>%
+  select(ID, D_CHLD_RAW, D_CHLD_CLEAN) %>%
+  mutate(across(everything(), as.character)) %>%
+  pivot_longer(-ID, names_to = "version", values_to = "value") %>%
+  mutate(version = str_remove(version, "D_CHLD_"))
+
+ggplot(chld_long, aes(x = value, fill = version)) +
+  geom_bar(position = "dodge") +
+  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
+  labs(title = "D_CHLD (parity): RAW vs CLEAN value distribution",
+       x = "Value", y = "Count", fill = "Version") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+---
+
+# 10. Clean D_LOC_TIME (years in neighborhood)
+
+```{r clean-loc-time}
+df <- df %>%
+  mutate(
+    D_LOC_TIME_RAW   = D_LOC_TIME,
+    D_LOC_TIME_CLEAN = case_when(
+      is.na(D_LOC_TIME)                                                         ~ NA_real_,
+      str_trim(as.character(D_LOC_TIME)) %in% as.character(MISSING_CODES)      ~ suppressWarnings(as.numeric(D_LOC_TIME)),
+      !is.na(suppressWarnings(as.numeric(D_LOC_TIME)))                          ~ suppressWarnings(as.numeric(D_LOC_TIME)),
+      TRUE                                                                      ~ 555
+    )
+  )
+
+cat("D_LOC_TIME values flagged as 555 (non-numeric text):\n")
+df %>%
+  filter(D_LOC_TIME_CLEAN == 555) %>%
+  select(ID, D_LOC_TIME_RAW, D_LOC_TIME_CLEAN) %>%
+  print()
+```
+
+---
+
+# 11. Compute SES composite score (NSE-AMAI)
+
+Items: SES_EDU_SC, SES_BTHR_SC, SES_CAR_SC, SES_INT_SC, SES_WRK_SC, SES_BEDR_SC
+Non-numeric entries (e.g. column-shift errors) are flagged as 666.
+
+```{r ses-score}
+ses_items <- c("SES_EDU_SC", "SES_BTHR_SC", "SES_CAR_SC",
+               "SES_INT_SC", "SES_WRK_SC", "SES_BEDR_SC")
+
+# Preserve originals
+ses_raw <- df[ses_items]
+names(ses_raw) <- paste0(ses_items, "_RAW")
+df <- bind_cols(df, ses_raw)
+
+# Convert to numeric; flag non-numeric entries as 666
+df[ses_items] <- lapply(ses_items, function(col) {
+  x     <- df[[col]]
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(!is.na(x) & is.na(x_num), 666, x_num)
+})
+
+# Compute total; NA if any item is missing or flagged
+df <- df %>%
+  rowwise() %>%
+  mutate(
+    SES_SC_Total = if_else(
+      any(is.na(c_across(all_of(ses_items)))) |
+        any(c_across(all_of(ses_items)) %in% MISSING_CODES),
+      NA_real_,
+      sum(c_across(all_of(ses_items)), na.rm = FALSE)
+    )
+  ) %>%
+  ungroup()
+
+# NSE-AMAI classification
+df <- df %>%
+  mutate(SES_CAT_AMAI = case_when(
+    is.na(SES_SC_Total) ~ NA_character_,
+    SES_SC_Total >= 205 ~ "AB",
+    SES_SC_Total >= 166 ~ "C+",
+    SES_SC_Total >= 135 ~ "C",
+    SES_SC_Total >= 112 ~ "C-",
+    SES_SC_Total >= 90  ~ "D+",
+    SES_SC_Total >= 48  ~ "D-",
+    TRUE                ~ "E"
+  ))
+
+cat("SES_SC_Total NAs:", sum(is.na(df$SES_SC_Total)), "\n")
+cat("Participants with missing or flagged SES items:\n")
+print(df[is.na(df$SES_SC_Total),
+         c("ID", ses_items, paste0(ses_items, "_RAW"))])
+
+cat("\nSES category distribution:\n")
+print(table(df$SES_CAT_AMAI, useNA = "always"))
+```
+
+---
+
+# 12. Missing data summary
+
+```{r missing-summary}
+# Exclude free-text notes columns and intermediate working columns
+notes_cols <- c("D_LOC_INFO", "D_HH_SIZE_INFO", "D_INFO", "SES_INFO",
+                "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT", "D_EMP_DAYS",
+                "W_HH_SIZE", "W_STORAGE", "D_LOC_CODE")
+
+analytic_vars <- setdiff(names(df), notes_cols)
+
+missing_report <- df %>%
+  select(all_of(analytic_vars)) %>%
+  summarise(across(everything(), list(
+    n_na       = ~ sum(is.na(.)),
+    n_sentinel = ~ sum(. %in% as.character(MISSING_CODES), na.rm = TRUE)
+  ))) %>%
+  pivot_longer(everything(),
+               names_to  = c("variable", ".value"),
+               names_sep = "_(?=n_na|n_sentinel)") %>%
+  mutate(
+    n_total  = nrow(df),
+    pct_na   = round(n_na / n_total * 100, 1),
+    pct_flag = round(n_sentinel / n_total * 100, 1)
+  ) %>%
+  filter(n_na > 0 | n_sentinel > 0) %>%
+  arrange(desc(pct_na))
+
+cat("Missing data summary (analytic variables):\n")
+print(missing_report, n = 50)
+
+cat("\nVariables exceeding 5% true NA (flag for methods section):\n")
+print(filter(missing_report, pct_na > 5))
+```
+
+---
+
+# 13. Save cleaned file
+
+```{r save}
+write.csv(df, file.path(data_path, "Screening_clean.csv"), row.names = FALSE)
+cat("Saved. Final dimensions:", dim(df), "\n")
 ```

@@ -1,0 +1,794 @@
+---
+title: "Data merge & cleaning — Screening + HWISE + PSS"
+author: "Paloma"
+date: "2026-03-07"
+output: workflowr::wflow_html
+---
+
+## Introduction
+
+This script merges the cleaned screening file (`Screening_clean.csv`, produced by
+`Data_cleaning.Rmd`) with the HWISE and PSS data (`02.HWISE_PSS.csv`). It covers:
+item-level validation, score computation, the left-join merge, and a final
+missingness check.
+
+Missing data coding scheme (inherited from `Data_cleaning.Rmd`):
+
+- 999 = Missing / lost / data entry error
+- 333 = Pending (data exists but not yet entered)
+- 888 = Don't know
+- 777 = Refused / prefer not to answer
+- 666 = Illegible
+- 555 = Other / unclassifiable
+- 444 = Ambiguous
+
+Sentinel codes are preserved in the master file and converted to `NA` only within
+analysis scripts.
+
+**Scale scoring rules:**
+
+- **HWISE** (Household Water InSecurity Experiences): 12 items (`HW_WORRY` through
+  `HW_SHAME`), each scored 0–3. Total range 0–36.
+  
+- **PSS-14** (Perceived Stress Scale, 14-item): items scored 0–4.
+  Negatively-worded items (PSS4, PSS5, PSS6, PSS7, PSS9, PSS10, PSS13) are
+  reverse-coded (0→4, 1→3, 2→2, 3→1, 4→0) before summing. Total range 0–56.
+
+---
+
+# Setup
+
+```{r setup, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(readr)
+library(ggplot2)
+
+data_path <- "./data"
+
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+# HWISE items (12 substantive items, scored 0-3)
+HWISE_ITEMS <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                 "HW_FOOD",  "HW_HANDS",  "HW_BODY",   "HW_DRINK",
+                 "HW_ANGRY", "HW_SLEEP",  "HW_NONE",   "HW_SHAME")
+
+# PSS-14 items: positively-worded (direct) vs negatively-worded (reversed)
+PSS_DIRECT  <- paste0("PSS", c(1, 2, 3, 8, 11, 12, 14))
+PSS_REVERSE <- paste0("PSS", c(4, 5, 6, 7, 9, 10, 13))
+PSS_ITEMS   <- c(PSS_DIRECT, PSS_REVERSE)
+```
+
+---
+
+# 1. Load data
+
+```{r load}
+screening <- read.csv(
+  file.path(data_path, "Screening_clean.csv"),
+  stringsAsFactors = FALSE,
+  na.strings = c("")
+)
+
+hwise_pss <- read.csv(
+  file.path(data_path, "02.HWISE_PSS.csv"),
+  stringsAsFactors = FALSE,
+  na.strings = c("")
+)
+
+cat("Screening rows/cols:", dim(screening), "\n")
+cat("HWISE_PSS rows/cols:", dim(hwise_pss), "\n")
+
+cat("\nScreening IDs:", length(unique(screening$ID)), "\n")
+cat("HWISE_PSS IDs:", length(unique(hwise_pss$ID)), "\n")
+```
+
+---
+
+# 2. ID reconciliation
+
+Before merging, identify IDs that exist in only one file.
+
+```{r id-reconciliation}
+ids_screen <- unique(screening$ID)
+ids_hw     <- unique(hwise_pss$ID)
+
+only_screen <- setdiff(ids_screen, ids_hw)
+only_hw     <- setdiff(ids_hw, ids_screen)
+both        <- intersect(ids_screen, ids_hw)
+
+cat("IDs in both files:            ", length(both),        "\n")
+cat("IDs only in screening:        ", length(only_screen), "\n")
+cat("IDs only in HWISE_PSS:        ", length(only_hw),     "\n")
+
+if (length(only_screen) > 0) {
+  cat("  Screening-only IDs:", paste(only_screen, collapse = ", "), "\n")
+}
+if (length(only_hw) > 0) {
+  cat("  HWISE_PSS-only IDs:", paste(only_hw, collapse = ", "), "\n")
+}
+```
+
+---
+
+# 3. Clean HWISE data
+
+## 3.1 Preserve raw HWISE values
+
+```{r hwise-preserve-raw}
+hwise_pss <- hwise_pss %>%
+  mutate(across(all_of(HWISE_ITEMS),
+                ~ ., .names = "{.col}_RAW"))
+```
+
+## 3.2 Convert HWISE items to numeric
+
+Expected values: 0, 1, 2, 3. Empty strings were already read as `NA`.
+Any remaining non-numeric text is flagged as 555.
+
+```{r hwise-convert}
+hwise_pss <- hwise_pss %>%
+  mutate(across(all_of(HWISE_ITEMS), ~ {
+    x     <- str_trim(as.character(.))
+    x_num <- suppressWarnings(as.numeric(x))
+    case_when(
+      is.na(x)                                   ~ NA_real_,
+      x %in% as.character(MISSING_CODES)         ~ suppressWarnings(as.numeric(x)),
+      !is.na(x_num) & x_num %in% 0:3            ~ x_num,
+      !is.na(x_num)                              ~ 999,   # out-of-range numeric
+      TRUE                                       ~ 555    # non-numeric text
+    )
+  }))
+```
+
+## 3.2b HWISE: cleaning change log
+
+Rows where at least one HWISE item changed from its raw value (e.g., empty → NA,
+non-numeric → 555, out-of-range → 999).
+
+```{r hwise-changelog}
+hwise_raw_long <- hwise_pss %>%
+  select(ID, ends_with("_RAW")) %>%
+  rename_with(~ str_remove(., "_RAW"), ends_with("_RAW")) %>%
+  select(ID, all_of(HWISE_ITEMS)) %>%
+  pivot_longer(-ID, names_to = "item", values_to = "raw")
+
+hwise_clean_long <- hwise_pss %>%
+  select(ID, all_of(HWISE_ITEMS)) %>%
+  pivot_longer(-ID, names_to = "item", values_to = "cleaned")
+
+hwise_changelog <- left_join(hwise_raw_long, hwise_clean_long, by = c("ID", "item")) %>%
+  filter(as.character(raw) != as.character(cleaned) |
+           (is.na(raw) != is.na(cleaned))) %>%
+  mutate(change_type = case_when(
+    is.na(cleaned)               ~ "empty → NA",
+    cleaned %in% MISSING_CODES   ~ paste0("flagged as ", cleaned),
+    TRUE                         ~ paste0(raw, " → ", cleaned)
+  )) %>%
+  arrange(ID, item)
+
+if (nrow(hwise_changelog) == 0) {
+  cat("No HWISE values changed during cleaning.\n")
+} else {
+  cat(nrow(hwise_changelog), "HWISE value(s) changed:\n")
+  print(hwise_changelog, n = 30)
+}
+```
+
+## 3.3 Check HWISE item distributions
+
+```{r hwise-check}
+cat("HWISE item value distributions:\n")
+hwise_pss %>%
+  select(all_of(HWISE_ITEMS)) %>%
+  mutate(across(everything(), as.character)) %>%
+  pivot_longer(everything(), names_to = "item", values_to = "value") %>%
+  count(item, value) %>%
+  filter(!is.na(value)) %>%
+  print(n = 30)
+
+# Flag out-of-range or unexpected values
+hwise_flags <- hwise_pss %>%
+  select(ID, all_of(HWISE_ITEMS)) %>%
+  pivot_longer(-ID, names_to = "item", values_to = "value") %>%
+  filter(!is.na(value) & !(value %in% c(0:3))) %>%
+  mutate(flag = case_when(
+    value %in% MISSING_CODES ~ "sentinel",
+    TRUE                     ~ "unexpected"
+  ))
+
+cat("\nFlagged HWISE values:\n")
+print(hwise_flags, n = 30)
+```
+
+## 3.4 Compute HW_TOTAL
+
+Sum of 12 items. Set to `NA` if any item is `NA` or a sentinel code.
+
+```{r hwise-total}
+hwise_pss <- hwise_pss %>%
+  rowwise() %>%
+  mutate(
+    HW_TOTAL = {
+      vals <- c_across(all_of(HWISE_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %>%
+  ungroup()
+
+cat("HW_TOTAL distribution:\n")
+print(summary(hwise_pss$HW_TOTAL))
+cat("Missing HW_TOTAL:", sum(is.na(hwise_pss$HW_TOTAL)), "\n")
+hwise_pss %>% filter(is.na(HW_TOTAL)) %>% select(ID, all_of(HWISE_ITEMS), HW_INFO)
+
+
+# Distribution plot
+ggplot(hwise_pss %>% filter(!is.na(HW_TOTAL)),
+       aes(x = HW_TOTAL)) +
+  geom_histogram(binwidth = 1, fill = "#5bc0de", color = "white") +
+  labs(title = "HW_TOTAL distribution",
+       x = "HWISE total score (0–36)", y = "Count") +
+  theme_minimal()
+```
+
+## 3.5 Compute HW_WORRY_SUB (water worry subscale)
+
+The water worry subscale captures the **psychosocial burden** of household water
+insecurity. It is computed as the sum of three HWISE items that reflect emotional
+and social distress related to water access:
+
+- `HW_WORRY` — worried the household would not have enough water
+- `HW_ANGRY` — felt angry because of the household's water situation
+- `HW_SHAME` — felt shame because the household did not have enough water
+
+Each item is scored 0–3, giving a subscale range of **0–9**, where higher scores
+indicate greater psychosocial distress related to water insecurity. This subscale
+was proposed by Jepson et al. (2021), who used it to examine associations between
+water insecurity and health outcomes in urban Mexico.
+
+> Jepson, W. E., Stoler, J., Baek, J., Morán Martínez, J., Uribe Salas, F. J., &
+> Carrillo, G. (2021). Cross-sectional study to measure household water insecurity
+> and its health outcomes in urban Mexico. *BMJ Open*, 11(3), e040825.
+> https://doi.org/10.1136/bmjopen-2020-040825
+
+```{r hwise-worry-sub}
+WORRY_ITEMS <- c("HW_WORRY", "HW_ANGRY", "HW_SHAME")
+
+hwise_pss <- hwise_pss %>%
+  rowwise() %>%
+  mutate(
+    HW_WORRY_SUB = {
+      vals <- c_across(all_of(WORRY_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %>%
+  ungroup()
+
+cat("HW_WORRY_SUB distribution:\n")
+print(summary(hwise_pss$HW_WORRY_SUB))
+cat("Missing HW_WORRY_SUB:", sum(is.na(hwise_pss$HW_WORRY_SUB)), "\n")
+
+ggplot(hwise_pss %>% filter(!is.na(HW_WORRY_SUB)),
+       aes(x = HW_WORRY_SUB)) +
+  geom_bar(fill = "#5bc0de", color = "white") +
+  scale_x_continuous(breaks = 0:9) +
+  labs(title = "HW_WORRY_SUB distribution",
+       x = "Water worry subscale (0–9)", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+# 4. Clean PSS data
+
+## 4.1 Preserve raw PSS values
+
+```{r pss-preserve-raw}
+hwise_pss <- hwise_pss %>%
+  mutate(across(all_of(PSS_ITEMS),
+                ~ ., .names = "{.col}_RAW"))
+```
+
+## 4.2 Convert PSS items to numeric
+
+Expected values: 0, 1, 2, 3, 4.
+
+```{r pss-convert}
+hwise_pss <- hwise_pss %>%
+  mutate(across(all_of(PSS_ITEMS), ~ {
+    x     <- str_trim(as.character(.))
+    x_num <- suppressWarnings(as.numeric(x))
+    case_when(
+      is.na(x)                                   ~ NA_real_,
+      x %in% as.character(MISSING_CODES)         ~ suppressWarnings(as.numeric(x)),
+      !is.na(x_num) & x_num %in% 0:4            ~ x_num,
+      !is.na(x_num)                              ~ 999,
+      TRUE                                       ~ 555
+    )
+  }))
+```
+
+## 4.2b PSS: cleaning change log
+
+```{r pss-changelog}
+pss_raw_long <- hwise_pss %>%
+  select(ID, ends_with("_RAW")) %>%
+  rename_with(~ str_remove(., "_RAW"), ends_with("_RAW")) %>%
+  select(ID, all_of(PSS_ITEMS)) %>%
+  pivot_longer(-ID, names_to = "item", values_to = "raw")
+
+pss_clean_long <- hwise_pss %>%
+  select(ID, all_of(PSS_ITEMS)) %>%
+  pivot_longer(-ID, names_to = "item", values_to = "cleaned")
+
+pss_changelog <- left_join(pss_raw_long, pss_clean_long, by = c("ID", "item")) %>%
+  filter(as.character(raw) != as.character(cleaned) |
+           (is.na(raw) != is.na(cleaned))) %>%
+  mutate(change_type = case_when(
+    is.na(cleaned)               ~ "empty → NA",
+    cleaned %in% MISSING_CODES   ~ paste0("flagged as ", cleaned),
+    TRUE                         ~ paste0(raw, " → ", cleaned)
+  )) %>%
+  arrange(ID, item)
+
+if (nrow(pss_changelog) == 0) {
+  cat("No PSS values changed during cleaning.\n")
+} else {
+  cat(nrow(pss_changelog), "PSS value(s) changed:\n")
+  print(pss_changelog, n = 20)
+}
+```
+
+## 4.3 Check PSS item distributions
+
+```{r pss-check}
+cat("PSS item value distributions:\n")
+hwise_pss %>%
+  select(all_of(PSS_ITEMS)) %>%
+  mutate(across(everything(), as.character)) %>%
+  pivot_longer(everything(), names_to = "item", values_to = "value") %>%
+  count(item, value) %>%
+  filter(!is.na(value)) %>%
+  print(n = 20)
+
+# Flag unexpected values
+pss_flags <- hwise_pss %>%
+  select(ID, all_of(PSS_ITEMS)) %>%
+  pivot_longer(-ID, names_to = "item", values_to = "value") %>%
+  filter(!is.na(value) & !(value %in% c(0:4))) %>%
+  mutate(flag = case_when(
+    value %in% MISSING_CODES ~ "sentinel",
+    TRUE                     ~ "unexpected"
+  ))
+
+cat("\nFlagged PSS values:\n")
+print(pss_flags, n = 30)
+```
+
+## 4.4 Reverse-code negatively-worded PSS items
+
+PSS items 4, 5, 6, 7, 9, 10, 13 are negatively worded and must be reversed
+before summing (0→4, 1→3, 2→2, 3→1, 4→0). Sentinel codes are left unchanged.
+
+```{r pss-reverse}
+reverse_pss <- function(x) {
+  case_when(
+    is.na(x)              ~ NA_real_,
+    x %in% MISSING_CODES  ~ x,       # pass sentinel through unchanged
+    x == 0 ~ 4,
+    x == 1 ~ 3,
+    x == 2 ~ 2,
+    x == 3 ~ 1,
+    x == 4 ~ 0,
+    TRUE   ~ x
+  )
+}
+
+hwise_pss <- hwise_pss %>%
+  mutate(across(all_of(PSS_REVERSE),
+                reverse_pss, .names = "{.col}_REV"))
+
+# Renamed columns for scored total computation
+PSS_SCORED_DIRECT  <- PSS_DIRECT
+PSS_SCORED_REVERSE <- paste0(PSS_REVERSE, "_REV")
+PSS_SCORED_ITEMS   <- c(PSS_SCORED_DIRECT, PSS_SCORED_REVERSE)
+```
+
+## 4.4b PSS reverse-coding: before/after
+
+Mean item score before and after reverse coding for the 7 reversed items.
+Direct items are shown for reference. If reverse-coding worked correctly, the
+reversed items' means should shift (e.g., a mean of 2.8 becomes ~1.2).
+
+```{r pss-reverse-check}
+# Mean of original values for all 14 items
+pss_means_before <- hwise_pss %>%
+  select(all_of(PSS_ITEMS)) %>%
+  summarise(across(everything(), ~ mean(.[!. %in% MISSING_CODES], na.rm = TRUE))) %>%
+  pivot_longer(everything(), names_to = "item", values_to = "mean_before")
+
+# Mean of scored values (direct items unchanged, reverse items = _REV columns)
+pss_means_after <- bind_rows(
+  hwise_pss %>%
+    select(all_of(PSS_DIRECT)) %>%
+    summarise(across(everything(), ~ mean(.[!. %in% MISSING_CODES], na.rm = TRUE))) %>%
+    pivot_longer(everything(), names_to = "item", values_to = "mean_after"),
+  hwise_pss %>%
+    select(all_of(paste0(PSS_REVERSE, "_REV"))) %>%
+    rename_with(~ str_remove(., "_REV")) %>%
+    summarise(across(everything(), ~ mean(.[!. %in% MISSING_CODES], na.rm = TRUE))) %>%
+    pivot_longer(everything(), names_to = "item", values_to = "mean_after")
+)
+
+pss_rev_check <- left_join(pss_means_before, pss_means_after, by = "item") %>%
+  mutate(
+    direction = if_else(item %in% PSS_DIRECT, "Direct (unchanged)", "Reversed"),
+    item      = factor(item, levels = c(PSS_DIRECT, PSS_REVERSE))
+  )
+
+# Print table
+cat("PSS item means before and after reverse-coding:\n")
+print(pss_rev_check %>% arrange(item) %>%
+      mutate(across(c(mean_before, mean_after), ~ round(., 2))), n = 20)
+
+# Plot
+pss_rev_check %>%
+  pivot_longer(c(mean_before, mean_after),
+               names_to = "stage", values_to = "mean") %>%
+  mutate(stage = factor(stage,
+                        levels = c("mean_before", "mean_after"),
+                        labels = c("Before", "After reverse-coding"))) %>%
+  ggplot(aes(x = item, y = mean, color = direction, shape = stage, group = item)) +
+  geom_point(size = 3) +
+  geom_line(aes(group = item), color = "grey70", linewidth = 0.5) +
+  scale_color_manual(values = c("Direct (unchanged)" = "#5bc0de",
+                                "Reversed"           = "#d9534f")) +
+  scale_shape_manual(values = c("Before" = 16, "After reverse-coding" = 17)) +
+  labs(title    = "PSS item means: before vs after reverse-coding",
+       subtitle = "Lines connect the same item; triangles = after reverse-coding",
+       x = "PSS item", y = "Mean score (0–4)",
+       color = "Item type", shape = "Stage") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## 4.5 Compute PSS_TOTAL
+
+Sum of 7 direct items + 7 reverse-coded items. Set to `NA` if any item is
+`NA` or a sentinel code. Participants with a `Revisar` note in `PSS_INFO` are
+flagged for manual review.
+
+```{r pss-total}
+hwise_pss <- hwise_pss %>%
+  rowwise() %>%
+  mutate(
+    PSS_TOTAL = {
+      vals <- c_across(all_of(PSS_SCORED_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %>%
+  ungroup()
+
+# Flag participants with a "Revisar" note in PSS_INFO
+hwise_pss <- hwise_pss %>%
+  mutate(PSS_REVIEW_FLAG = if_else(
+    str_detect(tolower(PSS_INFO), "revisar"), 1L, 0L
+  ))
+
+cat("PSS_TOTAL distribution:\n")
+print(summary(hwise_pss$PSS_TOTAL))
+cat("Missing PSS_TOTAL:", sum(is.na(hwise_pss$PSS_TOTAL)), "\n")
+
+hwise_pss %>% filter(is.na(PSS_TOTAL)) %>% select(ID, all_of(PSS_ITEMS), PSS_INFO)
+
+cat("\nParticipants flagged for PSS review (PSS_REVIEW_FLAG = 1):\n")
+hwise_pss %>%
+  filter(PSS_REVIEW_FLAG == 1) %>%
+  select(ID, all_of(PSS_ITEMS), PSS_INFO, PSS_TOTAL) %>%
+  print()
+
+# Distribution plot
+ggplot(hwise_pss %>% filter(!is.na(PSS_TOTAL)),
+       aes(x = PSS_TOTAL)) +
+  geom_histogram(binwidth = 2, fill = "#d9534f", color = "white") +
+  labs(title = "PSS_TOTAL distribution",
+       x = "PSS-14 total score (0–56)", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+# 5. Standardize SEASON in HWISE_PSS
+
+The HWISE_PSS file encodes season as text ("Oct-Dec", "Apr-Jun"). Recode to
+match the numeric convention in the screening file (0 = rainy, 1 = dry).
+
+```{r season-recode}
+hwise_pss <- hwise_pss %>%
+  mutate(SEASON_CLEAN = case_when(
+    str_detect(tolower(SEASON), "oct|rainy") ~ 0,
+    str_detect(tolower(SEASON), "apr|dry")   ~ 1,
+    TRUE ~ NA_real_
+  ))
+
+cat("SEASON_CLEAN distribution:\n")
+print(table(hwise_pss$SEASON_CLEAN, useNA = "always"))
+```
+
+---
+
+# 6. Select columns for merge
+
+Keep only the columns needed from the HWISE_PSS file (raw items, scored totals,
+flags, and notes). The `SEASON` variable will come from the screening file.
+
+```{r select-hwise-cols}
+hwise_to_merge <- hwise_pss %>%
+  select(
+    ID,
+    W_WS_LOC,
+    SEASON_CLEAN,                      # numeric season (for cross-check)
+    # HWISE: raw items + computed total
+    all_of(HWISE_ITEMS),
+    HW_TOTAL,
+    HW_WORRY_SUB,
+    HW_INFO,                           # free-text notes
+    # PSS: raw items, reversed items, computed total, flags
+    all_of(PSS_ITEMS),
+    all_of(PSS_SCORED_REVERSE),        # reversed versions of neg items
+    PSS_TOTAL,
+    PSS_REVIEW_FLAG,
+    PSS_INFO                           # free-text notes
+  )
+
+cat("Columns in hwise_to_merge:", ncol(hwise_to_merge), "\n")
+```
+
+---
+
+# 7. Merge with screening
+
+Left join on `screening` to keep all screened participants. HWISE/PSS columns
+will be `NA` for the handful of participants without HWISE_PSS data.
+
+```{r merge}
+df_merged <- screening %>%
+  left_join(hwise_to_merge, by = "ID")
+
+cat("Merged dimensions:", dim(df_merged), "\n")
+
+# Cross-check SEASON from screening (0/1) vs HWISE_PSS text-derived value
+season_check <- df_merged %>%
+  filter(!is.na(SEASON) & !is.na(SEASON_CLEAN)) %>%
+  mutate(season_match = SEASON == SEASON_CLEAN)
+
+cat("\nSEASON cross-check (screening vs HWISE_PSS):\n")
+print(table(season_check$season_match, useNA = "always"))
+
+season_mismatch <- season_check %>% filter(!season_match)
+if (nrow(season_mismatch) > 0) {
+  cat("\nSEASON mismatches (review these IDs):\n")
+  print(season_mismatch %>% select(ID, SEASON, SEASON_CLEAN))
+}
+
+# Remove the temporary SEASON_CLEAN after cross-check
+df_merged <- df_merged %>% select(-SEASON_CLEAN)
+```
+
+---
+
+# 8. Post-merge checks
+
+## 8.1 Participants without HWISE_PSS data
+
+```{r check-missing-hw}
+missing_hw <- df_merged %>%
+  filter(is.na(HW_TOTAL) & is.na(PSS_TOTAL)) %>%
+  select(ID, SEASON)
+
+cat("Participants with no HWISE or PSS data after merge:\n")
+print(missing_hw)
+```
+
+## 8.2 Missing data summary for key variables
+
+```{r missing-summary}
+key_vars <- c("HW_TOTAL", "PSS_TOTAL", HWISE_ITEMS, PSS_ITEMS)
+
+missing_report <- df_merged %>%
+  select(all_of(key_vars)) %>%
+  summarise(across(everything(), list(
+    n_na       = ~ sum(is.na(.)),
+    n_sentinel = ~ sum(. %in% MISSING_CODES, na.rm = TRUE)
+  ))) %>%
+  pivot_longer(everything(),
+               names_to  = c("variable", ".value"),
+               names_sep = "_(?=n_na|n_sentinel)") %>%
+  mutate(
+    n_total  = nrow(df_merged),
+    pct_na   = round(n_na / n_total * 100, 1),
+    pct_flag = round(n_sentinel / n_total * 100, 1)
+  ) %>%
+  filter(n_na > 0 | n_sentinel > 0) %>%
+  arrange(desc(pct_na))
+
+# Collect up to 5 example IDs per variable that are NA
+na_ids <- df_merged %>%
+  select(ID, all_of(key_vars)) %>%
+  pivot_longer(-ID, names_to = "variable", values_to = "value") %>%
+  filter(is.na(value)) %>%
+  group_by(variable) %>%
+  summarise(sample_IDs = paste(head(ID, 10), collapse = ", "), .groups = "drop")
+
+missing_report <- missing_report %>%
+  left_join(na_ids, by = "variable")
+
+cat("Missing data summary — HWISE & PSS variables:\n")
+print(missing_report, n = 40)
+```
+
+## 8.3 Score distributions by season
+
+```{r score-by-season}
+df_merged %>%
+  filter(!is.na(SEASON)) %>%
+  mutate(Season = if_else(SEASON == 0, "Rainy (Oct-Dec)", "Dry (Apr-Jun)")) %>%
+  select(Season, HW_TOTAL, PSS_TOTAL) %>%
+  pivot_longer(-Season, names_to = "Scale", values_to = "Score") %>%
+  filter(!is.na(Score)) %>%
+  ggplot(aes(x = Score, fill = Season)) +
+  geom_histogram(binwidth = 2, position = "identity", alpha = 0.6) +
+  facet_wrap(~ Scale, scales = "free_x") +
+  scale_fill_manual(values = c("Rainy (Oct-Dec)" = "#5bc0de",
+                               "Dry (Apr-Jun)"   = "#d9534f")) +
+  labs(title = "HWISE and PSS score distributions by season",
+       x = "Score", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+# 9. Internal consistency (Cronbach's α)
+
+Cronbach's α measures how well the items in a scale correlate with each other —
+i.e., whether they are all capturing the same underlying construct. Values ≥ 0.7
+are generally considered acceptable. α is computed here on complete cases only
+(rows with any `NA` or sentinel code in the relevant items are excluded).
+
+```{r cronbach, message=FALSE, warning=FALSE}
+library(psych)
+
+# Helper to clean a set of items: exclude NAs and sentinel codes row-wise
+clean_items <- function(data, items) {
+  data %>%
+    select(all_of(items)) %>%
+    mutate(across(everything(), ~ if_else(. %in% MISSING_CODES, NA_real_,
+                                          as.numeric(.)))) %>%
+    filter(if_all(everything(), ~ !is.na(.)))
+}
+
+# HWISE — 12 items, scored 0–3
+alpha_hwise <- clean_items(df_merged, HWISE_ITEMS) %>% alpha()
+
+# PSS-14 — use reverse-coded versions of the negative items
+alpha_pss <- clean_items(df_merged, PSS_SCORED_ITEMS) %>% alpha()
+
+# Water worry subscale — 3 items
+alpha_worry <- clean_items(df_merged, WORRY_ITEMS) %>% alpha()
+
+# Summary table
+alpha_summary <- tibble(
+  Scale            = c("HWISE (12 items)", "PSS-14 (14 items)",
+                       "Water worry subscale (3 items)"),
+  n_items          = c(12, 14, 3),
+  n_complete       = c(nrow(clean_items(df_merged, HWISE_ITEMS)),
+                       nrow(clean_items(df_merged, PSS_SCORED_ITEMS)),
+                       nrow(clean_items(df_merged, WORRY_ITEMS))),
+  alpha            = round(c(alpha_hwise$total$raw_alpha,
+                             alpha_pss$total$raw_alpha,
+                             alpha_worry$total$raw_alpha), 3),
+  alpha_95CI_lower = round(c(alpha_hwise$total$raw_alpha -
+                               1.96 * alpha_hwise$total$ase,
+                             alpha_pss$total$raw_alpha -
+                               1.96 * alpha_pss$total$ase,
+                             alpha_worry$total$raw_alpha -
+                               1.96 * alpha_worry$total$ase), 3),
+  alpha_95CI_upper = round(c(alpha_hwise$total$raw_alpha +
+                               1.96 * alpha_hwise$total$ase,
+                             alpha_pss$total$raw_alpha +
+                               1.96 * alpha_pss$total$ase,
+                             alpha_worry$total$raw_alpha +
+                               1.96 * alpha_worry$total$ase), 3)
+)
+
+cat("Cronbach's α summary:\n")
+print(alpha_summary)
+
+ggplot(alpha_summary,
+       aes(x = reorder(Scale, alpha), y = alpha)) +
+  geom_pointrange(aes(ymin = alpha_95CI_lower, ymax = alpha_95CI_upper),
+                  size = 0.8, color = "#5bc0de") +
+  geom_hline(yintercept = 0.7, linetype = "dashed", color = "grey50") +
+  geom_hline(yintercept = 0.9, linetype = "dotted", color = "grey50") +
+  annotate("text", x = 0.6, y = 0.71, label = "acceptable (0.7)",
+           hjust = 0, size = 3, color = "grey40") +
+  annotate("text", x = 0.6, y = 0.91, label = "excellent (0.9)",
+           hjust = 0, size = 3, color = "grey40") +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
+  labs(title = "Cronbach's α by scale (95% CI)",
+       x = NULL, y = "Cronbach's α") +
+  theme_minimal()
+```
+
+### Interpretation
+
+**HWISE (α = 0.848, 95% CI: 0.827–0.869):** Good internal consistency, comfortably
+above the 0.8 threshold. All 12 items contribute positively, with item-total
+correlations ranging from 0.36 to 0.66. The weakest items are `HW_SLEEP`
+(r.drop = 0.296) and `HW_DRINK` (r.drop = 0.381), though neither is low enough
+to warrant removal — they likely capture a slightly different facet of water
+insecurity (disrupted sleep and drinking water access) that is less correlated
+with the broader scale but still conceptually relevant.
+
+**PSS-14 (α = 0.813, 95% CI: 0.787–0.840):** Good internal consistency. The
+weakest items are `PSS12` (r.drop = 0.274) and `PSS13_REV` (r.drop = 0.292),
+both of which are among the reverse-coded items. This pattern is common in PSS
+data and has been noted in validation studies. The overall α is consistent with
+values reported in the literature for Spanish-language administrations of the PSS.
+
+**Water worry subscale (α = 0.539, 95% CI: 0.468–0.610):** Below the conventional
+0.7 threshold, which warrants caution in interpretation. However, this is partly
+expected — Cronbach's α is sensitive to the number of items, and a 3-item scale
+will almost always yield lower α than the full 12-item HWISE even if the items are
+genuinely related. Among the three items, `HW_SHAME` has the lowest item-total
+correlation (r.drop = 0.261), suggesting it is the least consistent with the other
+two. `HW_ANGRY` and `HW_WORRY` are more closely related to each other. These
+results suggest the subscale has limited reliability as a standalone measure and
+findings based on it should be interpreted carefully.
+
+### Item-level detail
+
+Item-total correlations and α-if-item-deleted for each scale — useful for
+spotting items that weaken internal consistency.
+
+```{r cronbach-itemlevel}
+cat("--- HWISE item-level stats ---\n")
+print(alpha_hwise$item.stats %>%
+        select(r.cor, r.drop) %>%
+        round(3))
+
+cat("\n--- PSS-14 item-level stats ---\n")
+print(alpha_pss$item.stats %>%
+        select(r.cor, r.drop) %>%
+        round(3))
+
+cat("\n--- Water worry subscale item-level stats ---\n")
+print(alpha_worry$item.stats %>%
+        select(r.cor, r.drop) %>%
+        round(3))
+```
+
+---
+
+# 10. Save merged dataset
+
+```{r save}
+out_file <- file.path(data_path, "Merged_Screening_HWISE_PSS.csv")
+write.csv(df_merged, out_file, row.names = FALSE)
+cat("Saved:", out_file, "\n")
+cat("Final dimensions:", dim(df_merged), "\n")
+```
