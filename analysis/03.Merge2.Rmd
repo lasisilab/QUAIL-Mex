@@ -1,0 +1,242 @@
+---
+title: "Merge Datasets – Water Insecurity & Stress Study"
+author: ""
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+```
+
+## Overview
+
+This script merges three supplemental files onto the base dataset
+(`Merged_Screening_HWISE_PSS.csv`):
+
+1. **Chronic_pain_illness.csv** – corrected `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` values  
+2. **Q2-3-4-5-6.csv** – supplemental water variables (Season 1, IDs 1–330)  
+3. **Q1-2-3-4-5_season2.csv** – supplemental water variables (Season 2, IDs 331+)
+
+---
+
+## 1. Load base dataset
+
+```{r load-base}
+base <- read_csv("./data/Merged_Screening_HWISE_PSS.csv", show_col_types = FALSE)
+
+cat("Base dimensions:", nrow(base), "rows ×", ncol(base), "cols\n")
+cat("ID range:", min(base$ID), "–", max(base$ID), "\n")
+
+```
+
+---
+
+## 2. Update chronic pain / illness categories
+
+These replace the original `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` columns with
+corrected values.
+
+```{r merge-chronic}
+chronic <- read_csv(
+  "./data/Chronic_pain_illness.csv",
+  col_types = cols(
+    ID             = col_double(),
+    HLTH_CPAIN_CAT = col_double(),
+    HLTH_CDIS_CAT  = col_double()
+  )
+)
+
+cat("Chronic pain file:", nrow(chronic), "rows\n")
+cat("IDs not in base:", sum(!chronic$ID %in% base$ID), "\n")
+
+# Drop old columns and join corrected values
+merged <- base %>%
+  select(-HLTH_CPAIN_CAT, -HLTH_CDIS_CAT) %>%
+  left_join(chronic, by = "ID")
+
+# Verify counts
+cat("After chronic merge:", nrow(merged), "rows\n")
+cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
+cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
+```
+
+---
+
+## 3. Load and stack supplemental water files
+
+### Season 1 water variables (Q2-3-4-5-6.csv)
+
+```{r load-s1}
+water_s1 <- read_csv(
+  "./data/Q2-3-4-5-6.csv",
+  show_col_types = FALSE
+) %>%
+  rename_with(~ str_replace_all(., "/", "_PER_")) %>%   # fix slash in col names
+  mutate(WATER_FILE_SOURCE = "S1_Q2-3-4-5-6")
+
+cat("Season 1 water rows:", nrow(water_s1), "\n")
+cat("Season 1 IDs range:", min(water_s1$ID), "–", max(water_s1$ID), "\n")
+
+cat("Sample IDs:", water_s1$ID)
+cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
+cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
+```
+
+### Season 2 water variables (Q1-2-3-4-5_season2.csv)
+
+```{r load-s2}
+water_s2 <- read_csv(
+  "./data/Q1-2-3-4-5_season2.csv",
+  show_col_types = FALSE
+) %>%
+  rename_with(~ str_replace_all(., "/", "_PER_")) %>%
+  mutate(WATER_FILE_SOURCE = "S2_Q1-2-3-4-5")
+
+cat("Season 2 water rows:", nrow(water_s2), "\n")
+cat("Season 2 IDs range:", min(water_s2$ID), "–", max(water_s2$ID), "\n")
+head(water_s2)
+```
+
+### Stack seasons (bind shared columns, retain all)
+
+```{r stack-water}
+# Full bind – fills NA for columns that differ between seasons
+water_s1 <- water_s1 %>% mutate(ID = as.numeric(ID))
+water_s2 <- water_s2 %>% mutate(ID = as.numeric(ID))
+
+water_all <- bind_rows(water_s1, water_s2)
+water_all <- bind_rows(water_s1, water_s2)
+
+# Check for duplicate IDs across seasons
+water_all <- bind_rows(water_s1, water_s2) %>%
+  group_by(ID) %>%
+  summarise(across(everything(), ~ {
+    vals <- na.omit(unique(.x))
+    if (length(vals) == 0) NA_character_
+    else if (length(vals) == 1) as.character(vals)
+    else paste(vals, collapse = " vs ")
+  }), .groups = "drop") %>%
+  mutate(ID = as.numeric(ID)) %>%
+  arrange(ID)
+
+cat("Rows after deduplication:", nrow(water_all), "\n")
+
+dupes <- water_all %>% group_by(ID) %>% filter(n() > 1)
+
+if (nrow(dupes) > 0) {
+  conflicts <- dupes %>%
+      group_by(ID) %>%
+    summarise(across(everything(), ~ {
+      vals <- na.omit(unique(.x))
+      if (length(vals) > 1) paste(vals, collapse = " vs ") else NA_character_
+    }), .groups = "drop") %>%
+    arrange(ID) %>%
+    select(ID, where(~ any(!is.na(.)))) %>%
+    select(-any_of("WATER_FILE_SOURCE"))
+  
+  cat("Conflicting values by ID:\n")
+  print(conflicts)
+} else {
+  cat("No duplicate IDs across seasons.\n")
+}
+
+
+cat("Combined water rows:", nrow(water_all), "\n")
+head(water_all)
+```
+
+---
+
+## 4. Merge water variables onto main dataset
+
+```{r merge-water}
+merged <- merged %>%
+  left_join(water_all, by = "ID")
+
+cat("Final dimensions:", nrow(merged), "rows ×", ncol(merged), "cols\n")
+
+# IDs in base without a water record
+no_water <- sum(!base$ID %in% water_all$ID)
+cat("Base IDs with no water record:", no_water, "\n")
+```
+
+---
+
+## 5. Reorder to match target column specification
+
+Core columns are placed first in the required order; supplemental water columns
+are appended after.
+
+```{r reorder}
+target_cols <- c(
+  "ID", "D_YRBR", "D_AGE", "D_LOC", "D_LOC_CODE", "D_LOC_TIME", "D_LOC_INFO",
+  "HLTH_SMK", "HLTH_TTM", "HLTH_MED", "HLTH_CPAIN", "HLTH_CPAIN_CAT",
+  "HLTH_CDIS", "HLTH_CDIS_CAT", "D_HH_SIZE", "D_HH_SIZE_INFO", "D_CHLD",
+  "D_EMP_TYPE", "D_EMP_DAYS", "W_HH_SIZE", "W_STORAGE", "D_INFO",
+  "SES_EDU_CAT", "SES_EDU_SC", "SES_BTHR_CAT", "SES_BTHR_SC",
+  "SES_CAR_CAT", "SES_CAR_SC", "SES_INT_CAT", "SES_INT_SC",
+  "SES_WRK_CAT", "SES_WRK_SC", "SES_BEDR_CAT", "SES_BEDR_SC", "SES_INFO",
+  "HLTH_TTM_RAW", "HLTH_MED_RAW", "HLTH_CPAIN_RAW", "HLTH_CDIS_RAW",
+  "HLTH_SMK_RAW", "D_EMP_TYPE_RAW", "D_CHLD_RAW", "SEASON",
+  "HLTH_TTM_CLEAN", "HLTH_MED_CLEAN", "HLTH_CPAIN_CLEAN", "HLTH_CDIS_CLEAN",
+  "HLTH_SMK_CLEAN", "HLTH_SMK_CAT", "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
+  "D_CHLD_CLEAN", "D_LOC_TIME_RAW", "D_LOC_TIME_CLEAN",
+  "SES_EDU_SC_RAW", "SES_BTHR_SC_RAW", "SES_CAR_SC_RAW", "SES_INT_SC_RAW",
+  "SES_WRK_SC_RAW", "SES_BEDR_SC_RAW", "SES_SC_Total", "SES_CAT_AMAI",
+  "W_WS_LOC",
+  "HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS", "HW_FOOD",
+  "HW_HANDS", "HW_BODY", "HW_DRINK", "HW_ANGRY", "HW_SLEEP",
+  "HW_NONE", "HW_SHAME", "HW_TOTAL", "HW_WORRY_SUB", "HW_INFO",
+  "PSS1", "PSS2", "PSS3", "PSS8", "PSS11", "PSS12", "PSS14",
+  "PSS4", "PSS5", "PSS6", "PSS7", "PSS9", "PSS10", "PSS13",
+  "PSS4_REV", "PSS5_REV", "PSS6_REV", "PSS7_REV",
+  "PSS9_REV", "PSS10_REV", "PSS13_REV",
+  "PSS_TOTAL", "PSS_REVIEW_FLAG", "PSS_INFO"
+)
+
+# Identify which target cols are present
+present   <- target_cols[target_cols %in% names(merged)]
+missing   <- target_cols[!target_cols %in% names(merged)]
+extra     <- names(merged)[!names(merged) %in% target_cols]
+
+if (length(missing) > 0) cat("Target cols NOT found in merged data:\n", paste(missing, collapse = ", "), "\n")
+if (length(extra)   > 0) cat("Extra cols appended after target cols:\n", paste(extra,   collapse = ", "), "\n")
+
+# Reorder: target first, then extra (supplemental water + source flag)
+merged_final <- merged %>%
+  select(all_of(present), any_of(extra))
+
+cat("Final column count:", ncol(merged_final), "\n")
+```
+
+---
+
+## 6. Quality checks
+
+```{r qc}
+# Missing values in key outcome columns
+qc_cols <- c("HLTH_CPAIN","HLTH_CPAIN_CAT", "HLTH_CPAIN_RAW", "HLTH_CPAIN_CLEAN", "HLTH_CDIS_CAT", "HW_TOTAL", "PSS_TOTAL", "W_WS_LOC", "MX3_CONT_INT","MX2_WI_SEASON_TYPE", "MX2_WI_SEASON_INFO", "MX2_WI_SEASON", "MX5_WFREQ_HRS_PER_WEEK")
+
+print(merged_final[, qc_cols], n=5)
+
+merged_final %>%
+  summarise(across(all_of(qc_cols), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "column", values_to = "n_missing") %>%
+  print()
+
+# SEASON distribution
+cat("\nSEASON distribution:\n")
+print(table(merged_final$SEASON, useNA = "always"))
+```
+
+---
+
+## 7. Export
+
+```{r export}
+write_csv(merged_final, "./data/Merged_Final.csv", na = "")
+cat("Exported: Merged_Final.csv\n")
+cat("Rows:", nrow(merged_final), "| Cols:", ncol(merged_final), "\n")
+```

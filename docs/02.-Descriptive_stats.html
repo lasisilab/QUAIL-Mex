@@ -1,0 +1,5325 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+<meta name="date" content="2026-03-06" />
+
+<title>Descriptive Statistics</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Descriptive Statistics</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2026-03-06</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-08
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee7a08e9074f5c08424bf14e66d25c279280405d9targetblanke7a08e9a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e7a08e9074f5c08424bf14e66d25c279280405d9" target="_blank">e7a08e9</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee7a08e9074f5c08424bf14e66d25c279280405d9targetblanke7a08e9a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e7a08e9074f5c08424bf14e66d25c279280405d9" target="_blank">e7a08e9</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/02.-Descriptive_stats.Rmd
+
+Unstaged changes:
+    Modified:   analysis/02. Descriptive_stats.Rmd
+    Modified:   analysis/Data_cleaning.Rmd
+    Modified:   data/Merged_Screening_HWISE_PSS.csv
+    Modified:   data/Screening_clean.csv
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/02. Descriptive_stats.Rmd</code>)
+and HTML (<code>docs/02. Descriptive_stats.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/analysis/02. Descriptive_stats.Rmd" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+<td>
+quail-updates
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This document produces descriptive statistics for the merged dataset
+(<code>Merged_Screening_HWISE_PSS.csv</code>, produced by
+<code>Data_merge_HWISE_PSS.Rmd</code>). It includes:</p>
+<ol style="list-style-type: decimal">
+<li><p>A comprehensive descriptive statistics table (all analytic
+variables)</p></li>
+<li><p>A filtered table with only the variables relevant to the
+manuscript</p></li>
+<li><p>HWISE and PSS descriptive statistics (overall and by
+season)</p></li>
+<li><p>Sample characteristics stratified by water insecurity level
+(HWISE categories)</p></li>
+<li><p>A missing data summary table</p></li>
+</ol>
+<hr />
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<pre class="r"><code>library(dplyr)
+library(tidyr)
+library(stringr)
+library(gtsummary)
+library(gt)
+library(ggplot2)
+
+data_path &lt;- &quot;./data&quot;
+
+MISSING_CODES &lt;- c(999, 888, 777, 666, 555, 444, 333)
+
+# Helper: convert sentinel codes and recode to NA for descriptive stats
+# Sentinel-coded values are treated as NA in tables (they are not true responses)
+clean_for_table &lt;- function(x) {
+  x_num &lt;- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES | is.na(x_num), NA, x_num)
+}</code></pre>
+<hr />
+</div>
+<div id="load-cleaned-data" class="section level1">
+<h1>1. Load cleaned data</h1>
+<pre class="r"><code>df &lt;- read.csv(file.path(data_path, &quot;Merged_Screening_HWISE_PSS.csv&quot;),
+               stringsAsFactors = FALSE,
+               na.strings = c(&quot;&quot;))
+
+cat(&quot;Dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
+<pre><code>Dimensions: 399 102 </code></pre>
+<pre class="r"><code>cat(&quot;Participants:&quot;, nrow(df), &quot;\n&quot;)</code></pre>
+<pre><code>Participants: 399 </code></pre>
+<hr />
+</div>
+<div id="prepare-analytic-dataset" class="section level1">
+<h1>2. Prepare analytic dataset</h1>
+<p>Select and recode variables for the descriptive table. All sentinel
+codes are converted to NA here since they represent non-informative
+responses for descriptive purposes.</p>
+<pre class="r"><code>df_table &lt;- df %&gt;%
+  mutate(
+    # --- Demographics ---
+    Age          = clean_for_table(D_AGE),
+    Yrs_in_nbhd  = clean_for_table(D_LOC_TIME_CLEAN),
+    HH_size      = clean_for_table(D_HH_SIZE),
+    Parity       = clean_for_table(D_CHLD_CLEAN),
+
+    # --- Season ---
+    Season = factor(SEASON,
+                    levels = c(0, 1),
+                    labels = c(&quot;Rainy (Oct-Dec 2022)&quot;, &quot;Dry (Apr-Jun 2023)&quot;)),
+
+    # --- SES ---
+    SES_Total    = clean_for_table(SES_SC_Total),
+    SES_Category = factor(SES_CAT_AMAI,
+                          levels = c(&quot;E&quot;, &quot;D-&quot;, &quot;D+&quot;, &quot;C-&quot;, &quot;C&quot;, &quot;C+&quot;, &quot;AB&quot;),
+                          ordered = TRUE),
+
+    # --- Employment ---
+    Employed = factor(clean_for_table(D_EMP_CLEAN),
+                      levels = c(0, 1),
+                      labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Employment_type = factor(clean_for_table(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1),
+                             labels = c(&quot;Informal&quot;, &quot;Formal&quot;)),
+
+    # --- Health ---
+    Smoking = factor(clean_for_table(HLTH_SMK_CLEAN),
+                     levels = c(0, 1, 2),
+                     labels = c(&quot;No&quot;, &quot;Yes&quot;, &quot;Occasionally&quot;)),
+    Hormonal_tx   = factor(clean_for_table(HLTH_TTM_CLEAN),
+                           levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Medication    = factor(clean_for_table(HLTH_MED_CLEAN),
+                           levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Chronic_pain  = factor(clean_for_table(HLTH_CPAIN_CLEAN),
+                           levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Chronic_dis   = factor(clean_for_table(HLTH_CDIS_CLEAN),
+                           levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+
+    # --- HWISE ---
+    HWISE_Total   = clean_for_table(HW_TOTAL),
+    # Standard HWISE categories (Young et al. 2019, BMJ Global Health)
+    # 0 = secure; 1-11 = marginal; 12-23 = moderate; 24-36 = severe
+    HWISE_Cat     = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))             ~ NA_character_,
+        clean_for_table(HW_TOTAL) == 0               ~ &quot;Secure (0)&quot;,
+        clean_for_table(HW_TOTAL) &lt;= 11              ~ &quot;Marginal (1-11)&quot;,
+        clean_for_table(HW_TOTAL) &lt;= 23              ~ &quot;Moderate (12-23)&quot;,
+        TRUE                                         ~ &quot;Severe (24-36)&quot;
+      ),
+      levels = c(&quot;Secure (0)&quot;, &quot;Marginal (1-11)&quot;,
+                 &quot;Moderate (12-23)&quot;, &quot;Severe (24-36)&quot;)
+    ),
+    Water_worry   = clean_for_table(HW_WORRY_SUB),
+
+    # --- PSS-14 ---
+    PSS_Total     = clean_for_table(PSS_TOTAL),
+    # Tertile-based PSS categories
+    PSS_Cat       = factor(
+      case_when(
+        is.na(clean_for_table(PSS_TOTAL))            ~ NA_character_,
+        clean_for_table(PSS_TOTAL) &lt;= 22             ~ &quot;Low stress (≤22)&quot;,
+        clean_for_table(PSS_TOTAL) &lt;= 31             ~ &quot;Moderate stress (23-31)&quot;,
+        TRUE                                         ~ &quot;High stress (≥32)&quot;
+      ),
+      levels = c(&quot;Low stress (≤22)&quot;, &quot;Moderate stress (23-31)&quot;,
+                 &quot;High stress (≥32)&quot;)
+    )
+  )
+head(df_table)</code></pre>
+<pre><code>  ID D_YRBR D_AGE               D_LOC D_LOC_CODE D_LOC_TIME
+1  1   1987    35                  NA         NA         35
+2  2   1990    32                  NA         NA         32
+3  3   1992    30 Miguel de la Madrid         NA          8
+4  4   1982    40   Lomas de Zaragoza         NA         32
+5  5   1976    46                  NA         NA         45
+6  6   1990    32         Ixtlahuacan         NA          8
+                                                  D_LOC_INFO
+1                                                         NA
+2 Dije si de vive en esta colonia pero no escribo la colonia
+3                   Su esposo por 35 ha vivido en la colonia
+4                                                         NA
+5                                                         NA
+6                                                         NA
+                     HLTH_SMK HLTH_TTM
+1                          No       No
+2                         Yes       No
+3                          No       No
+4                          No       No
+5                          No       No
+6 a veces/ una vez por semana       no
+                                        HLTH_MED HLTH_CPAIN HLTH_CPAIN_CAT
+1                                             No         No             NA
+2       Yes, Loratadina/ Betolmetasona Urticaria         No             NA
+3                                             No         No             NA
+4                                             No         No             NA
+5 Yes,omeprazol y medicamento para pie de atleta        Yes             NA
+6                                             no         No             NA
+                                                                    HLTH_CDIS
+1       Tuve colesterol elevado hace dos semanas hice estudios y salio normal
+2                                                                          No
+3                                                                          No
+4                                                                          No
+5 Dolor cronico de talon y Dolor de cabeza (migrana)\n- no enfermedad cronica
+6                                                                          no
+  HLTH_CDIS_CAT D_HH_SIZE                D_HH_SIZE_INFO D_CHLD
+1            NA         4                            NA      0
+2            NA        12                            NA      2
+3            NA         7 7/ un tinaco | Usan un Tinaco      2
+4            NA         4                            NA      1
+5            NA         4                            NA    333
+6            NA         6                            NA      1
+                                               D_EMP_TYPE D_EMP_DAYS W_HH_SIZE
+1                                  Yes,venta de productos         NA        NA
+2                                         Yes,comerciante         NA        NA
+3                     No, antes viendia comida en escuela         NA        NA
+4 Administrativo esparadico local de productos de calzado         NA        NA
+5                                              Ama de cas         NA        NA
+6                  Yes,witatechnologia- 1 dia a la semana         NA        NA
+  W_STORAGE                                                            D_INFO
+1        NA                                                                NA
+2        NA                                                                NA
+3        NA               Antes vendia comida en la escuela | 20221024 133411
+4        NA                                                 grabacion: 152615
+5        NA grabacion: 221019, 4 personas \n6 dias x semana, cavi todo el dia
+6        NA                                                                NA
+              SES_EDU_CAT SES_EDU_SC       SES_BTHR_CAT SES_BTHR_SC SES_CAR_CAT
+1     Primaria incompleta         10         1 bathroom          24      0 cars
+2     Secundaria completa         31 2 o more bathrooms          47       1 car
+3     Secundaria completa         31        0 bathrooms           0      0 cars
+4   Licenciatura completa         73 2 o more bathrooms          47      0 cars
+5 Preparatoria incompleta         35         1 bathroom          24      0 cars
+6   Licenciatura completa         73 2 o more bathrooms          47      0 cars
+  SES_CAR_SC SES_INT_CAT SES_INT_SC      SES_WRK_CAT SES_WRK_SC    SES_BEDR_CAT
+1          0          SI         31 4 o mas personas         61 4 cuartos o mas
+2         18          SI         31       3 personas         46 4 cuartos o mas
+3          0          NO          0        1 persona         15        1 cuarto
+4          0          SI         31       3 personas         46       3 cuartos
+5          0          SI         31        1 persona         15       2 cuartos
+6          0          SI         31       3 personas         46 4 cuartos o mas
+  SES_BEDR_SC           SES_INFO HLTH_TTM_RAW
+1          23                 NA           No
+2          23                 NA           No
+3           6                 NA           No
+4          17 diario, 8 am 12 pm           No
+5          12                 NA           No
+6          23                 NA           no
+                                    HLTH_MED_RAW HLTH_CPAIN_RAW
+1                                             No             No
+2       Yes, Loratadina/ Betolmetasona Urticaria             No
+3                                             No             No
+4                                             No             No
+5 Yes,omeprazol y medicamento para pie de atleta            Yes
+6                                             no             No
+                                                                HLTH_CDIS_RAW
+1       Tuve colesterol elevado hace dos semanas hice estudios y salio normal
+2                                                                          No
+3                                                                          No
+4                                                                          No
+5 Dolor cronico de talon y Dolor de cabeza (migrana)\n- no enfermedad cronica
+6                                                                          no
+                 HLTH_SMK_RAW
+1                          No
+2                         Yes
+3                          No
+4                          No
+5                          No
+6 a veces/ una vez por semana
+                                           D_EMP_TYPE_RAW D_CHLD_RAW SEASON
+1                                  Yes,venta de productos          0      0
+2                                         Yes,comerciante          2      0
+3                     No, antes viendia comida en escuela          2      0
+4 Administrativo esparadico local de productos de calzado          1      0
+5                                              Ama de cas        333      0
+6                  Yes,witatechnologia- 1 dia a la semana          1      0
+  HLTH_TTM_CLEAN HLTH_MED_CLEAN HLTH_CPAIN_CLEAN HLTH_CDIS_CLEAN HLTH_SMK_CLEAN
+1              0              0                0             555              0
+2              0              1                0               0              1
+3              0              0                0               0              0
+4              0              0                0               0              0
+5              0              1                1             555              0
+6              0              0                0               0              2
+  HLTH_SMK_CAT D_EMP_CLEAN D_EMP_FORM_CLEAN D_CHLD_CLEAN D_LOC_TIME_RAW
+1           No           1              555            0             35
+2          Yes           1                0            2             32
+3           No           0               NA            2              8
+4           No           1              555            1             32
+5           No           1              555          333             45
+6 Occasionally           1              555            1              8
+  D_LOC_TIME_CLEAN SES_EDU_SC_RAW SES_BTHR_SC_RAW SES_CAR_SC_RAW SES_INT_SC_RAW
+1               35             10              24              0             31
+2               32             31              47             18             31
+3                8             31               0              0              0
+4               32             73              47              0             31
+5               45             35              24              0             31
+6                8             73              47              0             31
+  SES_WRK_SC_RAW SES_BEDR_SC_RAW SES_SC_Total SES_CAT_AMAI W_WS_LOC HW_WORRY
+1             61              23          149            C       WI        2
+2             46              23          196           C+       WI        0
+3             15               6           52           D-       WI        0
+4             46              17          214           AB       WI        0
+5             15              12          117           C-       WI        2
+6             46              23          220           AB       WI        1
+  HW_INTERR HW_CLOTHES HW_PLANS HW_FOOD HW_HANDS HW_BODY HW_DRINK HW_ANGRY
+1         0          0        0       0        0       0        0        1
+2         0          0        0       0        0       1        0        2
+3         0          0        0       0        0       0        0        1
+4         0          0        0       0        0       0        0        1
+5         1          1        1       1        0       1        0        1
+6         1          2        1       3        1       1        0        1
+  HW_SLEEP HW_NONE HW_SHAME HW_TOTAL HW_WORRY_SUB
+1        0       1        0        4            3
+2        0       2        0        5            2
+3        0       0        0        1            1
+4        0       0        1        2            2
+5        0       3        1       12            4
+6        0       2        2       15            4
+                                                                                                                    HW_INFO
+1                                                                                                                        NA
+2                                                                                                                        NA
+3                                                                                                                        NA
+4 6: pasa en los parques pueblos donde no hay agua 9: cuando su esposo a la marcha 12: x que ya todos saben que no hay agua
+5                                                                                                                        NA
+6                                                                                                                        NA
+  PSS1 PSS2 PSS3 PSS8 PSS11 PSS12 PSS14 PSS4 PSS5 PSS6 PSS7 PSS9 PSS10 PSS13
+1    2    3    2    1     1     4     1    4    3    2    2    2     3     2
+2    2    2    3    2     2     4     2    3    3    4    3    3     2     3
+3    2    2    2    2     2     2     2    2    2    3    3    3     2     3
+4    2    3    2    1     2     2     1    3    3    3    3    3     2     3
+5    2    2    3    2     3     3     3    2    2    2    3    2     1     2
+6    2    2    3    1     2     3     2    2    3    3    4    3     3     1
+  PSS4_REV PSS5_REV PSS6_REV PSS7_REV PSS9_REV PSS10_REV PSS13_REV PSS_TOTAL
+1        0        1        2        2        2         1         2        24
+2        1        1        0        1        1         2         1        24
+3        2        2        1        1        1         2         1        24
+4        1        1        1        1        1         2         1        21
+5        2        2        2        1        2         3         2        32
+6        2        1        1        0        1         1         3        24
+  PSS_REVIEW_FLAG           PSS_INFO Age Yrs_in_nbhd HH_size Parity
+1               0           13-18=-5  35          35       4      0
+2               0           17-21=-4  32          32      12      2
+3               0                  0  30           8       7      2
+4               1 13-20=-7, Revisar!  40          32       4      1
+5               0           18-14= 4  46          45       4     NA
+6               0                 -4  32           8       6      1
+                Season SES_Total SES_Category Employed Employment_type
+1 Rainy (Oct-Dec 2022)       149            C      Yes            &lt;NA&gt;
+2 Rainy (Oct-Dec 2022)       196           C+      Yes        Informal
+3 Rainy (Oct-Dec 2022)        52           D-       No            &lt;NA&gt;
+4 Rainy (Oct-Dec 2022)       214           AB      Yes            &lt;NA&gt;
+5 Rainy (Oct-Dec 2022)       117           C-      Yes            &lt;NA&gt;
+6 Rainy (Oct-Dec 2022)       220           AB      Yes            &lt;NA&gt;
+       Smoking Hormonal_tx Medication Chronic_pain Chronic_dis HWISE_Total
+1           No          No         No           No        &lt;NA&gt;           4
+2          Yes          No        Yes           No          No           5
+3           No          No         No           No          No           1
+4           No          No         No           No          No           2
+5           No          No        Yes          Yes        &lt;NA&gt;          12
+6 Occasionally          No         No           No          No          15
+         HWISE_Cat Water_worry PSS_Total                 PSS_Cat
+1  Marginal (1-11)           3        24 Moderate stress (23-31)
+2  Marginal (1-11)           2        24 Moderate stress (23-31)
+3  Marginal (1-11)           1        24 Moderate stress (23-31)
+4  Marginal (1-11)           2        21        Low stress (≤22)
+5 Moderate (12-23)           4        32       High stress (≥32)
+6 Moderate (12-23)           4        24 Moderate stress (23-31)</code></pre>
+<hr />
+</div>
+<div id="comprehensive-descriptive-statistics-table"
+class="section level1">
+<h1>3. Comprehensive descriptive statistics table</h1>
+<p>Includes all analytic variables to inspect the full sample before
+deciding what to include in the manuscript table.</p>
+<pre class="r"><code>tbl_full &lt;- df_table %&gt;%
+  select(
+    # Demographics
+    Season, Age, Yrs_in_nbhd, HH_size, Parity,
+    # SES
+    SES_Total, SES_Category,
+    # Employment
+    Employed, Employment_type,
+    # Health
+    Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis,
+    # Water insecurity
+    HWISE_Total, HWISE_Cat, Water_worry,
+    # Perceived stress
+    PSS_Total, PSS_Cat
+  ) %&gt;%
+  tbl_summary(
+    statistic = list(
+      all_continuous()  ~ &quot;{mean} ({sd}) / {median} [{p25}, {p75}]&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    ),
+    digits    = list(all_continuous() ~ 1),
+    missing   = &quot;no&quot;,   # missing handled in separate table
+    label     = list(
+      Season          ~ &quot;Season of data collection&quot;,
+      Age             ~ &quot;Age (years)&quot;,
+      Yrs_in_nbhd     ~ &quot;Years in neighborhood&quot;,
+      HH_size         ~ &quot;Household size (n persons)&quot;,
+      Parity          ~ &quot;Number of children&quot;,
+      SES_Total       ~ &quot;SES composite score (NSE-AMAI)&quot;,
+      SES_Category    ~ &quot;SES category (NSE-AMAI)&quot;,
+      Employed        ~ &quot;Currently employed&quot;,
+      Employment_type ~ &quot;Employment type (among employed)&quot;,
+      Smoking         ~ &quot;Smoking status&quot;,
+      Hormonal_tx     ~ &quot;Hormonal treatment&quot;,
+      Medication      ~ &quot;Regular medication use&quot;,
+      Chronic_pain    ~ &quot;Chronic pain&quot;,
+      Chronic_dis     ~ &quot;Chronic disease&quot;,
+      HWISE_Total     ~ &quot;HWISE total score (0–36)&quot;,
+      HWISE_Cat       ~ &quot;Water insecurity level&quot;,
+      Water_worry     ~ &quot;Water worry subscale (0–9)&quot;,
+      PSS_Total       ~ &quot;PSS-14 total score (0–56)&quot;,
+      PSS_Cat         ~ &quot;Perceived stress level&quot;
+    )
+  ) %&gt;%
+  bold_labels() %&gt;%
+  modify_caption(&quot;**Table S1. Comprehensive descriptive statistics (n = {N})**&quot;)
+
+tbl_full</code></pre>
+<div id="cvlxasfenu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cvlxasfenu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cvlxasfenu thead, #cvlxasfenu tbody, #cvlxasfenu tfoot, #cvlxasfenu tr, #cvlxasfenu td, #cvlxasfenu th {
+  border-style: none;
+}
+
+#cvlxasfenu p {
+  margin: 0;
+  padding: 0;
+}
+
+#cvlxasfenu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cvlxasfenu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cvlxasfenu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cvlxasfenu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cvlxasfenu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cvlxasfenu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cvlxasfenu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cvlxasfenu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cvlxasfenu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cvlxasfenu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cvlxasfenu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cvlxasfenu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cvlxasfenu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_left {
+  text-align: left;
+}
+
+#cvlxasfenu .gt_center {
+  text-align: center;
+}
+
+#cvlxasfenu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cvlxasfenu .gt_font_normal {
+  font-weight: normal;
+}
+
+#cvlxasfenu .gt_font_bold {
+  font-weight: bold;
+}
+
+#cvlxasfenu .gt_font_italic {
+  font-style: italic;
+}
+
+#cvlxasfenu .gt_super {
+  font-size: 65%;
+}
+
+#cvlxasfenu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cvlxasfenu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cvlxasfenu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cvlxasfenu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cvlxasfenu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cvlxasfenu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cvlxasfenu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#cvlxasfenu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#cvlxasfenu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Table S1. Comprehensive descriptive statistics (n = 399)</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>N = 399</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Season of data collection</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Rainy (Oct-Dec 2022)</td>
+<td headers="stat_0" class="gt_row gt_center">202 (51%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Dry (Apr-Jun 2023)</td>
+<td headers="stat_0" class="gt_row gt_center">197 (49%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
+<td headers="stat_0" class="gt_row gt_center">32.4 (7.4) / 32.0 [27.0, 38.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Years in neighborhood</td>
+<td headers="stat_0" class="gt_row gt_center">22.4 (11.5) / 23.0 [12.0, 31.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size (n persons)</td>
+<td headers="stat_0" class="gt_row gt_center">5.7 (3.6) / 5.0 [4.0, 6.5]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Number of children</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">48 (15%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">72 (22%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">120 (37%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">59 (18%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">18 (5.6%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.9%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES composite score (NSE-AMAI)</td>
+<td headers="stat_0" class="gt_row gt_center">133.7 (44.8) / 129.5 [105.0, 159.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES category (NSE-AMAI)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    E</td>
+<td headers="stat_0" class="gt_row gt_center">8 (2.6%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D-</td>
+<td headers="stat_0" class="gt_row gt_center">42 (14%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D+</td>
+<td headers="stat_0" class="gt_row gt_center">45 (15%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C-</td>
+<td headers="stat_0" class="gt_row gt_center">71 (23%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C</td>
+<td headers="stat_0" class="gt_row gt_center">72 (24%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C+</td>
+<td headers="stat_0" class="gt_row gt_center">43 (14%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    AB</td>
+<td headers="stat_0" class="gt_row gt_center">23 (7.6%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Currently employed</td>
+<td headers="stat_0" class="gt_row gt_center">220 (69%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employment type (among employed)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Informal</td>
+<td headers="stat_0" class="gt_row gt_center">21 (11%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Formal</td>
+<td headers="stat_0" class="gt_row gt_center">162 (89%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking status</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">232 (72%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_0" class="gt_row gt_center">76 (24%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Occasionally</td>
+<td headers="stat_0" class="gt_row gt_center">13 (4.0%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Hormonal treatment</td>
+<td headers="stat_0" class="gt_row gt_center">6 (2.0%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Regular medication use</td>
+<td headers="stat_0" class="gt_row gt_center">13 (4.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic pain</td>
+<td headers="stat_0" class="gt_row gt_center">47 (16%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic disease</td>
+<td headers="stat_0" class="gt_row gt_center">0 (0%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HWISE total score (0–36)</td>
+<td headers="stat_0" class="gt_row gt_center">8.4 (6.1) / 8.0 [3.0, 12.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water insecurity level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Secure (0)</td>
+<td headers="stat_0" class="gt_row gt_center">25 (6.4%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Marginal (1-11)</td>
+<td headers="stat_0" class="gt_row gt_center">254 (65%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate (12-23)</td>
+<td headers="stat_0" class="gt_row gt_center">104 (27%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Severe (24-36)</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water worry subscale (0–9)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">84 (21%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">63 (16%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">58 (15%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">30 (7.6%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">12 (3.1%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    7</td>
+<td headers="stat_0" class="gt_row gt_center">4 (1.0%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    8</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score (0–56)</td>
+<td headers="stat_0" class="gt_row gt_center">27.3 (7.2) / 28.0 [22.0, 32.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Perceived stress level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Low stress (≤22)</td>
+<td headers="stat_0" class="gt_row gt_center">102 (26%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate stress (23-31)</td>
+<td headers="stat_0" class="gt_row gt_center">179 (46%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High stress (≥32)</td>
+<td headers="stat_0" class="gt_row gt_center">112 (28%)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>n (%); Mean (SD) / Median [Q1, Q3]</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<hr />
+</div>
+<div id="manuscript-table-filtered" class="section level1">
+<h1>4. Manuscript table (filtered)</h1>
+<p>Contains only variables directly relevant to the paper (for now).
+Stratified by season to show comparability across data collection
+waves.</p>
+<pre class="r"><code>tbl_ms &lt;- df_table %&gt;%
+  select(
+    Season, Age, Yrs_in_nbhd, HH_size, Parity,
+    SES_Total, SES_Category,
+    Employed, Employment_type,
+    Smoking, Chronic_pain, Chronic_dis
+  ) %&gt;%
+  tbl_summary(
+    by        = Season,
+    statistic = list(
+      all_continuous()  ~ &quot;{mean} ({sd})&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    ),
+    digits    = list(all_continuous() ~ 1),
+    missing   = &quot;no&quot;,
+    label     = list(
+      Age             ~ &quot;Age (years)&quot;,
+      Yrs_in_nbhd     ~ &quot;Years in neighborhood&quot;,
+      HH_size         ~ &quot;Household size&quot;,
+      Parity          ~ &quot;Parity (n children)&quot;,
+      SES_Total       ~ &quot;SES score (NSE-AMAI)&quot;,
+      SES_Category    ~ &quot;SES category&quot;,
+      Employed        ~ &quot;Employed&quot;,
+      Employment_type ~ &quot;Employment type&quot;,
+      Smoking         ~ &quot;Smoking&quot;,
+      Chronic_pain    ~ &quot;Chronic pain&quot;,
+      Chronic_dis     ~ &quot;Chronic disease&quot;
+    )
+  ) %&gt;%
+  add_overall() %&gt;%
+  add_p(test = list(
+    all_continuous()  ~ &quot;t.test&quot;,
+    all_categorical() ~ &quot;chisq.test&quot;
+  )) %&gt;%
+  bold_labels() %&gt;%
+  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season of data collection**&quot;) %&gt;%
+  modify_caption(&quot;**Table 1. Sample characteristics by season (n = {N})**&quot;)</code></pre>
+<pre><code>The following errors were returned during `modify_caption()`:
+✖ For variable `Chronic_dis` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: &#39;x&#39; and &#39;y&#39; must have at least 2 levels
+The following warnings were returned during `modify_caption()`:
+! For variable `Parity` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and &quot;parameter&quot;
+  statistics: Chi-squared approximation may be incorrect
+! For variable `SES_Category` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>tbl_ms</code></pre>
+<div id="qxbxaayzab" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#qxbxaayzab table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#qxbxaayzab thead, #qxbxaayzab tbody, #qxbxaayzab tfoot, #qxbxaayzab tr, #qxbxaayzab td, #qxbxaayzab th {
+  border-style: none;
+}
+
+#qxbxaayzab p {
+  margin: 0;
+  padding: 0;
+}
+
+#qxbxaayzab .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#qxbxaayzab .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#qxbxaayzab .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#qxbxaayzab .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#qxbxaayzab .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#qxbxaayzab .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#qxbxaayzab .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#qxbxaayzab .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#qxbxaayzab .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#qxbxaayzab .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#qxbxaayzab .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#qxbxaayzab .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#qxbxaayzab .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#qxbxaayzab .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#qxbxaayzab .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxbxaayzab .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#qxbxaayzab .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#qxbxaayzab .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#qxbxaayzab .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxbxaayzab .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#qxbxaayzab .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxbxaayzab .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#qxbxaayzab .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxbxaayzab .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#qxbxaayzab .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#qxbxaayzab .gt_left {
+  text-align: left;
+}
+
+#qxbxaayzab .gt_center {
+  text-align: center;
+}
+
+#qxbxaayzab .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#qxbxaayzab .gt_font_normal {
+  font-weight: normal;
+}
+
+#qxbxaayzab .gt_font_bold {
+  font-weight: bold;
+}
+
+#qxbxaayzab .gt_font_italic {
+  font-style: italic;
+}
+
+#qxbxaayzab .gt_super {
+  font-size: 65%;
+}
+
+#qxbxaayzab .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#qxbxaayzab .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#qxbxaayzab .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#qxbxaayzab .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#qxbxaayzab .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#qxbxaayzab .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#qxbxaayzab .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#qxbxaayzab .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#qxbxaayzab div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Table 1. Sample characteristics by season (n = 399)</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>Overall</strong><br />
+N = 399</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; stat_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>Season of data collection</strong></span></div>
+      </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy (Oct-Dec 2022)</strong><br />
+N = 202</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry (Apr-Jun 2023)</strong><br />
+N = 197</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
+<td headers="stat_0" class="gt_row gt_center">32.4 (7.4)</td>
+<td headers="stat_1" class="gt_row gt_center">33.2 (7.1)</td>
+<td headers="stat_2" class="gt_row gt_center">31.2 (7.7)</td>
+<td headers="p.value" class="gt_row gt_center">0.014</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Years in neighborhood</td>
+<td headers="stat_0" class="gt_row gt_center">22.4 (11.5)</td>
+<td headers="stat_1" class="gt_row gt_center">22.8 (11.3)</td>
+<td headers="stat_2" class="gt_row gt_center">21.9 (11.8)</td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size</td>
+<td headers="stat_0" class="gt_row gt_center">5.7 (3.6)</td>
+<td headers="stat_1" class="gt_row gt_center">6.7 (4.3)</td>
+<td headers="stat_2" class="gt_row gt_center">4.3 (1.7)</td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Parity (n children)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">48 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">24 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">24 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">72 (22%)</td>
+<td headers="stat_1" class="gt_row gt_center">46 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">26 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">120 (37%)</td>
+<td headers="stat_1" class="gt_row gt_center">69 (35%)</td>
+<td headers="stat_2" class="gt_row gt_center">51 (40%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">59 (18%)</td>
+<td headers="stat_1" class="gt_row gt_center">39 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">20 (16%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">18 (5.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">11 (5.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">7 (5.4%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">5 (2.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES score (NSE-AMAI)</td>
+<td headers="stat_0" class="gt_row gt_center">133.7 (44.8)</td>
+<td headers="stat_1" class="gt_row gt_center">138.9 (46.5)</td>
+<td headers="stat_2" class="gt_row gt_center">126.1 (41.3)</td>
+<td headers="p.value" class="gt_row gt_center">0.012</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES category</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.14</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    E</td>
+<td headers="stat_0" class="gt_row gt_center">8 (2.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (2.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (3.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D-</td>
+<td headers="stat_0" class="gt_row gt_center">42 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">20 (11%)</td>
+<td headers="stat_2" class="gt_row gt_center">22 (18%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D+</td>
+<td headers="stat_0" class="gt_row gt_center">45 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">25 (14%)</td>
+<td headers="stat_2" class="gt_row gt_center">20 (16%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C-</td>
+<td headers="stat_0" class="gt_row gt_center">71 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">44 (25%)</td>
+<td headers="stat_2" class="gt_row gt_center">27 (22%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C</td>
+<td headers="stat_0" class="gt_row gt_center">72 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">38 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">34 (27%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C+</td>
+<td headers="stat_0" class="gt_row gt_center">43 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">30 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">13 (10%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    AB</td>
+<td headers="stat_0" class="gt_row gt_center">23 (7.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">18 (10%)</td>
+<td headers="stat_2" class="gt_row gt_center">5 (4.0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
+<td headers="stat_0" class="gt_row gt_center">220 (69%)</td>
+<td headers="stat_1" class="gt_row gt_center">135 (70%)</td>
+<td headers="stat_2" class="gt_row gt_center">85 (67%)</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employment type</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Informal</td>
+<td headers="stat_0" class="gt_row gt_center">21 (11%)</td>
+<td headers="stat_1" class="gt_row gt_center">15 (14%)</td>
+<td headers="stat_2" class="gt_row gt_center">6 (7.9%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Formal</td>
+<td headers="stat_0" class="gt_row gt_center">162 (89%)</td>
+<td headers="stat_1" class="gt_row gt_center">92 (86%)</td>
+<td headers="stat_2" class="gt_row gt_center">70 (92%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.11</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">232 (72%)</td>
+<td headers="stat_1" class="gt_row gt_center">140 (73%)</td>
+<td headers="stat_2" class="gt_row gt_center">92 (71%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_0" class="gt_row gt_center">76 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">41 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">35 (27%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Occasionally</td>
+<td headers="stat_0" class="gt_row gt_center">13 (4.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">11 (5.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">2 (1.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic pain</td>
+<td headers="stat_0" class="gt_row gt_center">47 (16%)</td>
+<td headers="stat_1" class="gt_row gt_center">30 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">17 (15%)</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic disease</td>
+<td headers="stat_0" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD); n (%)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>Welch Two Sample t-test; Pearson’s Chi-squared test; NA</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<hr />
+</div>
+<div id="missing-data-summary-table" class="section level1">
+<h1>5. Missing data summary table</h1>
+<p>Reports true NAs and sentinel-coded values separately for all
+analytic variables. Include as supplementary table in dissertation;
+summarize in-text for the journal manuscript.</p>
+<pre class="r"><code># Variables to include in missing data report
+analytic_cols &lt;- c(
+  &quot;D_AGE&quot;, &quot;D_LOC_TIME_CLEAN&quot;, &quot;D_HH_SIZE&quot;, &quot;D_CHLD_CLEAN&quot;,
+  &quot;SEASON&quot;, &quot;SES_SC_Total&quot;, &quot;SES_CAT_AMAI&quot;,
+  &quot;D_EMP_CLEAN&quot;, &quot;D_EMP_FORM_CLEAN&quot;,
+  &quot;HLTH_SMK_CLEAN&quot;, &quot;HLTH_TTM_CLEAN&quot;, &quot;HLTH_MED_CLEAN&quot;,
+  &quot;HLTH_CPAIN_CLEAN&quot;, &quot;HLTH_CDIS_CLEAN&quot;
+)
+
+# Readable labels
+var_labels &lt;- c(
+  D_AGE             = &quot;Age&quot;,
+  D_LOC_TIME_CLEAN  = &quot;Years in neighborhood&quot;,
+  D_HH_SIZE         = &quot;Household size&quot;,
+  D_CHLD_CLEAN      = &quot;Parity&quot;,
+  SEASON            = &quot;Season&quot;,
+  SES_SC_Total      = &quot;SES composite score&quot;,
+  SES_CAT_AMAI      = &quot;SES category&quot;,
+  D_EMP_CLEAN       = &quot;Employed (yes/no)&quot;,
+  D_EMP_FORM_CLEAN  = &quot;Employment type&quot;,
+  HLTH_SMK_CLEAN    = &quot;Smoking&quot;,
+  HLTH_TTM_CLEAN    = &quot;Hormonal treatment&quot;,
+  HLTH_MED_CLEAN    = &quot;Medication use&quot;,
+  HLTH_CPAIN_CLEAN  = &quot;Chronic pain&quot;,
+  HLTH_CDIS_CLEAN   = &quot;Chronic disease&quot;
+)
+
+N &lt;- nrow(df)
+
+missing_tbl &lt;- df %&gt;%
+  select(all_of(analytic_cols)) %&gt;%
+  summarise(across(everything(), list(
+    n_na      = ~ sum(is.na(.)),
+    n_999     = ~ sum(as.character(.) == &quot;999&quot;, na.rm = TRUE),
+    n_888     = ~ sum(as.character(.) == &quot;888&quot;, na.rm = TRUE),
+    n_777     = ~ sum(as.character(.) == &quot;777&quot;, na.rm = TRUE),
+    n_666     = ~ sum(as.character(.) == &quot;666&quot;, na.rm = TRUE),
+    n_555     = ~ sum(as.character(.) == &quot;555&quot;, na.rm = TRUE),
+    n_444     = ~ sum(as.character(.) == &quot;444&quot;, na.rm = TRUE),
+    n_333     = ~ sum(as.character(.) == &quot;333&quot;, na.rm = TRUE)
+  ))) %&gt;%
+  pivot_longer(everything(),
+               names_to  = c(&quot;variable&quot;, &quot;.value&quot;),
+               names_sep = &quot;_(?=n_)&quot;) %&gt;%
+  mutate(
+    label        = var_labels[variable],
+    n_total      = N,
+    pct_na       = round(n_na   / N * 100, 1),
+    n_flagged    = n_999 + n_888 + n_777 + n_666 + n_555 + n_444 + n_333,
+    pct_flagged  = round(n_flagged / N * 100, 1),
+    n_complete   = N - n_na - n_flagged,
+    pct_complete = round(n_complete / N * 100, 1)
+  ) %&gt;%
+  select(label, n_complete, pct_complete,
+         n_na, pct_na,
+         n_flagged, pct_flagged,
+         n_999, n_888, n_777, n_666, n_555, n_444, n_333) %&gt;%
+  arrange(desc(n_na))
+
+# Print full missing table
+missing_tbl %&gt;%
+  gt() %&gt;%
+  tab_header(title = &quot;Missing Data Summary&quot;) %&gt;%
+  tab_spanner(label = &quot;Complete&quot;,   columns = c(n_complete, pct_complete)) %&gt;%
+  tab_spanner(label = &quot;True NA&quot;,    columns = c(n_na, pct_na)) %&gt;%
+  tab_spanner(label = &quot;Flagged&quot;,    columns = c(n_flagged, pct_flagged)) %&gt;%
+  tab_spanner(label = &quot;Sentinel code breakdown&quot;,
+              columns = c(n_999, n_888, n_777, n_666, n_555, n_444, n_333)) %&gt;%
+  cols_label(
+    label        = &quot;Variable&quot;,
+    n_complete   = &quot;n&quot;, pct_complete = &quot;%&quot;,
+    n_na         = &quot;n&quot;, pct_na       = &quot;%&quot;,
+    n_flagged    = &quot;n&quot;, pct_flagged  = &quot;%&quot;,
+    n_999 = &quot;999&quot;, n_888 = &quot;888&quot;, n_777 = &quot;777&quot;, n_666 = &quot;666&quot;,
+    n_555 = &quot;555&quot;, n_444 = &quot;444&quot;, n_333 = &quot;333&quot;
+  ) %&gt;%
+  fmt_number(columns = where(is.numeric), decimals = 0) %&gt;%
+  tab_footnote(
+    footnote = &quot;999=Missing/lost, 888=Don&#39;t know, 777=Refused, 666=Illegible, 555=Other, 444=Ambiguous, 333=Pending&quot;
+  )</code></pre>
+<div id="jgmmfyahih" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jgmmfyahih table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jgmmfyahih thead, #jgmmfyahih tbody, #jgmmfyahih tfoot, #jgmmfyahih tr, #jgmmfyahih td, #jgmmfyahih th {
+  border-style: none;
+}
+
+#jgmmfyahih p {
+  margin: 0;
+  padding: 0;
+}
+
+#jgmmfyahih .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jgmmfyahih .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jgmmfyahih .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jgmmfyahih .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jgmmfyahih .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jgmmfyahih .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jgmmfyahih .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jgmmfyahih .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jgmmfyahih .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jgmmfyahih .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jgmmfyahih .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jgmmfyahih .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jgmmfyahih .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jgmmfyahih .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jgmmfyahih .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmmfyahih .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jgmmfyahih .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jgmmfyahih .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jgmmfyahih .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmmfyahih .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jgmmfyahih .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmmfyahih .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jgmmfyahih .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmmfyahih .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jgmmfyahih .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jgmmfyahih .gt_left {
+  text-align: left;
+}
+
+#jgmmfyahih .gt_center {
+  text-align: center;
+}
+
+#jgmmfyahih .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jgmmfyahih .gt_font_normal {
+  font-weight: normal;
+}
+
+#jgmmfyahih .gt_font_bold {
+  font-weight: bold;
+}
+
+#jgmmfyahih .gt_font_italic {
+  font-style: italic;
+}
+
+#jgmmfyahih .gt_super {
+  font-size: 65%;
+}
+
+#jgmmfyahih .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jgmmfyahih .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jgmmfyahih .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jgmmfyahih .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jgmmfyahih .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jgmmfyahih .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jgmmfyahih .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#jgmmfyahih .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#jgmmfyahih div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="14" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Missing Data Summary</td>
+    </tr>
+    
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label">Variable</th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Complete">
+        <div class="gt_column_spanner">Complete</div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="True NA">
+        <div class="gt_column_spanner">True NA</div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Flagged">
+        <div class="gt_column_spanner">Flagged</div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="7" scope="colgroup" id="Sentinel code breakdown">
+        <div class="gt_column_spanner">Sentinel code breakdown</div>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_complete">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="pct_complete">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_na">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="pct_na">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_flagged">n</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="pct_flagged">%</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_999">999</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_888">888</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_777">777</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_666">666</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_555">555</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_444">444</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_333">333</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Age</td>
+<td headers="n_complete" class="gt_row gt_right">347</td>
+<td headers="pct_complete" class="gt_row gt_right">87</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">52</td>
+<td headers="pct_flagged" class="gt_row gt_right">13</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">0</td>
+<td headers="n_444" class="gt_row gt_right">0</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Years in neighborhood</td>
+<td headers="n_complete" class="gt_row gt_right">346</td>
+<td headers="pct_complete" class="gt_row gt_right">87</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">53</td>
+<td headers="pct_flagged" class="gt_row gt_right">13</td>
+<td headers="n_999" class="gt_row gt_right">51</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">1</td>
+<td headers="n_444" class="gt_row gt_right">1</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Household size</td>
+<td headers="n_complete" class="gt_row gt_right">343</td>
+<td headers="pct_complete" class="gt_row gt_right">86</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">56</td>
+<td headers="pct_flagged" class="gt_row gt_right">14</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">0</td>
+<td headers="n_444" class="gt_row gt_right">4</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Parity</td>
+<td headers="n_complete" class="gt_row gt_right">338</td>
+<td headers="pct_complete" class="gt_row gt_right">85</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">61</td>
+<td headers="pct_flagged" class="gt_row gt_right">15</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">3</td>
+<td headers="n_444" class="gt_row gt_right">4</td>
+<td headers="n_333" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Season</td>
+<td headers="n_complete" class="gt_row gt_right">399</td>
+<td headers="pct_complete" class="gt_row gt_right">100</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">0</td>
+<td headers="pct_flagged" class="gt_row gt_right">0</td>
+<td headers="n_999" class="gt_row gt_right">0</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">0</td>
+<td headers="n_444" class="gt_row gt_right">0</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES composite score</td>
+<td headers="n_complete" class="gt_row gt_right">399</td>
+<td headers="pct_complete" class="gt_row gt_right">100</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">0</td>
+<td headers="pct_flagged" class="gt_row gt_right">0</td>
+<td headers="n_999" class="gt_row gt_right">0</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">0</td>
+<td headers="n_444" class="gt_row gt_right">0</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES category</td>
+<td headers="n_complete" class="gt_row gt_right">399</td>
+<td headers="pct_complete" class="gt_row gt_right">100</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">0</td>
+<td headers="pct_flagged" class="gt_row gt_right">0</td>
+<td headers="n_999" class="gt_row gt_right">0</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">0</td>
+<td headers="n_444" class="gt_row gt_right">0</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Employed (yes/no)</td>
+<td headers="n_complete" class="gt_row gt_right">333</td>
+<td headers="pct_complete" class="gt_row gt_right">84</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">66</td>
+<td headers="pct_flagged" class="gt_row gt_right">16</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">8</td>
+<td headers="n_444" class="gt_row gt_right">6</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Employment type</td>
+<td headers="n_complete" class="gt_row gt_right">362</td>
+<td headers="pct_complete" class="gt_row gt_right">91</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">37</td>
+<td headers="pct_flagged" class="gt_row gt_right">9</td>
+<td headers="n_999" class="gt_row gt_right">0</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">37</td>
+<td headers="n_444" class="gt_row gt_right">0</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Smoking</td>
+<td headers="n_complete" class="gt_row gt_right">336</td>
+<td headers="pct_complete" class="gt_row gt_right">84</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">63</td>
+<td headers="pct_flagged" class="gt_row gt_right">16</td>
+<td headers="n_999" class="gt_row gt_right">51</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">9</td>
+<td headers="n_444" class="gt_row gt_right">3</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Hormonal treatment</td>
+<td headers="n_complete" class="gt_row gt_right">315</td>
+<td headers="pct_complete" class="gt_row gt_right">79</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">84</td>
+<td headers="pct_flagged" class="gt_row gt_right">21</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">32</td>
+<td headers="n_444" class="gt_row gt_right">0</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Medication use</td>
+<td headers="n_complete" class="gt_row gt_right">304</td>
+<td headers="pct_complete" class="gt_row gt_right">76</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">95</td>
+<td headers="pct_flagged" class="gt_row gt_right">24</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">42</td>
+<td headers="n_444" class="gt_row gt_right">1</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Chronic pain</td>
+<td headers="n_complete" class="gt_row gt_right">303</td>
+<td headers="pct_complete" class="gt_row gt_right">76</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">96</td>
+<td headers="pct_flagged" class="gt_row gt_right">24</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">43</td>
+<td headers="n_444" class="gt_row gt_right">1</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Chronic disease</td>
+<td headers="n_complete" class="gt_row gt_right">285</td>
+<td headers="pct_complete" class="gt_row gt_right">71</td>
+<td headers="n_na" class="gt_row gt_right">0</td>
+<td headers="pct_na" class="gt_row gt_right">0</td>
+<td headers="n_flagged" class="gt_row gt_right">114</td>
+<td headers="pct_flagged" class="gt_row gt_right">29</td>
+<td headers="n_999" class="gt_row gt_right">52</td>
+<td headers="n_888" class="gt_row gt_right">0</td>
+<td headers="n_777" class="gt_row gt_right">0</td>
+<td headers="n_666" class="gt_row gt_right">0</td>
+<td headers="n_555" class="gt_row gt_right">60</td>
+<td headers="n_444" class="gt_row gt_right">2</td>
+<td headers="n_333" class="gt_row gt_right">0</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="14"> 999=Missing/lost, 888=Don't know, 777=Refused, 666=Illegible, 555=Other, 444=Ambiguous, 333=Pending</td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<hr />
+</div>
+<div id="visualization-missing-data-overview" class="section level1">
+<h1>6. Visualization: missing data overview</h1>
+<pre class="r"><code>missing_tbl %&gt;%
+  select(label, pct_complete, pct_na, pct_flagged) %&gt;%
+  pivot_longer(-label, names_to = &quot;type&quot;, values_to = &quot;pct&quot;) %&gt;%
+  mutate(type = factor(type,
+                       levels = c(&quot;pct_complete&quot;, &quot;pct_na&quot;, &quot;pct_flagged&quot;),
+                       labels = c(&quot;Complete&quot;, &quot;True NA&quot;, &quot;Flagged (sentinel)&quot;)),
+         label = factor(label, levels = rev(missing_tbl$label))) %&gt;%
+  ggplot(aes(x = label, y = pct, fill = type)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = c(&quot;Complete&quot;            = &quot;#5bc0de&quot;,
+                               &quot;True NA&quot;             = &quot;#d9534f&quot;,
+                               &quot;Flagged (sentinel)&quot;  = &quot;#f0ad4e&quot;)) +
+  labs(title = &quot;Missing data by variable&quot;,
+       x = NULL, y = &quot;Percentage (%)&quot;, fill = NULL) +
+  theme_minimal() +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<img src="figure/02.%20Descriptive_stats.Rmd/plot-missing-1.png" width="768" style="display: block; margin: auto;" />
+<div class="alert alert-warning">
+<strong>Warning!</strong> The custom <code>fig.path</code> you set was
+ignored by workflowr.
+</div>
+<hr />
+</div>
+<div id="hwise-and-pss-descriptive-statistics" class="section level1">
+<h1>7. HWISE and PSS descriptive statistics</h1>
+<div id="overall-hwise-and-pss-summary" class="section level2">
+<h2>7.1 Overall HWISE and PSS summary</h2>
+<pre class="r"><code>tbl_scores &lt;- df_table %&gt;%
+  select(HWISE_Total, HWISE_Cat, Water_worry, PSS_Total, PSS_Cat) %&gt;%
+  tbl_summary(
+    statistic = list(
+      all_continuous()  ~ &quot;{mean} ({sd}) / {median} [{p25}, {p75}]&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = &quot;no&quot;,
+    label   = list(
+      HWISE_Total  ~ &quot;HWISE total score (0-36)&quot;,
+      HWISE_Cat    ~ &quot;Water insecurity level&quot;,
+      Water_worry  ~ &quot;Water worry subscale (0-9)&quot;,
+      PSS_Total    ~ &quot;PSS-14 total score (0-56)&quot;,
+      PSS_Cat      ~ &quot;Perceived stress level&quot;
+    )
+  ) %&gt;%
+  bold_labels() %&gt;%
+  modify_caption(&quot;**Table. HWISE and PSS scores — full sample (n = {N})**&quot;)
+
+tbl_scores</code></pre>
+<div id="zmskzzbzhx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zmskzzbzhx table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#zmskzzbzhx thead, #zmskzzbzhx tbody, #zmskzzbzhx tfoot, #zmskzzbzhx tr, #zmskzzbzhx td, #zmskzzbzhx th {
+  border-style: none;
+}
+
+#zmskzzbzhx p {
+  margin: 0;
+  padding: 0;
+}
+
+#zmskzzbzhx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#zmskzzbzhx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zmskzzbzhx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zmskzzbzhx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zmskzzbzhx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zmskzzbzhx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zmskzzbzhx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zmskzzbzhx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zmskzzbzhx .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#zmskzzbzhx .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#zmskzzbzhx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zmskzzbzhx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zmskzzbzhx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zmskzzbzhx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zmskzzbzhx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zmskzzbzhx .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#zmskzzbzhx .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#zmskzzbzhx .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#zmskzzbzhx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zmskzzbzhx .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#zmskzzbzhx .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zmskzzbzhx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zmskzzbzhx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zmskzzbzhx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zmskzzbzhx .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zmskzzbzhx .gt_left {
+  text-align: left;
+}
+
+#zmskzzbzhx .gt_center {
+  text-align: center;
+}
+
+#zmskzzbzhx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zmskzzbzhx .gt_font_normal {
+  font-weight: normal;
+}
+
+#zmskzzbzhx .gt_font_bold {
+  font-weight: bold;
+}
+
+#zmskzzbzhx .gt_font_italic {
+  font-style: italic;
+}
+
+#zmskzzbzhx .gt_super {
+  font-size: 65%;
+}
+
+#zmskzzbzhx .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#zmskzzbzhx .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#zmskzzbzhx .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#zmskzzbzhx .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#zmskzzbzhx .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#zmskzzbzhx .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#zmskzzbzhx .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#zmskzzbzhx .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#zmskzzbzhx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Table. HWISE and PSS scores — full sample (n = 399)</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>N = 399</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HWISE total score (0-36)</td>
+<td headers="stat_0" class="gt_row gt_center">8.4 (6.1) / 8.0 [3.0, 12.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water insecurity level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Secure (0)</td>
+<td headers="stat_0" class="gt_row gt_center">25 (6.4%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Marginal (1-11)</td>
+<td headers="stat_0" class="gt_row gt_center">254 (65%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate (12-23)</td>
+<td headers="stat_0" class="gt_row gt_center">104 (27%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Severe (24-36)</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water worry subscale (0-9)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">84 (21%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">63 (16%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">58 (15%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">30 (7.6%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">12 (3.1%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    7</td>
+<td headers="stat_0" class="gt_row gt_center">4 (1.0%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    8</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score (0-56)</td>
+<td headers="stat_0" class="gt_row gt_center">27.3 (7.2) / 28.0 [22.0, 32.0]</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Perceived stress level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Low stress (≤22)</td>
+<td headers="stat_0" class="gt_row gt_center">102 (26%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate stress (23-31)</td>
+<td headers="stat_0" class="gt_row gt_center">179 (46%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High stress (≥32)</td>
+<td headers="stat_0" class="gt_row gt_center">112 (28%)</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD) / Median [Q1, Q3]; n (%)</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="hwise-and-pss-by-season" class="section level2">
+<h2>7.2 HWISE and PSS by season</h2>
+<pre class="r"><code>tbl_scores_season &lt;- df_table %&gt;%
+  select(Season, HWISE_Total, HWISE_Cat, Water_worry, PSS_Total, PSS_Cat) %&gt;%
+  tbl_summary(
+    by        = Season,
+    statistic = list(
+      all_continuous()  ~ &quot;{mean} ({sd})&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = &quot;no&quot;,
+    label   = list(
+      HWISE_Total  ~ &quot;HWISE total score (0-36)&quot;,
+      HWISE_Cat    ~ &quot;Water insecurity level&quot;,
+      Water_worry  ~ &quot;Water worry subscale (0-9)&quot;,
+      PSS_Total    ~ &quot;PSS-14 total score (0-56)&quot;,
+      PSS_Cat      ~ &quot;Perceived stress level&quot;
+    )
+  ) %&gt;%
+  add_overall() %&gt;%
+  add_p(test = list(
+    all_continuous()  ~ &quot;t.test&quot;,
+    all_categorical() ~ &quot;chisq.test&quot;
+  )) %&gt;%
+  bold_labels() %&gt;%
+  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season**&quot;) %&gt;%
+  modify_caption(&quot;**Table. HWISE and PSS scores by season (n = {N})**&quot;)</code></pre>
+<pre><code>The following warnings were returned during `modify_caption()`:
+! For variable `HWISE_Cat` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Water_worry` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>tbl_scores_season</code></pre>
+<div id="sgqyyhfzkd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#sgqyyhfzkd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#sgqyyhfzkd thead, #sgqyyhfzkd tbody, #sgqyyhfzkd tfoot, #sgqyyhfzkd tr, #sgqyyhfzkd td, #sgqyyhfzkd th {
+  border-style: none;
+}
+
+#sgqyyhfzkd p {
+  margin: 0;
+  padding: 0;
+}
+
+#sgqyyhfzkd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#sgqyyhfzkd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#sgqyyhfzkd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#sgqyyhfzkd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#sgqyyhfzkd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#sgqyyhfzkd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#sgqyyhfzkd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#sgqyyhfzkd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#sgqyyhfzkd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#sgqyyhfzkd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#sgqyyhfzkd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#sgqyyhfzkd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#sgqyyhfzkd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#sgqyyhfzkd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#sgqyyhfzkd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sgqyyhfzkd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#sgqyyhfzkd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#sgqyyhfzkd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#sgqyyhfzkd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sgqyyhfzkd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#sgqyyhfzkd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sgqyyhfzkd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#sgqyyhfzkd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sgqyyhfzkd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#sgqyyhfzkd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#sgqyyhfzkd .gt_left {
+  text-align: left;
+}
+
+#sgqyyhfzkd .gt_center {
+  text-align: center;
+}
+
+#sgqyyhfzkd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#sgqyyhfzkd .gt_font_normal {
+  font-weight: normal;
+}
+
+#sgqyyhfzkd .gt_font_bold {
+  font-weight: bold;
+}
+
+#sgqyyhfzkd .gt_font_italic {
+  font-style: italic;
+}
+
+#sgqyyhfzkd .gt_super {
+  font-size: 65%;
+}
+
+#sgqyyhfzkd .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#sgqyyhfzkd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#sgqyyhfzkd .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#sgqyyhfzkd .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#sgqyyhfzkd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#sgqyyhfzkd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#sgqyyhfzkd .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#sgqyyhfzkd .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#sgqyyhfzkd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Table. HWISE and PSS scores by season (n = 399)</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>Overall</strong><br />
+N = 399</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; stat_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>Season</strong></span></div>
+      </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy (Oct-Dec 2022)</strong><br />
+N = 202</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry (Apr-Jun 2023)</strong><br />
+N = 197</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HWISE total score (0-36)</td>
+<td headers="stat_0" class="gt_row gt_center">8.4 (6.1)</td>
+<td headers="stat_1" class="gt_row gt_center">7.2 (5.8)</td>
+<td headers="stat_2" class="gt_row gt_center">9.7 (6.2)</td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water insecurity level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.006</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Secure (0)</td>
+<td headers="stat_0" class="gt_row gt_center">25 (6.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">20 (10%)</td>
+<td headers="stat_2" class="gt_row gt_center">5 (2.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Marginal (1-11)</td>
+<td headers="stat_0" class="gt_row gt_center">254 (65%)</td>
+<td headers="stat_1" class="gt_row gt_center">131 (66%)</td>
+<td headers="stat_2" class="gt_row gt_center">123 (64%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate (12-23)</td>
+<td headers="stat_0" class="gt_row gt_center">104 (27%)</td>
+<td headers="stat_1" class="gt_row gt_center">44 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">60 (31%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Severe (24-36)</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (1.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water worry subscale (0-9)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.003</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">40 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">28 (14%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">46 (23%)</td>
+<td headers="stat_2" class="gt_row gt_center">22 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">84 (21%)</td>
+<td headers="stat_1" class="gt_row gt_center">42 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">42 (22%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">63 (16%)</td>
+<td headers="stat_1" class="gt_row gt_center">31 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">32 (16%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">58 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">19 (9.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">39 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">30 (7.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">10 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">20 (10%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">12 (3.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">8 (4.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    7</td>
+<td headers="stat_0" class="gt_row gt_center">4 (1.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">3 (1.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    8</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (1.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score (0-56)</td>
+<td headers="stat_0" class="gt_row gt_center">27.3 (7.2)</td>
+<td headers="stat_1" class="gt_row gt_center">27.4 (6.9)</td>
+<td headers="stat_2" class="gt_row gt_center">27.2 (7.5)</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Perceived stress level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Low stress (≤22)</td>
+<td headers="stat_0" class="gt_row gt_center">102 (26%)</td>
+<td headers="stat_1" class="gt_row gt_center">50 (25%)</td>
+<td headers="stat_2" class="gt_row gt_center">52 (27%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate stress (23-31)</td>
+<td headers="stat_0" class="gt_row gt_center">179 (46%)</td>
+<td headers="stat_1" class="gt_row gt_center">94 (47%)</td>
+<td headers="stat_2" class="gt_row gt_center">85 (44%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High stress (≥32)</td>
+<td headers="stat_0" class="gt_row gt_center">112 (28%)</td>
+<td headers="stat_1" class="gt_row gt_center">55 (28%)</td>
+<td headers="stat_2" class="gt_row gt_center">57 (29%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD); n (%)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="5"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>Welch Two Sample t-test; Pearson’s Chi-squared test</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="distribution-plots" class="section level2">
+<h2>7.3 Distribution plots</h2>
+<pre class="r"><code>library(gridExtra)
+
+p_hwise &lt;- ggplot(df_table %&gt;% filter(!is.na(HWISE_Total)),
+                  aes(x = HWISE_Total, fill = Season)) +
+  geom_histogram(binwidth = 1, position = &quot;identity&quot;, alpha = 0.6) +
+  scale_fill_manual(values = c(&quot;Rainy (Oct-Dec 2022)&quot; = &quot;#5bc0de&quot;,
+                               &quot;Dry (Apr-Jun 2023)&quot;   = &quot;#d9534f&quot;)) +
+  labs(title = &quot;HWISE total score&quot;, x = &quot;Score (0-36)&quot;, y = &quot;Count&quot;, fill = NULL) +
+  theme_minimal() + theme(legend.position = &quot;bottom&quot;)
+
+p_pss &lt;- ggplot(df_table %&gt;% filter(!is.na(PSS_Total)),
+                aes(x = PSS_Total, fill = Season)) +
+  geom_histogram(binwidth = 2, position = &quot;identity&quot;, alpha = 0.6) +
+  scale_fill_manual(values = c(&quot;Rainy (Oct-Dec 2022)&quot; = &quot;#5bc0de&quot;,
+                               &quot;Dry (Apr-Jun 2023)&quot;   = &quot;#d9534f&quot;)) +
+  labs(title = &quot;PSS-14 total score&quot;, x = &quot;Score (0-56)&quot;, y = &quot;Count&quot;, fill = NULL) +
+  theme_minimal() + theme(legend.position = &quot;bottom&quot;)
+
+grid.arrange(p_hwise, p_pss, ncol = 2)</code></pre>
+<img src="figure/02.%20Descriptive_stats.Rmd/hwise-pss-plots-1.png" width="864" style="display: block; margin: auto;" />
+<div class="alert alert-warning">
+<strong>Warning!</strong> The custom <code>fig.path</code> you set was
+ignored by workflowr.
+</div>
+<hr />
+</div>
+</div>
+<div id="sample-characteristics-by-water-insecurity-level"
+class="section level1">
+<h1>8. Sample characteristics by water insecurity level</h1>
+<p>Demographics and health variables stratified by HWISE category, using
+the standard cut-points from Young et al. (2019, <em>BMJ Global
+Health</em>): 0 = water secure; 1-11 = marginal; 12-23 = moderate; 24-36
+= severe. One-way ANOVA used for continuous variables; chi-square for
+categorical.</p>
+<pre class="r"><code>tbl_by_hwise &lt;- df_table %&gt;%
+  filter(!is.na(HWISE_Cat)) %&gt;%
+  select(
+    HWISE_Cat,
+    Age, Yrs_in_nbhd, HH_size, Parity,
+    SES_Total, SES_Category,
+    Employed, Smoking, Chronic_pain, Chronic_dis,
+    PSS_Total, PSS_Cat, Water_worry
+  ) %&gt;%
+  tbl_summary(
+    by        = HWISE_Cat,
+    statistic = list(
+      all_continuous()  ~ &quot;{mean} ({sd})&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = &quot;no&quot;,
+    label   = list(
+      Age          ~ &quot;Age (years)&quot;,
+      Yrs_in_nbhd  ~ &quot;Years in neighborhood&quot;,
+      HH_size      ~ &quot;Household size&quot;,
+      Parity       ~ &quot;Parity (n children)&quot;,
+      SES_Total    ~ &quot;SES score&quot;,
+      SES_Category ~ &quot;SES category&quot;,
+      Employed     ~ &quot;Employed&quot;,
+      Smoking      ~ &quot;Smoking&quot;,
+      Chronic_pain ~ &quot;Chronic pain&quot;,
+      Chronic_dis  ~ &quot;Chronic disease&quot;,
+      PSS_Total    ~ &quot;PSS-14 total score&quot;,
+      PSS_Cat      ~ &quot;Perceived stress level&quot;,
+      Water_worry  ~ &quot;Water worry subscale&quot;
+    )
+  ) %&gt;%
+  add_overall() %&gt;%
+  add_p(test = list(
+    all_continuous()  ~ &quot;aov&quot;,
+    all_categorical() ~ &quot;chisq.test&quot;
+  )) %&gt;%
+  bold_labels() %&gt;%
+  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;, &quot;stat_3&quot;, &quot;stat_4&quot;) ~
+                           &quot;**Water insecurity level (HWISE)**&quot;) %&gt;%
+  modify_caption(&quot;**Table. Sample characteristics by water insecurity level (n = {N})**&quot;)</code></pre>
+<pre><code>The following errors were returned during `modify_caption()`:
+✖ For variable `Chronic_dis` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: &#39;x&#39; and &#39;y&#39; must have at least 2 levels
+The following warnings were returned during `modify_caption()`:
+! For variable `Age` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot; statistics:
+  The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary 2.0.0. ℹ The same
+  functionality is covered in &quot;oneway.test&quot; with argument `var.equal = TRUE`.
+! For variable `Chronic_pain` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Employed` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `HH_size` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
+  statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
+  2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
+  `var.equal = TRUE`.
+! For variable `PSS_Cat` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `PSS_Total` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
+  statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
+  2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
+  `var.equal = TRUE`.
+! For variable `Parity` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `SES_Category` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `SES_Total` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
+  statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
+  2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
+  `var.equal = TRUE`.
+! For variable `Smoking` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Water_worry` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Yrs_in_nbhd` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
+  statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
+  2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
+  `var.equal = TRUE`.</code></pre>
+<pre class="r"><code>tbl_by_hwise</code></pre>
+<div id="zwjdaixfov" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zwjdaixfov table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#zwjdaixfov thead, #zwjdaixfov tbody, #zwjdaixfov tfoot, #zwjdaixfov tr, #zwjdaixfov td, #zwjdaixfov th {
+  border-style: none;
+}
+
+#zwjdaixfov p {
+  margin: 0;
+  padding: 0;
+}
+
+#zwjdaixfov .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#zwjdaixfov .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zwjdaixfov .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zwjdaixfov .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zwjdaixfov .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zwjdaixfov .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zwjdaixfov .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zwjdaixfov .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zwjdaixfov .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#zwjdaixfov .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#zwjdaixfov .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zwjdaixfov .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zwjdaixfov .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zwjdaixfov .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zwjdaixfov .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwjdaixfov .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#zwjdaixfov .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#zwjdaixfov .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#zwjdaixfov .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwjdaixfov .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#zwjdaixfov .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwjdaixfov .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zwjdaixfov .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwjdaixfov .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zwjdaixfov .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwjdaixfov .gt_left {
+  text-align: left;
+}
+
+#zwjdaixfov .gt_center {
+  text-align: center;
+}
+
+#zwjdaixfov .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zwjdaixfov .gt_font_normal {
+  font-weight: normal;
+}
+
+#zwjdaixfov .gt_font_bold {
+  font-weight: bold;
+}
+
+#zwjdaixfov .gt_font_italic {
+  font-style: italic;
+}
+
+#zwjdaixfov .gt_super {
+  font-size: 65%;
+}
+
+#zwjdaixfov .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#zwjdaixfov .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#zwjdaixfov .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#zwjdaixfov .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#zwjdaixfov .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#zwjdaixfov .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#zwjdaixfov .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#zwjdaixfov .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#zwjdaixfov div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Table. Sample characteristics by water insecurity level (n = 389)</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>Overall</strong><br />
+N = 389</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="4" scope="colgroup" id="level 1; stat_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>Water insecurity level (HWISE)</strong></span></div>
+      </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Secure (0)</strong><br />
+N = 25</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Marginal (1-11)</strong><br />
+N = 254</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_3"><span class='gt_from_md'><strong>Moderate (12-23)</strong><br />
+N = 104</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_4"><span class='gt_from_md'><strong>Severe (24-36)</strong><br />
+N = 6</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
+<td headers="stat_0" class="gt_row gt_center">32.3 (7.5)</td>
+<td headers="stat_1" class="gt_row gt_center">35.2 (6.5)</td>
+<td headers="stat_2" class="gt_row gt_center">32.0 (7.2)</td>
+<td headers="stat_3" class="gt_row gt_center">32.6 (8.2)</td>
+<td headers="stat_4" class="gt_row gt_center">24.8 (4.8)</td>
+<td headers="p.value" class="gt_row gt_center">0.039</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Years in neighborhood</td>
+<td headers="stat_0" class="gt_row gt_center">22.5 (11.5)</td>
+<td headers="stat_1" class="gt_row gt_center">21.7 (12.3)</td>
+<td headers="stat_2" class="gt_row gt_center">22.4 (11.7)</td>
+<td headers="stat_3" class="gt_row gt_center">23.0 (10.9)</td>
+<td headers="stat_4" class="gt_row gt_center">16.5 (11.5)</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size</td>
+<td headers="stat_0" class="gt_row gt_center">5.7 (3.7)</td>
+<td headers="stat_1" class="gt_row gt_center">5.4 (2.5)</td>
+<td headers="stat_2" class="gt_row gt_center">6.0 (4.0)</td>
+<td headers="stat_3" class="gt_row gt_center">5.4 (3.1)</td>
+<td headers="stat_4" class="gt_row gt_center">3.7 (1.5)</td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Parity (n children)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.13</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">48 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">35 (17%)</td>
+<td headers="stat_3" class="gt_row gt_center">11 (13%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">70 (22%)</td>
+<td headers="stat_1" class="gt_row gt_center">11 (46%)</td>
+<td headers="stat_2" class="gt_row gt_center">40 (19%)</td>
+<td headers="stat_3" class="gt_row gt_center">19 (23%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">118 (37%)</td>
+<td headers="stat_1" class="gt_row gt_center">9 (38%)</td>
+<td headers="stat_2" class="gt_row gt_center">76 (36%)</td>
+<td headers="stat_3" class="gt_row gt_center">33 (40%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">58 (18%)</td>
+<td headers="stat_1" class="gt_row gt_center">3 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">43 (21%)</td>
+<td headers="stat_3" class="gt_row gt_center">10 (12%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">18 (5.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (4.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">10 (4.8%)</td>
+<td headers="stat_3" class="gt_row gt_center">7 (8.5%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (1.9%)</td>
+<td headers="stat_3" class="gt_row gt_center">2 (2.4%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES score</td>
+<td headers="stat_0" class="gt_row gt_center">133.7 (44.4)</td>
+<td headers="stat_1" class="gt_row gt_center">148.3 (40.2)</td>
+<td headers="stat_2" class="gt_row gt_center">133.7 (45.8)</td>
+<td headers="stat_3" class="gt_row gt_center">131.3 (41.8)</td>
+<td headers="stat_4" class="gt_row gt_center">102.7 (24.8)</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES category</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    E</td>
+<td headers="stat_0" class="gt_row gt_center">7 (2.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.1%)</td>
+<td headers="stat_3" class="gt_row gt_center">2 (2.5%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D-</td>
+<td headers="stat_0" class="gt_row gt_center">42 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">30 (15%)</td>
+<td headers="stat_3" class="gt_row gt_center">11 (14%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (33%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D+</td>
+<td headers="stat_0" class="gt_row gt_center">44 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">29 (15%)</td>
+<td headers="stat_3" class="gt_row gt_center">14 (18%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (33%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C-</td>
+<td headers="stat_0" class="gt_row gt_center">69 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">7 (35%)</td>
+<td headers="stat_2" class="gt_row gt_center">45 (23%)</td>
+<td headers="stat_3" class="gt_row gt_center">16 (20%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (33%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C</td>
+<td headers="stat_0" class="gt_row gt_center">72 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (30%)</td>
+<td headers="stat_2" class="gt_row gt_center">44 (23%)</td>
+<td headers="stat_3" class="gt_row gt_center">22 (28%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C+</td>
+<td headers="stat_0" class="gt_row gt_center">42 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">26 (13%)</td>
+<td headers="stat_3" class="gt_row gt_center">12 (15%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    AB</td>
+<td headers="stat_0" class="gt_row gt_center">22 (7.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (10%)</td>
+<td headers="stat_2" class="gt_row gt_center">17 (8.7%)</td>
+<td headers="stat_3" class="gt_row gt_center">3 (3.8%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
+<td headers="stat_0" class="gt_row gt_center">217 (70%)</td>
+<td headers="stat_1" class="gt_row gt_center">17 (81%)</td>
+<td headers="stat_2" class="gt_row gt_center">135 (67%)</td>
+<td headers="stat_3" class="gt_row gt_center">63 (75%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (50%)</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">227 (72%)</td>
+<td headers="stat_1" class="gt_row gt_center">18 (75%)</td>
+<td headers="stat_2" class="gt_row gt_center">148 (73%)</td>
+<td headers="stat_3" class="gt_row gt_center">59 (71%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_0" class="gt_row gt_center">75 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">5 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">47 (23%)</td>
+<td headers="stat_3" class="gt_row gt_center">21 (25%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Occasionally</td>
+<td headers="stat_0" class="gt_row gt_center">13 (4.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (4.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (4.4%)</td>
+<td headers="stat_3" class="gt_row gt_center">3 (3.6%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic pain</td>
+<td headers="stat_0" class="gt_row gt_center">45 (16%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (25%)</td>
+<td headers="stat_2" class="gt_row gt_center">21 (12%)</td>
+<td headers="stat_3" class="gt_row gt_center">17 (23%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (25%)</td>
+<td headers="p.value" class="gt_row gt_center">0.068</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic disease</td>
+<td headers="stat_0" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score</td>
+<td headers="stat_0" class="gt_row gt_center">27.3 (7.2)</td>
+<td headers="stat_1" class="gt_row gt_center">27.0 (8.5)</td>
+<td headers="stat_2" class="gt_row gt_center">26.6 (7.3)</td>
+<td headers="stat_3" class="gt_row gt_center">28.8 (6.2)</td>
+<td headers="stat_4" class="gt_row gt_center">31.3 (10.0)</td>
+<td headers="p.value" class="gt_row gt_center">0.037</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Perceived stress level</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.12</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Low stress (≤22)</td>
+<td headers="stat_0" class="gt_row gt_center">99 (26%)</td>
+<td headers="stat_1" class="gt_row gt_center">7 (28%)</td>
+<td headers="stat_2" class="gt_row gt_center">75 (30%)</td>
+<td headers="stat_3" class="gt_row gt_center">16 (15%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate stress (23-31)</td>
+<td headers="stat_0" class="gt_row gt_center">176 (46%)</td>
+<td headers="stat_1" class="gt_row gt_center">10 (40%)</td>
+<td headers="stat_2" class="gt_row gt_center">110 (44%)</td>
+<td headers="stat_3" class="gt_row gt_center">54 (52%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (33%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High stress (≥32)</td>
+<td headers="stat_0" class="gt_row gt_center">110 (29%)</td>
+<td headers="stat_1" class="gt_row gt_center">8 (32%)</td>
+<td headers="stat_2" class="gt_row gt_center">65 (26%)</td>
+<td headers="stat_3" class="gt_row gt_center">34 (33%)</td>
+<td headers="stat_4" class="gt_row gt_center">3 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water worry subscale</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0</td>
+<td headers="stat_0" class="gt_row gt_center">68 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">25 (100%)</td>
+<td headers="stat_2" class="gt_row gt_center">43 (17%)</td>
+<td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1</td>
+<td headers="stat_0" class="gt_row gt_center">67 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">67 (26%)</td>
+<td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    2</td>
+<td headers="stat_0" class="gt_row gt_center">83 (21%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">76 (30%)</td>
+<td headers="stat_3" class="gt_row gt_center">7 (6.7%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    3</td>
+<td headers="stat_0" class="gt_row gt_center">62 (16%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">35 (14%)</td>
+<td headers="stat_3" class="gt_row gt_center">27 (26%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    4</td>
+<td headers="stat_0" class="gt_row gt_center">58 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">28 (11%)</td>
+<td headers="stat_3" class="gt_row gt_center">30 (29%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5</td>
+<td headers="stat_0" class="gt_row gt_center">29 (7.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">5 (2.0%)</td>
+<td headers="stat_3" class="gt_row gt_center">24 (23%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    6</td>
+<td headers="stat_0" class="gt_row gt_center">12 (3.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_3" class="gt_row gt_center">10 (9.6%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (33%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    7</td>
+<td headers="stat_0" class="gt_row gt_center">4 (1.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_3" class="gt_row gt_center">4 (3.8%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    8</td>
+<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_3" class="gt_row gt_center">2 (1.9%)</td>
+<td headers="stat_4" class="gt_row gt_center">4 (67%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="7"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD); n (%)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="7"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>One-way analysis of means; Pearson’s Chi-squared test; NA</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<hr />
+</div>
+<div id="pss-and-water-worry-by-water-insecurity-level"
+class="section level1">
+<h1>9. PSS and water worry by water insecurity level</h1>
+<pre class="r"><code>p_pss_hwise &lt;- df_table %&gt;%
+  filter(!is.na(HWISE_Cat) &amp; !is.na(PSS_Total)) %&gt;%
+  ggplot(aes(x = HWISE_Cat, y = PSS_Total, fill = HWISE_Cat)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
+  scale_fill_manual(values = c(
+    &quot;Secure (0)&quot;       = &quot;#2ecc71&quot;,
+    &quot;Marginal (1-11)&quot;  = &quot;#f1c40f&quot;,
+    &quot;Moderate (12-23)&quot; = &quot;#e67e22&quot;,
+    &quot;Severe (24-36)&quot;   = &quot;#e74c3c&quot;
+  )) +
+  labs(title = &quot;PSS-14 by water insecurity level&quot;,
+       x = NULL, y = &quot;PSS-14 score (0-56)&quot;) +
+  theme_minimal() + theme(legend.position = &quot;none&quot;)
+
+p_worry_hwise &lt;- df_table %&gt;%
+  filter(!is.na(HWISE_Cat) &amp; !is.na(Water_worry)) %&gt;%
+  ggplot(aes(x = HWISE_Cat, y = Water_worry, fill = HWISE_Cat)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
+  scale_fill_manual(values = c(
+    &quot;Secure (0)&quot;       = &quot;#2ecc71&quot;,
+    &quot;Marginal (1-11)&quot;  = &quot;#f1c40f&quot;,
+    &quot;Moderate (12-23)&quot; = &quot;#e67e22&quot;,
+    &quot;Severe (24-36)&quot;   = &quot;#e74c3c&quot;
+  )) +
+  scale_y_continuous(breaks = 0:9) +
+  labs(title = &quot;Water worry subscale by water insecurity level&quot;,
+       x = NULL, y = &quot;Water worry score (0-9)&quot;) +
+  theme_minimal() + theme(legend.position = &quot;none&quot;)
+
+grid.arrange(p_pss_hwise, p_worry_hwise, ncol = 2)</code></pre>
+<img src="figure/02.%20Descriptive_stats.Rmd/pss-by-hwise-plot-1.png" width="864" style="display: block; margin: auto;" />
+<div class="alert alert-warning">
+<strong>Warning!</strong> The custom <code>fig.path</code> you set was
+ignored by workflowr.
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.2 (2025-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] gridExtra_2.3   ggplot2_4.0.0   gt_1.0.0        gtsummary_2.5.0
+[5] stringr_1.5.1   tidyr_1.3.1     dplyr_1.2.0    
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.10        generics_0.1.3     xml2_1.3.8         stringi_1.8.7     
+ [5] digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3     grid_4.5.2        
+ [9] RColorBrewer_1.1-3 cards_0.7.1        fastmap_1.2.0      rprojroot_2.1.1   
+[13] workflowr_1.7.1    jsonlite_2.0.0     whisker_0.4.1      backports_1.5.0   
+[17] cardx_0.3.2        promises_1.3.2     purrr_1.0.4        scales_1.4.0      
+[21] jquerylib_0.1.4    cli_3.6.5          rlang_1.1.7        litedown_0.7      
+[25] commonmark_2.0.0   withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
+[29] tools_4.5.2        httpuv_1.6.16      broom_1.0.8        vctrs_0.7.1       
+[33] R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2       fs_1.6.6          
+[37] pkgconfig_2.0.3    pillar_1.10.2      bslib_0.9.0        later_1.4.2       
+[41] gtable_0.3.6       glue_1.8.0         Rcpp_1.0.14        xfun_0.52         
+[45] tibble_3.2.1       tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50        
+[49] farver_2.1.2       htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29    
+[53] compiler_4.5.2     S7_0.2.0           markdown_2.0      </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

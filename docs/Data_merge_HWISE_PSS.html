@@ -362,7 +362,7 @@ HWISE + PSS</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -373,8 +373,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -383,13 +383,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-07
+<strong>Last updated:</strong> 2026-03-08
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -412,21 +412,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -517,15 +514,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree67040b7c4ec7d8b1cf318124bd1fdd5ef516f2abtargetblank67040b7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee7a08e9074f5c08424bf14e66d25c279280405d9targetblanke7a08e9a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/67040b7c4ec7d8b1cf318124bd1fdd5ef516f2ab" target="_blank">67040b7</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e7a08e9074f5c08424bf14e66d25c279280405d9" target="_blank">e7a08e9</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree67040b7c4ec7d8b1cf318124bd1fdd5ef516f2abtargetblank67040b7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee7a08e9074f5c08424bf14e66d25c279280405d9targetblanke7a08e9a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -535,7 +532,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/67040b7c4ec7d8b1cf318124bd1fdd5ef516f2ab" target="_blank">67040b7</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e7a08e9074f5c08424bf14e66d25c279280405d9" target="_blank">e7a08e9</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -562,22 +559,10 @@ Ignored files:
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
-Untracked files:
-    Untracked:  02. Descriptive_stats.Rmd
-    Untracked:  02.-Descriptive_stats.html
-    Untracked:  analysis/Data_cleaning_HBA2025.Rmd
-    Untracked:  analysis/Data_merge_HWISE_PSS.Rmd
-    Untracked:  data/Merged_Screening_HWISE_PSS.csv
-    Untracked:  data/Screening_clean.csv
-    Untracked:  data/conflicts_to_review.csv
-    Untracked:  data/~$.Metadata-25-Feb-20.docx
-    Untracked:  figure/
-
 Unstaged changes:
+    Modified:   analysis/02. Descriptive_stats.Rmd
     Modified:   analysis/Data_cleaning.Rmd
-    Modified:   data/00.Dictionary.csv
-    Modified:   data/00.Metadata-25-Feb-20.docx
-    Modified:   data/01.SCREENING.csv
+    Modified:   data/Screening_clean.csv
 
 </code></pre>
 <p>
@@ -593,9 +578,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/Data_merge_HWISE_PSS.Rmd</code>)
+and HTML (<code>docs/Data_merge_HWISE_PSS.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/analysis/Data_merge_HWISE_PSS.Rmd" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+<td>
+quail-updates
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/Data_merge_HWISE_PSS.html" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+<td>
+quail-updates
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -872,6 +920,43 @@ ggplot(hwise_pss %&gt;% filter(!is.na(HW_TOTAL)),
        x = &quot;HWISE total score (0–36)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Data_merge_HWISE_PSS.Rmd/hwise-total-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-total-1">
+Past versions of hwise-total-1.png
+</button>
+</p>
+<div id="fig-hwise-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/figure/Data_merge_HWISE_PSS.Rmd/hwise-total-1.png" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="compute-hw_worry_sub-water-worry-subscale"
 class="section level2">
@@ -932,6 +1017,43 @@ cat(&quot;HW_WORRY_SUB distribution:\n&quot;)</code></pre>
        x = &quot;Water worry subscale (0–9)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Data_merge_HWISE_PSS.Rmd/hwise-worry-sub-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-worry-sub-1">
+Past versions of hwise-worry-sub-1.png
+</button>
+</p>
+<div id="fig-hwise-worry-sub-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/figure/Data_merge_HWISE_PSS.Rmd/hwise-worry-sub-1.png" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1142,6 +1264,43 @@ pss_rev_check %&gt;%
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/Data_merge_HWISE_PSS.Rmd/pss-reverse-check-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pss-reverse-check-1">
+Past versions of pss-reverse-check-1.png
+</button>
+</p>
+<div id="fig-pss-reverse-check-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/figure/Data_merge_HWISE_PSS.Rmd/pss-reverse-check-1.png" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="compute-pss_total" class="section level2">
 <h2>4.5 Compute PSS_TOTAL</h2>
@@ -1205,6 +1364,43 @@ ggplot(hwise_pss %&gt;% filter(!is.na(PSS_TOTAL)),
        x = &quot;PSS-14 total score (0–56)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Data_merge_HWISE_PSS.Rmd/pss-total-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pss-total-1">
+Past versions of pss-total-1.png
+</button>
+</p>
+<div id="fig-pss-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/figure/Data_merge_HWISE_PSS.Rmd/pss-total-1.png" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1386,6 +1582,43 @@ cat(&quot;Missing data summary — HWISE &amp; PSS variables:\n&quot;)</code></p
        x = &quot;Score&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Data_merge_HWISE_PSS.Rmd/score-by-season-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-score-by-season-1">
+Past versions of score-by-season-1.png
+</button>
+</p>
+<div id="fig-score-by-season-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/figure/Data_merge_HWISE_PSS.Rmd/score-by-season-1.png" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1466,6 +1699,43 @@ cat(&quot;Cronbach&#39;s α summary:\n&quot;)</code></pre>
        x = NULL, y = &quot;Cronbach&#39;s α&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/Data_merge_HWISE_PSS.Rmd/cronbach-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cronbach-1">
+Past versions of cronbach-1.png
+</button>
+</p>
+<div id="fig-cronbach-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e7a08e9074f5c08424bf14e66d25c279280405d9/docs/figure/Data_merge_HWISE_PSS.Rmd/cronbach-1.png" target="_blank">e7a08e9</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="interpretation" class="section level3">
 <h3>Interpretation</h3>
 <p><strong>HWISE (α = 0.848, 95% CI: 0.827–0.869):</strong> Good
@@ -1572,7 +1842,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.5.2 (2025-10-31)
 Platform: aarch64-apple-darwin20
-Running under: macOS Tahoe 26.3
+Running under: macOS Tahoe 26.3.1
 
 Matrix products: default
 BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
@@ -1592,20 +1862,20 @@ other attached packages:
 [6] dplyr_1.2.0  
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.10        utf8_1.2.4         generics_0.1.3     stringi_1.8.7     
- [5] lattice_0.22-7     hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
+ [1] sass_0.4.10        utf8_1.2.4         generics_0.1.3     lattice_0.22-7    
+ [5] stringi_1.8.7      hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
  [9] evaluate_1.0.3     grid_4.5.2         RColorBrewer_1.1-3 fastmap_1.2.0     
-[13] rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0     promises_1.3.2    
-[17] purrr_1.0.4        scales_1.4.0       jquerylib_0.1.4    mnormt_2.1.2      
-[21] cli_3.6.5          rlang_1.1.7        withr_3.0.2        cachem_1.1.0      
-[25] yaml_2.3.10        tools_4.5.2        parallel_4.5.2     tzdb_0.5.0        
-[29] httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5   
-[33] git2r_0.36.2       fs_1.6.6           pkgconfig_2.0.3    pillar_1.10.2     
-[37] bslib_0.9.0        later_1.4.2        gtable_0.3.6       glue_1.8.0        
-[41] Rcpp_1.0.14        xfun_0.52          tibble_3.2.1       tidyselect_1.2.1  
-[45] rstudioapi_0.17.1  knitr_1.50         farver_2.1.2       htmltools_0.5.8.1 
-[49] nlme_3.1-168       rmarkdown_2.29     labeling_0.4.3     compiler_4.5.2    
-[53] S7_0.2.0          </code></pre>
+[13] rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0     whisker_0.4.1     
+[17] promises_1.3.2     purrr_1.0.4        scales_1.4.0       jquerylib_0.1.4   
+[21] mnormt_2.1.2       cli_3.6.5          rlang_1.1.7        withr_3.0.2       
+[25] cachem_1.1.0       yaml_2.3.10        tools_4.5.2        parallel_4.5.2    
+[29] tzdb_0.5.0         httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1          
+[33] lifecycle_1.0.5    git2r_0.36.2       fs_1.6.6           pkgconfig_2.0.3   
+[37] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
+[41] glue_1.8.0         Rcpp_1.0.14        xfun_0.52          tibble_3.2.1      
+[45] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
+[49] nlme_3.1-168       htmltools_0.5.8.1  rmarkdown_2.29     labeling_0.4.3    
+[53] compiler_4.5.2     S7_0.2.0          </code></pre>
 </div>
 </div>
 </div>

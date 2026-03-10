@@ -137,7 +137,7 @@ df_table <- df %>%
                  "High stress (≥32)")
     )
   )
-df_table
+head(df_table)
 ```
 
 ---

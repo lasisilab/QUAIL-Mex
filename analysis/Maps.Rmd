@@ -21,14 +21,19 @@ library(dplyr)
 
 # Download Mexico City borough boundaries from INEGI
 # Using the administrative boundaries available via rgeomex or direct download
-# install.packages("rgeomex")  # optional package with INEGI data
+ install.packages("rgeomex")  # optional package with INEGI data
+
+ ```
+ ```{r agebs, echo=FALSE, dpi = 300}
+extract_ageb(cve_edo = "31", locality = "Merida")
+```
 
 # Alternative: use geodata package
 # install.packages("geodata")
 library(geodata)
 
 # Download Mexico administrative level 2 (municipalities/alcaldías)
-mex_adm2 <- geodata::gadm(country = "MEX", level = 2, path = tempdir()) |>
+mex_adm2 <- geodata::gadm(country = "MEX", level = 2, path = tempdir(), resolution = 1) |>
   st_as_sf()
 
 # Filter to Mexico City (CDMX) - NAME_1 varies, try "Ciudad de México" or "Distrito Federal"

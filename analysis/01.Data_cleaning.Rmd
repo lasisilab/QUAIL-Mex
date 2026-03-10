@@ -210,6 +210,8 @@ conflicts <- bind_rows(conflict_rows) %>%
 # Uncomment once ready to export:
  write.csv(conflicts, file.path(data_path, "conflicts_to_review.csv"),
            row.names = FALSE)
+ 
+ head(conflicts)
 ```
 
 ## 3.2. Incorporate resolutions back into dataset
@@ -219,6 +221,7 @@ resolved <- read.csv(file.path(data_path, "conflicts_to_review.csv"),
                      stringsAsFactors = FALSE)
 
 for (i in seq_len(nrow(resolved))) {
+  if (is.na(resolved$resolution[i])) next  # skip unresolved conflicts
   id  <- resolved$ID[i]
   v   <- resolved$variable[i]
   val <- resolved$resolution[i]
