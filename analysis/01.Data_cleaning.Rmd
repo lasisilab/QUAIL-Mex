@@ -475,35 +475,32 @@ Sentinel codes are passed through unchanged.
 
 ```{r recode-employment}
 
-
 df <- df %>%
   mutate(
     D_EMP_TYPE_CLEAN = str_trim(tolower(D_EMP_TYPE)),
-
     D_EMP_CLEAN = case_when(
       is.na(D_EMP_TYPE_CLEAN)                                              ~ NA_real_,
       D_EMP_TYPE_CLEAN %in% as.character(MISSING_CODES)                   ~ suppressWarnings(as.numeric(D_EMP_TYPE_CLEAN)),
-      D_EMP_TYPE_CLEAN %in% c("no", "no.", "niguna", "nada", "ninguna")   ~ 0,
+      D_EMP_TYPE_CLEAN %in% c("no", "no.", "niguna", "nada", "ninguna","no. ama de casa", "ama de casa", "ama de cas")   ~ 0,
       str_detect(D_EMP_TYPE_CLEAN, "no\\b") &
         !str_detect(D_EMP_TYPE_CLEAN,
                     "informal|formal|trabaj|vend|comerci")                 ~ 0,
       str_detect(D_EMP_TYPE_CLEAN,
-                 "yes|si|formal|informal|comerci|vend|trabaj|administrat|limpieza|estilista|ama de") ~ 1,
+                 "yes|si|formal|ayudante|tiene un|venta|temporal|informal|pestanias|comerci|vend|levado de selas|trabaj|administrat|limpieza|estilista|Taller de cortura|comerante") ~ 1,
       TRUE                                                                 ~ 555
     ),
-
     D_EMP_FORM_CLEAN = case_when(
       is.na(D_EMP_CLEAN) | D_EMP_CLEAN != 1                               ~ NA_real_,
       D_EMP_TYPE_CLEAN %in% as.character(MISSING_CODES)                   ~ suppressWarnings(as.numeric(D_EMP_TYPE_CLEAN)),
-      str_detect(D_EMP_TYPE_CLEAN, "formal(?!.*informal)")                ~ 1,
       str_detect(D_EMP_TYPE_CLEAN, "informal")                            ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN, "\\bformal\\b")                        ~ 1,
       str_detect(D_EMP_TYPE_CLEAN,
                  "vend|comerci|limpieza|chocolater|catalogo|ropa|dulces|postres|pintura|facebook") ~ 0,
       TRUE                                                                 ~ 555
     )
-  ) 
+  )
 
-df[,c("D_EMP_TYPE", "D_EMP_TYPE_CLEAN", "D_EMP_FORM_CLEAN" )]
+print(df[,c("ID", "D_EMP_CLEAN","D_EMP_TYPE", "D_EMP_TYPE_CLEAN", "D_EMP_FORM_CLEAN")], n= nrow(df))
 cat("\nEmployment (D_EMP_CLEAN):\n")
 print(table(df$D_EMP_CLEAN, useNA = "always"))
 
@@ -712,6 +709,7 @@ print(filter(missing_report, pct_na > 3), n =nrow(missing_report))
 # 13. Save cleaned file
 
 ```{r save}
+
 write.csv(df, file.path(data_path, "01.Screening_clean.csv"), row.names = FALSE)
 cat("Saved. Final dimensions:", dim(df), "\n")
 ```

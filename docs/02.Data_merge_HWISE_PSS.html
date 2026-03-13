@@ -517,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -535,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,37 +558,18 @@ Ignored files:
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/figure/
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  data/01.SES_to_review.csv
-    Untracked:  data/01.Screening_clean.csv
-    Untracked:  data/01.conflicts_reviewed.csv
-    Untracked:  data/01.conflicts_reviewed_V2.csv
-    Untracked:  data/01.conflicts_to_review.csv
-    Untracked:  data/01.conflicts_to_review_V2.csv
-    Untracked:  data/03.Chronic_pain_illness.csv
-    Untracked:  data/03.Q1-2-3-4-5_season2.csv
-    Untracked:  data/03.Q2-3-4-5-6.csv
-    Untracked:  data/SES_to_review.csv
 
 Unstaged changes:
     Modified:   analysis/01.Data_cleaning.Rmd
     Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Modified:   analysis/03.Merge2.Rmd
-    Modified:   analysis/04.Descriptive_plots.Rmd
-    Modified:   data/01.SCREENING.csv
-    Deleted:    data/Chronic_pain_illness.csv
-    Modified:   data/Merged_Final.csv
-    Modified:   data/Merged_Screening_HWISE_PSS.csv
-    Deleted:    data/Q1-2-3-4-5_season2.csv
-    Deleted:    data/Q2-3-4-5-6.csv
-    Modified:   data/Screening_clean.csv
-    Deleted:    data/conflicts_reviewed.csv
-    Deleted:    data/conflicts_reviewed_V2.csv
+    Modified:   data/01.Screening_clean.csv
 
 </code></pre>
 <p>
@@ -634,6 +615,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/analysis/02.Data_merge_HWISE_PSS.Rmd" target="_blank">e6ea05d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+descriptive-stats-new
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/docs/02.Data_merge_HWISE_PSS.html" target="_blank">e6ea05d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+descriptive-stats-new
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1506,10 +1521,7 @@ TRUE &lt;NA&gt;
 if (nrow(season_mismatch) &gt; 0) {
   cat(&quot;\nSEASON mismatches (review these IDs):\n&quot;)
   print(season_mismatch %&gt;% select(ID, SEASON, SEASON_CLEAN))
-}
-
-# Remove the temporary SEASON_CLEAN after cross-check
-df_merged &lt;- df_merged %&gt;% select(-SEASON_CLEAN)</code></pre>
+}</code></pre>
 <hr />
 </div>
 <div id="post-merge-checks" class="section level1">
@@ -1679,7 +1691,13 @@ clean_items &lt;- function(data, items) {
     filter(if_all(everything(), ~ !is.na(.)))
 }
 
-# HWISE — 12 items, scored 0–3
+# # Remove uninformative columns
+dim(df_merged)</code></pre>
+<pre><code>[1] 399 102</code></pre>
+<pre class="r"><code>df_merged &lt;- df_merged %&gt;% select(-SEASON_CLEAN, -PSS4, -PSS5, -PSS6, -PSS7, -PSS9, -PSS10, -PSS13)
+dim(df_merged)</code></pre>
+<pre><code>[1] 399  94</code></pre>
+<pre class="r"><code># HWISE — 12 items, scored 0–3
 alpha_hwise &lt;- clean_items(df_merged, HWISE_ITEMS) %&gt;% psych::alpha()
 
 # PSS-14 — use reverse-coded versions of the negative items
@@ -1895,7 +1913,7 @@ write.csv(df_merged, out_file, row.names = FALSE)
 cat(&quot;Saved:&quot;, out_file, &quot;\n&quot;)</code></pre>
 <pre><code>Saved: ./data/02.Merged_Screening_HWISE_PSS.csv </code></pre>
 <pre class="r"><code>cat(&quot;Final dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Final dimensions: 399 101 </code></pre>
+<pre><code>Final dimensions: 399 94 </code></pre>
 </div>
 <div id="pending" class="section level1">
 <h1>Pending</h1>
@@ -1932,25 +1950,24 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] psych_2.6.1     ggplot2_4.0.0   readr_2.1.5     stringr_1.5.1  
-[5] tidyr_1.3.1     dplyr_1.2.0     workflowr_1.7.1
+[1] psych_2.6.1   ggplot2_4.0.0 readr_2.1.5   stringr_1.5.1 tidyr_1.3.1  
+[6] dplyr_1.2.0  
 
 loaded via a namespace (and not attached):
- [1] utf8_1.2.4         sass_0.4.10        generics_0.1.3     lattice_0.22-9    
- [5] stringi_1.8.7      hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
+ [1] utf8_1.2.4         sass_0.4.10        generics_0.1.3     stringi_1.8.7     
+ [5] lattice_0.22-9     hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
  [9] evaluate_1.0.3     grid_4.5.3         RColorBrewer_1.1-3 fastmap_1.2.0     
-[13] rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1     
-[17] ps_1.9.1           promises_1.3.2     httr_1.4.7         purrr_1.0.4       
-[21] scales_1.4.0       jquerylib_0.1.4    mnormt_2.1.2       cli_3.6.5         
-[25] rlang_1.1.7        withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
-[29] parallel_4.5.3     tools_4.5.3        tzdb_0.5.0         httpuv_1.6.16     
-[33] vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2      
-[37] fs_1.6.6           pkgconfig_2.0.3    callr_3.7.6        pillar_1.10.2     
-[41] bslib_0.9.0        later_1.4.2        gtable_0.3.6       glue_1.8.0        
-[45] Rcpp_1.0.14        xfun_0.52          tibble_3.2.1       tidyselect_1.2.1  
-[49] rstudioapi_0.17.1  knitr_1.50         farver_2.1.2       nlme_3.1-168      
-[53] htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29     compiler_4.5.3    
-[57] getPass_0.2-4      S7_0.2.0          </code></pre>
+[13] rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0     whisker_0.4.1     
+[17] promises_1.3.2     purrr_1.0.4        scales_1.4.0       jquerylib_0.1.4   
+[21] mnormt_2.1.2       cli_3.6.5          rlang_1.1.7        withr_3.0.2       
+[25] cachem_1.1.0       yaml_2.3.10        tools_4.5.3        parallel_4.5.3    
+[29] tzdb_0.5.0         httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1          
+[33] lifecycle_1.0.5    git2r_0.36.2       fs_1.6.6           pkgconfig_2.0.3   
+[37] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
+[41] glue_1.8.0         Rcpp_1.0.14        xfun_0.52          tibble_3.2.1      
+[45] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
+[49] htmltools_0.5.8.1  nlme_3.1-168       labeling_0.4.3     rmarkdown_2.29    
+[53] compiler_4.5.3     S7_0.2.0          </code></pre>
 </div>
 </div>
 </div>

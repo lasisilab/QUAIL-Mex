@@ -1,0 +1,445 @@
+---
+title: "Descriptive Plots"
+author: "Paloma"
+date: "2026-03-13"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+This document produces descriptive visualizations for the merged dataset
+(`03.Merged_Q1-6.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
+It complements the tables in `04.Descriptive_stats.Rmd` and includes:
+
+1. Missing data overview (stacked bar chart)
+
+2. HWISE and PSS score distributions by season (histograms)
+
+3. PSS and water worry by water insecurity level (boxplots)
+
+4. Objective water supply distributions by neighborhood (histograms and bar charts)
+
+5. Hours of water supply vs HWISE and PSS (scatter plots)
+
+---
+
+# Setup
+
+```{r setup, message=FALSE, warning=FALSE}
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(gridExtra)
+library(purrr)
+
+data_path <- "./data"
+
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_for_table <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES | is.na(x_num), NA, x_num)
+}
+
+SENTINEL_STRINGS <- as.character(c(999, 888, 777, 666, 555, 444, 333))
+is_sentinel_str <- function(x) {
+  str_trim(as.character(x)) %in% SENTINEL_STRINGS
+}
+```
+
+---
+
+# 1. Load and prepare data
+
+```{r load}
+df <- read.csv(file.path(data_path, "03.Merged_Q1-6.csv"),
+               stringsAsFactors = FALSE,
+               na.strings = c(""))
+
+cat("Dimensions:", dim(df), "\n")
+cat("Participants:", nrow(df), "\n")
+```
+
+```{r prepare-df-table}
+df_table <- df %>%
+  mutate(
+    Age          = clean_for_table(D_AGE),
+    Yrs_in_nbhd  = clean_for_table(D_LOC_TIME_CLEAN),
+    HH_size      = clean_for_table(D_HH_SIZE),
+    Parity       = clean_for_table(D_CHLD_CLEAN),
+
+    Season = factor(SEASON,
+                    levels = c(0, 1),
+                    labels = c("Rainy (Oct-Dec 2022)", "Dry (Apr-Jun 2023)")),
+
+    SES_Total    = clean_for_table(SES_SC_Total),
+    SES_Category = factor(SES_CAT_AMAI,
+                          levels = c("E", "D-", "D+", "C-", "C", "C+", "AB"),
+                          ordered = TRUE),
+
+    Employed = factor(clean_for_table(D_EMP_CLEAN),
+                      levels = c(0, 1), labels = c("No", "Yes")),
+    Employment_type = factor(clean_for_table(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1), labels = c("Informal", "Formal")),
+
+    Smoking = factor(clean_for_table(HLTH_SMK_CLEAN),
+                     levels = c(0, 1, 2), labels = c("No", "Yes", "Occasionally")),
+    Hormonal_tx  = factor(clean_for_table(HLTH_TTM_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+    Medication   = factor(clean_for_table(HLTH_MED_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_pain = factor(clean_for_table(HLTH_CPAIN_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_dis  = factor(clean_for_table(HLTH_CDIS_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+
+    HWISE_Total = clean_for_table(HW_TOTAL),
+    HWISE_Cat   = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))  ~ NA_character_,
+        clean_for_table(HW_TOTAL) == 0    ~ "Secure (0)",
+        clean_for_table(HW_TOTAL) <= 11   ~ "Marginal (1-11)",
+        clean_for_table(HW_TOTAL) <= 23   ~ "Moderate (12-23)",
+        TRUE                              ~ "Severe (24-36)"
+      ),
+      levels = c("Secure (0)", "Marginal (1-11)", "Moderate (12-23)", "Severe (24-36)")
+    ),
+    Water_worry = clean_for_table(HW_WORRY_SUB),
+
+    PSS_Total = clean_for_table(PSS_TOTAL),
+    PSS_Cat   = factor(
+      case_when(
+        is.na(clean_for_table(PSS_TOTAL))  ~ NA_character_,
+        clean_for_table(PSS_TOTAL) <= 22   ~ "Low stress (≤22)",
+        clean_for_table(PSS_TOTAL) <= 31   ~ "Moderate stress (23-31)",
+        TRUE                               ~ "High stress (≥32)"
+      ),
+      levels = c("Low stress (≤22)", "Moderate stress (23-31)", "High stress (≥32)")
+    )
+  )
+```
+
+```{r prepare-df-water}
+df_water <- df %>%
+  mutate(
+    W_Source = case_when(
+      is_sentinel_str(MX1_W_SRC)                              ~ NA_character_,
+      str_detect(tolower(MX1_W_SRC), "servicio|publ")         ~ "Public network",
+      str_detect(tolower(MX1_W_SRC), "pipa|truck")            ~ "Water truck (pipa)",
+      str_detect(tolower(MX1_W_SRC), "pozo|well")             ~ "Well",
+      MX1_W_SRC %in% c("", "N/A") | is.na(MX1_W_SRC)        ~ NA_character_,
+      TRUE                                                     ~ "Other"
+    ),
+
+    W_Continuity = case_when(
+      is_sentinel_str(MX3_CONT_INT)                                  ~ NA_character_,
+      str_detect(tolower(MX3_CONT_INT), "^contin")                   ~ "Continuous",
+      str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja")      ~ "Intermittent",
+      str_detect(tolower(MX3_CONT_INT), "disminu")                   ~ "Reduced pressure/flow",
+      MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)         ~ NA_character_,
+      TRUE                                                            ~ "Other"
+    ),
+    W_Continuity = factor(W_Continuity,
+                          levels = c("Continuous", "Intermittent",
+                                     "Reduced pressure/flow", "Other")),
+
+    W_Freq_raw = coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str(W_Freq_raw)                                    ~ NA_character_,
+      str_detect(tolower(W_Freq_raw), "^diari|every day")            ~ "Daily",
+      str_detect(tolower(W_Freq_raw), "^intermi")                    ~ "Intermittent",
+      str_detect(tolower(W_Freq_raw), "1 a 3|1-3")                   ~ "1–3 days/week",
+      str_detect(tolower(W_Freq_raw), "4 a 6|4-6")                   ~ "4–6 days/week",
+      str_detect(tolower(W_Freq_raw), "^contin")                     ~ "Continuous",
+      W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)             ~ NA_character_,
+      TRUE                                                            ~ "Other"
+    ),
+    W_Frequency = factor(W_Frequency,
+                         levels = c("Continuous", "Daily", "4–6 days/week",
+                                    "1–3 days/week", "Intermittent", "Other")),
+
+    W_Hrs_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))
+    ),
+    W_Hrs_week = ifelse(W_Hrs_week %in% MISSING_CODES, NA, W_Hrs_week),
+    W_Hrs_week = ifelse(W_Hrs_week > 168, NA, W_Hrs_week),
+
+    W_Days_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
+             as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
+    ),
+    W_Days_week = ifelse(W_Days_week %in% MISSING_CODES, NA, W_Days_week),
+    W_Days_week = ifelse(W_Days_week > 7, NA, W_Days_week),
+
+    W_Pressure = case_when(
+      is_sentinel_str(MX6_WPRESS)                                    ~ NA_character_,
+      str_detect(tolower(MX6_WPRESS), "^s[ií]|^yes|^buena|^bien")   ~ "Yes",
+      str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")            ~ "No/Low",
+      MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)            ~ NA_character_,
+      TRUE                                                            ~ "Variable"
+    ),
+    W_Pressure = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable")),
+
+    W_Season_scarcity = case_when(
+      is_sentinel_str(MX2_WI_SEASON)                                 ~ NA_character_,
+      str_detect(tolower(MX2_WI_SEASON), "n/a|no hay|no se|^no$")   ~ "No scarcity reported",
+      MX2_WI_SEASON %in% c("", "N/A") | is.na(MX2_WI_SEASON)      ~ NA_character_,
+      TRUE                                                            ~ "Seasonal scarcity reported"
+    ),
+    W_Season_scarcity = factor(W_Season_scarcity,
+                                levels = c("No scarcity reported",
+                                           "Seasonal scarcity reported")),
+
+    W_WS_LOC_F = factor(W_WS_LOC, levels = c("WS", "WI"),
+                         labels = c("Water Secure", "Water Insecure"))
+  )
+```
+
+---
+
+# 2. Missing data overview
+
+Stacked bar chart showing the proportion of complete, true-NA, and sentinel-flagged
+observations per analytic variable. See `04.Descriptive_stats.Rmd` for the full
+numerical table.
+
+```{r plot-missing, fig.width=8, fig.height=5}
+analytic_cols <- c(
+  "D_AGE", "D_LOC_TIME_CLEAN", "D_HH_SIZE", "D_CHLD_CLEAN",
+  "SEASON", "SES_SC_Total", "SES_CAT_AMAI",
+  "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
+  "HLTH_SMK_CLEAN", "HLTH_TTM_CAT", "HLTH_MED_CAT",
+  "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT"
+)
+
+var_labels <- c(
+  D_AGE             = "Age",
+  D_LOC_TIME_CLEAN  = "Years in neighborhood",
+  D_HH_SIZE         = "Household size",
+  D_CHLD_CLEAN      = "Parity",
+  SEASON            = "Season",
+  SES_SC_Total      = "SES composite score",
+  SES_CAT_AMAI      = "SES category",
+  D_EMP_CLEAN       = "Employed (yes/no)",
+  D_EMP_FORM_CLEAN  = "Employment type",
+  HLTH_SMK_CLEAN    = "Smoking",
+  HLTH_TTM_CAT      = "Hormonal treatment",
+  HLTH_MED_CAT      = "Medication use",
+  HLTH_CPAIN_CAT    = "Chronic pain",
+  HLTH_CDIS_CAT     = "Chronic disease"
+)
+
+N <- nrow(df)
+
+missing_tbl <- df %>%
+  select(all_of(analytic_cols)) %>%
+  summarise(across(everything(), list(
+    n_na  = ~ sum(is.na(.)),
+    n_999 = ~ sum(as.character(.) == "999", na.rm = TRUE),
+    n_888 = ~ sum(as.character(.) == "888", na.rm = TRUE),
+    n_777 = ~ sum(as.character(.) == "777", na.rm = TRUE),
+    n_666 = ~ sum(as.character(.) == "666", na.rm = TRUE),
+    n_555 = ~ sum(as.character(.) == "555", na.rm = TRUE),
+    n_444 = ~ sum(as.character(.) == "444", na.rm = TRUE),
+    n_333 = ~ sum(as.character(.) == "333", na.rm = TRUE)
+  ))) %>%
+  pivot_longer(everything(),
+               names_to  = c("variable", ".value"),
+               names_sep = "_(?=n_)") %>%
+  mutate(
+    label       = var_labels[variable],
+    pct_na      = round(n_na / N * 100, 1),
+    n_flagged   = n_999 + n_888 + n_777 + n_666 + n_555 + n_444 + n_333,
+    pct_flagged = round(n_flagged / N * 100, 1),
+    n_complete  = N - n_na - n_flagged,
+    pct_complete = round(n_complete / N * 100, 1)
+  ) %>%
+  arrange(desc(n_na))
+
+missing_tbl %>%
+  select(label, pct_complete, pct_na, pct_flagged) %>%
+  pivot_longer(-label, names_to = "type", values_to = "pct") %>%
+  mutate(
+    type  = factor(type,
+                   levels = c("pct_complete", "pct_na", "pct_flagged"),
+                   labels = c("Complete", "True NA", "Flagged (sentinel)")),
+    label = factor(label, levels = rev(missing_tbl$label))
+  ) %>%
+  ggplot(aes(x = label, y = pct, fill = type)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = c("Complete"           = "#5bc0de",
+                               "True NA"            = "#d9534f",
+                               "Flagged (sentinel)" = "#f0ad4e")) +
+  labs(title = "Missing data by variable",
+       x = NULL, y = "Percentage (%)", fill = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+---
+
+# 3. HWISE and PSS score distributions by season
+
+```{r hwise-pss-histograms, fig.width=9, fig.height=4, message=FALSE, warning=FALSE}
+p_hwise <- ggplot(df_table %>% filter(!is.na(HWISE_Total)),
+                  aes(x = HWISE_Total, fill = Season)) +
+  geom_histogram(binwidth = 1, position = "identity", alpha = 0.6) +
+  scale_fill_manual(values = c("Rainy (Oct-Dec 2022)" = "#5bc0de",
+                               "Dry (Apr-Jun 2023)"   = "#d9534f")) +
+  labs(title = "HWISE total score",
+       subtitle = paste0("n = ", sum(!is.na(df_table$HWISE_Total))),
+       x = "Score (0-36)", y = "Count", fill = NULL) +
+  theme_minimal() + theme(legend.position = "bottom")
+
+p_pss <- ggplot(df_table %>% filter(!is.na(PSS_Total)),
+                aes(x = PSS_Total, fill = Season)) +
+  geom_histogram(binwidth = 2, position = "identity", alpha = 0.6) +
+  scale_fill_manual(values = c("Rainy (Oct-Dec 2022)" = "#5bc0de",
+                               "Dry (Apr-Jun 2023)"   = "#d9534f")) +
+  labs(title = "PSS-14 total score",
+       subtitle = paste0("n = ", sum(!is.na(df_table$PSS_Total))),
+       x = "Score (0-56)", y = "Count", fill = NULL) +
+  theme_minimal() + theme(legend.position = "bottom")
+
+grid.arrange(p_hwise, p_pss, ncol = 2)
+```
+
+---
+
+# 4. PSS and water worry by water insecurity level
+
+Boxplots stratified by HWISE category (Young et al. 2019 cut-points).
+N per group is annotated below each box.
+
+```{r pss-by-hwise-boxplots, fig.width=9, fig.height=4}
+hwise_colors <- c(
+  "Secure (0)"       = "#2ecc71",
+  "Marginal (1-11)"  = "#f1c40f",
+  "Moderate (12-23)" = "#e67e22",
+  "Severe (24-36)"   = "#e74c3c"
+)
+
+p_pss_hwise <- df_table %>%
+  filter(!is.na(HWISE_Cat) & !is.na(PSS_Total)) %>%
+  ggplot(aes(x = HWISE_Cat, y = PSS_Total, fill = HWISE_Cat)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
+  stat_summary(fun.data = function(x) data.frame(y = -2, label = paste0("n=", length(x))),
+               geom = "text", size = 3.2) +
+  scale_fill_manual(values = hwise_colors) +
+  labs(title = "PSS-14 by water insecurity level",
+       x = NULL, y = "PSS-14 score (0-56)") +
+  theme_minimal() + theme(legend.position = "none")
+
+p_worry_hwise <- df_table %>%
+  filter(!is.na(HWISE_Cat) & !is.na(Water_worry)) %>%
+  ggplot(aes(x = HWISE_Cat, y = Water_worry, fill = HWISE_Cat)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = 21) +
+  stat_summary(fun.data = function(x) data.frame(y = -0.5, label = paste0("n=", length(x))),
+               geom = "text", size = 3.2) +
+  scale_fill_manual(values = hwise_colors) +
+  scale_y_continuous(breaks = 0:9) +
+  labs(title = "Water worry subscale by water insecurity level",
+       x = NULL, y = "Water worry score (0-9)") +
+  theme_minimal() + theme(legend.position = "none")
+
+grid.arrange(p_pss_hwise, p_worry_hwise, ncol = 2)
+```
+
+---
+
+# 5. Objective water supply distributions
+
+## 5.1 Hours of supply per week
+
+```{r water-hrs-histogram, fig.width=8, fig.height=4, message=FALSE}
+df_water %>%
+  filter(!is.na(W_Hrs_week) & !is.na(W_WS_LOC_F)) %>%
+  ggplot(aes(x = W_Hrs_week, fill = W_WS_LOC_F)) +
+  geom_histogram(binwidth = 6, position = "identity", alpha = 0.6, color = "white") +
+  scale_fill_manual(values = c("Water Secure" = "#4E8098", "Water Insecure" = "#E76F51")) +
+  labs(
+    title    = "Hours of water supply per week by neighborhood",
+    subtitle = paste0("n = ", sum(!is.na(df_water$W_Hrs_week) & !is.na(df_water$W_WS_LOC_F)),
+                      " (excludes sentinel codes and missing)"),
+    x = "Hours per week", y = "Count", fill = NULL
+  ) +
+  theme_minimal() + theme(legend.position = "bottom")
+```
+
+## 5.2 Supply continuity and frequency by neighborhood
+
+```{r water-cat-barplots, fig.width=10, fig.height=5}
+nbhd_colors <- c("Water Secure" = "#4E8098", "Water Insecure" = "#E76F51")
+
+cont_counts <- df_water %>%
+  filter(!is.na(W_Continuity) & !is.na(W_WS_LOC_F)) %>%
+  count(W_WS_LOC_F, W_Continuity)
+
+freq_counts <- df_water %>%
+  filter(!is.na(W_Frequency) & !is.na(W_WS_LOC_F)) %>%
+  count(W_WS_LOC_F, W_Frequency)
+
+p_cont <- ggplot(cont_counts,
+                 aes(x = W_Continuity, y = n, fill = W_WS_LOC_F)) +
+  geom_col(position = "dodge", alpha = 0.85) +
+  geom_text(aes(label = n),
+            position = position_dodge(width = 0.9),
+            vjust = -0.4, size = 3.2) +
+  scale_fill_manual(values = nbhd_colors) +
+  labs(title = "Supply continuity", x = NULL, y = "Count", fill = NULL) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 25, hjust = 1), legend.position = "bottom")
+
+p_freq <- ggplot(freq_counts,
+                 aes(x = W_Frequency, y = n, fill = W_WS_LOC_F)) +
+  geom_col(position = "dodge", alpha = 0.85) +
+  geom_text(aes(label = n),
+            position = position_dodge(width = 0.9),
+            vjust = -0.4, size = 3.2) +
+  scale_fill_manual(values = nbhd_colors) +
+  labs(title = "Supply frequency", x = NULL, y = "Count", fill = NULL) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 25, hjust = 1), legend.position = "bottom")
+
+grid.arrange(p_cont, p_freq, ncol = 2)
+```
+
+---
+
+# 6. Hours of water supply vs HWISE and PSS
+
+Scatter plots with linear regression line (± 95% CI).
+
+```{r water-supply-vs-outcomes, fig.width=10, fig.height=4, message=FALSE}
+df_water_scores <- df_water %>%
+  mutate(
+    HWISE_Total = clean_for_table(HW_TOTAL),
+    PSS_Total   = clean_for_table(PSS_TOTAL)
+  ) %>%
+  filter(!is.na(W_Hrs_week) & !is.na(HWISE_Total) & !is.na(PSS_Total))
+
+n_label <- nrow(df_water_scores)
+
+p_hw <- ggplot(df_water_scores, aes(x = W_Hrs_week, y = HWISE_Total)) +
+  geom_point(alpha = 0.4, size = 1.5, color = "#90A955") +
+  geom_smooth(method = "lm", se = TRUE, color = "#386641") +
+  labs(title = "Hours of supply vs HWISE",
+       subtitle = paste0("n = ", n_label),
+       x = "Hours of supply per week", y = "HWISE total score") +
+  theme_minimal()
+
+p_pss2 <- ggplot(df_water_scores, aes(x = W_Hrs_week, y = PSS_Total)) +
+  geom_point(alpha = 0.4, size = 1.5, color = "#4E8098") +
+  geom_smooth(method = "lm", se = TRUE, color = "#1d3557") +
+  labs(title = "Hours of supply vs PSS-14",
+       subtitle = paste0("n = ", n_label),
+       x = "Hours of supply per week", y = "PSS-14 total score") +
+  theme_minimal()
+
+grid.arrange(p_hw, p_pss2, ncol = 2)
+```

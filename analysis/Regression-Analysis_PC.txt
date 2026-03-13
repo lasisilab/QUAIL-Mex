@@ -124,7 +124,7 @@ create_na_table <- function(data) {
 
 data_path = "data"
 # merged dataset
-merged_dataset = read.csv(file.path(data_path, "Cleaned_Dataset_Screening_HWISE_PSS_V3.csv"), stringsAsFactors = FALSE)
+merged_dataset = read.csv(file.path(data_path, "03.Merged_Q1-6.csv"), stringsAsFactors = FALSE)
 colnames(merged_dataset)
 
 # Initial number of unique participants

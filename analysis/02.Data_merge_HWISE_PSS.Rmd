@@ -587,8 +587,6 @@ if (nrow(season_mismatch) > 0) {
   print(season_mismatch %>% select(ID, SEASON, SEASON_CLEAN))
 }
 
-# Remove the temporary SEASON_CLEAN after cross-check
-df_merged <- df_merged %>% select(-SEASON_CLEAN)
 ```
 
 ---
@@ -682,6 +680,11 @@ clean_items <- function(data, items) {
                                           as.numeric(.)))) %>%
     filter(if_all(everything(), ~ !is.na(.)))
 }
+
+# # Remove uninformative columns
+dim(df_merged)
+df_merged <- df_merged %>% select(-SEASON_CLEAN, -PSS4, -PSS5, -PSS6, -PSS7, -PSS9, -PSS10, -PSS13)
+dim(df_merged)
 
 # HWISE — 12 items, scored 0–3
 alpha_hwise <- clean_items(df_merged, HWISE_ITEMS) %>% psych::alpha()

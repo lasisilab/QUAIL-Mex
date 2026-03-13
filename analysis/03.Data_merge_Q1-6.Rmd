@@ -75,8 +75,7 @@ water_s1 <- read_csv(
   "./data/03.Q2-3-4-5-6.csv",
   show_col_types = FALSE
 ) %>%
-  rename_with(~ str_replace_all(., "/", "_PER_")) %>%   # fix slash in col names
-  mutate(WATER_FILE_SOURCE = "S1_Q2-3-4-5-6")
+  rename_with(~ str_replace_all(., "/", "_PER_")) 
 
 cat("Sample IDs:", water_s1$ID)
 cat("IDs not in base:", paste(water_s1$ID[!water_s1$ID %in% base$ID], collapse = ", "), "\n")
@@ -90,8 +89,7 @@ water_s2 <- read_csv(
   "./data/03.Q1-2-3-4-5_season2.csv",
   show_col_types = FALSE
 ) %>%
-  rename_with(~ str_replace_all(., "/", "_PER_")) %>%
-  mutate(WATER_FILE_SOURCE = "S2_Q1-2-3-4-5")
+  rename_with(~ str_replace_all(., "/", "_PER_")) 
 
 cat("Season 2 water rows:", nrow(water_s2), "\n")
 cat("Season 2 IDs range:", min(water_s2$ID), "–", max(water_s2$ID), "\n")
@@ -132,8 +130,7 @@ if (nrow(dupes) > 0) {
       if (length(vals) > 1) paste(vals, collapse = " vs ") else NA_character_
     }), .groups = "drop") %>%
     arrange(ID) %>%
-    select(ID, where(~ any(!is.na(.)))) %>%
-    select(-any_of("WATER_FILE_SOURCE"))
+    select(ID, where(~ any(!is.na(.)))) 
   
   cat("Conflicting values by ID:\n")
   print(conflicts)
