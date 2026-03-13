@@ -339,6 +339,15 @@ div.tocify {
 <li>
   <a href="license.html">License</a>
 </li>
+<li>
+  <a href="01.data_cleaning.html">01.data_cleaning</a>
+</li>
+<li>
+  <a href="02.data_merge_hwise_pss.html">02.data_merge_hwise_pss</a>
+</li>
+<li>
+  <a href="03.data_merge_q1-6.html">03.data_merge_q1-6</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -361,7 +370,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +381,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +395,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +420,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +522,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0ba1f77297f1bf49449f3f110ab1a43d48d46f82targetblank0ba1f77a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0ba1f77297f1bf49449f3f110ab1a43d48d46f82" target="_blank">0ba1f77</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree0ba1f77297f1bf49449f3f110ab1a43d48d46f82targetblank0ba1f77a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +540,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/0ba1f77297f1bf49449f3f110ab1a43d48d46f82" target="_blank">0ba1f77</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -565,9 +571,7 @@ Untracked files:
     Untracked:  .claude/
 
 Unstaged changes:
-    Modified:   analysis/01.Data_cleaning.Rmd
-    Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Modified:   data/01.Screening_clean.csv
+    Deleted:    analysis/04.Descriptive_plots.Rmd
 
 </code></pre>
 <p>
@@ -584,7 +588,7 @@ have uncommitted changes.
 <div id="versions" class="tab-pane fade">
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/01.Data_cleaning.Rmd</code>) and
+made to the R Markdown (<code>analysis/01.data_cleaning.Rmd</code>) and
 HTML (<code>docs/01.Data_cleaning.html</code>) files. If you’ve
 configured a remote Git repository (see <code>?wflow_git_remote</code>),
 click on the hyperlinks in the table below to view the files as they
@@ -614,10 +618,10 @@ Message
 <tbody>
 <tr>
 <td>
-Rmd
+html
 </td>
 <td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/analysis/01.Data_cleaning.Rmd" target="_blank">e6ea05d</a>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/01.Data_cleaning.html" target="_blank">33dc70c</a>
 </td>
 <td>
 Paloma
@@ -626,7 +630,7 @@ Paloma
 2026-03-13
 </td>
 <td>
-descriptive-stats-new
+descriptive stats
 </td>
 </tr>
 <tr>
@@ -648,23 +652,6 @@ descriptive-stats-new
 </tr>
 <tr>
 <td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/analysis/01.Data_cleaning.Rmd" target="_blank">616a741</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-<td>
-data_clean
-</td>
-</tr>
-<tr>
-<td>
 html
 </td>
 <td>
@@ -678,23 +665,6 @@ Paloma
 </td>
 <td>
 data_clean
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/analysis/01.Data_cleaning.Rmd" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-<td>
-Merge2.0
 </td>
 </tr>
 </tbody>
@@ -1802,44 +1772,7 @@ temp2 &lt;- temp %&gt;%
 #  summarize(n = n())
 ggplot(temp2, aes(x = cat, fill = as.factor(vals))) +
   geom_bar(position = &quot;dodge&quot;)</code></pre>
-<p><img src="figure/01.Data_cleaning.Rmd/inspection-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-inspection-1">
-Past versions of inspection-1.png
-</button>
-</p>
-<div id="fig-inspection-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/docs/figure/01.Data_cleaning.Rmd/inspection-1.png" target="_blank">e6ea05d</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/01.data_cleaning.Rmd/inspection-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 <div id="recode-hlth_smk-smoking-3-categories" class="section level1">
@@ -1892,55 +1825,7 @@ smk_long &lt;- df %&gt;%
   mutate(version = str_remove(version, &quot;HLTH_SMK_&quot;))
 
 barplot(table(df$HLTH_SMK_CLEAN))</code></pre>
-<p><img src="figure/01.Data_cleaning.Rmd/recode-smoking-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-recode-smoking-1">
-Past versions of recode-smoking-1.png
-</button>
-</p>
-<div id="fig-recode-smoking-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/docs/figure/01.Data_cleaning.Rmd/recode-smoking-1.png" target="_blank">e6ea05d</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/01.Data_cleaning.Rmd/recode-smoking-1.png" target="_blank">616a741</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/01.data_cleaning.Rmd/recode-smoking-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 <div id="recode-d_emp_type-two-variables" class="section level1">
@@ -2433,55 +2318,7 @@ ggplot(emp_long, aes(x = value, fill = value)) +
        x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Value&quot;) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
-<p><img src="figure/01.Data_cleaning.Rmd/recode-employment-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-recode-employment-1">
-Past versions of recode-employment-1.png
-</button>
-</p>
-<div id="fig-recode-employment-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/docs/figure/01.Data_cleaning.Rmd/recode-employment-1.png" target="_blank">e6ea05d</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/01.Data_cleaning.Rmd/recode-employment-1.png" target="_blank">616a741</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/01.data_cleaning.Rmd/recode-employment-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 <div id="recode-d_chld-parity" class="section level1">
@@ -2534,55 +2371,7 @@ ggplot(chld_long, aes(x = value, fill = version)) +
        x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Version&quot;) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
-<p><img src="figure/01.Data_cleaning.Rmd/recode-parity-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-recode-parity-1">
-Past versions of recode-parity-1.png
-</button>
-</p>
-<div id="fig-recode-parity-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/docs/figure/01.Data_cleaning.Rmd/recode-parity-1.png" target="_blank">e6ea05d</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/01.Data_cleaning.Rmd/recode-parity-1.png" target="_blank">616a741</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/01.data_cleaning.Rmd/recode-parity-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
 <div id="clean-d_loc_time-years-in-neighborhood" class="section level1">
