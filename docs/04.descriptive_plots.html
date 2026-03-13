@@ -361,7 +361,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +372,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +386,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +411,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +513,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +531,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -557,42 +554,24 @@ Ignored files:
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Hrs_by_HWISE score.png
-    Ignored:    analysis/figure/
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  analysis/03.Data_merge_Q1-6.Rmd
-    Untracked:  data/01.SES_to_review.csv
-    Untracked:  data/01.Screening_clean.csv
-    Untracked:  data/01.conflicts_reviewed.csv
-    Untracked:  data/01.conflicts_reviewed_V2.csv
-    Untracked:  data/01.conflicts_to_review.csv
-    Untracked:  data/01.conflicts_to_review_V2.csv
-    Untracked:  data/02.Merged_Screening_HWISE_PSS.csv
-    Untracked:  data/03.Chronic_pain_illness.csv
-    Untracked:  data/03.Merged_Final.csv
-    Untracked:  data/03.Merged_Q1-6.csv
-    Untracked:  data/03.Q1-2-3-4-5_season2.csv
-    Untracked:  data/03.Q2-3-4-5-6.csv
-    Untracked:  data/SES_to_review.csv
+    Untracked:  analysis/05.Descriptive_plots.Rmd
+    Untracked:  analysis/Regression-Analysis_PC.txt
 
 Unstaged changes:
     Modified:   analysis/01.Data_cleaning.Rmd
     Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Deleted:    analysis/03.Merge2.Rmd
-    Modified:   analysis/04.Descriptive_plots.Rmd
-    Modified:   data/01.SCREENING.csv
-    Deleted:    data/Chronic_pain_illness.csv
-    Modified:   data/Merged_Final.csv
-    Modified:   data/Merged_Screening_HWISE_PSS.csv
-    Deleted:    data/Q1-2-3-4-5_season2.csv
-    Deleted:    data/Q2-3-4-5-6.csv
-    Modified:   data/Screening_clean.csv
-    Deleted:    data/conflicts_reviewed.csv
-    Deleted:    data/conflicts_reviewed_V2.csv
+    Modified:   analysis/03.Data_merge_Q1-6.Rmd
+    Modified:   analysis/04.Descriptive_stats.Rmd
+    Deleted:    analysis/Regression-Analysis_PC.Rmd
+    Modified:   data/01.Screening_clean.csv
+    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Modified:   data/03.Merged_Q1-6.csv
 
 </code></pre>
 <p>
@@ -637,6 +616,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/analysis/04.Descriptive_plots.Rmd" target="_blank">e6ea05d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+descriptive-stats-new
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/e6ea05d14c0f99d980ae0794342fd432cd7fbf99/docs/04.descriptive_plots.html" target="_blank">e6ea05d</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+descriptive-stats-new
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -743,7 +756,7 @@ clean_for_table &lt;- function(x) {
                na.strings = c(&quot;&quot;))
 
 cat(&quot;Dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
-<pre><code>Dimensions: 399 127 </code></pre>
+<pre><code>Dimensions: 399 119 </code></pre>
 <pre class="r"><code>cat(&quot;Participants:&quot;, nrow(df), &quot;\n&quot;)</code></pre>
 <pre><code>Participants: 399 </code></pre>
 <hr />
@@ -935,14 +948,14 @@ head(df_table)</code></pre>
 2            0            1              1          Yes           1
 3            0            0              0           No           0
 4            0            0              0           No           1
-5            0            1              0           No           1
+5            0            1              0           No           0
 6            0            0              2 Occasionally           1
   D_EMP_FORM_CLEAN D_CHLD_CLEAN D_LOC_TIME_RAW D_LOC_TIME_CLEAN SES_EDU_SC_RAW
 1              555            0             35               35             10
 2                0            2             32               32             31
 3               NA            2              8                8             31
 4              555            1             32               32             73
-5              555          333             45               45             35
+5               NA          333             45               45             35
 6              555            1              8                8             73
   SES_BTHR_SC_RAW SES_CAR_SC_RAW SES_INT_SC_RAW SES_WRK_SC_RAW SES_BEDR_SC_RAW
 1              24              0             31             61              23
@@ -979,27 +992,20 @@ head(df_table)</code></pre>
 4 6: pasa en los parques pueblos donde no hay agua 9: cuando su esposo a la marcha 12: x que ya todos saben que no hay agua
 5                                                                                                                      &lt;NA&gt;
 6                                                                                                                      &lt;NA&gt;
-  PSS1 PSS2 PSS3 PSS8 PSS11 PSS12 PSS14 PSS4 PSS5 PSS6 PSS7 PSS9 PSS10 PSS13
-1    2    3    2    1     1     4     1    4    3    2    2    2     3     2
-2    2    2    3    2     2     4     2    3    3    4    3    3     2     3
-3    2    2    2    2     2     2     2    2    2    3    3    3     2     3
-4    2    3    2    1     2     2     1    3    3    3    3    3     2     3
-5    2    2    3    2     3     3     3    2    2    2    3    2     1     2
-6    2    2    3    1     2     3     2    2    3    3    4    3     3     1
-  PSS4_REV PSS5_REV PSS6_REV PSS7_REV PSS9_REV PSS10_REV PSS13_REV PSS_TOTAL
-1        0        1        2        2        2         1         2        24
-2        1        1        0        1        1         2         1        24
-3        2        2        1        1        1         2         1        24
-4        1        1        1        1        1         2         1        21
-5        2        2        2        1        2         3         2        32
-6        2        1        1        0        1         1         3        24
-  PSS_REVIEW_FLAG           PSS_INFO
-1               0           13-18=-5
-2               0           17-21=-4
-3               0                  0
-4               1 13-20=-7, Revisar!
-5               0           18-14= 4
-6               0                 -4
+  PSS1 PSS2 PSS3 PSS8 PSS11 PSS12 PSS14 PSS4_REV PSS5_REV PSS6_REV PSS7_REV
+1    2    3    2    1     1     4     1        0        1        2        2
+2    2    2    3    2     2     4     2        1        1        0        1
+3    2    2    2    2     2     2     2        2        2        1        1
+4    2    3    2    1     2     2     1        1        1        1        1
+5    2    2    3    2     3     3     3        2        2        2        1
+6    2    2    3    1     2     3     2        2        1        1        0
+  PSS9_REV PSS10_REV PSS13_REV PSS_TOTAL PSS_REVIEW_FLAG           PSS_INFO
+1        2         1         2        24               0           13-18=-5
+2        1         2         1        24               0           17-21=-4
+3        1         2         1        24               0                  0
+4        1         2         1        21               1 13-20=-7, Revisar!
+5        2         3         2        32               0           18-14= 4
+6        1         1         3        24               0                 -4
                                          D_EMP_TYPE_CLEAN
 1                                  yes,venta de productos
 2                                         yes,comerciante
@@ -1070,48 +1076,48 @@ head(df_table)</code></pre>
 4                                                                                                                                                             le llega agua de 8am-12 día recibe agua, todos los días
 5 6 días a la semana se cuenta con agua. suelen cortar el agua hasta una semana (no es frecuente). cuando hay agua, fluye las 24 hrs.Hay agua 6 días de 7 de la semana. En el día que no hay agua solo son unas horas
 6                                                                                                                                                                                                      12 noche a 6am
-  MX6_WPRESS                     MX6_WPRESS_INFO NOTES WATER_FILE_SOURCE
-1         Sí                   durante la mañana  &lt;NA&gt;     S1_Q2-3-4-5-6
-2         Sí                                &lt;NA&gt;  &lt;NA&gt;     S1_Q2-3-4-5-6
-3         Sí                                &lt;NA&gt;  &lt;NA&gt;     S1_Q2-3-4-5-6
-4         Sí                                &lt;NA&gt;  &lt;NA&gt;     S1_Q2-3-4-5-6
-5         Sí se cuela el agua de algunas fuentes  &lt;NA&gt;     S1_Q2-3-4-5-6
-6         Sí           tienen suficiente, cuidan  &lt;NA&gt;     S1_Q2-3-4-5-6
-  MX1_W_SRC MX1G_W_SRC_TR MX1G_W_SRC_TR_FR MX1G_W_SRC_TR_LT MX4_W_FREQ
-1      &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;
-2      &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;
-3      &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;
-4      &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;
-5      &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;
-6      &lt;NA&gt;          &lt;NA&gt;             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;
-  MX4_W_FREQ_INFO MX4G_FREQ_AWAR Age Yrs_in_nbhd HH_size Parity
-1            &lt;NA&gt;           &lt;NA&gt;  35          35       4      0
-2            &lt;NA&gt;           &lt;NA&gt;  32          32      12      2
-3            &lt;NA&gt;           &lt;NA&gt;  30           8       7      2
-4            &lt;NA&gt;           &lt;NA&gt;  40          32       4      1
-5            &lt;NA&gt;           &lt;NA&gt;  46          45       4     NA
-6            &lt;NA&gt;           &lt;NA&gt;  32           8       6      1
-                Season SES_Total SES_Category Employed Employment_type
-1 Rainy (Oct-Dec 2022)       149            C      Yes            &lt;NA&gt;
-2 Rainy (Oct-Dec 2022)       196           C+      Yes        Informal
-3 Rainy (Oct-Dec 2022)        52           D-       No            &lt;NA&gt;
-4 Rainy (Oct-Dec 2022)       214           AB      Yes            &lt;NA&gt;
-5 Rainy (Oct-Dec 2022)       117           C-      Yes            &lt;NA&gt;
-6 Rainy (Oct-Dec 2022)       220           AB      Yes            &lt;NA&gt;
-       Smoking Hormonal_tx Medication Chronic_pain Chronic_dis HWISE_Total
-1           No          No         No           No         Yes           4
-2          Yes          No        Yes           No          No           5
-3           No          No         No           No          No           1
-4           No          No         No           No          No           2
-5           No          No        Yes          Yes          No          12
-6 Occasionally          No         No           No          No          15
-         HWISE_Cat Water_worry PSS_Total                 PSS_Cat
-1  Marginal (1-11)           3        24 Moderate stress (23-31)
-2  Marginal (1-11)           2        24 Moderate stress (23-31)
-3  Marginal (1-11)           1        24 Moderate stress (23-31)
-4  Marginal (1-11)           2        21        Low stress (≤22)
-5 Moderate (12-23)           4        32       High stress (≥32)
-6 Moderate (12-23)           4        24 Moderate stress (23-31)</code></pre>
+  MX6_WPRESS                     MX6_WPRESS_INFO NOTES MX1_W_SRC MX1G_W_SRC_TR
+1         Sí                   durante la mañana  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;
+2         Sí                                &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;
+3         Sí                                &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;
+4         Sí                                &lt;NA&gt;  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;
+5         Sí se cuela el agua de algunas fuentes  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;
+6         Sí           tienen suficiente, cuidan  &lt;NA&gt;      &lt;NA&gt;          &lt;NA&gt;
+  MX1G_W_SRC_TR_FR MX1G_W_SRC_TR_LT MX4_W_FREQ MX4_W_FREQ_INFO MX4G_FREQ_AWAR
+1             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;            &lt;NA&gt;           &lt;NA&gt;
+2             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;            &lt;NA&gt;           &lt;NA&gt;
+3             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;            &lt;NA&gt;           &lt;NA&gt;
+4             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;            &lt;NA&gt;           &lt;NA&gt;
+5             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;            &lt;NA&gt;           &lt;NA&gt;
+6             &lt;NA&gt;             &lt;NA&gt;       &lt;NA&gt;            &lt;NA&gt;           &lt;NA&gt;
+  Age Yrs_in_nbhd HH_size Parity               Season SES_Total SES_Category
+1  35          35       4      0 Rainy (Oct-Dec 2022)       149            C
+2  32          32      12      2 Rainy (Oct-Dec 2022)       196           C+
+3  30           8       7      2 Rainy (Oct-Dec 2022)        52           D-
+4  40          32       4      1 Rainy (Oct-Dec 2022)       214           AB
+5  46          45       4     NA Rainy (Oct-Dec 2022)       117           C-
+6  32           8       6      1 Rainy (Oct-Dec 2022)       220           AB
+  Employed Employment_type      Smoking Hormonal_tx Medication Chronic_pain
+1      Yes            &lt;NA&gt;           No          No         No           No
+2      Yes        Informal          Yes          No        Yes           No
+3       No            &lt;NA&gt;           No          No         No           No
+4      Yes            &lt;NA&gt;           No          No         No           No
+5       No            &lt;NA&gt;           No          No        Yes          Yes
+6      Yes            &lt;NA&gt; Occasionally          No         No           No
+  Chronic_dis HWISE_Total        HWISE_Cat Water_worry PSS_Total
+1         Yes           4  Marginal (1-11)           3        24
+2          No           5  Marginal (1-11)           2        24
+3          No           1  Marginal (1-11)           1        24
+4          No           2  Marginal (1-11)           2        21
+5          No          12 Moderate (12-23)           4        32
+6          No          15 Moderate (12-23)           4        24
+                  PSS_Cat
+1 Moderate stress (23-31)
+2 Moderate stress (23-31)
+3 Moderate stress (23-31)
+4        Low stress (≤22)
+5       High stress (≥32)
+6 Moderate stress (23-31)</code></pre>
 <hr />
 </div>
 <div id="comprehensive-descriptive-statistics-table"
@@ -1674,13 +1680,13 @@ tbl_full</code></pre>
     <tr><td headers="label" class="gt_row gt_left">    AB</td>
 <td headers="stat_0" class="gt_row gt_center">27 (7.7%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Currently employed</td>
-<td headers="stat_0" class="gt_row gt_center">264 (71%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">269 (70%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employment type (among employed)</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Informal</td>
-<td headers="stat_0" class="gt_row gt_center">24 (11%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">154 (72%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Formal</td>
-<td headers="stat_0" class="gt_row gt_center">190 (89%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">60 (28%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking status</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    No</td>
@@ -2389,24 +2395,24 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_2" class="gt_row gt_center">12 (7.1%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
-<td headers="stat_0" class="gt_row gt_center">262 (70%)</td>
-<td headers="stat_1" class="gt_row gt_center">130 (67%)</td>
-<td headers="stat_2" class="gt_row gt_center">132 (74%)</td>
+<td headers="stat_0" class="gt_row gt_center">267 (70%)</td>
+<td headers="stat_1" class="gt_row gt_center">131 (67%)</td>
+<td headers="stat_2" class="gt_row gt_center">136 (74%)</td>
 <td headers="p.value" class="gt_row gt_center">0.2</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employment type</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
+<td headers="p.value" class="gt_row gt_center">0.091</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Informal</td>
-<td headers="stat_0" class="gt_row gt_center">24 (11%)</td>
-<td headers="stat_1" class="gt_row gt_center">13 (13%)</td>
-<td headers="stat_2" class="gt_row gt_center">11 (9.6%)</td>
+<td headers="stat_0" class="gt_row gt_center">153 (72%)</td>
+<td headers="stat_1" class="gt_row gt_center">76 (78%)</td>
+<td headers="stat_2" class="gt_row gt_center">77 (67%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Formal</td>
-<td headers="stat_0" class="gt_row gt_center">188 (89%)</td>
-<td headers="stat_1" class="gt_row gt_center">84 (87%)</td>
-<td headers="stat_2" class="gt_row gt_center">104 (90%)</td>
+<td headers="stat_0" class="gt_row gt_center">59 (28%)</td>
+<td headers="stat_1" class="gt_row gt_center">21 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">38 (33%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
@@ -3027,15 +3033,15 @@ missing_tbl %&gt;%
     <tr><td headers="label" class="gt_row gt_left">Employment type</td>
 <td headers="n_complete" class="gt_row gt_right">214</td>
 <td headers="pct_complete" class="gt_row gt_right">54</td>
-<td headers="n_na" class="gt_row gt_right">135</td>
-<td headers="pct_na" class="gt_row gt_right">34</td>
-<td headers="n_flagged" class="gt_row gt_right">50</td>
-<td headers="pct_flagged" class="gt_row gt_right">12</td>
+<td headers="n_na" class="gt_row gt_right">130</td>
+<td headers="pct_na" class="gt_row gt_right">33</td>
+<td headers="n_flagged" class="gt_row gt_right">55</td>
+<td headers="pct_flagged" class="gt_row gt_right">14</td>
 <td headers="n_999" class="gt_row gt_right">0</td>
 <td headers="n_888" class="gt_row gt_right">0</td>
 <td headers="n_777" class="gt_row gt_right">0</td>
 <td headers="n_666" class="gt_row gt_right">0</td>
-<td headers="n_555" class="gt_row gt_right">50</td>
+<td headers="n_555" class="gt_row gt_right">55</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
     <tr><td headers="label" class="gt_row gt_left">SES composite score</td>
@@ -3095,17 +3101,17 @@ missing_tbl %&gt;%
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
     <tr><td headers="label" class="gt_row gt_left">Employed (yes/no)</td>
-<td headers="n_complete" class="gt_row gt_right">374</td>
-<td headers="pct_complete" class="gt_row gt_right">94</td>
+<td headers="n_complete" class="gt_row gt_right">382</td>
+<td headers="pct_complete" class="gt_row gt_right">96</td>
 <td headers="n_na" class="gt_row gt_right">15</td>
 <td headers="pct_na" class="gt_row gt_right">4</td>
-<td headers="n_flagged" class="gt_row gt_right">10</td>
-<td headers="pct_flagged" class="gt_row gt_right">2</td>
+<td headers="n_flagged" class="gt_row gt_right">2</td>
+<td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_999" class="gt_row gt_right">1</td>
 <td headers="n_888" class="gt_row gt_right">0</td>
 <td headers="n_777" class="gt_row gt_right">0</td>
 <td headers="n_666" class="gt_row gt_right">0</td>
-<td headers="n_555" class="gt_row gt_right">9</td>
+<td headers="n_555" class="gt_row gt_right">1</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
     <tr><td headers="label" class="gt_row gt_left">Smoking</td>
@@ -3251,43 +3257,6 @@ missing_tbl %&gt;%
   theme_minimal() +
   theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/04.Descriptive_plots.Rmd/plot-missing-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-missing-1">
-Past versions of plot-missing-1.png
-</button>
-</p>
-<div id="fig-plot-missing-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/docs/figure/04.descriptive_plots.Rmd/plot-missing-1.png" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <hr />
 </div>
 <div id="hwise-and-pss-descriptive-statistics" class="section level1">
@@ -4472,43 +4441,6 @@ p_pss &lt;- ggplot(df_table %&gt;% filter(!is.na(PSS_Total)),
 
 grid.arrange(p_hwise, p_pss, ncol = 2)</code></pre>
 <p><img src="figure/04.Descriptive_plots.Rmd/hwise-pss-plots-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-pss-plots-1">
-Past versions of hwise-pss-plots-1.png
-</button>
-</p>
-<div id="fig-hwise-pss-plots-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/docs/figure/04.descriptive_plots.Rmd/hwise-pss-plots-1.png" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <hr />
 </div>
 </div>
@@ -5220,12 +5152,12 @@ N = 6</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style
 <td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
-<td headers="stat_0" class="gt_row gt_center">259 (71%)</td>
-<td headers="stat_1" class="gt_row gt_center">18 (82%)</td>
-<td headers="stat_2" class="gt_row gt_center">165 (68%)</td>
-<td headers="stat_3" class="gt_row gt_center">72 (75%)</td>
+<td headers="stat_0" class="gt_row gt_center">264 (71%)</td>
+<td headers="stat_1" class="gt_row gt_center">19 (83%)</td>
+<td headers="stat_2" class="gt_row gt_center">169 (68%)</td>
+<td headers="stat_3" class="gt_row gt_center">72 (73%)</td>
 <td headers="stat_4" class="gt_row gt_center">4 (67%)</td>
-<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
@@ -5425,43 +5357,6 @@ p_worry_hwise &lt;- df_table %&gt;%
 
 grid.arrange(p_pss_hwise, p_worry_hwise, ncol = 2)</code></pre>
 <p><img src="figure/04.Descriptive_plots.Rmd/pss-by-hwise-plot-1.png" width="864" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pss-by-hwise-plot-1">
-Past versions of pss-by-hwise-plot-1.png
-</button>
-</p>
-<div id="fig-pss-by-hwise-plot-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/docs/figure/04.descriptive_plots.Rmd/pss-by-hwise-plot-1.png" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 <hr />
 </div>
 <div id="objective-water-supply-variables-new" class="section level1">
@@ -6308,43 +6203,6 @@ class="section level2">
   ) +
   theme_minimal() + theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/04.Descriptive_plots.Rmd/water-hrs-plot-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-water-hrs-plot-1">
-Past versions of water-hrs-plot-1.png
-</button>
-</p>
-<div id="fig-water-hrs-plot-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/docs/figure/04.descriptive_plots.Rmd/water-hrs-plot-1.png" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 </div>
 <div id="supply-continuity-and-frequency-by-neighborhood"
 class="section level2">
@@ -6382,43 +6240,6 @@ p_freq &lt;- ggplot(freq_counts,
 
 grid.arrange(p_cont, p_freq, ncol = 2)</code></pre>
 <p><img src="figure/04.Descriptive_plots.Rmd/water-cat-plots-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-water-cat-plots-1">
-Past versions of water-cat-plots-1.png
-</button>
-</p>
-<div id="fig-water-cat-plots-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/docs/figure/04.descriptive_plots.Rmd/water-cat-plots-1.png" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 </div>
 <div id="objective-water-supply-vs-hwise-and-pss"
 class="section level2">
@@ -6450,43 +6271,6 @@ p_pss &lt;- ggplot(df_water_scores, aes(x = W_Hrs_week, y = PSS_Total)) +
 
 grid.arrange(p_hw, p_pss, ncol = 2)</code></pre>
 <p><img src="figure/04.Descriptive_plots.Rmd/water-supply-vs-outcomes-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-water-supply-vs-outcomes-1">
-Past versions of water-supply-vs-outcomes-1.png
-</button>
-</p>
-<div id="fig-water-supply-vs-outcomes-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/docs/figure/04.descriptive_plots.Rmd/water-supply-vs-outcomes-1.png" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
 </div>
 <div id="sentinel-code-summary-for-water-supply-variables"
 class="section level2">
@@ -6575,24 +6359,25 @@ attached base packages:
 
 other attached packages:
 [1] gridExtra_2.3   ggplot2_4.0.0   gt_1.0.0        gtsummary_2.5.0
-[5] stringr_1.5.1   tidyr_1.3.1     dplyr_1.2.0    
+[5] stringr_1.5.1   tidyr_1.3.1     dplyr_1.2.0     workflowr_1.7.1
 
 loaded via a namespace (and not attached):
  [1] sass_0.4.10        generics_0.1.3     xml2_1.3.8         lattice_0.22-9    
  [5] stringi_1.8.7      digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3    
  [9] grid_4.5.3         RColorBrewer_1.1-3 cards_0.7.1        fastmap_1.2.0     
-[13] Matrix_1.7-4       rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0    
-[17] whisker_0.4.1      backports_1.5.0    cardx_0.3.2        promises_1.3.2    
-[21] mgcv_1.9-4         purrr_1.0.4        scales_1.4.0       jquerylib_0.1.4   
-[25] cli_3.6.5          rlang_1.1.7        litedown_0.7       splines_4.5.3     
-[29] commonmark_2.0.0   withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
-[33] tools_4.5.3        httpuv_1.6.16      broom_1.0.8        vctrs_0.7.1       
-[37] R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2       fs_1.6.6          
-[41] pkgconfig_2.0.3    pillar_1.10.2      bslib_0.9.0        later_1.4.2       
-[45] gtable_0.3.6       glue_1.8.0         Rcpp_1.0.14        xfun_0.52         
-[49] tibble_3.2.1       tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50        
-[53] farver_2.1.2       nlme_3.1-168       htmltools_0.5.8.1  labeling_0.4.3    
-[57] rmarkdown_2.29     compiler_4.5.3     S7_0.2.0           markdown_2.0      </code></pre>
+[13] Matrix_1.7-4       rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6    
+[17] whisker_0.4.1      backports_1.5.0    cardx_0.3.2        ps_1.9.1          
+[21] promises_1.3.2     mgcv_1.9-4         httr_1.4.7         purrr_1.0.4       
+[25] scales_1.4.0       jquerylib_0.1.4    cli_3.6.5          rlang_1.1.7       
+[29] litedown_0.7       splines_4.5.3      commonmark_2.0.0   withr_3.0.2       
+[33] cachem_1.1.0       yaml_2.3.10        tools_4.5.3        httpuv_1.6.16     
+[37] broom_1.0.8        vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5   
+[41] git2r_0.36.2       fs_1.6.6           pkgconfig_2.0.3    callr_3.7.6       
+[45] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
+[49] glue_1.8.0         Rcpp_1.0.14        xfun_0.52          tibble_3.2.1      
+[53] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
+[57] nlme_3.1-168       htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29    
+[61] compiler_4.5.3     getPass_0.2-4      S7_0.2.0           markdown_2.0      </code></pre>
 </div>
 </div>
 </div>
