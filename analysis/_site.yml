@@ -9,11 +9,11 @@ navbar:
     href: about.html
   - text: License
     href: license.html
-  - text: data_cleaning
+  - text: 01.data_cleaning
     href: 01.data_cleaning.html
-  - text: data_merge_hwise_pss
+  - text: 02.data_merge_hwise_pss
     href: 02.data_merge_hwise_pss.html
-  - text: data_merge_q1-6
+  - text: 03.data_merge_q1-6
     href: 03.data_merge_q1-6.html
     
 output:
