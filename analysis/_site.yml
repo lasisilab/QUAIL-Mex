@@ -10,7 +10,12 @@ navbar:
   - text: License
     href: license.html
   - text: data_cleaning
-    href: data_cleaning.html
+    href: 01.data_cleaning.html
+  - text: data_merge_hwise_pss
+    href: 02.data_merge_hwise_pss.html
+  - text: data_merge_q1-6
+    href: 03.data_merge_q1-6.html
+    
 output:
   workflowr::wflow_html:
     toc: yes
