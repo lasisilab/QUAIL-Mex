@@ -9,18 +9,18 @@ navbar:
     href: about.html
   - text: License
     href: license.html
-  - text: 01.data_cleaning
+  - text: 1.cleaning
     href: 01.data_cleaning.html
-  - text: 02.data_merge_hwise_pss
+  - text: 2.merge_hwise_pss
     href: 02.data_merge_hwise_pss.html
-  - text: 03.data_merge_q1-6
+  - text: 3.merge_q1-6
     href: 03.data_merge_q1-6.html
-  - text: 04.descriptive_stats
-    href: 04.descriptive_stats.Rmd
-  - text: 05.descriptive_plots
-    href: 05.descriptive_plots.Rmd
+  - text: 4.descriptive_stats
+    href: 04.descriptive_stats.html
+  - text: 5.descriptive_plots
+    href: 05.descriptive_plots.html
   - text: Maps
-    href: Maps.Rmd
+    href: Maps.html
     
     
 output:
