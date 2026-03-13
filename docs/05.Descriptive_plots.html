@@ -339,6 +339,24 @@ div.tocify {
 <li>
   <a href="license.html">License</a>
 </li>
+<li>
+  <a href="01.data_cleaning.html">01.data_cleaning</a>
+</li>
+<li>
+  <a href="02.data_merge_hwise_pss.html">02.data_merge_hwise_pss</a>
+</li>
+<li>
+  <a href="03.data_merge_q1-6.html">03.data_merge_q1-6</a>
+</li>
+<li>
+  <a href="04.descriptive_stats.Rmd">04.descriptive_stats</a>
+</li>
+<li>
+  <a href="05.descriptive_plots.Rmd">05.descriptive_plots</a>
+</li>
+<li>
+  <a href="Maps.Rmd">Maps</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -361,7 +379,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -372,8 +390,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -386,9 +404,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -411,21 +429,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -516,15 +531,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5eb78c5194c622f07316eeeb48f39321af5f2385targetblank5eb78c5a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5eb78c5194c622f07316eeeb48f39321af5f2385" target="_blank">5eb78c5</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreee6ea05d14c0f99d980ae0794342fd432cd7fbf99targetblanke6ea05da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5eb78c5194c622f07316eeeb48f39321af5f2385targetblank5eb78c5a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -534,7 +549,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/e6ea05d14c0f99d980ae0794342fd432cd7fbf99" target="_blank">e6ea05d</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5eb78c5194c622f07316eeeb48f39321af5f2385" target="_blank">5eb78c5</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -563,18 +578,9 @@ Ignored files:
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  analysis/05.Descriptive_plots.Rmd
-    Untracked:  analysis/Regression-Analysis_PC.txt
 
 Unstaged changes:
-    Modified:   analysis/01.Data_cleaning.Rmd
-    Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Modified:   analysis/03.Data_merge_Q1-6.Rmd
-    Modified:   analysis/04.Descriptive_stats.Rmd
-    Deleted:    analysis/Regression-Analysis_PC.Rmd
-    Modified:   data/01.Screening_clean.csv
-    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
-    Modified:   data/03.Merged_Q1-6.csv
+    Modified:   analysis/_site.yml
 
 </code></pre>
 <p>
@@ -855,7 +861,44 @@ missing_tbl %&gt;%
        x = NULL, y = &quot;Percentage (%)&quot;, fill = NULL) +
   theme_minimal() +
   theme(legend.position = &quot;bottom&quot;)</code></pre>
-<p><img src="figure/05.Descriptive_plots.Rmd/plot-missing-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/05.descriptive_plots.Rmd/plot-missing-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot-missing-1">
+Past versions of plot-missing-1.png
+</button>
+</p>
+<div id="fig-plot-missing-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/figure/05.Descriptive_plots.Rmd/plot-missing-1.png" target="_blank">33dc70c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 <div id="hwise-and-pss-score-distributions-by-season"
@@ -882,7 +925,44 @@ p_pss &lt;- ggplot(df_table %&gt;% filter(!is.na(PSS_Total)),
   theme_minimal() + theme(legend.position = &quot;bottom&quot;)
 
 grid.arrange(p_hwise, p_pss, ncol = 2)</code></pre>
-<p><img src="figure/05.Descriptive_plots.Rmd/hwise-pss-histograms-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/05.descriptive_plots.Rmd/hwise-pss-histograms-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-pss-histograms-1">
+Past versions of hwise-pss-histograms-1.png
+</button>
+</p>
+<div id="fig-hwise-pss-histograms-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/figure/05.Descriptive_plots.Rmd/hwise-pss-histograms-1.png" target="_blank">33dc70c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 <div id="pss-and-water-worry-by-water-insecurity-level"
@@ -921,7 +1001,44 @@ p_worry_hwise &lt;- df_table %&gt;%
   theme_minimal() + theme(legend.position = &quot;none&quot;)
 
 grid.arrange(p_pss_hwise, p_worry_hwise, ncol = 2)</code></pre>
-<p><img src="figure/05.Descriptive_plots.Rmd/pss-by-hwise-boxplots-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/05.descriptive_plots.Rmd/pss-by-hwise-boxplots-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pss-by-hwise-boxplots-1">
+Past versions of pss-by-hwise-boxplots-1.png
+</button>
+</p>
+<div id="fig-pss-by-hwise-boxplots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/figure/05.Descriptive_plots.Rmd/pss-by-hwise-boxplots-1.png" target="_blank">33dc70c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 <div id="objective-water-supply-distributions" class="section level1">
@@ -940,7 +1057,44 @@ grid.arrange(p_pss_hwise, p_worry_hwise, ncol = 2)</code></pre>
     x = &quot;Hours per week&quot;, y = &quot;Count&quot;, fill = NULL
   ) +
   theme_minimal() + theme(legend.position = &quot;bottom&quot;)</code></pre>
-<p><img src="figure/05.Descriptive_plots.Rmd/water-hrs-histogram-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/05.descriptive_plots.Rmd/water-hrs-histogram-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-water-hrs-histogram-1">
+Past versions of water-hrs-histogram-1.png
+</button>
+</p>
+<div id="fig-water-hrs-histogram-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/figure/05.Descriptive_plots.Rmd/water-hrs-histogram-1.png" target="_blank">33dc70c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="supply-continuity-and-frequency-by-neighborhood"
 class="section level2">
@@ -978,7 +1132,44 @@ p_freq &lt;- ggplot(freq_counts,
   theme(axis.text.x = element_text(angle = 25, hjust = 1), legend.position = &quot;bottom&quot;)
 
 grid.arrange(p_cont, p_freq, ncol = 2)</code></pre>
-<p><img src="figure/05.Descriptive_plots.Rmd/water-cat-barplots-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/05.descriptive_plots.Rmd/water-cat-barplots-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-water-cat-barplots-1">
+Past versions of water-cat-barplots-1.png
+</button>
+</p>
+<div id="fig-water-cat-barplots-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/figure/05.Descriptive_plots.Rmd/water-cat-barplots-1.png" target="_blank">33dc70c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1011,7 +1202,44 @@ p_pss2 &lt;- ggplot(df_water_scores, aes(x = W_Hrs_week, y = PSS_Total)) +
   theme_minimal()
 
 grid.arrange(p_hw, p_pss2, ncol = 2)</code></pre>
-<p><img src="figure/05.Descriptive_plots.Rmd/water-supply-vs-outcomes-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/05.descriptive_plots.Rmd/water-supply-vs-outcomes-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-water-supply-vs-outcomes-1">
+Past versions of water-supply-vs-outcomes-1.png
+</button>
+</p>
+<div id="fig-water-supply-vs-outcomes-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/33dc70c55c02bff433857f48e6fdea4a6fd403a3/docs/figure/05.Descriptive_plots.Rmd/water-supply-vs-outcomes-1.png" target="_blank">33dc70c</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
