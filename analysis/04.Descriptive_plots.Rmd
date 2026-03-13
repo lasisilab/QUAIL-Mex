@@ -10,7 +10,7 @@ editor_options:
 ## Introduction
 
 This document produces descriptive statistics for the merged dataset
-(`Merged_Final.csv`, produced by `merge_datasets.Rmd`).
+(`03.Merged_Q1-6.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
 It includes:
 
 1. A comprehensive descriptive statistics table (all analytic variables)
@@ -54,7 +54,7 @@ clean_for_table <- function(x) {
 # 1. Load cleaned data
 
 ```{r load}
-df <- read.csv(file.path(data_path, "Merged_Final.csv"),
+df <- read.csv(file.path(data_path, "03.Merged_Q1-6.csv"),
                stringsAsFactors = FALSE,
                na.strings = c(""))
 
@@ -101,13 +101,13 @@ df_table <- df %>%
     Smoking = factor(clean_for_table(HLTH_SMK_CLEAN),
                      levels = c(0, 1, 2),
                      labels = c("No", "Yes", "Occasionally")),
-    Hormonal_tx   = factor(clean_for_table(HLTH_TTM_CLEAN),
+    Hormonal_tx   = factor(clean_for_table(HLTH_TTM_CAT),
                            levels = c(0, 1), labels = c("No", "Yes")),
-    Medication    = factor(clean_for_table(HLTH_MED_CLEAN),
+    Medication    = factor(clean_for_table(HLTH_MED_CAT),
                            levels = c(0, 1), labels = c("No", "Yes")),
-    Chronic_pain  = factor(clean_for_table(HLTH_CPAIN_CLEAN),
+    Chronic_pain  = factor(clean_for_table(HLTH_CPAIN_CAT),
                            levels = c(0, 1), labels = c("No", "Yes")),
-    Chronic_dis   = factor(clean_for_table(HLTH_CDIS_CLEAN),
+    Chronic_dis   = factor(clean_for_table(HLTH_CDIS_CAT),
                            levels = c(0, 1), labels = c("No", "Yes")),
 
     # --- HWISE ---
@@ -264,8 +264,8 @@ analytic_cols <- c(
   "D_AGE", "D_LOC_TIME_CLEAN", "D_HH_SIZE", "D_CHLD_CLEAN",
   "SEASON", "SES_SC_Total", "SES_CAT_AMAI",
   "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
-  "HLTH_SMK_CLEAN", "HLTH_TTM_CLEAN", "HLTH_MED_CLEAN",
-  "HLTH_CPAIN_CLEAN", "HLTH_CDIS_CLEAN"
+  "HLTH_SMK_CLEAN", "HLTH_TTM_CAT", "HLTH_MED_CAT",
+  "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT"
 )
 
 # Readable labels
@@ -280,10 +280,10 @@ var_labels <- c(
   D_EMP_CLEAN       = "Employed (yes/no)",
   D_EMP_FORM_CLEAN  = "Employment type",
   HLTH_SMK_CLEAN    = "Smoking",
-  HLTH_TTM_CLEAN    = "Hormonal treatment",
-  HLTH_MED_CLEAN    = "Medication use",
-  HLTH_CPAIN_CLEAN  = "Chronic pain",
-  HLTH_CDIS_CLEAN   = "Chronic disease"
+  HLTH_TTM_CAT    = "Hormonal treatment",
+  HLTH_MED_CAT    = "Medication use",
+  HLTH_CPAIN_CAT  = "Chronic pain",
+  HLTH_CDIS_CAT   = "Chronic disease"
 )
 
 N <- nrow(df)

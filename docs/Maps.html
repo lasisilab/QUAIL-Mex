@@ -359,7 +359,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -370,8 +370,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -380,13 +380,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-12
+<strong>Last updated:</strong> 2026-03-13
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -409,21 +409,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -514,15 +511,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -532,7 +529,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -558,28 +555,6 @@ Ignored files:
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
-
-Untracked files:
-    Untracked:  data.plugin
-    Untracked:  data/GeoJson/
-    Untracked:  data/GeoShape/
-
-Unstaged changes:
-    Deleted:    analysis/Data_cleaning_HBA2025.Rmd
-    Deleted:    analysis/HBA2025_Analyses.Rmd
-    Deleted:    analysis/HBA2025_emotions.Rmd
-    Deleted:    analysis/MX28_plots.Rmd
-    Modified:   analysis/Maps.Rmd
-    Deleted:    analysis/Plots_Latinx_2026.Rmd
-    Deleted:    analysis/Plots_Latinx_research_week.Rmd
-    Deleted:    analysis/Regression-Analysis.Rmd
-    Deleted:    analysis/UROP_Alexandra.Rmd
-    Deleted:    analysis/UROP_Brittany.Rmd
-    Deleted:    analysis/UROP_Lauren.Rmd
-    Deleted:    analysis/index (1).Rmd
-    Deleted:    analysis/tests.Rmd
-    Deleted:    temp.Rmd
-    Deleted:    temp.html
 
 </code></pre>
 <p>
@@ -623,6 +598,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/analysis/Maps.Rmd" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+data_clean
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/616a741f3300bc3b29ad68ab083c73329cf66430/docs/Maps.html" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+data_clean
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -759,6 +768,43 @@ ggplot(cdmx) +
     panel.grid = element_blank()
   )</code></pre>
 <p><img src="figure/Maps.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/Maps.Rmd/unnamed-chunk-2-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="map-of-iztapalapa" class="section level1">
 <h1>Map of Iztapalapa</h1>
@@ -826,6 +872,43 @@ ggplot(colonias) +
     panel.grid = element_blank()
   )</code></pre>
 <p><img src="figure/Maps.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/Maps.Rmd/unnamed-chunk-3-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot() +
   geom_sf(data = colonias_highlight,
           aes(fill = highlight),
@@ -847,6 +930,43 @@ ggplot(colonias) +
 <pre><code>Warning in st_point_on_surface.sfc(sf::st_zm(x)): st_point_on_surface may not
 give correct results for longitude/latitude data</code></pre>
 <p><img src="figure/Maps.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
+Past versions of unnamed-chunk-3-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/Maps.Rmd/unnamed-chunk-3-2.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggplot(colonias_highlight) +
   geom_sf(aes(fill = highlight), color = &quot;white&quot;, size = 0.1) +
   scale_fill_manual(values = c(&quot;Sinatel&quot; = &quot;#d73027&quot;, &quot;Other&quot; = &quot;gray85&quot;)) +
@@ -854,6 +974,43 @@ give correct results for longitude/latitude data</code></pre>
   theme_void() +
   theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="figure/Maps.Rmd/unnamed-chunk-3-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-3">
+Past versions of unnamed-chunk-3-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/Maps.Rmd/unnamed-chunk-3-3.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>library(ggrepel)
 
 centroids &lt;- st_centroid(labels_sf)</code></pre>
@@ -872,7 +1029,7 @@ centroids &lt;- st_centroid(labels_sf)</code></pre>
   ) +
 
   scale_fill_manual(values = c(
-    &quot;Selected&quot; = &quot;#d73027&quot;,
+    &quot;Selected&quot; = &quot;#05686D&quot;,
     &quot;Other&quot; = &quot;gray85&quot;
   )) +
 
@@ -882,6 +1039,43 @@ centroids &lt;- st_centroid(labels_sf)</code></pre>
 <pre><code>Warning in st_point_on_surface.sfc(sf::st_zm(x)): st_point_on_surface may not
 give correct results for longitude/latitude data</code></pre>
 <p><img src="figure/Maps.Rmd/unnamed-chunk-3-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-4">
+Past versions of unnamed-chunk-3-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/Maps.Rmd/unnamed-chunk-3-4.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>unique(colonias$col_name)</code></pre>
 <pre><code>[[1]]
 [1] &quot;Plenitud (U Hab)&quot;
@@ -1776,12 +1970,12 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.5.2 (2025-10-31)
+<pre><code>R version 4.5.3 (2026-03-11)
 Platform: aarch64-apple-darwin20
 Running under: macOS Tahoe 26.3.1
 
 Matrix products: default
-BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
 LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
@@ -1800,18 +1994,18 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] s2_1.1.9           rappdirs_0.3.3     sass_0.4.10        generics_0.1.3    
  [5] class_7.3-23       KernSmooth_2.23-26 stringi_1.8.7      digest_0.6.37     
- [9] magrittr_2.0.3     evaluate_1.0.3     grid_4.5.2         RColorBrewer_1.1-3
+ [9] magrittr_2.0.3     evaluate_1.0.3     grid_4.5.3         RColorBrewer_1.1-3
 [13] fastmap_1.2.0      rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0    
 [17] whisker_0.4.1      e1071_1.7-16       DBI_1.2.3          promises_1.3.2    
 [21] scales_1.4.0       codetools_0.2-20   jquerylib_0.1.4    cli_3.6.5         
 [25] rlang_1.1.7        units_1.0-0        withr_3.0.2        cachem_1.1.0      
-[29] yaml_2.3.10        tools_4.5.2        httpuv_1.6.16      vctrs_0.7.1       
+[29] yaml_2.3.10        tools_4.5.3        httpuv_1.6.16      vctrs_0.7.1       
 [33] R6_2.6.1           proxy_0.4-27       lifecycle_1.0.5    classInt_0.4-11   
 [37] git2r_0.36.2       stringr_1.5.1      fs_1.6.6           pkgconfig_2.0.3   
 [41] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
 [45] glue_1.8.0         Rcpp_1.0.14        xfun_0.52          tibble_3.2.1      
 [49] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
-[53] htmltools_0.5.8.1  rmarkdown_2.29     wk_0.9.5           compiler_4.5.2    
+[53] htmltools_0.5.8.1  rmarkdown_2.29     wk_0.9.5           compiler_4.5.3    
 [57] S7_0.2.0          </code></pre>
 </div>
 </div>

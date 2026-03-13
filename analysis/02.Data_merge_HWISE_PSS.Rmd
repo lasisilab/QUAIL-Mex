@@ -3,11 +3,13 @@ title: "Data merge & cleaning — Screening + HWISE + PSS"
 author: "Paloma"
 date: "2026-03-07"
 output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Introduction
 
-This script merges the cleaned screening file (`Screening_clean.csv`, produced by
+This script merges the cleaned screening file (`01.Screening_clean.csv`, produced by
 `Data_cleaning.Rmd`) with the HWISE and PSS data (`02.HWISE_PSS.csv`). It covers:
 item-level validation, score computation, the left-join merge, and a final
 missingness check.
@@ -44,6 +46,7 @@ library(tidyr)
 library(stringr)
 library(readr)
 library(ggplot2)
+library(psych)
 
 data_path <- "./data"
 
@@ -66,7 +69,7 @@ PSS_ITEMS   <- c(PSS_DIRECT, PSS_REVERSE)
 
 ```{r load}
 screening <- read.csv(
-  file.path(data_path, "Screening_clean.csv"),
+  file.path(data_path, "01.Screening_clean.csv"),
   stringsAsFactors = FALSE,
   na.strings = c("")
 )
@@ -98,9 +101,9 @@ only_screen <- setdiff(ids_screen, ids_hw)
 only_hw     <- setdiff(ids_hw, ids_screen)
 both        <- intersect(ids_screen, ids_hw)
 
-cat("IDs in both files:            ", length(both),        "\n")
-cat("IDs only in screening:        ", length(only_screen), "\n")
-cat("IDs only in HWISE_PSS:        ", length(only_hw),     "\n")
+cat("# of IDs in both files:            ", length(both),        "\n")
+cat("# of IDs only in screening:        ", length(only_screen), "\n")
+cat("# of IDs only in HWISE_PSS:        ", length(only_hw),     "\n")
 
 if (length(only_screen) > 0) {
   cat("  Screening-only IDs:", paste(only_screen, collapse = ", "), "\n")
@@ -492,12 +495,12 @@ cat("PSS_TOTAL distribution:\n")
 print(summary(hwise_pss$PSS_TOTAL))
 cat("Missing PSS_TOTAL:", sum(is.na(hwise_pss$PSS_TOTAL)), "\n")
 
-hwise_pss %>% filter(is.na(PSS_TOTAL)) %>% select(ID, all_of(PSS_ITEMS), PSS_INFO)
+hwise_pss %>% filter(is.na(PSS_TOTAL)) %>% select(ID, PSS_INFO, all_of(PSS_ITEMS))
 
 cat("\nParticipants flagged for PSS review (PSS_REVIEW_FLAG = 1):\n")
 hwise_pss %>%
   filter(PSS_REVIEW_FLAG == 1) %>%
-  select(ID, all_of(PSS_ITEMS), PSS_INFO, PSS_TOTAL) %>%
+  select(ID,  PSS_INFO, all_of(PSS_ITEMS), PSS_TOTAL) %>%
   print()
 
 # Distribution plot
@@ -596,8 +599,8 @@ df_merged <- df_merged %>% select(-SEASON_CLEAN)
 
 ```{r check-missing-hw}
 missing_hw <- df_merged %>%
-  filter(is.na(HW_TOTAL) & is.na(PSS_TOTAL)) %>%
-  select(ID, SEASON)
+  filter(is.na(HW_TOTAL) | is.na(PSS_TOTAL)) %>%
+  select(ID, SEASON, HW_TOTAL, PSS_TOTAL)
 
 cat("Participants with no HWISE or PSS data after merge:\n")
 print(missing_hw)
@@ -669,7 +672,7 @@ are generally considered acceptable. α is computed here on complete cases only
 (rows with any `NA` or sentinel code in the relevant items are excluded).
 
 ```{r cronbach, message=FALSE, warning=FALSE}
-library(psych)
+
 
 # Helper to clean a set of items: exclude NAs and sentinel codes row-wise
 clean_items <- function(data, items) {
@@ -681,13 +684,13 @@ clean_items <- function(data, items) {
 }
 
 # HWISE — 12 items, scored 0–3
-alpha_hwise <- clean_items(df_merged, HWISE_ITEMS) %>% alpha()
+alpha_hwise <- clean_items(df_merged, HWISE_ITEMS) %>% psych::alpha()
 
 # PSS-14 — use reverse-coded versions of the negative items
-alpha_pss <- clean_items(df_merged, PSS_SCORED_ITEMS) %>% alpha()
+alpha_pss <- clean_items(df_merged, PSS_SCORED_ITEMS) %>% psych::alpha()
 
 # Water worry subscale — 3 items
-alpha_worry <- clean_items(df_merged, WORRY_ITEMS) %>% alpha()
+alpha_worry <- clean_items(df_merged, WORRY_ITEMS) %>% psych::alpha()
 
 # Summary table
 alpha_summary <- tibble(
@@ -782,13 +785,45 @@ print(alpha_worry$item.stats %>%
         round(3))
 ```
 
+## PSS subscales
+
+```{r}
+pss_helpless <- c(
+  "PSS1","PSS2","PSS3","PSS8","PSS11","PSS12","PSS14"
+)
+
+pss_efficacy <- c(
+  "PSS4_REV","PSS5_REV","PSS6_REV","PSS7_REV",
+  "PSS9_REV","PSS10_REV","PSS13_REV"
+)
+
+alpha_helpless <- df_merged %>%
+  dplyr::select(all_of(pss_helpless)) %>%
+  psych::alpha()
+
+alpha_efficacy <- df_merged %>%
+  dplyr::select(all_of(pss_efficacy)) %>%
+  psych::alpha()
+
+alpha_helpless$total$raw_alpha
+alpha_efficacy$total$raw_alpha
+```
+
+
 ---
 
 # 10. Save merged dataset
 
 ```{r save}
-out_file <- file.path(data_path, "Merged_Screening_HWISE_PSS.csv")
+out_file <- file.path(data_path, "02.Merged_Screening_HWISE_PSS.csv")
 write.csv(df_merged, out_file, row.names = FALSE)
 cat("Saved:", out_file, "\n")
 cat("Final dimensions:", dim(df_merged), "\n")
 ```
+
+
+# Pending
+
+- check samples that are only in screening file or in hwise_pss file
+- HWISE have 8 samples with NAs (without final score)
+- ID not in database: 71

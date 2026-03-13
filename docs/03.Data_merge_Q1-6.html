@@ -421,10 +421,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -564,6 +564,7 @@ Ignored files:
 
 Untracked files:
     Untracked:  .claude/
+    Untracked:  analysis/03.Data_merge_Q1-6.Rmd
     Untracked:  data/01.SES_to_review.csv
     Untracked:  data/01.Screening_clean.csv
     Untracked:  data/01.conflicts_reviewed.csv
@@ -572,6 +573,7 @@ Untracked files:
     Untracked:  data/01.conflicts_to_review_V2.csv
     Untracked:  data/02.Merged_Screening_HWISE_PSS.csv
     Untracked:  data/03.Chronic_pain_illness.csv
+    Untracked:  data/03.Merged_Final.csv
     Untracked:  data/03.Q1-2-3-4-5_season2.csv
     Untracked:  data/03.Q2-3-4-5-6.csv
     Untracked:  data/SES_to_review.csv
@@ -579,7 +581,7 @@ Untracked files:
 Unstaged changes:
     Modified:   analysis/01.Data_cleaning.Rmd
     Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Modified:   analysis/03.Merge2.Rmd
+    Deleted:    analysis/03.Merge2.Rmd
     Modified:   analysis/04.Descriptive_plots.Rmd
     Modified:   data/01.SCREENING.csv
     Deleted:    data/Chronic_pain_illness.csv
@@ -605,72 +607,9 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/03.Merge2.Rmd</code>) and HTML
-(<code>docs/03.Merge2.html</code>) files. If you’ve configured a remote
-Git repository (see <code>?wflow_git_remote</code>), click on the
-hyperlinks in the table below to view the files as they were in that
-past version.
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/616a741f3300bc3b29ad68ab083c73329cf66430/docs/03.Merge2.html" target="_blank">616a741</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-<td>
-data_clean
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/analysis/03.Merge2.Rmd" target="_blank">7c773aa</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-10
-</td>
-<td>
-Merge2.0
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
@@ -955,7 +894,7 @@ SEASON distribution:</code></pre>
 </div>
 <div id="export" class="section level2">
 <h2>7. Export</h2>
-<pre class="r"><code>write_csv(merged_final, &quot;./data/03.Merged_Final.csv&quot;, na = &quot;&quot;)
+<pre class="r"><code>write_csv(merged_final, &quot;./data/03.Merged_Q1-6.csv&quot;, na = &quot;&quot;)
 cat(&quot;Exported: Merged_Final.csv\n&quot;)</code></pre>
 <pre><code>Exported: Merged_Final.csv</code></pre>
 <pre class="r"><code>cat(&quot;Rows:&quot;, nrow(merged_final), &quot;| Cols:&quot;, ncol(merged_final), &quot;\n&quot;)</code></pre>

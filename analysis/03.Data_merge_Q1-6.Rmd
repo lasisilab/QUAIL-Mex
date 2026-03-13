@@ -3,6 +3,8 @@ title: "Merge Datasets – Water Insecurity & Stress Study"
 author: ""
 date: "`r Sys.Date()`"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -13,18 +15,18 @@ library(tidyverse)
 ## Overview
 
 This script merges three supplemental files onto the base dataset
-(`Merged_Screening_HWISE_PSS.csv`):
+(`02.Merged_Screening_HWISE_PSS.csv`):
 
-1. **Chronic_pain_illness.csv** – corrected `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` values  
-2. **Q2-3-4-5-6.csv** – supplemental water variables (Season 1, IDs 1–330)  
-3. **Q1-2-3-4-5_season2.csv** – supplemental water variables (Season 2, IDs 331+)
+1. **03.Chronic_pain_illness.csv** – corrected `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` values  
+2. **03.Q2-3-4-5-6.csv** – supplemental water variables (Season 1, IDs 1–330)  
+3. **03.Q1-2-3-4-5_season2.csv** – supplemental water variables (Season 2, IDs 331+)
 
 ---
 
 ## 1. Load base dataset
 
 ```{r load-base}
-base <- read_csv("./data/Merged_Screening_HWISE_PSS.csv", show_col_types = FALSE)
+base <- read_csv("./data/02.Merged_Screening_HWISE_PSS.csv", show_col_types = FALSE)
 
 cat("Base dimensions:", nrow(base), "rows ×", ncol(base), "cols\n")
 cat("ID range:", min(base$ID), "–", max(base$ID), "\n")
@@ -40,7 +42,7 @@ corrected values.
 
 ```{r merge-chronic}
 chronic <- read_csv(
-  "./data/Chronic_pain_illness.csv",
+  "./data/03.Chronic_pain_illness.csv",
   col_types = cols(
     ID             = col_double(),
     HLTH_CPAIN_CAT = col_double(),
@@ -66,29 +68,26 @@ cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = "
 
 ## 3. Load and stack supplemental water files
 
-### Season 1 water variables (Q2-3-4-5-6.csv)
+### File 1 water variables (03.Q2-3-4-5-6.csv)
 
 ```{r load-s1}
 water_s1 <- read_csv(
-  "./data/Q2-3-4-5-6.csv",
+  "./data/03.Q2-3-4-5-6.csv",
   show_col_types = FALSE
 ) %>%
   rename_with(~ str_replace_all(., "/", "_PER_")) %>%   # fix slash in col names
   mutate(WATER_FILE_SOURCE = "S1_Q2-3-4-5-6")
 
-cat("Season 1 water rows:", nrow(water_s1), "\n")
-cat("Season 1 IDs range:", min(water_s1$ID), "–", max(water_s1$ID), "\n")
-
 cat("Sample IDs:", water_s1$ID)
-cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
-cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
+cat("IDs not in base:", paste(water_s1$ID[!water_s1$ID %in% base$ID], collapse = ", "), "\n")
+
 ```
 
-### Season 2 water variables (Q1-2-3-4-5_season2.csv)
+### Season 2 water variables (03.Q1-2-3-4-5_season2.csv)
 
 ```{r load-s2}
 water_s2 <- read_csv(
-  "./data/Q1-2-3-4-5_season2.csv",
+  "./data/03.Q1-2-3-4-5_season2.csv",
   show_col_types = FALSE
 ) %>%
   rename_with(~ str_replace_all(., "/", "_PER_")) %>%
@@ -180,7 +179,7 @@ target_cols <- c(
   "SES_WRK_CAT", "SES_WRK_SC", "SES_BEDR_CAT", "SES_BEDR_SC", "SES_INFO",
   "HLTH_TTM_RAW", "HLTH_MED_RAW", "HLTH_CPAIN_RAW", "HLTH_CDIS_RAW",
   "HLTH_SMK_RAW", "D_EMP_TYPE_RAW", "D_CHLD_RAW", "SEASON",
-  "HLTH_TTM_CLEAN", "HLTH_MED_CLEAN", "HLTH_CPAIN_CLEAN", "HLTH_CDIS_CLEAN",
+  "HLTH_TTM_CAT", "HLTH_MED_CAT", "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT",
   "HLTH_SMK_CLEAN", "HLTH_SMK_CAT", "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
   "D_CHLD_CLEAN", "D_LOC_TIME_RAW", "D_LOC_TIME_CLEAN",
   "SES_EDU_SC_RAW", "SES_BTHR_SC_RAW", "SES_CAR_SC_RAW", "SES_INT_SC_RAW",
@@ -217,13 +216,14 @@ cat("Final column count:", ncol(merged_final), "\n")
 
 ```{r qc}
 # Missing values in key outcome columns
-qc_cols <- c("HLTH_CPAIN","HLTH_CPAIN_CAT", "HLTH_CPAIN_RAW", "HLTH_CPAIN_CLEAN", "HLTH_CDIS_CAT", "HW_TOTAL", "PSS_TOTAL", "W_WS_LOC", "MX3_CONT_INT","MX2_WI_SEASON_TYPE", "MX2_WI_SEASON_INFO", "MX2_WI_SEASON", "MX5_WFREQ_HRS_PER_WEEK")
+qc_cols <- c("HLTH_CPAIN","HLTH_CPAIN_CAT", "HLTH_CPAIN_RAW", "HLTH_CDIS_CAT", "HW_TOTAL", "PSS_TOTAL", "W_WS_LOC", "MX3_CONT_INT","MX2_WI_SEASON_TYPE", "MX2_WI_SEASON_INFO", "MX2_WI_SEASON", "MX5_WFREQ_HRS_PER_WEEK")
 
 print(merged_final[, qc_cols], n=5)
 
 merged_final %>%
   summarise(across(all_of(qc_cols), ~ sum(is.na(.)))) %>%
   pivot_longer(everything(), names_to = "column", values_to = "n_missing") %>%
+  arrange(desc(n_missing)) %>%
   print()
 
 # SEASON distribution
@@ -236,7 +236,7 @@ print(table(merged_final$SEASON, useNA = "always"))
 ## 7. Export
 
 ```{r export}
-write_csv(merged_final, "./data/Merged_Final.csv", na = "")
+write_csv(merged_final, "./data/03.Merged_Q1-6.csv", na = "")
 cat("Exported: Merged_Final.csv\n")
 cat("Rows:", nrow(merged_final), "| Cols:", ncol(merged_final), "\n")
 ```

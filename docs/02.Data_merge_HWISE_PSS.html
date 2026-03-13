@@ -362,7 +362,7 @@ HWISE + PSS</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -373,8 +373,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -383,13 +383,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-12
+<strong>Last updated:</strong> 2026-03-13
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -412,18 +412,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -514,15 +517,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree616a741f3300bc3b29ad68ab083c73329cf66430targetblank616a741a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -532,7 +535,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/616a741f3300bc3b29ad68ab083c73329cf66430" target="_blank">616a741</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -560,7 +563,32 @@ Ignored files:
     Ignored:    data/.DS_Store
 
 Untracked files:
-    Untracked:  data.plugin
+    Untracked:  .claude/
+    Untracked:  data/01.SES_to_review.csv
+    Untracked:  data/01.Screening_clean.csv
+    Untracked:  data/01.conflicts_reviewed.csv
+    Untracked:  data/01.conflicts_reviewed_V2.csv
+    Untracked:  data/01.conflicts_to_review.csv
+    Untracked:  data/01.conflicts_to_review_V2.csv
+    Untracked:  data/03.Chronic_pain_illness.csv
+    Untracked:  data/03.Q1-2-3-4-5_season2.csv
+    Untracked:  data/03.Q2-3-4-5-6.csv
+    Untracked:  data/SES_to_review.csv
+
+Unstaged changes:
+    Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
+    Modified:   analysis/03.Merge2.Rmd
+    Modified:   analysis/04.Descriptive_plots.Rmd
+    Modified:   data/01.SCREENING.csv
+    Deleted:    data/Chronic_pain_illness.csv
+    Modified:   data/Merged_Final.csv
+    Modified:   data/Merged_Screening_HWISE_PSS.csv
+    Deleted:    data/Q1-2-3-4-5_season2.csv
+    Deleted:    data/Q2-3-4-5-6.csv
+    Modified:   data/Screening_clean.csv
+    Deleted:    data/conflicts_reviewed.csv
+    Deleted:    data/conflicts_reviewed_V2.csv
 
 </code></pre>
 <p>
@@ -608,6 +636,23 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/616a741f3300bc3b29ad68ab083c73329cf66430/docs/02.Data_merge_HWISE_PSS.html" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+<td>
+data_clean
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -633,7 +678,7 @@ Merge2.0
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>This script merges the cleaned screening file
-(<code>Screening_clean.csv</code>, produced by
+(<code>01.Screening_clean.csv</code>, produced by
 <code>Data_cleaning.Rmd</code>) with the HWISE and PSS data
 (<code>02.HWISE_PSS.csv</code>). It covers: item-level validation, score
 computation, the left-join merge, and a final missingness check.</p>
@@ -669,6 +714,7 @@ library(tidyr)
 library(stringr)
 library(readr)
 library(ggplot2)
+library(psych)
 
 data_path &lt;- &quot;./data&quot;
 
@@ -688,7 +734,7 @@ PSS_ITEMS   &lt;- c(PSS_DIRECT, PSS_REVERSE)</code></pre>
 <div id="load-data" class="section level1">
 <h1>1. Load data</h1>
 <pre class="r"><code>screening &lt;- read.csv(
-  file.path(data_path, &quot;Screening_clean.csv&quot;),
+  file.path(data_path, &quot;01.Screening_clean.csv&quot;),
   stringsAsFactors = FALSE,
   na.strings = c(&quot;&quot;)
 )
@@ -700,7 +746,7 @@ hwise_pss &lt;- read.csv(
 )
 
 cat(&quot;Screening rows/cols:&quot;, dim(screening), &quot;\n&quot;)</code></pre>
-<pre><code>Screening rows/cols: 399 62 </code></pre>
+<pre><code>Screening rows/cols: 399 61 </code></pre>
 <pre class="r"><code>cat(&quot;HWISE_PSS rows/cols:&quot;, dim(hwise_pss), &quot;\n&quot;)</code></pre>
 <pre><code>HWISE_PSS rows/cols: 398 33 </code></pre>
 <pre class="r"><code>cat(&quot;\nScreening IDs:&quot;, length(unique(screening$ID)), &quot;\n&quot;)</code></pre>
@@ -720,12 +766,12 @@ only_screen &lt;- setdiff(ids_screen, ids_hw)
 only_hw     &lt;- setdiff(ids_hw, ids_screen)
 both        &lt;- intersect(ids_screen, ids_hw)
 
-cat(&quot;IDs in both files:            &quot;, length(both),        &quot;\n&quot;)</code></pre>
-<pre><code>IDs in both files:             397 </code></pre>
-<pre class="r"><code>cat(&quot;IDs only in screening:        &quot;, length(only_screen), &quot;\n&quot;)</code></pre>
-<pre><code>IDs only in screening:         2 </code></pre>
-<pre class="r"><code>cat(&quot;IDs only in HWISE_PSS:        &quot;, length(only_hw),     &quot;\n&quot;)</code></pre>
-<pre><code>IDs only in HWISE_PSS:         1 </code></pre>
+cat(&quot;# of IDs in both files:            &quot;, length(both),        &quot;\n&quot;)</code></pre>
+<pre><code># of IDs in both files:             397 </code></pre>
+<pre class="r"><code>cat(&quot;# of IDs only in screening:        &quot;, length(only_screen), &quot;\n&quot;)</code></pre>
+<pre><code># of IDs only in screening:         2 </code></pre>
+<pre class="r"><code>cat(&quot;# of IDs only in HWISE_PSS:        &quot;, length(only_hw),     &quot;\n&quot;)</code></pre>
+<pre><code># of IDs only in HWISE_PSS:         1 </code></pre>
 <pre class="r"><code>if (length(only_screen) &gt; 0) {
   cat(&quot;  Screening-only IDs:&quot;, paste(only_screen, collapse = &quot;, &quot;), &quot;\n&quot;)
 }</code></pre>
@@ -902,6 +948,43 @@ ggplot(hwise_pss %&gt;% filter(!is.na(HW_TOTAL)),
        x = &quot;HWISE total score (0–36)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/hwise-total-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-total-1">
+Past versions of hwise-total-1.png
+</button>
+</p>
+<div id="fig-hwise-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/hwise-total-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="compute-hw_worry_sub-water-worry-subscale"
 class="section level2">
@@ -962,6 +1045,43 @@ cat(&quot;HW_WORRY_SUB distribution:\n&quot;)</code></pre>
        x = &quot;Water worry subscale (0–9)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/hwise-worry-sub-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-worry-sub-1">
+Past versions of hwise-worry-sub-1.png
+</button>
+</p>
+<div id="fig-hwise-worry-sub-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/hwise-worry-sub-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1172,6 +1292,43 @@ pss_rev_check %&gt;%
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/pss-reverse-check-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pss-reverse-check-1">
+Past versions of pss-reverse-check-1.png
+</button>
+</p>
+<div id="fig-pss-reverse-check-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/pss-reverse-check-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="compute-pss_total" class="section level2">
 <h2>4.5 Compute PSS_TOTAL</h2>
@@ -1206,27 +1363,28 @@ cat(&quot;PSS_TOTAL distribution:\n&quot;)</code></pre>
    9.00   22.00   28.00   27.27   32.00   47.00       4 </code></pre>
 <pre class="r"><code>cat(&quot;Missing PSS_TOTAL:&quot;, sum(is.na(hwise_pss$PSS_TOTAL)), &quot;\n&quot;)</code></pre>
 <pre><code>Missing PSS_TOTAL: 4 </code></pre>
-<pre class="r"><code>hwise_pss %&gt;% filter(is.na(PSS_TOTAL)) %&gt;% select(ID, all_of(PSS_ITEMS), PSS_INFO)</code></pre>
+<pre class="r"><code>hwise_pss %&gt;% filter(is.na(PSS_TOTAL)) %&gt;% select(ID, PSS_INFO, all_of(PSS_ITEMS))</code></pre>
 <pre><code># A tibble: 4 × 16
-     ID  PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6  PSS7  PSS9
-  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1    37    NA    NA    NA    NA    NA    NA    NA    NA     0     0    NA    NA
-2    89     1     3     4     2     2     3     0     3     2     2     2     3
-3   169     1     2     1     1     1     1     0    NA     3     3     3     3
-4   496     2     2     2     2     2     3     1    NA     3     3     3     2
-# ℹ 3 more variables: PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;, PSS_INFO &lt;chr&gt;</code></pre>
+     ID PSS_INFO      PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6
+  &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    37 PSS-14 not …    NA    NA    NA    NA    NA    NA    NA    NA     0     0
+2    89 &lt;NA&gt;             1     3     4     2     2     3     0     3     2     2
+3   169 Falta numer…     1     2     1     1     1     1     0    NA     3     3
+4   496 &lt;NA&gt;             2     2     2     2     2     3     1    NA     3     3
+# ℹ 4 more variables: PSS7 &lt;dbl&gt;, PSS9 &lt;dbl&gt;, PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;</code></pre>
 <pre class="r"><code>cat(&quot;\nParticipants flagged for PSS review (PSS_REVIEW_FLAG = 1):\n&quot;)</code></pre>
 <pre><code>
 Participants flagged for PSS review (PSS_REVIEW_FLAG = 1):</code></pre>
 <pre class="r"><code>hwise_pss %&gt;%
   filter(PSS_REVIEW_FLAG == 1) %&gt;%
-  select(ID, all_of(PSS_ITEMS), PSS_INFO, PSS_TOTAL) %&gt;%
+  select(ID,  PSS_INFO, all_of(PSS_ITEMS), PSS_TOTAL) %&gt;%
   print()</code></pre>
 <pre><code># A tibble: 1 × 17
-     ID  PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6  PSS7  PSS9
-  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1     4     2     3     2     1     2     2     1     3     3     3     3     3
-# ℹ 4 more variables: PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;, PSS_INFO &lt;chr&gt;, PSS_TOTAL &lt;dbl&gt;</code></pre>
+     ID PSS_INFO      PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6
+  &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     4 13-20=-7, R…     2     3     2     1     2     2     1     3     3     3
+# ℹ 5 more variables: PSS7 &lt;dbl&gt;, PSS9 &lt;dbl&gt;, PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;,
+#   PSS_TOTAL &lt;dbl&gt;</code></pre>
 <pre class="r"><code># Distribution plot
 ggplot(hwise_pss %&gt;% filter(!is.na(PSS_TOTAL)),
        aes(x = PSS_TOTAL)) +
@@ -1235,6 +1393,43 @@ ggplot(hwise_pss %&gt;% filter(!is.na(PSS_TOTAL)),
        x = &quot;PSS-14 total score (0–56)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/pss-total-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-pss-total-1">
+Past versions of pss-total-1.png
+</button>
+</p>
+<div id="fig-pss-total-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/pss-total-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1294,7 +1489,7 @@ of participants without HWISE_PSS data.</p>
   left_join(hwise_to_merge, by = &quot;ID&quot;)
 
 cat(&quot;Merged dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Merged dimensions: 399 103 </code></pre>
+<pre><code>Merged dimensions: 399 102 </code></pre>
 <pre class="r"><code># Cross-check SEASON from screening (0/1) vs HWISE_PSS text-derived value
 season_check &lt;- df_merged %&gt;%
   filter(!is.na(SEASON) &amp; !is.na(SEASON_CLEAN)) %&gt;%
@@ -1322,15 +1517,27 @@ df_merged &lt;- df_merged %&gt;% select(-SEASON_CLEAN)</code></pre>
 <div id="participants-without-hwise_pss-data" class="section level2">
 <h2>8.1 Participants without HWISE_PSS data</h2>
 <pre class="r"><code>missing_hw &lt;- df_merged %&gt;%
-  filter(is.na(HW_TOTAL) &amp; is.na(PSS_TOTAL)) %&gt;%
-  select(ID, SEASON)
+  filter(is.na(HW_TOTAL) | is.na(PSS_TOTAL)) %&gt;%
+  select(ID, SEASON, HW_TOTAL, PSS_TOTAL)
 
 cat(&quot;Participants with no HWISE or PSS data after merge:\n&quot;)</code></pre>
 <pre><code>Participants with no HWISE or PSS data after merge:</code></pre>
 <pre class="r"><code>print(missing_hw)</code></pre>
-<pre><code>   ID SEASON
-1 379      1
-2 427      1</code></pre>
+<pre><code>    ID SEASON HW_TOTAL PSS_TOTAL
+1   35      0       NA        18
+2   37      0        2        NA
+3   48      0       NA        23
+4   63      0       NA        29
+5   83      0       NA        19
+6   89      0        8        NA
+7  168      0       NA        22
+8  169      0        8        NA
+9  347      1       NA        33
+10 358      1       NA        37
+11 364      1       NA        23
+12 379      1       NA        NA
+13 427      1       NA        NA
+14 496      1        3        NA</code></pre>
 </div>
 <div id="missing-data-summary-for-key-variables" class="section level2">
 <h2>8.2 Missing data summary for key variables</h2>
@@ -1416,6 +1623,43 @@ cat(&quot;Missing data summary — HWISE &amp; PSS variables:\n&quot;)</code></p
        x = &quot;Score&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/score-by-season-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-score-by-season-1">
+Past versions of score-by-season-1.png
+</button>
+</p>
+<div id="fig-score-by-season-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/score-by-season-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 </div>
@@ -1426,9 +1670,7 @@ each other — i.e., whether they are all capturing the same underlying
 construct. Values ≥ 0.7 are generally considered acceptable. α is
 computed here on complete cases only (rows with any <code>NA</code> or
 sentinel code in the relevant items are excluded).</p>
-<pre class="r"><code>library(psych)
-
-# Helper to clean a set of items: exclude NAs and sentinel codes row-wise
+<pre class="r"><code># Helper to clean a set of items: exclude NAs and sentinel codes row-wise
 clean_items &lt;- function(data, items) {
   data %&gt;%
     select(all_of(items)) %&gt;%
@@ -1438,13 +1680,13 @@ clean_items &lt;- function(data, items) {
 }
 
 # HWISE — 12 items, scored 0–3
-alpha_hwise &lt;- clean_items(df_merged, HWISE_ITEMS) %&gt;% alpha()
+alpha_hwise &lt;- clean_items(df_merged, HWISE_ITEMS) %&gt;% psych::alpha()
 
 # PSS-14 — use reverse-coded versions of the negative items
-alpha_pss &lt;- clean_items(df_merged, PSS_SCORED_ITEMS) %&gt;% alpha()
+alpha_pss &lt;- clean_items(df_merged, PSS_SCORED_ITEMS) %&gt;% psych::alpha()
 
 # Water worry subscale — 3 items
-alpha_worry &lt;- clean_items(df_merged, WORRY_ITEMS) %&gt;% alpha()
+alpha_worry &lt;- clean_items(df_merged, WORRY_ITEMS) %&gt;% psych::alpha()
 
 # Summary table
 alpha_summary &lt;- tibble(
@@ -1496,6 +1738,43 @@ cat(&quot;Cronbach&#39;s α summary:\n&quot;)</code></pre>
        x = NULL, y = &quot;Cronbach&#39;s α&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/cronbach-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cronbach-1">
+Past versions of cronbach-1.png
+</button>
+</p>
+<div id="fig-cronbach-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/cronbach-1.png" target="_blank">616a741</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="interpretation" class="section level3">
 <h3>Interpretation</h3>
 <p><strong>HWISE (α = 0.848, 95% CI: 0.827–0.869):</strong> Good
@@ -1580,17 +1859,52 @@ PSS13_REV 0.338  0.292</code></pre>
 HW_WORRY 0.526  0.403
 HW_ANGRY 0.582  0.441
 HW_SHAME 0.351  0.261</code></pre>
+</div>
+<div id="pss-subscales" class="section level2">
+<h2>PSS subscales</h2>
+<pre class="r"><code>pss_helpless &lt;- c(
+  &quot;PSS1&quot;,&quot;PSS2&quot;,&quot;PSS3&quot;,&quot;PSS8&quot;,&quot;PSS11&quot;,&quot;PSS12&quot;,&quot;PSS14&quot;
+)
+
+pss_efficacy &lt;- c(
+  &quot;PSS4_REV&quot;,&quot;PSS5_REV&quot;,&quot;PSS6_REV&quot;,&quot;PSS7_REV&quot;,
+  &quot;PSS9_REV&quot;,&quot;PSS10_REV&quot;,&quot;PSS13_REV&quot;
+)
+
+alpha_helpless &lt;- df_merged %&gt;%
+  dplyr::select(all_of(pss_helpless)) %&gt;%
+  psych::alpha()</code></pre>
+<pre><code>Warning in response.frequencies(x, max = max): response.frequency has been
+deprecated and replaced with responseFrequecy.  Please fix your call</code></pre>
+<pre class="r"><code>alpha_efficacy &lt;- df_merged %&gt;%
+  dplyr::select(all_of(pss_efficacy)) %&gt;%
+  psych::alpha()</code></pre>
+<pre><code>Warning in response.frequencies(x, max = max): response.frequency has been
+deprecated and replaced with responseFrequecy.  Please fix your call</code></pre>
+<pre class="r"><code>alpha_helpless$total$raw_alpha</code></pre>
+<pre><code>[1] 0.786253</code></pre>
+<pre class="r"><code>alpha_efficacy$total$raw_alpha</code></pre>
+<pre><code>[1] 0.7511195</code></pre>
 <hr />
 </div>
 </div>
 <div id="save-merged-dataset" class="section level1">
 <h1>10. Save merged dataset</h1>
-<pre class="r"><code>out_file &lt;- file.path(data_path, &quot;Merged_Screening_HWISE_PSS.csv&quot;)
+<pre class="r"><code>out_file &lt;- file.path(data_path, &quot;02.Merged_Screening_HWISE_PSS.csv&quot;)
 write.csv(df_merged, out_file, row.names = FALSE)
 cat(&quot;Saved:&quot;, out_file, &quot;\n&quot;)</code></pre>
-<pre><code>Saved: ./data/Merged_Screening_HWISE_PSS.csv </code></pre>
+<pre><code>Saved: ./data/02.Merged_Screening_HWISE_PSS.csv </code></pre>
 <pre class="r"><code>cat(&quot;Final dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Final dimensions: 399 102 </code></pre>
+<pre><code>Final dimensions: 399 101 </code></pre>
+</div>
+<div id="pending" class="section level1">
+<h1>Pending</h1>
+<ul>
+<li>check samples that are only in screening file or in hwise_pss
+file</li>
+<li>HWISE have 8 samples with NAs (without final score)</li>
+<li>ID not in database: 71</li>
+</ul>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1600,12 +1914,12 @@ Session information
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.5.2 (2025-10-31)
+<pre><code>R version 4.5.3 (2026-03-11)
 Platform: aarch64-apple-darwin20
 Running under: macOS Tahoe 26.3.1
 
 Matrix products: default
-BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
 LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
@@ -1622,20 +1936,20 @@ other attached packages:
 [5] tidyr_1.3.1     dplyr_1.2.0     workflowr_1.7.1
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.10        utf8_1.2.4         generics_0.1.3     lattice_0.22-7    
+ [1] utf8_1.2.4         sass_0.4.10        generics_0.1.3     lattice_0.22-9    
  [5] stringi_1.8.7      hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
- [9] evaluate_1.0.3     grid_4.5.2         RColorBrewer_1.1-3 fastmap_1.2.0     
+ [9] evaluate_1.0.3     grid_4.5.3         RColorBrewer_1.1-3 fastmap_1.2.0     
 [13] rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1     
 [17] ps_1.9.1           promises_1.3.2     httr_1.4.7         purrr_1.0.4       
 [21] scales_1.4.0       jquerylib_0.1.4    mnormt_2.1.2       cli_3.6.5         
 [25] rlang_1.1.7        withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
-[29] parallel_4.5.2     tools_4.5.2        tzdb_0.5.0         httpuv_1.6.16     
+[29] parallel_4.5.3     tools_4.5.3        tzdb_0.5.0         httpuv_1.6.16     
 [33] vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2      
 [37] fs_1.6.6           pkgconfig_2.0.3    callr_3.7.6        pillar_1.10.2     
 [41] bslib_0.9.0        later_1.4.2        gtable_0.3.6       glue_1.8.0        
 [45] Rcpp_1.0.14        xfun_0.52          tibble_3.2.1       tidyselect_1.2.1  
 [49] rstudioapi_0.17.1  knitr_1.50         farver_2.1.2       nlme_3.1-168      
-[53] htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29     compiler_4.5.2    
+[53] htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29     compiler_4.5.3    
 [57] getPass_0.2-4      S7_0.2.0          </code></pre>
 </div>
 </div>

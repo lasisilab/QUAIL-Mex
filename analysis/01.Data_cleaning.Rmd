@@ -210,7 +210,7 @@ conflicts <- bind_rows(conflict_rows) %>%
   select(ID, variable, value_1, value_2, resolution)
 
 # Uncomment once ready to export:
- write.csv(conflicts, file.path(data_path, "conflicts_to_review.csv"),
+ write.csv(conflicts, file.path(data_path, "01.conflicts_to_review.csv"),
            row.names = FALSE)
  
  head(conflicts)
@@ -219,7 +219,7 @@ conflicts <- bind_rows(conflict_rows) %>%
 ## 3.2. Incorporate resolutions back into dataset and check again
 
 ```{r apply-resolutions}
-resolved <- read.csv(file.path(data_path, "conflicts_reviewed.csv"),
+resolved <- read.csv(file.path(data_path, "01.conflicts_reviewed.csv"),
                      stringsAsFactors = FALSE)
 
 for (i in seq_len(nrow(resolved))) {
@@ -274,7 +274,7 @@ conflicts <- bind_rows(conflict_rows) %>%
   select(ID, variable, value_1, value_2, resolution)
 
 # Uncomment once ready to export:
- write.csv(conflicts, file.path(data_path, "conflicts_to_review_V2.csv"),
+ write.csv(conflicts, file.path(data_path, "01.conflicts_to_review_V2.csv"),
            row.names = FALSE)
  
  head(conflicts)
@@ -283,11 +283,11 @@ conflicts <- bind_rows(conflict_rows) %>%
 
 ```
 
-# 3.3 Incorporate more resolutions back into dataset 
+## 3.3 Incorporate more resolutions back into dataset 
 
 
 ```{r}
-resolved <- read.csv(file.path(data_path, "conflicts_reviewed_V2.csv"),
+resolved <- read.csv(file.path(data_path, "01.conflicts_reviewed_V2.csv"),
                      stringsAsFactors = FALSE)
 
 for (i in seq_len(nrow(resolved))) {
@@ -297,6 +297,8 @@ for (i in seq_len(nrow(resolved))) {
   val <- resolved$resolution[i]
   df[df$ID == id, v] <- val
 }
+
+table(df$HLTH_MED_RAW)
 ```
 
 ---
@@ -426,18 +428,19 @@ df <- df %>%
     HLTH_SMK_CLEAN = case_when(
       is.na(HLTH_SMK)                                                              ~ NA_real_,
       str_trim(tolower(as.character(HLTH_SMK))) %in% as.character(MISSING_CODES)  ~ suppressWarnings(as.numeric(HLTH_SMK)),
-      str_trim(tolower(HLTH_SMK)) %in% c("no", "ya no- 10 atras", "fumaba", "No, hace 2 anios.")                                     ~ 0,
+      str_trim(tolower(HLTH_SMK)) %in% c("no", "ya no- 10 atras", "fumaba", "no, hace 2 anios.")                                     ~ 0,
       str_trim(tolower(HLTH_SMK)) %in% c(
         "de vez en cuando", "a veces", "aveces",
-        "casi nada", "poquito- 3 x semana", "3 x semana", "3 al mes",
-        "si de vez en cuando", "1 diario", "1 cada 3 dia",
+        "casi nada", "3 al mes",
+        "si de vez en cuando", "1 cada 3 dia",
         "a veces/ una vez por semana", "1 al mes","ocasionalmente",
-        "Ocasionalmente (1 vez x semana)", "c/6 meses",
-        "5 x mes", "A veces, 2-3 x semana", "Casi nada (1 c/2 meses)")                                             ~ 2,
+        "ocasionalmente (1 vez x semana)", "c/6 meses", "a vez al anio", 
+        "5 x mes", "a veces, 2-3 x semana", "casi nada (1 c/2 meses)", "1 c/ 2 o 3 meses")                                             ~ 2,
         str_starts(tolower(str_trim(HLTH_SMK)), "yes") |
         str_starts(tolower(str_trim(HLTH_SMK)), "si") |
-        str_starts(tolower(str_trim(HLTH_SMK)), "1 al dia") |
-        str_starts(tolower(str_trim(HLTH_SMK)), "7 x dia") ~ 1,
+        str_starts(tolower(str_trim(HLTH_SMK)), "1 al dia") |      str_starts(tolower(str_trim(HLTH_SMK)), "poquito- 3 x semana") |  str_starts(tolower(str_trim(HLTH_SMK)), "3 x semana") |
+        str_starts(tolower(str_trim(HLTH_SMK)), "7 x dia")|
+        str_starts(tolower(str_trim(HLTH_SMK)), "1 diario") ~ 1,
       TRUE                                                                         ~ 555
     ),
     HLTH_SMK_CAT = factor(HLTH_SMK_CLEAN,
@@ -471,6 +474,8 @@ D_EMP_FORM_CLEAN: 0 = Informal, 1 = Formal (NA if not employed)
 Sentinel codes are passed through unchanged.
 
 ```{r recode-employment}
+
+
 df <- df %>%
   mutate(
     D_EMP_TYPE_CLEAN = str_trim(tolower(D_EMP_TYPE)),
@@ -496,9 +501,9 @@ df <- df %>%
                  "vend|comerci|limpieza|chocolater|catalogo|ropa|dulces|postres|pintura|facebook") ~ 0,
       TRUE                                                                 ~ 555
     )
-  ) %>%
-  select(-D_EMP_TYPE_CLEAN)
+  ) 
 
+df[,c("D_EMP_TYPE", "D_EMP_TYPE_CLEAN", "D_EMP_FORM_CLEAN" )]
 cat("\nEmployment (D_EMP_CLEAN):\n")
 print(table(df$D_EMP_CLEAN, useNA = "always"))
 
@@ -513,26 +518,27 @@ df %>%
 
 # Visualization: RAW vs CLEAN for both employment variables
 emp_long <- df %>%
-  select(ID, D_EMP_TYPE_RAW, D_EMP_CLEAN, D_EMP_FORM_CLEAN) %>%
+  select(ID, D_EMP_CLEAN, D_EMP_FORM_CLEAN) %>%
   mutate(across(everything(), as.character)) %>%
   pivot_longer(-ID, names_to = "variable", values_to = "value") %>%
   mutate(
     version  = if_else(variable == "D_EMP_TYPE_RAW", "RAW", "CLEAN"),
     variable = case_when(
-      variable == "D_EMP_TYPE_RAW"   ~ "D_EMP",
+     # variable == "D_EMP_TYPE_RAW"   ~ "D_EMP",
       variable == "D_EMP_CLEAN"      ~ "D_EMP",
       variable == "D_EMP_FORM_CLEAN" ~ "D_EMP_FORM"
     )
   )
 
-ggplot(emp_long, aes(x = value, fill = version)) +
+
+ggplot(emp_long, aes(x = value, fill = value)) +
   geom_bar(position = "dodge") +
   facet_wrap(~ variable, scales = "free_x") +
-  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
-  labs(title = "Employment variables: RAW vs CLEAN value distribution",
-       x = "Value", y = "Count", fill = "Version") +
+  labs(title = "Employment variables distribution",
+       x = "Value", y = "Count", fill = "Value") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ```
 
 ---
@@ -654,9 +660,13 @@ df <- df %>%
 
 cat("SES_SC_Total NAs:", sum(is.na(df$SES_SC_Total)), "\n")
 cat("Participants with missing or flagged SES items:\n")
-print(df[is.na(df$SES_SC_Total),
+SES_nas <-print(df[is.na(df$SES_SC_Total),
          c("ID", ses_items, paste0(ses_items, "_RAW"))])
 
+write.csv(SES_nas, file.path(data_path, "01.SES_to_review.csv"), row.names = FALSE)
+
+print(df[is.na(df$SES_SC_Total),
+         c("ID", ses_items, paste0(ses_items, "_RAW"))])
 cat("\nSES category distribution:\n")
 print(table(df$SES_CAT_AMAI, useNA = "always"))
 ```
@@ -694,7 +704,7 @@ cat("Missing data summary (analytic variables):\n")
 print(missing_report, n = 50)
 
 cat("\nVariables exceeding 5% true NA (flag for methods section):\n")
-print(filter(missing_report, pct_na > 5))
+print(filter(missing_report, pct_na > 3), n =nrow(missing_report))
 ```
 
 ---
@@ -702,6 +712,13 @@ print(filter(missing_report, pct_na > 5))
 # 13. Save cleaned file
 
 ```{r save}
-write.csv(df, file.path(data_path, "Screening_clean.csv"), row.names = FALSE)
+write.csv(df, file.path(data_path, "01.Screening_clean.csv"), row.names = FALSE)
 cat("Saved. Final dimensions:", dim(df), "\n")
 ```
+
+
+# Pending
+
+- Section 8 is not doing what it should - it is coding informal employment as formal. 
+- Could rescue more SES (SES_to_review.csv)
+- Could include data entry for D_LOC (second season has no colonia information)
