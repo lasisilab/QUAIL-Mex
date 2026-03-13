@@ -18,20 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library(sf)
 library(ggplot2)
 library(dplyr)
-
-# Download Mexico City borough boundaries from INEGI
-# Using the administrative boundaries available via rgeomex or direct download
- install.packages("rgeomex")  # optional package with INEGI data
-
- ```
- ```{r agebs, echo=FALSE, dpi = 300}
-extract_ageb(cve_edo = "31", locality = "Merida")
+library(geodata)
 ```
 
-# Alternative: use geodata package
-# install.packages("geodata")
-library(geodata)
-
+# Map of Mexico City
+```{r}
 # Download Mexico administrative level 2 (municipalities/alcaldías)
 mex_adm2 <- geodata::gadm(country = "MEX", level = 2, path = tempdir(), resolution = 1) |>
   st_as_sf()
@@ -43,7 +34,7 @@ cdmx <- mex_adm2 |>
 # Add highlight column
 cdmx <- cdmx |>
   mutate(highlight = ifelse(NAME_2 == "Iztapalapa", "Iztapalapa", "Other boroughs"))
-
+head(cdmx)
 # Plot
 ggplot(cdmx) +
   geom_sf(aes(fill = highlight), color = "white", linewidth = 0.4) +
@@ -66,46 +57,120 @@ ggplot(cdmx) +
 
 ```
 
-# Mapa de Iztapalapa
+# Map of Iztapalapa
 ```{r}
 
-
-# Download colonias shapefile from CDMX open data portal
-url <- "https://datos.cdmx.gob.mx/dataset/coloniascdmx/resource/8b68b8bc-f1b8-4ece-8671-ee3df92b1ce8"
-
-# Direct GeoJSON download
-colonias <- st_read("https://datos.cdmx.gob.mx/api/3/action/datastore_search?resource_id=8b68b8bc-f1b8-4ece-8671-ee3df92b1ce8")
-
-
-colonias <- st_read("path/to/colonias.shp")  # or .geojson
+colonias <- st_read("./data/GeoJson/georef-mexico-colonia.geojson")
 
 # Check column names
 names(colonias)
 
-# Filter to Iztapalapa — check the exact column name for borough
-# likely "alcaldia", "municipio", or "delegacion"
-iztapalapa <- colonias |>
-  filter(grepl("iztapalapa", alcaldia, ignore.case = TRUE))
+# Create a variable to highlight Sinatel
+colonias <- colonias %>%
+  mutate(highlight = ifelse(col_name == "Sinatel", "Sinatel", "Other"))
 
-ggplot(iztapalapa) +
-  geom_sf(fill = "#D94F3D", color = "white", linewidth = 0.3) +
-  labs(title = "Colonias in Iztapalapa") +
+target_colonias <- c(
+  "Mirasoles (U Hab)",
+  "Lomas Estrella 2a Secc I",
+  "Lomas De Zaragoza",
+  "San Lorenzo Tezonco Ii (U Hab)",
+  "San Lorenzo Tezonco (Pblo)",
+  "San Lorenzo Tezonco (Barr)",
+  "Lomas De La Estancia Ii",
+  "Lomas De San Lorenzo I",
+  "Lomas De San Lorenzo Ii",
+  "San Antonio (Barr)",
+  "Santiago Acahualtepec (Pblo)",
+  "2a Ampliacion Santiago Acahualtepec Ii",
+  "San Miguel Teotongo I",
+  "San Miguel Teotongo Ii",
+  "San Miguel Teotongo Iii",
+  "San Miguel Teotongo Iv",
+  "Santa Martha Acatitla",
+  "Lomas De La Estancia I",
+  "Jose Lopez Portillo I",
+  "Jose Lopez Portillo Ii"
+)
+
+labels_sf <- colonias %>%
+  filter(col_name %in% target_colonias)
+
+colonias_highlight <- colonias %>%
+  mutate(
+    highlight = ifelse(col_name %in% target_colonias, "Selected", "Other")
+  )
+
+# Plot map
+ggplot(colonias) +
+  geom_sf(aes(fill = highlight), color = "gray40", size = 0.2) +
+  scale_fill_manual(
+    values = c("Sinatel" = "#05686D", "Other" = "#B0C4DE")
+  ) +
   theme_minimal() +
+  labs(title = "Colonias in Iztapalapa") +
+  # comment this to deactivate coordinates
   theme(
     axis.text = element_blank(),
     axis.ticks = element_blank(),
     panel.grid = element_blank()
   )
 
-ggplot(iztapalapa) +
-  geom_sf(fill = "#05686D", color = "white", linewidth = 0.3) +
-  labs(title = "Colonias in Iztapalapa") +
-  theme_minimal() +
-  theme(
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    panel.grid = element_blank()
-  )
+ggplot() +
+  geom_sf(data = colonias_highlight,
+          aes(fill = highlight),
+          color = "white",
+          size = 0.1) +
 
+  geom_sf_text(data = labels_sf,
+               aes(label = col_name),
+               size = 3) +
+
+  scale_fill_manual(values = c(
+    "Selected" = "#d73027",
+    "Other" = "gray85"
+  )) +
+
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")
+
+ggplot(colonias_highlight) +
+  geom_sf(aes(fill = highlight), color = "white", size = 0.1) +
+  scale_fill_manual(values = c("Sinatel" = "#d73027", "Other" = "gray85")) +
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")
+
+
+
+library(ggrepel)
+
+centroids <- st_centroid(labels_sf)
+
+ggplot() +
+  geom_sf(data = colonias_highlight,
+          aes(fill = highlight),
+          color = "white",
+          size = 0.1) +
+
+  geom_label_repel(
+    data = centroids,
+    aes(geometry = geometry, label = col_name),
+    stat = "sf_coordinates",
+    size = 3
+  ) +
+
+  scale_fill_manual(values = c(
+    "Selected" = "#05686D",
+    "Other" = "gray85"
+  )) +
+
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")
+
+unique(colonias$col_name)
 ```
 
+
+  

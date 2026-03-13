@@ -1,0 +1,2150 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+<meta name="date" content="2026-03-06" />
+
+<title>Data cleaning - Screening file</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Data cleaning - Screening file</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2026-03-06</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-12
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  data.plugin
+    Untracked:  data/GeoJson/
+    Untracked:  data/GeoShape/
+    Untracked:  data/conflicts_reviewed.csv
+    Untracked:  data/conflicts_reviewed_V2.csv
+    Untracked:  data/conflicts_to_review_V2.csv
+
+Unstaged changes:
+    Modified:   analysis/01.Data_cleaning.Rmd
+    Deleted:    analysis/Data_cleaning_HBA2025.Rmd
+    Deleted:    analysis/HBA2025_Analyses.Rmd
+    Deleted:    analysis/HBA2025_emotions.Rmd
+    Deleted:    analysis/MX28_plots.Rmd
+    Modified:   analysis/Maps.Rmd
+    Deleted:    analysis/Plots_Latinx_2026.Rmd
+    Deleted:    analysis/Plots_Latinx_research_week.Rmd
+    Deleted:    analysis/Regression-Analysis.Rmd
+    Deleted:    analysis/UROP_Alexandra.Rmd
+    Deleted:    analysis/UROP_Brittany.Rmd
+    Deleted:    analysis/UROP_Lauren.Rmd
+    Deleted:    analysis/index (1).Rmd
+    Deleted:    analysis/tests.Rmd
+    Modified:   data/01.SCREENING.csv
+    Modified:   data/Screening_clean.csv
+    Modified:   data/conflicts_to_review.csv
+    Deleted:    data/conflicts_to_reviewed.csv
+    Deleted:    temp.Rmd
+    Deleted:    temp.html
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/01.Data_cleaning.Rmd</code>) and
+HTML (<code>docs/01.Data_cleaning.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/analysis/01.Data_cleaning.Rmd" target="_blank">7c773aa</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-10
+</td>
+<td>
+Merge2.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Data cleaning script for <code>01.SCREENING.csv</code>. The goal is
+to produce a clean, analysis-ready dataset for the descriptive
+statistics table and regression models. This script covers: duplicate
+merging, missing code assignment, variable recoding, SES composite
+scoring, and a missingness summary.</p>
+<p>Missing data coding scheme:</p>
+<ul>
+<li>999 = Missing / lost / data entry error</li>
+<li>333 = Pending (data exists but not yet entered)<br />
+</li>
+<li>888 = Don’t know<br />
+</li>
+<li>777 = Refused / prefer not to answer<br />
+</li>
+<li>666 = Illegible<br />
+</li>
+<li>555 = Other (answer outside allowed categories)<br />
+</li>
+<li>444 = Ambiguous</li>
+</ul>
+<p>No = 0, Yes = 1, Occasionally = 2 (unless variable-specific rules
+apply). Sentinel codes are preserved in the master file and converted to
+NA only within analysis scripts.</p>
+<p><em>Important modifications to include in manuscript</em></p>
+<ul>
+<li>Age range was modified to 18-46 to include three participants</li>
+<li>Participant 10 was labeled as “999” in all its variables, as age is
+49.</li>
+<li>Rainy season is 0, dry season is 1.</li>
+</ul>
+<hr />
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<pre class="r"><code>library(dplyr)
+library(tidyr)
+library(stringr)
+library(readr)
+library(ggplot2)
+
+data_path &lt;- &quot;./data&quot;      # cleaned output
+raw_path  &lt;- &quot;./data&quot;      # raw input
+
+MISSING_CODES &lt;- c(999, 888, 777, 666, 555, 444, 333)</code></pre>
+<hr />
+</div>
+<div id="load-raw-data" class="section level1">
+<h1>1. Load raw data</h1>
+<pre class="r"><code>df_raw &lt;- read.csv(
+  file.path(raw_path, &quot;01.SCREENING.csv&quot;),
+  stringsAsFactors = FALSE,
+  na.strings = c(&quot;&quot;)   # only truly blank cells become NA at read time
+)
+
+cat(&quot;Raw dimensions:&quot;, dim(df_raw), &quot;\n&quot;)</code></pre>
+<pre><code>Raw dimensions: 537 35 </code></pre>
+<pre class="r"><code>cat(&quot;Unique IDs in raw file:&quot;, length(unique(df_raw$ID)), &quot;\n&quot;)</code></pre>
+<pre><code>Unique IDs in raw file: 399 </code></pre>
+<pre class="r"><code>cat(&quot;Duplicate IDs:&quot;, sum(duplicated(df_raw$ID)), &quot;\n&quot;)</code></pre>
+<pre><code>Duplicate IDs: 138 </code></pre>
+<hr />
+</div>
+<div id="standardize-text-before-merging" class="section level1">
+<h1>2. Standardize text before merging</h1>
+<p>Convert known missing-text patterns to NA so they don’t interfere
+with the merge logic. All other values are preserved.</p>
+<pre class="r"><code>na_strings &lt;- c(&quot;N/A&quot;, &quot;n/a&quot;, &quot;NA&quot;, &quot;na&quot;,
+                &quot;No hay niguna repuesta&quot;, &quot;No hay ninguna repuesta&quot;)
+
+# &quot;pending&quot; means data exists but was not entered — code as 333, not NA
+pending_strings &lt;- c(&quot;pending&quot;, &quot;Pending&quot;, &quot;PENDING&quot;)
+
+df_raw &lt;- df_raw %&gt;%
+  mutate(across(where(is.character), ~ {
+    x &lt;- str_trim(.)
+    case_when(
+      x %in% na_strings      ~ NA_character_,
+      x %in% pending_strings ~ &quot;333&quot;,
+      TRUE                   ~ x
+    )
+  }))</code></pre>
+<hr />
+<div id="preserve-raw-values-before-any-recoding"
+class="section level2">
+<h2>2.1 Preserve raw values before any recoding</h2>
+<p>Raw copies are created here, before merging or recoding, so that
+<code>_RAW</code> columns always reflect the original data entry.</p>
+<pre class="r"><code>vars_to_preserve &lt;- c(&quot;HLTH_TTM&quot;, &quot;HLTH_MED&quot;, &quot;HLTH_CPAIN&quot;,
+                      &quot;HLTH_CDIS&quot;, &quot;HLTH_SMK&quot;, &quot;D_EMP_TYPE&quot;, &quot;D_CHLD&quot;)
+
+df_raw &lt;- df_raw %&gt;%
+  mutate(across(all_of(vars_to_preserve),
+                ~ ., .names = &quot;{.col}_RAW&quot;))</code></pre>
+<hr />
+</div>
+</div>
+<div id="merge-duplicate-rows" class="section level1">
+<h1>3. Merge duplicate rows</h1>
+<p>For IDs with two rows, take the non-NA value when rows differ. If
+both rows have different non-NA values for the same field, the conflict
+is flagged with 444 (Ambiguous) so you can review manually.</p>
+<pre class="r"><code>merge_rows &lt;- function(df_group) {
+  if (nrow(df_group) == 1) return(df_group)
+  
+  merged &lt;- df_group[1, , drop = FALSE]  # start with first row as template
+  
+  # Skip ID — it is the same by definition
+  skip_cols &lt;- c(&quot;ID&quot;)
+  
+  for (col in setdiff(names(df_group), skip_cols)) {
+    v1 &lt;- df_group[[col]][1]
+    v2 &lt;- df_group[[col]][2]
+    
+    both_na   &lt;- is.na(v1) &amp; is.na(v2)
+    only_v2   &lt;- is.na(v1) &amp; !is.na(v2)
+    both_same &lt;- !is.na(v1) &amp; !is.na(v2) &amp;
+                 (str_trim(tolower(as.character(v1))) ==
+                  str_trim(tolower(as.character(v2))))
+    conflict  &lt;- !is.na(v1) &amp; !is.na(v2) &amp;
+                 (str_trim(tolower(as.character(v1))) !=
+                  str_trim(tolower(as.character(v2))))
+    
+    if (both_na)        { merged[[col]] &lt;- NA }
+    else if (only_v2)   { merged[[col]] &lt;- v2 }
+    else if (both_same) { merged[[col]] &lt;- v1 }
+    else if (conflict)  {
+      # Free-text/notes columns: concatenate instead of flagging
+      if (col %in% c(&quot;D_LOC_INFO&quot;, &quot;D_HH_SIZE_INFO&quot;, &quot;D_INFO&quot;,
+                     &quot;SES_INFO&quot;, &quot;HLTH_CPAIN_CAT&quot;, &quot;HLTH_CDIS_CAT&quot;)) {
+        merged[[col]] &lt;- paste(v1, v2, sep = &quot; | &quot;)
+      } else {
+        merged[[col]] &lt;- &quot;444&quot;   # Ambiguous — review manually
+      }
+    }
+  }
+  return(merged)
+}
+
+df &lt;- df_raw %&gt;%
+  group_by(ID) %&gt;%
+  group_modify(~ merge_rows(.x)) %&gt;%
+  ungroup()
+
+cat(&quot;Rows after merging duplicates:&quot;, nrow(df), &quot;\n&quot;)</code></pre>
+<pre><code>Rows after merging duplicates: 399 </code></pre>
+<pre class="r"><code># Report which fields were flagged as ambiguous
+ambig_flags &lt;- df %&gt;%
+  select(-ID) %&gt;%
+  summarise(across(everything(), ~ sum(. == &quot;444&quot;, na.rm = TRUE))) %&gt;%
+  pivot_longer(everything(), names_to = &quot;variable&quot;, values_to = &quot;n_ambiguous&quot;) %&gt;%
+  filter(n_ambiguous &gt; 0)
+
+cat(&quot;\nFields with ambiguous (444) values after merge:\n&quot;)</code></pre>
+<pre><code>
+Fields with ambiguous (444) values after merge:</code></pre>
+<pre class="r"><code>print(ambig_flags, n=nrow(ambig_flags))</code></pre>
+<pre><code># A tibble: 31 × 2
+   variable       n_ambiguous
+   &lt;chr&gt;                &lt;int&gt;
+ 1 D_YRBR                   3
+ 2 D_AGE                   51
+ 3 D_LOC_CODE               3
+ 4 D_LOC_TIME               2
+ 5 HLTH_SMK                 3
+ 6 HLTH_MED                 1
+ 7 HLTH_CPAIN               2
+ 8 HLTH_CDIS                3
+ 9 D_HH_SIZE                5
+10 D_CHLD                   3
+11 D_EMP_TYPE               6
+12 W_HH_SIZE                2
+13 W_STORAGE                2
+14 SES_EDU_CAT              4
+15 SES_EDU_SC               1
+16 SES_BTHR_CAT             1
+17 SES_BTHR_SC              1
+18 SES_CAR_CAT              1
+19 SES_CAR_SC               1
+20 SES_INT_CAT              1
+21 SES_INT_SC               1
+22 SES_WRK_CAT              2
+23 SES_WRK_SC               2
+24 SES_BEDR_CAT             1
+25 SES_BEDR_SC              1
+26 HLTH_MED_RAW             1
+27 HLTH_CPAIN_RAW           2
+28 HLTH_CDIS_RAW            3
+29 HLTH_SMK_RAW             3
+30 D_EMP_TYPE_RAW           6
+31 D_CHLD_RAW               3</code></pre>
+<pre class="r"><code># Print ID and conflicting values for manual review
+for (v in ambig_flags$variable) {
+  cat(&quot;\n---&quot;, v, &quot;---\n&quot;)
+  conflict_ids &lt;- df %&gt;%
+    filter(.data[[v]] == &quot;444&quot;) %&gt;%
+    pull(ID)
+  print(df_raw %&gt;%
+    filter(ID %in% conflict_ids) %&gt;%
+    select(ID, all_of(v)))
+}</code></pre>
+<pre><code>
+--- D_YRBR ---
+   ID D_YRBR
+1  70   1989
+2  70   1984
+3 329   2001
+4 329   2002
+5 376   1993
+6 376   1998
+
+--- D_AGE ---
+     ID D_AGE
+1    70    33
+2    70    38
+3   322    33
+4   322    34
+5   324    20
+6   324    21
+7   325    43
+8   325    44
+9   326    35
+10  326    36
+11  327    27
+12  327    28
+13  328    43
+14  328    44
+15  331    34
+16  331    35
+17  332    45
+18  332    46
+19  333    31
+20  333    32
+21  335    27
+22  335    28
+23  336    32
+24  336    33
+25  337    33
+26  337    34
+27  338    22
+28  338    23
+29  339    37
+30  339    38
+31  340    30
+32  340    31
+33  341    33
+34  341    34
+35  343    27
+36  343    28
+37  344    30
+38  344    31
+39  345    24
+40  345    25
+41  362    28
+42  362    29
+43  364    33
+44  364    34
+45  365    32
+46  365    33
+47  366    43
+48  366    44
+49  367    32
+50  367    33
+51  368    41
+52  368    42
+53  369    32
+54  369    33
+55  370    34
+56  370    35
+57  371    37
+58  371    38
+59  372    30
+60  372    31
+61  373    31
+62  373    32
+63  374    37
+64  374    38
+65  375    25
+66  375    24
+67  376    29
+68  376    25
+69  377    19
+70  377    20
+71  378    22
+72  378    23
+73  379    38
+74  379    39
+75  380    39
+76  380    40
+77  381    18
+78  381    19
+79  382    27
+80  382    28
+81  383    24
+82  383    25
+83  384    44
+84  384    45
+85  385    21
+86  385    22
+87  386    20
+88  386    21
+89  387    22
+90  387    23
+91  388    37
+92  388    38
+93  389    33
+94  389    34
+95  390    26
+96  390    27
+97  391    29
+98  391    30
+99  393    29
+100 393    30
+101 395    18
+102 395    19
+
+--- D_LOC_CODE ---
+   ID  D_LOC_CODE
+1  44 09900 09910
+2  44        9900
+3 391        9690
+4 391        9640
+5 496        9960
+6 496        9780
+
+--- D_LOC_TIME ---
+   ID D_LOC_TIME
+1  70         15
+2  70         38
+3 394          3
+4 394         31
+
+--- HLTH_SMK ---
+   ID HLTH_SMK
+1  24       No
+2  24      Yes
+3 167       No
+4 167      Yes
+5 202 1 al dia
+6 202       No
+
+--- HLTH_MED ---
+   ID           HLTH_MED
+1 202 Lozzartan- presion
+2 202                 No
+
+--- HLTH_CPAIN ---
+  ID   HLTH_CPAIN
+1 70 Si- Migrania
+2 70           No
+3 75 Si gastritis
+4 75           No
+
+--- HLTH_CDIS ---
+   ID
+1   9
+2   9
+3  70
+4  70
+5 202
+6 202
+                                                                              HLTH_CDIS
+1                                                                                    No
+2                                                  Dolor cronico: dolor cabeza 2 al mes
+3 Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente
+4                                                                                    No
+5                                                            hipotension (presion baja)
+6                                                                                    No
+
+--- D_HH_SIZE ---
+    ID D_HH_SIZE
+1   70        20
+2   70         9
+3  190         6
+4  190         3
+5  191         3
+6  191         8
+7  202         3
+8  202        15
+9  310         3
+10 310        13
+11 310      &lt;NA&gt;
+
+--- D_CHLD ---
+   ID D_CHLD
+1 202      2
+2 202      1
+3 415    333
+4 415      2
+5 427      1
+6 427      4
+7 427      4
+
+--- D_EMP_TYPE ---
+    ID
+1  202
+2  202
+3  302
+4  302
+5  302
+6  320
+7  320
+8  320
+9  323
+10 323
+11 323
+12 334
+13 334
+14 334
+15 394
+16 394
+                                                                                                                                                                                                                                              D_EMP_TYPE
+1  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
+2                                                                                                                                                                                                                                                 Formal
+3                                                                                                                                                                                                                                                 formal
+4                                                                                                                                                                                                                             Formal, empleada en bodega
+5                                                                                                                                                                                                                                                   &lt;NA&gt;
+6                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
+7                                                                                                                                                                                                                                               informal
+8                                                                                                                                                                                                                                                   &lt;NA&gt;
+9                                                                                                                                                                                                                                       tiene un negocio
+10                                                                                                                                                                                                                                                formal
+11                                                                                                                                                                                                                                                  &lt;NA&gt;
+12                                                                                                                                                                                                                                Si, seguridad privada.
+13                                                                                                                                                                                                                                                formal
+14                                                                                                                                                                                                                                                  &lt;NA&gt;
+15                                                                                                                                                                                                                                           Comerciante
+16                                                                                                                                                                                                                                              Informal
+
+--- W_HH_SIZE ---
+   ID                                     W_HH_SIZE
+1 453                                            15
+2 453 viven mas familias ahi. llave sole en lavando
+3 483                            Cisterna-mirasoles
+4 483                            No hay informacion
+5 483                                          &lt;NA&gt;
+6 483                            Cisterna-mirasoles
+
+--- W_STORAGE ---
+   ID                                                           W_STORAGE
+1 427   tambos chiquitos--&gt; turnos (3 famen terreno) --&gt; una toma de agua
+2 427 tambos chiquitos --&gt; turnos (3 fam en terreno) --&gt; una toma de agua
+3 427 tambos chiquitos --&gt; turnos (3 fam en terreno) --&gt; una toma de agua
+4 476  tinaco --&gt; bathroom (baniarse)\nbotes--&gt; 2 llaves directo de calle
+5 476              Tinaco--&gt; bathroom. Botes--&gt; 2 llaves directo de calle
+
+--- SES_EDU_CAT ---
+   ID                                               SES_EDU_CAT
+1  70                                       Secundaria completa
+2  70                                     Preparatoria completa
+3 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
+4 103                                   Preparatoria incompleta
+5 327                                   Licenciatura incompleta
+6 327                                     carrera tecnica bachi
+7 427                                          5 to de primaria
+8 427                                       Primaria incompleta
+9 427                                       Primaria incompleta
+
+--- SES_EDU_SC ---
+  ID SES_EDU_SC
+1 70         31
+2 70         43
+
+--- SES_BTHR_CAT ---
+  ID SES_BTHR_CAT
+1 70   1 bathroom
+2 70  0 bathrooms
+
+--- SES_BTHR_SC ---
+  ID SES_BTHR_SC
+1 70          24
+2 70           0
+
+--- SES_CAR_CAT ---
+  ID SES_CAR_CAT
+1 70       1 car
+2 70      0 cars
+
+--- SES_CAR_SC ---
+  ID SES_CAR_SC
+1 70         18
+2 70          0
+
+--- SES_INT_CAT ---
+   ID SES_INT_CAT
+1 202          NO
+2 202          SI
+
+--- SES_INT_SC ---
+   ID SES_INT_SC
+1 202          0
+2 202         31
+
+--- SES_WRK_CAT ---
+   ID      SES_WRK_CAT
+1  70       2 personas
+2  70       3 personas
+3 202        1 persona
+4 202 4 o mas personas
+
+--- SES_WRK_SC ---
+   ID SES_WRK_SC
+1  70         31
+2  70         46
+3 202         15
+4 202         61
+
+--- SES_BEDR_CAT ---
+  ID    SES_BEDR_CAT
+1 70       2 cuartos
+2 70 4 cuartos o mas
+
+--- SES_BEDR_SC ---
+  ID SES_BEDR_SC
+1 70          12
+2 70          23
+
+--- HLTH_MED_RAW ---
+   ID       HLTH_MED_RAW
+1 202 Lozzartan- presion
+2 202                 No
+
+--- HLTH_CPAIN_RAW ---
+  ID HLTH_CPAIN_RAW
+1 70   Si- Migrania
+2 70             No
+3 75   Si gastritis
+4 75             No
+
+--- HLTH_CDIS_RAW ---
+   ID
+1   9
+2   9
+3  70
+4  70
+5 202
+6 202
+                                                                          HLTH_CDIS_RAW
+1                                                                                    No
+2                                                  Dolor cronico: dolor cabeza 2 al mes
+3 Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente
+4                                                                                    No
+5                                                            hipotension (presion baja)
+6                                                                                    No
+
+--- HLTH_SMK_RAW ---
+   ID HLTH_SMK_RAW
+1  24           No
+2  24          Yes
+3 167           No
+4 167          Yes
+5 202     1 al dia
+6 202           No
+
+--- D_EMP_TYPE_RAW ---
+    ID
+1  202
+2  202
+3  302
+4  302
+5  302
+6  320
+7  320
+8  320
+9  323
+10 323
+11 323
+12 334
+13 334
+14 334
+15 394
+16 394
+                                                                                                                                                                                                                                          D_EMP_TYPE_RAW
+1  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
+2                                                                                                                                                                                                                                                 Formal
+3                                                                                                                                                                                                                                                 formal
+4                                                                                                                                                                                                                             Formal, empleada en bodega
+5                                                                                                                                                                                                                                                   &lt;NA&gt;
+6                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
+7                                                                                                                                                                                                                                               informal
+8                                                                                                                                                                                                                                                   &lt;NA&gt;
+9                                                                                                                                                                                                                                       tiene un negocio
+10                                                                                                                                                                                                                                                formal
+11                                                                                                                                                                                                                                                  &lt;NA&gt;
+12                                                                                                                                                                                                                                Si, seguridad privada.
+13                                                                                                                                                                                                                                                formal
+14                                                                                                                                                                                                                                                  &lt;NA&gt;
+15                                                                                                                                                                                                                                           Comerciante
+16                                                                                                                                                                                                                                              Informal
+
+--- D_CHLD_RAW ---
+   ID D_CHLD_RAW
+1 202          2
+2 202          1
+3 415        333
+4 415          2
+5 427          1
+6 427          4
+7 427          4</code></pre>
+<div id="export-conflicts-for-manual-resolution" class="section level2">
+<h2>3.1. Export conflicts for manual resolution</h2>
+<pre class="r"><code>conflict_rows &lt;- list()
+
+for (v in ambig_flags$variable) {
+  conflict_ids &lt;- df %&gt;%
+    filter(.data[[v]] == &quot;444&quot;) %&gt;%
+    pull(ID)
+  
+  tmp &lt;- df_raw %&gt;%
+    filter(ID %in% conflict_ids) %&gt;%
+    select(ID, all_of(v)) %&gt;%
+    mutate(across(c(ID, all_of(v)), as.character)) %&gt;%
+    group_by(ID) %&gt;%
+    summarise(value_1 = first(.data[[v]]),
+              value_2 = last(.data[[v]]),
+              .groups = &quot;drop&quot;) %&gt;%
+    mutate(variable = v, resolution = NA_character_)
+  
+  conflict_rows[[v]] &lt;- tmp
+}
+
+conflicts &lt;- bind_rows(conflict_rows) %&gt;%
+  select(ID, variable, value_1, value_2, resolution)
+
+# Uncomment once ready to export:
+ write.csv(conflicts, file.path(data_path, &quot;conflicts_to_review.csv&quot;),
+           row.names = FALSE)
+ 
+ head(conflicts)</code></pre>
+<pre><code># A tibble: 6 × 5
+  ID    variable value_1 value_2 resolution
+  &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     
+1 329   D_YRBR   2001    2002    &lt;NA&gt;      
+2 376   D_YRBR   1993    1998    &lt;NA&gt;      
+3 70    D_YRBR   1989    1984    &lt;NA&gt;      
+4 322   D_AGE    33      34      &lt;NA&gt;      
+5 324   D_AGE    20      21      &lt;NA&gt;      
+6 325   D_AGE    43      44      &lt;NA&gt;      </code></pre>
+</div>
+<div id="incorporate-resolutions-back-into-dataset-and-check-again"
+class="section level2">
+<h2>3.2. Incorporate resolutions back into dataset and check again</h2>
+<pre class="r"><code>resolved &lt;- read.csv(file.path(data_path, &quot;conflicts_reviewed.csv&quot;),
+                     stringsAsFactors = FALSE)
+
+for (i in seq_len(nrow(resolved))) {
+  if (is.na(resolved$resolution[i])) next  # skip unresolved conflicts
+  id  &lt;- resolved$ID[i]
+  v   &lt;- resolved$variable[i]
+  val &lt;- resolved$resolution[i]
+  df[df$ID == id, v] &lt;- val
+}
+
+# Report which fields were flagged as ambiguous
+ambig_flags &lt;- df %&gt;%
+  select(-ID) %&gt;%
+  summarise(across(everything(), ~ sum(. == &quot;444&quot;, na.rm = TRUE))) %&gt;%
+  pivot_longer(everything(), names_to = &quot;variable&quot;, values_to = &quot;n_ambiguous&quot;) %&gt;%
+  filter(n_ambiguous &gt; 0)
+
+cat(&quot;\nFields with ambiguous (444) values after merge:\n&quot;)</code></pre>
+<pre><code>
+Fields with ambiguous (444) values after merge:</code></pre>
+<pre class="r"><code>print(ambig_flags, n=nrow(ambig_flags))</code></pre>
+<pre><code># A tibble: 6 × 2
+  variable       n_ambiguous
+  &lt;chr&gt;                &lt;int&gt;
+1 HLTH_MED_RAW             1
+2 HLTH_CPAIN_RAW           1
+3 HLTH_CDIS_RAW            3
+4 HLTH_SMK_RAW             2
+5 D_EMP_TYPE_RAW           6
+6 D_CHLD_RAW               3</code></pre>
+<pre class="r"><code># Print ID and conflicting values for manual review
+for (v in ambig_flags$variable) {
+  cat(&quot;\n---&quot;, v, &quot;---\n&quot;)
+  conflict_ids &lt;- df %&gt;%
+    filter(.data[[v]] == &quot;444&quot;) %&gt;%
+    pull(ID)
+  print(df_raw %&gt;%
+    filter(ID %in% conflict_ids) %&gt;%
+    select(ID, all_of(v)))
+}</code></pre>
+<pre><code>
+--- HLTH_MED_RAW ---
+   ID       HLTH_MED_RAW
+1 202 Lozzartan- presion
+2 202                 No
+
+--- HLTH_CPAIN_RAW ---
+  ID HLTH_CPAIN_RAW
+1 70   Si- Migrania
+2 70             No
+
+--- HLTH_CDIS_RAW ---
+   ID
+1   9
+2   9
+3  70
+4  70
+5 202
+6 202
+                                                                          HLTH_CDIS_RAW
+1                                                                                    No
+2                                                  Dolor cronico: dolor cabeza 2 al mes
+3 Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente
+4                                                                                    No
+5                                                            hipotension (presion baja)
+6                                                                                    No
+
+--- HLTH_SMK_RAW ---
+   ID HLTH_SMK_RAW
+1 167           No
+2 167          Yes
+3 202     1 al dia
+4 202           No
+
+--- D_EMP_TYPE_RAW ---
+    ID
+1  202
+2  202
+3  302
+4  302
+5  302
+6  320
+7  320
+8  320
+9  323
+10 323
+11 323
+12 334
+13 334
+14 334
+15 394
+16 394
+                                                                                                                                                                                                                                          D_EMP_TYPE_RAW
+1  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
+2                                                                                                                                                                                                                                                 Formal
+3                                                                                                                                                                                                                                                 formal
+4                                                                                                                                                                                                                             Formal, empleada en bodega
+5                                                                                                                                                                                                                                                   &lt;NA&gt;
+6                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
+7                                                                                                                                                                                                                                               informal
+8                                                                                                                                                                                                                                                   &lt;NA&gt;
+9                                                                                                                                                                                                                                       tiene un negocio
+10                                                                                                                                                                                                                                                formal
+11                                                                                                                                                                                                                                                  &lt;NA&gt;
+12                                                                                                                                                                                                                                Si, seguridad privada.
+13                                                                                                                                                                                                                                                formal
+14                                                                                                                                                                                                                                                  &lt;NA&gt;
+15                                                                                                                                                                                                                                           Comerciante
+16                                                                                                                                                                                                                                              Informal
+
+--- D_CHLD_RAW ---
+   ID D_CHLD_RAW
+1 202          2
+2 202          1
+3 415        333
+4 415          2
+5 427          1
+6 427          4
+7 427          4</code></pre>
+<pre class="r"><code>conflict_rows &lt;- list()
+
+for (v in ambig_flags$variable) {
+  conflict_ids &lt;- df %&gt;%
+    filter(.data[[v]] == &quot;444&quot;) %&gt;%
+    pull(ID)
+  
+  tmp &lt;- df_raw %&gt;%
+    filter(ID %in% conflict_ids) %&gt;%
+    select(ID, all_of(v)) %&gt;%
+    mutate(across(c(ID, all_of(v)), as.character)) %&gt;%
+    group_by(ID) %&gt;%
+    summarise(value_1 = first(.data[[v]]),
+              value_2 = last(.data[[v]]),
+              .groups = &quot;drop&quot;) %&gt;%
+    mutate(variable = v, resolution = NA_character_)
+  
+  conflict_rows[[v]] &lt;- tmp
+}
+
+conflicts &lt;- bind_rows(conflict_rows) %&gt;%
+  select(ID, variable, value_1, value_2, resolution)
+
+# Uncomment once ready to export:
+ write.csv(conflicts, file.path(data_path, &quot;conflicts_to_review_V2.csv&quot;),
+           row.names = FALSE)
+ 
+ head(conflicts)</code></pre>
+<pre><code># A tibble: 6 × 5
+  ID    variable       value_1                                value_2 resolution
+  &lt;chr&gt; &lt;chr&gt;          &lt;chr&gt;                                  &lt;chr&gt;   &lt;chr&gt;     
+1 202   HLTH_MED_RAW   Lozzartan- presion                     No      &lt;NA&gt;      
+2 70    HLTH_CPAIN_RAW Si- Migrania                           No      &lt;NA&gt;      
+3 202   HLTH_CDIS_RAW  hipotension (presion baja)             No      &lt;NA&gt;      
+4 70    HLTH_CDIS_RAW  Sospecha que tiene artritis o hipoten… No      &lt;NA&gt;      
+5 9     HLTH_CDIS_RAW  No                                     Dolor … &lt;NA&gt;      
+6 167   HLTH_SMK_RAW   No                                     Yes     &lt;NA&gt;      </code></pre>
+</div>
+</div>
+<div id="incorporate-more-resolutions-back-into-dataset"
+class="section level1">
+<h1>3.3 Incorporate more resolutions back into dataset</h1>
+<pre class="r"><code>resolved &lt;- read.csv(file.path(data_path, &quot;conflicts_reviewed_V2.csv&quot;),
+                     stringsAsFactors = FALSE)
+
+for (i in seq_len(nrow(resolved))) {
+  if (is.na(resolved$resolution[i])) next  # skip unresolved conflicts
+  id  &lt;- resolved$ID[i]
+  v   &lt;- resolved$variable[i]
+  val &lt;- resolved$resolution[i]
+  df[df$ID == id, v] &lt;- val
+}</code></pre>
+<hr />
+</div>
+<div id="participant-id-checks" class="section level1">
+<h1>4. Participant ID checks</h1>
+<pre class="r"><code>cat(&quot;Total unique participants:&quot;, nrow(df), &quot;\n&quot;)</code></pre>
+<pre><code>Total unique participants: 399 </code></pre>
+<pre class="r"><code># Season 1: IDs 1-204 (rainy, Oct-Dec 2022)
+# Season 2: IDs 301-497 (dry, Apr-Jun 2023)
+missing_s1 &lt;- setdiff(1:204, df$ID)
+missing_s2 &lt;- setdiff(301:497, df$ID)
+
+cat(&quot;Missing IDs in Season 1 (1-204):&quot;,
+    ifelse(length(missing_s1) == 0, &quot;none&quot;,
+           paste(missing_s1, collapse = &quot;, &quot;)), &quot;\n&quot;)</code></pre>
+<pre><code>Missing IDs in Season 1 (1-204): 71, 164 </code></pre>
+<pre class="r"><code>cat(&quot;Missing IDs in Season 2 (301-497):&quot;,
+    ifelse(length(missing_s2) == 0, &quot;none&quot;,
+           paste(missing_s2, collapse = &quot;, &quot;)), &quot;\n&quot;)</code></pre>
+<pre><code>Missing IDs in Season 2 (301-497): none </code></pre>
+<pre class="r"><code># Age check: eligibility was 18-46
+out_of_range_age &lt;- df %&gt;%
+  filter(!is.na(D_AGE) &amp; (as.numeric(D_AGE) &lt; 18 | as.numeric(D_AGE) &gt; 46)) %&gt;%
+  select(ID, D_YRBR, D_AGE)
+
+cat(&quot;\nParticipants outside age eligibility range (18-46):\n&quot;)</code></pre>
+<pre><code>
+Participants outside age eligibility range (18-46):</code></pre>
+<pre class="r"><code>print(out_of_range_age)</code></pre>
+<pre><code># A tibble: 1 × 3
+     ID D_YRBR D_AGE
+  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;
+1    10 1979   49   </code></pre>
+<pre class="r"><code># Flag all non-NA data for out-of-range participants as 999
+# NA cells are left as NA (not converted to 999)
+out_of_range_ids &lt;- out_of_range_age$ID
+
+df &lt;- df %&gt;%
+  mutate(across(-ID, ~ {
+    x &lt;- as.character(.)
+    ifelse(ID %in% out_of_range_ids &amp; !is.na(x), &quot;999&quot;, x)
+  }))</code></pre>
+<hr />
+</div>
+<div id="assign-season-variable" class="section level1">
+<h1>5. Assign season variable</h1>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(SEASON = case_when(
+    ID &gt;= 1   &amp; ID &lt;= 204 ~ 0,   # 0 = rainy (reference in models)
+    ID &gt;= 301 &amp; ID &lt;= 497 ~ 1,   # 1 = dry
+    TRUE ~ NA_real_
+  ))
+
+cat(&quot;Season distribution:\n&quot;)</code></pre>
+<pre><code>Season distribution:</code></pre>
+<pre class="r"><code>print(table(df$SEASON, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 202  197    0 </code></pre>
+<hr />
+</div>
+<div id="recode-binary-yesno-variables" class="section level1">
+<h1>6. Recode binary Yes/No variables</h1>
+<p>No = 0, Yes = 1. Responses with extra text (e.g., “Yes, Loratadina”)
+are recoded as 1 since the full text is captured in the corresponding
+_RAW column. Sentinel codes are passed through unchanged.</p>
+<pre class="r"><code>recode_yesno &lt;- function(x) {
+  x &lt;- str_trim(tolower(as.character(x)))
+  case_when(
+    is.na(x)                                          ~ NA_real_,
+    x %in% as.character(MISSING_CODES)               ~ suppressWarnings(as.numeric(x)),
+    x %in% c(&quot;no&quot;, &quot;no.&quot;, &quot;no -div&quot;)                 ~ 0,
+    str_starts(x, &quot;yes&quot;) | str_starts(x, &quot;si&quot;)       ~ 1,
+    x %in% c(&quot;no sabe&quot;, &quot;ns&quot;)                        ~ 888,
+    x %in% c(&quot;refused&quot;, &quot;prefiero no&quot;)               ~ 777,
+    TRUE                                              ~ 555
+  )
+}
+
+binary_vars &lt;- c(&quot;HLTH_TTM&quot;, &quot;HLTH_MED&quot;, &quot;HLTH_CPAIN&quot;, &quot;HLTH_CDIS&quot;)
+
+df &lt;- df %&gt;%
+  mutate(across(all_of(binary_vars),
+                recode_yesno, .names = &quot;{.col}_CLEAN&quot;))
+
+# Visualization: RAW vs CLEAN for all binary variables
+binary_long &lt;- df %&gt;%
+  select(ID,
+         all_of(paste0(binary_vars, &quot;_RAW&quot;)),
+         all_of(paste0(binary_vars, &quot;_CLEAN&quot;))) %&gt;%
+  mutate(across(everything(), as.character)) %&gt;%
+  pivot_longer(-ID,
+               names_to  = c(&quot;variable&quot;, &quot;version&quot;),
+               names_pattern = &quot;(.+)_(RAW|CLEAN)&quot;) %&gt;%
+  mutate(value = as.character(value))
+
+ggplot(binary_long, aes(x = value, fill = version)) +
+  geom_bar(position = &quot;dodge&quot;) +
+  facet_wrap(~ variable, scales = &quot;free_x&quot;) +
+  scale_fill_manual(values = c(&quot;RAW&quot; = &quot;#d9534f&quot;, &quot;CLEAN&quot; = &quot;#5bc0de&quot;)) +
+  labs(title = &quot;Binary variables: RAW vs CLEAN value distribution&quot;,
+       x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Version&quot;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/01.Data_cleaning.Rmd/recode-binary-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="recode-hlth_smk-smoking-3-categories" class="section level1">
+<h1>7. Recode HLTH_SMK (smoking) → 3 categories</h1>
+<p>0 = No, 1 = Yes/Daily, 2 = Occasionally. Sentinel codes are passed
+through unchanged.</p>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(
+    HLTH_SMK_CLEAN = case_when(
+      is.na(HLTH_SMK)                                                              ~ NA_real_,
+      str_trim(tolower(as.character(HLTH_SMK))) %in% as.character(MISSING_CODES)  ~ suppressWarnings(as.numeric(HLTH_SMK)),
+      str_trim(tolower(HLTH_SMK)) %in% c(&quot;no&quot;, &quot;ya no- 10 atras&quot;)                                     ~ 0,
+      str_trim(tolower(HLTH_SMK)) %in% c(
+        &quot;de vez en cuando&quot;, &quot;a veces&quot;, &quot;aveces&quot;,
+        &quot;casi nada&quot;, &quot;poquito- 3 x semana&quot;, &quot;3 x semana&quot;,
+        &quot;si de vez en cuando&quot;, &quot;1 diario&quot;, &quot;1 cada 3 dia&quot;,
+        &quot;a veces/ una vez por semana&quot;, &quot;ocasionalmente&quot;,
+        &quot;Ocasionalmente (1 vez x semana)&quot;, &quot;c/6 meses&quot;,
+        &quot;5 x mes&quot;, &quot;A veces, 2-3 x semana&quot;, &quot;Casi nada (1 c/2 meses)&quot;)                                             ~ 2,
+        str_starts(tolower(str_trim(HLTH_SMK)), &quot;yes&quot;) |
+        str_starts(tolower(str_trim(HLTH_SMK)), &quot;si&quot;) |
+        str_starts(tolower(str_trim(HLTH_SMK)), &quot;1 al dia&quot;) |
+        str_starts(tolower(str_trim(HLTH_SMK)), &quot;7 x dia&quot;) ~ 1,
+      TRUE                                                                         ~ 555
+    ),
+    HLTH_SMK_CAT = factor(HLTH_SMK_CLEAN,
+                          levels = c(0, 1, 2, 555),
+                          labels = c(&quot;No&quot;, &quot;Yes&quot;, &quot;Occasionally&quot;, &quot;Other&quot;))
+  )
+
+cat(&quot;Smoking distribution:\n&quot;)</code></pre>
+<pre><code>Smoking distribution:</code></pre>
+<pre class="r"><code>print(table(df$HLTH_SMK_CAT, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+          No          Yes Occasionally        Other         &lt;NA&gt; 
+         266           94           14            9           16 </code></pre>
+<pre class="r"><code>cat(&quot;\nUnclassified smoking responses (555):\n&quot;)</code></pre>
+<pre><code>
+Unclassified smoking responses (555):</code></pre>
+<pre class="r"><code>df %&gt;% filter(HLTH_SMK_CLEAN == 555) %&gt;%
+  select(ID, HLTH_SMK_RAW, HLTH_SMK_CLEAN) %&gt;% print()</code></pre>
+<pre><code># A tibble: 9 × 3
+     ID HLTH_SMK_RAW                    HLTH_SMK_CLEAN
+  &lt;int&gt; &lt;chr&gt;                                    &lt;dbl&gt;
+1    93 Ocasionalmente (1 vez x semana)            555
+2   109 A veces, 2-3 x semana                      555
+3   118 No, hace 2 anios.                          555
+4   138 A vez al anio                              555
+5   307 fumaba                                     555
+6   409 3 al mes                                   555
+7   411 1 c/ 2 o 3 meses                           555
+8   437 1 al mes                                   555
+9   496 Casi nada (1 c/2 meses)                    555</code></pre>
+<pre class="r"><code># Visualization: RAW vs CLEAN
+smk_long &lt;- df %&gt;%
+  select(ID, HLTH_SMK_RAW, HLTH_SMK_CLEAN) %&gt;%
+  mutate(across(everything(), as.character)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;version&quot;, values_to = &quot;value&quot;) %&gt;%
+  mutate(version = str_remove(version, &quot;HLTH_SMK_&quot;))
+
+ggplot(smk_long, aes(x = value, fill = version)) +
+  geom_bar(position = &quot;dodge&quot;) +
+  scale_fill_manual(values = c(&quot;RAW&quot; = &quot;#d9534f&quot;, &quot;CLEAN&quot; = &quot;#5bc0de&quot;)) +
+  labs(title = &quot;HLTH_SMK: RAW vs CLEAN value distribution&quot;,
+       x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Version&quot;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/01.Data_cleaning.Rmd/recode-smoking-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="recode-d_emp_type-two-variables" class="section level1">
+<h1>8. Recode D_EMP_TYPE → two variables</h1>
+<p>D_EMP_CLEAN: 0 = Not employed, 1 = Employed D_EMP_FORM_CLEAN: 0 =
+Informal, 1 = Formal (NA if not employed) Sentinel codes are passed
+through unchanged.</p>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(
+    D_EMP_TYPE_CLEAN = str_trim(tolower(D_EMP_TYPE)),
+
+    D_EMP_CLEAN = case_when(
+      is.na(D_EMP_TYPE_CLEAN)                                              ~ NA_real_,
+      D_EMP_TYPE_CLEAN %in% as.character(MISSING_CODES)                   ~ suppressWarnings(as.numeric(D_EMP_TYPE_CLEAN)),
+      D_EMP_TYPE_CLEAN %in% c(&quot;no&quot;, &quot;no.&quot;, &quot;niguna&quot;, &quot;nada&quot;, &quot;ninguna&quot;)   ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN, &quot;no\\b&quot;) &amp;
+        !str_detect(D_EMP_TYPE_CLEAN,
+                    &quot;informal|formal|trabaj|vend|comerci&quot;)                 ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN,
+                 &quot;yes|si|formal|informal|comerci|vend|trabaj|administrat|limpieza|estilista|ama de&quot;) ~ 1,
+      TRUE                                                                 ~ 555
+    ),
+
+    D_EMP_FORM_CLEAN = case_when(
+      is.na(D_EMP_CLEAN) | D_EMP_CLEAN != 1                               ~ NA_real_,
+      D_EMP_TYPE_CLEAN %in% as.character(MISSING_CODES)                   ~ suppressWarnings(as.numeric(D_EMP_TYPE_CLEAN)),
+      str_detect(D_EMP_TYPE_CLEAN, &quot;formal(?!.*informal)&quot;)                ~ 1,
+      str_detect(D_EMP_TYPE_CLEAN, &quot;informal&quot;)                            ~ 0,
+      str_detect(D_EMP_TYPE_CLEAN,
+                 &quot;vend|comerci|limpieza|chocolater|catalogo|ropa|dulces|postres|pintura|facebook&quot;) ~ 0,
+      TRUE                                                                 ~ 555
+    )
+  ) %&gt;%
+  select(-D_EMP_TYPE_CLEAN)
+
+cat(&quot;\nEmployment (D_EMP_CLEAN):\n&quot;)</code></pre>
+<pre><code>
+Employment (D_EMP_CLEAN):</code></pre>
+<pre class="r"><code>print(table(df$D_EMP_CLEAN, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1  555  999 &lt;NA&gt; 
+ 110  264    9    1   15 </code></pre>
+<pre class="r"><code>cat(&quot;\nFormality (D_EMP_FORM_CLEAN, among employed):\n&quot;)</code></pre>
+<pre><code>
+Formality (D_EMP_FORM_CLEAN, among employed):</code></pre>
+<pre class="r"><code>print(table(df$D_EMP_FORM_CLEAN, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1  555 &lt;NA&gt; 
+  24  190   50  135 </code></pre>
+<pre class="r"><code>cat(&quot;\nUnclassified employment responses (555):\n&quot;)</code></pre>
+<pre><code>
+Unclassified employment responses (555):</code></pre>
+<pre class="r"><code>df %&gt;%
+  filter(D_EMP_CLEAN == 555 | D_EMP_FORM_CLEAN == 555) %&gt;%
+  select(ID, D_EMP_TYPE_RAW, D_EMP_CLEAN, D_EMP_FORM_CLEAN) %&gt;%
+  print()</code></pre>
+<pre><code># A tibble: 59 × 4
+      ID D_EMP_TYPE_RAW                             D_EMP_CLEAN D_EMP_FORM_CLEAN
+   &lt;int&gt; &lt;chr&gt;                                            &lt;dbl&gt;            &lt;dbl&gt;
+ 1     1 Yes,venta de productos                               1              555
+ 2     4 Administrativo esparadico local de produc…           1              555
+ 3     5 Ama de cas                                           1              555
+ 4     6 Yes,witatechnologia- 1 dia a la semana               1              555
+ 5    13 Yes,vento online FB                                  1              555
+ 6    30 Yes,asistente de estilista                           1              555
+ 7    31 Ma de trabajo?                                       1              555
+ 8    41 Si                                                   1              555
+ 9    42 Yes,solo fds                                         1              555
+10    45 Comerante                                          555               NA
+# ℹ 49 more rows</code></pre>
+<pre class="r"><code># Visualization: RAW vs CLEAN for both employment variables
+emp_long &lt;- df %&gt;%
+  select(ID, D_EMP_TYPE_RAW, D_EMP_CLEAN, D_EMP_FORM_CLEAN) %&gt;%
+  mutate(across(everything(), as.character)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
+  mutate(
+    version  = if_else(variable == &quot;D_EMP_TYPE_RAW&quot;, &quot;RAW&quot;, &quot;CLEAN&quot;),
+    variable = case_when(
+      variable == &quot;D_EMP_TYPE_RAW&quot;   ~ &quot;D_EMP&quot;,
+      variable == &quot;D_EMP_CLEAN&quot;      ~ &quot;D_EMP&quot;,
+      variable == &quot;D_EMP_FORM_CLEAN&quot; ~ &quot;D_EMP_FORM&quot;
+    )
+  )
+
+ggplot(emp_long, aes(x = value, fill = version)) +
+  geom_bar(position = &quot;dodge&quot;) +
+  facet_wrap(~ variable, scales = &quot;free_x&quot;) +
+  scale_fill_manual(values = c(&quot;RAW&quot; = &quot;#d9534f&quot;, &quot;CLEAN&quot; = &quot;#5bc0de&quot;)) +
+  labs(title = &quot;Employment variables: RAW vs CLEAN value distribution&quot;,
+       x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Version&quot;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/01.Data_cleaning.Rmd/recode-employment-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="recode-d_chld-parity" class="section level1">
+<h1>9. Recode D_CHLD (parity)</h1>
+<p>Expected: integer 0-4. Non-numeric entries are flagged. Sentinel
+codes are passed through unchanged.</p>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(
+    D_CHLD_CLEAN = case_when(
+      is.na(D_CHLD)                                                          ~ NA_real_,
+      str_trim(as.character(D_CHLD)) %in% as.character(MISSING_CODES)       ~ suppressWarnings(as.numeric(D_CHLD)),
+      str_detect(tolower(as.character(D_CHLD)), &quot;no hay nota&quot;)               ~ 444,
+      str_detect(tolower(as.character(D_CHLD)), &quot;^si&quot;)                       ~ 444,
+      !is.na(suppressWarnings(as.numeric(D_CHLD)))                           ~ suppressWarnings(as.numeric(D_CHLD)),
+      TRUE                                                                   ~ 555
+    )
+  )
+
+cat(&quot;Parity distribution (D_CHLD_CLEAN):\n&quot;)</code></pre>
+<pre><code>Parity distribution (D_CHLD_CLEAN):</code></pre>
+<pre class="r"><code>print(table(df$D_CHLD_CLEAN, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1    2    3    4    5    6    8  333  444  555  999 &lt;NA&gt; 
+  59   81  134   72   23    7    1    1    2    1    3    1   14 </code></pre>
+<pre class="r"><code>cat(&quot;\nFlagged parity values:\n&quot;)</code></pre>
+<pre><code>
+Flagged parity values:</code></pre>
+<pre class="r"><code>df %&gt;%
+  filter(D_CHLD_CLEAN %in% c(333, 444, 555)) %&gt;%
+  select(ID, D_CHLD_RAW, D_CHLD_CLEAN) %&gt;%
+  print()</code></pre>
+<pre><code># A tibble: 6 × 3
+     ID D_CHLD_RAW                  D_CHLD_CLEAN
+  &lt;int&gt; &lt;chr&gt;                              &lt;dbl&gt;
+1     5 333                                  333
+2    16 Si (no hay nota de cuantos)          444
+3   173 Yes                                  555
+4   319 333                                  333
+5   363 No                                   555
+6   493 3--y 2 meses bebê                    555</code></pre>
+<pre class="r"><code># Visualization: RAW vs CLEAN
+chld_long &lt;- df %&gt;%
+  select(ID, D_CHLD_RAW, D_CHLD_CLEAN) %&gt;%
+  mutate(across(everything(), as.character)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;version&quot;, values_to = &quot;value&quot;) %&gt;%
+  mutate(version = str_remove(version, &quot;D_CHLD_&quot;))
+
+ggplot(chld_long, aes(x = value, fill = version)) +
+  geom_bar(position = &quot;dodge&quot;) +
+  scale_fill_manual(values = c(&quot;RAW&quot; = &quot;#d9534f&quot;, &quot;CLEAN&quot; = &quot;#5bc0de&quot;)) +
+  labs(title = &quot;D_CHLD (parity): RAW vs CLEAN value distribution&quot;,
+       x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Version&quot;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/01.Data_cleaning.Rmd/recode-parity-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+<div id="clean-d_loc_time-years-in-neighborhood" class="section level1">
+<h1>10. Clean D_LOC_TIME (years in neighborhood)</h1>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(
+    D_LOC_TIME_RAW   = D_LOC_TIME,
+    D_LOC_TIME_CLEAN = case_when(
+      is.na(D_LOC_TIME)                                                         ~ NA_real_,
+      str_trim(as.character(D_LOC_TIME)) %in% as.character(MISSING_CODES)      ~ suppressWarnings(as.numeric(D_LOC_TIME)),
+      !is.na(suppressWarnings(as.numeric(D_LOC_TIME)))                          ~ suppressWarnings(as.numeric(D_LOC_TIME)),
+      TRUE                                                                      ~ 555
+    )
+  )
+
+cat(&quot;D_LOC_TIME values flagged as 555 (non-numeric text):\n&quot;)</code></pre>
+<pre><code>D_LOC_TIME values flagged as 555 (non-numeric text):</code></pre>
+<pre class="r"><code>df %&gt;%
+  filter(D_LOC_TIME_CLEAN == 555) %&gt;%
+  select(ID, D_LOC_TIME_RAW, D_LOC_TIME_CLEAN) %&gt;%
+  print()</code></pre>
+<pre><code># A tibble: 2 × 3
+     ID D_LOC_TIME_RAW                       D_LOC_TIME_CLEAN
+  &lt;int&gt; &lt;chr&gt;                                           &lt;dbl&gt;
+1   384 1 ano en casa, anterior 5 (2 casas).              555
+2   451 1 ano en casa nueva                               555</code></pre>
+<hr />
+</div>
+<div id="compute-ses-composite-score-nse-amai" class="section level1">
+<h1>11. Compute SES composite score (NSE-AMAI)</h1>
+<p>Items: SES_EDU_SC, SES_BTHR_SC, SES_CAR_SC, SES_INT_SC, SES_WRK_SC,
+SES_BEDR_SC Non-numeric entries (e.g. column-shift errors) are flagged
+as 666.</p>
+<pre class="r"><code>ses_items &lt;- c(&quot;SES_EDU_SC&quot;, &quot;SES_BTHR_SC&quot;, &quot;SES_CAR_SC&quot;,
+               &quot;SES_INT_SC&quot;, &quot;SES_WRK_SC&quot;, &quot;SES_BEDR_SC&quot;)
+
+# Preserve originals
+ses_raw &lt;- df[ses_items]
+names(ses_raw) &lt;- paste0(ses_items, &quot;_RAW&quot;)
+df &lt;- bind_cols(df, ses_raw)
+
+# Convert to numeric; flag non-numeric entries as 666
+df[ses_items] &lt;- lapply(ses_items, function(col) {
+  x     &lt;- df[[col]]
+  x_num &lt;- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(!is.na(x) &amp; is.na(x_num), 666, x_num)
+})
+
+# Compute total; NA if any item is missing or flagged
+df &lt;- df %&gt;%
+  rowwise() %&gt;%
+  mutate(
+    SES_SC_Total = if_else(
+      any(is.na(c_across(all_of(ses_items)))) |
+        any(c_across(all_of(ses_items)) %in% MISSING_CODES),
+      NA_real_,
+      sum(c_across(all_of(ses_items)), na.rm = FALSE)
+    )
+  ) %&gt;%
+  ungroup()
+
+# NSE-AMAI classification
+df &lt;- df %&gt;%
+  mutate(SES_CAT_AMAI = case_when(
+    is.na(SES_SC_Total) ~ NA_character_,
+    SES_SC_Total &gt;= 205 ~ &quot;AB&quot;,
+    SES_SC_Total &gt;= 166 ~ &quot;C+&quot;,
+    SES_SC_Total &gt;= 135 ~ &quot;C&quot;,
+    SES_SC_Total &gt;= 112 ~ &quot;C-&quot;,
+    SES_SC_Total &gt;= 90  ~ &quot;D+&quot;,
+    SES_SC_Total &gt;= 48  ~ &quot;D-&quot;,
+    TRUE                ~ &quot;E&quot;
+  ))
+
+cat(&quot;SES_SC_Total NAs:&quot;, sum(is.na(df$SES_SC_Total)), &quot;\n&quot;)</code></pre>
+<pre><code>SES_SC_Total NAs: 48 </code></pre>
+<pre class="r"><code>cat(&quot;Participants with missing or flagged SES items:\n&quot;)</code></pre>
+<pre><code>Participants with missing or flagged SES items:</code></pre>
+<pre class="r"><code>print(df[is.na(df$SES_SC_Total),
+         c(&quot;ID&quot;, ses_items, paste0(ses_items, &quot;_RAW&quot;))])</code></pre>
+<pre><code># A tibble: 48 × 13
+      ID SES_EDU_SC SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC SES_BEDR_SC
+   &lt;int&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+ 1     8         31          NA         18         31         15          12
+ 2    10        999         999        999        999        999         999
+ 3    11         35          NA          0         31         46          23
+ 4    12         35          47         18         31         61          NA
+ 5    18         NA          NA         NA         NA         NA          NA
+ 6    22         31          NA         NA         NA         NA          NA
+ 7    57         31         666          0         31         15           6
+ 8    58         43          NA          0         31         31          23
+ 9    81         NA          47          0          0         31          23
+10    85         31          47         18         31         61          NA
+# ℹ 38 more rows
+# ℹ 6 more variables: SES_EDU_SC_RAW &lt;chr&gt;, SES_BTHR_SC_RAW &lt;chr&gt;,
+#   SES_CAR_SC_RAW &lt;chr&gt;, SES_INT_SC_RAW &lt;chr&gt;, SES_WRK_SC_RAW &lt;chr&gt;,
+#   SES_BEDR_SC_RAW &lt;chr&gt;</code></pre>
+<pre class="r"><code>cat(&quot;\nSES category distribution:\n&quot;)</code></pre>
+<pre><code>
+SES category distribution:</code></pre>
+<pre class="r"><code>print(table(df$SES_CAT_AMAI, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+  AB    C   C-   C+   D-   D+    E &lt;NA&gt; 
+  27   83   80   48   50   52   11   48 </code></pre>
+<hr />
+</div>
+<div id="missing-data-summary" class="section level1">
+<h1>12. Missing data summary</h1>
+<pre class="r"><code># Exclude free-text notes columns and intermediate working columns
+notes_cols &lt;- c(&quot;D_LOC_INFO&quot;, &quot;D_HH_SIZE_INFO&quot;, &quot;D_INFO&quot;, &quot;SES_INFO&quot;,
+                &quot;HLTH_CPAIN_CAT&quot;, &quot;HLTH_CDIS_CAT&quot;, &quot;D_EMP_DAYS&quot;,
+                &quot;W_HH_SIZE&quot;, &quot;W_STORAGE&quot;, &quot;D_LOC_CODE&quot;)
+
+analytic_vars &lt;- setdiff(names(df), notes_cols)
+
+missing_report &lt;- df %&gt;%
+  select(all_of(analytic_vars)) %&gt;%
+  summarise(across(everything(), list(
+    n_na       = ~ sum(is.na(.)),
+    n_sentinel = ~ sum(. %in% as.character(MISSING_CODES), na.rm = TRUE)
+  ))) %&gt;%
+  pivot_longer(everything(),
+               names_to  = c(&quot;variable&quot;, &quot;.value&quot;),
+               names_sep = &quot;_(?=n_na|n_sentinel)&quot;) %&gt;%
+  mutate(
+    n_total  = nrow(df),
+    pct_na   = round(n_na / n_total * 100, 1),
+    pct_flag = round(n_sentinel / n_total * 100, 1)
+  ) %&gt;%
+  filter(n_na &gt; 0 | n_sentinel &gt; 0) %&gt;%
+  arrange(desc(pct_na))
+
+cat(&quot;Missing data summary (analytic variables):\n&quot;)</code></pre>
+<pre><code>Missing data summary (analytic variables):</code></pre>
+<pre class="r"><code>print(missing_report, n = 50)</code></pre>
+<pre><code># A tibble: 51 × 6
+   variable          n_na n_sentinel n_total pct_na pct_flag
+   &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 D_LOC              251          1     399   62.9      0.3
+ 2 D_EMP_FORM_CLEAN   135         50     399   33.8     12.5
+ 3 SES_SC_Total        48          0     399   12        0  
+ 4 SES_CAT_AMAI        48          0     399   12        0  
+ 5 D_LOC_TIME          31          1     399    7.8      0.3
+ 6 D_LOC_TIME_RAW      31          1     399    7.8      0.3
+ 7 D_LOC_TIME_CLEAN    31          3     399    7.8      0.8
+ 8 SES_BTHR_SC         29          2     399    7.3      0.5
+ 9 SES_BTHR_SC_RAW     29          1     399    7.3      0.3
+10 SES_BTHR_CAT        20          1     399    5        0.3
+11 SES_CAR_SC          18          1     399    4.5      0.3
+12 SES_CAR_SC_RAW      18          1     399    4.5      0.3
+13 D_HH_SIZE           17          1     399    4.3      0.3
+14 SES_CAR_CAT         17          1     399    4.3      0.3
+15 SES_BEDR_SC         17          1     399    4.3      0.3
+16 SES_BEDR_SC_RAW     17          1     399    4.3      0.3
+17 SES_EDU_SC          16          2     399    4        0.5
+18 HLTH_SMK_CAT        16          0     399    4        0  
+19 SES_EDU_SC_RAW      16          2     399    4        0.5
+20 HLTH_SMK            15          1     399    3.8      0.3
+21 D_EMP_TYPE          15          1     399    3.8      0.3
+22 SES_INT_CAT         15          1     399    3.8      0.3
+23 SES_INT_SC          15          1     399    3.8      0.3
+24 SES_WRK_CAT         15          1     399    3.8      0.3
+25 SES_WRK_SC          15          1     399    3.8      0.3
+26 SES_BEDR_CAT        15          1     399    3.8      0.3
+27 HLTH_SMK_RAW        15          3     399    3.8      0.8
+28 D_EMP_TYPE_RAW      15          7     399    3.8      1.8
+29 HLTH_SMK_CLEAN      15         10     399    3.8      2.5
+30 D_EMP_CLEAN         15         10     399    3.8      2.5
+31 SES_INT_SC_RAW      15          1     399    3.8      0.3
+32 SES_WRK_SC_RAW      15          1     399    3.8      0.3
+33 HLTH_TTM            14          1     399    3.5      0.3
+34 D_CHLD              14          3     399    3.5      0.8
+35 HLTH_TTM_RAW        14          1     399    3.5      0.3
+36 D_CHLD_RAW          14          6     399    3.5      1.5
+37 HLTH_TTM_CLEAN      14         35     399    3.5      8.8
+38 D_CHLD_CLEAN        14          7     399    3.5      1.8
+39 HLTH_MED            13          1     399    3.3      0.3
+40 HLTH_CPAIN          13          1     399    3.3      0.3
+41 HLTH_CDIS           13          1     399    3.3      0.3
+42 HLTH_MED_RAW        13          2     399    3.3      0.5
+43 HLTH_CPAIN_RAW      13          2     399    3.3      0.5
+44 HLTH_CDIS_RAW       13          4     399    3.3      1  
+45 HLTH_MED_CLEAN      13         51     399    3.3     12.8
+46 HLTH_CPAIN_CLEAN    13         44     399    3.3     11  
+47 HLTH_CDIS_CLEAN     13         72     399    3.3     18  
+48 SES_EDU_CAT          5          1     399    1.3      0.3
+49 D_AGE                2          1     399    0.5      0.3
+50 ID                   0          2     399    0        0.5
+# ℹ 1 more row</code></pre>
+<pre class="r"><code>cat(&quot;\nVariables exceeding 5% true NA (flag for methods section):\n&quot;)</code></pre>
+<pre><code>
+Variables exceeding 5% true NA (flag for methods section):</code></pre>
+<pre class="r"><code>print(filter(missing_report, pct_na &gt; 5))</code></pre>
+<pre><code># A tibble: 9 × 6
+  variable          n_na n_sentinel n_total pct_na pct_flag
+  &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+1 D_LOC              251          1     399   62.9      0.3
+2 D_EMP_FORM_CLEAN   135         50     399   33.8     12.5
+3 SES_SC_Total        48          0     399   12        0  
+4 SES_CAT_AMAI        48          0     399   12        0  
+5 D_LOC_TIME          31          1     399    7.8      0.3
+6 D_LOC_TIME_RAW      31          1     399    7.8      0.3
+7 D_LOC_TIME_CLEAN    31          3     399    7.8      0.8
+8 SES_BTHR_SC         29          2     399    7.3      0.5
+9 SES_BTHR_SC_RAW     29          1     399    7.3      0.3</code></pre>
+<hr />
+</div>
+<div id="save-cleaned-file" class="section level1">
+<h1>13. Save cleaned file</h1>
+<pre class="r"><code>write.csv(df, file.path(data_path, &quot;Screening_clean.csv&quot;), row.names = FALSE)
+cat(&quot;Saved. Final dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
+<pre><code>Saved. Final dimensions: 399 62 </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_4.0.0 readr_2.1.5   stringr_1.5.1 tidyr_1.3.1   dplyr_1.2.0  
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6       jsonlite_2.0.0     compiler_4.5.3     promises_1.3.2    
+ [5] tidyselect_1.2.1   Rcpp_1.0.14        git2r_0.36.2       later_1.4.2       
+ [9] jquerylib_0.1.4    scales_1.4.0       yaml_2.3.10        fastmap_1.2.0     
+[13] R6_2.6.1           labeling_0.4.3     generics_0.1.3     workflowr_1.7.1   
+[17] knitr_1.50         tibble_3.2.1       rprojroot_2.1.1    RColorBrewer_1.1-3
+[21] tzdb_0.5.0         bslib_0.9.0        pillar_1.10.2      rlang_1.1.7       
+[25] utf8_1.2.4         cachem_1.1.0       stringi_1.8.7      httpuv_1.6.16     
+[29] xfun_0.52          S7_0.2.0           fs_1.6.6           sass_0.4.10       
+[33] cli_3.6.5          withr_3.0.2        magrittr_2.0.3     grid_4.5.3        
+[37] digest_0.6.37      rstudioapi_0.17.1  hms_1.1.3          lifecycle_1.0.5   
+[41] vctrs_0.7.1        evaluate_1.0.3     glue_1.8.0         farver_2.1.2      
+[45] whisker_0.4.1      rmarkdown_2.29     purrr_1.0.4        tools_4.5.3       
+[49] pkgconfig_2.0.3    htmltools_0.5.8.1 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

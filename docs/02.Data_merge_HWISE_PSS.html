@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Paloma" />
+
+<meta name="date" content="2026-03-07" />
+
+<title>Data merge &amp; cleaning — Screening + HWISE + PSS</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Data merge &amp; cleaning — Screening +
+HWISE + PSS</h1>
+<h4 class="author">Paloma</h4>
+<h4 class="date">2026-03-07</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-12
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree21e9e56c70c0c47851913f0734e447732752e291targetblank21e9e56a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/21e9e56c70c0c47851913f0734e447732752e291" target="_blank">21e9e56</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  data.plugin
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/02.Data_merge_HWISE_PSS.Rmd</code>) and HTML
+(<code>docs/02.Data_merge_HWISE_PSS.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/7c773aaafe85e386fbbb39142c5d39d14fe115be/analysis/02.Data_merge_HWISE_PSS.Rmd" target="_blank">7c773aa</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-10
+</td>
+<td>
+Merge2.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This script merges the cleaned screening file
+(<code>Screening_clean.csv</code>, produced by
+<code>Data_cleaning.Rmd</code>) with the HWISE and PSS data
+(<code>02.HWISE_PSS.csv</code>). It covers: item-level validation, score
+computation, the left-join merge, and a final missingness check.</p>
+<p>Missing data coding scheme (inherited from
+<code>Data_cleaning.Rmd</code>):</p>
+<ul>
+<li>999 = Missing / lost / data entry error</li>
+<li>333 = Pending (data exists but not yet entered)</li>
+<li>888 = Don’t know</li>
+<li>777 = Refused / prefer not to answer</li>
+<li>666 = Illegible</li>
+<li>555 = Other / unclassifiable</li>
+<li>444 = Ambiguous</li>
+</ul>
+<p>Sentinel codes are preserved in the master file and converted to
+<code>NA</code> only within analysis scripts.</p>
+<p><strong>Scale scoring rules:</strong></p>
+<ul>
+<li><p><strong>HWISE</strong> (Household Water InSecurity Experiences):
+12 items (<code>HW_WORRY</code> through <code>HW_SHAME</code>), each
+scored 0–3. Total range 0–36.</p></li>
+<li><p><strong>PSS-14</strong> (Perceived Stress Scale, 14-item): items
+scored 0–4. Negatively-worded items (PSS4, PSS5, PSS6, PSS7, PSS9,
+PSS10, PSS13) are reverse-coded (0→4, 1→3, 2→2, 3→1, 4→0) before
+summing. Total range 0–56.</p></li>
+</ul>
+<hr />
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<pre class="r"><code>library(dplyr)
+library(tidyr)
+library(stringr)
+library(readr)
+library(ggplot2)
+
+data_path &lt;- &quot;./data&quot;
+
+MISSING_CODES &lt;- c(999, 888, 777, 666, 555, 444, 333)
+
+# HWISE items (12 substantive items, scored 0-3)
+HWISE_ITEMS &lt;- c(&quot;HW_WORRY&quot;, &quot;HW_INTERR&quot;, &quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;,
+                 &quot;HW_FOOD&quot;,  &quot;HW_HANDS&quot;,  &quot;HW_BODY&quot;,   &quot;HW_DRINK&quot;,
+                 &quot;HW_ANGRY&quot;, &quot;HW_SLEEP&quot;,  &quot;HW_NONE&quot;,   &quot;HW_SHAME&quot;)
+
+# PSS-14 items: positively-worded (direct) vs negatively-worded (reversed)
+PSS_DIRECT  &lt;- paste0(&quot;PSS&quot;, c(1, 2, 3, 8, 11, 12, 14))
+PSS_REVERSE &lt;- paste0(&quot;PSS&quot;, c(4, 5, 6, 7, 9, 10, 13))
+PSS_ITEMS   &lt;- c(PSS_DIRECT, PSS_REVERSE)</code></pre>
+<hr />
+</div>
+<div id="load-data" class="section level1">
+<h1>1. Load data</h1>
+<pre class="r"><code>screening &lt;- read.csv(
+  file.path(data_path, &quot;Screening_clean.csv&quot;),
+  stringsAsFactors = FALSE,
+  na.strings = c(&quot;&quot;)
+)
+
+hwise_pss &lt;- read.csv(
+  file.path(data_path, &quot;02.HWISE_PSS.csv&quot;),
+  stringsAsFactors = FALSE,
+  na.strings = c(&quot;&quot;)
+)
+
+cat(&quot;Screening rows/cols:&quot;, dim(screening), &quot;\n&quot;)</code></pre>
+<pre><code>Screening rows/cols: 399 62 </code></pre>
+<pre class="r"><code>cat(&quot;HWISE_PSS rows/cols:&quot;, dim(hwise_pss), &quot;\n&quot;)</code></pre>
+<pre><code>HWISE_PSS rows/cols: 398 33 </code></pre>
+<pre class="r"><code>cat(&quot;\nScreening IDs:&quot;, length(unique(screening$ID)), &quot;\n&quot;)</code></pre>
+<pre><code>
+Screening IDs: 399 </code></pre>
+<pre class="r"><code>cat(&quot;HWISE_PSS IDs:&quot;, length(unique(hwise_pss$ID)), &quot;\n&quot;)</code></pre>
+<pre><code>HWISE_PSS IDs: 398 </code></pre>
+<hr />
+</div>
+<div id="id-reconciliation" class="section level1">
+<h1>2. ID reconciliation</h1>
+<p>Before merging, identify IDs that exist in only one file.</p>
+<pre class="r"><code>ids_screen &lt;- unique(screening$ID)
+ids_hw     &lt;- unique(hwise_pss$ID)
+
+only_screen &lt;- setdiff(ids_screen, ids_hw)
+only_hw     &lt;- setdiff(ids_hw, ids_screen)
+both        &lt;- intersect(ids_screen, ids_hw)
+
+cat(&quot;IDs in both files:            &quot;, length(both),        &quot;\n&quot;)</code></pre>
+<pre><code>IDs in both files:             397 </code></pre>
+<pre class="r"><code>cat(&quot;IDs only in screening:        &quot;, length(only_screen), &quot;\n&quot;)</code></pre>
+<pre><code>IDs only in screening:         2 </code></pre>
+<pre class="r"><code>cat(&quot;IDs only in HWISE_PSS:        &quot;, length(only_hw),     &quot;\n&quot;)</code></pre>
+<pre><code>IDs only in HWISE_PSS:         1 </code></pre>
+<pre class="r"><code>if (length(only_screen) &gt; 0) {
+  cat(&quot;  Screening-only IDs:&quot;, paste(only_screen, collapse = &quot;, &quot;), &quot;\n&quot;)
+}</code></pre>
+<pre><code>  Screening-only IDs: 379, 427 </code></pre>
+<pre class="r"><code>if (length(only_hw) &gt; 0) {
+  cat(&quot;  HWISE_PSS-only IDs:&quot;, paste(only_hw, collapse = &quot;, &quot;), &quot;\n&quot;)
+}</code></pre>
+<pre><code>  HWISE_PSS-only IDs: 71 </code></pre>
+<hr />
+</div>
+<div id="clean-hwise-data" class="section level1">
+<h1>3. Clean HWISE data</h1>
+<div id="preserve-raw-hwise-values" class="section level2">
+<h2>3.1 Preserve raw HWISE values</h2>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(across(all_of(HWISE_ITEMS),
+                ~ ., .names = &quot;{.col}_RAW&quot;))</code></pre>
+</div>
+<div id="convert-hwise-items-to-numeric" class="section level2">
+<h2>3.2 Convert HWISE items to numeric</h2>
+<p>Expected values: 0, 1, 2, 3. Empty strings were already read as
+<code>NA</code>. Any remaining non-numeric text is flagged as 555.</p>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(across(all_of(HWISE_ITEMS), ~ {
+    x     &lt;- str_trim(as.character(.))
+    x_num &lt;- suppressWarnings(as.numeric(x))
+    case_when(
+      is.na(x)                                   ~ NA_real_,
+      x %in% as.character(MISSING_CODES)         ~ suppressWarnings(as.numeric(x)),
+      !is.na(x_num) &amp; x_num %in% 0:3            ~ x_num,
+      !is.na(x_num)                              ~ 999,   # out-of-range numeric
+      TRUE                                       ~ 555    # non-numeric text
+    )
+  }))</code></pre>
+</div>
+<div id="b-hwise-cleaning-change-log" class="section level2">
+<h2>3.2b HWISE: cleaning change log</h2>
+<p>Rows where at least one HWISE item changed from its raw value (e.g.,
+empty → NA, non-numeric → 555, out-of-range → 999).</p>
+<pre class="r"><code>hwise_raw_long &lt;- hwise_pss %&gt;%
+  select(ID, ends_with(&quot;_RAW&quot;)) %&gt;%
+  rename_with(~ str_remove(., &quot;_RAW&quot;), ends_with(&quot;_RAW&quot;)) %&gt;%
+  select(ID, all_of(HWISE_ITEMS)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;item&quot;, values_to = &quot;raw&quot;)
+
+hwise_clean_long &lt;- hwise_pss %&gt;%
+  select(ID, all_of(HWISE_ITEMS)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;item&quot;, values_to = &quot;cleaned&quot;)
+
+hwise_changelog &lt;- left_join(hwise_raw_long, hwise_clean_long, by = c(&quot;ID&quot;, &quot;item&quot;)) %&gt;%
+  filter(as.character(raw) != as.character(cleaned) |
+           (is.na(raw) != is.na(cleaned))) %&gt;%
+  mutate(change_type = case_when(
+    is.na(cleaned)               ~ &quot;empty → NA&quot;,
+    cleaned %in% MISSING_CODES   ~ paste0(&quot;flagged as &quot;, cleaned),
+    TRUE                         ~ paste0(raw, &quot; → &quot;, cleaned)
+  )) %&gt;%
+  arrange(ID, item)
+
+if (nrow(hwise_changelog) == 0) {
+  cat(&quot;No HWISE values changed during cleaning.\n&quot;)
+} else {
+  cat(nrow(hwise_changelog), &quot;HWISE value(s) changed:\n&quot;)
+  print(hwise_changelog, n = 30)
+}</code></pre>
+<pre><code>No HWISE values changed during cleaning.</code></pre>
+</div>
+<div id="check-hwise-item-distributions" class="section level2">
+<h2>3.3 Check HWISE item distributions</h2>
+<pre class="r"><code>cat(&quot;HWISE item value distributions:\n&quot;)</code></pre>
+<pre><code>HWISE item value distributions:</code></pre>
+<pre class="r"><code>hwise_pss %&gt;%
+  select(all_of(HWISE_ITEMS)) %&gt;%
+  mutate(across(everything(), as.character)) %&gt;%
+  pivot_longer(everything(), names_to = &quot;item&quot;, values_to = &quot;value&quot;) %&gt;%
+  count(item, value) %&gt;%
+  filter(!is.na(value)) %&gt;%
+  print(n = 30)</code></pre>
+<pre><code># A tibble: 47 × 3
+   item       value     n
+   &lt;chr&gt;      &lt;chr&gt; &lt;int&gt;
+ 1 HW_ANGRY   0       128
+ 2 HW_ANGRY   1       157
+ 3 HW_ANGRY   2        80
+ 4 HW_ANGRY   3        32
+ 5 HW_BODY    0       218
+ 6 HW_BODY    1       105
+ 7 HW_BODY    2        59
+ 8 HW_BODY    3        16
+ 9 HW_CLOTHES 0       159
+10 HW_CLOTHES 1       116
+11 HW_CLOTHES 2        91
+12 HW_CLOTHES 3        31
+13 HW_DRINK   0       260
+14 HW_DRINK   1       110
+15 HW_DRINK   2        24
+16 HW_DRINK   3         4
+17 HW_FOOD    0       275
+18 HW_FOOD    1        79
+19 HW_FOOD    2        32
+20 HW_FOOD    3        11
+21 HW_HANDS   0       318
+22 HW_HANDS   1        57
+23 HW_HANDS   2        19
+24 HW_HANDS   3         4
+25 HW_INTERR  0        95
+26 HW_INTERR  1       132
+27 HW_INTERR  2       121
+28 HW_INTERR  3        50
+29 HW_NONE    0       209
+30 HW_NONE    1       109
+# ℹ 17 more rows</code></pre>
+<pre class="r"><code># Flag out-of-range or unexpected values
+hwise_flags &lt;- hwise_pss %&gt;%
+  select(ID, all_of(HWISE_ITEMS)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;item&quot;, values_to = &quot;value&quot;) %&gt;%
+  filter(!is.na(value) &amp; !(value %in% c(0:3))) %&gt;%
+  mutate(flag = case_when(
+    value %in% MISSING_CODES ~ &quot;sentinel&quot;,
+    TRUE                     ~ &quot;unexpected&quot;
+  ))
+
+cat(&quot;\nFlagged HWISE values:\n&quot;)</code></pre>
+<pre><code>
+Flagged HWISE values:</code></pre>
+<pre class="r"><code>print(hwise_flags, n = 30)</code></pre>
+<pre><code># A tibble: 0 × 4
+# ℹ 4 variables: ID &lt;int&gt;, item &lt;chr&gt;, value &lt;dbl&gt;, flag &lt;chr&gt;</code></pre>
+</div>
+<div id="compute-hw_total" class="section level2">
+<h2>3.4 Compute HW_TOTAL</h2>
+<p>Sum of 12 items. Set to <code>NA</code> if any item is
+<code>NA</code> or a sentinel code.</p>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  rowwise() %&gt;%
+  mutate(
+    HW_TOTAL = {
+      vals &lt;- c_across(all_of(HWISE_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %&gt;%
+  ungroup()
+
+cat(&quot;HW_TOTAL distribution:\n&quot;)</code></pre>
+<pre><code>HW_TOTAL distribution:</code></pre>
+<pre class="r"><code>print(summary(hwise_pss$HW_TOTAL))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   3.000   8.000   8.423  12.000  27.000       8 </code></pre>
+<pre class="r"><code>cat(&quot;Missing HW_TOTAL:&quot;, sum(is.na(hwise_pss$HW_TOTAL)), &quot;\n&quot;)</code></pre>
+<pre><code>Missing HW_TOTAL: 8 </code></pre>
+<pre class="r"><code>hwise_pss %&gt;% filter(is.na(HW_TOTAL)) %&gt;% select(ID, all_of(HWISE_ITEMS), HW_INFO)</code></pre>
+<pre><code># A tibble: 8 × 14
+     ID HW_WORRY HW_INTERR HW_CLOTHES HW_PLANS HW_FOOD HW_HANDS HW_BODY HW_DRINK
+  &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+1    35        0         0          0        0       0        0       0        0
+2    48        0         0          0        1       0        0       1        0
+3    63        1         0          1        0       1        0       1        1
+4    83        0         1          0        0       0        0       0        1
+5   168        2         2          1        2       1        0       0        0
+6   347        2         3          3        2       1        1       2        2
+7   358        3         3         NA        2       0        0       0        0
+8   364        0         2          2        0      NA        0       0        0
+# ℹ 5 more variables: HW_ANGRY &lt;dbl&gt;, HW_SLEEP &lt;dbl&gt;, HW_NONE &lt;dbl&gt;,
+#   HW_SHAME &lt;dbl&gt;, HW_INFO &lt;chr&gt;</code></pre>
+<pre class="r"><code># Distribution plot
+ggplot(hwise_pss %&gt;% filter(!is.na(HW_TOTAL)),
+       aes(x = HW_TOTAL)) +
+  geom_histogram(binwidth = 1, fill = &quot;#5bc0de&quot;, color = &quot;white&quot;) +
+  labs(title = &quot;HW_TOTAL distribution&quot;,
+       x = &quot;HWISE total score (0–36)&quot;, y = &quot;Count&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/hwise-total-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="compute-hw_worry_sub-water-worry-subscale"
+class="section level2">
+<h2>3.5 Compute HW_WORRY_SUB (water worry subscale)</h2>
+<p>The water worry subscale captures the <strong>psychosocial
+burden</strong> of household water insecurity. It is computed as the sum
+of three HWISE items that reflect emotional and social distress related
+to water access:</p>
+<ul>
+<li><code>HW_WORRY</code> — worried the household would not have enough
+water</li>
+<li><code>HW_ANGRY</code> — felt angry because of the household’s water
+situation</li>
+<li><code>HW_SHAME</code> — felt shame because the household did not
+have enough water</li>
+</ul>
+<p>Each item is scored 0–3, giving a subscale range of
+<strong>0–9</strong>, where higher scores indicate greater psychosocial
+distress related to water insecurity. This subscale was proposed by
+Jepson et al. (2021), who used it to examine associations between water
+insecurity and health outcomes in urban Mexico.</p>
+<blockquote>
+<p>Jepson, W. E., Stoler, J., Baek, J., Morán Martínez, J., Uribe Salas,
+F. J., &amp; Carrillo, G. (2021). Cross-sectional study to measure
+household water insecurity and its health outcomes in urban Mexico.
+<em>BMJ Open</em>, 11(3), e040825. <a
+href="https://doi.org/10.1136/bmjopen-2020-040825"
+class="uri">https://doi.org/10.1136/bmjopen-2020-040825</a></p>
+</blockquote>
+<pre class="r"><code>WORRY_ITEMS &lt;- c(&quot;HW_WORRY&quot;, &quot;HW_ANGRY&quot;, &quot;HW_SHAME&quot;)
+
+hwise_pss &lt;- hwise_pss %&gt;%
+  rowwise() %&gt;%
+  mutate(
+    HW_WORRY_SUB = {
+      vals &lt;- c_across(all_of(WORRY_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %&gt;%
+  ungroup()
+
+cat(&quot;HW_WORRY_SUB distribution:\n&quot;)</code></pre>
+<pre><code>HW_WORRY_SUB distribution:</code></pre>
+<pre class="r"><code>print(summary(hwise_pss$HW_WORRY_SUB))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   1.000   2.000   2.424   4.000   8.000       4 </code></pre>
+<pre class="r"><code>cat(&quot;Missing HW_WORRY_SUB:&quot;, sum(is.na(hwise_pss$HW_WORRY_SUB)), &quot;\n&quot;)</code></pre>
+<pre><code>Missing HW_WORRY_SUB: 4 </code></pre>
+<pre class="r"><code>ggplot(hwise_pss %&gt;% filter(!is.na(HW_WORRY_SUB)),
+       aes(x = HW_WORRY_SUB)) +
+  geom_bar(fill = &quot;#5bc0de&quot;, color = &quot;white&quot;) +
+  scale_x_continuous(breaks = 0:9) +
+  labs(title = &quot;HW_WORRY_SUB distribution&quot;,
+       x = &quot;Water worry subscale (0–9)&quot;, y = &quot;Count&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/hwise-worry-sub-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="clean-pss-data" class="section level1">
+<h1>4. Clean PSS data</h1>
+<div id="preserve-raw-pss-values" class="section level2">
+<h2>4.1 Preserve raw PSS values</h2>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(across(all_of(PSS_ITEMS),
+                ~ ., .names = &quot;{.col}_RAW&quot;))</code></pre>
+</div>
+<div id="convert-pss-items-to-numeric" class="section level2">
+<h2>4.2 Convert PSS items to numeric</h2>
+<p>Expected values: 0, 1, 2, 3, 4.</p>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(across(all_of(PSS_ITEMS), ~ {
+    x     &lt;- str_trim(as.character(.))
+    x_num &lt;- suppressWarnings(as.numeric(x))
+    case_when(
+      is.na(x)                                   ~ NA_real_,
+      x %in% as.character(MISSING_CODES)         ~ suppressWarnings(as.numeric(x)),
+      !is.na(x_num) &amp; x_num %in% 0:4            ~ x_num,
+      !is.na(x_num)                              ~ 999,
+      TRUE                                       ~ 555
+    )
+  }))</code></pre>
+</div>
+<div id="b-pss-cleaning-change-log" class="section level2">
+<h2>4.2b PSS: cleaning change log</h2>
+<pre class="r"><code>pss_raw_long &lt;- hwise_pss %&gt;%
+  select(ID, ends_with(&quot;_RAW&quot;)) %&gt;%
+  rename_with(~ str_remove(., &quot;_RAW&quot;), ends_with(&quot;_RAW&quot;)) %&gt;%
+  select(ID, all_of(PSS_ITEMS)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;item&quot;, values_to = &quot;raw&quot;)
+
+pss_clean_long &lt;- hwise_pss %&gt;%
+  select(ID, all_of(PSS_ITEMS)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;item&quot;, values_to = &quot;cleaned&quot;)
+
+pss_changelog &lt;- left_join(pss_raw_long, pss_clean_long, by = c(&quot;ID&quot;, &quot;item&quot;)) %&gt;%
+  filter(as.character(raw) != as.character(cleaned) |
+           (is.na(raw) != is.na(cleaned))) %&gt;%
+  mutate(change_type = case_when(
+    is.na(cleaned)               ~ &quot;empty → NA&quot;,
+    cleaned %in% MISSING_CODES   ~ paste0(&quot;flagged as &quot;, cleaned),
+    TRUE                         ~ paste0(raw, &quot; → &quot;, cleaned)
+  )) %&gt;%
+  arrange(ID, item)
+
+if (nrow(pss_changelog) == 0) {
+  cat(&quot;No PSS values changed during cleaning.\n&quot;)
+} else {
+  cat(nrow(pss_changelog), &quot;PSS value(s) changed:\n&quot;)
+  print(pss_changelog, n = 20)
+}</code></pre>
+<pre><code>No PSS values changed during cleaning.</code></pre>
+</div>
+<div id="check-pss-item-distributions" class="section level2">
+<h2>4.3 Check PSS item distributions</h2>
+<pre class="r"><code>cat(&quot;PSS item value distributions:\n&quot;)</code></pre>
+<pre><code>PSS item value distributions:</code></pre>
+<pre class="r"><code>hwise_pss %&gt;%
+  select(all_of(PSS_ITEMS)) %&gt;%
+  mutate(across(everything(), as.character)) %&gt;%
+  pivot_longer(everything(), names_to = &quot;item&quot;, values_to = &quot;value&quot;) %&gt;%
+  count(item, value) %&gt;%
+  filter(!is.na(value)) %&gt;%
+  print(n = 20)</code></pre>
+<pre><code># A tibble: 70 × 3
+   item  value     n
+   &lt;chr&gt; &lt;chr&gt; &lt;int&gt;
+ 1 PSS1  0        38
+ 2 PSS1  1        57
+ 3 PSS1  2       169
+ 4 PSS1  3        89
+ 5 PSS1  4        44
+ 6 PSS10 0        30
+ 7 PSS10 1        79
+ 8 PSS10 2       180
+ 9 PSS10 3        80
+10 PSS10 4        28
+11 PSS11 0         9
+12 PSS11 1        49
+13 PSS11 2       138
+14 PSS11 3       109
+15 PSS11 4        92
+16 PSS12 0         2
+17 PSS12 1        29
+18 PSS12 2        90
+19 PSS12 3       140
+20 PSS12 4       136
+# ℹ 50 more rows</code></pre>
+<pre class="r"><code># Flag unexpected values
+pss_flags &lt;- hwise_pss %&gt;%
+  select(ID, all_of(PSS_ITEMS)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;item&quot;, values_to = &quot;value&quot;) %&gt;%
+  filter(!is.na(value) &amp; !(value %in% c(0:4))) %&gt;%
+  mutate(flag = case_when(
+    value %in% MISSING_CODES ~ &quot;sentinel&quot;,
+    TRUE                     ~ &quot;unexpected&quot;
+  ))
+
+cat(&quot;\nFlagged PSS values:\n&quot;)</code></pre>
+<pre><code>
+Flagged PSS values:</code></pre>
+<pre class="r"><code>print(pss_flags, n = 30)</code></pre>
+<pre><code># A tibble: 0 × 4
+# ℹ 4 variables: ID &lt;int&gt;, item &lt;chr&gt;, value &lt;dbl&gt;, flag &lt;chr&gt;</code></pre>
+</div>
+<div id="reverse-code-negatively-worded-pss-items"
+class="section level2">
+<h2>4.4 Reverse-code negatively-worded PSS items</h2>
+<p>PSS items 4, 5, 6, 7, 9, 10, 13 are negatively worded and must be
+reversed before summing (0→4, 1→3, 2→2, 3→1, 4→0). Sentinel codes are
+left unchanged.</p>
+<pre class="r"><code>reverse_pss &lt;- function(x) {
+  case_when(
+    is.na(x)              ~ NA_real_,
+    x %in% MISSING_CODES  ~ x,       # pass sentinel through unchanged
+    x == 0 ~ 4,
+    x == 1 ~ 3,
+    x == 2 ~ 2,
+    x == 3 ~ 1,
+    x == 4 ~ 0,
+    TRUE   ~ x
+  )
+}
+
+hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(across(all_of(PSS_REVERSE),
+                reverse_pss, .names = &quot;{.col}_REV&quot;))
+
+# Renamed columns for scored total computation
+PSS_SCORED_DIRECT  &lt;- PSS_DIRECT
+PSS_SCORED_REVERSE &lt;- paste0(PSS_REVERSE, &quot;_REV&quot;)
+PSS_SCORED_ITEMS   &lt;- c(PSS_SCORED_DIRECT, PSS_SCORED_REVERSE)</code></pre>
+</div>
+<div id="b-pss-reverse-coding-beforeafter" class="section level2">
+<h2>4.4b PSS reverse-coding: before/after</h2>
+<p>Mean item score before and after reverse coding for the 7 reversed
+items. Direct items are shown for reference. If reverse-coding worked
+correctly, the reversed items’ means should shift (e.g., a mean of 2.8
+becomes ~1.2).</p>
+<pre class="r"><code># Mean of original values for all 14 items
+pss_means_before &lt;- hwise_pss %&gt;%
+  select(all_of(PSS_ITEMS)) %&gt;%
+  summarise(across(everything(), ~ mean(.[!. %in% MISSING_CODES], na.rm = TRUE))) %&gt;%
+  pivot_longer(everything(), names_to = &quot;item&quot;, values_to = &quot;mean_before&quot;)
+
+# Mean of scored values (direct items unchanged, reverse items = _REV columns)
+pss_means_after &lt;- bind_rows(
+  hwise_pss %&gt;%
+    select(all_of(PSS_DIRECT)) %&gt;%
+    summarise(across(everything(), ~ mean(.[!. %in% MISSING_CODES], na.rm = TRUE))) %&gt;%
+    pivot_longer(everything(), names_to = &quot;item&quot;, values_to = &quot;mean_after&quot;),
+  hwise_pss %&gt;%
+    select(all_of(paste0(PSS_REVERSE, &quot;_REV&quot;))) %&gt;%
+    rename_with(~ str_remove(., &quot;_REV&quot;)) %&gt;%
+    summarise(across(everything(), ~ mean(.[!. %in% MISSING_CODES], na.rm = TRUE))) %&gt;%
+    pivot_longer(everything(), names_to = &quot;item&quot;, values_to = &quot;mean_after&quot;)
+)
+
+pss_rev_check &lt;- left_join(pss_means_before, pss_means_after, by = &quot;item&quot;) %&gt;%
+  mutate(
+    direction = if_else(item %in% PSS_DIRECT, &quot;Direct (unchanged)&quot;, &quot;Reversed&quot;),
+    item      = factor(item, levels = c(PSS_DIRECT, PSS_REVERSE))
+  )
+
+# Print table
+cat(&quot;PSS item means before and after reverse-coding:\n&quot;)</code></pre>
+<pre><code>PSS item means before and after reverse-coding:</code></pre>
+<pre class="r"><code>print(pss_rev_check %&gt;% arrange(item) %&gt;%
+      mutate(across(c(mean_before, mean_after), ~ round(., 2))), n = 20)</code></pre>
+<pre><code># A tibble: 14 × 4
+   item  mean_before mean_after direction         
+   &lt;fct&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;             
+ 1 PSS1         2.11       2.11 Direct (unchanged)
+ 2 PSS2         2.22       2.22 Direct (unchanged)
+ 3 PSS3         2.93       2.93 Direct (unchanged)
+ 4 PSS8         2.13       2.13 Direct (unchanged)
+ 5 PSS11        2.57       2.57 Direct (unchanged)
+ 6 PSS12        2.95       2.95 Direct (unchanged)
+ 7 PSS14        2.16       2.16 Direct (unchanged)
+ 8 PSS4         2.57       1.43 Reversed          
+ 9 PSS5         2.66       1.34 Reversed          
+10 PSS6         2.83       1.17 Reversed          
+11 PSS7         2.58       1.42 Reversed          
+12 PSS9         2.65       1.35 Reversed          
+13 PSS10        1.99       2.01 Reversed          
+14 PSS13        2.55       1.45 Reversed          </code></pre>
+<pre class="r"><code># Plot
+pss_rev_check %&gt;%
+  pivot_longer(c(mean_before, mean_after),
+               names_to = &quot;stage&quot;, values_to = &quot;mean&quot;) %&gt;%
+  mutate(stage = factor(stage,
+                        levels = c(&quot;mean_before&quot;, &quot;mean_after&quot;),
+                        labels = c(&quot;Before&quot;, &quot;After reverse-coding&quot;))) %&gt;%
+  ggplot(aes(x = item, y = mean, color = direction, shape = stage, group = item)) +
+  geom_point(size = 3) +
+  geom_line(aes(group = item), color = &quot;grey70&quot;, linewidth = 0.5) +
+  scale_color_manual(values = c(&quot;Direct (unchanged)&quot; = &quot;#5bc0de&quot;,
+                                &quot;Reversed&quot;           = &quot;#d9534f&quot;)) +
+  scale_shape_manual(values = c(&quot;Before&quot; = 16, &quot;After reverse-coding&quot; = 17)) +
+  labs(title    = &quot;PSS item means: before vs after reverse-coding&quot;,
+       subtitle = &quot;Lines connect the same item; triangles = after reverse-coding&quot;,
+       x = &quot;PSS item&quot;, y = &quot;Mean score (0–4)&quot;,
+       color = &quot;Item type&quot;, shape = &quot;Stage&quot;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
+<p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/pss-reverse-check-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="compute-pss_total" class="section level2">
+<h2>4.5 Compute PSS_TOTAL</h2>
+<p>Sum of 7 direct items + 7 reverse-coded items. Set to <code>NA</code>
+if any item is <code>NA</code> or a sentinel code. Participants with a
+<code>Revisar</code> note in <code>PSS_INFO</code> are flagged for
+manual review.</p>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  rowwise() %&gt;%
+  mutate(
+    PSS_TOTAL = {
+      vals &lt;- c_across(all_of(PSS_SCORED_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %&gt;%
+  ungroup()
+
+# Flag participants with a &quot;Revisar&quot; note in PSS_INFO
+hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(PSS_REVIEW_FLAG = if_else(
+    str_detect(tolower(PSS_INFO), &quot;revisar&quot;), 1L, 0L
+  ))
+
+cat(&quot;PSS_TOTAL distribution:\n&quot;)</code></pre>
+<pre><code>PSS_TOTAL distribution:</code></pre>
+<pre class="r"><code>print(summary(hwise_pss$PSS_TOTAL))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+   9.00   22.00   28.00   27.27   32.00   47.00       4 </code></pre>
+<pre class="r"><code>cat(&quot;Missing PSS_TOTAL:&quot;, sum(is.na(hwise_pss$PSS_TOTAL)), &quot;\n&quot;)</code></pre>
+<pre><code>Missing PSS_TOTAL: 4 </code></pre>
+<pre class="r"><code>hwise_pss %&gt;% filter(is.na(PSS_TOTAL)) %&gt;% select(ID, all_of(PSS_ITEMS), PSS_INFO)</code></pre>
+<pre><code># A tibble: 4 × 16
+     ID  PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6  PSS7  PSS9
+  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1    37    NA    NA    NA    NA    NA    NA    NA    NA     0     0    NA    NA
+2    89     1     3     4     2     2     3     0     3     2     2     2     3
+3   169     1     2     1     1     1     1     0    NA     3     3     3     3
+4   496     2     2     2     2     2     3     1    NA     3     3     3     2
+# ℹ 3 more variables: PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;, PSS_INFO &lt;chr&gt;</code></pre>
+<pre class="r"><code>cat(&quot;\nParticipants flagged for PSS review (PSS_REVIEW_FLAG = 1):\n&quot;)</code></pre>
+<pre><code>
+Participants flagged for PSS review (PSS_REVIEW_FLAG = 1):</code></pre>
+<pre class="r"><code>hwise_pss %&gt;%
+  filter(PSS_REVIEW_FLAG == 1) %&gt;%
+  select(ID, all_of(PSS_ITEMS), PSS_INFO, PSS_TOTAL) %&gt;%
+  print()</code></pre>
+<pre><code># A tibble: 1 × 17
+     ID  PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6  PSS7  PSS9
+  &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     4     2     3     2     1     2     2     1     3     3     3     3     3
+# ℹ 4 more variables: PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;, PSS_INFO &lt;chr&gt;, PSS_TOTAL &lt;dbl&gt;</code></pre>
+<pre class="r"><code># Distribution plot
+ggplot(hwise_pss %&gt;% filter(!is.na(PSS_TOTAL)),
+       aes(x = PSS_TOTAL)) +
+  geom_histogram(binwidth = 2, fill = &quot;#d9534f&quot;, color = &quot;white&quot;) +
+  labs(title = &quot;PSS_TOTAL distribution&quot;,
+       x = &quot;PSS-14 total score (0–56)&quot;, y = &quot;Count&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/pss-total-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="standardize-season-in-hwise_pss" class="section level1">
+<h1>5. Standardize SEASON in HWISE_PSS</h1>
+<p>The HWISE_PSS file encodes season as text (“Oct-Dec”, “Apr-Jun”).
+Recode to match the numeric convention in the screening file (0 = rainy,
+1 = dry).</p>
+<pre class="r"><code>hwise_pss &lt;- hwise_pss %&gt;%
+  mutate(SEASON_CLEAN = case_when(
+    str_detect(tolower(SEASON), &quot;oct|rainy&quot;) ~ 0,
+    str_detect(tolower(SEASON), &quot;apr|dry&quot;)   ~ 1,
+    TRUE ~ NA_real_
+  ))
+
+cat(&quot;SEASON_CLEAN distribution:\n&quot;)</code></pre>
+<pre><code>SEASON_CLEAN distribution:</code></pre>
+<pre class="r"><code>print(table(hwise_pss$SEASON_CLEAN, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 203  195    0 </code></pre>
+<hr />
+</div>
+<div id="select-columns-for-merge" class="section level1">
+<h1>6. Select columns for merge</h1>
+<p>Keep only the columns needed from the HWISE_PSS file (raw items,
+scored totals, flags, and notes). The <code>SEASON</code> variable will
+come from the screening file.</p>
+<pre class="r"><code>hwise_to_merge &lt;- hwise_pss %&gt;%
+  select(
+    ID,
+    W_WS_LOC,
+    SEASON_CLEAN,                      # numeric season (for cross-check)
+    # HWISE: raw items + computed total
+    all_of(HWISE_ITEMS),
+    HW_TOTAL,
+    HW_WORRY_SUB,
+    HW_INFO,                           # free-text notes
+    # PSS: raw items, reversed items, computed total, flags
+    all_of(PSS_ITEMS),
+    all_of(PSS_SCORED_REVERSE),        # reversed versions of neg items
+    PSS_TOTAL,
+    PSS_REVIEW_FLAG,
+    PSS_INFO                           # free-text notes
+  )
+
+cat(&quot;Columns in hwise_to_merge:&quot;, ncol(hwise_to_merge), &quot;\n&quot;)</code></pre>
+<pre><code>Columns in hwise_to_merge: 42 </code></pre>
+<hr />
+</div>
+<div id="merge-with-screening" class="section level1">
+<h1>7. Merge with screening</h1>
+<p>Left join on <code>screening</code> to keep all screened
+participants. HWISE/PSS columns will be <code>NA</code> for the handful
+of participants without HWISE_PSS data.</p>
+<pre class="r"><code>df_merged &lt;- screening %&gt;%
+  left_join(hwise_to_merge, by = &quot;ID&quot;)
+
+cat(&quot;Merged dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
+<pre><code>Merged dimensions: 399 103 </code></pre>
+<pre class="r"><code># Cross-check SEASON from screening (0/1) vs HWISE_PSS text-derived value
+season_check &lt;- df_merged %&gt;%
+  filter(!is.na(SEASON) &amp; !is.na(SEASON_CLEAN)) %&gt;%
+  mutate(season_match = SEASON == SEASON_CLEAN)
+
+cat(&quot;\nSEASON cross-check (screening vs HWISE_PSS):\n&quot;)</code></pre>
+<pre><code>
+SEASON cross-check (screening vs HWISE_PSS):</code></pre>
+<pre class="r"><code>print(table(season_check$season_match, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+TRUE &lt;NA&gt; 
+ 397    0 </code></pre>
+<pre class="r"><code>season_mismatch &lt;- season_check %&gt;% filter(!season_match)
+if (nrow(season_mismatch) &gt; 0) {
+  cat(&quot;\nSEASON mismatches (review these IDs):\n&quot;)
+  print(season_mismatch %&gt;% select(ID, SEASON, SEASON_CLEAN))
+}
+
+# Remove the temporary SEASON_CLEAN after cross-check
+df_merged &lt;- df_merged %&gt;% select(-SEASON_CLEAN)</code></pre>
+<hr />
+</div>
+<div id="post-merge-checks" class="section level1">
+<h1>8. Post-merge checks</h1>
+<div id="participants-without-hwise_pss-data" class="section level2">
+<h2>8.1 Participants without HWISE_PSS data</h2>
+<pre class="r"><code>missing_hw &lt;- df_merged %&gt;%
+  filter(is.na(HW_TOTAL) &amp; is.na(PSS_TOTAL)) %&gt;%
+  select(ID, SEASON)
+
+cat(&quot;Participants with no HWISE or PSS data after merge:\n&quot;)</code></pre>
+<pre><code>Participants with no HWISE or PSS data after merge:</code></pre>
+<pre class="r"><code>print(missing_hw)</code></pre>
+<pre><code>   ID SEASON
+1 379      1
+2 427      1</code></pre>
+</div>
+<div id="missing-data-summary-for-key-variables" class="section level2">
+<h2>8.2 Missing data summary for key variables</h2>
+<pre class="r"><code>key_vars &lt;- c(&quot;HW_TOTAL&quot;, &quot;PSS_TOTAL&quot;, HWISE_ITEMS, PSS_ITEMS)
+
+missing_report &lt;- df_merged %&gt;%
+  select(all_of(key_vars)) %&gt;%
+  summarise(across(everything(), list(
+    n_na       = ~ sum(is.na(.)),
+    n_sentinel = ~ sum(. %in% MISSING_CODES, na.rm = TRUE)
+  ))) %&gt;%
+  pivot_longer(everything(),
+               names_to  = c(&quot;variable&quot;, &quot;.value&quot;),
+               names_sep = &quot;_(?=n_na|n_sentinel)&quot;) %&gt;%
+  mutate(
+    n_total  = nrow(df_merged),
+    pct_na   = round(n_na / n_total * 100, 1),
+    pct_flag = round(n_sentinel / n_total * 100, 1)
+  ) %&gt;%
+  filter(n_na &gt; 0 | n_sentinel &gt; 0) %&gt;%
+  arrange(desc(pct_na))
+
+# Collect up to 5 example IDs per variable that are NA
+na_ids &lt;- df_merged %&gt;%
+  select(ID, all_of(key_vars)) %&gt;%
+  pivot_longer(-ID, names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
+  filter(is.na(value)) %&gt;%
+  group_by(variable) %&gt;%
+  summarise(sample_IDs = paste(head(ID, 10), collapse = &quot;, &quot;), .groups = &quot;drop&quot;)
+
+missing_report &lt;- missing_report %&gt;%
+  left_join(na_ids, by = &quot;variable&quot;)
+
+cat(&quot;Missing data summary — HWISE &amp; PSS variables:\n&quot;)</code></pre>
+<pre><code>Missing data summary — HWISE &amp; PSS variables:</code></pre>
+<pre class="r"><code>print(missing_report, n = 40)</code></pre>
+<pre><code># A tibble: 28 × 7
+   variable    n_na n_sentinel n_total pct_na pct_flag sample_IDs               
+   &lt;chr&gt;      &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                    
+ 1 HW_TOTAL      10          0     399    2.5        0 35, 48, 63, 83, 168, 347…
+ 2 PSS_TOTAL      6          0     399    1.5        0 37, 89, 169, 379, 427, 4…
+ 3 HW_SHAME       5          0     399    1.3        0 63, 168, 347, 379, 427   
+ 4 PSS4           5          0     399    1.3        0 37, 169, 379, 427, 496   
+ 5 PSS13          4          0     399    1          0 37, 89, 379, 427         
+ 6 HW_CLOTHES     3          0     399    0.8        0 358, 379, 427            
+ 7 HW_FOOD        3          0     399    0.8        0 364, 379, 427            
+ 8 HW_ANGRY       3          0     399    0.8        0 48, 379, 427             
+ 9 HW_SLEEP       3          0     399    0.8        0 35, 379, 427             
+10 HW_NONE        3          0     399    0.8        0 83, 379, 427             
+11 PSS1           3          0     399    0.8        0 37, 379, 427             
+12 PSS2           3          0     399    0.8        0 37, 379, 427             
+13 PSS3           3          0     399    0.8        0 37, 379, 427             
+14 PSS8           3          0     399    0.8        0 37, 379, 427             
+15 PSS11          3          0     399    0.8        0 37, 379, 427             
+16 PSS12          3          0     399    0.8        0 37, 379, 427             
+17 PSS14          3          0     399    0.8        0 37, 379, 427             
+18 PSS7           3          0     399    0.8        0 37, 379, 427             
+19 PSS9           3          0     399    0.8        0 37, 379, 427             
+20 PSS10          3          0     399    0.8        0 37, 379, 427             
+21 HW_WORRY       2          0     399    0.5        0 379, 427                 
+22 HW_INTERR      2          0     399    0.5        0 379, 427                 
+23 HW_PLANS       2          0     399    0.5        0 379, 427                 
+24 HW_HANDS       2          0     399    0.5        0 379, 427                 
+25 HW_BODY        2          0     399    0.5        0 379, 427                 
+26 HW_DRINK       2          0     399    0.5        0 379, 427                 
+27 PSS5           2          0     399    0.5        0 379, 427                 
+28 PSS6           2          0     399    0.5        0 379, 427                 </code></pre>
+</div>
+<div id="score-distributions-by-season" class="section level2">
+<h2>8.3 Score distributions by season</h2>
+<pre class="r"><code>df_merged %&gt;%
+  filter(!is.na(SEASON)) %&gt;%
+  mutate(Season = if_else(SEASON == 0, &quot;Rainy (Oct-Dec)&quot;, &quot;Dry (Apr-Jun)&quot;)) %&gt;%
+  select(Season, HW_TOTAL, PSS_TOTAL) %&gt;%
+  pivot_longer(-Season, names_to = &quot;Scale&quot;, values_to = &quot;Score&quot;) %&gt;%
+  filter(!is.na(Score)) %&gt;%
+  ggplot(aes(x = Score, fill = Season)) +
+  geom_histogram(binwidth = 2, position = &quot;identity&quot;, alpha = 0.6) +
+  facet_wrap(~ Scale, scales = &quot;free_x&quot;) +
+  scale_fill_manual(values = c(&quot;Rainy (Oct-Dec)&quot; = &quot;#5bc0de&quot;,
+                               &quot;Dry (Apr-Jun)&quot;   = &quot;#d9534f&quot;)) +
+  labs(title = &quot;HWISE and PSS score distributions by season&quot;,
+       x = &quot;Score&quot;, y = &quot;Count&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/score-by-season-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
+</div>
+<div id="internal-consistency-cronbachs-α" class="section level1">
+<h1>9. Internal consistency (Cronbach’s α)</h1>
+<p>Cronbach’s α measures how well the items in a scale correlate with
+each other — i.e., whether they are all capturing the same underlying
+construct. Values ≥ 0.7 are generally considered acceptable. α is
+computed here on complete cases only (rows with any <code>NA</code> or
+sentinel code in the relevant items are excluded).</p>
+<pre class="r"><code>library(psych)
+
+# Helper to clean a set of items: exclude NAs and sentinel codes row-wise
+clean_items &lt;- function(data, items) {
+  data %&gt;%
+    select(all_of(items)) %&gt;%
+    mutate(across(everything(), ~ if_else(. %in% MISSING_CODES, NA_real_,
+                                          as.numeric(.)))) %&gt;%
+    filter(if_all(everything(), ~ !is.na(.)))
+}
+
+# HWISE — 12 items, scored 0–3
+alpha_hwise &lt;- clean_items(df_merged, HWISE_ITEMS) %&gt;% alpha()
+
+# PSS-14 — use reverse-coded versions of the negative items
+alpha_pss &lt;- clean_items(df_merged, PSS_SCORED_ITEMS) %&gt;% alpha()
+
+# Water worry subscale — 3 items
+alpha_worry &lt;- clean_items(df_merged, WORRY_ITEMS) %&gt;% alpha()
+
+# Summary table
+alpha_summary &lt;- tibble(
+  Scale            = c(&quot;HWISE (12 items)&quot;, &quot;PSS-14 (14 items)&quot;,
+                       &quot;Water worry subscale (3 items)&quot;),
+  n_items          = c(12, 14, 3),
+  n_complete       = c(nrow(clean_items(df_merged, HWISE_ITEMS)),
+                       nrow(clean_items(df_merged, PSS_SCORED_ITEMS)),
+                       nrow(clean_items(df_merged, WORRY_ITEMS))),
+  alpha            = round(c(alpha_hwise$total$raw_alpha,
+                             alpha_pss$total$raw_alpha,
+                             alpha_worry$total$raw_alpha), 3),
+  alpha_95CI_lower = round(c(alpha_hwise$total$raw_alpha -
+                               1.96 * alpha_hwise$total$ase,
+                             alpha_pss$total$raw_alpha -
+                               1.96 * alpha_pss$total$ase,
+                             alpha_worry$total$raw_alpha -
+                               1.96 * alpha_worry$total$ase), 3),
+  alpha_95CI_upper = round(c(alpha_hwise$total$raw_alpha +
+                               1.96 * alpha_hwise$total$ase,
+                             alpha_pss$total$raw_alpha +
+                               1.96 * alpha_pss$total$ase,
+                             alpha_worry$total$raw_alpha +
+                               1.96 * alpha_worry$total$ase), 3)
+)
+
+cat(&quot;Cronbach&#39;s α summary:\n&quot;)</code></pre>
+<pre><code>Cronbach&#39;s α summary:</code></pre>
+<pre class="r"><code>print(alpha_summary)</code></pre>
+<pre><code># A tibble: 3 × 6
+  Scale               n_items n_complete alpha alpha_95CI_lower alpha_95CI_upper
+  &lt;chr&gt;                 &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+1 HWISE (12 items)         12        389 0.848            0.827            0.869
+2 PSS-14 (14 items)        14        393 0.813            0.787            0.84 
+3 Water worry subsca…       3        393 0.539            0.468            0.61 </code></pre>
+<pre class="r"><code>ggplot(alpha_summary,
+       aes(x = reorder(Scale, alpha), y = alpha)) +
+  geom_pointrange(aes(ymin = alpha_95CI_lower, ymax = alpha_95CI_upper),
+                  size = 0.8, color = &quot;#5bc0de&quot;) +
+  geom_hline(yintercept = 0.7, linetype = &quot;dashed&quot;, color = &quot;grey50&quot;) +
+  geom_hline(yintercept = 0.9, linetype = &quot;dotted&quot;, color = &quot;grey50&quot;) +
+  annotate(&quot;text&quot;, x = 0.6, y = 0.71, label = &quot;acceptable (0.7)&quot;,
+           hjust = 0, size = 3, color = &quot;grey40&quot;) +
+  annotate(&quot;text&quot;, x = 0.6, y = 0.91, label = &quot;excellent (0.9)&quot;,
+           hjust = 0, size = 3, color = &quot;grey40&quot;) +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
+  labs(title = &quot;Cronbach&#39;s α by scale (95% CI)&quot;,
+       x = NULL, y = &quot;Cronbach&#39;s α&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/02.Data_merge_HWISE_PSS.Rmd/cronbach-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="interpretation" class="section level3">
+<h3>Interpretation</h3>
+<p><strong>HWISE (α = 0.848, 95% CI: 0.827–0.869):</strong> Good
+internal consistency, comfortably above the 0.8 threshold. All 12 items
+contribute positively, with item-total correlations ranging from 0.36 to
+0.66. The weakest items are <code>HW_SLEEP</code> (r.drop = 0.296) and
+<code>HW_DRINK</code> (r.drop = 0.381), though neither is low enough to
+warrant removal — they likely capture a slightly different facet of
+water insecurity (disrupted sleep and drinking water access) that is
+less correlated with the broader scale but still conceptually
+relevant.</p>
+<p><strong>PSS-14 (α = 0.813, 95% CI: 0.787–0.840):</strong> Good
+internal consistency. The weakest items are <code>PSS12</code> (r.drop =
+0.274) and <code>PSS13_REV</code> (r.drop = 0.292), both of which are
+among the reverse-coded items. This pattern is common in PSS data and
+has been noted in validation studies. The overall α is consistent with
+values reported in the literature for Spanish-language administrations
+of the PSS.</p>
+<p><strong>Water worry subscale (α = 0.539, 95% CI:
+0.468–0.610):</strong> Below the conventional 0.7 threshold, which
+warrants caution in interpretation. However, this is partly expected —
+Cronbach’s α is sensitive to the number of items, and a 3-item scale
+will almost always yield lower α than the full 12-item HWISE even if the
+items are genuinely related. Among the three items,
+<code>HW_SHAME</code> has the lowest item-total correlation (r.drop =
+0.261), suggesting it is the least consistent with the other two.
+<code>HW_ANGRY</code> and <code>HW_WORRY</code> are more closely related
+to each other. These results suggest the subscale has limited
+reliability as a standalone measure and findings based on it should be
+interpreted carefully.</p>
+</div>
+<div id="item-level-detail" class="section level3">
+<h3>Item-level detail</h3>
+<p>Item-total correlations and α-if-item-deleted for each scale — useful
+for spotting items that weaken internal consistency.</p>
+<pre class="r"><code>cat(&quot;--- HWISE item-level stats ---\n&quot;)</code></pre>
+<pre><code>--- HWISE item-level stats ---</code></pre>
+<pre class="r"><code>print(alpha_hwise$item.stats %&gt;%
+        select(r.cor, r.drop) %&gt;%
+        round(3))</code></pre>
+<pre><code>           r.cor r.drop
+HW_WORRY   0.614  0.578
+HW_INTERR  0.610  0.576
+HW_CLOTHES 0.645  0.610
+HW_PLANS   0.635  0.599
+HW_FOOD    0.624  0.570
+HW_HANDS   0.488  0.439
+HW_BODY    0.662  0.612
+HW_DRINK   0.467  0.381
+HW_ANGRY   0.636  0.601
+HW_SLEEP   0.361  0.296
+HW_NONE    0.548  0.494
+HW_SHAME   0.454  0.409</code></pre>
+<pre class="r"><code>cat(&quot;\n--- PSS-14 item-level stats ---\n&quot;)</code></pre>
+<pre><code>
+--- PSS-14 item-level stats ---</code></pre>
+<pre class="r"><code>print(alpha_pss$item.stats %&gt;%
+        select(r.cor, r.drop) %&gt;%
+        round(3))</code></pre>
+<pre><code>          r.cor r.drop
+PSS1      0.432  0.386
+PSS2      0.649  0.596
+PSS3      0.562  0.516
+PSS8      0.439  0.404
+PSS11     0.588  0.532
+PSS12     0.298  0.274
+PSS14     0.612  0.553
+PSS4_REV  0.497  0.425
+PSS5_REV  0.499  0.431
+PSS6_REV  0.520  0.441
+PSS7_REV  0.573  0.519
+PSS9_REV  0.504  0.434
+PSS10_REV 0.389  0.333
+PSS13_REV 0.338  0.292</code></pre>
+<pre class="r"><code>cat(&quot;\n--- Water worry subscale item-level stats ---\n&quot;)</code></pre>
+<pre><code>
+--- Water worry subscale item-level stats ---</code></pre>
+<pre class="r"><code>print(alpha_worry$item.stats %&gt;%
+        select(r.cor, r.drop) %&gt;%
+        round(3))</code></pre>
+<pre><code>         r.cor r.drop
+HW_WORRY 0.526  0.403
+HW_ANGRY 0.582  0.441
+HW_SHAME 0.351  0.261</code></pre>
+<hr />
+</div>
+</div>
+<div id="save-merged-dataset" class="section level1">
+<h1>10. Save merged dataset</h1>
+<pre class="r"><code>out_file &lt;- file.path(data_path, &quot;Merged_Screening_HWISE_PSS.csv&quot;)
+write.csv(df_merged, out_file, row.names = FALSE)
+cat(&quot;Saved:&quot;, out_file, &quot;\n&quot;)</code></pre>
+<pre><code>Saved: ./data/Merged_Screening_HWISE_PSS.csv </code></pre>
+<pre class="r"><code>cat(&quot;Final dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
+<pre><code>Final dimensions: 399 102 </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.2 (2025-10-31)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] psych_2.6.1     ggplot2_4.0.0   readr_2.1.5     stringr_1.5.1  
+[5] tidyr_1.3.1     dplyr_1.2.0     workflowr_1.7.1
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.10        utf8_1.2.4         generics_0.1.3     lattice_0.22-7    
+ [5] stringi_1.8.7      hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
+ [9] evaluate_1.0.3     grid_4.5.2         RColorBrewer_1.1-3 fastmap_1.2.0     
+[13] rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1     
+[17] ps_1.9.1           promises_1.3.2     httr_1.4.7         purrr_1.0.4       
+[21] scales_1.4.0       jquerylib_0.1.4    mnormt_2.1.2       cli_3.6.5         
+[25] rlang_1.1.7        withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
+[29] parallel_4.5.2     tools_4.5.2        tzdb_0.5.0         httpuv_1.6.16     
+[33] vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2      
+[37] fs_1.6.6           pkgconfig_2.0.3    callr_3.7.6        pillar_1.10.2     
+[41] bslib_0.9.0        later_1.4.2        gtable_0.3.6       glue_1.8.0        
+[45] Rcpp_1.0.14        xfun_0.52          tibble_3.2.1       tidyselect_1.2.1  
+[49] rstudioapi_0.17.1  knitr_1.50         farver_2.1.2       nlme_3.1-168      
+[53] htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29     compiler_4.5.2    
+[57] getPass_0.2-4      S7_0.2.0          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

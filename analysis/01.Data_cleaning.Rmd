@@ -3,6 +3,8 @@ title: "Data cleaning - Screening file"
 author: "Paloma"
 date: "2026-03-06"
 output: workflowr::wflow_html
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Introduction
@@ -36,7 +38,7 @@ within analysis scripts.
 
 # Setup
 
-```{r setup, message=FALSE, warning=FALSE}
+```{r setup, message=FALSE, warning=FALSE, echo = FALSE}
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -53,7 +55,7 @@ MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
 
 # 1. Load raw data
 
-```{r load}
+```{r load, echo = FALSE}
 df_raw <- read.csv(
   file.path(raw_path, "01.SCREENING.csv"),
   stringsAsFactors = FALSE,
@@ -112,7 +114,7 @@ df_raw <- df_raw %>%
 
 For IDs with two rows, take the non-NA value when rows differ.
 If both rows have different non-NA values for the same field, the
-conflict is flagged with 444 (Ambiguous) so you can review manually.
+conflict is flagged with 444 (Ambiguous) so it can be reviewed manually.
 
 ```{r merge-duplicates}
 merge_rows <- function(df_group) {
@@ -214,10 +216,78 @@ conflicts <- bind_rows(conflict_rows) %>%
  head(conflicts)
 ```
 
-## 3.2. Incorporate resolutions back into dataset
+## 3.2. Incorporate resolutions back into dataset and check again
 
 ```{r apply-resolutions}
-resolved <- read.csv(file.path(data_path, "conflicts_to_review.csv"),
+resolved <- read.csv(file.path(data_path, "conflicts_reviewed.csv"),
+                     stringsAsFactors = FALSE)
+
+for (i in seq_len(nrow(resolved))) {
+  if (is.na(resolved$resolution[i])) next  # skip unresolved conflicts
+  id  <- resolved$ID[i]
+  v   <- resolved$variable[i]
+  val <- resolved$resolution[i]
+  df[df$ID == id, v] <- val
+}
+
+# Report which fields were flagged as ambiguous
+ambig_flags <- df %>%
+  select(-ID) %>%
+  summarise(across(everything(), ~ sum(. == "444", na.rm = TRUE))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_ambiguous") %>%
+  filter(n_ambiguous > 0)
+
+cat("\nFields with ambiguous (444) values after merge:\n")
+print(ambig_flags, n=nrow(ambig_flags))
+
+# Print ID and conflicting values for manual review
+for (v in ambig_flags$variable) {
+  cat("\n---", v, "---\n")
+  conflict_ids <- df %>%
+    filter(.data[[v]] == "444") %>%
+    pull(ID)
+  print(df_raw %>%
+    filter(ID %in% conflict_ids) %>%
+    select(ID, all_of(v)))
+}
+conflict_rows <- list()
+
+for (v in ambig_flags$variable) {
+  conflict_ids <- df %>%
+    filter(.data[[v]] == "444") %>%
+    pull(ID)
+  
+  tmp <- df_raw %>%
+    filter(ID %in% conflict_ids) %>%
+    select(ID, all_of(v)) %>%
+    mutate(across(c(ID, all_of(v)), as.character)) %>%
+    group_by(ID) %>%
+    summarise(value_1 = first(.data[[v]]),
+              value_2 = last(.data[[v]]),
+              .groups = "drop") %>%
+    mutate(variable = v, resolution = NA_character_)
+  
+  conflict_rows[[v]] <- tmp
+}
+
+conflicts <- bind_rows(conflict_rows) %>%
+  select(ID, variable, value_1, value_2, resolution)
+
+# Uncomment once ready to export:
+ write.csv(conflicts, file.path(data_path, "conflicts_to_review_V2.csv"),
+           row.names = FALSE)
+ 
+ head(conflicts)
+
+
+
+```
+
+# 3.3 Incorporate more resolutions back into dataset 
+
+
+```{r}
+resolved <- read.csv(file.path(data_path, "conflicts_reviewed_V2.csv"),
                      stringsAsFactors = FALSE)
 
 for (i in seq_len(nrow(resolved))) {
@@ -273,11 +343,11 @@ df <- df %>%
 
 ```{r season}
 df <- df %>%
-  mutate(SEASON = case_when(
+  mutate(SEASON = as.factor(case_when(
     ID >= 1   & ID <= 204 ~ 0,   # 0 = rainy (reference in models)
     ID >= 301 & ID <= 497 ~ 1,   # 1 = dry
     TRUE ~ NA_real_
-  ))
+  )))
 
 cat("Season distribution:\n")
 print(table(df$SEASON, useNA = "always"))
@@ -297,10 +367,10 @@ recode_yesno <- function(x) {
   case_when(
     is.na(x)                                          ~ NA_real_,
     x %in% as.character(MISSING_CODES)               ~ suppressWarnings(as.numeric(x)),
-    x %in% c("no", "no.", "no -div")                 ~ 0,
-    str_starts(x, "yes") | str_starts(x, "si")       ~ 1,
+    x %in% c("no", "No", "no.", "no -div")                 ~ 0,
+    str_starts(x, "yes") | str_starts(x, "si") | str_starts(x, "Dolor")  ~ 1,
     x %in% c("no sabe", "ns")                        ~ 888,
-    x %in% c("refused", "prefiero no")               ~ 777,
+    x %in% c("refused")               ~ 777,
     TRUE                                              ~ 555
   )
 }
@@ -309,28 +379,39 @@ binary_vars <- c("HLTH_TTM", "HLTH_MED", "HLTH_CPAIN", "HLTH_CDIS")
 
 df <- df %>%
   mutate(across(all_of(binary_vars),
-                recode_yesno, .names = "{.col}_CLEAN"))
+                recode_yesno, .names = "{.col}_CAT"))
 
 # Visualization: RAW vs CLEAN for all binary variables
 binary_long <- df %>%
   select(ID,
          all_of(paste0(binary_vars, "_RAW")),
-         all_of(paste0(binary_vars, "_CLEAN"))) %>%
-  mutate(across(everything(), as.character)) %>%
-  pivot_longer(-ID,
-               names_to  = c("variable", "version"),
-               names_pattern = "(.+)_(RAW|CLEAN)") %>%
-  mutate(value = as.character(value))
+         all_of(paste0(binary_vars))) %>%
+  mutate(across(everything(), as.character)) 
 
-ggplot(binary_long, aes(x = value, fill = version)) +
-  geom_bar(position = "dodge") +
-  facet_wrap(~ variable, scales = "free_x") +
-  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
-  labs(title = "Binary variables: RAW vs CLEAN value distribution",
-       x = "Value", y = "Count", fill = "Version") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+
+```{r inspection}
+df[,c("HLTH_MED", "HLTH_MED_RAW", "HLTH_MED_CAT")]
+df[,c("HLTH_TTM", "HLTH_TTM_RAW", "HLTH_TTM_CAT")]
+df[,c("HLTH_CPAIN", "HLTH_CPAIN_RAW", "HLTH_CPAIN_CAT")]
+df[,c("HLTH_CDIS", "HLTH_CDIS_RAW", "HLTH_CDIS_CAT")]
+
+table(df$HLTH_CPAIN_CAT)
+table(df$HLTH_TTM_CAT)
+temp <- df %>%
+  select("HLTH_CPAIN_CAT", "HLTH_MED_CAT", "HLTH_TTM_CAT", "HLTH_CDIS_CAT")
+
+temp2 <- temp %>%
+  pivot_longer(everything(),
+               names_to = "cat", 
+               values_to = "vals") #%>% 
+ # group_by(cat, vals) %>%
+#  summarize(n = n())
+ggplot(temp2, aes(x = cat, fill = as.factor(vals))) +
+  geom_bar(position = "dodge")
+```
+
 
 ---
 
@@ -345,12 +426,12 @@ df <- df %>%
     HLTH_SMK_CLEAN = case_when(
       is.na(HLTH_SMK)                                                              ~ NA_real_,
       str_trim(tolower(as.character(HLTH_SMK))) %in% as.character(MISSING_CODES)  ~ suppressWarnings(as.numeric(HLTH_SMK)),
-      str_trim(tolower(HLTH_SMK)) %in% c("no", "ya no- 10 atras")                                     ~ 0,
+      str_trim(tolower(HLTH_SMK)) %in% c("no", "ya no- 10 atras", "fumaba", "No, hace 2 anios.")                                     ~ 0,
       str_trim(tolower(HLTH_SMK)) %in% c(
         "de vez en cuando", "a veces", "aveces",
-        "casi nada", "poquito- 3 x semana", "3 x semana",
+        "casi nada", "poquito- 3 x semana", "3 x semana", "3 al mes",
         "si de vez en cuando", "1 diario", "1 cada 3 dia",
-        "a veces/ una vez por semana", "ocasionalmente",
+        "a veces/ una vez por semana", "1 al mes","ocasionalmente",
         "Ocasionalmente (1 vez x semana)", "c/6 meses",
         "5 x mes", "A veces, 2-3 x semana", "Casi nada (1 c/2 meses)")                                             ~ 2,
         str_starts(tolower(str_trim(HLTH_SMK)), "yes") |
@@ -378,13 +459,7 @@ smk_long <- df %>%
   pivot_longer(-ID, names_to = "version", values_to = "value") %>%
   mutate(version = str_remove(version, "HLTH_SMK_"))
 
-ggplot(smk_long, aes(x = value, fill = version)) +
-  geom_bar(position = "dodge") +
-  scale_fill_manual(values = c("RAW" = "#d9534f", "CLEAN" = "#5bc0de")) +
-  labs(title = "HLTH_SMK: RAW vs CLEAN value distribution",
-       x = "Value", y = "Count", fill = "Version") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+barplot(table(df$HLTH_SMK_CLEAN))
 ```
 
 ---
