@@ -9,7 +9,7 @@ navbar:
     href: about.html
   - text: License
     href: license.html
-  - text: Data cleaning
+  - text: data_cleaning
     href: data_cleaning.html
 output:
   workflowr::wflow_html:
