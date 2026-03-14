@@ -337,25 +337,22 @@ div.tocify {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="01.data_cleaning.html">1.cleaning</a>
 </li>
 <li>
-  <a href="01.data_cleaning.html">01.data_cleaning</a>
+  <a href="02.data_merge_hwise_pss.html">2.merge_hwise_pss</a>
 </li>
 <li>
-  <a href="02.data_merge_hwise_pss.html">02.data_merge_hwise_pss</a>
+  <a href="03.data_merge_q1-6.html">3.merge_q1-6</a>
 </li>
 <li>
-  <a href="03.data_merge_q1-6.html">03.data_merge_q1-6</a>
+  <a href="04.descriptive_stats.html">4.descr_stats</a>
 </li>
 <li>
-  <a href="04.descriptive_stats.Rmd">04.descriptive_stats</a>
+  <a href="05.descriptive_plots.html">5.descr_plots</a>
 </li>
 <li>
-  <a href="05.descriptive_plots.Rmd">05.descriptive_plots</a>
-</li>
-<li>
-  <a href="Maps.Rmd">Maps</a>
+  <a href="Maps.html">Maps</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -400,7 +397,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-13
+<strong>Last updated:</strong> 2026-03-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -531,15 +528,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5eb78c5194c622f07316eeeb48f39321af5f2385targetblank5eb78c5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5eb78c5194c622f07316eeeb48f39321af5f2385" target="_blank">5eb78c5</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5eb78c5194c622f07316eeeb48f39321af5f2385targetblank5eb78c5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +546,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5eb78c5194c622f07316eeeb48f39321af5f2385" target="_blank">5eb78c5</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -580,7 +577,15 @@ Untracked files:
     Untracked:  .claude/
 
 Unstaged changes:
+    Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/04.Descriptive_stats.Rmd
     Modified:   analysis/_site.yml
+    Modified:   data/01.SES_to_review.csv
+    Modified:   data/01.Screening_clean.csv
+    Modified:   data/01.conflicts_to_review.csv
+    Modified:   data/01.conflicts_to_review_V2.csv
+    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Modified:   data/03.Merged_Q1-6.csv
 
 </code></pre>
 <p>
@@ -674,7 +679,8 @@ class="section level2">
 <p>Raw copies are created here, before merging or recoding, so that
 <code>_RAW</code> columns always reflect the original data entry.</p>
 <pre class="r"><code>vars_to_preserve &lt;- c(&quot;HLTH_TTM&quot;, &quot;HLTH_MED&quot;, &quot;HLTH_CPAIN&quot;,
-                      &quot;HLTH_CDIS&quot;, &quot;HLTH_SMK&quot;, &quot;D_EMP_TYPE&quot;, &quot;D_CHLD&quot;)
+                      &quot;HLTH_CDIS&quot;, &quot;HLTH_SMK&quot;, &quot;D_EMP_TYPE&quot;, &quot;D_CHLD&quot;, 
+                      &quot;SES_EDU_CAT&quot;)
 
 df_raw &lt;- df_raw %&gt;%
   mutate(across(all_of(vars_to_preserve),
@@ -742,40 +748,41 @@ cat(&quot;\nFields with ambiguous (444) values after merge:\n&quot;)</code></pre
 <pre><code>
 Fields with ambiguous (444) values after merge:</code></pre>
 <pre class="r"><code>print(ambig_flags, n=nrow(ambig_flags))</code></pre>
-<pre><code># A tibble: 31 × 2
-   variable       n_ambiguous
-   &lt;chr&gt;                &lt;int&gt;
- 1 D_YRBR                   3
- 2 D_AGE                   51
- 3 D_LOC_CODE               3
- 4 D_LOC_TIME               2
- 5 HLTH_SMK                 3
- 6 HLTH_MED                 1
- 7 HLTH_CPAIN               2
- 8 HLTH_CDIS                3
- 9 D_HH_SIZE                5
-10 D_CHLD                   3
-11 D_EMP_TYPE               6
-12 W_HH_SIZE                2
-13 W_STORAGE                2
-14 SES_EDU_CAT              4
-15 SES_EDU_SC               1
-16 SES_BTHR_CAT             1
-17 SES_BTHR_SC              1
-18 SES_CAR_CAT              1
-19 SES_CAR_SC               1
-20 SES_INT_CAT              1
-21 SES_INT_SC               1
-22 SES_WRK_CAT              2
-23 SES_WRK_SC               2
-24 SES_BEDR_CAT             1
-25 SES_BEDR_SC              1
-26 HLTH_MED_RAW             1
-27 HLTH_CPAIN_RAW           2
-28 HLTH_CDIS_RAW            3
-29 HLTH_SMK_RAW             3
-30 D_EMP_TYPE_RAW           6
-31 D_CHLD_RAW               3</code></pre>
+<pre><code># A tibble: 32 × 2
+   variable        n_ambiguous
+   &lt;chr&gt;                 &lt;int&gt;
+ 1 D_YRBR                    3
+ 2 D_AGE                    51
+ 3 D_LOC_CODE                3
+ 4 D_LOC_TIME                2
+ 5 HLTH_SMK                  3
+ 6 HLTH_MED                  1
+ 7 HLTH_CPAIN                2
+ 8 HLTH_CDIS                 3
+ 9 D_HH_SIZE                 5
+10 D_CHLD                    3
+11 D_EMP_TYPE                6
+12 W_HH_SIZE                 2
+13 W_STORAGE                 2
+14 SES_EDU_CAT               4
+15 SES_EDU_SC                1
+16 SES_BTHR_CAT              1
+17 SES_BTHR_SC               1
+18 SES_CAR_CAT               1
+19 SES_CAR_SC                1
+20 SES_INT_CAT               1
+21 SES_INT_SC                1
+22 SES_WRK_CAT               2
+23 SES_WRK_SC                2
+24 SES_BEDR_CAT              1
+25 SES_BEDR_SC               1
+26 HLTH_MED_RAW              1
+27 HLTH_CPAIN_RAW            2
+28 HLTH_CDIS_RAW             3
+29 HLTH_SMK_RAW              3
+30 D_EMP_TYPE_RAW            6
+31 D_CHLD_RAW                3
+32 SES_EDU_CAT_RAW           4</code></pre>
 <pre class="r"><code># Print ID and conflicting values for manual review
 for (v in ambig_flags$variable) {
   cat(&quot;\n---&quot;, v, &quot;---\n&quot;)
@@ -1183,7 +1190,19 @@ for (v in ambig_flags$variable) {
 4 415          2
 5 427          1
 6 427          4
-7 427          4</code></pre>
+7 427          4
+
+--- SES_EDU_CAT_RAW ---
+   ID                                           SES_EDU_CAT_RAW
+1  70                                       Secundaria completa
+2  70                                     Preparatoria completa
+3 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
+4 103                                   Preparatoria incompleta
+5 327                                   Licenciatura incompleta
+6 327                                     carrera tecnica bachi
+7 427                                          5 to de primaria
+8 427                                       Primaria incompleta
+9 427                                       Primaria incompleta</code></pre>
 <div id="export-conflicts-for-manual-resolution" class="section level2">
 <h2>3.1. Export conflicts for manual resolution</h2>
 <pre class="r"><code>conflict_rows &lt;- list()
@@ -1249,15 +1268,16 @@ cat(&quot;\nFields with ambiguous (444) values after merge:\n&quot;)</code></pre
 <pre><code>
 Fields with ambiguous (444) values after merge:</code></pre>
 <pre class="r"><code>print(ambig_flags, n=nrow(ambig_flags))</code></pre>
-<pre><code># A tibble: 6 × 2
-  variable       n_ambiguous
-  &lt;chr&gt;                &lt;int&gt;
-1 HLTH_MED_RAW             1
-2 HLTH_CPAIN_RAW           1
-3 HLTH_CDIS_RAW            3
-4 HLTH_SMK_RAW             2
-5 D_EMP_TYPE_RAW           6
-6 D_CHLD_RAW               3</code></pre>
+<pre><code># A tibble: 7 × 2
+  variable        n_ambiguous
+  &lt;chr&gt;                 &lt;int&gt;
+1 HLTH_MED_RAW              1
+2 HLTH_CPAIN_RAW            1
+3 HLTH_CDIS_RAW             3
+4 HLTH_SMK_RAW              2
+5 D_EMP_TYPE_RAW            6
+6 D_CHLD_RAW                3
+7 SES_EDU_CAT_RAW           4</code></pre>
 <pre class="r"><code># Print ID and conflicting values for manual review
 for (v in ambig_flags$variable) {
   cat(&quot;\n---&quot;, v, &quot;---\n&quot;)
@@ -1346,7 +1366,19 @@ for (v in ambig_flags$variable) {
 4 415          2
 5 427          1
 6 427          4
-7 427          4</code></pre>
+7 427          4
+
+--- SES_EDU_CAT_RAW ---
+   ID                                           SES_EDU_CAT_RAW
+1  70                                       Secundaria completa
+2  70                                     Preparatoria completa
+3 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
+4 103                                   Preparatoria incompleta
+5 327                                   Licenciatura incompleta
+6 327                                     carrera tecnica bachi
+7 427                                          5 to de primaria
+8 427                                       Primaria incompleta
+9 427                                       Primaria incompleta</code></pre>
 <pre class="r"><code>conflict_rows &lt;- list()
 
 for (v in ambig_flags$variable) {
@@ -2334,7 +2366,152 @@ cat(&quot;D_LOC_TIME values flagged as 555 (non-numeric text):\n&quot;)</code></
 <p>Items: SES_EDU_SC, SES_BTHR_SC, SES_CAR_SC, SES_INT_SC, SES_WRK_SC,
 SES_BEDR_SC Non-numeric entries (e.g. column-shift errors) are flagged
 as 666.</p>
-<pre class="r"><code>ses_items &lt;- c(&quot;SES_EDU_SC&quot;, &quot;SES_BTHR_SC&quot;, &quot;SES_CAR_SC&quot;,
+<div id="recode-ses_edu_cat" class="section level2">
+<h2>11.1. Recode SES_EDU_CAT</h2>
+<pre class="r"><code>df &lt;- df %&gt;%
+  mutate(
+    SES_EDU_CAT_CLEAN = case_when(
+      
+      # ── Sentinel pass-through ──────────────────────────────────────────
+      SES_EDU_CAT == &quot;999&quot; ~ &quot;999&quot;,
+      
+      # ── Ambiguous / needs review ───────────────────────────────────────
+      SES_EDU_CAT == &quot;No hay&quot;                                          ~ as.character(999),
+      SES_EDU_CAT == &quot;No hay una clara marca, necesita ver la grabacion&quot; ~ as.character(444),
+      SES_EDU_CAT == &quot;no sabe si es completa o no para primaria&quot;        ~ as.character(888),
+      
+      # ── Standard categories (case-insensitive via str_to_lower trick) ──
+      SES_EDU_CAT == &quot;no estudio/preescolar&quot;        ~ &quot;No formal education&quot;,
+      SES_EDU_CAT == &quot;Primaria incompleta&quot;           ~ &quot;Incomplete primary&quot;,
+      SES_EDU_CAT == &quot;Primaria completa&quot;             ~ &quot;Complete primary&quot;,
+      SES_EDU_CAT == &quot;Secundaria incompleta&quot;         ~ &quot;Incomplete secondary&quot;,
+      SES_EDU_CAT %in% c(
+        &quot;Secundaria completa&quot;,
+        &quot;Secundaria completa. Tomo un per de curso (secretaicido y computear) sin concluir&quot;
+      )                                              ~ &quot;Complete secondary&quot;,
+      
+      # ── Carrera comercial → Secundaria Completa ────────────────────────
+      SES_EDU_CAT == &quot;Carrera comercial&quot;             ~ &quot;Complete secondary&quot;,
+      
+      # ── Carrera tecnica (without bachillerato) → Preparatoria Incompleta
+      SES_EDU_CAT %in% c(
+        &quot;Carrera tecnica&quot;,
+        &quot;Carrera tecnica completa&quot;,
+        &quot;carrera tecnica completa --&gt; 35 puntos (for now: 3 march 2023)&quot;,
+        &quot;Carrera Tecnica: 35 pints ( 3 March 23)&quot;
+      )                                              ~ &quot;Incomplete high school&quot;,
+      
+      # ── Carrera tecnica WITH bachillerato → Preparatoria Completa ──────
+      SES_EDU_CAT %in% c(
+        &quot;carrera tecnica bachi&quot;,
+        &quot;Bachillerato, carrera tecnica completa. 35 (3 march 2023)&quot;
+      )                                              ~ &quot;Complete high school&quot;,
+      
+      # ── Bachillerato ───────────────────────────────────────────────────
+      SES_EDU_CAT == &quot;Bachillerato trunco&quot;           ~ &quot;Incomplete high school&quot;,
+      SES_EDU_CAT %in% c(
+        &quot;Bachillerato completo&quot;,
+        &quot;Bauhi? Completo&quot;                            # likely &quot;Bachillerato Completo&quot;
+      )                                              ~ &quot;Complete high school&quot;,
+      
+      SES_EDU_CAT == &quot;Preparatoria incompleta&quot;       ~ &quot;Incomplete high school&quot;,
+      SES_EDU_CAT == &quot;Preparatoria completa&quot;         ~ &quot;Complete high school&quot;,
+      SES_EDU_CAT == &quot;Licenciatura incompleta&quot;       ~ &quot;Incomplete university&quot;,
+      SES_EDU_CAT == &quot;Licenciatura completa&quot;         ~ &quot;Complete university&quot;,
+      SES_EDU_CAT == &quot;Postgrado&quot;                     ~ &quot;Postgraduate&quot;,
+      
+      # ── Fallback ───────────────────────────────────────────────────────
+      TRUE ~ as.character(444)  # anything unmatched → flag for review
+    ),
+    
+    # ── SES_EDU_SC update ─────────────────────────────────────────────────
+    SES_EDU_SC_CLEAN = case_when(
+      SES_EDU_CAT_CLEAN == &quot;No formal education&quot;       ~ 0,
+      SES_EDU_CAT_CLEAN == &quot;Incomplete primary&quot;   ~ 10,
+      SES_EDU_CAT_CLEAN == &quot;Complete primary&quot;     ~ 22,
+      SES_EDU_CAT_CLEAN == &quot;Incomplete secondary&quot; ~ 23,
+      SES_EDU_CAT_CLEAN == &quot;Complete secondary&quot;   ~ 31,
+      SES_EDU_CAT_CLEAN == &quot;Incomplete high school&quot; ~ 35,
+      SES_EDU_CAT_CLEAN == &quot;Complete high school&quot;   ~ 43,
+      SES_EDU_CAT_CLEAN == &quot;Incomplete university&quot; ~ 59,
+      SES_EDU_CAT_CLEAN == &quot;Complete university&quot;   ~ 73,
+      SES_EDU_CAT_CLEAN == &quot;Postgraduate&quot;                ~ 101,
+      TRUE ~ NA_real_   # sentinels and 444 get NA in the score column
+    )
+  )
+
+# Check results
+table(df$SES_EDU_CAT_CLEAN, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>
+                   444                    888                    999 
+                     6                      1                      2 
+  Complete high school       Complete primary     Complete secondary 
+                    90                     36                    135 
+   Complete university Incomplete high school     Incomplete primary 
+                    27                     48                     16 
+  Incomplete secondary  Incomplete university    No formal education 
+                    25                     10                      1 
+          Postgraduate 
+                     2 </code></pre>
+<pre class="r"><code>df$SES_EDU_SC</code></pre>
+<pre><code>  [1] &quot;10&quot;  &quot;31&quot;  &quot;31&quot;  &quot;73&quot;  &quot;35&quot;  &quot;73&quot;  &quot;31&quot;  &quot;31&quot;  &quot;23&quot;  &quot;999&quot; &quot;35&quot;  &quot;35&quot; 
+ [13] &quot;35&quot;  &quot;22&quot;  &quot;31&quot;  &quot;43&quot;  &quot;35&quot;  NA    &quot;43&quot;  &quot;43&quot;  &quot;35&quot;  &quot;31&quot;  &quot;31&quot;  &quot;43&quot; 
+ [25] &quot;22&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot;  &quot;10&quot;  &quot;43&quot;  &quot;10&quot;  &quot;35&quot;  &quot;23&quot;  &quot;59&quot;  &quot;31&quot; 
+ [37] &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;23&quot;  &quot;22&quot;  &quot;43&quot;  &quot;59&quot;  &quot;101&quot; &quot;43&quot; 
+ [49] &quot;43&quot;  &quot;43&quot;  &quot;43&quot;  &quot;35&quot;  &quot;22&quot;  &quot;22&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;43&quot;  &quot;43&quot;  &quot;43&quot; 
+ [61] &quot;31&quot;  &quot;10&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot;  &quot;43&quot;  &quot;43&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot; 
+ [73] &quot;10&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  NA    &quot;43&quot;  &quot;73&quot;  &quot;59&quot;  &quot;31&quot; 
+ [85] &quot;35&quot;  &quot;23&quot;  &quot;43&quot;  &quot;31&quot;  &quot;35&quot;  &quot;73&quot;  &quot;23&quot;  &quot;23&quot;  &quot;35&quot;  NA    &quot;35&quot;  &quot;43&quot; 
+ [97] &quot;35&quot;  &quot;35&quot;  &quot;43&quot;  NA    &quot;43&quot;  &quot;35&quot;  &quot;43&quot;  &quot;35&quot;  &quot;43&quot;  NA    NA    &quot;35&quot; 
+[109] &quot;43&quot;  &quot;22&quot;  &quot;31&quot;  &quot;43&quot;  &quot;43&quot;  &quot;73&quot;  &quot;22&quot;  &quot;35&quot;  &quot;23&quot;  &quot;43&quot;  &quot;31&quot;  &quot;35&quot; 
+[121] &quot;10&quot;  &quot;43&quot;  &quot;43&quot;  &quot;43&quot;  &quot;59&quot;  &quot;73&quot;  &quot;31&quot;  &quot;59&quot;  &quot;35&quot;  &quot;23&quot;  &quot;22&quot;  &quot;31&quot; 
+[133] &quot;23&quot;  &quot;73&quot;  &quot;35&quot;  &quot;23&quot;  &quot;22&quot;  &quot;31&quot;  &quot;59&quot;  &quot;23&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;31&quot; 
+[145] &quot;22&quot;  &quot;31&quot;  &quot;35&quot;  &quot;35&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  NA    &quot;10&quot; 
+[157] &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;43&quot;  &quot;73&quot;  &quot;23&quot;  &quot;43&quot;  &quot;23&quot;  &quot;73&quot;  &quot;10&quot; 
+[169] &quot;35&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot;  &quot;22&quot;  &quot;35&quot;  &quot;10&quot;  &quot;43&quot;  &quot;23&quot;  &quot;43&quot;  &quot;31&quot; 
+[181] &quot;31&quot;  &quot;43&quot;  &quot;22&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;43&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;23&quot; 
+[193] &quot;73&quot;  &quot;31&quot;  &quot;10&quot;  NA    &quot;23&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot; 
+[205] &quot;31&quot;  &quot;35&quot;  &quot;31&quot;  &quot;35&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;59&quot; 
+[217] &quot;73&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;59&quot;  &quot;101&quot; &quot;73&quot;  &quot;31&quot;  NA    &quot;43&quot; 
+[229] &quot;59&quot;  &quot;31&quot;  &quot;43&quot;  &quot;43&quot;  &quot;31&quot;  &quot;23&quot;  &quot;35&quot;  &quot;43&quot;  &quot;73&quot;  &quot;22&quot;  &quot;31&quot;  &quot;35&quot; 
+[241] &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;31&quot;  &quot;10&quot;  &quot;31&quot;  &quot;10&quot;  &quot;22&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;22&quot; 
+[253] NA    &quot;35&quot;  &quot;10&quot;  NA    &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  NA    &quot;43&quot;  NA    &quot;35&quot;  &quot;43&quot; 
+[265] &quot;73&quot;  &quot;35&quot;  &quot;31&quot;  &quot;31&quot;  &quot;73&quot;  &quot;31&quot;  &quot;31&quot;  &quot;43&quot;  &quot;73&quot;  &quot;10&quot;  &quot;35&quot;  &quot;31&quot; 
+[277] &quot;43&quot;  &quot;31&quot;  &quot;22&quot;  &quot;35&quot;  &quot;35&quot;  &quot;31&quot;  &quot;35&quot;  &quot;43&quot;  &quot;22&quot;  &quot;23&quot;  &quot;31&quot;  &quot;43&quot; 
+[289] NA    &quot;73&quot;  &quot;73&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;23&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;23&quot;  &quot;10&quot; 
+[301] &quot;35&quot;  &quot;73&quot;  &quot;22&quot;  &quot;31&quot;  &quot;35&quot;  &quot;31&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot; 
+[313] &quot;43&quot;  &quot;23&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;35&quot;  &quot;35&quot;  &quot;35&quot;  &quot;35&quot;  &quot;23&quot;  &quot;31&quot;  &quot;43&quot; 
+[325] &quot;31&quot;  &quot;31&quot;  &quot;35&quot;  &quot;35&quot;  &quot;10&quot;  &quot;31&quot;  &quot;35&quot;  &quot;22&quot;  &quot;31&quot;  &quot;35&quot;  &quot;43&quot;  &quot;43&quot; 
+[337] &quot;22&quot;  &quot;23&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;43&quot;  &quot;35&quot;  &quot;59&quot;  &quot;31&quot; 
+[349] &quot;43&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;31&quot;  &quot;22&quot;  &quot;23&quot;  &quot;23&quot;  &quot;35&quot;  &quot;43&quot;  &quot;22&quot;  &quot;31&quot; 
+[361] &quot;43&quot;  &quot;43&quot;  NA    &quot;43&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;31&quot;  &quot;43&quot;  &quot;22&quot;  &quot;22&quot;  &quot;31&quot; 
+[373] &quot;31&quot;  &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;31&quot;  &quot;22&quot;  &quot;31&quot;  &quot;31&quot;  &quot;22&quot;  &quot;22&quot;  &quot;22&quot; 
+[385] &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  NA    &quot;31&quot;  &quot;43&quot;  &quot;31&quot;  &quot;31&quot;  &quot;73&quot;  &quot;43&quot;  &quot;59&quot;  &quot;31&quot; 
+[397] &quot;43&quot;  &quot;31&quot;  &quot;333&quot;</code></pre>
+<pre class="r"><code>edu_levels &lt;- c(
+  &quot;No formal education&quot;,
+  &quot;Incomplete primary&quot;,
+  &quot;Complete primary&quot;,
+  &quot;Incomplete secondary&quot;,
+  &quot;Complete secondary&quot;,
+  &quot;Incomplete high school&quot;,
+  &quot;Complete high school&quot;,
+  &quot;Incomplete university&quot;,
+  &quot;Complete university&quot;,
+  &quot;Postgraduate&quot;
+)
+
+df &lt;- df %&gt;%
+  mutate(SES_EDU_CAT_CLEAN = factor(SES_EDU_CAT_CLEAN, levels = edu_levels, ordered = TRUE))
+
+# Review flagged cases
+df %&gt;% filter(SES_EDU_CAT_CLEAN == &quot;444&quot;) %&gt;% 
+  select(ID, SES_EDU_CAT, SES_EDU_CAT_CLEAN)</code></pre>
+<pre><code># A tibble: 0 × 3
+# ℹ 3 variables: ID &lt;int&gt;, SES_EDU_CAT &lt;chr&gt;, SES_EDU_CAT_CLEAN &lt;ord&gt;</code></pre>
+<pre class="r"><code>barplot(table(df$SES_EDU_CAT_CLEAN))</code></pre>
+<p><img src="figure/01.data_cleaning.Rmd/recode-edu-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ses_items &lt;- c(&quot;SES_EDU_SC_CLEAN&quot;, &quot;SES_BTHR_SC&quot;, &quot;SES_CAR_SC&quot;,
                &quot;SES_INT_SC&quot;, &quot;SES_WRK_SC&quot;, &quot;SES_BEDR_SC&quot;)
 
 # Preserve originals
@@ -2376,64 +2553,67 @@ df &lt;- df %&gt;%
   ))
 
 cat(&quot;SES_SC_Total NAs:&quot;, sum(is.na(df$SES_SC_Total)), &quot;\n&quot;)</code></pre>
-<pre><code>SES_SC_Total NAs: 48 </code></pre>
-<pre class="r"><code>cat(&quot;Participants with missing or flagged SES items:\n&quot;)</code></pre>
+<pre><code>SES_SC_Total NAs: 39 </code></pre>
+<pre class="r"><code>SES_cat &lt;- grep(&quot;^SES.*CAT$&quot;, names(df), value = TRUE)
+cat(&quot;Participants with missing or flagged SES items:\n&quot;)</code></pre>
 <pre><code>Participants with missing or flagged SES items:</code></pre>
 <pre class="r"><code>SES_nas &lt;-print(df[is.na(df$SES_SC_Total),
-         c(&quot;ID&quot;, ses_items, paste0(ses_items, &quot;_RAW&quot;))])</code></pre>
-<pre><code># A tibble: 48 × 13
-      ID SES_EDU_SC SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC SES_BEDR_SC
-   &lt;int&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
- 1     8         31          NA         18         31         15          12
- 2    10        999         999        999        999        999         999
- 3    11         35          NA          0         31         46          23
- 4    12         35          47         18         31         61          NA
- 5    18         NA          NA         NA         NA         NA          NA
- 6    22         31          NA         NA         NA         NA          NA
- 7    57         31         666          0         31         15           6
- 8    58         43          NA          0         31         31          23
- 9    81         NA          47          0          0         31          23
-10    85         31          47         18         31         61          NA
-# ℹ 38 more rows
-# ℹ 6 more variables: SES_EDU_SC_RAW &lt;chr&gt;, SES_BTHR_SC_RAW &lt;chr&gt;,
-#   SES_CAR_SC_RAW &lt;chr&gt;, SES_INT_SC_RAW &lt;chr&gt;, SES_WRK_SC_RAW &lt;chr&gt;,
-#   SES_BEDR_SC_RAW &lt;chr&gt;</code></pre>
+         c(&quot;ID&quot;, ses_items, paste0(ses_items, &quot;_RAW&quot;), SES_cat)])</code></pre>
+<pre><code># A tibble: 39 × 19
+      ID SES_EDU_SC_CLEAN SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC
+   &lt;int&gt;            &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1     8               31          NA         18         31         15
+ 2    10               NA         999        999        999        999
+ 3    11               35          NA          0         31         46
+ 4    12               35          47         18         31         61
+ 5    18               NA          NA         NA         NA         NA
+ 6    22               31          NA         NA         NA         NA
+ 7    57               31         666          0         31         15
+ 8    58               43          NA          0         31         31
+ 9    85               31          47         18         31         61
+10   107               NA          47          0         31         31
+# ℹ 29 more rows
+# ℹ 13 more variables: SES_BEDR_SC &lt;dbl&gt;, SES_EDU_SC_CLEAN_RAW &lt;dbl&gt;,
+#   SES_BTHR_SC_RAW &lt;chr&gt;, SES_CAR_SC_RAW &lt;chr&gt;, SES_INT_SC_RAW &lt;chr&gt;,
+#   SES_WRK_SC_RAW &lt;chr&gt;, SES_BEDR_SC_RAW &lt;chr&gt;, SES_EDU_CAT &lt;chr&gt;,
+#   SES_BTHR_CAT &lt;chr&gt;, SES_CAR_CAT &lt;chr&gt;, SES_INT_CAT &lt;chr&gt;,
+#   SES_WRK_CAT &lt;chr&gt;, SES_BEDR_CAT &lt;chr&gt;</code></pre>
 <pre class="r"><code>write.csv(SES_nas, file.path(data_path, &quot;01.SES_to_review.csv&quot;), row.names = FALSE)
 
 print(df[is.na(df$SES_SC_Total),
-         c(&quot;ID&quot;, ses_items, paste0(ses_items, &quot;_RAW&quot;))])</code></pre>
-<pre><code># A tibble: 48 × 13
-      ID SES_EDU_SC SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC SES_BEDR_SC
-   &lt;int&gt;      &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
- 1     8         31          NA         18         31         15          12
- 2    10        999         999        999        999        999         999
- 3    11         35          NA          0         31         46          23
- 4    12         35          47         18         31         61          NA
- 5    18         NA          NA         NA         NA         NA          NA
- 6    22         31          NA         NA         NA         NA          NA
- 7    57         31         666          0         31         15           6
- 8    58         43          NA          0         31         31          23
- 9    81         NA          47          0          0         31          23
-10    85         31          47         18         31         61          NA
-# ℹ 38 more rows
-# ℹ 6 more variables: SES_EDU_SC_RAW &lt;chr&gt;, SES_BTHR_SC_RAW &lt;chr&gt;,
-#   SES_CAR_SC_RAW &lt;chr&gt;, SES_INT_SC_RAW &lt;chr&gt;, SES_WRK_SC_RAW &lt;chr&gt;,
-#   SES_BEDR_SC_RAW &lt;chr&gt;</code></pre>
+         c(&quot;ID&quot;, ses_items)])</code></pre>
+<pre><code># A tibble: 39 × 7
+      ID SES_EDU_SC_CLEAN SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC
+   &lt;int&gt;            &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1     8               31          NA         18         31         15
+ 2    10               NA         999        999        999        999
+ 3    11               35          NA          0         31         46
+ 4    12               35          47         18         31         61
+ 5    18               NA          NA         NA         NA         NA
+ 6    22               31          NA         NA         NA         NA
+ 7    57               31         666          0         31         15
+ 8    58               43          NA          0         31         31
+ 9    85               31          47         18         31         61
+10   107               NA          47          0         31         31
+# ℹ 29 more rows
+# ℹ 1 more variable: SES_BEDR_SC &lt;dbl&gt;</code></pre>
 <pre class="r"><code>cat(&quot;\nSES category distribution:\n&quot;)</code></pre>
 <pre><code>
 SES category distribution:</code></pre>
 <pre class="r"><code>print(table(df$SES_CAT_AMAI, useNA = &quot;always&quot;))</code></pre>
 <pre><code>
   AB    C   C-   C+   D-   D+    E &lt;NA&gt; 
-  27   83   80   48   50   52   11   48 </code></pre>
+  27   85   82   50   51   53   12   39 </code></pre>
 <hr />
+</div>
 </div>
 <div id="missing-data-summary" class="section level1">
 <h1>12. Missing data summary</h1>
 <pre class="r"><code># Exclude free-text notes columns and intermediate working columns
 notes_cols &lt;- c(&quot;D_LOC_INFO&quot;, &quot;D_HH_SIZE_INFO&quot;, &quot;D_INFO&quot;, &quot;SES_INFO&quot;,
                 &quot;HLTH_CPAIN_CAT&quot;, &quot;HLTH_CDIS_CAT&quot;, &quot;D_EMP_DAYS&quot;,
-                &quot;W_HH_SIZE&quot;, &quot;W_STORAGE&quot;, &quot;D_LOC_CODE&quot;)
+                &quot;W_HH_SIZE&quot;, &quot;W_STORAGE&quot;, &quot;D_LOC_CODE&quot;,
+                &quot;SES_EDU_SC&quot;, &quot;SES_EDU_RAW&quot;)
 
 analytic_vars &lt;- setdiff(names(df), notes_cols)
 
@@ -2457,70 +2637,71 @@ missing_report &lt;- df %&gt;%
 cat(&quot;Missing data summary (analytic variables):\n&quot;)</code></pre>
 <pre><code>Missing data summary (analytic variables):</code></pre>
 <pre class="r"><code>print(missing_report, n = 50)</code></pre>
-<pre><code># A tibble: 50 × 6
-   variable          n_na n_sentinel n_total pct_na pct_flag
-   &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
- 1 D_LOC              251          1     399   62.9      0.3
- 2 D_EMP_FORM_CLEAN   130         55     399   32.6     13.8
- 3 SES_SC_Total        48          0     399   12        0  
- 4 SES_CAT_AMAI        48          0     399   12        0  
- 5 D_LOC_TIME          31          1     399    7.8      0.3
- 6 D_LOC_TIME_RAW      31          1     399    7.8      0.3
- 7 D_LOC_TIME_CLEAN    31          3     399    7.8      0.8
- 8 SES_BTHR_SC         29          2     399    7.3      0.5
- 9 SES_BTHR_SC_RAW     29          1     399    7.3      0.3
-10 SES_BTHR_CAT        20          1     399    5        0.3
-11 SES_CAR_SC          18          1     399    4.5      0.3
-12 SES_CAR_SC_RAW      18          1     399    4.5      0.3
-13 D_HH_SIZE           17          1     399    4.3      0.3
-14 SES_CAR_CAT         17          1     399    4.3      0.3
-15 SES_BEDR_SC         17          1     399    4.3      0.3
-16 SES_BEDR_SC_RAW     17          1     399    4.3      0.3
-17 SES_EDU_SC          16          2     399    4        0.5
-18 HLTH_SMK_CAT        16          0     399    4        0  
-19 SES_EDU_SC_RAW      16          2     399    4        0.5
-20 HLTH_SMK            15          1     399    3.8      0.3
-21 D_EMP_TYPE          15          1     399    3.8      0.3
-22 SES_INT_CAT         15          1     399    3.8      0.3
-23 SES_INT_SC          15          1     399    3.8      0.3
-24 SES_WRK_CAT         15          1     399    3.8      0.3
-25 SES_WRK_SC          15          1     399    3.8      0.3
-26 SES_BEDR_CAT        15          1     399    3.8      0.3
-27 HLTH_SMK_RAW        15          3     399    3.8      0.8
-28 D_EMP_TYPE_RAW      15          7     399    3.8      1.8
-29 HLTH_SMK_CLEAN      15          1     399    3.8      0.3
-30 D_EMP_TYPE_CLEAN    15          1     399    3.8      0.3
-31 D_EMP_CLEAN         15          2     399    3.8      0.5
-32 SES_INT_SC_RAW      15          1     399    3.8      0.3
-33 SES_WRK_SC_RAW      15          1     399    3.8      0.3
-34 HLTH_TTM            14          1     399    3.5      0.3
-35 D_CHLD              14          3     399    3.5      0.8
-36 HLTH_TTM_RAW        14          1     399    3.5      0.3
-37 D_CHLD_RAW          14          6     399    3.5      1.5
-38 HLTH_TTM_CAT        14         35     399    3.5      8.8
-39 D_CHLD_CLEAN        14          5     399    3.5      1.3
-40 HLTH_MED            13          1     399    3.3      0.3
-41 HLTH_CPAIN          13          1     399    3.3      0.3
-42 HLTH_CDIS           13          1     399    3.3      0.3
-43 HLTH_MED_RAW        13          2     399    3.3      0.5
-44 HLTH_CPAIN_RAW      13          2     399    3.3      0.5
-45 HLTH_CDIS_RAW       13          4     399    3.3      1  
-46 HLTH_MED_CAT        13         51     399    3.3     12.8
-47 SES_EDU_CAT          5          1     399    1.3      0.3
-48 D_AGE                2          1     399    0.5      0.3
-49 ID                   0          2     399    0        0.5
-50 D_YRBR               0          1     399    0        0.3</code></pre>
+<pre><code># A tibble: 52 × 6
+   variable              n_na n_sentinel n_total pct_na pct_flag
+   &lt;chr&gt;                &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+ 1 D_LOC                  251          1     399   62.9      0.3
+ 2 D_EMP_FORM_CLEAN       130         55     399   32.6     13.8
+ 3 SES_SC_Total            39          0     399    9.8      0  
+ 4 SES_CAT_AMAI            39          0     399    9.8      0  
+ 5 D_LOC_TIME              31          1     399    7.8      0.3
+ 6 D_LOC_TIME_RAW          31          1     399    7.8      0.3
+ 7 D_LOC_TIME_CLEAN        31          3     399    7.8      0.8
+ 8 SES_BTHR_SC             29          2     399    7.3      0.5
+ 9 SES_BTHR_SC_RAW         29          1     399    7.3      0.3
+10 SES_BTHR_CAT            20          1     399    5        0.3
+11 SES_CAR_SC              18          1     399    4.5      0.3
+12 SES_CAR_SC_RAW          18          1     399    4.5      0.3
+13 D_HH_SIZE               17          1     399    4.3      0.3
+14 SES_CAR_CAT             17          1     399    4.3      0.3
+15 SES_BEDR_SC             17          1     399    4.3      0.3
+16 SES_BEDR_SC_RAW         17          1     399    4.3      0.3
+17 HLTH_SMK_CAT            16          0     399    4        0  
+18 HLTH_SMK                15          1     399    3.8      0.3
+19 D_EMP_TYPE              15          1     399    3.8      0.3
+20 SES_INT_CAT             15          1     399    3.8      0.3
+21 SES_INT_SC              15          1     399    3.8      0.3
+22 SES_WRK_CAT             15          1     399    3.8      0.3
+23 SES_WRK_SC              15          1     399    3.8      0.3
+24 SES_BEDR_CAT            15          1     399    3.8      0.3
+25 HLTH_SMK_RAW            15          3     399    3.8      0.8
+26 D_EMP_TYPE_RAW          15          7     399    3.8      1.8
+27 HLTH_SMK_CLEAN          15          1     399    3.8      0.3
+28 D_EMP_TYPE_CLEAN        15          1     399    3.8      0.3
+29 D_EMP_CLEAN             15          2     399    3.8      0.5
+30 SES_INT_SC_RAW          15          1     399    3.8      0.3
+31 SES_WRK_SC_RAW          15          1     399    3.8      0.3
+32 HLTH_TTM                14          1     399    3.5      0.3
+33 D_CHLD                  14          3     399    3.5      0.8
+34 HLTH_TTM_RAW            14          1     399    3.5      0.3
+35 D_CHLD_RAW              14          6     399    3.5      1.5
+36 HLTH_TTM_CAT            14         35     399    3.5      8.8
+37 D_CHLD_CLEAN            14          5     399    3.5      1.3
+38 HLTH_MED                13          1     399    3.3      0.3
+39 HLTH_CPAIN              13          1     399    3.3      0.3
+40 HLTH_CDIS               13          1     399    3.3      0.3
+41 HLTH_MED_RAW            13          2     399    3.3      0.5
+42 HLTH_CPAIN_RAW          13          2     399    3.3      0.5
+43 HLTH_CDIS_RAW           13          4     399    3.3      1  
+44 HLTH_MED_CAT            13         51     399    3.3     12.8
+45 SES_EDU_CAT_CLEAN        9          0     399    2.3      0  
+46 SES_EDU_SC_CLEAN         9          0     399    2.3      0  
+47 SES_EDU_SC_CLEAN_RAW     9          0     399    2.3      0  
+48 SES_EDU_CAT              5          1     399    1.3      0.3
+49 SES_EDU_CAT_RAW          5          5     399    1.3      1.3
+50 D_AGE                    2          1     399    0.5      0.3
+# ℹ 2 more rows</code></pre>
 <pre class="r"><code>cat(&quot;\nVariables exceeding 5% true NA (flag for methods section):\n&quot;)</code></pre>
 <pre><code>
 Variables exceeding 5% true NA (flag for methods section):</code></pre>
 <pre class="r"><code>print(filter(missing_report, pct_na &gt; 3), n =nrow(missing_report))</code></pre>
-<pre><code># A tibble: 46 × 6
+<pre><code># A tibble: 44 × 6
    variable          n_na n_sentinel n_total pct_na pct_flag
    &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
  1 D_LOC              251          1     399   62.9      0.3
  2 D_EMP_FORM_CLEAN   130         55     399   32.6     13.8
- 3 SES_SC_Total        48          0     399   12        0  
- 4 SES_CAT_AMAI        48          0     399   12        0  
+ 3 SES_SC_Total        39          0     399    9.8      0  
+ 4 SES_CAT_AMAI        39          0     399    9.8      0  
  5 D_LOC_TIME          31          1     399    7.8      0.3
  6 D_LOC_TIME_RAW      31          1     399    7.8      0.3
  7 D_LOC_TIME_CLEAN    31          3     399    7.8      0.8
@@ -2533,43 +2714,41 @@ Variables exceeding 5% true NA (flag for methods section):</code></pre>
 14 SES_CAR_CAT         17          1     399    4.3      0.3
 15 SES_BEDR_SC         17          1     399    4.3      0.3
 16 SES_BEDR_SC_RAW     17          1     399    4.3      0.3
-17 SES_EDU_SC          16          2     399    4        0.5
-18 HLTH_SMK_CAT        16          0     399    4        0  
-19 SES_EDU_SC_RAW      16          2     399    4        0.5
-20 HLTH_SMK            15          1     399    3.8      0.3
-21 D_EMP_TYPE          15          1     399    3.8      0.3
-22 SES_INT_CAT         15          1     399    3.8      0.3
-23 SES_INT_SC          15          1     399    3.8      0.3
-24 SES_WRK_CAT         15          1     399    3.8      0.3
-25 SES_WRK_SC          15          1     399    3.8      0.3
-26 SES_BEDR_CAT        15          1     399    3.8      0.3
-27 HLTH_SMK_RAW        15          3     399    3.8      0.8
-28 D_EMP_TYPE_RAW      15          7     399    3.8      1.8
-29 HLTH_SMK_CLEAN      15          1     399    3.8      0.3
-30 D_EMP_TYPE_CLEAN    15          1     399    3.8      0.3
-31 D_EMP_CLEAN         15          2     399    3.8      0.5
-32 SES_INT_SC_RAW      15          1     399    3.8      0.3
-33 SES_WRK_SC_RAW      15          1     399    3.8      0.3
-34 HLTH_TTM            14          1     399    3.5      0.3
-35 D_CHLD              14          3     399    3.5      0.8
-36 HLTH_TTM_RAW        14          1     399    3.5      0.3
-37 D_CHLD_RAW          14          6     399    3.5      1.5
-38 HLTH_TTM_CAT        14         35     399    3.5      8.8
-39 D_CHLD_CLEAN        14          5     399    3.5      1.3
-40 HLTH_MED            13          1     399    3.3      0.3
-41 HLTH_CPAIN          13          1     399    3.3      0.3
-42 HLTH_CDIS           13          1     399    3.3      0.3
-43 HLTH_MED_RAW        13          2     399    3.3      0.5
-44 HLTH_CPAIN_RAW      13          2     399    3.3      0.5
-45 HLTH_CDIS_RAW       13          4     399    3.3      1  
-46 HLTH_MED_CAT        13         51     399    3.3     12.8</code></pre>
+17 HLTH_SMK_CAT        16          0     399    4        0  
+18 HLTH_SMK            15          1     399    3.8      0.3
+19 D_EMP_TYPE          15          1     399    3.8      0.3
+20 SES_INT_CAT         15          1     399    3.8      0.3
+21 SES_INT_SC          15          1     399    3.8      0.3
+22 SES_WRK_CAT         15          1     399    3.8      0.3
+23 SES_WRK_SC          15          1     399    3.8      0.3
+24 SES_BEDR_CAT        15          1     399    3.8      0.3
+25 HLTH_SMK_RAW        15          3     399    3.8      0.8
+26 D_EMP_TYPE_RAW      15          7     399    3.8      1.8
+27 HLTH_SMK_CLEAN      15          1     399    3.8      0.3
+28 D_EMP_TYPE_CLEAN    15          1     399    3.8      0.3
+29 D_EMP_CLEAN         15          2     399    3.8      0.5
+30 SES_INT_SC_RAW      15          1     399    3.8      0.3
+31 SES_WRK_SC_RAW      15          1     399    3.8      0.3
+32 HLTH_TTM            14          1     399    3.5      0.3
+33 D_CHLD              14          3     399    3.5      0.8
+34 HLTH_TTM_RAW        14          1     399    3.5      0.3
+35 D_CHLD_RAW          14          6     399    3.5      1.5
+36 HLTH_TTM_CAT        14         35     399    3.5      8.8
+37 D_CHLD_CLEAN        14          5     399    3.5      1.3
+38 HLTH_MED            13          1     399    3.3      0.3
+39 HLTH_CPAIN          13          1     399    3.3      0.3
+40 HLTH_CDIS           13          1     399    3.3      0.3
+41 HLTH_MED_RAW        13          2     399    3.3      0.5
+42 HLTH_CPAIN_RAW      13          2     399    3.3      0.5
+43 HLTH_CDIS_RAW       13          4     399    3.3      1  
+44 HLTH_MED_CAT        13         51     399    3.3     12.8</code></pre>
 <hr />
 </div>
 <div id="save-cleaned-file" class="section level1">
 <h1>13. Save cleaned file</h1>
 <pre class="r"><code>write.csv(df, file.path(data_path, &quot;01.Screening_clean.csv&quot;), row.names = FALSE)
 cat(&quot;Saved. Final dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
-<pre><code>Saved. Final dimensions: 399 61 </code></pre>
+<pre><code>Saved. Final dimensions: 399 64 </code></pre>
 </div>
 <div id="pending" class="section level1">
 <h1>Pending</h1>
@@ -2607,24 +2786,22 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] ggplot2_4.0.0   readr_2.1.5     stringr_1.5.1   tidyr_1.3.1    
-[5] dplyr_1.2.0     workflowr_1.7.1
+[1] ggplot2_4.0.0 readr_2.1.5   stringr_1.5.1 tidyr_1.3.1   dplyr_1.2.0  
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.10        utf8_1.2.4         generics_0.1.3     stringi_1.8.7     
- [5] hms_1.1.3          digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3    
- [9] grid_4.5.3         RColorBrewer_1.1-3 fastmap_1.2.0      rprojroot_2.1.1   
-[13] jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1      ps_1.9.1          
-[17] promises_1.3.2     httr_1.4.7         purrr_1.0.4        scales_1.4.0      
-[21] jquerylib_0.1.4    cli_3.6.5          rlang_1.1.7        withr_3.0.2       
-[25] cachem_1.1.0       yaml_2.3.10        tools_4.5.3        tzdb_0.5.0        
-[29] httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5   
-[33] git2r_0.36.2       fs_1.6.6           pkgconfig_2.0.3    callr_3.7.6       
-[37] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
-[41] glue_1.8.0         Rcpp_1.0.14        xfun_0.52          tibble_3.2.1      
-[45] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
-[49] htmltools_0.5.8.1  labeling_0.4.3     rmarkdown_2.29     compiler_4.5.3    
-[53] getPass_0.2-4      S7_0.2.0          </code></pre>
+ [1] gtable_0.3.6       jsonlite_2.0.0     compiler_4.5.3     promises_1.3.2    
+ [5] tidyselect_1.2.1   Rcpp_1.0.14        git2r_0.36.2       later_1.4.2       
+ [9] jquerylib_0.1.4    scales_1.4.0       yaml_2.3.10        fastmap_1.2.0     
+[13] R6_2.6.1           labeling_0.4.3     generics_0.1.3     workflowr_1.7.1   
+[17] knitr_1.50         tibble_3.2.1       rprojroot_2.1.1    RColorBrewer_1.1-3
+[21] tzdb_0.5.0         bslib_0.9.0        pillar_1.10.2      rlang_1.1.7       
+[25] utf8_1.2.4         cachem_1.1.0       stringi_1.8.7      httpuv_1.6.16     
+[29] xfun_0.52          S7_0.2.0           fs_1.6.6           sass_0.4.10       
+[33] cli_3.6.5          withr_3.0.2        magrittr_2.0.3     grid_4.5.3        
+[37] digest_0.6.37      rstudioapi_0.17.1  hms_1.1.3          lifecycle_1.0.5   
+[41] vctrs_0.7.1        evaluate_1.0.3     glue_1.8.0         farver_2.1.2      
+[45] rmarkdown_2.29     purrr_1.0.4        tools_4.5.3        pkgconfig_2.0.3   
+[49] htmltools_0.5.8.1 </code></pre>
 </div>
 </div>
 </div>

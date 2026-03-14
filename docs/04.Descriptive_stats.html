@@ -337,25 +337,22 @@ div.tocify {
   <a href="about.html">About</a>
 </li>
 <li>
-  <a href="license.html">License</a>
+  <a href="01.data_cleaning.html">1.cleaning</a>
 </li>
 <li>
-  <a href="01.data_cleaning.html">01.data_cleaning</a>
+  <a href="02.data_merge_hwise_pss.html">2.merge_hwise_pss</a>
 </li>
 <li>
-  <a href="02.data_merge_hwise_pss.html">02.data_merge_hwise_pss</a>
+  <a href="03.data_merge_q1-6.html">3.merge_q1-6</a>
 </li>
 <li>
-  <a href="03.data_merge_q1-6.html">03.data_merge_q1-6</a>
+  <a href="04.descriptive_stats.html">4.descr_stats</a>
 </li>
 <li>
-  <a href="04.descriptive_stats.Rmd">04.descriptive_stats</a>
+  <a href="05.descriptive_plots.html">5.descr_plots</a>
 </li>
 <li>
-  <a href="05.descriptive_plots.Rmd">05.descriptive_plots</a>
-</li>
-<li>
-  <a href="Maps.Rmd">Maps</a>
+  <a href="Maps.html">Maps</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -400,7 +397,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-13
+<strong>Last updated:</strong> 2026-03-14
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -531,15 +528,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5eb78c5194c622f07316eeeb48f39321af5f2385targetblank5eb78c5a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5eb78c5194c622f07316eeeb48f39321af5f2385" target="_blank">5eb78c5</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree5eb78c5194c622f07316eeeb48f39321af5f2385targetblank5eb78c5a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -549,7 +546,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/5eb78c5194c622f07316eeeb48f39321af5f2385" target="_blank">5eb78c5</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -580,7 +577,15 @@ Untracked files:
     Untracked:  .claude/
 
 Unstaged changes:
+    Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/04.Descriptive_stats.Rmd
     Modified:   analysis/_site.yml
+    Modified:   data/01.SES_to_review.csv
+    Modified:   data/01.Screening_clean.csv
+    Modified:   data/01.conflicts_to_review.csv
+    Modified:   data/01.conflicts_to_review_V2.csv
+    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Modified:   data/03.Merged_Q1-6.csv
 
 </code></pre>
 <p>
@@ -632,6 +637,7 @@ library(tidyr)
 library(stringr)
 library(gtsummary)
 library(gt)
+library(flextable)
 library(purrr)
 
 data_path &lt;- &quot;./data&quot;
@@ -658,7 +664,7 @@ is_sentinel_str &lt;- function(x) {
                na.strings = c(&quot;&quot;))
 
 cat(&quot;Dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
-<pre><code>Dimensions: 399 119 </code></pre>
+<pre><code>Dimensions: 399 122 </code></pre>
 <pre class="r"><code>cat(&quot;Participants:&quot;, nrow(df), &quot;\n&quot;)</code></pre>
 <pre><code>Participants: 399 </code></pre>
 <hr />
@@ -668,7 +674,20 @@ cat(&quot;Dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
 <p>Select and recode variables for the descriptive tables. All sentinel
 codes are converted to NA since they represent non-informative
 responses.</p>
-<pre class="r"><code>df_table &lt;- df %&gt;%
+<pre class="r"><code>edu_levels &lt;- c(
+  &quot;No formal education&quot;,
+  &quot;Incomplete primary (1–5 yrs)&quot;,
+  &quot;Complete primary&quot;,
+  &quot;Incomplete secondary (7–8 yrs)&quot;,
+  &quot;Complete secondary&quot;,
+  &quot;Incomplete high school (10–11 yrs)&quot;,
+  &quot;Complete high school&quot;,
+  &quot;Incomplete university (13–15 yrs)&quot;,
+  &quot;Complete university&quot;,
+  &quot;Postgraduate&quot;
+)
+
+df_table &lt;- df %&gt;%
   mutate(
     # --- Demographics ---
     Age          = clean_for_table(D_AGE),
@@ -679,11 +698,19 @@ responses.</p>
     # --- Season ---
     Season = factor(SEASON,
                     levels = c(0, 1),
-                    labels = c(&quot;Rainy (Oct-Dec 2022)&quot;, &quot;Dry (Apr-Jun 2023)&quot;)),
+                    labels = c(&quot;Rainy&quot;, &quot;Dry&quot;)),
 
     # --- SES ---
-    SES_Total    = clean_for_table(SES_SC_Total),
-    SES_Category = factor(SES_CAT_AMAI,
+    Education    = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        &quot;Incomplete primary&quot;    = &quot;Incomplete primary (1–5 yrs)&quot;,
+        &quot;Incomplete secondary&quot;  = &quot;Incomplete secondary (7–8 yrs)&quot;,
+        &quot;Incomplete high school&quot; = &quot;Incomplete high school (10–11 yrs)&quot;,
+        &quot;Incomplete university&quot;  = &quot;Incomplete university (13–15 yrs)&quot;
+      ),
+      levels = edu_levels, ordered = TRUE
+    ),
+    SES          = factor(SES_CAT_AMAI,
                           levels = c(&quot;E&quot;, &quot;D-&quot;, &quot;D+&quot;, &quot;C-&quot;, &quot;C&quot;, &quot;C+&quot;, &quot;AB&quot;),
                           ordered = TRUE),
 
@@ -741,58 +768,59 @@ responses.</p>
   )</code></pre>
 <hr />
 </div>
-<div id="comprehensive-descriptive-statistics-table"
+<div id="supplementary-descriptive-statistics-table"
 class="section level1">
-<h1>3. Comprehensive descriptive statistics table</h1>
-<p>Includes all analytic variables to inspect the full sample.</p>
+<h1>3. Supplementary descriptive statistics table</h1>
+<p>Includes all analytic variables. Intended as a supplementary table
+for the dissertation.</p>
 <pre class="r"><code>tbl_full &lt;- df_table %&gt;%
-  select(
-    # Demographics
-    Season, Age, Yrs_in_nbhd, HH_size, Parity,
-    # SES
-    SES_Total, SES_Category,
-    # Employment
-    Employed, Employment_type,
-    # Health
-    Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis,
-    # Water insecurity
-    HWISE_Total, HWISE_Cat, Water_worry,
-    # Perceived stress
-    PSS_Total, PSS_Cat
-  ) %&gt;%
+  select(Age, Yrs_in_nbhd, HH_size, Parity,
+         SES, Education, Employed, Employment_type,
+         Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis,
+         Season) %&gt;%
   tbl_summary(
+    by        = Season,
     statistic = list(
-      all_continuous()  ~ &quot;{mean} ({sd}) / {median} [{p25}, {p75}]&quot;,
+      all_continuous()  ~ &quot;{mean} ({sd})&quot;,
       all_categorical() ~ &quot;{n} ({p}%)&quot;
     ),
-    digits    = list(all_continuous() ~ 1),
-    missing   = &quot;no&quot;,
-    label     = list(
-      Season          ~ &quot;Season of data collection&quot;,
+    type    = list(Parity ~ &quot;continuous&quot;),
+    digits  = list(all_continuous() ~ 1),
+    missing = &quot;no&quot;,
+    label   = list(
       Age             ~ &quot;Age (years)&quot;,
       Yrs_in_nbhd     ~ &quot;Years in neighborhood&quot;,
-      HH_size         ~ &quot;Household size (n persons)&quot;,
-      Parity          ~ &quot;Number of children&quot;,
-      SES_Total       ~ &quot;SES composite score (NSE-AMAI)&quot;,
-      SES_Category    ~ &quot;SES category (NSE-AMAI)&quot;,
+      HH_size         ~ &quot;Household size&quot;,
+      Parity          ~ &quot;Parity&quot;,
+      SES             ~ &quot;SES (NSE-AMAI)&quot;,
+      Education       ~ &quot;Education&quot;,
       Employed        ~ &quot;Currently employed&quot;,
-      Employment_type ~ &quot;Employment type (among employed)&quot;,
+      Employment_type ~ &quot;Employment type&quot;,
       Smoking         ~ &quot;Smoking status&quot;,
       Hormonal_tx     ~ &quot;Hormonal treatment&quot;,
       Medication      ~ &quot;Regular medication use&quot;,
       Chronic_pain    ~ &quot;Chronic pain&quot;,
-      Chronic_dis     ~ &quot;Chronic disease&quot;,
-      HWISE_Total     ~ &quot;HWISE total score (0–36)&quot;,
-      HWISE_Cat       ~ &quot;Water insecurity level&quot;,
-      Water_worry     ~ &quot;Water worry subscale (0–9)&quot;,
-      PSS_Total       ~ &quot;PSS-14 total score (0–56)&quot;,
-      PSS_Cat         ~ &quot;Perceived stress level&quot;
+      Chronic_dis     ~ &quot;Chronic disease&quot;
     )
   ) %&gt;%
+  add_overall(last = FALSE) %&gt;%
+  add_p(test = list(
+    all_continuous()  ~ &quot;t.test&quot;,
+    all_categorical() ~ &quot;chisq.test&quot;
+  )) %&gt;%
   bold_labels() %&gt;%
-  modify_caption(&quot;**Table S1. Comprehensive descriptive statistics (n = {N})**&quot;)
-
-tbl_full</code></pre>
+  add_n(statistic = &quot;{p_miss}%&quot;,
+        col_label = &quot;**Missing (%)**&quot;) %&gt;%
+  modify_table_body(~ .x %&gt;% relocate(n, .after = last_col())) %&gt;%
+  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**By season**&quot;) %&gt;%
+  modify_header(label = &quot;**Variable**&quot;) %&gt;%
+  modify_caption(&quot;**Table S1. Sample characteristics — full variable set (n = {N})**&quot;)</code></pre>
+<pre><code>The following warnings were returned during `modify_caption()`:
+! For variable `Education` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Hormonal_tx` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>tbl_full</code></pre>
 <div id="cvlxasfenu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#cvlxasfenu table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1243,133 +1271,244 @@ tbl_full</code></pre>
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <caption><span class='gt_from_md'><strong>Table S1. Comprehensive descriptive statistics (n = 399)</strong></span></caption>
+  <caption><span class='gt_from_md'><strong>Table S1. Sample characteristics — full variable set (n = 399)</strong></span></caption>
   <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Variable</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>Overall</strong><br />
+N = 399</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; stat_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>By season</strong></span></div>
+      </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="n"><span class='gt_from_md'><strong>Missing (%)</strong></span></th>
+    </tr>
     <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>N = 399</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy</strong><br />
+N = 202</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry</strong><br />
+N = 197</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Season of data collection</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Rainy (Oct-Dec 2022)</td>
-<td headers="stat_0" class="gt_row gt_center">202 (51%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Dry (Apr-Jun 2023)</td>
-<td headers="stat_0" class="gt_row gt_center">197 (49%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
-<td headers="stat_0" class="gt_row gt_center">32.3 (7.4) / 32.0 [26.5, 38.0]</td></tr>
+<td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
+<td headers="stat_1" class="gt_row gt_center">33.2 (7.1)</td>
+<td headers="stat_2" class="gt_row gt_center">31.3 (7.6)</td>
+<td headers="p.value" class="gt_row gt_center">0.010</td>
+<td headers="n" class="gt_row gt_center">0.8%</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Years in neighborhood</td>
-<td headers="stat_0" class="gt_row gt_center">22.4 (11.4) / 23.0 [13.0, 31.0]</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size (n persons)</td>
-<td headers="stat_0" class="gt_row gt_center">5.6 (3.5) / 5.0 [4.0, 6.0]</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Number of children</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">60 (16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">81 (21%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    2</td>
-<td headers="stat_0" class="gt_row gt_center">134 (35%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    3</td>
-<td headers="stat_0" class="gt_row gt_center">72 (19%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    4</td>
-<td headers="stat_0" class="gt_row gt_center">24 (6.3%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    5</td>
-<td headers="stat_0" class="gt_row gt_center">7 (1.8%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    6</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    8</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES composite score (NSE-AMAI)</td>
-<td headers="stat_0" class="gt_row gt_center">132.9 (45.3) / 129.0 [104.0, 159.0]</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES category (NSE-AMAI)</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center">22.4 (11.4)</td>
+<td headers="stat_1" class="gt_row gt_center">22.8 (11.3)</td>
+<td headers="stat_2" class="gt_row gt_center">22.0 (11.5)</td>
+<td headers="p.value" class="gt_row gt_center">0.5</td>
+<td headers="n" class="gt_row gt_center">8.5%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size</td>
+<td headers="stat_0" class="gt_row gt_center">5.6 (3.5)</td>
+<td headers="stat_1" class="gt_row gt_center">6.7 (4.2)</td>
+<td headers="stat_2" class="gt_row gt_center">4.4 (1.7)</td>
+<td headers="p.value" class="gt_row gt_center"><0.001</td>
+<td headers="n" class="gt_row gt_center">5.8%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Parity</td>
+<td headers="stat_0" class="gt_row gt_center">1.9 (1.3)</td>
+<td headers="stat_1" class="gt_row gt_center">1.9 (1.2)</td>
+<td headers="stat_2" class="gt_row gt_center">1.8 (1.3)</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td>
+<td headers="n" class="gt_row gt_center">4.8%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES (NSE-AMAI)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.15</td>
+<td headers="n" class="gt_row gt_center">9.8%</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    E</td>
-<td headers="stat_0" class="gt_row gt_center">11 (3.1%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">12 (3.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (2.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">8 (4.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    D-</td>
-<td headers="stat_0" class="gt_row gt_center">50 (14%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">51 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">22 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">29 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    D+</td>
-<td headers="stat_0" class="gt_row gt_center">52 (15%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">53 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">25 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">28 (16%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C-</td>
-<td headers="stat_0" class="gt_row gt_center">80 (23%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">82 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">44 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">38 (22%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C</td>
-<td headers="stat_0" class="gt_row gt_center">83 (24%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">85 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">41 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">44 (25%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C+</td>
-<td headers="stat_0" class="gt_row gt_center">48 (14%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">50 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">32 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">18 (10%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    AB</td>
-<td headers="stat_0" class="gt_row gt_center">27 (7.7%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">27 (7.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">18 (9.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (5.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.2</td>
+<td headers="n" class="gt_row gt_center">2.3%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No formal education</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete primary (1–5 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">16 (4.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">10 (5.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">6 (3.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete primary</td>
+<td headers="stat_0" class="gt_row gt_center">36 (9.2%)</td>
+<td headers="stat_1" class="gt_row gt_center">16 (8.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">20 (10%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete secondary (7–8 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">25 (6.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">16 (8.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (4.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete secondary</td>
+<td headers="stat_0" class="gt_row gt_center">135 (35%)</td>
+<td headers="stat_1" class="gt_row gt_center">56 (28%)</td>
+<td headers="stat_2" class="gt_row gt_center">79 (41%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete high school (10–11 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">48 (12%)</td>
+<td headers="stat_1" class="gt_row gt_center">27 (14%)</td>
+<td headers="stat_2" class="gt_row gt_center">21 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete high school</td>
+<td headers="stat_0" class="gt_row gt_center">90 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">52 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">38 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete university (13–15 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">10 (2.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (3.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete university</td>
+<td headers="stat_0" class="gt_row gt_center">27 (6.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">14 (7.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">13 (6.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Postgraduate</td>
+<td headers="stat_0" class="gt_row gt_center">2 (0.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Currently employed</td>
-<td headers="stat_0" class="gt_row gt_center">269 (70%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employment type (among employed)</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center">269 (70%)</td>
+<td headers="stat_1" class="gt_row gt_center">138 (70%)</td>
+<td headers="stat_2" class="gt_row gt_center">131 (71%)</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td>
+<td headers="n" class="gt_row gt_center">4.3%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employment type</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.5</td>
+<td headers="n" class="gt_row gt_center">46%</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Informal</td>
-<td headers="stat_0" class="gt_row gt_center">154 (72%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">154 (72%)</td>
+<td headers="stat_1" class="gt_row gt_center">81 (74%)</td>
+<td headers="stat_2" class="gt_row gt_center">73 (70%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Formal</td>
-<td headers="stat_0" class="gt_row gt_center">60 (28%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">60 (28%)</td>
+<td headers="stat_1" class="gt_row gt_center">28 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">32 (30%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking status</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.4</td>
+<td headers="n" class="gt_row gt_center">4.0%</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    No</td>
-<td headers="stat_0" class="gt_row gt_center">268 (70%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">268 (70%)</td>
+<td headers="stat_1" class="gt_row gt_center">142 (71%)</td>
+<td headers="stat_2" class="gt_row gt_center">126 (69%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Yes</td>
-<td headers="stat_0" class="gt_row gt_center">96 (25%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">96 (25%)</td>
+<td headers="stat_1" class="gt_row gt_center">46 (23%)</td>
+<td headers="stat_2" class="gt_row gt_center">50 (27%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Occasionally</td>
-<td headers="stat_0" class="gt_row gt_center">19 (5.0%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">19 (5.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">12 (6.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">7 (3.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Hormonal treatment</td>
-<td headers="stat_0" class="gt_row gt_center">8 (2.3%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">8 (2.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (2.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.4%)</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td>
+<td headers="n" class="gt_row gt_center">12%</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Regular medication use</td>
-<td headers="stat_0" class="gt_row gt_center">15 (4.5%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">15 (4.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">11 (6.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.5%)</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td>
+<td headers="n" class="gt_row gt_center">16%</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic pain</td>
-<td headers="stat_0" class="gt_row gt_center">105 (27%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">105 (27%)</td>
+<td headers="stat_1" class="gt_row gt_center">53 (27%)</td>
+<td headers="stat_2" class="gt_row gt_center">52 (27%)</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td>
+<td headers="n" class="gt_row gt_center">0.8%</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic disease</td>
-<td headers="stat_0" class="gt_row gt_center">66 (17%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">HWISE total score (0–36)</td>
-<td headers="stat_0" class="gt_row gt_center">8.4 (6.1) / 8.0 [3.0, 12.0]</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water insecurity level</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Secure (0)</td>
-<td headers="stat_0" class="gt_row gt_center">25 (6.4%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Marginal (1-11)</td>
-<td headers="stat_0" class="gt_row gt_center">254 (65%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Moderate (12-23)</td>
-<td headers="stat_0" class="gt_row gt_center">104 (27%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Severe (24-36)</td>
-<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water worry subscale (0–9)</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">68 (17%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">68 (17%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    2</td>
-<td headers="stat_0" class="gt_row gt_center">84 (21%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    3</td>
-<td headers="stat_0" class="gt_row gt_center">63 (16%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    4</td>
-<td headers="stat_0" class="gt_row gt_center">58 (15%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    5</td>
-<td headers="stat_0" class="gt_row gt_center">30 (7.6%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    6</td>
-<td headers="stat_0" class="gt_row gt_center">12 (3.1%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    7</td>
-<td headers="stat_0" class="gt_row gt_center">4 (1.0%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    8</td>
-<td headers="stat_0" class="gt_row gt_center">6 (1.5%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score (0–56)</td>
-<td headers="stat_0" class="gt_row gt_center">27.3 (7.2) / 28.0 [22.0, 32.0]</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Perceived stress level</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Low stress (≤22)</td>
-<td headers="stat_0" class="gt_row gt_center">102 (26%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Moderate stress (23-31)</td>
-<td headers="stat_0" class="gt_row gt_center">179 (46%)</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    High stress (≥32)</td>
-<td headers="stat_0" class="gt_row gt_center">112 (28%)</td></tr>
+<td headers="stat_0" class="gt_row gt_center">66 (17%)</td>
+<td headers="stat_1" class="gt_row gt_center">25 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">41 (21%)</td>
+<td headers="p.value" class="gt_row gt_center">0.033</td>
+<td headers="n" class="gt_row gt_center">0%</td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>n (%); Mean (SD) / Median [Q1, Q3]</span></td>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD); n (%)</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>Welch Two Sample t-test; Pearson’s Chi-squared test</span></td>
     </tr>
   </tfoot>
 </table>
@@ -1383,7 +1522,7 @@ across data collection waves.</p>
 <pre class="r"><code>tbl_ms &lt;- df_table %&gt;%
   select(
     Season, Age, Yrs_in_nbhd, HH_size, Parity,
-    SES_Total, SES_Category,
+    SES, Education,
     Employed, Employment_type,
     Smoking, Chronic_pain, Chronic_dis
   ) %&gt;%
@@ -1393,6 +1532,7 @@ across data collection waves.</p>
       all_continuous()  ~ &quot;{mean} ({sd})&quot;,
       all_categorical() ~ &quot;{n} ({p}%)&quot;
     ),
+    type      = list(Parity ~ &quot;continuous&quot;),
     digits    = list(all_continuous() ~ 1),
     missing   = &quot;no&quot;,
     label     = list(
@@ -1400,8 +1540,8 @@ across data collection waves.</p>
       Yrs_in_nbhd     ~ &quot;Years in neighborhood&quot;,
       HH_size         ~ &quot;Household size&quot;,
       Parity          ~ &quot;Parity (n children)&quot;,
-      SES_Total       ~ &quot;SES score (NSE-AMAI)&quot;,
-      SES_Category    ~ &quot;SES category&quot;,
+      SES             ~ &quot;SES (NSE-AMAI)&quot;,
+      Education       ~ &quot;Education&quot;,
       Employed        ~ &quot;Employed&quot;,
       Employment_type ~ &quot;Employment type&quot;,
       Smoking         ~ &quot;Smoking&quot;,
@@ -1409,35 +1549,36 @@ across data collection waves.</p>
       Chronic_dis     ~ &quot;Chronic disease&quot;
     )
   ) %&gt;%
-  add_overall() %&gt;%
+  add_overall(last = FALSE) %&gt;%
   add_p(test = list(
     all_continuous()  ~ &quot;t.test&quot;,
     all_categorical() ~ &quot;chisq.test&quot;
   )) %&gt;%
   bold_labels() %&gt;%
   modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season of data collection**&quot;) %&gt;%
+  modify_header(label = &quot;**Variable**&quot;) %&gt;%
   modify_caption(&quot;**Table 1. Sample characteristics by season (n = {N})**&quot;)</code></pre>
 <pre><code>The following warnings were returned during `modify_caption()`:
-! For variable `Parity` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and &quot;parameter&quot;
-  statistics: Chi-squared approximation may be incorrect</code></pre>
+! For variable `Education` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect</code></pre>
 <pre class="r"><code>tbl_ms</code></pre>
-<div id="qxbxaayzab" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#qxbxaayzab table {
+<div id="shkpqfoiul" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#shkpqfoiul table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#qxbxaayzab thead, #qxbxaayzab tbody, #qxbxaayzab tfoot, #qxbxaayzab tr, #qxbxaayzab td, #qxbxaayzab th {
+#shkpqfoiul thead, #shkpqfoiul tbody, #shkpqfoiul tfoot, #shkpqfoiul tr, #shkpqfoiul td, #shkpqfoiul th {
   border-style: none;
 }
 
-#qxbxaayzab p {
+#shkpqfoiul p {
   margin: 0;
   padding: 0;
 }
 
-#qxbxaayzab .gt_table {
+#shkpqfoiul .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1463,12 +1604,12 @@ across data collection waves.</p>
   border-left-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_caption {
+#shkpqfoiul .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#qxbxaayzab .gt_title {
+#shkpqfoiul .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1480,7 +1621,7 @@ across data collection waves.</p>
   border-bottom-width: 0;
 }
 
-#qxbxaayzab .gt_subtitle {
+#shkpqfoiul .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1492,7 +1633,7 @@ across data collection waves.</p>
   border-top-width: 0;
 }
 
-#qxbxaayzab .gt_heading {
+#shkpqfoiul .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1504,13 +1645,13 @@ across data collection waves.</p>
   border-right-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_bottom_border {
+#shkpqfoiul .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_col_headings {
+#shkpqfoiul .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1525,7 +1666,7 @@ across data collection waves.</p>
   border-right-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_col_heading {
+#shkpqfoiul .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1545,7 +1686,7 @@ across data collection waves.</p>
   overflow-x: hidden;
 }
 
-#qxbxaayzab .gt_column_spanner_outer {
+#shkpqfoiul .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1557,15 +1698,15 @@ across data collection waves.</p>
   padding-right: 4px;
 }
 
-#qxbxaayzab .gt_column_spanner_outer:first-child {
+#shkpqfoiul .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qxbxaayzab .gt_column_spanner_outer:last-child {
+#shkpqfoiul .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qxbxaayzab .gt_column_spanner {
+#shkpqfoiul .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1577,11 +1718,11 @@ across data collection waves.</p>
   width: 100%;
 }
 
-#qxbxaayzab .gt_spanner_row {
+#shkpqfoiul .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#qxbxaayzab .gt_group_heading {
+#shkpqfoiul .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1607,7 +1748,7 @@ across data collection waves.</p>
   text-align: left;
 }
 
-#qxbxaayzab .gt_empty_group_heading {
+#shkpqfoiul .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1622,15 +1763,15 @@ across data collection waves.</p>
   vertical-align: middle;
 }
 
-#qxbxaayzab .gt_from_md > :first-child {
+#shkpqfoiul .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qxbxaayzab .gt_from_md > :last-child {
+#shkpqfoiul .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qxbxaayzab .gt_row {
+#shkpqfoiul .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1649,7 +1790,7 @@ across data collection waves.</p>
   overflow-x: hidden;
 }
 
-#qxbxaayzab .gt_stub {
+#shkpqfoiul .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1662,7 +1803,7 @@ across data collection waves.</p>
   padding-right: 5px;
 }
 
-#qxbxaayzab .gt_stub_row_group {
+#shkpqfoiul .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1676,15 +1817,15 @@ across data collection waves.</p>
   vertical-align: top;
 }
 
-#qxbxaayzab .gt_row_group_first td {
+#shkpqfoiul .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qxbxaayzab .gt_row_group_first th {
+#shkpqfoiul .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#qxbxaayzab .gt_summary_row {
+#shkpqfoiul .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1694,16 +1835,16 @@ across data collection waves.</p>
   padding-right: 5px;
 }
 
-#qxbxaayzab .gt_first_summary_row {
+#shkpqfoiul .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_first_summary_row.thick {
+#shkpqfoiul .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qxbxaayzab .gt_last_summary_row {
+#shkpqfoiul .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1713,7 +1854,7 @@ across data collection waves.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_grand_summary_row {
+#shkpqfoiul .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1723,7 +1864,7 @@ across data collection waves.</p>
   padding-right: 5px;
 }
 
-#qxbxaayzab .gt_first_grand_summary_row {
+#shkpqfoiul .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1733,7 +1874,7 @@ across data collection waves.</p>
   border-top-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_last_grand_summary_row_top {
+#shkpqfoiul .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1743,11 +1884,11 @@ across data collection waves.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_striped {
+#shkpqfoiul .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qxbxaayzab .gt_table_body {
+#shkpqfoiul .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1756,7 +1897,7 @@ across data collection waves.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_footnotes {
+#shkpqfoiul .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1770,7 +1911,7 @@ across data collection waves.</p>
   border-right-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_footnote {
+#shkpqfoiul .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1779,7 +1920,7 @@ across data collection waves.</p>
   padding-right: 5px;
 }
 
-#qxbxaayzab .gt_sourcenotes {
+#shkpqfoiul .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1793,7 +1934,7 @@ across data collection waves.</p>
   border-right-color: #D3D3D3;
 }
 
-#qxbxaayzab .gt_sourcenote {
+#shkpqfoiul .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1801,72 +1942,72 @@ across data collection waves.</p>
   padding-right: 5px;
 }
 
-#qxbxaayzab .gt_left {
+#shkpqfoiul .gt_left {
   text-align: left;
 }
 
-#qxbxaayzab .gt_center {
+#shkpqfoiul .gt_center {
   text-align: center;
 }
 
-#qxbxaayzab .gt_right {
+#shkpqfoiul .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qxbxaayzab .gt_font_normal {
+#shkpqfoiul .gt_font_normal {
   font-weight: normal;
 }
 
-#qxbxaayzab .gt_font_bold {
+#shkpqfoiul .gt_font_bold {
   font-weight: bold;
 }
 
-#qxbxaayzab .gt_font_italic {
+#shkpqfoiul .gt_font_italic {
   font-style: italic;
 }
 
-#qxbxaayzab .gt_super {
+#shkpqfoiul .gt_super {
   font-size: 65%;
 }
 
-#qxbxaayzab .gt_footnote_marks {
+#shkpqfoiul .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#qxbxaayzab .gt_asterisk {
+#shkpqfoiul .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qxbxaayzab .gt_indent_1 {
+#shkpqfoiul .gt_indent_1 {
   text-indent: 5px;
 }
 
-#qxbxaayzab .gt_indent_2 {
+#shkpqfoiul .gt_indent_2 {
   text-indent: 10px;
 }
 
-#qxbxaayzab .gt_indent_3 {
+#shkpqfoiul .gt_indent_3 {
   text-indent: 15px;
 }
 
-#qxbxaayzab .gt_indent_4 {
+#shkpqfoiul .gt_indent_4 {
   text-indent: 20px;
 }
 
-#qxbxaayzab .gt_indent_5 {
+#shkpqfoiul .gt_indent_5 {
   text-indent: 25px;
 }
 
-#qxbxaayzab .katex-display {
+#shkpqfoiul .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#qxbxaayzab div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#shkpqfoiul div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1874,7 +2015,7 @@ across data collection waves.</p>
   <caption><span class='gt_from_md'><strong>Table 1. Sample characteristics by season (n = 399)</strong></span></caption>
   <thead>
     <tr class="gt_col_headings gt_spanner_row">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Variable</strong></span></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>Overall</strong><br />
 N = 399</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; stat_1">
@@ -1883,9 +2024,9 @@ N = 399</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
     </tr>
     <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy (Oct-Dec 2022)</strong><br />
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy</strong><br />
 N = 202</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry (Apr-Jun 2023)</strong><br />
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry</strong><br />
 N = 197</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
     </tr>
   </thead>
@@ -1906,94 +2047,104 @@ N = 197</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_2" class="gt_row gt_center">4.4 (1.7)</td>
 <td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Parity (n children)</td>
+<td headers="stat_0" class="gt_row gt_center">1.9 (1.3)</td>
+<td headers="stat_1" class="gt_row gt_center">1.9 (1.2)</td>
+<td headers="stat_2" class="gt_row gt_center">1.8 (1.3)</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES (NSE-AMAI)</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    0</td>
-<td headers="stat_0" class="gt_row gt_center">60 (16%)</td>
-<td headers="stat_1" class="gt_row gt_center">24 (12%)</td>
-<td headers="stat_2" class="gt_row gt_center">36 (20%)</td>
+<td headers="p.value" class="gt_row gt_center">0.15</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    E</td>
+<td headers="stat_0" class="gt_row gt_center">12 (3.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (2.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">8 (4.6%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    1</td>
-<td headers="stat_0" class="gt_row gt_center">81 (21%)</td>
-<td headers="stat_1" class="gt_row gt_center">46 (23%)</td>
-<td headers="stat_2" class="gt_row gt_center">35 (19%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    D-</td>
+<td headers="stat_0" class="gt_row gt_center">51 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">22 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">29 (17%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    2</td>
-<td headers="stat_0" class="gt_row gt_center">134 (35%)</td>
-<td headers="stat_1" class="gt_row gt_center">71 (36%)</td>
-<td headers="stat_2" class="gt_row gt_center">63 (34%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    D+</td>
+<td headers="stat_0" class="gt_row gt_center">53 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">25 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">28 (16%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    3</td>
-<td headers="stat_0" class="gt_row gt_center">72 (19%)</td>
-<td headers="stat_1" class="gt_row gt_center">39 (20%)</td>
-<td headers="stat_2" class="gt_row gt_center">33 (18%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    C-</td>
+<td headers="stat_0" class="gt_row gt_center">82 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">44 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">38 (22%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    4</td>
-<td headers="stat_0" class="gt_row gt_center">24 (6.3%)</td>
-<td headers="stat_1" class="gt_row gt_center">11 (5.6%)</td>
-<td headers="stat_2" class="gt_row gt_center">13 (7.1%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    C</td>
+<td headers="stat_0" class="gt_row gt_center">85 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">41 (22%)</td>
+<td headers="stat_2" class="gt_row gt_center">44 (25%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    5</td>
-<td headers="stat_0" class="gt_row gt_center">7 (1.8%)</td>
-<td headers="stat_1" class="gt_row gt_center">5 (2.5%)</td>
-<td headers="stat_2" class="gt_row gt_center">2 (1.1%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    C+</td>
+<td headers="stat_0" class="gt_row gt_center">50 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">32 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">18 (10%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    6</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
-<td headers="stat_1" class="gt_row gt_center">1 (0.5%)</td>
-<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    AB</td>
+<td headers="stat_0" class="gt_row gt_center">27 (7.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">18 (9.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (5.2%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    8</td>
-<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
-<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center">1 (0.5%)</td>
-<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES score (NSE-AMAI)</td>
-<td headers="stat_0" class="gt_row gt_center">132.9 (45.3)</td>
-<td headers="stat_1" class="gt_row gt_center">138.4 (46.7)</td>
-<td headers="stat_2" class="gt_row gt_center">127.0 (43.1)</td>
-<td headers="p.value" class="gt_row gt_center">0.017</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES category</td>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
 <td headers="p.value" class="gt_row gt_center">0.2</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    E</td>
-<td headers="stat_0" class="gt_row gt_center">11 (3.1%)</td>
-<td headers="stat_1" class="gt_row gt_center">4 (2.2%)</td>
-<td headers="stat_2" class="gt_row gt_center">7 (4.1%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    No formal education</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.5%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    D-</td>
-<td headers="stat_0" class="gt_row gt_center">50 (14%)</td>
-<td headers="stat_1" class="gt_row gt_center">21 (12%)</td>
-<td headers="stat_2" class="gt_row gt_center">29 (17%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete primary (1–5 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">16 (4.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">10 (5.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">6 (3.1%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    D+</td>
-<td headers="stat_0" class="gt_row gt_center">52 (15%)</td>
-<td headers="stat_1" class="gt_row gt_center">25 (14%)</td>
-<td headers="stat_2" class="gt_row gt_center">27 (16%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Complete primary</td>
+<td headers="stat_0" class="gt_row gt_center">36 (9.2%)</td>
+<td headers="stat_1" class="gt_row gt_center">16 (8.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">20 (10%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    C-</td>
-<td headers="stat_0" class="gt_row gt_center">80 (23%)</td>
-<td headers="stat_1" class="gt_row gt_center">44 (24%)</td>
-<td headers="stat_2" class="gt_row gt_center">36 (21%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete secondary (7–8 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">25 (6.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">16 (8.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">9 (4.7%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    C</td>
-<td headers="stat_0" class="gt_row gt_center">83 (24%)</td>
-<td headers="stat_1" class="gt_row gt_center">39 (22%)</td>
-<td headers="stat_2" class="gt_row gt_center">44 (26%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Complete secondary</td>
+<td headers="stat_0" class="gt_row gt_center">135 (35%)</td>
+<td headers="stat_1" class="gt_row gt_center">56 (28%)</td>
+<td headers="stat_2" class="gt_row gt_center">79 (41%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    C+</td>
-<td headers="stat_0" class="gt_row gt_center">48 (14%)</td>
-<td headers="stat_1" class="gt_row gt_center">30 (17%)</td>
-<td headers="stat_2" class="gt_row gt_center">18 (11%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete high school (10–11 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">48 (12%)</td>
+<td headers="stat_1" class="gt_row gt_center">27 (14%)</td>
+<td headers="stat_2" class="gt_row gt_center">21 (11%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    AB</td>
-<td headers="stat_0" class="gt_row gt_center">27 (7.7%)</td>
-<td headers="stat_1" class="gt_row gt_center">18 (9.9%)</td>
-<td headers="stat_2" class="gt_row gt_center">9 (5.3%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Complete high school</td>
+<td headers="stat_0" class="gt_row gt_center">90 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">52 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">38 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete university (13–15 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">10 (2.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (3.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">4 (2.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete university</td>
+<td headers="stat_0" class="gt_row gt_center">27 (6.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">14 (7.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">13 (6.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Postgraduate</td>
+<td headers="stat_0" class="gt_row gt_center">2 (0.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (0.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.5%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
 <td headers="stat_0" class="gt_row gt_center">269 (70%)</td>
@@ -2143,23 +2294,23 @@ missing_tbl %&gt;%
   tab_footnote(
     footnote = &quot;999=Missing/lost, 888=Don&#39;t know, 777=Refused, 666=Illegible, 555=Other, 444=Ambiguous, 333=Pending&quot;
   )</code></pre>
-<div id="jgmmfyahih" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#jgmmfyahih table {
+<div id="zkdqlirrea" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zkdqlirrea table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#jgmmfyahih thead, #jgmmfyahih tbody, #jgmmfyahih tfoot, #jgmmfyahih tr, #jgmmfyahih td, #jgmmfyahih th {
+#zkdqlirrea thead, #zkdqlirrea tbody, #zkdqlirrea tfoot, #zkdqlirrea tr, #zkdqlirrea td, #zkdqlirrea th {
   border-style: none;
 }
 
-#jgmmfyahih p {
+#zkdqlirrea p {
   margin: 0;
   padding: 0;
 }
 
-#jgmmfyahih .gt_table {
+#zkdqlirrea .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2185,12 +2336,12 @@ missing_tbl %&gt;%
   border-left-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_caption {
+#zkdqlirrea .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#jgmmfyahih .gt_title {
+#zkdqlirrea .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2202,7 +2353,7 @@ missing_tbl %&gt;%
   border-bottom-width: 0;
 }
 
-#jgmmfyahih .gt_subtitle {
+#zkdqlirrea .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2214,7 +2365,7 @@ missing_tbl %&gt;%
   border-top-width: 0;
 }
 
-#jgmmfyahih .gt_heading {
+#zkdqlirrea .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2226,13 +2377,13 @@ missing_tbl %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_bottom_border {
+#zkdqlirrea .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_col_headings {
+#zkdqlirrea .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2247,7 +2398,7 @@ missing_tbl %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_col_heading {
+#zkdqlirrea .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2267,7 +2418,7 @@ missing_tbl %&gt;%
   overflow-x: hidden;
 }
 
-#jgmmfyahih .gt_column_spanner_outer {
+#zkdqlirrea .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2279,15 +2430,15 @@ missing_tbl %&gt;%
   padding-right: 4px;
 }
 
-#jgmmfyahih .gt_column_spanner_outer:first-child {
+#zkdqlirrea .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#jgmmfyahih .gt_column_spanner_outer:last-child {
+#zkdqlirrea .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#jgmmfyahih .gt_column_spanner {
+#zkdqlirrea .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2299,11 +2450,11 @@ missing_tbl %&gt;%
   width: 100%;
 }
 
-#jgmmfyahih .gt_spanner_row {
+#zkdqlirrea .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#jgmmfyahih .gt_group_heading {
+#zkdqlirrea .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2329,7 +2480,7 @@ missing_tbl %&gt;%
   text-align: left;
 }
 
-#jgmmfyahih .gt_empty_group_heading {
+#zkdqlirrea .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2344,15 +2495,15 @@ missing_tbl %&gt;%
   vertical-align: middle;
 }
 
-#jgmmfyahih .gt_from_md > :first-child {
+#zkdqlirrea .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#jgmmfyahih .gt_from_md > :last-child {
+#zkdqlirrea .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#jgmmfyahih .gt_row {
+#zkdqlirrea .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2371,7 +2522,7 @@ missing_tbl %&gt;%
   overflow-x: hidden;
 }
 
-#jgmmfyahih .gt_stub {
+#zkdqlirrea .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2384,7 +2535,7 @@ missing_tbl %&gt;%
   padding-right: 5px;
 }
 
-#jgmmfyahih .gt_stub_row_group {
+#zkdqlirrea .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2398,15 +2549,15 @@ missing_tbl %&gt;%
   vertical-align: top;
 }
 
-#jgmmfyahih .gt_row_group_first td {
+#zkdqlirrea .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#jgmmfyahih .gt_row_group_first th {
+#zkdqlirrea .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#jgmmfyahih .gt_summary_row {
+#zkdqlirrea .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2416,16 +2567,16 @@ missing_tbl %&gt;%
   padding-right: 5px;
 }
 
-#jgmmfyahih .gt_first_summary_row {
+#zkdqlirrea .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_first_summary_row.thick {
+#zkdqlirrea .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#jgmmfyahih .gt_last_summary_row {
+#zkdqlirrea .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2435,7 +2586,7 @@ missing_tbl %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_grand_summary_row {
+#zkdqlirrea .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2445,7 +2596,7 @@ missing_tbl %&gt;%
   padding-right: 5px;
 }
 
-#jgmmfyahih .gt_first_grand_summary_row {
+#zkdqlirrea .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2455,7 +2606,7 @@ missing_tbl %&gt;%
   border-top-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_last_grand_summary_row_top {
+#zkdqlirrea .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2465,11 +2616,11 @@ missing_tbl %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_striped {
+#zkdqlirrea .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#jgmmfyahih .gt_table_body {
+#zkdqlirrea .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2478,7 +2629,7 @@ missing_tbl %&gt;%
   border-bottom-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_footnotes {
+#zkdqlirrea .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2492,7 +2643,7 @@ missing_tbl %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_footnote {
+#zkdqlirrea .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2501,7 +2652,7 @@ missing_tbl %&gt;%
   padding-right: 5px;
 }
 
-#jgmmfyahih .gt_sourcenotes {
+#zkdqlirrea .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2515,7 +2666,7 @@ missing_tbl %&gt;%
   border-right-color: #D3D3D3;
 }
 
-#jgmmfyahih .gt_sourcenote {
+#zkdqlirrea .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2523,72 +2674,72 @@ missing_tbl %&gt;%
   padding-right: 5px;
 }
 
-#jgmmfyahih .gt_left {
+#zkdqlirrea .gt_left {
   text-align: left;
 }
 
-#jgmmfyahih .gt_center {
+#zkdqlirrea .gt_center {
   text-align: center;
 }
 
-#jgmmfyahih .gt_right {
+#zkdqlirrea .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#jgmmfyahih .gt_font_normal {
+#zkdqlirrea .gt_font_normal {
   font-weight: normal;
 }
 
-#jgmmfyahih .gt_font_bold {
+#zkdqlirrea .gt_font_bold {
   font-weight: bold;
 }
 
-#jgmmfyahih .gt_font_italic {
+#zkdqlirrea .gt_font_italic {
   font-style: italic;
 }
 
-#jgmmfyahih .gt_super {
+#zkdqlirrea .gt_super {
   font-size: 65%;
 }
 
-#jgmmfyahih .gt_footnote_marks {
+#zkdqlirrea .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#jgmmfyahih .gt_asterisk {
+#zkdqlirrea .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#jgmmfyahih .gt_indent_1 {
+#zkdqlirrea .gt_indent_1 {
   text-indent: 5px;
 }
 
-#jgmmfyahih .gt_indent_2 {
+#zkdqlirrea .gt_indent_2 {
   text-indent: 10px;
 }
 
-#jgmmfyahih .gt_indent_3 {
+#zkdqlirrea .gt_indent_3 {
   text-indent: 15px;
 }
 
-#jgmmfyahih .gt_indent_4 {
+#zkdqlirrea .gt_indent_4 {
   text-indent: 20px;
 }
 
-#jgmmfyahih .gt_indent_5 {
+#zkdqlirrea .gt_indent_5 {
   text-indent: 25px;
 }
 
-#jgmmfyahih .katex-display {
+#zkdqlirrea .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#jgmmfyahih div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#zkdqlirrea div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -2645,10 +2796,10 @@ missing_tbl %&gt;%
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
     <tr><td headers="label" class="gt_row gt_left">SES composite score</td>
-<td headers="n_complete" class="gt_row gt_right">351</td>
-<td headers="pct_complete" class="gt_row gt_right">88</td>
-<td headers="n_na" class="gt_row gt_right">48</td>
-<td headers="pct_na" class="gt_row gt_right">12</td>
+<td headers="n_complete" class="gt_row gt_right">360</td>
+<td headers="pct_complete" class="gt_row gt_right">90</td>
+<td headers="n_na" class="gt_row gt_right">39</td>
+<td headers="pct_na" class="gt_row gt_right">10</td>
 <td headers="n_flagged" class="gt_row gt_right">0</td>
 <td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_999" class="gt_row gt_right">0</td>
@@ -2659,10 +2810,10 @@ missing_tbl %&gt;%
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
     <tr><td headers="label" class="gt_row gt_left">SES category</td>
-<td headers="n_complete" class="gt_row gt_right">351</td>
-<td headers="pct_complete" class="gt_row gt_right">88</td>
-<td headers="n_na" class="gt_row gt_right">48</td>
-<td headers="pct_na" class="gt_row gt_right">12</td>
+<td headers="n_complete" class="gt_row gt_right">360</td>
+<td headers="pct_complete" class="gt_row gt_right">90</td>
+<td headers="n_na" class="gt_row gt_right">39</td>
+<td headers="pct_na" class="gt_row gt_right">10</td>
 <td headers="n_flagged" class="gt_row gt_right">0</td>
 <td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_999" class="gt_row gt_right">0</td>
@@ -2862,23 +3013,23 @@ missing_tbl %&gt;%
   modify_caption(&quot;**Table. HWISE and PSS scores — full sample (n = {N})**&quot;)
 
 tbl_scores</code></pre>
-<div id="zmskzzbzhx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zmskzzbzhx table {
+<div id="xgqsiazhnq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xgqsiazhnq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zmskzzbzhx thead, #zmskzzbzhx tbody, #zmskzzbzhx tfoot, #zmskzzbzhx tr, #zmskzzbzhx td, #zmskzzbzhx th {
+#xgqsiazhnq thead, #xgqsiazhnq tbody, #xgqsiazhnq tfoot, #xgqsiazhnq tr, #xgqsiazhnq td, #xgqsiazhnq th {
   border-style: none;
 }
 
-#zmskzzbzhx p {
+#xgqsiazhnq p {
   margin: 0;
   padding: 0;
 }
 
-#zmskzzbzhx .gt_table {
+#xgqsiazhnq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -2904,12 +3055,12 @@ tbl_scores</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_caption {
+#xgqsiazhnq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zmskzzbzhx .gt_title {
+#xgqsiazhnq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2921,7 +3072,7 @@ tbl_scores</code></pre>
   border-bottom-width: 0;
 }
 
-#zmskzzbzhx .gt_subtitle {
+#xgqsiazhnq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2933,7 +3084,7 @@ tbl_scores</code></pre>
   border-top-width: 0;
 }
 
-#zmskzzbzhx .gt_heading {
+#xgqsiazhnq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2945,13 +3096,13 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_bottom_border {
+#xgqsiazhnq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_col_headings {
+#xgqsiazhnq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2966,7 +3117,7 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_col_heading {
+#xgqsiazhnq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2986,7 +3137,7 @@ tbl_scores</code></pre>
   overflow-x: hidden;
 }
 
-#zmskzzbzhx .gt_column_spanner_outer {
+#xgqsiazhnq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2998,15 +3149,15 @@ tbl_scores</code></pre>
   padding-right: 4px;
 }
 
-#zmskzzbzhx .gt_column_spanner_outer:first-child {
+#xgqsiazhnq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zmskzzbzhx .gt_column_spanner_outer:last-child {
+#xgqsiazhnq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zmskzzbzhx .gt_column_spanner {
+#xgqsiazhnq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3018,11 +3169,11 @@ tbl_scores</code></pre>
   width: 100%;
 }
 
-#zmskzzbzhx .gt_spanner_row {
+#xgqsiazhnq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zmskzzbzhx .gt_group_heading {
+#xgqsiazhnq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3048,7 +3199,7 @@ tbl_scores</code></pre>
   text-align: left;
 }
 
-#zmskzzbzhx .gt_empty_group_heading {
+#xgqsiazhnq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3063,15 +3214,15 @@ tbl_scores</code></pre>
   vertical-align: middle;
 }
 
-#zmskzzbzhx .gt_from_md > :first-child {
+#xgqsiazhnq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zmskzzbzhx .gt_from_md > :last-child {
+#xgqsiazhnq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zmskzzbzhx .gt_row {
+#xgqsiazhnq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3090,7 +3241,7 @@ tbl_scores</code></pre>
   overflow-x: hidden;
 }
 
-#zmskzzbzhx .gt_stub {
+#xgqsiazhnq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3103,7 +3254,7 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#zmskzzbzhx .gt_stub_row_group {
+#xgqsiazhnq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3117,15 +3268,15 @@ tbl_scores</code></pre>
   vertical-align: top;
 }
 
-#zmskzzbzhx .gt_row_group_first td {
+#xgqsiazhnq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zmskzzbzhx .gt_row_group_first th {
+#xgqsiazhnq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zmskzzbzhx .gt_summary_row {
+#xgqsiazhnq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3135,16 +3286,16 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#zmskzzbzhx .gt_first_summary_row {
+#xgqsiazhnq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_first_summary_row.thick {
+#xgqsiazhnq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zmskzzbzhx .gt_last_summary_row {
+#xgqsiazhnq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3154,7 +3305,7 @@ tbl_scores</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_grand_summary_row {
+#xgqsiazhnq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3164,7 +3315,7 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#zmskzzbzhx .gt_first_grand_summary_row {
+#xgqsiazhnq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3174,7 +3325,7 @@ tbl_scores</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_last_grand_summary_row_top {
+#xgqsiazhnq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3184,11 +3335,11 @@ tbl_scores</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_striped {
+#xgqsiazhnq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zmskzzbzhx .gt_table_body {
+#xgqsiazhnq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3197,7 +3348,7 @@ tbl_scores</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_footnotes {
+#xgqsiazhnq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3211,7 +3362,7 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_footnote {
+#xgqsiazhnq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3220,7 +3371,7 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#zmskzzbzhx .gt_sourcenotes {
+#xgqsiazhnq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3234,7 +3385,7 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#zmskzzbzhx .gt_sourcenote {
+#xgqsiazhnq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3242,72 +3393,72 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#zmskzzbzhx .gt_left {
+#xgqsiazhnq .gt_left {
   text-align: left;
 }
 
-#zmskzzbzhx .gt_center {
+#xgqsiazhnq .gt_center {
   text-align: center;
 }
 
-#zmskzzbzhx .gt_right {
+#xgqsiazhnq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zmskzzbzhx .gt_font_normal {
+#xgqsiazhnq .gt_font_normal {
   font-weight: normal;
 }
 
-#zmskzzbzhx .gt_font_bold {
+#xgqsiazhnq .gt_font_bold {
   font-weight: bold;
 }
 
-#zmskzzbzhx .gt_font_italic {
+#xgqsiazhnq .gt_font_italic {
   font-style: italic;
 }
 
-#zmskzzbzhx .gt_super {
+#xgqsiazhnq .gt_super {
   font-size: 65%;
 }
 
-#zmskzzbzhx .gt_footnote_marks {
+#xgqsiazhnq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zmskzzbzhx .gt_asterisk {
+#xgqsiazhnq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zmskzzbzhx .gt_indent_1 {
+#xgqsiazhnq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zmskzzbzhx .gt_indent_2 {
+#xgqsiazhnq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zmskzzbzhx .gt_indent_3 {
+#xgqsiazhnq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zmskzzbzhx .gt_indent_4 {
+#xgqsiazhnq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zmskzzbzhx .gt_indent_5 {
+#xgqsiazhnq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zmskzzbzhx .katex-display {
+#xgqsiazhnq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zmskzzbzhx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xgqsiazhnq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3406,23 +3557,23 @@ tbl_scores</code></pre>
 ! For variable `Water_worry` (`Season`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect</code></pre>
 <pre class="r"><code>tbl_scores_season</code></pre>
-<div id="sgqyyhfzkd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#sgqyyhfzkd table {
+<div id="vsrodcjagr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vsrodcjagr table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#sgqyyhfzkd thead, #sgqyyhfzkd tbody, #sgqyyhfzkd tfoot, #sgqyyhfzkd tr, #sgqyyhfzkd td, #sgqyyhfzkd th {
+#vsrodcjagr thead, #vsrodcjagr tbody, #vsrodcjagr tfoot, #vsrodcjagr tr, #vsrodcjagr td, #vsrodcjagr th {
   border-style: none;
 }
 
-#sgqyyhfzkd p {
+#vsrodcjagr p {
   margin: 0;
   padding: 0;
 }
 
-#sgqyyhfzkd .gt_table {
+#vsrodcjagr .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -3448,12 +3599,12 @@ tbl_scores</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_caption {
+#vsrodcjagr .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#sgqyyhfzkd .gt_title {
+#vsrodcjagr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3465,7 +3616,7 @@ tbl_scores</code></pre>
   border-bottom-width: 0;
 }
 
-#sgqyyhfzkd .gt_subtitle {
+#vsrodcjagr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3477,7 +3628,7 @@ tbl_scores</code></pre>
   border-top-width: 0;
 }
 
-#sgqyyhfzkd .gt_heading {
+#vsrodcjagr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3489,13 +3640,13 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_bottom_border {
+#vsrodcjagr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_col_headings {
+#vsrodcjagr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3510,7 +3661,7 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_col_heading {
+#vsrodcjagr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3530,7 +3681,7 @@ tbl_scores</code></pre>
   overflow-x: hidden;
 }
 
-#sgqyyhfzkd .gt_column_spanner_outer {
+#vsrodcjagr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3542,15 +3693,15 @@ tbl_scores</code></pre>
   padding-right: 4px;
 }
 
-#sgqyyhfzkd .gt_column_spanner_outer:first-child {
+#vsrodcjagr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#sgqyyhfzkd .gt_column_spanner_outer:last-child {
+#vsrodcjagr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#sgqyyhfzkd .gt_column_spanner {
+#vsrodcjagr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3562,11 +3713,11 @@ tbl_scores</code></pre>
   width: 100%;
 }
 
-#sgqyyhfzkd .gt_spanner_row {
+#vsrodcjagr .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#sgqyyhfzkd .gt_group_heading {
+#vsrodcjagr .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3592,7 +3743,7 @@ tbl_scores</code></pre>
   text-align: left;
 }
 
-#sgqyyhfzkd .gt_empty_group_heading {
+#vsrodcjagr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3607,15 +3758,15 @@ tbl_scores</code></pre>
   vertical-align: middle;
 }
 
-#sgqyyhfzkd .gt_from_md > :first-child {
+#vsrodcjagr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#sgqyyhfzkd .gt_from_md > :last-child {
+#vsrodcjagr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#sgqyyhfzkd .gt_row {
+#vsrodcjagr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3634,7 +3785,7 @@ tbl_scores</code></pre>
   overflow-x: hidden;
 }
 
-#sgqyyhfzkd .gt_stub {
+#vsrodcjagr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3647,7 +3798,7 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#sgqyyhfzkd .gt_stub_row_group {
+#vsrodcjagr .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3661,15 +3812,15 @@ tbl_scores</code></pre>
   vertical-align: top;
 }
 
-#sgqyyhfzkd .gt_row_group_first td {
+#vsrodcjagr .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#sgqyyhfzkd .gt_row_group_first th {
+#vsrodcjagr .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#sgqyyhfzkd .gt_summary_row {
+#vsrodcjagr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3679,16 +3830,16 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#sgqyyhfzkd .gt_first_summary_row {
+#vsrodcjagr .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_first_summary_row.thick {
+#vsrodcjagr .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#sgqyyhfzkd .gt_last_summary_row {
+#vsrodcjagr .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3698,7 +3849,7 @@ tbl_scores</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_grand_summary_row {
+#vsrodcjagr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3708,7 +3859,7 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#sgqyyhfzkd .gt_first_grand_summary_row {
+#vsrodcjagr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3718,7 +3869,7 @@ tbl_scores</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_last_grand_summary_row_top {
+#vsrodcjagr .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3728,11 +3879,11 @@ tbl_scores</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_striped {
+#vsrodcjagr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#sgqyyhfzkd .gt_table_body {
+#vsrodcjagr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3741,7 +3892,7 @@ tbl_scores</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_footnotes {
+#vsrodcjagr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3755,7 +3906,7 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_footnote {
+#vsrodcjagr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -3764,7 +3915,7 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#sgqyyhfzkd .gt_sourcenotes {
+#vsrodcjagr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3778,7 +3929,7 @@ tbl_scores</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#sgqyyhfzkd .gt_sourcenote {
+#vsrodcjagr .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3786,72 +3937,72 @@ tbl_scores</code></pre>
   padding-right: 5px;
 }
 
-#sgqyyhfzkd .gt_left {
+#vsrodcjagr .gt_left {
   text-align: left;
 }
 
-#sgqyyhfzkd .gt_center {
+#vsrodcjagr .gt_center {
   text-align: center;
 }
 
-#sgqyyhfzkd .gt_right {
+#vsrodcjagr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#sgqyyhfzkd .gt_font_normal {
+#vsrodcjagr .gt_font_normal {
   font-weight: normal;
 }
 
-#sgqyyhfzkd .gt_font_bold {
+#vsrodcjagr .gt_font_bold {
   font-weight: bold;
 }
 
-#sgqyyhfzkd .gt_font_italic {
+#vsrodcjagr .gt_font_italic {
   font-style: italic;
 }
 
-#sgqyyhfzkd .gt_super {
+#vsrodcjagr .gt_super {
   font-size: 65%;
 }
 
-#sgqyyhfzkd .gt_footnote_marks {
+#vsrodcjagr .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#sgqyyhfzkd .gt_asterisk {
+#vsrodcjagr .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#sgqyyhfzkd .gt_indent_1 {
+#vsrodcjagr .gt_indent_1 {
   text-indent: 5px;
 }
 
-#sgqyyhfzkd .gt_indent_2 {
+#vsrodcjagr .gt_indent_2 {
   text-indent: 10px;
 }
 
-#sgqyyhfzkd .gt_indent_3 {
+#vsrodcjagr .gt_indent_3 {
   text-indent: 15px;
 }
 
-#sgqyyhfzkd .gt_indent_4 {
+#vsrodcjagr .gt_indent_4 {
   text-indent: 20px;
 }
 
-#sgqyyhfzkd .gt_indent_5 {
+#vsrodcjagr .gt_indent_5 {
   text-indent: 25px;
 }
 
-#sgqyyhfzkd .katex-display {
+#vsrodcjagr .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#sgqyyhfzkd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vsrodcjagr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -3868,9 +4019,9 @@ N = 399</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
     </tr>
     <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy (Oct-Dec 2022)</strong><br />
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Rainy</strong><br />
 N = 202</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry (Apr-Jun 2023)</strong><br />
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Dry</strong><br />
 N = 197</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
     </tr>
   </thead>
@@ -4008,7 +4159,7 @@ categorical.</p>
   select(
     HWISE_Cat,
     Age, Yrs_in_nbhd, HH_size, Parity,
-    SES_Total, SES_Category,
+    SES, Education,
     Employed, Smoking, Chronic_pain, Chronic_dis,
     PSS_Total, PSS_Cat, Water_worry
   ) %&gt;%
@@ -4025,8 +4176,8 @@ categorical.</p>
       Yrs_in_nbhd  ~ &quot;Years in neighborhood&quot;,
       HH_size      ~ &quot;Household size&quot;,
       Parity       ~ &quot;Parity (n children)&quot;,
-      SES_Total    ~ &quot;SES score&quot;,
-      SES_Category ~ &quot;SES category&quot;,
+      SES          ~ &quot;SES (NSE-AMAI)&quot;,
+      Education    ~ &quot;Education&quot;,
       Employed     ~ &quot;Employed&quot;,
       Smoking      ~ &quot;Smoking&quot;,
       Chronic_pain ~ &quot;Chronic pain&quot;,
@@ -4053,6 +4204,8 @@ categorical.</p>
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `Chronic_pain` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Education` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `Employed` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `HH_size` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
@@ -4067,12 +4220,8 @@ categorical.</p>
   `var.equal = TRUE`.
 ! For variable `Parity` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
-! For variable `SES_Category` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
-  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
-! For variable `SES_Total` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
-  statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
-  2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
-  `var.equal = TRUE`.
+! For variable `SES` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and &quot;parameter&quot;
+  statistics: Chi-squared approximation may be incorrect
 ! For variable `Smoking` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `Water_worry` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
@@ -4082,23 +4231,23 @@ categorical.</p>
   2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
   `var.equal = TRUE`.</code></pre>
 <pre class="r"><code>tbl_by_hwise</code></pre>
-<div id="zwjdaixfov" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zwjdaixfov table {
+<div id="rsvuzsuebq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rsvuzsuebq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#zwjdaixfov thead, #zwjdaixfov tbody, #zwjdaixfov tfoot, #zwjdaixfov tr, #zwjdaixfov td, #zwjdaixfov th {
+#rsvuzsuebq thead, #rsvuzsuebq tbody, #rsvuzsuebq tfoot, #rsvuzsuebq tr, #rsvuzsuebq td, #rsvuzsuebq th {
   border-style: none;
 }
 
-#zwjdaixfov p {
+#rsvuzsuebq p {
   margin: 0;
   padding: 0;
 }
 
-#zwjdaixfov .gt_table {
+#rsvuzsuebq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -4124,12 +4273,12 @@ categorical.</p>
   border-left-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_caption {
+#rsvuzsuebq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zwjdaixfov .gt_title {
+#rsvuzsuebq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -4141,7 +4290,7 @@ categorical.</p>
   border-bottom-width: 0;
 }
 
-#zwjdaixfov .gt_subtitle {
+#rsvuzsuebq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -4153,7 +4302,7 @@ categorical.</p>
   border-top-width: 0;
 }
 
-#zwjdaixfov .gt_heading {
+#rsvuzsuebq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -4165,13 +4314,13 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_bottom_border {
+#rsvuzsuebq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_col_headings {
+#rsvuzsuebq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4186,7 +4335,7 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_col_heading {
+#rsvuzsuebq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4206,7 +4355,7 @@ categorical.</p>
   overflow-x: hidden;
 }
 
-#zwjdaixfov .gt_column_spanner_outer {
+#rsvuzsuebq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4218,15 +4367,15 @@ categorical.</p>
   padding-right: 4px;
 }
 
-#zwjdaixfov .gt_column_spanner_outer:first-child {
+#rsvuzsuebq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zwjdaixfov .gt_column_spanner_outer:last-child {
+#rsvuzsuebq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zwjdaixfov .gt_column_spanner {
+#rsvuzsuebq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -4238,11 +4387,11 @@ categorical.</p>
   width: 100%;
 }
 
-#zwjdaixfov .gt_spanner_row {
+#rsvuzsuebq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#zwjdaixfov .gt_group_heading {
+#rsvuzsuebq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4268,7 +4417,7 @@ categorical.</p>
   text-align: left;
 }
 
-#zwjdaixfov .gt_empty_group_heading {
+#rsvuzsuebq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -4283,15 +4432,15 @@ categorical.</p>
   vertical-align: middle;
 }
 
-#zwjdaixfov .gt_from_md > :first-child {
+#rsvuzsuebq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zwjdaixfov .gt_from_md > :last-child {
+#rsvuzsuebq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zwjdaixfov .gt_row {
+#rsvuzsuebq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4310,7 +4459,7 @@ categorical.</p>
   overflow-x: hidden;
 }
 
-#zwjdaixfov .gt_stub {
+#rsvuzsuebq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4323,7 +4472,7 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#zwjdaixfov .gt_stub_row_group {
+#rsvuzsuebq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -4337,15 +4486,15 @@ categorical.</p>
   vertical-align: top;
 }
 
-#zwjdaixfov .gt_row_group_first td {
+#rsvuzsuebq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zwjdaixfov .gt_row_group_first th {
+#rsvuzsuebq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#zwjdaixfov .gt_summary_row {
+#rsvuzsuebq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4355,16 +4504,16 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#zwjdaixfov .gt_first_summary_row {
+#rsvuzsuebq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_first_summary_row.thick {
+#rsvuzsuebq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zwjdaixfov .gt_last_summary_row {
+#rsvuzsuebq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4374,7 +4523,7 @@ categorical.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_grand_summary_row {
+#rsvuzsuebq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -4384,7 +4533,7 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#zwjdaixfov .gt_first_grand_summary_row {
+#rsvuzsuebq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4394,7 +4543,7 @@ categorical.</p>
   border-top-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_last_grand_summary_row_top {
+#rsvuzsuebq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -4404,11 +4553,11 @@ categorical.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_striped {
+#rsvuzsuebq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zwjdaixfov .gt_table_body {
+#rsvuzsuebq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -4417,7 +4566,7 @@ categorical.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_footnotes {
+#rsvuzsuebq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4431,7 +4580,7 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_footnote {
+#rsvuzsuebq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -4440,7 +4589,7 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#zwjdaixfov .gt_sourcenotes {
+#rsvuzsuebq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4454,7 +4603,7 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#zwjdaixfov .gt_sourcenote {
+#rsvuzsuebq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4462,72 +4611,72 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#zwjdaixfov .gt_left {
+#rsvuzsuebq .gt_left {
   text-align: left;
 }
 
-#zwjdaixfov .gt_center {
+#rsvuzsuebq .gt_center {
   text-align: center;
 }
 
-#zwjdaixfov .gt_right {
+#rsvuzsuebq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zwjdaixfov .gt_font_normal {
+#rsvuzsuebq .gt_font_normal {
   font-weight: normal;
 }
 
-#zwjdaixfov .gt_font_bold {
+#rsvuzsuebq .gt_font_bold {
   font-weight: bold;
 }
 
-#zwjdaixfov .gt_font_italic {
+#rsvuzsuebq .gt_font_italic {
   font-style: italic;
 }
 
-#zwjdaixfov .gt_super {
+#rsvuzsuebq .gt_super {
   font-size: 65%;
 }
 
-#zwjdaixfov .gt_footnote_marks {
+#rsvuzsuebq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#zwjdaixfov .gt_asterisk {
+#rsvuzsuebq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zwjdaixfov .gt_indent_1 {
+#rsvuzsuebq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zwjdaixfov .gt_indent_2 {
+#rsvuzsuebq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zwjdaixfov .gt_indent_3 {
+#rsvuzsuebq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zwjdaixfov .gt_indent_4 {
+#rsvuzsuebq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zwjdaixfov .gt_indent_5 {
+#rsvuzsuebq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#zwjdaixfov .katex-display {
+#rsvuzsuebq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#zwjdaixfov div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#rsvuzsuebq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -4639,67 +4788,137 @@ N = 6</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style
 <td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
 <td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES score</td>
-<td headers="stat_0" class="gt_row gt_center">133.0 (45.0)</td>
-<td headers="stat_1" class="gt_row gt_center">148.3 (40.2)</td>
-<td headers="stat_2" class="gt_row gt_center">134.3 (46.2)</td>
-<td headers="stat_3" class="gt_row gt_center">128.7 (41.9)</td>
-<td headers="stat_4" class="gt_row gt_center">88.4 (29.8)</td>
-<td headers="p.value" class="gt_row gt_center">0.040</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES category</td>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES (NSE-AMAI)</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
 <td headers="stat_3" class="gt_row gt_center"><br /></td>
 <td headers="stat_4" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    E</td>
-<td headers="stat_0" class="gt_row gt_center">10 (2.9%)</td>
-<td headers="stat_1" class="gt_row gt_center">1 (5.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">5 (2.2%)</td>
+<td headers="stat_0" class="gt_row gt_center">11 (3.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (4.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">6 (2.6%)</td>
 <td headers="stat_3" class="gt_row gt_center">3 (3.3%)</td>
 <td headers="stat_4" class="gt_row gt_center">1 (20%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    D-</td>
-<td headers="stat_0" class="gt_row gt_center">49 (14%)</td>
+<td headers="stat_0" class="gt_row gt_center">50 (14%)</td>
 <td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center">34 (15%)</td>
+<td headers="stat_2" class="gt_row gt_center">35 (15%)</td>
 <td headers="stat_3" class="gt_row gt_center">13 (14%)</td>
 <td headers="stat_4" class="gt_row gt_center">2 (40%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    D+</td>
-<td headers="stat_0" class="gt_row gt_center">51 (15%)</td>
-<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_0" class="gt_row gt_center">52 (15%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (4.8%)</td>
 <td headers="stat_2" class="gt_row gt_center">34 (15%)</td>
-<td headers="stat_3" class="gt_row gt_center">16 (18%)</td>
+<td headers="stat_3" class="gt_row gt_center">16 (17%)</td>
 <td headers="stat_4" class="gt_row gt_center">1 (20%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C-</td>
-<td headers="stat_0" class="gt_row gt_center">78 (23%)</td>
-<td headers="stat_1" class="gt_row gt_center">7 (35%)</td>
-<td headers="stat_2" class="gt_row gt_center">51 (22%)</td>
-<td headers="stat_3" class="gt_row gt_center">19 (21%)</td>
+<td headers="stat_0" class="gt_row gt_center">80 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">7 (33%)</td>
+<td headers="stat_2" class="gt_row gt_center">52 (22%)</td>
+<td headers="stat_3" class="gt_row gt_center">20 (22%)</td>
 <td headers="stat_4" class="gt_row gt_center">1 (20%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C</td>
-<td headers="stat_0" class="gt_row gt_center">83 (24%)</td>
-<td headers="stat_1" class="gt_row gt_center">6 (30%)</td>
-<td headers="stat_2" class="gt_row gt_center">53 (23%)</td>
-<td headers="stat_3" class="gt_row gt_center">24 (27%)</td>
+<td headers="stat_0" class="gt_row gt_center">85 (24%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (29%)</td>
+<td headers="stat_2" class="gt_row gt_center">55 (24%)</td>
+<td headers="stat_3" class="gt_row gt_center">24 (26%)</td>
 <td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C+</td>
-<td headers="stat_0" class="gt_row gt_center">46 (13%)</td>
-<td headers="stat_1" class="gt_row gt_center">4 (20%)</td>
-<td headers="stat_2" class="gt_row gt_center">30 (13%)</td>
-<td headers="stat_3" class="gt_row gt_center">12 (13%)</td>
+<td headers="stat_0" class="gt_row gt_center">48 (14%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">31 (13%)</td>
+<td headers="stat_3" class="gt_row gt_center">13 (14%)</td>
 <td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    AB</td>
-<td headers="stat_0" class="gt_row gt_center">26 (7.6%)</td>
-<td headers="stat_1" class="gt_row gt_center">2 (10%)</td>
-<td headers="stat_2" class="gt_row gt_center">21 (9.2%)</td>
+<td headers="stat_0" class="gt_row gt_center">26 (7.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (9.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">21 (9.0%)</td>
 <td headers="stat_3" class="gt_row gt_center">3 (3.3%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="stat_3" class="gt_row gt_center"><br /></td>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No formal education</td>
+<td headers="stat_0" class="gt_row gt_center">1 (0.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.4%)</td>
+<td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete primary (1–5 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">15 (3.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (4.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">8 (3.2%)</td>
+<td headers="stat_3" class="gt_row gt_center">5 (4.9%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete primary</td>
+<td headers="stat_0" class="gt_row gt_center">36 (9.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (8.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">28 (11%)</td>
+<td headers="stat_3" class="gt_row gt_center">6 (5.9%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete secondary (7–8 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">24 (6.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">16 (6.4%)</td>
+<td headers="stat_3" class="gt_row gt_center">8 (7.8%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete secondary</td>
+<td headers="stat_0" class="gt_row gt_center">134 (35%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (25%)</td>
+<td headers="stat_2" class="gt_row gt_center">86 (35%)</td>
+<td headers="stat_3" class="gt_row gt_center">39 (38%)</td>
+<td headers="stat_4" class="gt_row gt_center">3 (50%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete high school (10–11 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">46 (12%)</td>
+<td headers="stat_1" class="gt_row gt_center">3 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">29 (12%)</td>
+<td headers="stat_3" class="gt_row gt_center">13 (13%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete high school</td>
+<td headers="stat_0" class="gt_row gt_center">88 (23%)</td>
+<td headers="stat_1" class="gt_row gt_center">8 (33%)</td>
+<td headers="stat_2" class="gt_row gt_center">54 (22%)</td>
+<td headers="stat_3" class="gt_row gt_center">25 (25%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Incomplete university (13–15 yrs)</td>
+<td headers="stat_0" class="gt_row gt_center">9 (2.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">1 (4.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">6 (2.4%)</td>
+<td headers="stat_3" class="gt_row gt_center">2 (2.0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete university</td>
+<td headers="stat_0" class="gt_row gt_center">26 (6.8%)</td>
+<td headers="stat_1" class="gt_row gt_center">3 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">19 (7.6%)</td>
+<td headers="stat_3" class="gt_row gt_center">4 (3.9%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Postgraduate</td>
+<td headers="stat_0" class="gt_row gt_center">2 (0.5%)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">2 (0.8%)</td>
+<td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
 <td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
@@ -5020,23 +5239,23 @@ The following warnings were returned during `modify_caption()`:
 ! For variable `W_Pressure` (`W_WS_LOC_F`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect</code></pre>
 <pre class="r"><code>tbl_water</code></pre>
-<div id="xunvtecolv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xunvtecolv table {
+<div id="cvidrufkvy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cvidrufkvy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xunvtecolv thead, #xunvtecolv tbody, #xunvtecolv tfoot, #xunvtecolv tr, #xunvtecolv td, #xunvtecolv th {
+#cvidrufkvy thead, #cvidrufkvy tbody, #cvidrufkvy tfoot, #cvidrufkvy tr, #cvidrufkvy td, #cvidrufkvy th {
   border-style: none;
 }
 
-#xunvtecolv p {
+#cvidrufkvy p {
   margin: 0;
   padding: 0;
 }
 
-#xunvtecolv .gt_table {
+#cvidrufkvy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -5062,12 +5281,12 @@ The following warnings were returned during `modify_caption()`:
   border-left-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_caption {
+#cvidrufkvy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xunvtecolv .gt_title {
+#cvidrufkvy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -5079,7 +5298,7 @@ The following warnings were returned during `modify_caption()`:
   border-bottom-width: 0;
 }
 
-#xunvtecolv .gt_subtitle {
+#cvidrufkvy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -5091,7 +5310,7 @@ The following warnings were returned during `modify_caption()`:
   border-top-width: 0;
 }
 
-#xunvtecolv .gt_heading {
+#cvidrufkvy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -5103,13 +5322,13 @@ The following warnings were returned during `modify_caption()`:
   border-right-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_bottom_border {
+#cvidrufkvy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_col_headings {
+#cvidrufkvy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5124,7 +5343,7 @@ The following warnings were returned during `modify_caption()`:
   border-right-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_col_heading {
+#cvidrufkvy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5144,7 +5363,7 @@ The following warnings were returned during `modify_caption()`:
   overflow-x: hidden;
 }
 
-#xunvtecolv .gt_column_spanner_outer {
+#cvidrufkvy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5156,15 +5375,15 @@ The following warnings were returned during `modify_caption()`:
   padding-right: 4px;
 }
 
-#xunvtecolv .gt_column_spanner_outer:first-child {
+#cvidrufkvy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xunvtecolv .gt_column_spanner_outer:last-child {
+#cvidrufkvy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xunvtecolv .gt_column_spanner {
+#cvidrufkvy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -5176,11 +5395,11 @@ The following warnings were returned during `modify_caption()`:
   width: 100%;
 }
 
-#xunvtecolv .gt_spanner_row {
+#cvidrufkvy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xunvtecolv .gt_group_heading {
+#cvidrufkvy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5206,7 +5425,7 @@ The following warnings were returned during `modify_caption()`:
   text-align: left;
 }
 
-#xunvtecolv .gt_empty_group_heading {
+#cvidrufkvy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -5221,15 +5440,15 @@ The following warnings were returned during `modify_caption()`:
   vertical-align: middle;
 }
 
-#xunvtecolv .gt_from_md > :first-child {
+#cvidrufkvy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xunvtecolv .gt_from_md > :last-child {
+#cvidrufkvy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xunvtecolv .gt_row {
+#cvidrufkvy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5248,7 +5467,7 @@ The following warnings were returned during `modify_caption()`:
   overflow-x: hidden;
 }
 
-#xunvtecolv .gt_stub {
+#cvidrufkvy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5261,7 +5480,7 @@ The following warnings were returned during `modify_caption()`:
   padding-right: 5px;
 }
 
-#xunvtecolv .gt_stub_row_group {
+#cvidrufkvy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -5275,15 +5494,15 @@ The following warnings were returned during `modify_caption()`:
   vertical-align: top;
 }
 
-#xunvtecolv .gt_row_group_first td {
+#cvidrufkvy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xunvtecolv .gt_row_group_first th {
+#cvidrufkvy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xunvtecolv .gt_summary_row {
+#cvidrufkvy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5293,16 +5512,16 @@ The following warnings were returned during `modify_caption()`:
   padding-right: 5px;
 }
 
-#xunvtecolv .gt_first_summary_row {
+#cvidrufkvy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_first_summary_row.thick {
+#cvidrufkvy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xunvtecolv .gt_last_summary_row {
+#cvidrufkvy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5312,7 +5531,7 @@ The following warnings were returned during `modify_caption()`:
   border-bottom-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_grand_summary_row {
+#cvidrufkvy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -5322,7 +5541,7 @@ The following warnings were returned during `modify_caption()`:
   padding-right: 5px;
 }
 
-#xunvtecolv .gt_first_grand_summary_row {
+#cvidrufkvy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5332,7 +5551,7 @@ The following warnings were returned during `modify_caption()`:
   border-top-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_last_grand_summary_row_top {
+#cvidrufkvy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -5342,11 +5561,11 @@ The following warnings were returned during `modify_caption()`:
   border-bottom-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_striped {
+#cvidrufkvy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xunvtecolv .gt_table_body {
+#cvidrufkvy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -5355,7 +5574,7 @@ The following warnings were returned during `modify_caption()`:
   border-bottom-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_footnotes {
+#cvidrufkvy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5369,7 +5588,7 @@ The following warnings were returned during `modify_caption()`:
   border-right-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_footnote {
+#cvidrufkvy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -5378,7 +5597,7 @@ The following warnings were returned during `modify_caption()`:
   padding-right: 5px;
 }
 
-#xunvtecolv .gt_sourcenotes {
+#cvidrufkvy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -5392,7 +5611,7 @@ The following warnings were returned during `modify_caption()`:
   border-right-color: #D3D3D3;
 }
 
-#xunvtecolv .gt_sourcenote {
+#cvidrufkvy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -5400,72 +5619,72 @@ The following warnings were returned during `modify_caption()`:
   padding-right: 5px;
 }
 
-#xunvtecolv .gt_left {
+#cvidrufkvy .gt_left {
   text-align: left;
 }
 
-#xunvtecolv .gt_center {
+#cvidrufkvy .gt_center {
   text-align: center;
 }
 
-#xunvtecolv .gt_right {
+#cvidrufkvy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xunvtecolv .gt_font_normal {
+#cvidrufkvy .gt_font_normal {
   font-weight: normal;
 }
 
-#xunvtecolv .gt_font_bold {
+#cvidrufkvy .gt_font_bold {
   font-weight: bold;
 }
 
-#xunvtecolv .gt_font_italic {
+#cvidrufkvy .gt_font_italic {
   font-style: italic;
 }
 
-#xunvtecolv .gt_super {
+#cvidrufkvy .gt_super {
   font-size: 65%;
 }
 
-#xunvtecolv .gt_footnote_marks {
+#cvidrufkvy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xunvtecolv .gt_asterisk {
+#cvidrufkvy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xunvtecolv .gt_indent_1 {
+#cvidrufkvy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xunvtecolv .gt_indent_2 {
+#cvidrufkvy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xunvtecolv .gt_indent_3 {
+#cvidrufkvy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xunvtecolv .gt_indent_4 {
+#cvidrufkvy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xunvtecolv .gt_indent_5 {
+#cvidrufkvy .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xunvtecolv .katex-display {
+#cvidrufkvy .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xunvtecolv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cvidrufkvy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -5738,6 +5957,30 @@ if (nrow(sentinel_tbl) == 0) {
     tab_footnote(paste0(&quot;% of total sample (N = &quot;, N_total, &quot;)&quot;))
 }</code></pre>
 <pre><code>No sentinel codes found in water supply variables.</code></pre>
+<hr />
+</div>
+</div>
+<div id="export-tables-to-word" class="section level1">
+<h1>9. Export tables to Word</h1>
+<pre class="r"><code>output_dir &lt;- &quot;./output&quot;
+if (!dir.exists(output_dir)) dir.create(output_dir)
+
+# Table 1 — manuscript table
+tbl_ms %&gt;%
+  as_flex_table() %&gt;%
+  save_as_docx(path = file.path(output_dir, &quot;Table1_sample_characteristics.docx&quot;))
+
+# Table S1 — supplementary table (full variable set)
+tbl_full %&gt;%
+  as_flex_table() %&gt;%
+  save_as_docx(path = file.path(output_dir, &quot;TableS1_full_descriptives.docx&quot;))
+
+cat(&quot;Exported:\n&quot;)</code></pre>
+<pre><code>Exported:</code></pre>
+<pre class="r"><code>cat(&quot; - output/Table1_sample_characteristics.docx\n&quot;)</code></pre>
+<pre><code> - output/Table1_sample_characteristics.docx</code></pre>
+<pre class="r"><code>cat(&quot; - output/TableS1_full_descriptives.docx\n&quot;)</code></pre>
+<pre><code> - output/TableS1_full_descriptives.docx</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -5765,24 +6008,33 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] purrr_1.0.4     gt_1.0.0        gtsummary_2.5.0 stringr_1.5.1  
-[5] tidyr_1.3.1     dplyr_1.2.0     workflowr_1.7.1
+[1] purrr_1.0.4      flextable_0.9.11 gt_1.0.0         gtsummary_2.5.0 
+[5] stringr_1.5.1    tidyr_1.3.1      dplyr_1.2.0     
 
 loaded via a namespace (and not attached):
- [1] jsonlite_2.0.0    compiler_4.5.3    promises_1.3.2    tidyselect_1.2.1 
- [5] Rcpp_1.0.14       xml2_1.3.8        git2r_0.36.2      callr_3.7.6      
- [9] later_1.4.2       jquerylib_0.1.4   yaml_2.3.10       fastmap_1.2.0    
-[13] R6_2.6.1          commonmark_2.0.0  cards_0.7.1       generics_0.1.3   
-[17] knitr_1.50        backports_1.5.0   cardx_0.3.2       tibble_3.2.1     
-[21] rprojroot_2.1.1   bslib_0.9.0       pillar_1.10.2     rlang_1.1.7      
-[25] broom_1.0.8       cachem_1.1.0      stringi_1.8.7     litedown_0.7     
-[29] httpuv_1.6.16     xfun_0.52         getPass_0.2-4     fs_1.6.6         
-[33] sass_0.4.10       cli_3.6.5         withr_3.0.2       magrittr_2.0.3   
-[37] ps_1.9.1          digest_0.6.37     processx_3.8.6    rstudioapi_0.17.1
-[41] markdown_2.0      lifecycle_1.0.5   vctrs_0.7.1       evaluate_1.0.3   
-[45] glue_1.8.0        whisker_0.4.1     rmarkdown_2.29    httr_1.4.7       
-[49] tools_4.5.3       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
-</div>
+ [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
+ [4] ggplot2_4.0.0           vctrs_0.7.1             tools_4.5.3            
+ [7] generics_0.1.3          tibble_3.2.1            pkgconfig_2.0.3        
+[10] data.table_1.17.0       RColorBrewer_1.1-3      S7_0.2.0               
+[13] uuid_1.2-1              lifecycle_1.0.5         compiler_4.5.3         
+[16] farver_2.1.2            git2r_0.36.2            textshaping_1.0.0      
+[19] httpuv_1.6.16           litedown_0.7            fontquiver_0.2.1       
+[22] fontLiberation_0.1.0    htmltools_0.5.8.1       sass_0.4.10            
+[25] yaml_2.3.10             later_1.4.2             pillar_1.10.2          
+[28] jquerylib_0.1.4         openssl_2.3.2           cachem_1.1.0           
+[31] fontBitstreamVera_0.1.1 commonmark_2.0.0        tidyselect_1.2.1       
+[34] zip_2.3.3               digest_0.6.37           stringi_1.8.7          
+[37] rprojroot_2.1.1         fastmap_1.2.0           grid_4.5.3             
+[40] cli_3.6.5               magrittr_2.0.3          patchwork_1.3.1        
+[43] cards_0.7.1             broom_1.0.8             withr_3.0.2            
+[46] gdtools_0.5.0           scales_1.4.0            promises_1.3.2         
+[49] backports_1.5.0         cardx_0.3.2             rmarkdown_2.29         
+[52] officer_0.7.3           workflowr_1.7.1         askpass_1.2.1          
+[55] ragg_1.4.0              evaluate_1.0.3          knitr_1.50             
+[58] markdown_2.0            rlang_1.1.7             Rcpp_1.0.14            
+[61] glue_1.8.0              xml2_1.3.8              rstudioapi_0.17.1      
+[64] jsonlite_2.0.0          R6_2.6.1                systemfonts_1.3.2      
+[67] fs_1.6.6               </code></pre>
 </div>
 </div>
 </div>

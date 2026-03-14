@@ -101,7 +101,8 @@ Raw copies are created here, before merging or recoding, so that
 
 ```{r preserve-raw}
 vars_to_preserve <- c("HLTH_TTM", "HLTH_MED", "HLTH_CPAIN",
-                      "HLTH_CDIS", "HLTH_SMK", "D_EMP_TYPE", "D_CHLD")
+                      "HLTH_CDIS", "HLTH_SMK", "D_EMP_TYPE", "D_CHLD", 
+                      "SES_EDU_CAT")
 
 df_raw <- df_raw %>%
   mutate(across(all_of(vars_to_preserve),
@@ -613,8 +614,109 @@ df %>%
 Items: SES_EDU_SC, SES_BTHR_SC, SES_CAR_SC, SES_INT_SC, SES_WRK_SC, SES_BEDR_SC
 Non-numeric entries (e.g. column-shift errors) are flagged as 666.
 
+## 11.1. Recode SES_EDU_CAT
+```{r recode-edu}
+
+df <- df %>%
+  mutate(
+    SES_EDU_CAT_CLEAN = case_when(
+      
+      # ── Sentinel pass-through ──────────────────────────────────────────
+      SES_EDU_CAT == "999" ~ "999",
+      
+      # ── Ambiguous / needs review ───────────────────────────────────────
+      SES_EDU_CAT == "No hay"                                          ~ as.character(999),
+      SES_EDU_CAT == "No hay una clara marca, necesita ver la grabacion" ~ as.character(444),
+      SES_EDU_CAT == "no sabe si es completa o no para primaria"        ~ as.character(888),
+      
+      # ── Standard categories (case-insensitive via str_to_lower trick) ──
+      SES_EDU_CAT == "no estudio/preescolar"        ~ "No formal education",
+      SES_EDU_CAT == "Primaria incompleta"           ~ "Incomplete primary",
+      SES_EDU_CAT == "Primaria completa"             ~ "Complete primary",
+      SES_EDU_CAT == "Secundaria incompleta"         ~ "Incomplete secondary",
+      SES_EDU_CAT %in% c(
+        "Secundaria completa",
+        "Secundaria completa. Tomo un per de curso (secretaicido y computear) sin concluir"
+      )                                              ~ "Complete secondary",
+      
+      # ── Carrera comercial → Secundaria Completa ────────────────────────
+      SES_EDU_CAT == "Carrera comercial"             ~ "Complete secondary",
+      
+      # ── Carrera tecnica (without bachillerato) → Preparatoria Incompleta
+      SES_EDU_CAT %in% c(
+        "Carrera tecnica",
+        "Carrera tecnica completa",
+        "carrera tecnica completa --> 35 puntos (for now: 3 march 2023)",
+        "Carrera Tecnica: 35 pints ( 3 March 23)"
+      )                                              ~ "Incomplete high school",
+      
+      # ── Carrera tecnica WITH bachillerato → Preparatoria Completa ──────
+      SES_EDU_CAT %in% c(
+        "carrera tecnica bachi",
+        "Bachillerato, carrera tecnica completa. 35 (3 march 2023)"
+      )                                              ~ "Complete high school",
+      
+      # ── Bachillerato ───────────────────────────────────────────────────
+      SES_EDU_CAT == "Bachillerato trunco"           ~ "Incomplete high school",
+      SES_EDU_CAT %in% c(
+        "Bachillerato completo",
+        "Bauhi? Completo"                            # likely "Bachillerato Completo"
+      )                                              ~ "Complete high school",
+      
+      SES_EDU_CAT == "Preparatoria incompleta"       ~ "Incomplete high school",
+      SES_EDU_CAT == "Preparatoria completa"         ~ "Complete high school",
+      SES_EDU_CAT == "Licenciatura incompleta"       ~ "Incomplete university",
+      SES_EDU_CAT == "Licenciatura completa"         ~ "Complete university",
+      SES_EDU_CAT == "Postgrado"                     ~ "Postgraduate",
+      
+      # ── Fallback ───────────────────────────────────────────────────────
+      TRUE ~ as.character(444)  # anything unmatched → flag for review
+    ),
+    
+    # ── SES_EDU_SC update ─────────────────────────────────────────────────
+    SES_EDU_SC_CLEAN = case_when(
+      SES_EDU_CAT_CLEAN == "No formal education"       ~ 0,
+      SES_EDU_CAT_CLEAN == "Incomplete primary"   ~ 10,
+      SES_EDU_CAT_CLEAN == "Complete primary"     ~ 22,
+      SES_EDU_CAT_CLEAN == "Incomplete secondary" ~ 23,
+      SES_EDU_CAT_CLEAN == "Complete secondary"   ~ 31,
+      SES_EDU_CAT_CLEAN == "Incomplete high school" ~ 35,
+      SES_EDU_CAT_CLEAN == "Complete high school"   ~ 43,
+      SES_EDU_CAT_CLEAN == "Incomplete university" ~ 59,
+      SES_EDU_CAT_CLEAN == "Complete university"   ~ 73,
+      SES_EDU_CAT_CLEAN == "Postgraduate"                ~ 101,
+      TRUE ~ NA_real_   # sentinels and 444 get NA in the score column
+    )
+  )
+
+# Check results
+table(df$SES_EDU_CAT_CLEAN, useNA = "ifany")
+df$SES_EDU_SC
+edu_levels <- c(
+  "No formal education",
+  "Incomplete primary",
+  "Complete primary",
+  "Incomplete secondary",
+  "Complete secondary",
+  "Incomplete high school",
+  "Complete high school",
+  "Incomplete university",
+  "Complete university",
+  "Postgraduate"
+)
+
+df <- df %>%
+  mutate(SES_EDU_CAT_CLEAN = factor(SES_EDU_CAT_CLEAN, levels = edu_levels, ordered = TRUE))
+
+# Review flagged cases
+df %>% filter(SES_EDU_CAT_CLEAN == "444") %>% 
+  select(ID, SES_EDU_CAT, SES_EDU_CAT_CLEAN)
+
+barplot(table(df$SES_EDU_CAT_CLEAN))
+```
+
 ```{r ses-score}
-ses_items <- c("SES_EDU_SC", "SES_BTHR_SC", "SES_CAR_SC",
+ses_items <- c("SES_EDU_SC_CLEAN", "SES_BTHR_SC", "SES_CAR_SC",
                "SES_INT_SC", "SES_WRK_SC", "SES_BEDR_SC")
 
 # Preserve originals
@@ -656,14 +758,18 @@ df <- df %>%
   ))
 
 cat("SES_SC_Total NAs:", sum(is.na(df$SES_SC_Total)), "\n")
+SES_cat <- grep("^SES.*CAT$", names(df), value = TRUE)
 cat("Participants with missing or flagged SES items:\n")
 SES_nas <-print(df[is.na(df$SES_SC_Total),
-         c("ID", ses_items, paste0(ses_items, "_RAW"))])
+         c("ID", ses_items, paste0(ses_items, "_RAW"), SES_cat)])
+
+
+
 
 write.csv(SES_nas, file.path(data_path, "01.SES_to_review.csv"), row.names = FALSE)
 
 print(df[is.na(df$SES_SC_Total),
-         c("ID", ses_items, paste0(ses_items, "_RAW"))])
+         c("ID", ses_items)])
 cat("\nSES category distribution:\n")
 print(table(df$SES_CAT_AMAI, useNA = "always"))
 ```
@@ -676,7 +782,8 @@ print(table(df$SES_CAT_AMAI, useNA = "always"))
 # Exclude free-text notes columns and intermediate working columns
 notes_cols <- c("D_LOC_INFO", "D_HH_SIZE_INFO", "D_INFO", "SES_INFO",
                 "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT", "D_EMP_DAYS",
-                "W_HH_SIZE", "W_STORAGE", "D_LOC_CODE")
+                "W_HH_SIZE", "W_STORAGE", "D_LOC_CODE",
+                "SES_EDU_SC", "SES_EDU_RAW")
 
 analytic_vars <- setdiff(names(df), notes_cols)
 

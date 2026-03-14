@@ -37,6 +37,7 @@ library(tidyr)
 library(stringr)
 library(gtsummary)
 library(gt)
+library(flextable)
 library(purrr)
 
 data_path <- "./data"
@@ -77,6 +78,20 @@ Select and recode variables for the descriptive tables.
 All sentinel codes are converted to NA since they represent non-informative responses.
 
 ```{r prepare}
+
+edu_levels <- c(
+  "No formal education",
+  "Incomplete primary (1–5 yrs)",
+  "Complete primary",
+  "Incomplete secondary (7–8 yrs)",
+  "Complete secondary",
+  "Incomplete high school (10–11 yrs)",
+  "Complete high school",
+  "Incomplete university (13–15 yrs)",
+  "Complete university",
+  "Postgraduate"
+)
+
 df_table <- df %>%
   mutate(
     # --- Demographics ---
@@ -88,11 +103,19 @@ df_table <- df %>%
     # --- Season ---
     Season = factor(SEASON,
                     levels = c(0, 1),
-                    labels = c("Rainy (Oct-Dec 2022)", "Dry (Apr-Jun 2023)")),
+                    labels = c("Rainy", "Dry")),
 
     # --- SES ---
-    SES_Total    = clean_for_table(SES_SC_Total),
-    SES_Category = factor(SES_CAT_AMAI,
+    Education    = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        "Incomplete primary"    = "Incomplete primary (1–5 yrs)",
+        "Incomplete secondary"  = "Incomplete secondary (7–8 yrs)",
+        "Incomplete high school" = "Incomplete high school (10–11 yrs)",
+        "Incomplete university"  = "Incomplete university (13–15 yrs)"
+      ),
+      levels = edu_levels, ordered = TRUE
+    ),
+    SES          = factor(SES_CAT_AMAI,
                           levels = c("E", "D-", "D+", "C-", "C", "C+", "AB"),
                           ordered = TRUE),
 
@@ -152,57 +175,53 @@ df_table <- df %>%
 
 ---
 
-# 3. Comprehensive descriptive statistics table
+# 3. Supplementary descriptive statistics table
 
-Includes all analytic variables to inspect the full sample.
+Includes all analytic variables. Intended as a supplementary table for the dissertation.
 
 ```{r table-full}
 tbl_full <- df_table %>%
-  select(
-    # Demographics
-    Season, Age, Yrs_in_nbhd, HH_size, Parity,
-    # SES
-    SES_Total, SES_Category,
-    # Employment
-    Employed, Employment_type,
-    # Health
-    Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis,
-    # Water insecurity
-    HWISE_Total, HWISE_Cat, Water_worry,
-    # Perceived stress
-    PSS_Total, PSS_Cat
-  ) %>%
+  select(Age, Yrs_in_nbhd, HH_size, Parity,
+         SES, Education, Employed, Employment_type,
+         Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis,
+         Season) %>%
   tbl_summary(
+    by        = Season,
     statistic = list(
-      all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
+      all_continuous()  ~ "{mean} ({sd})",
       all_categorical() ~ "{n} ({p}%)"
     ),
-    digits    = list(all_continuous() ~ 1),
-    missing   = "no",
-    label     = list(
-      Season          ~ "Season of data collection",
+    type    = list(Parity ~ "continuous"),
+    digits  = list(all_continuous() ~ 1),
+    missing = "no",
+    label   = list(
       Age             ~ "Age (years)",
       Yrs_in_nbhd     ~ "Years in neighborhood",
-      HH_size         ~ "Household size (n persons)",
-      Parity          ~ "Number of children",
-      SES_Total       ~ "SES composite score (NSE-AMAI)",
-      SES_Category    ~ "SES category (NSE-AMAI)",
+      HH_size         ~ "Household size",
+      Parity          ~ "Parity",
+      SES             ~ "SES (NSE-AMAI)",
+      Education       ~ "Education",
       Employed        ~ "Currently employed",
-      Employment_type ~ "Employment type (among employed)",
+      Employment_type ~ "Employment type",
       Smoking         ~ "Smoking status",
       Hormonal_tx     ~ "Hormonal treatment",
       Medication      ~ "Regular medication use",
       Chronic_pain    ~ "Chronic pain",
-      Chronic_dis     ~ "Chronic disease",
-      HWISE_Total     ~ "HWISE total score (0–36)",
-      HWISE_Cat       ~ "Water insecurity level",
-      Water_worry     ~ "Water worry subscale (0–9)",
-      PSS_Total       ~ "PSS-14 total score (0–56)",
-      PSS_Cat         ~ "Perceived stress level"
+      Chronic_dis     ~ "Chronic disease"
     )
   ) %>%
+  add_overall(last = FALSE) %>%
+  add_p(test = list(
+    all_continuous()  ~ "t.test",
+    all_categorical() ~ "chisq.test"
+  )) %>%
   bold_labels() %>%
-  modify_caption("**Table S1. Comprehensive descriptive statistics (n = {N})**")
+  add_n(statistic = "{p_miss}%",
+        col_label = "**Missing (%)**") %>%
+  modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**By season**") %>%
+  modify_header(label = "**Variable**") %>%
+  modify_caption("**Table S1. Sample characteristics — full variable set (n = {N})**")
 
 tbl_full
 ```
@@ -217,7 +236,7 @@ Sample characteristics stratified by season to show comparability across data co
 tbl_ms <- df_table %>%
   select(
     Season, Age, Yrs_in_nbhd, HH_size, Parity,
-    SES_Total, SES_Category,
+    SES, Education,
     Employed, Employment_type,
     Smoking, Chronic_pain, Chronic_dis
   ) %>%
@@ -227,6 +246,7 @@ tbl_ms <- df_table %>%
       all_continuous()  ~ "{mean} ({sd})",
       all_categorical() ~ "{n} ({p}%)"
     ),
+    type      = list(Parity ~ "continuous"),
     digits    = list(all_continuous() ~ 1),
     missing   = "no",
     label     = list(
@@ -234,8 +254,8 @@ tbl_ms <- df_table %>%
       Yrs_in_nbhd     ~ "Years in neighborhood",
       HH_size         ~ "Household size",
       Parity          ~ "Parity (n children)",
-      SES_Total       ~ "SES score (NSE-AMAI)",
-      SES_Category    ~ "SES category",
+      SES             ~ "SES (NSE-AMAI)",
+      Education       ~ "Education",
       Employed        ~ "Employed",
       Employment_type ~ "Employment type",
       Smoking         ~ "Smoking",
@@ -243,13 +263,14 @@ tbl_ms <- df_table %>%
       Chronic_dis     ~ "Chronic disease"
     )
   ) %>%
-  add_overall() %>%
+  add_overall(last = FALSE) %>%
   add_p(test = list(
     all_continuous()  ~ "t.test",
     all_categorical() ~ "chisq.test"
   )) %>%
   bold_labels() %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season of data collection**") %>%
+  modify_header(label = "**Variable**") %>%
   modify_caption("**Table 1. Sample characteristics by season (n = {N})**")
 
 tbl_ms
@@ -421,7 +442,7 @@ tbl_by_hwise <- df_table %>%
   select(
     HWISE_Cat,
     Age, Yrs_in_nbhd, HH_size, Parity,
-    SES_Total, SES_Category,
+    SES, Education,
     Employed, Smoking, Chronic_pain, Chronic_dis,
     PSS_Total, PSS_Cat, Water_worry
   ) %>%
@@ -438,8 +459,8 @@ tbl_by_hwise <- df_table %>%
       Yrs_in_nbhd  ~ "Years in neighborhood",
       HH_size      ~ "Household size",
       Parity       ~ "Parity (n children)",
-      SES_Total    ~ "SES score",
-      SES_Category ~ "SES category",
+      SES          ~ "SES (NSE-AMAI)",
+      Education    ~ "Education",
       Employed     ~ "Employed",
       Smoking      ~ "Smoking",
       Chronic_pain ~ "Chronic pain",
@@ -661,5 +682,30 @@ if (nrow(sentinel_tbl) == 0) {
       pct           = "%"
     ) %>%
     tab_footnote(paste0("% of total sample (N = ", N_total, ")"))
+}
+```
+
+---
+
+# 9. Export tables to Word
+
+```{r export-tables, message=FALSE, warning=FALSE}
+output_dir <- "./output"
+if (!dir.exists(output_dir)) dir.create(output_dir)
+
+tables <- list(
+  "Table1_sample_characteristics.docx"     = tbl_ms,
+  "TableS1_full_descriptives.docx"         = tbl_full,
+  "TableS2_HWISE_PSS_overall.docx"         = tbl_scores,
+  "TableS3_HWISE_PSS_by_season.docx"       = tbl_scores_season,
+  "TableS4_characteristics_by_HWISE.docx"  = tbl_by_hwise,
+  "TableS5_water_supply.docx"              = tbl_water
+)
+
+for (fname in names(tables)) {
+  tables[[fname]] %>%
+    as_flex_table() %>%
+    save_as_docx(path = file.path(output_dir, fname))
+  cat("Exported:", fname, "\n")
 }
 ```

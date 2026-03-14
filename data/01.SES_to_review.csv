@@ -1,49 +1,40 @@
-"ID","SES_EDU_SC","SES_BTHR_SC","SES_CAR_SC","SES_INT_SC","SES_WRK_SC","SES_BEDR_SC","SES_EDU_SC_RAW","SES_BTHR_SC_RAW","SES_CAR_SC_RAW","SES_INT_SC_RAW","SES_WRK_SC_RAW","SES_BEDR_SC_RAW"
-8,31,NA,18,31,15,12,"31",NA,"18","31","15","12"
-10,999,999,999,999,999,999,"999","999","999","999","999","999"
-11,35,NA,0,31,46,23,"35",NA,"0","31","46","23"
-12,35,47,18,31,61,NA,"35","47","18","31","61",NA
-18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-22,31,NA,NA,NA,NA,NA,"31",NA,NA,NA,NA,NA
-57,31,666,0,31,15,6,"31","espacio no regadera","0","31","15","6"
-58,43,NA,0,31,31,23,"43",NA,"0","31","31","23"
-81,NA,47,0,0,31,23,NA,"47","0","0","31","23"
-85,31,47,18,31,61,NA,"31","47","18","31","61",NA
-95,NA,24,18,0,61,12,NA,"24","18","0","61","12"
-101,NA,47,0,31,46,17,NA,"47","0","31","46","17"
-107,NA,47,0,31,31,12,NA,"47","0","31","31","12"
-108,NA,24,18,31,31,12,NA,"24","18","31","31","12"
-109,35,NA,0,31,46,23,"35",NA,"0","31","46","23"
-125,43,NA,0,31,31,23,"43",NA,"0","31","31","23"
-127,73,NA,0,31,61,23,"73",NA,"0","31","61","23"
-156,NA,0,0,0,31,6,NA,"0","0","0","31","6"
-182,31,NA,18,31,15,17,"31",NA,"18","31","15","17"
-194,23,NA,0,0,15,6,"23",NA,"0","0","15","6"
-198,NA,47,0,31,46,23,NA,"47","0","31","46","23"
-302,31,24,NA,0,31,6,"31","24",NA,"0","31","6"
-312,31,0,NA,31,61,6,"31","0",NA,"31","61","6"
-325,NA,0,0,0,15,6,NA,"0","0","0","15","6"
-346,22,NA,NA,NA,NA,NA,"22",NA,NA,NA,NA,NA
-347,31,NA,NA,NA,NA,NA,"31",NA,NA,NA,NA,NA
-348,22,NA,NA,NA,NA,NA,"22",NA,NA,NA,NA,NA
-349,31,NA,NA,NA,NA,NA,"31",NA,NA,NA,NA,NA
-350,22,NA,NA,NA,NA,NA,"22",NA,NA,NA,NA,NA
-351,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-352,35,NA,NA,NA,NA,NA,"35",NA,NA,NA,NA,NA
-354,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-355,31,NA,NA,NA,NA,NA,"31",NA,NA,NA,NA,NA
-356,31,NA,NA,NA,NA,NA,"31",NA,NA,NA,NA,NA
-357,31,NA,NA,NA,NA,NA,"31",NA,NA,NA,NA,NA
-358,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-360,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-362,43,NA,0,0,15,12,"43",NA,"0","0","15","12"
-371,73,NA,0,31,31,12,"73",NA,"0","31","31","12"
-387,NA,24,0,31,46,12,NA,"24","0","31","46","12"
-395,31,24,NA,31,31,12,"31","24",NA,"31","31","12"
-397,23,NA,0,0,15,6,"23",NA,"0","0","15","6"
-411,43,NA,0,31,15,6,"43",NA,"0","31","15","6"
-417,35,NA,0,31,31,12,"35",NA,"0","31","31","12"
-461,NA,24,0,31,15,6,NA,"24","0","31","15","6"
-470,31,NA,0,31,46,12,"31",NA,"0","31","46","12"
-486,NA,24,0,31,15,12,NA,"24","0","31","15","12"
-497,333,47,0,31,61,17,"333","47","0","31","61","17"
+"ID","SES_EDU_SC_CLEAN","SES_BTHR_SC","SES_CAR_SC","SES_INT_SC","SES_WRK_SC","SES_BEDR_SC","SES_EDU_SC_CLEAN_RAW","SES_BTHR_SC_RAW","SES_CAR_SC_RAW","SES_INT_SC_RAW","SES_WRK_SC_RAW","SES_BEDR_SC_RAW","SES_EDU_CAT","SES_BTHR_CAT","SES_CAR_CAT","SES_INT_CAT","SES_WRK_CAT","SES_BEDR_CAT"
+8,31,NA,18,31,15,12,31,NA,"18","31","15","12","Secundaria completa","1+ 1/2 bathroom","1 car","SI","1 persona","2 cuartos"
+10,NA,999,999,999,999,999,NA,"999","999","999","999","999","999","999","999","999","999","999"
+11,35,NA,0,31,46,23,35,NA,"0","31","46","23","Preparatoria incompleta","1 c/ regadera, 2 c/ excusado","0 cars","SI","3 personas","4 cuartos o mas"
+12,35,47,18,31,61,NA,35,"47","18","31","61",NA,"Preparatoria incompleta","2 o more bathrooms","1 car","SI","4 o mas personas","Individual (2), General (8)"
+18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+22,31,NA,NA,NA,NA,NA,31,NA,NA,NA,NA,NA,"Secundaria completa",NA,NA,NA,NA,NA
+57,31,666,0,31,15,6,31,"espacio no regadera","0","31","15","6","Secundaria completa","0 bathrooms -","0 cars","SI","1 persona","1 cuarto"
+58,43,NA,0,31,31,23,43,NA,"0","31","31","23","Preparatoria completa","1 c/regadera sola","0 cars","SI","2 personas","4 cuartos o mas"
+85,31,47,18,31,61,NA,31,"47","18","31","61",NA,"Secundaria completa","2 o more bathrooms","1 car","SI","4 o mas personas","5 recamaras"
+107,NA,47,0,31,31,12,NA,"47","0","31","31","12","No hay una clara marca, necesita ver la grabacion","2 o more bathrooms","0 cars","SI","2 personas","2 cuartos"
+108,NA,24,18,31,31,12,NA,"24","18","31","31","12","No hay","1 bathroom","1 car","SI","2 personas","2 cuartos"
+109,35,NA,0,31,46,23,35,NA,"0","31","46","23","Preparatoria incompleta","2 pero compartan c/12","0 cars","SI","3 personas","4 cuartos o mas"
+125,43,NA,0,31,31,23,43,NA,"0","31","31","23","Preparatoria completa","43 +, 2 bathrooms pero ninguno tiene regadera","0 cars","SI","2 personas","4 cuartos o mas"
+127,73,NA,0,31,61,23,73,NA,"0","31","61","23","Licenciatura completa","73+,  no tiene regadera","0 cars","SI","4 o mas personas","4 cuartos o mas"
+182,31,NA,18,31,15,17,31,NA,"18","31","15","17","Secundaria completa",NA,"1 car","SI","1 persona","3 cuartos"
+194,23,NA,0,0,15,6,23,NA,"0","0","15","6","Secundaria incompleta","0; sin vegadera--jicarazos","0 cars","NO","1 persona","1 cuarto"
+302,31,24,NA,0,31,6,31,"24",NA,"0","31","6","Secundaria completa","1 bathroom",NA,"NO","2 personas","1 cuarto"
+312,31,0,NA,31,61,6,31,"0",NA,"31","61","6","Secundaria completa","0 bathrooms",NA,"SI","4 o mas personas","1 cuarto"
+346,22,NA,NA,NA,NA,NA,22,NA,NA,NA,NA,NA,"Primaria completa",NA,NA,NA,NA,NA
+347,31,NA,NA,NA,NA,NA,31,NA,NA,NA,NA,NA,"Secundaria completa",NA,NA,NA,NA,NA
+348,22,NA,NA,NA,NA,NA,22,NA,NA,NA,NA,NA,"Primaria completa",NA,NA,NA,NA,NA
+349,31,NA,NA,NA,NA,NA,31,NA,NA,NA,NA,NA,"Secundaria completa",NA,NA,NA,NA,NA
+350,22,NA,NA,NA,NA,NA,22,NA,NA,NA,NA,NA,"Primaria completa",NA,NA,NA,NA,NA
+351,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+352,35,NA,NA,NA,NA,NA,35,NA,NA,NA,NA,NA,"Preparatoria incompleta",NA,NA,NA,NA,NA
+354,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+355,31,NA,NA,NA,NA,NA,31,NA,NA,NA,NA,NA,"Secundaria completa",NA,NA,NA,NA,NA
+356,31,NA,NA,NA,NA,NA,31,NA,NA,NA,NA,NA,"Secundaria completa",NA,NA,NA,NA,NA
+357,31,NA,NA,NA,NA,NA,31,NA,NA,NA,NA,NA,"Secundaria completa",NA,NA,NA,NA,NA
+358,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+360,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+362,43,NA,0,0,15,12,43,NA,"0","0","15","12","Preparatoria completa",NA,"0 cars","NO","1 persona","2 cuartos"
+371,73,NA,0,31,31,12,73,NA,"0","31","31","12","Licenciatura completa",NA,"0 cars","SI","2 personas","2 cuartos"
+387,NA,24,0,31,46,12,NA,"24","0","31","46","12","no sabe si es completa o no para primaria","1 bathroom","0 cars","SI","3 personas","2 cuartos"
+395,31,24,NA,31,31,12,31,"24",NA,"31","31","12","Secundaria completa","1 bathroom","moto (1)","SI","2 personas","2 cuartos"
+397,23,NA,0,0,15,6,23,NA,"0","0","15","6","Secundaria incompleta",NA,"0 cars","NO","1 persona","1 cuarto"
+411,43,NA,0,31,15,6,43,NA,"0","31","15","6","Preparatoria completa",NA,"0 cars","SI","1 persona","1 cuarto"
+417,35,NA,0,31,31,12,35,NA,"0","31","31","12","Preparatoria incompleta","WC","0 cars","SI","2 personas","2 cuartos"
+470,31,NA,0,31,46,12,31,NA,"0","31","46","12","Secundaria completa","no sirve (regadera y WC)","0 cars","SI","3 personas","2 cuartos"

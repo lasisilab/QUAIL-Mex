@@ -15,3 +15,7 @@
 "202","D_CHLD_RAW","2","1",NA
 "415","D_CHLD_RAW","333","2",NA
 "427","D_CHLD_RAW","1","4",NA
+"103","SES_EDU_CAT_RAW","Bachillerato, carrera tecnica completa. 35 (3 march 2023)","Preparatoria incompleta",NA
+"327","SES_EDU_CAT_RAW","Licenciatura incompleta","carrera tecnica bachi",NA
+"427","SES_EDU_CAT_RAW","5 to de primaria","Primaria incompleta",NA
+"70","SES_EDU_CAT_RAW","Secundaria completa","Preparatoria completa",NA
