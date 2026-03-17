@@ -760,18 +760,144 @@ df <- df %>%
 cat("SES_SC_Total NAs:", sum(is.na(df$SES_SC_Total)), "\n")
 SES_cat <- grep("^SES.*CAT$", names(df), value = TRUE)
 cat("Participants with missing or flagged SES items:\n")
-SES_nas <-print(df[is.na(df$SES_SC_Total),
+print(df[is.na(df$SES_SC_Total),
          c("ID", ses_items, paste0(ses_items, "_RAW"), SES_cat)])
 
+# --- Long-format review file for student consensus -------------------------
+# One row per (participant × SES item) that has an issue.
+# The student fills in the `consensus` column with the correct numeric score,
+# saves the file as 01.SES_consensus.csv, and section 11.2 applies it.
 
+ses_scoring_hints <- c(
+  SES_EDU_SC_CLEAN = "0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",
+  SES_BTHR_SC      = "Bathrooms score — see NSE-AMAI table",
+  SES_CAR_SC       = "Cars score — see NSE-AMAI table",
+  SES_INT_SC       = "Internet access score — see NSE-AMAI table",
+  SES_WRK_SC       = "Primary earner education score — see NSE-AMAI table",
+  SES_BEDR_SC      = "Bedrooms score — see NSE-AMAI table"
+)
 
+ses_review_ids <- df %>% filter(is.na(SES_SC_Total)) %>% pull(ID)
 
-write.csv(SES_nas, file.path(data_path, "01.SES_to_review.csv"), row.names = FALSE)
+ses_long_clean <- df %>%
+  filter(ID %in% ses_review_ids) %>%
+  select(ID, all_of(ses_items)) %>%
+  mutate(across(-ID, as.character)) %>%          # unify types before pivoting
+  pivot_longer(cols = -ID, names_to = "variable", values_to = "current_value")
 
-print(df[is.na(df$SES_SC_Total),
-         c("ID", ses_items)])
+ses_long_raw <- df %>%
+  filter(ID %in% ses_review_ids) %>%
+  select(ID, all_of(paste0(ses_items, "_RAW"))) %>%
+  mutate(across(-ID, as.character)) %>%          # unify types before pivoting
+  pivot_longer(cols = -ID, names_to = "raw_variable", values_to = "raw_value") %>%
+  mutate(variable = str_remove(raw_variable, "_RAW$")) %>%
+  select(ID, variable, raw_value)
+
+ses_to_review <- ses_long_clean %>%
+  left_join(ses_long_raw, by = c("ID", "variable")) %>%
+  mutate(
+    issue = case_when(
+      is.na(current_value)          ~ "Missing / not entered",
+      current_value == "444"        ~ "Ambiguous — needs review",
+      current_value == "999"        ~ "Lost / data entry error",
+      current_value == "333"        ~ "Pending — data exists but not entered",
+      current_value == "888"        ~ "Don't know",
+      current_value == "777"        ~ "Refused",
+      current_value == "666"        ~ "Illegible / column-shift error",
+      current_value == "555"        ~ "Other — outside allowed categories",
+      TRUE                          ~ NA_character_
+    ),
+    scoring_hint = ses_scoring_hints[variable],
+    consensus    = NA_character_
+  ) %>%
+  filter(!is.na(issue)) %>%
+  select(ID, variable, raw_value, current_value, issue, scoring_hint, consensus)
+
+write.csv(ses_to_review,
+          file.path(data_path, "01.SES_to_review.csv"),
+          row.names = FALSE)
+
+cat("Rows exported to 01.SES_to_review.csv:", nrow(ses_to_review), "\n")
+print(ses_to_review)
+
 cat("\nSES category distribution:\n")
 print(table(df$SES_CAT_AMAI, useNA = "always"))
+```
+
+## 11.2. Apply SES consensus and recompute scores
+
+Fill in the `consensus` column in `01.SES_to_review.csv` with the correct
+numeric score for each flagged item, then save the file as
+`01.SES_consensus.csv` and run this chunk to update the dataset.
+
+```{r ses-apply-consensus}
+ses_consensus_path <- file.path(data_path, "01.SES_consensus.csv")
+
+if (!file.exists(ses_consensus_path)) {
+
+  cat("Consensus file not found:", ses_consensus_path, "\n",
+      "Fill in the 'consensus' column in 01.SES_to_review.csv,",
+      "save as 01.SES_consensus.csv, then re-run this chunk.\n")
+
+} else {
+
+  consensus <- read.csv(ses_consensus_path, stringsAsFactors = FALSE)
+
+  n_applied <- 0
+  for (i in seq_len(nrow(consensus))) {
+    if (is.na(consensus$consensus[i]) || consensus$consensus[i] == "") next
+    id  <- consensus$ID[i]
+    v   <- consensus$variable[i]
+    val <- suppressWarnings(as.numeric(consensus$consensus[i]))
+    if (!is.na(val)) {
+      df[df$ID == id, v] <- val
+      n_applied <- n_applied + 1
+    } else {
+      cat("Non-numeric consensus value skipped — ID:", id,
+          "variable:", v, "value:", consensus$consensus[i], "\n")
+    }
+  }
+  cat("Consensus values applied:", n_applied, "\n")
+
+  # Recompute SES total and AMAI category
+  df <- df %>%
+    rowwise() %>%
+    mutate(
+      SES_SC_Total = if_else(
+        any(is.na(c_across(all_of(ses_items)))) |
+          any(c_across(all_of(ses_items)) %in% MISSING_CODES),
+        NA_real_,
+        sum(c_across(all_of(ses_items)), na.rm = FALSE)
+      )
+    ) %>%
+    ungroup() %>%
+    mutate(SES_CAT_AMAI = case_when(
+      is.na(SES_SC_Total) ~ NA_character_,
+      SES_SC_Total >= 205 ~ "AB",
+      SES_SC_Total >= 166 ~ "C+",
+      SES_SC_Total >= 135 ~ "C",
+      SES_SC_Total >= 112 ~ "C-",
+      SES_SC_Total >= 90  ~ "D+",
+      SES_SC_Total >= 48  ~ "D-",
+      TRUE                ~ "E"
+    ))
+
+  cat("SES_SC_Total NAs after consensus update:", sum(is.na(df$SES_SC_Total)), "\n")
+  cat("\nSES category distribution after update:\n")
+  print(table(df$SES_CAT_AMAI, useNA = "always"))
+
+  # Report any items still unresolved
+  ses_still_missing <- df %>%
+    filter(is.na(SES_SC_Total)) %>%
+    select(ID, all_of(ses_items))
+
+  if (nrow(ses_still_missing) > 0) {
+    cat("\nParticipants still missing SES total after consensus update:\n")
+    print(ses_still_missing)
+  } else {
+    cat("\nAll SES totals resolved.\n")
+  }
+}
 ```
 
 ---
@@ -822,8 +948,26 @@ cat("Saved. Final dimensions:", dim(df), "\n")
 ```
 
 
+
+
+# Standardize only continuous predictors
+df_std <- df %>%
+  mutate(across(c(D_AGE, SES_SC_Total, D_HH_SIZE, HW_TOTAL, PSS_TOTAL,
+                  HRS_PER_WEEK, starts_with("HW_")),
+                ~ scale(.)[,1], .names = "{.col}_z"))
+
+# Re-run selected model with _z versions
+m_final_std <- lm(PSS_TOTAL ~ D_AGE_z + SES_SC_Total_z + D_HH_SIZE_z + HW_TOTAL_z,
+                  data = df_std)
+
+
+
+
+
 # Pending
 
 - Section 8 is not doing what it should - it is coding informal employment as formal. 
 - Could rescue more SES (SES_to_review.csv)
 - Could include data entry for D_LOC (second season has no colonia information)
+
+

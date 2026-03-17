@@ -397,7 +397,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-14
+<strong>Last updated:</strong> 2026-03-16
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -528,15 +528,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreebcd85523ba8ea502f827ee60fe54211e1f439625targetblankbcd8552a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/bcd85523ba8ea502f827ee60fe54211e1f439625" target="_blank">bcd8552</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreebcd85523ba8ea502f827ee60fe54211e1f439625targetblankbcd8552a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -546,7 +546,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/bcd85523ba8ea502f827ee60fe54211e1f439625" target="_blank">bcd8552</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -569,23 +569,48 @@ Ignored files:
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/figure/
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
+    Untracked:  analysis/06.1.pss_models.Rmd
+    Untracked:  analysis/06.2.emo_type_models.Rmd
+    Untracked:  analysis/99.Maps.Rmd
+    Untracked:  colonias_names.csv
+    Untracked:  data/03.Conflicts_Q19_Q26_to_review.csv
+    Untracked:  data/03.Conflicts_reviewed.csv
+    Untracked:  data/03.Conflicts_to_review.csv
+    Untracked:  data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
+    Untracked:  data/03.continuous_to_review.csv
+    Untracked:  output/TableS1.2_missing_data.docx
+    Untracked:  output/TableS2_HWISE_PSS_overall.docx
+    Untracked:  output/TableS3_HWISE_PSS_by_season.docx
+    Untracked:  output/TableS4_characteristics_by_HWISE.docx
+    Untracked:  output/TableS5_water_supply.docx
+    Untracked:  output/TableS6_water_by_neighborhood.docx
+    Untracked:  output/TableS7_water_by_season.docx
+    Untracked:  output/~$bleS2_HWISE_PSS_overall.docx
 
 Unstaged changes:
     Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/03.Data_merge_Q1-6.Rmd
     Modified:   analysis/04.Descriptive_stats.Rmd
-    Modified:   analysis/_site.yml
+    Deleted:    analysis/Maps.Rmd
+    Modified:   data/01.SCREENING.csv
     Modified:   data/01.SES_to_review.csv
     Modified:   data/01.Screening_clean.csv
     Modified:   data/01.conflicts_to_review.csv
     Modified:   data/01.conflicts_to_review_V2.csv
     Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Deleted:    data/03.Merged_Final.csv
     Modified:   data/03.Merged_Q1-6.csv
+    Deleted:    data/Q19_consensus.csv
+    Modified:   output/Table1_sample_characteristics.docx
+    Modified:   output/TableS1_full_descriptives.docx
 
 </code></pre>
 <p>
@@ -753,15 +778,15 @@ Fields with ambiguous (444) values after merge:</code></pre>
    &lt;chr&gt;                 &lt;int&gt;
  1 D_YRBR                    3
  2 D_AGE                    51
- 3 D_LOC_CODE                3
+ 3 D_LOC_CODE                2
  4 D_LOC_TIME                2
  5 HLTH_SMK                  3
  6 HLTH_MED                  1
  7 HLTH_CPAIN                2
  8 HLTH_CDIS                 3
- 9 D_HH_SIZE                 5
+ 9 D_HH_SIZE                 4
 10 D_CHLD                    3
-11 D_EMP_TYPE                6
+11 D_EMP_TYPE                5
 12 W_HH_SIZE                 2
 13 W_STORAGE                 2
 14 SES_EDU_CAT               4
@@ -780,7 +805,7 @@ Fields with ambiguous (444) values after merge:</code></pre>
 27 HLTH_CPAIN_RAW            2
 28 HLTH_CDIS_RAW             3
 29 HLTH_SMK_RAW              3
-30 D_EMP_TYPE_RAW            6
+30 D_EMP_TYPE_RAW            5
 31 D_CHLD_RAW                3
 32 SES_EDU_CAT_RAW           4</code></pre>
 <pre class="r"><code># Print ID and conflicting values for manual review
@@ -796,142 +821,140 @@ for (v in ambig_flags$variable) {
 <pre><code>
 --- D_YRBR ---
    ID D_YRBR
-1  70   1989
-2  70   1984
-3 329   2001
-4 329   2002
-5 376   1993
-6 376   1998
+1 329   2001
+2 329   2002
+3 376   1993
+4 376   1998
+5  70   1989
+6  70   1984
 
 --- D_AGE ---
      ID D_AGE
-1    70    33
-2    70    38
-3   322    33
-4   322    34
-5   324    20
-6   324    21
-7   325    43
-8   325    44
-9   326    35
-10  326    36
-11  327    27
-12  327    28
-13  328    43
-14  328    44
-15  331    34
-16  331    35
-17  332    45
-18  332    46
-19  333    31
-20  333    32
-21  335    27
-22  335    28
-23  336    32
-24  336    33
-25  337    33
-26  337    34
-27  338    22
-28  338    23
-29  339    37
-30  339    38
-31  340    30
-32  340    31
-33  341    33
-34  341    34
-35  343    27
-36  343    28
-37  344    30
-38  344    31
-39  345    24
-40  345    25
-41  362    28
-42  362    29
-43  364    33
-44  364    34
-45  365    32
-46  365    33
-47  366    43
-48  366    44
-49  367    32
-50  367    33
-51  368    41
-52  368    42
-53  369    32
-54  369    33
-55  370    34
-56  370    35
-57  371    37
-58  371    38
-59  372    30
-60  372    31
-61  373    31
-62  373    32
-63  374    37
-64  374    38
-65  375    25
-66  375    24
-67  376    29
-68  376    25
-69  377    19
-70  377    20
-71  378    22
-72  378    23
-73  379    38
-74  379    39
-75  380    39
-76  380    40
-77  381    18
-78  381    19
-79  382    27
-80  382    28
-81  383    24
-82  383    25
-83  384    44
-84  384    45
-85  385    21
-86  385    22
-87  386    20
-88  386    21
-89  387    22
-90  387    23
-91  388    37
-92  388    38
-93  389    33
-94  389    34
-95  390    26
-96  390    27
-97  391    29
-98  391    30
-99  393    29
-100 393    30
-101 395    18
-102 395    19
+1   375    25
+2   375    24
+3   390    26
+4   390    27
+5   395    18
+6   395    19
+7   389    33
+8   389    34
+9   373    31
+10  373    32
+11  388    37
+12  388    38
+13  393    29
+14  393    30
+15  384    44
+16  384    45
+17  324    20
+18  324    21
+19  325    43
+20  325    44
+21  328    43
+22  328    44
+23  331    34
+24  331    35
+25  372    30
+26  372    31
+27  377    19
+28  377    20
+29  322    33
+30  322    34
+31  374    37
+32  374    38
+33  376    29
+34  376    25
+35  379    38
+36  379    39
+37  382    27
+38  382    28
+39  383    24
+40  383    25
+41  387    22
+42  387    23
+43  391    30
+44  378    22
+45  378    23
+46  386    20
+47  386    21
+48  380    39
+49  380    40
+50  391    29
+51  381    18
+52  381    19
+53  385    21
+54  385    22
+55  362    28
+56  362    29
+57  340    30
+58  340    31
+59  327    27
+60  327    28
+61  332    45
+62  332    46
+63  333    31
+64  333    32
+65  335    27
+66  335    28
+67  336    32
+68  336    33
+69  337    33
+70  337    34
+71  341    33
+72  341    34
+73  344    30
+74  344    31
+75  345    24
+76  345    25
+77  364    33
+78  364    34
+79  365    32
+80  365    33
+81  366    43
+82  366    44
+83  367    32
+84  367    33
+85  369    32
+86  369    33
+87  326    35
+88  326    36
+89  370    34
+90  370    35
+91   70    33
+92  368    41
+93  368    42
+94  339    37
+95  339    38
+96  338    22
+97  338    23
+98  343    27
+99  343    28
+100 371    37
+101 371    38
+102  70    38
 
 --- D_LOC_CODE ---
-   ID  D_LOC_CODE
-1  44 09900 09910
-2  44        9900
-3 391        9690
-4 391        9640
-5 496        9960
-6 496        9780
+   ID D_LOC_CODE
+1 391       9640
+2 391       9690
+3 496       9780
+4 496       9960
 
 --- D_LOC_TIME ---
    ID D_LOC_TIME
-1  70         15
-2  70         38
-3 394          3
-4 394         31
+1 394          3
+2 394         31
+3  70         15
+4  70         38
 
 --- HLTH_SMK ---
    ID HLTH_SMK
-1  24       No
-2  24      Yes
-3 167       No
-4 167      Yes
-5 202 1 al dia
-6 202       No
+1 167       No
+2 167      Yes
+3 202 1 al dia
+4 202       No
+5  24       No
+6  24      Yes
 
 --- HLTH_MED ---
    ID           HLTH_MED
@@ -940,86 +963,77 @@ for (v in ambig_flags$variable) {
 
 --- HLTH_CPAIN ---
   ID   HLTH_CPAIN
-1 70 Si- Migrania
-2 70           No
-3 75 Si gastritis
-4 75           No
+1 75 Si gastritis
+2 75           No
+3 70 Si- Migrania
+4 70           No
 
 --- HLTH_CDIS ---
    ID
-1   9
-2   9
+1 202
+2 202
 3  70
-4  70
-5 202
-6 202
+4   9
+5   9
+6  70
                                                                               HLTH_CDIS
-1                                                                                    No
-2                                                  Dolor cronico: dolor cabeza 2 al mes
+1                                                            hipotension (presion baja)
+2                                                                                    No
 3 Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente
 4                                                                                    No
-5                                                            hipotension (presion baja)
+5                                                  Dolor cronico: dolor cabeza 2 al mes
 6                                                                                    No
 
 --- D_HH_SIZE ---
-    ID D_HH_SIZE
-1   70        20
-2   70         9
-3  190         6
-4  190         3
-5  191         3
-6  191         8
-7  202         3
-8  202        15
-9  310         3
-10 310        13
-11 310      &lt;NA&gt;
+   ID D_HH_SIZE
+1 202         3
+2 202        15
+3 191         3
+4 190         6
+5 190         3
+6 191         8
+7  70        20
+8  70         9
 
 --- D_CHLD ---
    ID D_CHLD
-1 202      2
-2 202      1
-3 415    333
-4 415      2
-5 427      1
-6 427      4
-7 427      4
+1 427      1
+2 427      4
+3 427      4
+4 202      2
+5 202      1
+6 415    333
+7 415      2
 
 --- D_EMP_TYPE ---
     ID
-1  202
-2  202
-3  302
-4  302
-5  302
-6  320
-7  320
+1  394
+2  394
+3  202
+4  202
+5  323
+6  323
+7  323
 8  320
-9  323
-10 323
-11 323
+9  320
+10 320
+11 334
 12 334
 13 334
-14 334
-15 394
-16 394
                                                                                                                                                                                                                                               D_EMP_TYPE
-1  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
-2                                                                                                                                                                                                                                                 Formal
-3                                                                                                                                                                                                                                                 formal
-4                                                                                                                                                                                                                             Formal, empleada en bodega
-5                                                                                                                                                                                                                                                   &lt;NA&gt;
-6                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
-7                                                                                                                                                                                                                                               informal
-8                                                                                                                                                                                                                                                   &lt;NA&gt;
-9                                                                                                                                                                                                                                       tiene un negocio
-10                                                                                                                                                                                                                                                formal
-11                                                                                                                                                                                                                                                  &lt;NA&gt;
-12                                                                                                                                                                                                                                Si, seguridad privada.
-13                                                                                                                                                                                                                                                formal
-14                                                                                                                                                                                                                                                  &lt;NA&gt;
-15                                                                                                                                                                                                                                           Comerciante
-16                                                                                                                                                                                                                                              Informal
+1                                                                                                                                                                                                                                            Comerciante
+2                                                                                                                                                                                                                                               Informal
+3  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
+4                                                                                                                                                                                                                                                 Formal
+5                                                                                                                                                                                                                                       tiene un negocio
+6                                                                                                                                                                                                                                                 formal
+7                                                                                                                                                                                                                                                   &lt;NA&gt;
+8                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
+9                                                                                                                                                                                                                                               informal
+10                                                                                                                                                                                                                                                  &lt;NA&gt;
+11                                                                                                                                                                                                                                Si, seguridad privada.
+12                                                                                                                                                                                                                                                formal
+13                                                                                                                                                                                                                                                  &lt;NA&gt;
 
 --- W_HH_SIZE ---
    ID                                     W_HH_SIZE
@@ -1040,15 +1054,15 @@ for (v in ambig_flags$variable) {
 
 --- SES_EDU_CAT ---
    ID                                               SES_EDU_CAT
-1  70                                       Secundaria completa
-2  70                                     Preparatoria completa
-3 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
-4 103                                   Preparatoria incompleta
-5 327                                   Licenciatura incompleta
-6 327                                     carrera tecnica bachi
-7 427                                          5 to de primaria
-8 427                                       Primaria incompleta
-9 427                                       Primaria incompleta
+1 427                                          5 to de primaria
+2 427                                       Primaria incompleta
+3 427                                       Primaria incompleta
+4 327                                   Licenciatura incompleta
+5 327                                     carrera tecnica bachi
+6 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
+7 103                                   Preparatoria incompleta
+8  70                                       Secundaria completa
+9  70                                     Preparatoria completa
 
 --- SES_EDU_SC ---
   ID SES_EDU_SC
@@ -1087,17 +1101,17 @@ for (v in ambig_flags$variable) {
 
 --- SES_WRK_CAT ---
    ID      SES_WRK_CAT
-1  70       2 personas
-2  70       3 personas
-3 202        1 persona
-4 202 4 o mas personas
+1 202        1 persona
+2 202 4 o mas personas
+3  70       2 personas
+4  70       3 personas
 
 --- SES_WRK_SC ---
    ID SES_WRK_SC
-1  70         31
-2  70         46
-3 202         15
-4 202         61
+1 202         15
+2 202         61
+3  70         31
+4  70         46
 
 --- SES_BEDR_CAT ---
   ID    SES_BEDR_CAT
@@ -1116,93 +1130,87 @@ for (v in ambig_flags$variable) {
 
 --- HLTH_CPAIN_RAW ---
   ID HLTH_CPAIN_RAW
-1 70   Si- Migrania
-2 70             No
-3 75   Si gastritis
-4 75             No
+1 75   Si gastritis
+2 75             No
+3 70   Si- Migrania
+4 70             No
 
 --- HLTH_CDIS_RAW ---
    ID
-1   9
-2   9
+1 202
+2 202
 3  70
-4  70
-5 202
-6 202
+4   9
+5   9
+6  70
                                                                           HLTH_CDIS_RAW
-1                                                                                    No
-2                                                  Dolor cronico: dolor cabeza 2 al mes
+1                                                            hipotension (presion baja)
+2                                                                                    No
 3 Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente
 4                                                                                    No
-5                                                            hipotension (presion baja)
+5                                                  Dolor cronico: dolor cabeza 2 al mes
 6                                                                                    No
 
 --- HLTH_SMK_RAW ---
    ID HLTH_SMK_RAW
-1  24           No
-2  24          Yes
-3 167           No
-4 167          Yes
-5 202     1 al dia
-6 202           No
+1 167           No
+2 167          Yes
+3 202     1 al dia
+4 202           No
+5  24           No
+6  24          Yes
 
 --- D_EMP_TYPE_RAW ---
     ID
-1  202
-2  202
-3  302
-4  302
-5  302
-6  320
-7  320
+1  394
+2  394
+3  202
+4  202
+5  323
+6  323
+7  323
 8  320
-9  323
-10 323
-11 323
+9  320
+10 320
+11 334
 12 334
 13 334
-14 334
-15 394
-16 394
                                                                                                                                                                                                                                           D_EMP_TYPE_RAW
-1  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
-2                                                                                                                                                                                                                                                 Formal
-3                                                                                                                                                                                                                                                 formal
-4                                                                                                                                                                                                                             Formal, empleada en bodega
-5                                                                                                                                                                                                                                                   &lt;NA&gt;
-6                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
-7                                                                                                                                                                                                                                               informal
-8                                                                                                                                                                                                                                                   &lt;NA&gt;
-9                                                                                                                                                                                                                                       tiene un negocio
-10                                                                                                                                                                                                                                                formal
-11                                                                                                                                                                                                                                                  &lt;NA&gt;
-12                                                                                                                                                                                                                                Si, seguridad privada.
-13                                                                                                                                                                                                                                                formal
-14                                                                                                                                                                                                                                                  &lt;NA&gt;
-15                                                                                                                                                                                                                                           Comerciante
-16                                                                                                                                                                                                                                              Informal
+1                                                                                                                                                                                                                                            Comerciante
+2                                                                                                                                                                                                                                               Informal
+3  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
+4                                                                                                                                                                                                                                                 Formal
+5                                                                                                                                                                                                                                       tiene un negocio
+6                                                                                                                                                                                                                                                 formal
+7                                                                                                                                                                                                                                                   &lt;NA&gt;
+8                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
+9                                                                                                                                                                                                                                               informal
+10                                                                                                                                                                                                                                                  &lt;NA&gt;
+11                                                                                                                                                                                                                                Si, seguridad privada.
+12                                                                                                                                                                                                                                                formal
+13                                                                                                                                                                                                                                                  &lt;NA&gt;
 
 --- D_CHLD_RAW ---
    ID D_CHLD_RAW
-1 202          2
-2 202          1
-3 415        333
-4 415          2
-5 427          1
-6 427          4
-7 427          4
+1 427          1
+2 427          4
+3 427          4
+4 202          2
+5 202          1
+6 415        333
+7 415          2
 
 --- SES_EDU_CAT_RAW ---
    ID                                           SES_EDU_CAT_RAW
-1  70                                       Secundaria completa
-2  70                                     Preparatoria completa
-3 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
-4 103                                   Preparatoria incompleta
-5 327                                   Licenciatura incompleta
-6 327                                     carrera tecnica bachi
-7 427                                          5 to de primaria
-8 427                                       Primaria incompleta
-9 427                                       Primaria incompleta</code></pre>
+1 427                                          5 to de primaria
+2 427                                       Primaria incompleta
+3 427                                       Primaria incompleta
+4 327                                   Licenciatura incompleta
+5 327                                     carrera tecnica bachi
+6 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
+7 103                                   Preparatoria incompleta
+8  70                                       Secundaria completa
+9  70                                     Preparatoria completa</code></pre>
 <div id="export-conflicts-for-manual-resolution" class="section level2">
 <h2>3.1. Export conflicts for manual resolution</h2>
 <pre class="r"><code>conflict_rows &lt;- list()
@@ -1275,7 +1283,7 @@ Fields with ambiguous (444) values after merge:</code></pre>
 2 HLTH_CPAIN_RAW            1
 3 HLTH_CDIS_RAW             3
 4 HLTH_SMK_RAW              2
-5 D_EMP_TYPE_RAW            6
+5 D_EMP_TYPE_RAW            5
 6 D_CHLD_RAW                3
 7 SES_EDU_CAT_RAW           4</code></pre>
 <pre class="r"><code># Print ID and conflicting values for manual review
@@ -1301,18 +1309,18 @@ for (v in ambig_flags$variable) {
 
 --- HLTH_CDIS_RAW ---
    ID
-1   9
-2   9
+1 202
+2 202
 3  70
-4  70
-5 202
-6 202
+4   9
+5   9
+6  70
                                                                           HLTH_CDIS_RAW
-1                                                                                    No
-2                                                  Dolor cronico: dolor cabeza 2 al mes
+1                                                            hipotension (presion baja)
+2                                                                                    No
 3 Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente
 4                                                                                    No
-5                                                            hipotension (presion baja)
+5                                                  Dolor cronico: dolor cabeza 2 al mes
 6                                                                                    No
 
 --- HLTH_SMK_RAW ---
@@ -1324,61 +1332,55 @@ for (v in ambig_flags$variable) {
 
 --- D_EMP_TYPE_RAW ---
     ID
-1  202
-2  202
-3  302
-4  302
-5  302
-6  320
-7  320
+1  394
+2  394
+3  202
+4  202
+5  323
+6  323
+7  323
 8  320
-9  323
-10 323
-11 323
+9  320
+10 320
+11 334
 12 334
 13 334
-14 334
-15 394
-16 394
                                                                                                                                                                                                                                           D_EMP_TYPE_RAW
-1  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
-2                                                                                                                                                                                                                                                 Formal
-3                                                                                                                                                                                                                                                 formal
-4                                                                                                                                                                                                                             Formal, empleada en bodega
-5                                                                                                                                                                                                                                                   &lt;NA&gt;
-6                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
-7                                                                                                                                                                                                                                               informal
-8                                                                                                                                                                                                                                                   &lt;NA&gt;
-9                                                                                                                                                                                                                                       tiene un negocio
-10                                                                                                                                                                                                                                                formal
-11                                                                                                                                                                                                                                                  &lt;NA&gt;
-12                                                                                                                                                                                                                                Si, seguridad privada.
-13                                                                                                                                                                                                                                                formal
-14                                                                                                                                                                                                                                                  &lt;NA&gt;
-15                                                                                                                                                                                                                                           Comerciante
-16                                                                                                                                                                                                                                              Informal
+1                                                                                                                                                                                                                                            Comerciante
+2                                                                                                                                                                                                                                               Informal
+3  informal--hace limpieza--vende ropa que regalan--&gt; quedo sin trabajo. --&gt; les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.
+4                                                                                                                                                                                                                                                 Formal
+5                                                                                                                                                                                                                                       tiene un negocio
+6                                                                                                                                                                                                                                                 formal
+7                                                                                                                                                                                                                                                   &lt;NA&gt;
+8                                                                                                                                                                                                                Trabajo domestico. Trabajo comerciante.
+9                                                                                                                                                                                                                                               informal
+10                                                                                                                                                                                                                                                  &lt;NA&gt;
+11                                                                                                                                                                                                                                Si, seguridad privada.
+12                                                                                                                                                                                                                                                formal
+13                                                                                                                                                                                                                                                  &lt;NA&gt;
 
 --- D_CHLD_RAW ---
    ID D_CHLD_RAW
-1 202          2
-2 202          1
-3 415        333
-4 415          2
-5 427          1
-6 427          4
-7 427          4
+1 427          1
+2 427          4
+3 427          4
+4 202          2
+5 202          1
+6 415        333
+7 415          2
 
 --- SES_EDU_CAT_RAW ---
    ID                                           SES_EDU_CAT_RAW
-1  70                                       Secundaria completa
-2  70                                     Preparatoria completa
-3 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
-4 103                                   Preparatoria incompleta
-5 327                                   Licenciatura incompleta
-6 327                                     carrera tecnica bachi
-7 427                                          5 to de primaria
-8 427                                       Primaria incompleta
-9 427                                       Primaria incompleta</code></pre>
+1 427                                          5 to de primaria
+2 427                                       Primaria incompleta
+3 427                                       Primaria incompleta
+4 327                                   Licenciatura incompleta
+5 327                                     carrera tecnica bachi
+6 103 Bachillerato, carrera tecnica completa. 35 (3 march 2023)
+7 103                                   Preparatoria incompleta
+8  70                                       Secundaria completa
+9  70                                     Preparatoria completa</code></pre>
 <pre class="r"><code>conflict_rows &lt;- list()
 
 for (v in ambig_flags$variable) {
@@ -1494,9 +1496,9 @@ table(df$HLTH_MED_RAW)</code></pre>
                                                                                                          no 
                                                                                                          90 
                                                                                                          No 
-                                                                                                        229 
+                                                                                                        228 
                                                                                                          NO 
-                                                                                                          2 
+                                                                                                          3 
                                                                                               No - implante 
                                                                                                           1 
                                                                                     No -- div // metformina 
@@ -2220,7 +2222,7 @@ print(df[,c(&quot;ID&quot;, &quot;D_EMP_CLEAN&quot;,&quot;D_EMP_TYPE&quot;, &quo
 395   493           1 Formal - licencia mater… formal - licenc…                1
 396   494           1 Informal                 informal                        0
 397   495           1 Informal                 informal                        0
-398   496           1 informal                 informal                        0
+398   496           1 Informal                 informal                        0
 399   497           0 No                       no                             NA</code></pre>
 <pre class="r"><code>cat(&quot;\nEmployment (D_EMP_CLEAN):\n&quot;)</code></pre>
 <pre><code>
@@ -2511,6 +2513,43 @@ df %&gt;% filter(SES_EDU_CAT_CLEAN == &quot;444&quot;) %&gt;%
 # ℹ 3 variables: ID &lt;int&gt;, SES_EDU_CAT &lt;chr&gt;, SES_EDU_CAT_CLEAN &lt;ord&gt;</code></pre>
 <pre class="r"><code>barplot(table(df$SES_EDU_CAT_CLEAN))</code></pre>
 <p><img src="figure/01.data_cleaning.Rmd/recode-edu-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-recode-edu-1">
+Past versions of recode-edu-1.png
+</button>
+</p>
+<div id="fig-recode-edu-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/bcd85523ba8ea502f827ee60fe54211e1f439625/docs/figure/01.data_cleaning.Rmd/recode-edu-1.png" target="_blank">bcd8552</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-14
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ses_items &lt;- c(&quot;SES_EDU_SC_CLEAN&quot;, &quot;SES_BTHR_SC&quot;, &quot;SES_CAR_SC&quot;,
                &quot;SES_INT_SC&quot;, &quot;SES_WRK_SC&quot;, &quot;SES_BEDR_SC&quot;)
 
@@ -2557,7 +2596,7 @@ cat(&quot;SES_SC_Total NAs:&quot;, sum(is.na(df$SES_SC_Total)), &quot;\n&quot;)<
 <pre class="r"><code>SES_cat &lt;- grep(&quot;^SES.*CAT$&quot;, names(df), value = TRUE)
 cat(&quot;Participants with missing or flagged SES items:\n&quot;)</code></pre>
 <pre><code>Participants with missing or flagged SES items:</code></pre>
-<pre class="r"><code>SES_nas &lt;-print(df[is.na(df$SES_SC_Total),
+<pre class="r"><code>print(df[is.na(df$SES_SC_Total),
          c(&quot;ID&quot;, ses_items, paste0(ses_items, &quot;_RAW&quot;), SES_cat)])</code></pre>
 <pre><code># A tibble: 39 × 19
       ID SES_EDU_SC_CLEAN SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC
@@ -2578,25 +2617,77 @@ cat(&quot;Participants with missing or flagged SES items:\n&quot;)</code></pre>
 #   SES_WRK_SC_RAW &lt;chr&gt;, SES_BEDR_SC_RAW &lt;chr&gt;, SES_EDU_CAT &lt;chr&gt;,
 #   SES_BTHR_CAT &lt;chr&gt;, SES_CAR_CAT &lt;chr&gt;, SES_INT_CAT &lt;chr&gt;,
 #   SES_WRK_CAT &lt;chr&gt;, SES_BEDR_CAT &lt;chr&gt;</code></pre>
-<pre class="r"><code>write.csv(SES_nas, file.path(data_path, &quot;01.SES_to_review.csv&quot;), row.names = FALSE)
+<pre class="r"><code># --- Long-format review file for student consensus -------------------------
+# One row per (participant × SES item) that has an issue.
+# The student fills in the `consensus` column with the correct numeric score,
+# saves the file as 01.SES_consensus.csv, and section 11.2 applies it.
 
-print(df[is.na(df$SES_SC_Total),
-         c(&quot;ID&quot;, ses_items)])</code></pre>
-<pre><code># A tibble: 39 × 7
-      ID SES_EDU_SC_CLEAN SES_BTHR_SC SES_CAR_SC SES_INT_SC SES_WRK_SC
-   &lt;int&gt;            &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
- 1     8               31          NA         18         31         15
- 2    10               NA         999        999        999        999
- 3    11               35          NA          0         31         46
- 4    12               35          47         18         31         61
- 5    18               NA          NA         NA         NA         NA
- 6    22               31          NA         NA         NA         NA
- 7    57               31         666          0         31         15
- 8    58               43          NA          0         31         31
- 9    85               31          47         18         31         61
-10   107               NA          47          0         31         31
-# ℹ 29 more rows
-# ℹ 1 more variable: SES_BEDR_SC &lt;dbl&gt;</code></pre>
+ses_scoring_hints &lt;- c(
+  SES_EDU_SC_CLEAN = &quot;0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate&quot;,
+  SES_BTHR_SC      = &quot;Bathrooms score — see NSE-AMAI table&quot;,
+  SES_CAR_SC       = &quot;Cars score — see NSE-AMAI table&quot;,
+  SES_INT_SC       = &quot;Internet access score — see NSE-AMAI table&quot;,
+  SES_WRK_SC       = &quot;Primary earner education score — see NSE-AMAI table&quot;,
+  SES_BEDR_SC      = &quot;Bedrooms score — see NSE-AMAI table&quot;
+)
+
+ses_review_ids &lt;- df %&gt;% filter(is.na(SES_SC_Total)) %&gt;% pull(ID)
+
+ses_long_clean &lt;- df %&gt;%
+  filter(ID %in% ses_review_ids) %&gt;%
+  select(ID, all_of(ses_items)) %&gt;%
+  mutate(across(-ID, as.character)) %&gt;%          # unify types before pivoting
+  pivot_longer(cols = -ID, names_to = &quot;variable&quot;, values_to = &quot;current_value&quot;)
+
+ses_long_raw &lt;- df %&gt;%
+  filter(ID %in% ses_review_ids) %&gt;%
+  select(ID, all_of(paste0(ses_items, &quot;_RAW&quot;))) %&gt;%
+  mutate(across(-ID, as.character)) %&gt;%          # unify types before pivoting
+  pivot_longer(cols = -ID, names_to = &quot;raw_variable&quot;, values_to = &quot;raw_value&quot;) %&gt;%
+  mutate(variable = str_remove(raw_variable, &quot;_RAW$&quot;)) %&gt;%
+  select(ID, variable, raw_value)
+
+ses_to_review &lt;- ses_long_clean %&gt;%
+  left_join(ses_long_raw, by = c(&quot;ID&quot;, &quot;variable&quot;)) %&gt;%
+  mutate(
+    issue = case_when(
+      is.na(current_value)          ~ &quot;Missing / not entered&quot;,
+      current_value == &quot;444&quot;        ~ &quot;Ambiguous — needs review&quot;,
+      current_value == &quot;999&quot;        ~ &quot;Lost / data entry error&quot;,
+      current_value == &quot;333&quot;        ~ &quot;Pending — data exists but not entered&quot;,
+      current_value == &quot;888&quot;        ~ &quot;Don&#39;t know&quot;,
+      current_value == &quot;777&quot;        ~ &quot;Refused&quot;,
+      current_value == &quot;666&quot;        ~ &quot;Illegible / column-shift error&quot;,
+      current_value == &quot;555&quot;        ~ &quot;Other — outside allowed categories&quot;,
+      TRUE                          ~ NA_character_
+    ),
+    scoring_hint = ses_scoring_hints[variable],
+    consensus    = NA_character_
+  ) %&gt;%
+  filter(!is.na(issue)) %&gt;%
+  select(ID, variable, raw_value, current_value, issue, scoring_hint, consensus)
+
+write.csv(ses_to_review,
+          file.path(data_path, &quot;01.SES_to_review.csv&quot;),
+          row.names = FALSE)
+
+cat(&quot;Rows exported to 01.SES_to_review.csv:&quot;, nrow(ses_to_review), &quot;\n&quot;)</code></pre>
+<pre><code>Rows exported to 01.SES_to_review.csv: 109 </code></pre>
+<pre class="r"><code>print(ses_to_review)</code></pre>
+<pre><code># A tibble: 109 × 7
+      ID variable         raw_value current_value issue   scoring_hint consensus
+   &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt;    
+ 1     8 SES_BTHR_SC      &lt;NA&gt;      &lt;NA&gt;          Missin… Bathrooms s… &lt;NA&gt;     
+ 2    10 SES_EDU_SC_CLEAN &lt;NA&gt;      &lt;NA&gt;          Missin… 0=No formal… &lt;NA&gt;     
+ 3    10 SES_BTHR_SC      999       999           Lost /… Bathrooms s… &lt;NA&gt;     
+ 4    10 SES_CAR_SC       999       999           Lost /… Cars score … &lt;NA&gt;     
+ 5    10 SES_INT_SC       999       999           Lost /… Internet ac… &lt;NA&gt;     
+ 6    10 SES_WRK_SC       999       999           Lost /… Primary ear… &lt;NA&gt;     
+ 7    10 SES_BEDR_SC      999       999           Lost /… Bedrooms sc… &lt;NA&gt;     
+ 8    11 SES_BTHR_SC      &lt;NA&gt;      &lt;NA&gt;          Missin… Bathrooms s… &lt;NA&gt;     
+ 9    12 SES_BEDR_SC      &lt;NA&gt;      &lt;NA&gt;          Missin… Bedrooms sc… &lt;NA&gt;     
+10    18 SES_EDU_SC_CLEAN &lt;NA&gt;      &lt;NA&gt;          Missin… 0=No formal… &lt;NA&gt;     
+# ℹ 99 more rows</code></pre>
 <pre class="r"><code>cat(&quot;\nSES category distribution:\n&quot;)</code></pre>
 <pre><code>
 SES category distribution:</code></pre>
@@ -2604,6 +2695,84 @@ SES category distribution:</code></pre>
 <pre><code>
   AB    C   C-   C+   D-   D+    E &lt;NA&gt; 
   27   85   82   50   51   53   12   39 </code></pre>
+</div>
+<div id="apply-ses-consensus-and-recompute-scores"
+class="section level2">
+<h2>11.2. Apply SES consensus and recompute scores</h2>
+<p>Fill in the <code>consensus</code> column in
+<code>01.SES_to_review.csv</code> with the correct numeric score for
+each flagged item, then save the file as
+<code>01.SES_consensus.csv</code> and run this chunk to update the
+dataset.</p>
+<pre class="r"><code>ses_consensus_path &lt;- file.path(data_path, &quot;01.SES_consensus.csv&quot;)
+
+if (!file.exists(ses_consensus_path)) {
+
+  cat(&quot;Consensus file not found:&quot;, ses_consensus_path, &quot;\n&quot;,
+      &quot;Fill in the &#39;consensus&#39; column in 01.SES_to_review.csv,&quot;,
+      &quot;save as 01.SES_consensus.csv, then re-run this chunk.\n&quot;)
+
+} else {
+
+  consensus &lt;- read.csv(ses_consensus_path, stringsAsFactors = FALSE)
+
+  n_applied &lt;- 0
+  for (i in seq_len(nrow(consensus))) {
+    if (is.na(consensus$consensus[i]) || consensus$consensus[i] == &quot;&quot;) next
+    id  &lt;- consensus$ID[i]
+    v   &lt;- consensus$variable[i]
+    val &lt;- suppressWarnings(as.numeric(consensus$consensus[i]))
+    if (!is.na(val)) {
+      df[df$ID == id, v] &lt;- val
+      n_applied &lt;- n_applied + 1
+    } else {
+      cat(&quot;Non-numeric consensus value skipped — ID:&quot;, id,
+          &quot;variable:&quot;, v, &quot;value:&quot;, consensus$consensus[i], &quot;\n&quot;)
+    }
+  }
+  cat(&quot;Consensus values applied:&quot;, n_applied, &quot;\n&quot;)
+
+  # Recompute SES total and AMAI category
+  df &lt;- df %&gt;%
+    rowwise() %&gt;%
+    mutate(
+      SES_SC_Total = if_else(
+        any(is.na(c_across(all_of(ses_items)))) |
+          any(c_across(all_of(ses_items)) %in% MISSING_CODES),
+        NA_real_,
+        sum(c_across(all_of(ses_items)), na.rm = FALSE)
+      )
+    ) %&gt;%
+    ungroup() %&gt;%
+    mutate(SES_CAT_AMAI = case_when(
+      is.na(SES_SC_Total) ~ NA_character_,
+      SES_SC_Total &gt;= 205 ~ &quot;AB&quot;,
+      SES_SC_Total &gt;= 166 ~ &quot;C+&quot;,
+      SES_SC_Total &gt;= 135 ~ &quot;C&quot;,
+      SES_SC_Total &gt;= 112 ~ &quot;C-&quot;,
+      SES_SC_Total &gt;= 90  ~ &quot;D+&quot;,
+      SES_SC_Total &gt;= 48  ~ &quot;D-&quot;,
+      TRUE                ~ &quot;E&quot;
+    ))
+
+  cat(&quot;SES_SC_Total NAs after consensus update:&quot;, sum(is.na(df$SES_SC_Total)), &quot;\n&quot;)
+  cat(&quot;\nSES category distribution after update:\n&quot;)
+  print(table(df$SES_CAT_AMAI, useNA = &quot;always&quot;))
+
+  # Report any items still unresolved
+  ses_still_missing &lt;- df %&gt;%
+    filter(is.na(SES_SC_Total)) %&gt;%
+    select(ID, all_of(ses_items))
+
+  if (nrow(ses_still_missing) &gt; 0) {
+    cat(&quot;\nParticipants still missing SES total after consensus update:\n&quot;)
+    print(ses_still_missing)
+  } else {
+    cat(&quot;\nAll SES totals resolved.\n&quot;)
+  }
+}</code></pre>
+<pre><code>Consensus file not found: ./data/01.SES_consensus.csv 
+ Fill in the &#39;consensus&#39; column in 01.SES_to_review.csv, save as 01.SES_consensus.csv, then re-run this chunk.</code></pre>
 <hr />
 </div>
 </div>
@@ -2640,7 +2809,7 @@ cat(&quot;Missing data summary (analytic variables):\n&quot;)</code></pre>
 <pre><code># A tibble: 52 × 6
    variable              n_na n_sentinel n_total pct_na pct_flag
    &lt;chr&gt;                &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
- 1 D_LOC                  251          1     399   62.9      0.3
+ 1 D_LOC                  207          1     399   51.9      0.3
  2 D_EMP_FORM_CLEAN       130         55     399   32.6     13.8
  3 SES_SC_Total            39          0     399    9.8      0  
  4 SES_CAT_AMAI            39          0     399    9.8      0  
@@ -2665,7 +2834,7 @@ cat(&quot;Missing data summary (analytic variables):\n&quot;)</code></pre>
 23 SES_WRK_SC              15          1     399    3.8      0.3
 24 SES_BEDR_CAT            15          1     399    3.8      0.3
 25 HLTH_SMK_RAW            15          3     399    3.8      0.8
-26 D_EMP_TYPE_RAW          15          7     399    3.8      1.8
+26 D_EMP_TYPE_RAW          15          6     399    3.8      1.5
 27 HLTH_SMK_CLEAN          15          1     399    3.8      0.3
 28 D_EMP_TYPE_CLEAN        15          1     399    3.8      0.3
 29 D_EMP_CLEAN             15          2     399    3.8      0.5
@@ -2698,7 +2867,7 @@ Variables exceeding 5% true NA (flag for methods section):</code></pre>
 <pre><code># A tibble: 44 × 6
    variable          n_na n_sentinel n_total pct_na pct_flag
    &lt;chr&gt;            &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt;
- 1 D_LOC              251          1     399   62.9      0.3
+ 1 D_LOC              207          1     399   51.9      0.3
  2 D_EMP_FORM_CLEAN   130         55     399   32.6     13.8
  3 SES_SC_Total        39          0     399    9.8      0  
  4 SES_CAT_AMAI        39          0     399    9.8      0  
@@ -2723,7 +2892,7 @@ Variables exceeding 5% true NA (flag for methods section):</code></pre>
 23 SES_WRK_SC          15          1     399    3.8      0.3
 24 SES_BEDR_CAT        15          1     399    3.8      0.3
 25 HLTH_SMK_RAW        15          3     399    3.8      0.8
-26 D_EMP_TYPE_RAW      15          7     399    3.8      1.8
+26 D_EMP_TYPE_RAW      15          6     399    3.8      1.5
 27 HLTH_SMK_CLEAN      15          1     399    3.8      0.3
 28 D_EMP_TYPE_CLEAN    15          1     399    3.8      0.3
 29 D_EMP_CLEAN         15          2     399    3.8      0.5
@@ -2749,6 +2918,17 @@ Variables exceeding 5% true NA (flag for methods section):</code></pre>
 <pre class="r"><code>write.csv(df, file.path(data_path, &quot;01.Screening_clean.csv&quot;), row.names = FALSE)
 cat(&quot;Saved. Final dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
 <pre><code>Saved. Final dimensions: 399 64 </code></pre>
+</div>
+<div id="standardize-only-continuous-predictors" class="section level1">
+<h1>Standardize only continuous predictors</h1>
+<p>df_std &lt;- df %&gt;% mutate(across(c(D_AGE, SES_SC_Total,
+D_HH_SIZE, HW_TOTAL, PSS_TOTAL, HRS_PER_WEEK, starts_with(“HW_”)), ~
+scale(.)[,1], .names = “{.col}_z”))</p>
+</div>
+<div id="re-run-selected-model-with-_z-versions" class="section level1">
+<h1>Re-run selected model with _z versions</h1>
+<p>m_final_std &lt;- lm(PSS_TOTAL ~ D_AGE_z + SES_SC_Total_z +
+D_HH_SIZE_z + HW_TOTAL_z, data = df_std)</p>
 </div>
 <div id="pending" class="section level1">
 <h1>Pending</h1>
@@ -2799,9 +2979,9 @@ loaded via a namespace (and not attached):
 [29] xfun_0.52          S7_0.2.0           fs_1.6.6           sass_0.4.10       
 [33] cli_3.6.5          withr_3.0.2        magrittr_2.0.3     grid_4.5.3        
 [37] digest_0.6.37      rstudioapi_0.17.1  hms_1.1.3          lifecycle_1.0.5   
-[41] vctrs_0.7.1        evaluate_1.0.3     glue_1.8.0         farver_2.1.2      
-[45] rmarkdown_2.29     purrr_1.0.4        tools_4.5.3        pkgconfig_2.0.3   
-[49] htmltools_0.5.8.1 </code></pre>
+[41] vctrs_0.7.1        evaluate_1.0.3     glue_1.8.0         whisker_0.4.1     
+[45] farver_2.1.2       rmarkdown_2.29     purrr_1.0.4        tools_4.5.3       
+[49] pkgconfig_2.0.3    htmltools_0.5.8.1 </code></pre>
 </div>
 </div>
 </div>

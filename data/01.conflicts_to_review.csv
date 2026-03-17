@@ -49,13 +49,12 @@
 "388","D_AGE","37","38",NA
 "389","D_AGE","33","34",NA
 "390","D_AGE","26","27",NA
-"391","D_AGE","29","30",NA
+"391","D_AGE","30","29",NA
 "393","D_AGE","29","30",NA
 "395","D_AGE","18","19",NA
 "70","D_AGE","33","38",NA
-"391","D_LOC_CODE","9690","9640",NA
-"44","D_LOC_CODE","09900 09910","9900",NA
-"496","D_LOC_CODE","9960","9780",NA
+"391","D_LOC_CODE","9640","9690",NA
+"496","D_LOC_CODE","9780","9960",NA
 "394","D_LOC_TIME","3","31",NA
 "70","D_LOC_TIME","15","38",NA
 "167","HLTH_SMK","No","Yes",NA
@@ -70,13 +69,11 @@
 "190","D_HH_SIZE","6","3",NA
 "191","D_HH_SIZE","3","8",NA
 "202","D_HH_SIZE","3","15",NA
-"310","D_HH_SIZE","3",NA,NA
 "70","D_HH_SIZE","20","9",NA
 "202","D_CHLD","2","1",NA
 "415","D_CHLD","333","2",NA
 "427","D_CHLD","1","4",NA
 "202","D_EMP_TYPE","informal--hace limpieza--vende ropa que regalan--> quedo sin trabajo. --> les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.","Formal",NA
-"302","D_EMP_TYPE","formal",NA,NA
 "320","D_EMP_TYPE","Trabajo domestico. Trabajo comerciante.",NA,NA
 "323","D_EMP_TYPE","tiene un negocio",NA,NA
 "334","D_EMP_TYPE","Si, seguridad privada.",NA,NA
@@ -113,7 +110,6 @@ botes--> 2 llaves directo de calle","Tinaco--> bathroom. Botes--> 2 llaves direc
 "202","HLTH_SMK_RAW","1 al dia","No",NA
 "24","HLTH_SMK_RAW","No","Yes",NA
 "202","D_EMP_TYPE_RAW","informal--hace limpieza--vende ropa que regalan--> quedo sin trabajo. --> les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.","Formal",NA
-"302","D_EMP_TYPE_RAW","formal",NA,NA
 "320","D_EMP_TYPE_RAW","Trabajo domestico. Trabajo comerciante.",NA,NA
 "323","D_EMP_TYPE_RAW","tiene un negocio",NA,NA
 "334","D_EMP_TYPE_RAW","Si, seguridad privada.",NA,NA

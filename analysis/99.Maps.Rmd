@@ -6,19 +6,147 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+# Setup
+
+```{r setup, message=FALSE, warning=FALSE}
+
 knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(gtsummary)
+library(gt)
+library(flextable)
+library(purrr)
+library(officer)
+library(sf)
+library(ggplot2)
+library(geodata)
+data_path <- "./data"
+
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+# Helper: convert sentinel codes to NA for descriptive stats
+clean_for_table <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES | is.na(x_num), NA, x_num)
+}
+
+# Helper: flag sentinel codes in free-text / character fields
+SENTINEL_STRINGS <- as.character(c(999, 888, 777, 666, 555, 444, 333))
+is_sentinel_str <- function(x) {
+  str_trim(as.character(x)) %in% SENTINEL_STRINGS
+}
+```
+
+# Load data
+```{r load}
+df <- read.csv(file.path(data_path, "03.Merged_Q1-6.csv"),
+               stringsAsFactors = FALSE,
+               na.strings = c(""))
+
+cat("Dimensions:", dim(df), "\n")
+cat("Participants:", nrow(df), "\n")
 ```
 
 
+# Map of Iztapalapa
 ```{r}
-# Install if needed:
-# install.packages(c("sf", "ggplot2", "dplyr"))
+target_colonias <- unique(df$D_LOC)
+unique(df$D_LOC)
 
-library(sf)
-library(ggplot2)
-library(dplyr)
-library(geodata)
+colonias <- st_read("./data/GeoJson/georef-mexico-colonia.geojson")
+
+# Check column names
+names(colonias)
+
+# Create a variable to highlight Sinatel
+colonias <- colonias %>%
+  mutate(highlight = ifelse(col_name == "Sinatel", "Sinatel", "Other"))
+
+target_colonias <- c(
+  "Mirasoles (U Hab)",
+  "Lomas Estrella 2a Secc I",
+  "Lomas De Zaragoza",
+
+  "Lomas De La Estancia Ii",
+  "Lomas De San Lorenzo I",
+  "Lomas De San Lorenzo Ii",
+  "San Antonio (Barr)",
+  "Santiago Acahualtepec (Pblo)",
+  "2a Ampliacion Santiago Acahualtepec Ii",
+  "San Miguel Teotongo I",
+  "San Miguel Teotongo Ii",
+  "San Miguel Teotongo Iii",
+  "San Miguel Teotongo Iv",
+  "Santa Martha Acatitla",
+  "Lomas De La Estancia I",
+  "Jose Lopez Portillo I",
+  "Jose Lopez Portillo Ii"
+)
+
+
+target_colonias <- df$D_LOC[order(unique(df$D_LOC))]
+
+
+labels_sf <- colonias %>%
+  filter(col_name %in% target_colonias)
+
+colonias_highlight <- colonias %>%
+  mutate(
+    highlight = ifelse(col_name %in% target_colonias, "Selected", "Other")
+  )
+
+# Plot map
+
+
+ggplot() +
+  geom_sf(data = colonias_highlight,
+          aes(fill = highlight),
+          color = "white",
+          size = 0.1) +
+
+  geom_sf_text(data = labels_sf,
+               aes(label = col_name),
+               size = 3) +
+
+  scale_fill_manual(values = c(
+    "Selected" = "#d73027",
+    "Other" = "gray85"
+  )) +
+
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")
+
+
+library(ggrepel)
+
+centroids <- st_centroid(labels_sf)
+
+ggplot() +
+  geom_sf(data = colonias_highlight,
+          aes(fill = highlight),
+          color = "white",
+          size = 0.1) +
+
+  geom_label_repel(
+    data = centroids,
+    aes(geometry = geometry, label = col_name),
+    stat = "sf_coordinates",
+    size = 3
+  ) +
+
+  scale_fill_manual(values = c(
+    "Selected" = "#05686D",
+    "Other" = "gray85"
+  )) +
+
+  coord_sf(expand = FALSE) +
+  theme_void() +
+  theme(legend.position = "none")
+
+
 ```
 
 # Map of Mexico City
@@ -57,120 +185,3 @@ ggplot(cdmx) +
 
 ```
 
-# Map of Iztapalapa
-```{r}
-
-colonias <- st_read("./data/GeoJson/georef-mexico-colonia.geojson")
-
-# Check column names
-names(colonias)
-
-# Create a variable to highlight Sinatel
-colonias <- colonias %>%
-  mutate(highlight = ifelse(col_name == "Sinatel", "Sinatel", "Other"))
-
-target_colonias <- c(
-  "Mirasoles (U Hab)",
-  "Lomas Estrella 2a Secc I",
-  "Lomas De Zaragoza",
-  "San Lorenzo Tezonco Ii (U Hab)",
-  "San Lorenzo Tezonco (Pblo)",
-  "San Lorenzo Tezonco (Barr)",
-  "Lomas De La Estancia Ii",
-  "Lomas De San Lorenzo I",
-  "Lomas De San Lorenzo Ii",
-  "San Antonio (Barr)",
-  "Santiago Acahualtepec (Pblo)",
-  "2a Ampliacion Santiago Acahualtepec Ii",
-  "San Miguel Teotongo I",
-  "San Miguel Teotongo Ii",
-  "San Miguel Teotongo Iii",
-  "San Miguel Teotongo Iv",
-  "Santa Martha Acatitla",
-  "Lomas De La Estancia I",
-  "Jose Lopez Portillo I",
-  "Jose Lopez Portillo Ii"
-)
-
-labels_sf <- colonias %>%
-  filter(col_name %in% target_colonias)
-
-colonias_highlight <- colonias %>%
-  mutate(
-    highlight = ifelse(col_name %in% target_colonias, "Selected", "Other")
-  )
-
-# Plot map
-ggplot(colonias) +
-  geom_sf(aes(fill = highlight), color = "gray40", size = 0.2) +
-  scale_fill_manual(
-    values = c("Sinatel" = "#05686D", "Other" = "#B0C4DE")
-  ) +
-  theme_minimal() +
-  labs(title = "Colonias in Iztapalapa") +
-  # comment this to deactivate coordinates
-  theme(
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    panel.grid = element_blank()
-  )
-
-ggplot() +
-  geom_sf(data = colonias_highlight,
-          aes(fill = highlight),
-          color = "white",
-          size = 0.1) +
-
-  geom_sf_text(data = labels_sf,
-               aes(label = col_name),
-               size = 3) +
-
-  scale_fill_manual(values = c(
-    "Selected" = "#d73027",
-    "Other" = "gray85"
-  )) +
-
-  coord_sf(expand = FALSE) +
-  theme_void() +
-  theme(legend.position = "none")
-
-ggplot(colonias_highlight) +
-  geom_sf(aes(fill = highlight), color = "white", size = 0.1) +
-  scale_fill_manual(values = c("Sinatel" = "#d73027", "Other" = "gray85")) +
-  coord_sf(expand = FALSE) +
-  theme_void() +
-  theme(legend.position = "none")
-
-
-
-library(ggrepel)
-
-centroids <- st_centroid(labels_sf)
-
-ggplot() +
-  geom_sf(data = colonias_highlight,
-          aes(fill = highlight),
-          color = "white",
-          size = 0.1) +
-
-  geom_label_repel(
-    data = centroids,
-    aes(geometry = geometry, label = col_name),
-    stat = "sf_coordinates",
-    size = 3
-  ) +
-
-  scale_fill_manual(values = c(
-    "Selected" = "#05686D",
-    "Other" = "gray85"
-  )) +
-
-  coord_sf(expand = FALSE) +
-  theme_void() +
-  theme(legend.position = "none")
-
-unique(colonias$col_name)
-```
-
-
-  

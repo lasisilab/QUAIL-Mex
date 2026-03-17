@@ -11,7 +11,7 @@
 
 <meta name="author" content="" />
 
-<meta name="date" content="2026-03-14" />
+<meta name="date" content="2026-03-16" />
 
 <title>Merge Datasets – Water Insecurity &amp; Stress Study</title>
 
@@ -369,7 +369,7 @@ div.tocify {
 <h1 class="title toc-ignore">Merge Datasets – Water Insecurity &amp;
 Stress Study</h1>
 <h4 class="author"></h4>
-<h4 class="date">2026-03-14</h4>
+<h4 class="date">2026-03-16</h4>
 
 </div>
 
@@ -398,7 +398,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-14
+<strong>Last updated:</strong> 2026-03-16
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -529,15 +529,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreebcd85523ba8ea502f827ee60fe54211e1f439625targetblankbcd8552a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/bcd85523ba8ea502f827ee60fe54211e1f439625" target="_blank">bcd8552</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree513d567847d41e14d56cc32aae1bcf54bc18f1a9targetblank513d567a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreebcd85523ba8ea502f827ee60fe54211e1f439625targetblankbcd8552a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -547,7 +547,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/513d567847d41e14d56cc32aae1bcf54bc18f1a9" target="_blank">513d567</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/bcd85523ba8ea502f827ee60fe54211e1f439625" target="_blank">bcd8552</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -573,20 +573,44 @@ Ignored files:
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
+    Untracked:  analysis/06.1.pss_models.Rmd
+    Untracked:  analysis/06.2.emo_type_models.Rmd
+    Untracked:  analysis/99.Maps.Rmd
+    Untracked:  colonias_names.csv
+    Untracked:  data/03.Conflicts_Q19_Q26_to_review.csv
+    Untracked:  data/03.Conflicts_reviewed.csv
+    Untracked:  data/03.Conflicts_to_review.csv
+    Untracked:  data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
+    Untracked:  data/03.continuous_to_review.csv
+    Untracked:  output/TableS1.2_missing_data.docx
+    Untracked:  output/TableS2_HWISE_PSS_overall.docx
+    Untracked:  output/TableS3_HWISE_PSS_by_season.docx
+    Untracked:  output/TableS4_characteristics_by_HWISE.docx
+    Untracked:  output/TableS5_water_supply.docx
+    Untracked:  output/TableS6_water_by_neighborhood.docx
+    Untracked:  output/TableS7_water_by_season.docx
+    Untracked:  output/~$bleS2_HWISE_PSS_overall.docx
 
 Unstaged changes:
     Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/03.Data_merge_Q1-6.Rmd
     Modified:   analysis/04.Descriptive_stats.Rmd
-    Modified:   analysis/_site.yml
+    Deleted:    analysis/Maps.Rmd
+    Modified:   data/01.SCREENING.csv
     Modified:   data/01.SES_to_review.csv
     Modified:   data/01.Screening_clean.csv
     Modified:   data/01.conflicts_to_review.csv
     Modified:   data/01.conflicts_to_review_V2.csv
     Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Deleted:    data/03.Merged_Final.csv
     Modified:   data/03.Merged_Q1-6.csv
+    Deleted:    data/Q19_consensus.csv
+    Modified:   output/Table1_sample_characteristics.docx
+    Modified:   output/TableS1_full_descriptives.docx
 
 </code></pre>
 <p>
@@ -623,6 +647,18 @@ There are no past versions. Publish this analysis with
 <li><strong>03.Q1-2-3-4-5_season2.csv</strong> – supplemental water
 variables (Season 2, IDs 331+)</li>
 </ol>
+<p>Missing code system:</p>
+<ul>
+<li><strong>999</strong> = Missing / lost / data entry error</li>
+<li><strong>333</strong> = Pending (data exists but not yet
+entered)</li>
+<li><strong>888</strong> = Don’t know</li>
+<li><strong>777</strong> = Refused / prefer not to answer</li>
+<li><strong>666</strong> = Illegible</li>
+<li><strong>555</strong> = Other (answer outside allowed
+categories)</li>
+<li><strong>444</strong> = Ambiguous</li>
+</ul>
 <hr />
 </div>
 <div id="load-base-dataset" class="section level2">
@@ -888,10 +924,1355 @@ SEASON distribution:</code></pre>
 <div id="export" class="section level2">
 <h2>7. Export</h2>
 <pre class="r"><code>write_csv(merged_final, &quot;./data/03.Merged_Q1-6.csv&quot;, na = &quot;&quot;)
-cat(&quot;Exported: Merged_Final.csv\n&quot;)</code></pre>
-<pre><code>Exported: Merged_Final.csv</code></pre>
+cat(&quot;Exported: 03.Merged_Q1-6.csv\n&quot;)</code></pre>
+<pre><code>Exported: 03.Merged_Q1-6.csv</code></pre>
 <pre class="r"><code>cat(&quot;Rows:&quot;, nrow(merged_final), &quot;| Cols:&quot;, ncol(merged_final), &quot;\n&quot;)</code></pre>
 <pre><code>Rows: 399 | Cols: 122 </code></pre>
+<hr />
+</div>
+<div id="load-supplemental-files-q82628-19-16-14-19-20-21"
+class="section level1">
+<h1>8. Load supplemental files –Q8/26/28, 19, 16, 14-19-20-21</h1>
+<div
+id="a.-q8-26-28-water-quality-trust-household-water-emotions-water-quality-comparison"
+class="section level2">
+<h2>8a. Q8-26-28 (water quality trust, household water emotions, water
+quality comparison)</h2>
+<pre class="r"><code>MISSING_CODES &lt;- c(999L, 888L, 777L, 666L, 555L, 444L, 333L)
+
+q826 &lt;- read_csv(
+  &quot;./data/Q8-26-28.csv&quot;,
+  col_types = cols(ID = col_character()),
+  show_col_types = FALSE
+) %&gt;%
+  mutate(ID = as.numeric(str_trim(ID))) %&gt;%
+  filter(!is.na(ID))
+
+cat(&quot;Q8-26-28 rows:&quot;, nrow(q826), &quot;| Unique IDs:&quot;, n_distinct(q826$ID), &quot;\n&quot;)</code></pre>
+<pre><code>Q8-26-28 rows: 523 | Unique IDs: 400 </code></pre>
+<pre class="r"><code>cat(&quot;MX28_WQ_COMP unique values:&quot;, paste(sort(unique(q826$MX28_WQ_COMP)), collapse = &quot;, &quot;), &quot;\n&quot;)</code></pre>
+<pre><code>MX28_WQ_COMP unique values: Better, Same, Worse </code></pre>
+<pre class="r"><code>cat(&quot;MX26_EM_HHW_TYPE unique values:&quot;, paste(sort(unique(q826$MX26_EM_HHW_TYPE)), collapse = &quot;, &quot;), &quot;\n&quot;)</code></pre>
+<pre><code>MX26_EM_HHW_TYPE unique values: negative, neutral, otro, positive </code></pre>
+</div>
+<div id="b.-q19-consensus-coding-all-ids" class="section level2">
+<h2>8b. Q19 (consensus coding – all IDs)</h2>
+<pre class="r"><code>q19 &lt;- read_csv(
+  &quot;./data/Q19.csv&quot;,
+  col_types = cols(ID = col_double()),
+  show_col_types = FALSE
+)
+
+cat(&quot;Q19.csv rows:&quot;, nrow(q19), &quot;| Unique IDs:&quot;, n_distinct(q19$ID), &quot;\n&quot;)</code></pre>
+<pre><code>Q19.csv rows: 401 | Unique IDs: 401 </code></pre>
+<pre class="r"><code>cat(&quot;Q19_CAT unique values:&quot;, paste(sort(unique(q19$Q19_CAT)), collapse = &quot;, &quot;), &quot;\n&quot;)</code></pre>
+<pre><code>Q19_CAT unique values: No, Other, Somewhat, Yes </code></pre>
+</div>
+<div id="c.-q16-water-scenario-preferences-season-2-only"
+class="section level2">
+<h2>8c. Q16 (water scenario preferences – Season 2 only)</h2>
+<pre class="r"><code>q16 &lt;- read_csv(
+  &quot;./data/Q16.csv&quot;,
+  col_types = cols(ID = col_double()),
+  show_col_types = FALSE
+)
+
+cat(&quot;Q16 rows:&quot;, nrow(q16), &quot;| ID range:&quot;, min(q16$ID, na.rm = TRUE), &quot;–&quot;,
+    max(q16$ID, na.rm = TRUE), &quot;\n&quot;)</code></pre>
+<pre><code>Q16 rows: 396 | ID range: 2 – 497 </code></pre>
+<pre class="r"><code>cat(&quot;MX16_SCEN_01 unique values:&quot;, paste(sort(unique(q16$MX16_SCEN_01)), collapse = &quot;, &quot;), &quot;\n&quot;)</code></pre>
+<pre><code>MX16_SCEN_01 unique values: 1, 2, 3, 4, Otro </code></pre>
+</div>
+<div
+id="d.-q14-19-20-21-jocelyne-and-alice-independent-codings-and-q19_combined-three-rater-adjudication"
+class="section level2">
+<h2>8d. Q14-19-20-21 (Jocelyne and Alice independent codings) and
+Q19_combined (three-rater adjudication)</h2>
+<pre class="r"><code>q_joc &lt;- read_csv(&quot;./data/Q14-19-20-21_Jocelyne.csv&quot;, show_col_types = FALSE) %&gt;%
+  rename(ID = Folio) %&gt;%
+  select(ID, Q19_Jocelyne = `X19.CAT`)
+
+q_alice &lt;- read_csv(&quot;./data/Q14-19-20-21_Alice.csv&quot;, show_col_types = FALSE) %&gt;%
+  rename(ID = Folio) %&gt;%
+  select(ID, Q19_Alice = `X19.CAT`)
+
+# Q19_combined: three-rater adjudication file (Season 1, IDs 1–398).
+# CatA = Alice, CatJ = Jocelyne, CatL = lead rater (= Q19.csv Q19_CAT).
+# Match == &quot;match&quot;     → all three raters agreed.
+# Match == &quot;different&quot; → at least one rater disagreed; Consensus may be blank.
+q19_combined &lt;- read_csv(&quot;./data/Q19_combined.csv&quot;, show_col_types = FALSE) %&gt;%
+  rename(ID = SampleID) %&gt;%
+  select(ID,
+         CatA_combined  = CatA,
+         CatJ_combined  = CatJ,
+         CatL_combined  = CatL,
+         three_rater_match = Match,
+         consensus_combined = Consensus)
+
+cat(&quot;Jocelyne rows:&quot;, nrow(q_joc), &quot;| Unique IDs:&quot;, n_distinct(q_joc$ID), &quot;\n&quot;)</code></pre>
+<pre><code>Jocelyne rows: 399 | Unique IDs: 399 </code></pre>
+<pre class="r"><code>cat(&quot;Alice rows:&quot;, nrow(q_alice), &quot;| Unique IDs:&quot;, n_distinct(q_alice$ID), &quot;\n&quot;)</code></pre>
+<pre><code>Alice rows: 399 | Unique IDs: 399 </code></pre>
+<pre class="r"><code>cat(&quot;Q19_combined rows:&quot;, nrow(q19_combined), &quot;| three_rater_match:&quot;, &quot;\n&quot;)</code></pre>
+<pre><code>Q19_combined rows: 398 | three_rater_match: </code></pre>
+<pre class="r"><code>print(table(q19_combined$three_rater_match, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+different     match      &lt;NA&gt; 
+      147       243         8 </code></pre>
+<hr />
+</div>
+</div>
+<div id="process-q28-water-quality-comparison" class="section level1">
+<h1>9. Process Q28 – Water Quality Comparison</h1>
+<p>Coding: <strong>0 = Better</strong>, <strong>1 = Same</strong>,
+<strong>2 = Worse</strong>.</p>
+<p>Each ID has exactly one Q28 value. String “NA” and blank cells → 999
+(missing).</p>
+<pre class="r"><code>q28_clean &lt;- q826 %&gt;%
+  # Keep the first non-missing Q28 per ID (row 1 always carries the value)
+  filter(!is.na(MX28_WQ_COMP)) %&gt;%
+  distinct(ID, .keep_all = TRUE) %&gt;%
+  select(ID, MX28_WQ_COMP, MX28_WQ_COMP_INFO) %&gt;%
+  mutate(
+    MX28_WQ_COMP_CAT = case_when(
+      str_to_lower(str_trim(MX28_WQ_COMP)) == &quot;better&quot; ~ 0L,
+      str_to_lower(str_trim(MX28_WQ_COMP)) == &quot;same&quot;   ~ 1L,
+      str_to_lower(str_trim(MX28_WQ_COMP)) == &quot;worse&quot;  ~ 2L,
+      str_to_lower(str_trim(MX28_WQ_COMP)) == &quot;na&quot;     ~ 999L,
+      TRUE                                              ~ 999L
+    )
+  )
+
+cat(&quot;Q28 distribution (MX28_WQ_COMP_CAT):\n&quot;)</code></pre>
+<pre><code>Q28 distribution (MX28_WQ_COMP_CAT):</code></pre>
+<pre class="r"><code>cat(&quot;  0 = Better, 1 = Same, 2 = Worse, 999 = Missing\n&quot;)</code></pre>
+<pre><code>  0 = Better, 1 = Same, 2 = Worse, 999 = Missing</code></pre>
+<pre class="r"><code>print(table(q28_clean$MX28_WQ_COMP_CAT, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1    2 &lt;NA&gt; 
+  94  159  144    0 </code></pre>
+<pre class="r"><code>cat(&quot;IDs with Q28 not in base:&quot;, sum(!q28_clean$ID %in% base$ID), &quot;\n&quot;)</code></pre>
+<pre><code>IDs with Q28 not in base: 1 </code></pre>
+<hr />
+</div>
+<div id="process-q26-household-water-emotions-categorical"
+class="section level1">
+<h1>10. Process Q26 – Household Water Emotions (Categorical)</h1>
+<p>Coding: <strong>0 = positive</strong>, <strong>1 = negative</strong>.
+Some IDs report two emotions; if both share the same valence the code is
+unambiguous. IDs where one emotion is positive and another is negative
+are coded <strong>444 (Ambiguous)</strong> and exported for manual
+review. Neutral / other valences → <strong>555 (Other)</strong>.</p>
+<pre class="r"><code># Normalise valence labels
+q26_norm &lt;- q826 %&gt;%
+  select(ID, MX26_EM_HHW, MX26_EM_HHW_TYPE, MX26_EM_HHW_INFO) %&gt;%
+  mutate(
+    valence_norm = case_when(
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) == &quot;positive&quot; ~ &quot;positive&quot;,
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) == &quot;negative&quot; ~ &quot;negative&quot;,
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) %in%
+        c(&quot;neutral&quot;, &quot;otro&quot;)                                  ~ &quot;other&quot;,
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) == &quot;na&quot;       ~ NA_character_,
+      is.na(MX26_EM_HHW_TYPE)                                 ~ NA_character_,
+      TRUE                                                     ~ NA_character_
+    )
+  ) %&gt;%
+  filter(!is.na(MX26_EM_HHW) | !is.na(MX26_EM_HHW_TYPE))
+
+# Aggregate to one row per ID
+q26_clean &lt;- q26_norm %&gt;%
+  group_by(ID) %&gt;%
+  summarise(
+    MX26_EM_HHW      = paste(na.omit(MX26_EM_HHW), collapse = &quot;; &quot;),
+    MX26_EM_HHW_INFO = paste(na.omit(MX26_EM_HHW_INFO), collapse = &quot;; &quot;),
+    valences_present = paste(sort(unique(na.omit(valence_norm))), collapse = &quot;; &quot;),
+    .groups = &quot;drop&quot;
+  ) %&gt;%
+  mutate(
+    MX26_EM_HHW_CAT = case_when(
+      valences_present == &quot;positive&quot;                                          ~ 0L,
+      valences_present == &quot;negative&quot;                                          ~ 1L,
+      valences_present == &quot;other&quot;                                             ~ 555L,
+      str_detect(valences_present, &quot;positive&quot;) &amp;
+        str_detect(valences_present, &quot;negative&quot;)                              ~ 444L,
+      valences_present == &quot;&quot; | is.na(valences_present)                        ~ 999L,
+      TRUE                                                                    ~ 555L
+    )
+  ) %&gt;%
+  select(ID, MX26_EM_HHW, MX26_EM_HHW_INFO, MX26_EM_HHW_CAT, valences_present)
+
+cat(&quot;Q26 distribution (MX26_EM_HHW_CAT):\n&quot;)</code></pre>
+<pre><code>Q26 distribution (MX26_EM_HHW_CAT):</code></pre>
+<pre class="r"><code>cat(&quot;  0=positive, 1=negative, 444=ambiguous, 555=other, 999=missing\n&quot;)</code></pre>
+<pre><code>  0=positive, 1=negative, 444=ambiguous, 555=other, 999=missing</code></pre>
+<pre class="r"><code>print(table(q26_clean$MX26_EM_HHW_CAT, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1  444  555 &lt;NA&gt; 
+ 125  238   29    6    0 </code></pre>
+<pre class="r"><code>cat(&quot;IDs with conflicting valence (444):&quot;, sum(q26_clean$MX26_EM_HHW_CAT == 444L, na.rm = TRUE), &quot;\n&quot;)</code></pre>
+<pre><code>IDs with conflicting valence (444): 29 </code></pre>
+<hr />
+</div>
+<div id="process-q19-time-investment-in-water-management"
+class="section level1">
+<h1>11. Process Q19 – Time Investment in Water Management</h1>
+<p>Coding: <strong>0 = No</strong>, <strong>1 = Yes</strong>.
+<strong>444</strong> (Ambiguous) for responses coded “Somewhat” or “a
+bit” by any rater. <strong>555</strong> (Other) for responses outside
+the No/Yes/Somewhat range. <strong>999</strong> (Missing) for NA or
+blank.</p>
+<p><strong>Source priority:</strong> Q19.csv (consensus, covers all IDs)
+is the authoritative source. Jocelyne and Alice codings are used solely
+to detect discrepancies.</p>
+<pre class="r"><code># Normalise Q19 values to a consistent vocabulary
+norm_q19 &lt;- function(x) {
+  x &lt;- str_to_lower(str_trim(x))
+  case_when(
+    x == &quot;no&quot;                           ~ &quot;no&quot;,
+    x %in% c(&quot;si&quot;, &quot;yes&quot;)              ~ &quot;yes&quot;,
+    x %in% c(&quot;a bit&quot;, &quot;somewhat&quot;,
+              &quot;a bit &quot;, &quot;un poco&quot;)      ~ &quot;somewhat&quot;,
+    x %in% c(&quot;other&quot;, &quot;otro&quot;,
+              &quot;other &quot;, &quot;other?????&quot;,
+              &quot;other ??? &quot;, &quot;other??????&quot;,
+              &quot;other?????&quot;)             ~ &quot;other&quot;,
+    x %in% c(&quot;na&quot;, &quot;&quot;)                 ~ NA_character_,
+    TRUE                                ~ NA_character_   # ?, ????, no????, etc.
+  )
+}
+
+# Normalise each source
+q19_primary &lt;- q19 %&gt;%
+  mutate(q19_norm = norm_q19(Q19_CAT)) %&gt;%
+  select(ID, MX19_TIME_RAW = Q19, MX19_TIME_ENG = Q19_ENG, q19_norm)
+
+q19_joc &lt;- q_joc %&gt;%
+  mutate(joc_norm = norm_q19(Q19_Jocelyne)) %&gt;%
+  select(ID, joc_norm)
+
+q19_alice &lt;- q_alice %&gt;%
+  mutate(alice_norm = norm_q19(Q19_Alice)) %&gt;%
+  select(ID, alice_norm)
+
+# Combine all three
+q19_all &lt;- q19_primary %&gt;%
+  left_join(q19_joc,   by = &quot;ID&quot;) %&gt;%
+  left_join(q19_alice, by = &quot;ID&quot;)
+
+# Final clean column (from primary/consensus source)
+# Also attach the three-rater match flag from Q19_combined (Season 1 only; NA for Season 2)
+q19_clean &lt;- q19_all %&gt;%
+  left_join(
+    q19_combined %&gt;% select(ID, three_rater_match),
+    by = &quot;ID&quot;
+  ) %&gt;%
+  mutate(
+    MX19_TIME_CAT = case_when(
+      q19_norm == &quot;no&quot;       ~ 0L,
+      q19_norm == &quot;yes&quot;      ~ 1L,
+      q19_norm == &quot;somewhat&quot; ~ 444L,
+      q19_norm == &quot;other&quot;    ~ 555L,
+      is.na(q19_norm)        ~ 999L
+    )
+  ) %&gt;%
+  select(ID, MX19_TIME_RAW, MX19_TIME_ENG, MX19_TIME_CAT,
+         q19_norm, joc_norm, alice_norm, three_rater_match)
+
+cat(&quot;Q19 distribution (MX19_TIME_CAT):\n&quot;)</code></pre>
+<pre><code>Q19 distribution (MX19_TIME_CAT):</code></pre>
+<pre class="r"><code>cat(&quot;  0=No, 1=Yes, 444=Ambiguous, 555=Other, 999=Missing\n&quot;)</code></pre>
+<pre><code>  0=No, 1=Yes, 444=Ambiguous, 555=Other, 999=Missing</code></pre>
+<pre class="r"><code>print(table(q19_clean$MX19_TIME_CAT, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1  444  555  999 &lt;NA&gt; 
+ 229  135   17   13    7    0 </code></pre>
+<pre class="r"><code>cat(&quot;Three-rater match (Season 1 only):\n&quot;)</code></pre>
+<pre><code>Three-rater match (Season 1 only):</code></pre>
+<pre class="r"><code>print(table(q19_clean$three_rater_match, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+different     match      &lt;NA&gt; 
+      147       243        11 </code></pre>
+<pre class="r"><code># Flag IDs where primary (Q19.csv) disagrees with Jocelyne or Alice
+# (only compare clear yes/no disagreements – ignore NA and ambiguous)
+q19_conflicts &lt;- q19_clean %&gt;%
+  filter(
+    q19_norm %in% c(&quot;no&quot;, &quot;yes&quot;) &amp;
+    (
+      (!is.na(joc_norm)   &amp; joc_norm   %in% c(&quot;no&quot;, &quot;yes&quot;) &amp; q19_norm != joc_norm)   |
+      (!is.na(alice_norm) &amp; alice_norm %in% c(&quot;no&quot;, &quot;yes&quot;) &amp; q19_norm != alice_norm)
+    )
+  ) %&gt;%
+  mutate(
+    conflict_with_jocelyne = case_when(
+      !is.na(joc_norm) &amp; joc_norm %in% c(&quot;no&quot;,&quot;yes&quot;) &amp; q19_norm != joc_norm ~ &quot;YES&quot;,
+      TRUE ~ &quot;no&quot;
+    ),
+    conflict_with_alice = case_when(
+      !is.na(alice_norm) &amp; alice_norm %in% c(&quot;no&quot;,&quot;yes&quot;) &amp; q19_norm != alice_norm ~ &quot;YES&quot;,
+      TRUE ~ &quot;no&quot;
+    )
+  ) %&gt;%
+  select(ID, MX19_TIME_RAW, MX19_TIME_ENG,
+         Primary_Q19csv = q19_norm,
+         Jocelyne = joc_norm,
+         Alice = alice_norm,
+         conflict_with_jocelyne, conflict_with_alice,
+         three_rater_match)
+
+cat(&quot;IDs with Q19 primary vs. Jocelyne or Alice conflict:&quot;, nrow(q19_conflicts), &quot;\n&quot;)</code></pre>
+<pre><code>IDs with Q19 primary vs. Jocelyne or Alice conflict: 6 </code></pre>
+<pre class="r"><code>if (nrow(q19_conflicts) &gt; 0) print(head(q19_conflicts, 10))</code></pre>
+<pre><code># A tibble: 6 × 9
+     ID MX19_TIME_RAW                MX19_TIME_ENG Primary_Q19csv Jocelyne Alice
+  &lt;dbl&gt; &lt;chr&gt;                        &lt;chr&gt;         &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;
+1    28 no es poco tiempo            It is not a … yes            no       no   
+2    90 No le gustaria invertir mas… Wouldnt like… yes            no       no   
+3   118 Esta bien                    Its okay      yes            no       no   
+4   139 Si es aceptable, pero es ca… Yes i&#39;s acce… no             yes      yes  
+5   177 Tarda poquito. no parece te… It takes a w… yes            no       no   
+6   190 Esta bien. Suerte de que es… It&#39;s okay, L… no             yes      other
+# ℹ 3 more variables: conflict_with_jocelyne &lt;chr&gt;, conflict_with_alice &lt;chr&gt;,
+#   three_rater_match &lt;chr&gt;</code></pre>
+<hr />
+</div>
+<div id="process-q16-water-scenario-preferences" class="section level1">
+<h1>12. Process Q16 – Water Scenario Preferences</h1>
+<p>Likert scale 1–4 across four vignette scenarios. Administered to
+Season 2 participants only (IDs 302+). <code>Otro</code> /
+<code>Other</code> → <strong>555</strong>. Blank / NA →
+<strong>999</strong>.</p>
+<pre class="r"><code>q16_clean &lt;- q16 %&gt;%
+  mutate(
+    across(
+      c(MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99),
+      ~ case_when(
+          str_to_lower(str_trim(as.character(.x))) %in% c(&quot;otro&quot;, &quot;other&quot;) ~ 555L,
+          str_to_lower(str_trim(as.character(.x))) == &quot;na&quot;                  ~ 999L,
+          is.na(.x)                                                          ~ 999L,
+          TRUE                                                               ~ as.integer(.x)
+        )
+    )
+  ) %&gt;%
+  select(ID, MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99, MX16_SCEN_INFO)
+
+cat(&quot;Q16 rows:&quot;, nrow(q16_clean), &quot;| ID range:&quot;,
+    min(q16_clean$ID, na.rm = TRUE), &quot;–&quot;, max(q16_clean$ID, na.rm = TRUE), &quot;\n&quot;)</code></pre>
+<pre><code>Q16 rows: 396 | ID range: 2 – 497 </code></pre>
+<pre class="r"><code>cat(&quot;Note: Q16 was administered to Season 2 participants only.\n&quot;)</code></pre>
+<pre><code>Note: Q16 was administered to Season 2 participants only.</code></pre>
+<pre class="r"><code>for (col in c(&quot;MX16_SCEN_01&quot;,&quot;MX16_SCEN_03&quot;,&quot;MX16_SCEN_05&quot;,&quot;MX16_SCEN_99&quot;)) {
+  cat(col, &quot;distribution:&quot;, paste(sort(unique(q16_clean[[col]])), collapse = &quot;, &quot;), &quot;\n&quot;)
+}</code></pre>
+<pre><code>MX16_SCEN_01 distribution: 1, 2, 3, 4, 555 
+MX16_SCEN_03 distribution: 1, 2, 3, 4, 555 
+MX16_SCEN_05 distribution: 1, 2, 3, 4, 555 
+MX16_SCEN_99 distribution: 1, 2, 3, 4, 555 </code></pre>
+<hr />
+</div>
+<div id="export-conflicts-for-manual-review" class="section level1">
+<h1>13. Export Conflicts for Manual Review</h1>
+<p>Four issue types are exported to a single CSV, each with a blank
+<code>Suggested_code</code> column to fill in:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Q26 – rater conflict</strong> – IDs where recorded emotions
+have conflicting valence (positive vs. negative) → coded 444.</li>
+<li><strong>Q26 – sentinel</strong> – IDs coded 555 (neutral/other
+emotion).</li>
+<li><strong>Q19 – rater conflict</strong> – IDs where Q19.csv disagrees
+with Jocelyne’s or Alice’s yes/no coding. The
+<code>three_rater_match</code> column flags Season 1 IDs where the full
+three-rater panel also disagreed.</li>
+<li><strong>Q19 – sentinel</strong> – IDs coded 444 (Somewhat/ambiguous)
+or 555 (Other).</li>
+<li><strong>Q16 – sentinel</strong> – IDs with any scenario column coded
+555 (Otro response).</li>
+</ol>
+<pre class="r"><code># ── Q26: rater conflict (coded 444) ──────────────────────────────────────────
+q26_conflicts &lt;- q26_clean %&gt;%
+  filter(MX26_EM_HHW_CAT == 444L) %&gt;%
+  transmute(
+    ID,
+    Question          = &quot;Q26&quot;,
+    Issue             = &quot;Rater conflict: mixed positive and negative emotions&quot;,
+    Coded_value       = as.character(MX26_EM_HHW_CAT),
+    Value_source1     = str_extract(MX26_EM_HHW, &quot;^[^;]+&quot;),
+    Value_source2     = str_extract(MX26_EM_HHW, &quot;(?&lt;=; ).+$&quot;),
+    three_rater_match = NA_character_,
+    Notes             = MX26_EM_HHW_INFO,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q26: sentinel 555 (neutral/other emotion) ────────────────────────────────
+q26_sentinel &lt;- q26_clean %&gt;%
+  filter(MX26_EM_HHW_CAT == 555L) %&gt;%
+  transmute(
+    ID,
+    Question          = &quot;Q26&quot;,
+    Issue             = &quot;Sentinel 555 (Other): emotion valence is neutral or &#39;otro&#39;&quot;,
+    Coded_value       = as.character(MX26_EM_HHW_CAT),
+    Value_source1     = MX26_EM_HHW,
+    Value_source2     = valences_present,
+    three_rater_match = NA_character_,
+    Notes             = MX26_EM_HHW_INFO,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q19: rater conflict (primary vs. Jocelyne / Alice) ───────────────────────
+q19_conflicts_export &lt;- q19_conflicts %&gt;%
+  transmute(
+    ID,
+    Question          = &quot;Q19&quot;,
+    Issue             = paste0(
+      &quot;Rater conflict: primary vs. &quot;,
+      if_else(conflict_with_jocelyne == &quot;YES&quot; &amp; conflict_with_alice == &quot;YES&quot;,
+              &quot;Jocelyne AND Alice&quot;,
+              if_else(conflict_with_jocelyne == &quot;YES&quot;, &quot;Jocelyne&quot;, &quot;Alice&quot;))
+    ),
+    Coded_value       = NA_character_,
+    Value_source1     = paste(&quot;Q19.csv (primary):&quot;, Primary_Q19csv),
+    Value_source2     = paste(&quot;Jocelyne:&quot;, Jocelyne, &quot;| Alice:&quot;, Alice),
+    three_rater_match,
+    Notes             = MX19_TIME_ENG,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q19: sentinel 444 (Somewhat) or 555 (Other) ──────────────────────────────
+# Exclude IDs already in the rater-conflict block to avoid duplication
+q19_sentinel &lt;- q19_clean %&gt;%
+  filter(MX19_TIME_CAT %in% c(444L, 555L),
+         !ID %in% q19_conflicts$ID) %&gt;%
+  transmute(
+    ID,
+    Question          = &quot;Q19&quot;,
+    Issue             = if_else(
+      MX19_TIME_CAT == 444L,
+      &quot;Sentinel 444 (Ambiguous): response coded as &#39;Somewhat&#39;&quot;,
+      &quot;Sentinel 555 (Other): response outside No/Yes/Somewhat&quot;
+    ),
+    Coded_value       = as.character(MX19_TIME_CAT),
+    Value_source1     = paste(&quot;Q19.csv (primary):&quot;, q19_norm),
+    Value_source2     = paste(&quot;Jocelyne:&quot;, joc_norm, &quot;| Alice:&quot;, alice_norm),
+    three_rater_match,
+    Notes             = MX19_TIME_ENG,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q16: sentinel 555 (Otro) in any scenario column ──────────────────────────
+q16_sentinel &lt;- q16_clean %&gt;%
+  filter(if_any(c(MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99),
+                ~ .x == 555L)) %&gt;%
+  mutate(
+    flagged_cols = paste(
+      na.omit(c(
+        if_else(MX16_SCEN_01 == 555L, &quot;MX16_SCEN_01&quot;, NA_character_),
+        if_else(MX16_SCEN_03 == 555L, &quot;MX16_SCEN_03&quot;, NA_character_),
+        if_else(MX16_SCEN_05 == 555L, &quot;MX16_SCEN_05&quot;, NA_character_),
+        if_else(MX16_SCEN_99 == 555L, &quot;MX16_SCEN_99&quot;, NA_character_)
+      )),
+      collapse = &quot;; &quot;
+    )
+  ) %&gt;%
+  transmute(
+    ID,
+    Question          = &quot;Q16&quot;,
+    Issue             = &quot;Sentinel 555 (Other): &#39;Otro&#39; response in one or more scenario columns&quot;,
+    Coded_value       = &quot;555&quot;,
+    Value_source1     = paste(&quot;Flagged cols:&quot;, flagged_cols),
+    Value_source2     = paste0(
+      &quot;SCEN_01=&quot;, MX16_SCEN_01, &quot; | SCEN_03=&quot;, MX16_SCEN_03,
+      &quot; | SCEN_05=&quot;, MX16_SCEN_05, &quot; | SCEN_99=&quot;, MX16_SCEN_99
+    ),
+    three_rater_match = NA_character_,
+    Notes             = MX16_SCEN_INFO,
+    Suggested_code    = NA_character_
+  )
+
+# ── Combine and export ────────────────────────────────────────────────────────
+conflicts_review &lt;- bind_rows(
+  q26_conflicts,
+  q26_sentinel,
+  q19_conflicts_export,
+  q19_sentinel,
+  q16_sentinel
+) %&gt;%
+  arrange(Question, ID)
+
+write_csv(conflicts_review, &quot;./data/03.Conflicts_to_review.csv&quot;, na = &quot;&quot;)
+cat(&quot;Exported: 03.Conflicts_to_review.csv\n&quot;)</code></pre>
+<pre><code>Exported: 03.Conflicts_to_review.csv</code></pre>
+<pre class="r"><code>cat(&quot;  Q26 rater conflicts (444):&quot;, nrow(q26_conflicts), &quot;IDs\n&quot;)</code></pre>
+<pre><code>  Q26 rater conflicts (444): 29 IDs</code></pre>
+<pre class="r"><code>cat(&quot;  Q26 sentinel 555:         &quot;, nrow(q26_sentinel),  &quot;IDs\n&quot;)</code></pre>
+<pre><code>  Q26 sentinel 555:          6 IDs</code></pre>
+<pre class="r"><code>cat(&quot;  Q19 rater conflicts:      &quot;, nrow(q19_conflicts_export), &quot;IDs\n&quot;)</code></pre>
+<pre><code>  Q19 rater conflicts:       6 IDs</code></pre>
+<pre class="r"><code>cat(&quot;  Q19 sentinel 444/555:     &quot;, nrow(q19_sentinel),  &quot;IDs\n&quot;)</code></pre>
+<pre><code>  Q19 sentinel 444/555:      30 IDs</code></pre>
+<pre class="r"><code>cat(&quot;  Q16 sentinel 555:         &quot;, nrow(q16_sentinel),  &quot;IDs\n&quot;)</code></pre>
+<pre><code>  Q16 sentinel 555:          2 IDs</code></pre>
+<pre class="r"><code>cat(&quot;  Total rows:               &quot;, nrow(conflicts_review), &quot;\n&quot;)</code></pre>
+<pre><code>  Total rows:                73 </code></pre>
+<hr />
+</div>
+<div id="apply-resolutions-from-reviewed-conflicts-file"
+class="section level1">
+<h1>13.5 Apply resolutions from reviewed conflicts file</h1>
+<p>Read <code>03.conflicts_reviewed.csv</code> — a copy of
+<code>03.Conflicts_to_review.csv</code> where you have filled in the
+<code>Suggested_code</code> column — and patch <code>q19_clean</code>,
+<code>q26_clean</code>, and <code>q16_clean</code> before the final
+merge.</p>
+<p><strong>Workflow:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Copy <code>data/03.Conflicts_to_review.csv</code> →
+<code>data/03.conflicts_reviewed.csv</code>.</li>
+<li>Fill in <code>Suggested_code</code> for each row you have resolved.
+Leave blank for rows still pending.</li>
+<li>Save and re-knit.</li>
+</ol>
+<p>Valid codes by question:</p>
+<ul>
+<li><strong>Q19</strong>: 0 (No), 1 (Yes), 444 (Ambiguous), 555 (Other),
+999 (Missing)</li>
+<li><strong>Q26</strong>: 0 (Positive), 1 (Negative), 555 (Other), 999
+(Missing)</li>
+<li><strong>Q16</strong>: 1–4, 555 (Other), 999 (Missing) — applied to
+every scenario column still coded 555 for that ID</li>
+</ul>
+<pre class="r"><code>reviewed_path &lt;- &quot;./data/03.conflicts_reviewed.csv&quot;
+
+if (!file.exists(reviewed_path)) {
+
+  cat(&quot;No reviewed file found at&quot;, reviewed_path, &quot;\n&quot;)
+  cat(&quot;Create it by copying 03.Conflicts_to_review.csv, filling in Suggested_code, and re-knitting.\n&quot;)
+
+} else {
+
+  reviewed &lt;- read_csv(reviewed_path, show_col_types = FALSE) %&gt;%
+    filter(!is.na(Suggested_code), str_trim(Suggested_code) != &quot;&quot;)
+
+  cat(&quot;Reviewed file loaded:&quot;, nrow(reviewed), &quot;resolved rows (of&quot;,
+      nrow(read_csv(reviewed_path, show_col_types = FALSE)), &quot;total)\n\n&quot;)
+
+  # Counters for the summary
+  n_q19 &lt;- 0L; n_q26 &lt;- 0L; n_q16 &lt;- 0L
+
+  for (i in seq_len(nrow(reviewed))) {
+
+    id_i   &lt;- reviewed$ID[i]
+    q_i    &lt;- reviewed$Question[i]
+    code_i &lt;- as.integer(reviewed$Suggested_code[i])
+
+    # ── Q19 ────────────────────────────────────────────────────────────────────
+    if (q_i == &quot;Q19&quot;) {
+      idx &lt;- which(q19_clean$ID == id_i)
+      if (length(idx) == 1) {
+        old &lt;- q19_clean$MX19_TIME_CAT[idx]
+        q19_clean$MX19_TIME_CAT[idx] &lt;- code_i
+        cat(sprintf(&quot;Q19 ID %d: %s → %d\n&quot;, id_i, old, code_i))
+        n_q19 &lt;- n_q19 + 1L
+      } else {
+        cat(sprintf(&quot;Q19 ID %d: not found in q19_clean – skipped\n&quot;, id_i))
+      }
+    }
+
+    # ── Q26 ────────────────────────────────────────────────────────────────────
+    else if (q_i == &quot;Q26&quot;) {
+      idx &lt;- which(q26_clean$ID == id_i)
+      if (length(idx) == 1) {
+        old &lt;- q26_clean$MX26_EM_HHW_CAT[idx]
+        q26_clean$MX26_EM_HHW_CAT[idx] &lt;- code_i
+        cat(sprintf(&quot;Q26 ID %d: %s → %d\n&quot;, id_i, old, code_i))
+        n_q26 &lt;- n_q26 + 1L
+      } else {
+        cat(sprintf(&quot;Q26 ID %d: not found in q26_clean – skipped\n&quot;, id_i))
+      }
+    }
+
+    # ── Q16 ────────────────────────────────────────────────────────────────────
+    # Replace every scenario column still coded 555 for this ID
+    else if (q_i == &quot;Q16&quot;) {
+      idx &lt;- which(q16_clean$ID == id_i)
+      if (length(idx) == 1) {
+        q16_cols &lt;- c(&quot;MX16_SCEN_01&quot;, &quot;MX16_SCEN_03&quot;, &quot;MX16_SCEN_05&quot;, &quot;MX16_SCEN_99&quot;)
+        updated_cols &lt;- character(0)
+        for (col in q16_cols) {
+          if (!is.na(q16_clean[[col]][idx]) &amp;&amp; q16_clean[[col]][idx] == 555L) {
+            q16_clean[[col]][idx] &lt;- code_i
+            updated_cols &lt;- c(updated_cols, col)
+          }
+        }
+        if (length(updated_cols) &gt; 0) {
+          cat(sprintf(&quot;Q16 ID %d: 555 → %d in %s\n&quot;,
+                      id_i, code_i, paste(updated_cols, collapse = &quot;, &quot;)))
+          n_q16 &lt;- n_q16 + 1L
+        } else {
+          cat(sprintf(&quot;Q16 ID %d: no 555 values found in scenario columns – skipped\n&quot;, id_i))
+        }
+      } else {
+        cat(sprintf(&quot;Q16 ID %d: not found in q16_clean – skipped\n&quot;, id_i))
+      }
+    }
+  }
+
+  # Summary
+  cat(sprintf(&quot;\n── Resolution summary ──────────────────────────────\n&quot;))
+  cat(sprintf(&quot;  Q19 updated: %d\n&quot;, n_q19))
+  cat(sprintf(&quot;  Q26 updated: %d\n&quot;, n_q26))
+  cat(sprintf(&quot;  Q16 updated: %d\n&quot;, n_q16))
+
+  # Check how many conflicts remain unresolved (still 444 or 555 in coded vars)
+  still_open_q19 &lt;- sum(q19_clean$MX19_TIME_CAT %in% c(444L, 555L), na.rm = TRUE)
+  still_open_q26 &lt;- sum(q26_clean$MX26_EM_HHW_CAT %in% c(444L, 555L), na.rm = TRUE)
+  still_open_q16 &lt;- sum(
+    q16_clean$MX16_SCEN_01 == 555L | q16_clean$MX16_SCEN_03 == 555L |
+    q16_clean$MX16_SCEN_05 == 555L | q16_clean$MX16_SCEN_99 == 555L,
+    na.rm = TRUE
+  )
+  cat(sprintf(&quot;  Still unresolved – Q19: %d | Q26: %d | Q16: %d\n&quot;,
+              still_open_q19, still_open_q26, still_open_q16))
+}</code></pre>
+<pre><code>Reviewed file loaded: 72 resolved rows (of 73 total)
+
+Q16 ID 122: 555 → 555 in MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99
+Q19 ID 3: 555 → 0
+Q19 ID 9: 444 → 444
+Q19 ID 14: 444 → 444
+Q19 ID 19: 555 → 0
+Q19 ID 28: 1 → 1
+Q19 ID 35: 444 → 0
+Q19 ID 58: 444 → 0
+Q19 ID 68: 444 → 0
+Q19 ID 90: 1 → 555
+Q19 ID 91: 555 → 0
+Q19 ID 100: 444 → 0
+Q19 ID 104: 444 → 0
+Q19 ID 111: 444 → 0
+Q19 ID 118: 1 → 0
+Q19 ID 129: 555 → 0
+Q19 ID 130: 444 → 0
+Q19 ID 139: 0 → 0
+Q19 ID 172: 444 → 0
+Q19 ID 174: 444 → 0
+Q19 ID 177: 1 → 0
+Q19 ID 181: 555 → 0
+Q19 ID 190: 0 → 0
+Q19 ID 202: 444 → 0
+Q19 ID 203: 444 → 0
+Q19 ID 329: 555 → 0
+Q19 ID 332: 555 → 0
+Q19 ID 339: 444 → 0
+Q19 ID 367: 555 → 0
+Q19 ID 400: 555 → 0
+Q19 ID 409: 444 → 444
+Q19 ID 419: 444 → 0
+Q19 ID 433: 555 → 0
+Q19 ID 440: 444 → 0
+Q19 ID 441: 555 → 1
+Q19 ID 447: 555 → 0
+Q19 ID 468: 555 → 0
+Q26 ID 29: 444 → 444
+Q26 ID 34: 444 → 444
+Q26 ID 46: 444 → 444
+Q26 ID 49: 444 → 444
+Q26 ID 58: 555 → 444
+Q26 ID 63: 444 → 444
+Q26 ID 74: 444 → 444
+Q26 ID 78: 444 → 444
+Q26 ID 80: 555 → 444
+Q26 ID 82: 444 → 444
+Q26 ID 88: 444 → 444
+Q26 ID 102: 444 → 444
+Q26 ID 127: 555 → 444
+Q26 ID 137: 555 → 444
+Q26 ID 141: 444 → 444
+Q26 ID 157: 444 → 444
+Q26 ID 179: 555 → 444
+Q26 ID 197: 444 → 444
+Q26 ID 306: 444 → 444
+Q26 ID 325: 444 → 444
+Q26 ID 358: 555 → 1
+Q26 ID 397: 444 → 444
+Q26 ID 414: 444 → 0
+Q26 ID 415: 444 → 444
+Q26 ID 455: 444 → 444
+Q26 ID 462: 444 → 444
+Q26 ID 472: 444 → 444
+Q26 ID 476: 444 → 444
+Q26 ID 478: 444 → 444
+Q26 ID 480: 444 → 444
+Q26 ID 483: 444 → 444
+Q26 ID 484: 444 → 444
+Q26 ID 492: 444 → 444
+Q26 ID 493: 444 → 444
+Q26 ID 495: 444 → 444
+
+── Resolution summary ──────────────────────────────
+  Q19 updated: 36
+  Q26 updated: 35
+  Q16 updated: 1
+  Still unresolved – Q19: 4 | Q26: 33 | Q16: 2</code></pre>
+<hr />
+</div>
+<div id="review-file-hrs_per_week-d_hh_size-and-cont_int"
+class="section level1">
+<h1>13.6. Review file – HRS_PER_WEEK, D_HH_SIZE, and Cont_int</h1>
+<p>Exports <code>03.continuous_to_review.csv</code>: one row per (ID ×
+variable) where <code>MX5_WFREQ_HRS_PER_WEEK</code>,
+<code>D_HH_SIZE</code>, or <code>MX3_CONT_INT</code> is NA or carries a
+sentinel code. The student fills in the <code>consensus</code> column,
+saves it as <code>03.continuous_consensus.csv</code>, and re-runs
+section 13.7 to patch the dataset before the final merge in section
+14.</p>
+<pre class="r"><code>MISSING_CODES_INT &lt;- c(999L, 888L, 777L, 666L, 555L, 444L, 333L)
+MISSING_CODES_CHR &lt;- as.character(MISSING_CODES_INT)
+
+review_vars &lt;- c(&quot;MX5_WFREQ_HRS_PER_WEEK&quot;, &quot;D_HH_SIZE&quot;, &quot;MX3_CONT_INT&quot;)
+
+sentinel_labels &lt;- c(
+  &quot;999&quot; = &quot;Lost / data entry error&quot;,
+  &quot;888&quot; = &quot;Don&#39;t know&quot;,
+  &quot;777&quot; = &quot;Refused&quot;,
+  &quot;666&quot; = &quot;Illegible&quot;,
+  &quot;555&quot; = &quot;Other — outside allowed categories&quot;,
+  &quot;444&quot; = &quot;Ambiguous — needs review&quot;,
+  &quot;333&quot; = &quot;Pending — data exists but not entered&quot;
+)
+
+hints &lt;- c(
+  MX5_WFREQ_HRS_PER_WEEK = &quot;Enter hours per week as a positive number (e.g. 3.5). Use 0 if none.&quot;,
+  D_HH_SIZE              = &quot;Enter number of household members as a positive integer.&quot;,
+  MX3_CONT_INT           = &quot;Enter 0 = no interruption, 1 = interrupted (continuous supply).&quot;
+)
+
+# Long-format: one row per problematic (ID × variable)
+cont_long &lt;- merged_final %&gt;%
+  select(ID, all_of(review_vars)) %&gt;%
+  mutate(across(-ID, as.character)) %&gt;%
+  pivot_longer(cols = -ID, names_to = &quot;variable&quot;, values_to = &quot;current_value&quot;) %&gt;%
+  mutate(
+    issue = case_when(
+      is.na(current_value)                  ~ &quot;Missing / not entered&quot;,
+      current_value %in% MISSING_CODES_CHR  ~ paste0(
+        &quot;Sentinel &quot;, current_value, &quot; — &quot;, sentinel_labels[current_value]
+      ),
+      TRUE ~ NA_character_
+    )
+  ) %&gt;%
+  filter(!is.na(issue))
+
+# Pull D_HH_SIZE_INFO as a notes column where available
+notes_df &lt;- merged_final %&gt;%
+  select(ID, notes = any_of(&quot;D_HH_SIZE_INFO&quot;)) %&gt;%
+  mutate(variable = &quot;D_HH_SIZE&quot;)
+
+cont_review &lt;- cont_long %&gt;%
+  left_join(notes_df, by = c(&quot;ID&quot;, &quot;variable&quot;)) %&gt;%
+  mutate(
+    hint      = hints[variable],
+    consensus = NA_character_
+  ) %&gt;%
+  select(ID, variable, current_value,
+         any_of(&quot;notes&quot;),
+         issue, hint, consensus)
+
+write_csv(cont_review, &quot;./data/03.continuous_to_review.csv&quot;, na = &quot;&quot;)
+
+cat(&quot;Exported: 03.continuous_to_review.csv\n&quot;)</code></pre>
+<pre><code>Exported: 03.continuous_to_review.csv</code></pre>
+<pre class="r"><code>for (v in review_vars) {
+  cat(sprintf(&quot;  %-28s %d rows\n&quot;, paste0(v, &quot;:&quot;), sum(cont_review$variable == v)))
+}</code></pre>
+<pre><code>  MX5_WFREQ_HRS_PER_WEEK:      10 rows
+  D_HH_SIZE:                   18 rows
+  MX3_CONT_INT:                0 rows</code></pre>
+<pre class="r"><code>cat(&quot;  Total:&quot;, nrow(cont_review), &quot;rows\n&quot;)</code></pre>
+<pre><code>  Total: 28 rows</code></pre>
+<hr />
+</div>
+<div id="apply-continuous-variable-consensus" class="section level1">
+<h1>13.7. Apply continuous variable consensus</h1>
+<p>Fill in <code>consensus</code> in
+<code>03.continuous_to_review.csv</code>, save as
+<code>03.continuous_consensus.csv</code>, then re-run this chunk
+<strong>before</strong> proceeding to section 14. The corrected values
+will flow automatically into <code>merged_final2</code> during the
+merge.</p>
+<pre class="r"><code>cont_consensus_path &lt;- &quot;./data/03.continuous_consensus.csv&quot;
+
+if (!file.exists(cont_consensus_path)) {
+
+  cat(&quot;Consensus file not found:&quot;, cont_consensus_path, &quot;\n&quot;,
+      &quot;Fill in the &#39;consensus&#39; column in 03.continuous_to_review.csv,\n&quot;,
+      &quot;save as 03.continuous_consensus.csv, and re-run this chunk.\n&quot;)
+
+} else {
+
+  cont_consensus &lt;- read_csv(cont_consensus_path, show_col_types = FALSE) %&gt;%
+    filter(!is.na(consensus), str_trim(as.character(consensus)) != &quot;&quot;)
+
+  cat(&quot;Applying&quot;, nrow(cont_consensus), &quot;consensus values...\n&quot;)
+
+  n_applied &lt;- 0L
+  for (i in seq_len(nrow(cont_consensus))) {
+    id_i  &lt;- cont_consensus$ID[i]
+    v_i   &lt;- cont_consensus$variable[i]
+    val_i &lt;- suppressWarnings(as.numeric(cont_consensus$consensus[i]))
+
+    if (is.na(val_i)) {
+      cat(sprintf(&quot;Non-numeric value skipped — ID: %d, variable: %s, value: %s\n&quot;,
+                  id_i, v_i, cont_consensus$consensus[i]))
+      next
+    }
+
+    idx &lt;- which(merged_final$ID == id_i)
+    if (length(idx) == 1 &amp;&amp; v_i %in% names(merged_final)) {
+      merged_final[[v_i]][idx] &lt;- val_i
+      n_applied &lt;- n_applied + 1L
+    } else {
+      cat(sprintf(&quot;ID %d or variable &#39;%s&#39; not found — skipped\n&quot;, id_i, v_i))
+    }
+  }
+
+  cat(&quot;Applied:&quot;, n_applied, &quot;values\n\n&quot;)
+
+  # Updated missingness summary
+  cat(&quot;Missingness after consensus update:\n&quot;)
+  merged_final %&gt;%
+    select(all_of(review_vars)) %&gt;%
+    mutate(across(everything(), as.character)) %&gt;%
+    summarise(across(everything(),
+                     ~ sum(is.na(.) | . %in% MISSING_CODES_CHR))) %&gt;%
+    pivot_longer(everything(),
+                 names_to  = &quot;variable&quot;,
+                 values_to = &quot;n_missing_or_flagged&quot;) %&gt;%
+    print()
+}</code></pre>
+<pre><code>Consensus file not found: ./data/03.continuous_consensus.csv 
+ Fill in the &#39;consensus&#39; column in 03.continuous_to_review.csv,
+ save as 03.continuous_consensus.csv, and re-run this chunk.</code></pre>
+<hr />
+</div>
+<div id="merge-q16-q19-q26-q28-onto-main-dataset"
+class="section level1">
+<h1>14. Merge Q16, Q19, Q26, Q28 onto main dataset</h1>
+<pre class="r"><code>merged_final2 &lt;- merged_final %&gt;%
+  # Q28
+  left_join(
+    q28_clean %&gt;% select(ID, MX28_WQ_COMP, MX28_WQ_COMP_CAT, MX28_WQ_COMP_INFO),
+    by = &quot;ID&quot;
+  ) %&gt;%
+  # Q26
+  left_join(
+    q26_clean %&gt;% select(ID, MX26_EM_HHW, MX26_EM_HHW_INFO, MX26_EM_HHW_CAT),
+    by = &quot;ID&quot;
+  ) %&gt;%
+  # Q19
+  left_join(
+    q19_clean %&gt;% select(ID, MX19_TIME_RAW, MX19_TIME_ENG, MX19_TIME_CAT),
+    by = &quot;ID&quot;
+  ) %&gt;%
+  # Q16
+  left_join(
+    q16_clean,
+    by = &quot;ID&quot;
+  )
+
+cat(&quot;Final dimensions:&quot;, nrow(merged_final2), &quot;rows ×&quot;, ncol(merged_final2), &quot;cols\n&quot;)</code></pre>
+<pre><code>Final dimensions: 399 rows × 136 cols</code></pre>
+<pre class="r"><code>cat(&quot;New columns added:&quot;, paste(setdiff(names(merged_final2), names(merged_final)), collapse = &quot;, &quot;), &quot;\n&quot;)</code></pre>
+<pre><code>New columns added: MX28_WQ_COMP, MX28_WQ_COMP_CAT, MX28_WQ_COMP_INFO, MX26_EM_HHW, MX26_EM_HHW_INFO, MX26_EM_HHW_CAT, MX19_TIME_RAW, MX19_TIME_ENG, MX19_TIME_CAT, MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99, MX16_SCEN_INFO </code></pre>
+<pre class="r"><code># Missingness summary for new variables
+new_vars &lt;- c(&quot;MX28_WQ_COMP_CAT&quot;, &quot;MX26_EM_HHW_CAT&quot;, &quot;MX19_TIME_CAT&quot;,
+              &quot;MX16_SCEN_01&quot;, &quot;MX16_SCEN_03&quot;, &quot;MX16_SCEN_05&quot;, &quot;MX16_SCEN_99&quot;)
+
+cat(&quot;\nMissing-value counts for new variables (NA = ID not in supplemental file):\n&quot;)</code></pre>
+<pre><code>
+Missing-value counts for new variables (NA = ID not in supplemental file):</code></pre>
+<pre class="r"><code>merged_final2 %&gt;%
+  summarise(across(all_of(new_vars), ~ sum(is.na(.)))) %&gt;%
+  pivot_longer(everything(), names_to = &quot;column&quot;, values_to = &quot;n_NA&quot;) %&gt;%
+  arrange(desc(n_NA)) %&gt;%
+  print()</code></pre>
+<pre><code># A tibble: 7 × 2
+  column            n_NA
+  &lt;chr&gt;            &lt;int&gt;
+1 MX16_SCEN_01         4
+2 MX16_SCEN_03         4
+3 MX16_SCEN_05         4
+4 MX16_SCEN_99         4
+5 MX28_WQ_COMP_CAT     3
+6 MX26_EM_HHW_CAT      2
+7 MX19_TIME_CAT        0</code></pre>
+<hr />
+</div>
+<div id="export-updated-dataset" class="section level1">
+<h1>15. Export updated dataset</h1>
+<pre class="r"><code>write_csv(merged_final2, &quot;./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv&quot;, na = &quot;&quot;)
+cat(&quot;Exported: 03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv\n&quot;)</code></pre>
+<pre><code>Exported: 03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv</code></pre>
+<pre class="r"><code>cat(&quot;Rows:&quot;, nrow(merged_final2), &quot;| Cols:&quot;, ncol(merged_final2), &quot;\n&quot;)</code></pre>
+<pre><code>Rows: 399 | Cols: 136 </code></pre>
+<hr />
+</div>
+<div id="summary-table-questions-of-interest" class="section level1">
+<h1>16. Summary Table – Questions of Interest</h1>
+<p>Distributions for Q28, Q26, Q19, and Q16. Sentinel/missing codes are
+shown separately from valid responses.</p>
+<pre class="r"><code># Helper: tabulate one variable, split valid vs. sentinel
+summarise_q &lt;- function(df, col, label, value_labels) {
+  x &lt;- df[[col]]
+
+  valid  &lt;- x[!is.na(x) &amp; !(x %in% MISSING_CODES)]
+  sentinels &lt;- x[!is.na(x) &amp;   x %in% MISSING_CODES]
+  n_na   &lt;- sum(is.na(x))
+
+  sent_labels &lt;- c(
+    &quot;999&quot; = &quot;Missing&quot;, &quot;888&quot; = &quot;Don&#39;t know&quot;, &quot;777&quot; = &quot;Refused&quot;,
+    &quot;666&quot; = &quot;Illegible&quot;, &quot;555&quot; = &quot;Other&quot;, &quot;444&quot; = &quot;Ambiguous&quot;, &quot;333&quot; = &quot;Pending&quot;
+  )
+
+  valid_rows &lt;- if (length(valid) &gt; 0) {
+    tbl &lt;- table(valid)
+    tibble(
+      Variable = label,
+      Code     = names(tbl),
+      Label    = value_labels[names(tbl)],
+      n        = as.integer(tbl),
+      pct_valid = round(100 * as.integer(tbl) / length(valid), 1),
+      Type     = &quot;Valid&quot;
+    )
+  } else tibble()
+
+  sent_rows &lt;- if (length(sentinels) &gt; 0) {
+    tbl &lt;- table(sentinels)
+    tibble(
+      Variable  = label,
+      Code      = names(tbl),
+      Label     = sent_labels[names(tbl)],
+      n         = as.integer(tbl),
+      pct_valid = NA_real_,
+      Type      = &quot;Sentinel/Missing&quot;
+    )
+  } else tibble()
+
+  na_rows &lt;- if (n_na &gt; 0) {
+    tibble(Variable = label, Code = &quot;NA&quot;, Label = &quot;Not in file (no record)&quot;,
+           n = n_na, pct_valid = NA_real_, Type = &quot;Sentinel/Missing&quot;)
+  } else tibble()
+
+  bind_rows(valid_rows, sent_rows, na_rows)
+}
+
+lbl_q28  &lt;- c(&quot;0&quot; = &quot;Better&quot;, &quot;1&quot; = &quot;Same&quot;,     &quot;2&quot; = &quot;Worse&quot;)
+lbl_q26  &lt;- c(&quot;0&quot; = &quot;Positive&quot;, &quot;1&quot; = &quot;Negative&quot;)
+lbl_q19  &lt;- c(&quot;0&quot; = &quot;No&quot;,     &quot;1&quot; = &quot;Yes&quot;)
+lbl_q16  &lt;- c(&quot;1&quot; = &quot;Option 1&quot;, &quot;2&quot; = &quot;Option 2&quot;, &quot;3&quot; = &quot;Option 3&quot;, &quot;4&quot; = &quot;Option 4&quot;)
+
+summary_tbl &lt;- bind_rows(
+  summarise_q(merged_final2, &quot;MX28_WQ_COMP_CAT&quot;,
+              &quot;Q28 – Water Quality Comparison (0=Better, 1=Same, 2=Worse)&quot;, lbl_q28),
+  summarise_q(merged_final2, &quot;MX26_EM_HHW_CAT&quot;,
+              &quot;Q26 – Household Water Emotion (0=Positive, 1=Negative)&quot;,     lbl_q26),
+  summarise_q(merged_final2, &quot;MX19_TIME_CAT&quot;,
+              &quot;Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)&quot;,          lbl_q19),
+  summarise_q(merged_final2, &quot;MX16_SCEN_01&quot;,
+              &quot;Q16 – Scenario 01 (Season 2 only)&quot;,                          lbl_q16),
+  summarise_q(merged_final2, &quot;MX16_SCEN_03&quot;,
+              &quot;Q16 – Scenario 03 (Season 2 only)&quot;,                          lbl_q16),
+  summarise_q(merged_final2, &quot;MX16_SCEN_05&quot;,
+              &quot;Q16 – Scenario 05 (Season 2 only)&quot;,                          lbl_q16),
+  summarise_q(merged_final2, &quot;MX16_SCEN_99&quot;,
+              &quot;Q16 – Scenario 99 (Season 2 only)&quot;,                          lbl_q16)
+) %&gt;%
+  arrange(Variable, Type, Code)
+
+cat(&quot;\n=== SUMMARY TABLE: Questions of Interest ===\n\n&quot;)</code></pre>
+<pre><code>
+=== SUMMARY TABLE: Questions of Interest ===</code></pre>
+<pre class="r"><code>print(summary_tbl, n = 100)</code></pre>
+<pre><code># A tibble: 37 × 6
+   Variable                                    Code  Label     n pct_valid Type 
+   &lt;chr&gt;                                       &lt;chr&gt; &lt;chr&gt; &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;
+ 1 Q16 – Scenario 01 (Season 2 only)           555   Other     1      NA   Sent…
+ 2 Q16 – Scenario 01 (Season 2 only)           NA    Not …     4      NA   Sent…
+ 3 Q16 – Scenario 01 (Season 2 only)           1     Opti…   328      83.2 Valid
+ 4 Q16 – Scenario 01 (Season 2 only)           2     Opti…    41      10.4 Valid
+ 5 Q16 – Scenario 01 (Season 2 only)           3     Opti…    19       4.8 Valid
+ 6 Q16 – Scenario 01 (Season 2 only)           4     Opti…     6       1.5 Valid
+ 7 Q16 – Scenario 03 (Season 2 only)           555   Other     1      NA   Sent…
+ 8 Q16 – Scenario 03 (Season 2 only)           NA    Not …     4      NA   Sent…
+ 9 Q16 – Scenario 03 (Season 2 only)           1     Opti…    26       6.6 Valid
+10 Q16 – Scenario 03 (Season 2 only)           2     Opti…   184      46.7 Valid
+11 Q16 – Scenario 03 (Season 2 only)           3     Opti…   122      31   Valid
+12 Q16 – Scenario 03 (Season 2 only)           4     Opti…    62      15.7 Valid
+13 Q16 – Scenario 05 (Season 2 only)           555   Other     1      NA   Sent…
+14 Q16 – Scenario 05 (Season 2 only)           NA    Not …     4      NA   Sent…
+15 Q16 – Scenario 05 (Season 2 only)           1     Opti…     2       0.5 Valid
+16 Q16 – Scenario 05 (Season 2 only)           2     Opti…    30       7.6 Valid
+17 Q16 – Scenario 05 (Season 2 only)           3     Opti…   109      27.7 Valid
+18 Q16 – Scenario 05 (Season 2 only)           4     Opti…   253      64.2 Valid
+19 Q16 – Scenario 99 (Season 2 only)           555   Other     2      NA   Sent…
+20 Q16 – Scenario 99 (Season 2 only)           NA    Not …     4      NA   Sent…
+21 Q16 – Scenario 99 (Season 2 only)           1     Opti…    34       8.7 Valid
+22 Q16 – Scenario 99 (Season 2 only)           2     Opti…    93      23.7 Valid
+23 Q16 – Scenario 99 (Season 2 only)           3     Opti…   113      28.8 Valid
+24 Q16 – Scenario 99 (Season 2 only)           4     Opti…   153      38.9 Valid
+25 Q19 – Time Investment in Water Mgmt (0=No,… 444   Ambi…     3      NA   Sent…
+26 Q19 – Time Investment in Water Mgmt (0=No,… 555   Other     1      NA   Sent…
+27 Q19 – Time Investment in Water Mgmt (0=No,… 999   Miss…     6      NA   Sent…
+28 Q19 – Time Investment in Water Mgmt (0=No,… 0     No      256      65.8 Valid
+29 Q19 – Time Investment in Water Mgmt (0=No,… 1     Yes     133      34.2 Valid
+30 Q26 – Household Water Emotion (0=Positive,… 444   Ambi…    33      NA   Sent…
+31 Q26 – Household Water Emotion (0=Positive,… NA    Not …     2      NA   Sent…
+32 Q26 – Household Water Emotion (0=Positive,… 0     Posi…   125      34.3 Valid
+33 Q26 – Household Water Emotion (0=Positive,… 1     Nega…   239      65.7 Valid
+34 Q28 – Water Quality Comparison (0=Better, … NA    Not …     3      NA   Sent…
+35 Q28 – Water Quality Comparison (0=Better, … 0     Bett…    93      23.5 Valid
+36 Q28 – Water Quality Comparison (0=Better, … 1     Same    159      40.2 Valid
+37 Q28 – Water Quality Comparison (0=Better, … 2     Worse   144      36.4 Valid</code></pre>
+<pre class="r"><code>knitr::kable(
+  summary_tbl,
+  caption = paste(
+    &quot;Distribution of Q16 (scenario preferences), Q19 (time investment),&quot;,
+    &quot;Q26 (household water emotions), and Q28 (water quality comparison).&quot;,
+    &quot;Percentages (pct_valid) are calculated over valid responses only.&quot;,
+    &quot;Missing codes: 444=Ambiguous, 555=Other, 999=Missing/not in file.&quot;
+  ),
+  col.names = c(&quot;Variable&quot;, &quot;Code&quot;, &quot;Label&quot;, &quot;n&quot;, &quot;% (valid only)&quot;, &quot;Type&quot;),
+  digits = 1
+)</code></pre>
+<table>
+<caption>Distribution of Q16 (scenario preferences), Q19 (time
+investment), Q26 (household water emotions), and Q28 (water quality
+comparison). Percentages (pct_valid) are calculated over valid responses
+only. Missing codes: 444=Ambiguous, 555=Other, 999=Missing/not in
+file.</caption>
+<colgroup>
+<col width="47%" />
+<col width="4%" />
+<col width="19%" />
+<col width="3%" />
+<col width="12%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Variable</th>
+<th align="left">Code</th>
+<th align="left">Label</th>
+<th align="right">n</th>
+<th align="right">% (valid only)</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Q16 – Scenario 01 (Season 2 only)</td>
+<td align="left">555</td>
+<td align="left">Other</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 01 (Season 2 only)</td>
+<td align="left">NA</td>
+<td align="left">Not in file (no record)</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 01 (Season 2 only)</td>
+<td align="left">1</td>
+<td align="left">Option 1</td>
+<td align="right">328</td>
+<td align="right">83.2</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 01 (Season 2 only)</td>
+<td align="left">2</td>
+<td align="left">Option 2</td>
+<td align="right">41</td>
+<td align="right">10.4</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 01 (Season 2 only)</td>
+<td align="left">3</td>
+<td align="left">Option 3</td>
+<td align="right">19</td>
+<td align="right">4.8</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 01 (Season 2 only)</td>
+<td align="left">4</td>
+<td align="left">Option 4</td>
+<td align="right">6</td>
+<td align="right">1.5</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 03 (Season 2 only)</td>
+<td align="left">555</td>
+<td align="left">Other</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 03 (Season 2 only)</td>
+<td align="left">NA</td>
+<td align="left">Not in file (no record)</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 03 (Season 2 only)</td>
+<td align="left">1</td>
+<td align="left">Option 1</td>
+<td align="right">26</td>
+<td align="right">6.6</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 03 (Season 2 only)</td>
+<td align="left">2</td>
+<td align="left">Option 2</td>
+<td align="right">184</td>
+<td align="right">46.7</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 03 (Season 2 only)</td>
+<td align="left">3</td>
+<td align="left">Option 3</td>
+<td align="right">122</td>
+<td align="right">31.0</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 03 (Season 2 only)</td>
+<td align="left">4</td>
+<td align="left">Option 4</td>
+<td align="right">62</td>
+<td align="right">15.7</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 05 (Season 2 only)</td>
+<td align="left">555</td>
+<td align="left">Other</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 05 (Season 2 only)</td>
+<td align="left">NA</td>
+<td align="left">Not in file (no record)</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 05 (Season 2 only)</td>
+<td align="left">1</td>
+<td align="left">Option 1</td>
+<td align="right">2</td>
+<td align="right">0.5</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 05 (Season 2 only)</td>
+<td align="left">2</td>
+<td align="left">Option 2</td>
+<td align="right">30</td>
+<td align="right">7.6</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 05 (Season 2 only)</td>
+<td align="left">3</td>
+<td align="left">Option 3</td>
+<td align="right">109</td>
+<td align="right">27.7</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 05 (Season 2 only)</td>
+<td align="left">4</td>
+<td align="left">Option 4</td>
+<td align="right">253</td>
+<td align="right">64.2</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 99 (Season 2 only)</td>
+<td align="left">555</td>
+<td align="left">Other</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 99 (Season 2 only)</td>
+<td align="left">NA</td>
+<td align="left">Not in file (no record)</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 99 (Season 2 only)</td>
+<td align="left">1</td>
+<td align="left">Option 1</td>
+<td align="right">34</td>
+<td align="right">8.7</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 99 (Season 2 only)</td>
+<td align="left">2</td>
+<td align="left">Option 2</td>
+<td align="right">93</td>
+<td align="right">23.7</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q16 – Scenario 99 (Season 2 only)</td>
+<td align="left">3</td>
+<td align="left">Option 3</td>
+<td align="right">113</td>
+<td align="right">28.8</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q16 – Scenario 99 (Season 2 only)</td>
+<td align="left">4</td>
+<td align="left">Option 4</td>
+<td align="right">153</td>
+<td align="right">38.9</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)</td>
+<td align="left">444</td>
+<td align="left">Ambiguous</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)</td>
+<td align="left">555</td>
+<td align="left">Other</td>
+<td align="right">1</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)</td>
+<td align="left">999</td>
+<td align="left">Missing</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)</td>
+<td align="left">0</td>
+<td align="left">No</td>
+<td align="right">256</td>
+<td align="right">65.8</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)</td>
+<td align="left">1</td>
+<td align="left">Yes</td>
+<td align="right">133</td>
+<td align="right">34.2</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q26 – Household Water Emotion (0=Positive,
+1=Negative)</td>
+<td align="left">444</td>
+<td align="left">Ambiguous</td>
+<td align="right">33</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q26 – Household Water Emotion (0=Positive,
+1=Negative)</td>
+<td align="left">NA</td>
+<td align="left">Not in file (no record)</td>
+<td align="right">2</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="even">
+<td align="left">Q26 – Household Water Emotion (0=Positive,
+1=Negative)</td>
+<td align="left">0</td>
+<td align="left">Positive</td>
+<td align="right">125</td>
+<td align="right">34.3</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q26 – Household Water Emotion (0=Positive,
+1=Negative)</td>
+<td align="left">1</td>
+<td align="left">Negative</td>
+<td align="right">239</td>
+<td align="right">65.7</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q28 – Water Quality Comparison (0=Better, 1=Same,
+2=Worse)</td>
+<td align="left">NA</td>
+<td align="left">Not in file (no record)</td>
+<td align="right">3</td>
+<td align="right">NA</td>
+<td align="left">Sentinel/Missing</td>
+</tr>
+<tr class="odd">
+<td align="left">Q28 – Water Quality Comparison (0=Better, 1=Same,
+2=Worse)</td>
+<td align="left">0</td>
+<td align="left">Better</td>
+<td align="right">93</td>
+<td align="right">23.5</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="even">
+<td align="left">Q28 – Water Quality Comparison (0=Better, 1=Same,
+2=Worse)</td>
+<td align="left">1</td>
+<td align="left">Same</td>
+<td align="right">159</td>
+<td align="right">40.2</td>
+<td align="left">Valid</td>
+</tr>
+<tr class="odd">
+<td align="left">Q28 – Water Quality Comparison (0=Better, 1=Same,
+2=Worse)</td>
+<td align="left">2</td>
+<td align="left">Worse</td>
+<td align="right">144</td>
+<td align="right">36.4</td>
+<td align="left">Valid</td>
+</tr>
+</tbody>
+</table>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -921,22 +2302,24 @@ attached base packages:
 other attached packages:
  [1] lubridate_1.9.4 forcats_1.0.0   stringr_1.5.1   dplyr_1.2.0    
  [5] purrr_1.0.4     readr_2.1.5     tidyr_1.3.1     tibble_3.2.1   
- [9] ggplot2_4.0.0   tidyverse_2.0.0
+ [9] ggplot2_4.0.0   tidyverse_2.0.0 workflowr_1.7.1
 
 loaded via a namespace (and not attached):
  [1] utf8_1.2.4         sass_0.4.10        generics_0.1.3     stringi_1.8.7     
- [5] hms_1.1.3          digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3    
- [9] grid_4.5.3         timechange_0.3.0   RColorBrewer_1.1-3 fastmap_1.2.0     
-[13] rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0     promises_1.3.2    
-[17] scales_1.4.0       jquerylib_0.1.4    cli_3.6.5          crayon_1.5.3      
-[21] rlang_1.1.7        bit64_4.6.0-1      withr_3.0.2        cachem_1.1.0      
-[25] yaml_2.3.10        parallel_4.5.3     tools_4.5.3        tzdb_0.5.0        
-[29] httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5   
-[33] git2r_0.36.2       bit_4.6.0          fs_1.6.6           vroom_1.6.5       
-[37] pkgconfig_2.0.3    pillar_1.10.2      bslib_0.9.0        later_1.4.2       
-[41] gtable_0.3.6       glue_1.8.0         Rcpp_1.0.14        xfun_0.52         
-[45] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
-[49] htmltools_0.5.8.1  rmarkdown_2.29     compiler_4.5.3     S7_0.2.0          </code></pre>
+ [5] hms_1.1.3          digest_0.6.37      magrittr_2.0.3     timechange_0.3.0  
+ [9] evaluate_1.0.3     grid_4.5.3         RColorBrewer_1.1-3 fastmap_1.2.0     
+[13] rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6     whisker_0.4.1     
+[17] ps_1.9.1           promises_1.3.2     httr_1.4.7         scales_1.4.0      
+[21] jquerylib_0.1.4    cli_3.6.5          crayon_1.5.3       rlang_1.1.7       
+[25] bit64_4.6.0-1      withr_3.0.2        cachem_1.1.0       yaml_2.3.10       
+[29] parallel_4.5.3     tools_4.5.3        tzdb_0.5.0         httpuv_1.6.16     
+[33] vctrs_0.7.1        R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2      
+[37] bit_4.6.0          fs_1.6.6           vroom_1.6.5        pkgconfig_2.0.3   
+[41] callr_3.7.6        pillar_1.10.2      bslib_0.9.0        later_1.4.2       
+[45] gtable_0.3.6       glue_1.8.0         Rcpp_1.0.14        xfun_0.52         
+[49] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
+[53] htmltools_0.5.8.1  rmarkdown_2.29     compiler_4.5.3     getPass_0.2-4     
+[57] S7_0.2.0          </code></pre>
 </div>
 </div>
 </div>

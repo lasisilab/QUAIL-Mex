@@ -1,0 +1,871 @@
+---
+title: "06.1 PSS Models – Perceived Stress as Outcome"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(broom)
+library(gtsummary)
+library(lmtest)
+library(flextable)
+library(ggplot2)
+library(officer)
+library(ggstance)
+```
+
+## Overview
+
+SHOULD consider removing data point with household size of 40 (vecindad), as it may be distorting results. 
+
+This script fits a series of **linear regression models** predicting **Perceived
+Stress Scale total score (`PSS_TOTAL`)**. Each model shares the same set of core
+control variables; one water-related predictor is added per model. Models are
+defined in a named list (`model_specs`).
+
+| Role | Variables |
+|------|-----------|
+| Outcome | `PSS_TOTAL` (continuous, 0–56) |
+| Core (every model) | Age (`D_AGE`), SES composite (`SES_SC_Total`), Household size (`D_HH_SIZE`) |
+| Augmenting (one per model) | HWISE total · individual HWISE items · hours water supply/week · continuous/intermittent supply · WS/WI neighborhood · neighborhood comparison · time handling water |
+
+---
+
+# Load and Prepare Data
+
+```{r load-data}
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+# Replace sentinel codes with NA for numeric variables
+clean_num <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES, NA_real_, x_num)
+}
+
+df_raw <- read_csv("./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv",
+                   show_col_types = FALSE)
+
+cat("Dataset:", nrow(df_raw), "rows ×", ncol(df_raw), "cols\n")
+```
+
+```{r prepare-variables}
+hwise_items <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                 "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
+                 "HW_ANGRY", "HW_SLEEP",  "HW_NONE",    "HW_SHAME")
+
+df <- df_raw %>%
+  mutate(
+    # ── Outcome ────────────────────────────────────────────────────────────────
+    PSS_TOTAL    = clean_num(PSS_TOTAL),
+
+    # ── Core predictors ────────────────────────────────────────────────────────
+    D_AGE        = clean_num(D_AGE),
+    SES_SC_Total = clean_num(SES_SC_Total),
+    D_HH_SIZE    = clean_num(D_HH_SIZE),
+
+    # ── HWISE ──────────────────────────────────────────────────────────────────
+    HW_TOTAL     = clean_num(HW_TOTAL),
+    across(all_of(hwise_items), clean_num),
+
+    # ── Hours of water supply per week ─────────────────────────────────────────
+    HRS_PER_WEEK = clean_num(MX5_WFREQ_HRS_PER_WEEK),
+
+    # ── Continuous vs. intermittent supply ─────────────────────────────────────
+    # Accepts numeric (0/1) or text ("Continuo"/"Intermitente")
+    CONT_INT = {
+      raw <- as.character(MX3_CONT_INT)
+      raw_num <- suppressWarnings(as.numeric(raw))
+      factor(case_when(
+        raw_num %in% MISSING_CODES                         ~ NA_character_,
+        raw_num == 0                                       ~ "Continuous",
+        raw_num == 1                                       ~ "Intermittent",
+        str_detect(str_to_lower(raw), "contin")            ~ "Continuous",
+        str_detect(str_to_lower(raw), "inter")             ~ "Intermittent",
+        is.na(raw) | str_trim(raw) == "" | raw == "NA"    ~ NA_character_,
+        TRUE                                               ~ raw
+      ), levels = c("Continuous", "Intermittent"))  # Continuous = reference
+    },
+
+    # ── WS/WI neighborhood classification ─────────────────────────────────────
+    WS_LOC = factor(W_WS_LOC),
+
+    # ── Neighborhood water quality comparison (Q28) ────────────────────────────
+    # 0 = Better (reference), 1 = Same, 2 = Worse
+    NB_COMP = factor(
+      case_when(
+        clean_num(MX28_WQ_COMP_CAT) == 0 ~ "Better",
+        clean_num(MX28_WQ_COMP_CAT) == 1 ~ "Same",
+        clean_num(MX28_WQ_COMP_CAT) == 2 ~ "Worse",
+        TRUE                             ~ NA_character_
+      ),
+      levels = c("Better", "Same", "Worse")
+    ),
+
+    # ── Time handling water (Q19) ──────────────────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    TIME_WATER = factor(
+      case_when(
+        clean_num(MX19_TIME_CAT) == 0 ~ "No",
+        clean_num(MX19_TIME_CAT) == 1 ~ "Yes",
+        TRUE                          ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+
+    # ── Season ─────────────────────────────────────────────────────────────────
+    # 1 = Season 1, 2 = Season 2; used in CORE2 and stratified sensitivity
+    SEASON = factor(SEASON, levels = c(0, 1), labels = c("Season 1", "Season 2"))
+  )
+```
+
+```{r check-missingness}
+analytic_vars <- c("PSS_TOTAL", "D_AGE", "SES_SC_Total", "D_HH_SIZE", "SEASON",
+                   "HW_TOTAL", hwise_items,
+                   "HRS_PER_WEEK", "CONT_INT", "WS_LOC", "NB_COMP", "TIME_WATER")
+
+df %>%
+  summarise(across(all_of(analytic_vars), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_missing") %>%
+  mutate(pct_missing = round(100 * n_missing / nrow(df), 1)) %>%
+  arrange(desc(n_missing)) %>%
+  print(n = Inf)
+```
+
+---
+
+# Model Specifications {#model-specs}
+
+Models are defined in a **named list**. To add a model later, append a new entry
+following the same structure: `list(label = "...", group = "...", formula = ...)`.
+
+```{r model-specs}
+core_formula  <- PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE
+core2_formula <- PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + SEASON
+
+# ── Individual HWISE item models (one per item, built on CORE1) ────────────────
+hwise_item_specs <- setNames(
+  lapply(hwise_items, function(item) {
+    list(
+      label   = paste0("Core + ", item),
+      group   = "Individual HWISE items",
+      formula = as.formula(
+        paste("PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE +", item)
+      )
+    )
+  }),
+  paste0("hwise_", tolower(hwise_items))
+)
+
+# ── Main registry ──────────────────────────────────────────────────────────────
+model_specs <- c(
+  list(
+    # ── Base models ─────────────────────────────────────────────────────────────
+    core = list(
+      label   = "M0: Core only (base)",
+      group   = "Base",
+      formula = core_formula
+    ),
+    core2 = list(
+      label   = "M0b: Core2 (+ Season)",
+      group   = "Base",
+      formula = core2_formula
+    ),
+    # ── HWISE on Core1 ──────────────────────────────────────────────────────────
+    hwise_total = list(
+      label   = "M1: Core + HWISE Total",
+      group   = "HWISE",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + HW_TOTAL
+    ),
+    hwise_log = list(
+      label   = "M1: Core + LogHWISE Total",
+      group   = "HWISE",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + log1p(HW_TOTAL)
+    ),
+    # ── HWISE on Core2 (controls for Season) ────────────────────────────────────
+    core2_hwise_total = list(
+      label   = "M1b: Core2 + HWISE Total",
+      group   = "HWISE",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + SEASON + HW_TOTAL
+    ),
+    core2_hwise_log = list(
+      label   = "M1b: Core2 + LogHWISE Total",
+      group   = "HWISE",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + SEASON + log1p(HW_TOTAL)
+    ),
+    # ── HWISE × Season interaction ───────────────────────────────────────────
+    core3_hwise_total = list(
+      label   = "M1c: Core2 × HWISE Total (interaction)",
+      group   = "HWISE",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + SEASON + HW_TOTAL + SEASON:HW_TOTAL
+    ),
+    core3_hwise_log = list(
+      label   = "M1c: Core2 × LogHWISE Total (interaction)",
+      group   = "HWISE",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + SEASON + log1p(HW_TOTAL) + SEASON:log1p(HW_TOTAL)
+    )
+  ),
+  hwise_item_specs,
+  list(
+    hrs_supply = list(
+      label   = "M2: Core + Hours water supply/week",
+      group   = "QUAIL-Mex",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + HRS_PER_WEEK
+    ),
+    cont_int = list(
+      label   = "M3: Core + Continuous/intermittent supply",
+      group   = "QUAIL-Mex",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + CONT_INT
+    ),
+    ws_loc = list(
+      label   = "M4: Core + WS/WI neighborhood",
+      group   = "QUAIL-Mex",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + WS_LOC
+    ),
+    nb_comp = list(
+      label   = "M5: Core + Neighborhood comparison (Q28)",
+      group   = "QUAIL-Mex",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + NB_COMP
+    ),
+    time_water = list(
+      label   = "M6: Core + Time handling water (Q19)",
+      group   = "QUAIL-Mex",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + TIME_WATER
+    )
+  )
+)
+
+cat("Total models registered:", length(model_specs), "\n")
+```
+
+---
+
+# Fit Models
+
+Each model uses listwise deletion (`na.action = na.omit`) for the variables it
+includes. For valid F-tests comparing an augmented model to M0, the core model
+is **refit on the same rows** as the augmented model.
+
+```{r fit-models}
+fitted_models <- lapply(model_specs, function(spec) {
+  lm(spec$formula, data = df, na.action = na.omit)
+})
+
+# Sample sizes per model
+tibble(
+  model_id = names(model_specs),
+  label    = map_chr(model_specs, "label"),
+  n        = map_int(fitted_models, nobs)
+) %>% print(n = Inf)
+```
+
+---
+
+# Per-Model Coefficient Tables
+
+```{r results-tables, results="asis"}
+core_label_list <- list(
+  D_AGE        ~ "Age (years)",
+  SES_SC_Total ~ "SES composite score",
+  D_HH_SIZE    ~ "Household size"
+)
+
+for (nm in names(fitted_models)) {
+  spec <- model_specs[[nm]]
+  mod  <- fitted_models[[nm]]
+  fit  <- glance(mod)
+
+  cat("\n\n## ", spec$label, " {.unnumbered}\n\n", sep = "")
+  cat("**N =**", nobs(mod),
+      "| **R² =**", round(fit$r.squared, 3),
+      "| **Adj. R² =**", round(fit$adj.r.squared, 3),
+      "| **AIC =**", round(fit$AIC, 1),
+      "| **BIC =**", round(fit$BIC, 1), "\n\n")
+
+  print(
+    tbl_regression(
+      mod,
+      label    = core_label_list,
+      conf.int = TRUE
+    ) %>%
+      bold_p(t = 0.05) %>%
+      italicize_levels() %>%
+      modify_caption(paste("**", spec$label, "**"))
+  )
+}
+```
+
+---
+
+# Model Comparison
+
+Each augmented model is compared to M0 re-fit on the same complete cases,
+using an **F-test for added predictors**. Models with different N from M0
+(due to missing data in the augmenting predictor) are flagged.
+
+```{r model-comparison}
+comparison <- map_dfr(names(fitted_models), function(nm) {
+  mod  <- fitted_models[[nm]]
+  spec <- model_specs[[nm]]
+  fit  <- glance(mod)
+  n_mod <- nobs(mod)
+
+  base_row <- tibble(
+    model_id     = nm,
+    label        = spec$label,
+    group        = spec$group,
+    n            = n_mod,
+    R2           = round(fit$r.squared,     3),
+    adj_R2       = round(fit$adj.r.squared, 3),
+    delta_adj_R2 = NA_real_,
+    AIC          = round(fit$AIC, 1),
+    BIC          = round(fit$BIC, 1),
+    F_stat       = NA_real_,
+    F_df1        = NA_integer_,
+    F_df2        = NA_integer_,
+    F_p          = NA_real_,
+    note         = ""
+  )
+
+  if (nm == "core") return(base_row)
+
+  # Refit M0 on same rows as augmented model
+  rows_used <- as.integer(rownames(model.frame(mod)))
+  m0_sub    <- lm(core_formula, data = df[rows_used, ])
+  lrt_tab   <- anova(m0_sub, mod)
+  f_stat    <- lrt_tab$F[2]
+  f_df1     <- lrt_tab$Df[2]
+  f_df2     <- lrt_tab$Res.Df[2]
+  f_p       <- lrt_tab$`Pr(>F)`[2]
+
+  base_row %>% mutate(
+    delta_adj_R2 = round(fit$adj.r.squared - glance(m0_sub)$adj.r.squared, 3),
+    F_stat       = round(f_stat, 2),
+    F_df1        = as.integer(f_df1),
+    F_df2        = as.integer(f_df2),
+    F_p          = round(f_p, 4),
+    note         = if_else(n_mod != nobs(fitted_models[["core"]]),
+                           "N differs from full M0", "")
+  )
+})
+
+comparison %>%
+  select(label, group, n, R2, adj_R2, delta_adj_R2, AIC, BIC,
+         F_stat, F_df1, F_df2, F_p, note) %>%
+  flextable() %>%
+  set_header_labels(
+    label        = "Model",
+    group        = "Group",
+    n            = "N",
+    R2           = "R²",
+    adj_R2       = "Adj. R²",
+    delta_adj_R2 = "Δ Adj. R²",
+    AIC          = "AIC",
+    BIC          = "BIC",
+    F_stat       = "F",
+    F_df1        = "df₁",
+    F_df2        = "df₂",
+    F_p          = "p (F-test)",
+    note         = "Note"
+  ) %>%
+  color(~ !is.na(F_p) & F_p < 0.05, j = "F_p", color = "orange2") %>%
+  color(~ !is.na(F_p) & F_p >= 0.05, j = "F_p", color = "grey50") %>%
+  autofit()
+```
+
+## On interactions
+
+```{r}
+summary(lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + HW_TOTAL, data = filter(df, SEASON == "Season 2")))
+```
+
+```{r interaction-f2}
+# Cohen's f² for the SEASON × HW_TOTAL interaction term
+# f² = (R²_M1c - R²_M1b) / (1 - R²_M1c)
+r2_m1b <- summary(fitted_models[["core2_hwise_total"]])$r.squared
+r2_m1c <- summary(fitted_models[["core3_hwise_total"]])$r.squared
+f2_interaction <- (r2_m1c - r2_m1b) / (1 - r2_m1c)
+cat(sprintf(
+  "R² M1b (Core2 + HWISE):            %.4f\n
+   R² M1c (Core2 + HWISE × Season):   %.4f\n
+   ΔR²  (interaction added):           %.4f\n
+   Cohen's f² (interaction term):      %.4f\n
+   Interpretation: %s\n",
+  r2_m1b, r2_m1c, r2_m1c - r2_m1b, f2_interaction,
+  dplyr::case_when(
+    f2_interaction >= 0.35 ~ "large",
+    f2_interaction >= 0.15 ~ "medium",
+    f2_interaction >= 0.02 ~ "small",
+    TRUE                   ~ "negligible"
+  )
+))
+```
+
+### Individual HWISE Items – Summary
+
+```{r hwise-item-comparison}
+# Subset comparison table to individual items for a tidy summary
+comparison %>%
+  filter(group == "Individual HWISE items") %>%
+  select(label, n, R2, adj_R2, delta_adj_R2, F_stat, F_p) %>%
+  arrange(F_p) %>%
+  flextable() %>%
+  set_header_labels(
+    label        = "Item model",
+    n            = "N",
+    R2           = "R²",
+    adj_R2       = "Adj. R²",
+    delta_adj_R2 = "Δ Adj. R²",
+    F_stat       = "F",
+    F_p          = "p (F-test)"
+  ) %>%
+  color(~ !is.na(F_p) & F_p < 0.05, j = "F_p", color = "orange2") %>%
+  autofit()
+```
+
+---
+
+# Coefficient Plot (Augmenting Predictors)
+
+```{r coef-plot, fig.width = 10, fig.height = 7}
+core_terms <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE")
+
+coef_data <- map_dfr(names(fitted_models), function(nm) {
+  tidy(fitted_models[[nm]], conf.int = TRUE) %>%
+    filter(!term %in% core_terms) %>%
+    mutate(
+      model_id = nm,
+      label    = model_specs[[nm]]$label,
+      group    = model_specs[[nm]]$group
+    )
+})
+
+if (nrow(coef_data) > 0) {
+  ggplot(coef_data,
+         aes(x = estimate, y = reorder(label, estimate),
+             xmin = conf.low, xmax = conf.high, color = group)) +
+    geom_vline(xintercept = 0, linetype = "dashed", color = "grey40") +
+    geom_errorbarh(height = 0.2, linewidth = 0.6) +
+    geom_point(size = 2.5) +
+    scale_color_brewer(palette = "Dark2") +
+    labs(
+      title    = "Augmenting predictor coefficients — PSS Total as outcome",
+      subtitle = "Core variables (Age, SES, HH size) omitted; bars = 95% CI",
+      x        = "β coefficient",
+      y        = NULL,
+      color    = "Predictor group"
+    ) +
+    theme_bw(base_size = 11) +
+    theme(legend.position = "bottom")
+}
+```
+
+```{r hwise-coef-plot, fig.width = 8, fig.height = 6}
+# Readable labels for HWISE items
+hwise_labels <- c(
+  HW_WORRY   = "Worry about water",
+  HW_INTERR  = "Interrupted supply",
+  HW_CLOTHES = "Couldn't wash clothes",
+  HW_PLANS   = "Plans disrupted",
+  HW_FOOD    = "Food preparation affected",
+  HW_HANDS   = "Couldn't wash hands",
+  HW_BODY    = "Couldn't bathe",
+  HW_DRINK   = "Not enough to drink",
+  HW_ANGRY   = "Felt angry",
+  HW_SLEEP   = "Sleep disrupted",
+  HW_NONE    = "No water at all",
+  HW_SHAME   = "Felt shame"
+)
+
+hwise_ids <- c("hwise_total", paste0("hwise_", tolower(hwise_items)))
+
+hwise_coef <- map_dfr(hwise_ids, function(nm) {
+  tidy(fitted_models[[nm]], conf.int = TRUE) %>%
+    filter(!term %in% c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE")) %>%
+    mutate(
+      model_id  = nm,
+      item_label = if_else(
+        term == "HW_TOTAL",
+        "HWISE Total Score",
+        hwise_labels[term]
+      ),
+      significant = p.value < 0.05
+    )
+})
+
+ggplot(hwise_coef,
+       aes(x = estimate, y = reorder(item_label, estimate),
+           xmin = conf.low, xmax = conf.high,
+           color = significant, shape = (term == "HW_TOTAL"))) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey40") +
+  geom_errorbarh(height = 0.25, linewidth = 0.7) +
+  geom_point(size = 3) +
+  scale_color_manual(
+    values = c("TRUE" = "#1a7abf", "FALSE" = "grey60"),
+    labels = c("TRUE" = "p < 0.05", "FALSE" = "p ≥ 0.05")
+  ) +
+  scale_shape_manual(
+    values = c("TRUE" = 18, "FALSE" = 16),
+    labels = c("TRUE" = "Total score", "FALSE" = "Individual item"),
+    guide  = guide_legend(title = NULL)
+  ) +
+  labs(
+    title    = "HWISE items as predictors of PSS Total",
+    subtitle = "Each item in a separate model; core variables (Age, SES, HH size) controlled; bars = 95% CI",
+    x        = "β coefficient",
+    y        = NULL,
+    color    = NULL
+  ) +
+  theme_bw(base_size = 11) +
+  theme(legend.position = "bottom")
+```
+
+---
+
+# Interpreting the Results
+
+## What each coefficient means
+
+For each augmented model, the **β coefficient** for the water-related predictor
+is the expected change in PSS_TOTAL for a one-unit increase in that predictor,
+*holding Age, SES, and Household size constant*. A positive β indicates higher
+water burden associates with higher perceived stress.
+
+**95% CI**: if the interval does not cross zero, the association is significant
+at α = 0.05. Wide intervals signal imprecision — check your N in that model.
+
+## Model fit criteria
+
+| Criterion | Prefer |
+|-----------|--------|
+| **Adj. R²** | Higher (more variance explained, penalized for parameters) |
+| **Δ Adj. R²** | Positive values mean the water predictor explains additional variance |
+| **AIC / BIC** | Lower. If AIC/BIC of an augmented model > M0's AIC/BIC, the predictor adds noise |
+| **F-test p** | < 0.05 suggests the augmenting predictor(s) jointly improve fit |
+
+## Core variable benchmarks (M0)
+
+Check M0 first:
+
+- **SES_SC_Total**: expect a **negative** β (higher SES → lower stress). If
+  positive or near-zero, investigate SES operationalization.
+- **D_AGE**: typically a modest association (positive or U-shaped).
+- **D_HH_SIZE**: larger households may share water burden — direction is theoretically ambiguous.
+
+## HWISE Total vs. Individual Items
+
+- HWISE total (HW_TOTAL) provides a summary test: *does overall water insecurity
+  predict stress beyond demographics?*
+- Individual item models reveal **which dimensions** drive stress (e.g., worry
+  vs. physical access). Interpret items one at a time — they are intercorrelated
+  components of the same scale. **Do not** enter all 12 items in a single model
+  without addressing multicollinearity (VIF > 5 is a concern; use `car::vif()`).
+
+
+
+## Categorical predictors
+
+For CONT_INT, WS_LOC, NB_COMP, TIME_WATER, the F-test p-value tests the
+**overall** effect of the variable. Inspect individual level contrasts from the
+coefficient table. Reference levels: Continuous supply, "Better" neighborhood
+comparison, "No" time investment.
+
+---
+
+# Sensitivity Analysis: Season-Stratified Models
+
+Models are re-run separately for each season on a user-defined subset of
+`model_specs`. This checks whether associations hold across both data collection
+periods, or whether a particular season drives the pooled results.
+
+To add or remove models from the stratified analysis, edit `strat_ids` below.
+
+```{r season-strat, results="asis"}
+# ── Models to stratify ─────────────────────────────────────────────────────────
+strat_ids <- names(model_specs)  # all registered models
+
+seasons <- levels(df$SEASON)
+cat("Seasons in data:", paste(seasons, collapse = ", "), "\n")
+cat("N per season:\n")
+print(table(df$SEASON, useNA = "always"))
+
+# ── Fit stratified models ──────────────────────────────────────────────────────
+strat_models <- lapply(seasons, function(s) {
+  df_s <- filter(df, SEASON == s)
+  lapply(model_specs[strat_ids], function(spec) {
+    # Drop SEASON (main effect + any interactions) using R formula tools —
+    # robust to function calls (e.g. log1p()) that break regex approaches
+    tt          <- terms(spec$formula)
+    all_terms   <- attr(tt, "term.labels")
+    keep_terms  <- all_terms[!grepl("SEASON", all_terms)]
+    response    <- as.character(attr(tt, "variables")[[2]])
+    f_clean     <- reformulate(keep_terms, response = response)
+    lm(f_clean, data = df_s, na.action = na.omit)
+  })
+})
+names(strat_models) <- seasons
+
+# ── Comparison table: focal predictor β per season ────────────────────────────
+core_terms <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE")
+
+strat_comparison <- map_dfr(strat_ids, function(nm) {
+  map_dfr(seasons, function(s) {
+    mod <- strat_models[[s]][[nm]]
+    if (is.null(mod)) return(NULL)
+    fit <- glance(mod)
+    coefs <- tidy(mod, conf.int = TRUE) %>%
+      filter(!term %in% core_terms)
+    if (nrow(coefs) == 0) {
+      coefs <- tibble(term = "—", estimate = NA_real_,
+                      conf.low = NA_real_, conf.high = NA_real_, p.value = NA_real_)
+    }
+    coefs %>%
+      mutate(
+        model_id  = nm,
+        label     = model_specs[[nm]]$label,
+        season    = s,
+        n         = nobs(mod),
+        adj_R2    = round(fit$adj.r.squared, 3)
+      )
+  })
+})
+
+# Wide format: Season 1 and Season 2 side by side
+strat_wide <- strat_comparison %>%
+  select(label, term, season, n, adj_R2, estimate, conf.low, conf.high, p.value) %>%
+  mutate(
+    ci   = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
+    p_fmt = case_when(
+      is.na(p.value)      ~ "—",
+      p.value < 0.001     ~ "<0.001",
+      TRUE                ~ sprintf("%.3f", p.value)
+    )
+  ) %>%
+  select(label, term, season, n, adj_R2, ci, p_fmt) %>%
+  pivot_wider(
+    names_from  = season,
+    values_from = c(n, adj_R2, ci, p_fmt),
+    names_glue  = "{season}_{.value}"
+  )
+
+strat_wide %>%
+  flextable() %>%
+  set_header_labels(
+    label  = "Model",
+    term   = "Predictor"
+  ) %>%
+  autofit() %>%
+  print()
+```
+
+```{r season-coef-plot, fig.width = 10, fig.height = 10}
+# Coefficient plot by season for focal predictors (core variables excluded)
+strat_comparison %>%
+  filter(!is.na(estimate)) %>%
+  ggplot(aes(x = estimate, y = reorder(label, estimate),
+             xmin = conf.low, xmax = conf.high, color = season)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey40") +
+  geom_errorbarh(height = 0.2, linewidth = 0.6,
+                 position = position_dodgev(height = 0.5)) +
+  geom_point(size = 2.5, position = position_dodgev(height = 0.5)) +
+  scale_color_manual(values = c("Season 1" = "#2166ac", "Season 2" = "#d6604d")) +
+  labs(
+    title    = "Season-stratified coefficients — PSS Total as outcome",
+    subtitle = "Core variables omitted; bars = 95% CI",
+    x        = "β coefficient",
+    y        = NULL,
+    color    = NULL
+  ) +
+  theme_bw(base_size = 11) +
+  theme(legend.position = "bottom")
+```
+
+```{r combined-coef-plot, fig.width = 11, fig.height = 11}
+# ── Terms to exclude from all sources ─────────────────────────────────────────
+exclude_terms <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE",
+                   "SEASONSeason 2", "SEASONSeason 2:HW_TOTAL",
+                   "HW_TOTAL:SEASONSeason 2")
+
+# ── Overall (pooled) estimates ─────────────────────────────────────────────────
+overall_coef <- map_dfr(strat_ids, function(nm) {
+  tidy(fitted_models[[nm]], conf.int = TRUE) %>%
+    filter(!term %in% exclude_terms) %>%
+    mutate(
+      source   = "Overall",
+      model_id = nm,
+      label    = model_specs[[nm]]$label
+    )
+})
+
+# ── Season-stratified estimates ────────────────────────────────────────────────
+strat_coef <- map_dfr(strat_ids, function(nm) {
+  map_dfr(seasons, function(s) {
+    mod <- strat_models[[s]][[nm]]
+    if (is.null(mod)) return(NULL)
+    tidy(mod, conf.int = TRUE) %>%
+      filter(!term %in% exclude_terms) %>%
+      mutate(
+        source   = s,
+        model_id = nm,
+        label    = model_specs[[nm]]$label
+      )
+  })
+})
+
+# ── Combine and plot ───────────────────────────────────────────────────────────
+combined_coef <- bind_rows(overall_coef, strat_coef) %>%
+  filter(!is.na(estimate)) %>%
+  mutate(source = factor(source, levels = c("Overall", seasons)))
+
+ggplot(combined_coef,
+       aes(x = estimate, y = reorder(label, estimate),
+           xmin = conf.low, xmax = conf.high,
+           color = source)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey40") +
+  geom_errorbarh(height = 0.25, linewidth = 0.6,
+                 position = position_dodgev(height = 0.7)) +
+  geom_point(size = 2.5, position = position_dodgev(height = 0.7)) +
+  scale_color_manual(
+    values = c("Overall"  = "#e87fae",
+               "Season 1" = "#2166ac",
+               "Season 2" = "#d6604d"),
+    name = NULL
+  ) +
+  labs(
+    title    = "Overall and season-stratified coefficients — PSS Total as outcome",
+    subtitle = "Core variables (Age, SES, HH size) and SEASON main effect omitted; bars = 95% CI",
+    x        = "β coefficient",
+    y        = NULL
+  ) +
+  theme_bw(base_size = 11) +
+  theme(legend.position = "bottom")
+```
+
+
+---
+
+# Strengthening the Analysis
+
+1. **Check regression assumptions** after fitting each model:
+```{r check-regression}
+plot(fitted_models[["hwise_total"]])   # base R diagnostic plots
+# or: performance::check_model(fitted_models[["hwise_total"]])
+
+
+plot(fitted_models[["core3_hwise_total"]], which = 4)
+
+```
+   Look for: non-linearity (residuals vs. fitted), heteroscedasticity
+   (scale–location), non-normality (Q–Q), and influential points (Cook's D > 4/n).
+
+2. **Standardize continuous predictors** before fitting to make β coefficients
+   directly comparable across different scales:
+   
+```{r}
+   df <- df %>% mutate(across(c(D_AGE, SES_SC_Total, D_HH_SIZE, HW_TOTAL),
+                               ~ scale(.)[,1], .names = "{.col}_z"))
+
+
+augment(fitted_models[["core3_hwise_total"]]) %>%
+  filter(.cooksd > 4/339) %>%
+  select(.cooksd, PSS_TOTAL, HW_TOTAL, SEASON, everything())
+
+```
+
+3. **Multiple testing correction**: With ~18 models on the same sample, the
+   familywise error rate is elevated. Apply Benjamini–Hochberg correction to
+   the vector of F-test p-values:
+```{r}
+   comparison %>%
+     filter(!is.na(F_p)) %>%
+     mutate(F_p_adj = p.adjust(F_p, method = "BH"))
+```
+
+4. **Missing data**: If any key predictor has >5% missing, consider multiple imputation with `mice`:
+
+
+5. **Additional confounders** to consider adding to the core model:
+   - `HLTH_CPAIN_CAT` / `HLTH_CDIS_CAT` (chronic illness/pain)
+   - `D_EMP_FORM_CLEAN` (formal vs. informal employment)
+   - `D_CHLD_CLEAN` (number of children)
+   - `SEASON` (dry vs. wet; especially important if testing water supply
+     continuity)
+
+6. **Sensitivity analyses**:
+   - Stratify by `SEASON` to assess whether associations differ seasonally.
+   - Exclude participants flagged in `PSS_REVIEW_FLAG`.
+   - Test interaction terms: `HW_TOTAL * SES_SC_Total`, `HW_TOTAL * D_AGE`.
+
+7. **Effect size**: report Cohen's *f*² = R²_change / (1 − R²_augmented) as a
+   scale-independent effect size alongside β:
+
+```{r}
+
+   comparison %>%
+     filter(!is.na(delta_adj_R2)) %>%
+     mutate(cohens_f2 = delta_adj_R2 / (1 - adj_R2))
+```
+
+---
+
+# Limitations
+
+1. **Cross-sectional design**: Predictors and outcome were measured at the same
+   time point. Temporal precedence cannot be established — stress could
+   precede and bias water-related perceptions (reverse causality).
+
+2. **Common method bias**: Both PSS and most water variables are self-reported.
+   Shared measurement method can inflate associations regardless of any true
+   relationship.
+
+3. **Listwise deletion**: Each model drops participants missing any included
+   variable. Effective N varies across models, complicating direct comparisons.
+   If missingness is informative (e.g., more common in extreme SES groups),
+   results may be biased.
+
+4. **Multiple testing**: Testing ~18 separate models on the same outcome and
+   sample substantially increases the familywise error rate. All findings should
+   be treated as exploratory and replicated in independent samples.
+
+5. **HWISE item multicollinearity**: Individual items are components of the
+   total score and are highly intercorrelated. Running 12 item models is
+   exploratory; enter items individually, not jointly, without a specific
+   dimensionality hypothesis.
+
+6. **HWISE response scale treated as interval**: Individual HWISE items use
+   4-point response options (0 = never, 1 = rarely, 2 = sometimes,
+   3 = often/always) and are entered as numeric predictors, assuming equal
+   spacing between categories. This is consistent with prior HWISE validation
+   literature and standard practice for Likert-type items in regression, but
+   the interval assumption is unverified. Sensitivity analyses using dummy-coded
+   categories could assess whether results are robust to this assumption.
+
+7. **Unmeasured confounders**: Violence exposure, family conflict, financial
+   shocks, mental health history, and healthcare access are not captured and may
+   confound the water–stress relationship.
+
+8. **Generalizability**: Findings reflect a specific sample from colonias in one
+   urban context. Caution is warranted when extrapolating to other settings,
+   water systems, or populations.
+
+9. **PSS as a state measure**: PSS captures perceived stress over the past month.
+   Acute events unrelated to water may dominate PSS scores, diluting
+   water-specific associations.
+
+10. **Seasonal conflation**: Data from two seasons may blend seasonal within-person
+    change with stable between-person differences. Include `SEASON` as a covariate
+    or stratify in confirmatory analyses.
+
+11. **Linear assumption**: Linear regression assumes a constant marginal
+    relationship between predictors and PSS. Non-linear or threshold effects
+    (e.g., stress only rising above a certain HWISE score) would be missed.
+    Check with splines or polynomial terms if diagnostics suggest non-linearity.

@@ -1,0 +1,74 @@
+ID,Question,Issue,Coded_value,Value_source1,Value_source2,three_rater_match,Notes,Suggested_code
+122,Q16,Sentinel 555 (Other): 'Otro' response in one or more scenario columns,555,Flagged cols: MX16_SCEN_01; MX16_SCEN_03; MX16_SCEN_05; MX16_SCEN_99; MX16_SCEN_99,SCEN_01=555 | SCEN_03=555 | SCEN_05=555 | SCEN_99=555,,N/a para todos,555
+333,Q16,Sentinel 555 (Other): 'Otro' response in one or more scenario columns,555,Flagged cols: MX16_SCEN_01; MX16_SCEN_03; MX16_SCEN_05; MX16_SCEN_99; MX16_SCEN_99,SCEN_01=1 | SCEN_03=4 | SCEN_05=4 | SCEN_99=555,,No hay repuesta por participante secion pero hay eso: no recibe agua del suministro publico. De la pipa no es suficiente,
+3,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,It does not bother her,0
+9,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,Medium - It is not a lot of time if the pipe is a filter or bamba,444
+14,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: somewhat,different,I think we invest more or less time,444
+19,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: other,different,She is used to it,0
+28,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): yes,Jocelyne: no | Alice: no,different,It is not a small amount of time,1
+35,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,normal,0
+58,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,"No, normal",0
+68,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,"I consider it to be normal, it doesn't bother me",0
+90,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): yes,Jocelyne: no | Alice: no,different,"Wouldnt like to invest more time, but due to (?) it is not possible",555
+91,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,No because I get used to doing it,0
+100,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: somewhat,different,A little,0
+104,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,"That time is good, it seems we could do more activities",0
+111,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,The amount of time spent managing the water seems normal,0
+118,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): yes,Jocelyne: no | Alice: no,different,Its okay,0
+129,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,No. They have already gotten used to it,0
+130,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,"No, a little",0
+139,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): no,Jocelyne: yes | Alice: yes,different,"Yes i's acceptable, but it's tiring.",0
+172,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,It is enough,0
+174,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,It's enough,0
+177,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): yes,Jocelyne: no | Alice: no,different,It takes a while. It doenst seem terrible,0
+181,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,"No because they're already used to it. They're already organized, it is an obligation",0
+190,Q19,Rater conflict: primary vs. Jocelyne,,Q19.csv (primary): no,Jocelyne: yes | Alice: other,different,"It's okay, Lucky that the water purifier is nearby",0
+202,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,Normal,0
+203,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,It does not seem like much. it is average time,0
+329,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: other,different,She is already used to it,0
+332,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: other,different,"At first it was difficult, there were inconveniences and  other families. Now, they are used to the times.",0
+339,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,Small it seems okay: normal,0
+367,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,"Small, it seems okay: It does not bother her to do it",0
+400,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: somewhat,different,"Small, it seems okay: We are already used to it",0
+409,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: yes | Alice: other,different,Depends - sometimes the purifiers are late 1 month,444
+419,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: somewhat,different,"Small, it seems okay: Normal",0
+433,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: somewhat,different,"Small, it seems okay: not bad",0
+440,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: somewhat,different,"Small, it seems okay: Moderate. Knows the hour is necessary to do it.",0
+441,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: yes | Alice: yes,different,It's more time than she would like: She's gotten used to it. She already knows the hours. She's already calculated it.,1
+447,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: somewhat,different,"Small, it seems okay: She's already got used to it - at first it was terrible - a season where there was no rain for many months - 10 years ago",0
+468,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: somewhat,different,"Small, it seems okay: Her daughter likes to do it",0
+29,Q26,Rater conflict: mixed positive and negative emotions,444,frustracion,tranquilidad,,Siente tranquilidad cuando llega el agua y siente frustracion por no tener agua y no poder tener sus actividades diarias,444
+34,Q26,Rater conflict: mixed positive and negative emotions,444,miedo,feliz,,Feliz cuando hay,444
+46,Q26,Rater conflict: mixed positive and negative emotions,444,alivio,tristeza; coraje,,Cuando hay agua siente alivio. Se siente con coraje y tristeza por no tener agua para sus necesidades,444
+49,Q26,Rater conflict: mixed positive and negative emotions,444,miedo,bueno,,Se siente bien porque tener el semag pero si le da miedo por las noticias que llegara un momento en el que va a faltar,444
+58,Q26,Sentinel 555 (Other): emotion valence is neutral or 'otro',555,frustracion; normal,negative; other,,Solo cuando sucia frustracion. Ahora normal,444
+63,Q26,Rater conflict: mixed positive and negative emotions,444,gratitud,desconfianza,,Gratitud por tener agua y desconfianza por la mala calidad,444
+74,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,satisfaccion,,Cuando hay cortes--preocupacion,444
+78,Q26,Rater conflict: mixed positive and negative emotions,444,enojo,alivio; tranquilidad,,Enojo cuando llega sucia. Alivio y tranquilidad porque no falta,444
+80,Q26,Sentinel 555 (Other): emotion valence is neutral or 'otro',555,Preocupacion; conformidad,negative; other,,"Esta en conflicto, le preocupa mas por situacion global de que en tu casa.",444
+82,Q26,Rater conflict: mixed positive and negative emotions,444,frustracion,alegria,,"Una parte alegria porque tienen, frustracion por mala calidad--a veces arriba ropa puede tener problemas piel--no les ha parado. Le precocupan los ninos.",444
+88,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,miedo; satisfaccion; tristeza; agradecido,,Debido a que el agua es muy importante para todo y le preocupa y le da tristeza de que hay gente que no le da la importancia y no la cuida. Satisfaccion porque cuando hay se pueden cubrir las necesidades y agradecdes porque hay lugares que no tienen agua,444
+102,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,gratitud,,Preocupacion de que vuelva a pasar la situacion que tener en marzo o abril. Gratitud porque ella si tiene agua y hay gente que no tiene.,444
+127,Q26,Sentinel 555 (Other): emotion valence is neutral or 'otro',555,conformidad,other,,"Nunca se les va. Ni aun cuando les dicen que la quitaron, solo vaya la presion.",444
+137,Q26,Sentinel 555 (Other): emotion valence is neutral or 'otro',555,conformidad,other,,,444
+141,Q26,Rater conflict: mixed positive and negative emotions,444,enojo,tranquilidad; molestia,,Si no falta tranquila. Si falta enojo. Lo peor es que no avisan. Molestia,444
+157,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,tranquilidad,,Preocupacion-cobro de dinera. Agrade amiento de que si les manden.,444
+179,Q26,Sentinel 555 (Other): emotion valence is neutral or 'otro',555,normal,other,,No es tan estresante es normal porque no te preocupa-si le cae agua,444
+197,Q26,Rater conflict: mixed positive and negative emotions,444,frustracion,alivio,,"Frustracion cuando sale muy sucia y cuando huele mal, porque siente que no es segura. Y alivio porque el agua no les falta",444
+306,Q26,Rater conflict: mixed positive and negative emotions,444,feliz,ansiedad,,Sabe que no le falta y que eso la lleva a que si hace calor sabe que podria banarse y asi. No se preocupa. La reoterarer les ayuda mucho. A veces siente ansiedad de tanta agua que tiene y que otros no tienen.,444
+325,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,alegria,,"Sin agua no viviana, cuando le llega el agua le da mucha alegria y cuando la quitan se preocupa mucho",444
+358,Q26,Sentinel 555 (Other): emotion valence is neutral or 'otro',555,Preocupacion; enojo; miedo; frustracion; insatisfaccion; anticipacion,negative; other,,,1
+397,Q26,Rater conflict: mixed positive and negative emotions,444,satisfaccion,desperacion; agradecido,,Le desperera que llegue poco--pero si agradece que llega,444
+414,Q26,Rater conflict: mixed positive and negative emotions,444,satisfaccion,gratitud,,Satisfaccion y gratitud porque no le falta el agua,0
+415,Q26,Rater conflict: mixed positive and negative emotions,444,enojo,tranquilidad,,Enojo para la calidad. Tranquila porque esta cayendo.,444
+455,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,tranquilidad,,Preocupacion cuando no cae. Ahora tranquilidad,444
+462,Q26,Rater conflict: mixed positive and negative emotions,444,alivio,tristeza,,Tristeza por calidad. Alivio porque tiene.,444
+472,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,tranquilidad,,Tranquilidad porque hay pero igual le preocupe,444
+476,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,feliz,,Preocupacion que no se vaya a lo. Felicidad cuando llega,444
+478,Q26,Rater conflict: mixed positive and negative emotions,444,frustracion,tranquilidad,,"Cuando cae y alcanza a llenar - mas tranquila. Cuando no, frustrante. 2 ayer y hoy cayo bien. 1 dia anterior no cayo.",444
+480,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,alivio,,Cuando falta - preocuacion. Alivio porque tiene ahora,444
+483,Q26,Rater conflict: mixed positive and negative emotions,444,frustracion,tranquilidad; angustia,,Tranquilidad se normalizo. Encanez: frustracion y angustia. No puede hacer nada.,444
+484,Q26,Rater conflict: mixed positive and negative emotions,444,satisfaccion,angustia,,Satisfaccion ahorita. Abril: angustia podia quedar sin agua,444
+492,Q26,Rater conflict: mixed positive and negative emotions,444,Preocupacion,feliz,,Felicidad. Abril = preocupacion,444
+493,Q26,Rater conflict: mixed positive and negative emotions,444,enojo,satisfaccion,,Enojo por calidad que es mala. Satisfaccion porque tiene,444
+495,Q26,Rater conflict: mixed positive and negative emotions,444,miedo,tranquilidad; tranquilidad,,Miedo de no haber. Actual - tranquilos. Pero luego ya no se sabe.,444

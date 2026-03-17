@@ -21,6 +21,17 @@ This script merges three supplemental files onto the base dataset
 2. **03.Q2-3-4-5-6.csv** – supplemental water variables (Season 1, IDs 1–330)  
 3. **03.Q1-2-3-4-5_season2.csv** – supplemental water variables (Season 2, IDs 331+)
 
+
+Missing code system:
+
+- **999** = Missing / lost / data entry error
+- **333** = Pending (data exists but not yet entered)
+- **888** = Don't know
+- **777** = Refused / prefer not to answer
+- **666** = Illegible
+- **555** = Other (answer outside allowed categories)
+- **444** = Ambiguous
+
 ---
 
 ## 1. Load base dataset
@@ -234,6 +245,833 @@ print(table(merged_final$SEASON, useNA = "always"))
 
 ```{r export}
 write_csv(merged_final, "./data/03.Merged_Q1-6.csv", na = "")
-cat("Exported: Merged_Final.csv\n")
+cat("Exported: 03.Merged_Q1-6.csv\n")
 cat("Rows:", nrow(merged_final), "| Cols:", ncol(merged_final), "\n")
+```
+
+---
+
+# 8. Load supplemental files –Q8/26/28, 19, 16, 14-19-20-21
+
+## 8a. Q8-26-28 (water quality trust, household water emotions, water quality comparison)
+
+```{r load-q826}
+MISSING_CODES <- c(999L, 888L, 777L, 666L, 555L, 444L, 333L)
+
+q826 <- read_csv(
+  "./data/Q8-26-28.csv",
+  col_types = cols(ID = col_character()),
+  show_col_types = FALSE
+) %>%
+  mutate(ID = as.numeric(str_trim(ID))) %>%
+  filter(!is.na(ID))
+
+cat("Q8-26-28 rows:", nrow(q826), "| Unique IDs:", n_distinct(q826$ID), "\n")
+cat("MX28_WQ_COMP unique values:", paste(sort(unique(q826$MX28_WQ_COMP)), collapse = ", "), "\n")
+cat("MX26_EM_HHW_TYPE unique values:", paste(sort(unique(q826$MX26_EM_HHW_TYPE)), collapse = ", "), "\n")
+```
+
+## 8b. Q19 (consensus coding – all IDs)
+
+```{r load-q19}
+q19 <- read_csv(
+  "./data/Q19.csv",
+  col_types = cols(ID = col_double()),
+  show_col_types = FALSE
+)
+
+cat("Q19.csv rows:", nrow(q19), "| Unique IDs:", n_distinct(q19$ID), "\n")
+cat("Q19_CAT unique values:", paste(sort(unique(q19$Q19_CAT)), collapse = ", "), "\n")
+```
+
+## 8c. Q16 (water scenario preferences – Season 2 only)
+
+```{r load-q16}
+q16 <- read_csv(
+  "./data/Q16.csv",
+  col_types = cols(ID = col_double()),
+  show_col_types = FALSE
+)
+
+cat("Q16 rows:", nrow(q16), "| ID range:", min(q16$ID, na.rm = TRUE), "–",
+    max(q16$ID, na.rm = TRUE), "\n")
+cat("MX16_SCEN_01 unique values:", paste(sort(unique(q16$MX16_SCEN_01)), collapse = ", "), "\n")
+```
+
+## 8d. Q14-19-20-21 (Jocelyne and Alice independent codings) and Q19_combined (three-rater adjudication)
+
+```{r load-q14-21}
+q_joc <- read_csv("./data/Q14-19-20-21_Jocelyne.csv", show_col_types = FALSE) %>%
+  rename(ID = Folio) %>%
+  select(ID, Q19_Jocelyne = `X19.CAT`)
+
+q_alice <- read_csv("./data/Q14-19-20-21_Alice.csv", show_col_types = FALSE) %>%
+  rename(ID = Folio) %>%
+  select(ID, Q19_Alice = `X19.CAT`)
+
+# Q19_combined: three-rater adjudication file (Season 1, IDs 1–398).
+# CatA = Alice, CatJ = Jocelyne, CatL = lead rater (= Q19.csv Q19_CAT).
+# Match == "match"     → all three raters agreed.
+# Match == "different" → at least one rater disagreed; Consensus may be blank.
+q19_combined <- read_csv("./data/Q19_combined.csv", show_col_types = FALSE) %>%
+  rename(ID = SampleID) %>%
+  select(ID,
+         CatA_combined  = CatA,
+         CatJ_combined  = CatJ,
+         CatL_combined  = CatL,
+         three_rater_match = Match,
+         consensus_combined = Consensus)
+
+cat("Jocelyne rows:", nrow(q_joc), "| Unique IDs:", n_distinct(q_joc$ID), "\n")
+cat("Alice rows:", nrow(q_alice), "| Unique IDs:", n_distinct(q_alice$ID), "\n")
+cat("Q19_combined rows:", nrow(q19_combined), "| three_rater_match:", "\n")
+print(table(q19_combined$three_rater_match, useNA = "always"))
+```
+
+---
+
+# 9. Process Q28 – Water Quality Comparison
+
+Coding: **0 = Better**, **1 = Same**, **2 = Worse**.
+
+Each ID has exactly one Q28 value. String "NA" and blank cells → 999 (missing).
+
+```{r process-q28}
+q28_clean <- q826 %>%
+  # Keep the first non-missing Q28 per ID (row 1 always carries the value)
+  filter(!is.na(MX28_WQ_COMP)) %>%
+  distinct(ID, .keep_all = TRUE) %>%
+  select(ID, MX28_WQ_COMP, MX28_WQ_COMP_INFO) %>%
+  mutate(
+    MX28_WQ_COMP_CAT = case_when(
+      str_to_lower(str_trim(MX28_WQ_COMP)) == "better" ~ 0L,
+      str_to_lower(str_trim(MX28_WQ_COMP)) == "same"   ~ 1L,
+      str_to_lower(str_trim(MX28_WQ_COMP)) == "worse"  ~ 2L,
+      str_to_lower(str_trim(MX28_WQ_COMP)) == "na"     ~ 999L,
+      TRUE                                              ~ 999L
+    )
+  )
+
+cat("Q28 distribution (MX28_WQ_COMP_CAT):\n")
+cat("  0 = Better, 1 = Same, 2 = Worse, 999 = Missing\n")
+print(table(q28_clean$MX28_WQ_COMP_CAT, useNA = "always"))
+cat("IDs with Q28 not in base:", sum(!q28_clean$ID %in% base$ID), "\n")
+```
+
+---
+
+# 10. Process Q26 – Household Water Emotions (Categorical)
+
+Coding: **0 = positive**, **1 = negative**.
+Some IDs report two emotions; if both share the same valence the code is unambiguous.
+IDs where one emotion is positive and another is negative are coded **444 (Ambiguous)**
+and exported for manual review.
+Neutral / other valences → **555 (Other)**.
+
+```{r process-q26}
+# Normalise valence labels
+q26_norm <- q826 %>%
+  select(ID, MX26_EM_HHW, MX26_EM_HHW_TYPE, MX26_EM_HHW_INFO) %>%
+  mutate(
+    valence_norm = case_when(
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) == "positive" ~ "positive",
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) == "negative" ~ "negative",
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) %in%
+        c("neutral", "otro")                                  ~ "other",
+      str_to_lower(str_trim(MX26_EM_HHW_TYPE)) == "na"       ~ NA_character_,
+      is.na(MX26_EM_HHW_TYPE)                                 ~ NA_character_,
+      TRUE                                                     ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(MX26_EM_HHW) | !is.na(MX26_EM_HHW_TYPE))
+
+# Aggregate to one row per ID
+q26_clean <- q26_norm %>%
+  group_by(ID) %>%
+  summarise(
+    MX26_EM_HHW      = paste(na.omit(MX26_EM_HHW), collapse = "; "),
+    MX26_EM_HHW_INFO = paste(na.omit(MX26_EM_HHW_INFO), collapse = "; "),
+    valences_present = paste(sort(unique(na.omit(valence_norm))), collapse = "; "),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    MX26_EM_HHW_CAT = case_when(
+      valences_present == "positive"                                          ~ 0L,
+      valences_present == "negative"                                          ~ 1L,
+      valences_present == "other"                                             ~ 555L,
+      str_detect(valences_present, "positive") &
+        str_detect(valences_present, "negative")                              ~ 444L,
+      valences_present == "" | is.na(valences_present)                        ~ 999L,
+      TRUE                                                                    ~ 555L
+    )
+  ) %>%
+  select(ID, MX26_EM_HHW, MX26_EM_HHW_INFO, MX26_EM_HHW_CAT, valences_present)
+
+cat("Q26 distribution (MX26_EM_HHW_CAT):\n")
+cat("  0=positive, 1=negative, 444=ambiguous, 555=other, 999=missing\n")
+print(table(q26_clean$MX26_EM_HHW_CAT, useNA = "always"))
+cat("IDs with conflicting valence (444):", sum(q26_clean$MX26_EM_HHW_CAT == 444L, na.rm = TRUE), "\n")
+```
+
+---
+
+# 11. Process Q19 – Time Investment in Water Management
+
+Coding: **0 = No**, **1 = Yes**.
+**444** (Ambiguous) for responses coded "Somewhat" or "a bit" by any rater.
+**555** (Other) for responses outside the No/Yes/Somewhat range.
+**999** (Missing) for NA or blank.
+
+**Source priority:** Q19.csv (consensus, covers all IDs) is the authoritative source.
+Jocelyne and Alice codings are used solely to detect discrepancies.
+
+```{r process-q19}
+# Normalise Q19 values to a consistent vocabulary
+norm_q19 <- function(x) {
+  x <- str_to_lower(str_trim(x))
+  case_when(
+    x == "no"                           ~ "no",
+    x %in% c("si", "yes")              ~ "yes",
+    x %in% c("a bit", "somewhat",
+              "a bit ", "un poco")      ~ "somewhat",
+    x %in% c("other", "otro",
+              "other ", "other?????",
+              "other ??? ", "other??????",
+              "other?????")             ~ "other",
+    x %in% c("na", "")                 ~ NA_character_,
+    TRUE                                ~ NA_character_   # ?, ????, no????, etc.
+  )
+}
+
+# Normalise each source
+q19_primary <- q19 %>%
+  mutate(q19_norm = norm_q19(Q19_CAT)) %>%
+  select(ID, MX19_TIME_RAW = Q19, MX19_TIME_ENG = Q19_ENG, q19_norm)
+
+q19_joc <- q_joc %>%
+  mutate(joc_norm = norm_q19(Q19_Jocelyne)) %>%
+  select(ID, joc_norm)
+
+q19_alice <- q_alice %>%
+  mutate(alice_norm = norm_q19(Q19_Alice)) %>%
+  select(ID, alice_norm)
+
+# Combine all three
+q19_all <- q19_primary %>%
+  left_join(q19_joc,   by = "ID") %>%
+  left_join(q19_alice, by = "ID")
+
+# Final clean column (from primary/consensus source)
+# Also attach the three-rater match flag from Q19_combined (Season 1 only; NA for Season 2)
+q19_clean <- q19_all %>%
+  left_join(
+    q19_combined %>% select(ID, three_rater_match),
+    by = "ID"
+  ) %>%
+  mutate(
+    MX19_TIME_CAT = case_when(
+      q19_norm == "no"       ~ 0L,
+      q19_norm == "yes"      ~ 1L,
+      q19_norm == "somewhat" ~ 444L,
+      q19_norm == "other"    ~ 555L,
+      is.na(q19_norm)        ~ 999L
+    )
+  ) %>%
+  select(ID, MX19_TIME_RAW, MX19_TIME_ENG, MX19_TIME_CAT,
+         q19_norm, joc_norm, alice_norm, three_rater_match)
+
+cat("Q19 distribution (MX19_TIME_CAT):\n")
+cat("  0=No, 1=Yes, 444=Ambiguous, 555=Other, 999=Missing\n")
+print(table(q19_clean$MX19_TIME_CAT, useNA = "always"))
+cat("Three-rater match (Season 1 only):\n")
+print(table(q19_clean$three_rater_match, useNA = "always"))
+```
+
+```{r q19-conflict-check}
+# Flag IDs where primary (Q19.csv) disagrees with Jocelyne or Alice
+# (only compare clear yes/no disagreements – ignore NA and ambiguous)
+q19_conflicts <- q19_clean %>%
+  filter(
+    q19_norm %in% c("no", "yes") &
+    (
+      (!is.na(joc_norm)   & joc_norm   %in% c("no", "yes") & q19_norm != joc_norm)   |
+      (!is.na(alice_norm) & alice_norm %in% c("no", "yes") & q19_norm != alice_norm)
+    )
+  ) %>%
+  mutate(
+    conflict_with_jocelyne = case_when(
+      !is.na(joc_norm) & joc_norm %in% c("no","yes") & q19_norm != joc_norm ~ "YES",
+      TRUE ~ "no"
+    ),
+    conflict_with_alice = case_when(
+      !is.na(alice_norm) & alice_norm %in% c("no","yes") & q19_norm != alice_norm ~ "YES",
+      TRUE ~ "no"
+    )
+  ) %>%
+  select(ID, MX19_TIME_RAW, MX19_TIME_ENG,
+         Primary_Q19csv = q19_norm,
+         Jocelyne = joc_norm,
+         Alice = alice_norm,
+         conflict_with_jocelyne, conflict_with_alice,
+         three_rater_match)
+
+cat("IDs with Q19 primary vs. Jocelyne or Alice conflict:", nrow(q19_conflicts), "\n")
+if (nrow(q19_conflicts) > 0) print(head(q19_conflicts, 10))
+```
+
+---
+
+# 12. Process Q16 – Water Scenario Preferences
+
+Likert scale 1–4 across four vignette scenarios. Administered to Season 2 participants only (IDs 302+).
+`Otro` / `Other` → **555**. Blank / NA → **999**.
+
+```{r process-q16}
+q16_clean <- q16 %>%
+  mutate(
+    across(
+      c(MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99),
+      ~ case_when(
+          str_to_lower(str_trim(as.character(.x))) %in% c("otro", "other") ~ 555L,
+          str_to_lower(str_trim(as.character(.x))) == "na"                  ~ 999L,
+          is.na(.x)                                                          ~ 999L,
+          TRUE                                                               ~ as.integer(.x)
+        )
+    )
+  ) %>%
+  select(ID, MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99, MX16_SCEN_INFO)
+
+cat("Q16 rows:", nrow(q16_clean), "| ID range:",
+    min(q16_clean$ID, na.rm = TRUE), "–", max(q16_clean$ID, na.rm = TRUE), "\n")
+cat("Note: Q16 was administered to Season 2 participants only.\n")
+for (col in c("MX16_SCEN_01","MX16_SCEN_03","MX16_SCEN_05","MX16_SCEN_99")) {
+  cat(col, "distribution:", paste(sort(unique(q16_clean[[col]])), collapse = ", "), "\n")
+}
+```
+
+---
+
+# 13. Export Conflicts for Manual Review
+
+Four issue types are exported to a single CSV, each with a blank `Suggested_code` column to fill in:
+
+1. **Q26 – rater conflict** – IDs where recorded emotions have conflicting valence (positive vs. negative) → coded 444.
+2. **Q26 – sentinel** – IDs coded 555 (neutral/other emotion).
+3. **Q19 – rater conflict** – IDs where Q19.csv disagrees with Jocelyne's or Alice's yes/no coding. The `three_rater_match` column flags Season 1 IDs where the full three-rater panel also disagreed.
+4. **Q19 – sentinel** – IDs coded 444 (Somewhat/ambiguous) or 555 (Other).
+5. **Q16 – sentinel** – IDs with any scenario column coded 555 (Otro response).
+
+```{r export-conflicts}
+# ── Q26: rater conflict (coded 444) ──────────────────────────────────────────
+q26_conflicts <- q26_clean %>%
+  filter(MX26_EM_HHW_CAT == 444L) %>%
+  transmute(
+    ID,
+    Question          = "Q26",
+    Issue             = "Rater conflict: mixed positive and negative emotions",
+    Coded_value       = as.character(MX26_EM_HHW_CAT),
+    Value_source1     = str_extract(MX26_EM_HHW, "^[^;]+"),
+    Value_source2     = str_extract(MX26_EM_HHW, "(?<=; ).+$"),
+    three_rater_match = NA_character_,
+    Notes             = MX26_EM_HHW_INFO,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q26: sentinel 555 (neutral/other emotion) ────────────────────────────────
+q26_sentinel <- q26_clean %>%
+  filter(MX26_EM_HHW_CAT == 555L) %>%
+  transmute(
+    ID,
+    Question          = "Q26",
+    Issue             = "Sentinel 555 (Other): emotion valence is neutral or 'otro'",
+    Coded_value       = as.character(MX26_EM_HHW_CAT),
+    Value_source1     = MX26_EM_HHW,
+    Value_source2     = valences_present,
+    three_rater_match = NA_character_,
+    Notes             = MX26_EM_HHW_INFO,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q19: rater conflict (primary vs. Jocelyne / Alice) ───────────────────────
+q19_conflicts_export <- q19_conflicts %>%
+  transmute(
+    ID,
+    Question          = "Q19",
+    Issue             = paste0(
+      "Rater conflict: primary vs. ",
+      if_else(conflict_with_jocelyne == "YES" & conflict_with_alice == "YES",
+              "Jocelyne AND Alice",
+              if_else(conflict_with_jocelyne == "YES", "Jocelyne", "Alice"))
+    ),
+    Coded_value       = NA_character_,
+    Value_source1     = paste("Q19.csv (primary):", Primary_Q19csv),
+    Value_source2     = paste("Jocelyne:", Jocelyne, "| Alice:", Alice),
+    three_rater_match,
+    Notes             = MX19_TIME_ENG,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q19: sentinel 444 (Somewhat) or 555 (Other) ──────────────────────────────
+# Exclude IDs already in the rater-conflict block to avoid duplication
+q19_sentinel <- q19_clean %>%
+  filter(MX19_TIME_CAT %in% c(444L, 555L),
+         !ID %in% q19_conflicts$ID) %>%
+  transmute(
+    ID,
+    Question          = "Q19",
+    Issue             = if_else(
+      MX19_TIME_CAT == 444L,
+      "Sentinel 444 (Ambiguous): response coded as 'Somewhat'",
+      "Sentinel 555 (Other): response outside No/Yes/Somewhat"
+    ),
+    Coded_value       = as.character(MX19_TIME_CAT),
+    Value_source1     = paste("Q19.csv (primary):", q19_norm),
+    Value_source2     = paste("Jocelyne:", joc_norm, "| Alice:", alice_norm),
+    three_rater_match,
+    Notes             = MX19_TIME_ENG,
+    Suggested_code    = NA_character_
+  )
+
+# ── Q16: sentinel 555 (Otro) in any scenario column ──────────────────────────
+q16_sentinel <- q16_clean %>%
+  filter(if_any(c(MX16_SCEN_01, MX16_SCEN_03, MX16_SCEN_05, MX16_SCEN_99),
+                ~ .x == 555L)) %>%
+  mutate(
+    flagged_cols = paste(
+      na.omit(c(
+        if_else(MX16_SCEN_01 == 555L, "MX16_SCEN_01", NA_character_),
+        if_else(MX16_SCEN_03 == 555L, "MX16_SCEN_03", NA_character_),
+        if_else(MX16_SCEN_05 == 555L, "MX16_SCEN_05", NA_character_),
+        if_else(MX16_SCEN_99 == 555L, "MX16_SCEN_99", NA_character_)
+      )),
+      collapse = "; "
+    )
+  ) %>%
+  transmute(
+    ID,
+    Question          = "Q16",
+    Issue             = "Sentinel 555 (Other): 'Otro' response in one or more scenario columns",
+    Coded_value       = "555",
+    Value_source1     = paste("Flagged cols:", flagged_cols),
+    Value_source2     = paste0(
+      "SCEN_01=", MX16_SCEN_01, " | SCEN_03=", MX16_SCEN_03,
+      " | SCEN_05=", MX16_SCEN_05, " | SCEN_99=", MX16_SCEN_99
+    ),
+    three_rater_match = NA_character_,
+    Notes             = MX16_SCEN_INFO,
+    Suggested_code    = NA_character_
+  )
+
+# ── Combine and export ────────────────────────────────────────────────────────
+conflicts_review <- bind_rows(
+  q26_conflicts,
+  q26_sentinel,
+  q19_conflicts_export,
+  q19_sentinel,
+  q16_sentinel
+) %>%
+  arrange(Question, ID)
+
+write_csv(conflicts_review, "./data/03.Conflicts_to_review.csv", na = "")
+cat("Exported: 03.Conflicts_to_review.csv\n")
+cat("  Q26 rater conflicts (444):", nrow(q26_conflicts), "IDs\n")
+cat("  Q26 sentinel 555:         ", nrow(q26_sentinel),  "IDs\n")
+cat("  Q19 rater conflicts:      ", nrow(q19_conflicts_export), "IDs\n")
+cat("  Q19 sentinel 444/555:     ", nrow(q19_sentinel),  "IDs\n")
+cat("  Q16 sentinel 555:         ", nrow(q16_sentinel),  "IDs\n")
+cat("  Total rows:               ", nrow(conflicts_review), "\n")
+```
+
+---
+
+# 13.5 Apply resolutions from reviewed conflicts file
+
+Read `03.conflicts_reviewed.csv` — a copy of `03.Conflicts_to_review.csv` where you
+have filled in the `Suggested_code` column — and patch `q19_clean`, `q26_clean`, and
+`q16_clean` before the final merge.
+
+**Workflow:**
+
+1. Copy `data/03.Conflicts_to_review.csv` → `data/03.conflicts_reviewed.csv`.
+2. Fill in `Suggested_code` for each row you have resolved. Leave blank for rows still pending.
+3. Save and re-knit.
+
+Valid codes by question:
+
+- **Q19**: 0 (No), 1 (Yes), 444 (Ambiguous), 555 (Other), 999 (Missing)
+- **Q26**: 0 (Positive), 1 (Negative), 555 (Other), 999 (Missing)
+- **Q16**: 1–4, 555 (Other), 999 (Missing) — applied to every scenario column still coded 555 for that ID
+
+```{r apply-resolutions}
+reviewed_path <- "./data/03.conflicts_reviewed.csv"
+
+if (!file.exists(reviewed_path)) {
+
+  cat("No reviewed file found at", reviewed_path, "\n")
+  cat("Create it by copying 03.Conflicts_to_review.csv, filling in Suggested_code, and re-knitting.\n")
+
+} else {
+
+  reviewed <- read_csv(reviewed_path, show_col_types = FALSE) %>%
+    filter(!is.na(Suggested_code), str_trim(Suggested_code) != "")
+
+  cat("Reviewed file loaded:", nrow(reviewed), "resolved rows (of",
+      nrow(read_csv(reviewed_path, show_col_types = FALSE)), "total)\n\n")
+
+  # Counters for the summary
+  n_q19 <- 0L; n_q26 <- 0L; n_q16 <- 0L
+
+  for (i in seq_len(nrow(reviewed))) {
+
+    id_i   <- reviewed$ID[i]
+    q_i    <- reviewed$Question[i]
+    code_i <- as.integer(reviewed$Suggested_code[i])
+
+    # ── Q19 ────────────────────────────────────────────────────────────────────
+    if (q_i == "Q19") {
+      idx <- which(q19_clean$ID == id_i)
+      if (length(idx) == 1) {
+        old <- q19_clean$MX19_TIME_CAT[idx]
+        q19_clean$MX19_TIME_CAT[idx] <- code_i
+        cat(sprintf("Q19 ID %d: %s → %d\n", id_i, old, code_i))
+        n_q19 <- n_q19 + 1L
+      } else {
+        cat(sprintf("Q19 ID %d: not found in q19_clean – skipped\n", id_i))
+      }
+    }
+
+    # ── Q26 ────────────────────────────────────────────────────────────────────
+    else if (q_i == "Q26") {
+      idx <- which(q26_clean$ID == id_i)
+      if (length(idx) == 1) {
+        old <- q26_clean$MX26_EM_HHW_CAT[idx]
+        q26_clean$MX26_EM_HHW_CAT[idx] <- code_i
+        cat(sprintf("Q26 ID %d: %s → %d\n", id_i, old, code_i))
+        n_q26 <- n_q26 + 1L
+      } else {
+        cat(sprintf("Q26 ID %d: not found in q26_clean – skipped\n", id_i))
+      }
+    }
+
+    # ── Q16 ────────────────────────────────────────────────────────────────────
+    # Replace every scenario column still coded 555 for this ID
+    else if (q_i == "Q16") {
+      idx <- which(q16_clean$ID == id_i)
+      if (length(idx) == 1) {
+        q16_cols <- c("MX16_SCEN_01", "MX16_SCEN_03", "MX16_SCEN_05", "MX16_SCEN_99")
+        updated_cols <- character(0)
+        for (col in q16_cols) {
+          if (!is.na(q16_clean[[col]][idx]) && q16_clean[[col]][idx] == 555L) {
+            q16_clean[[col]][idx] <- code_i
+            updated_cols <- c(updated_cols, col)
+          }
+        }
+        if (length(updated_cols) > 0) {
+          cat(sprintf("Q16 ID %d: 555 → %d in %s\n",
+                      id_i, code_i, paste(updated_cols, collapse = ", ")))
+          n_q16 <- n_q16 + 1L
+        } else {
+          cat(sprintf("Q16 ID %d: no 555 values found in scenario columns – skipped\n", id_i))
+        }
+      } else {
+        cat(sprintf("Q16 ID %d: not found in q16_clean – skipped\n", id_i))
+      }
+    }
+  }
+
+  # Summary
+  cat(sprintf("\n── Resolution summary ──────────────────────────────\n"))
+  cat(sprintf("  Q19 updated: %d\n", n_q19))
+  cat(sprintf("  Q26 updated: %d\n", n_q26))
+  cat(sprintf("  Q16 updated: %d\n", n_q16))
+
+  # Check how many conflicts remain unresolved (still 444 or 555 in coded vars)
+  still_open_q19 <- sum(q19_clean$MX19_TIME_CAT %in% c(444L, 555L), na.rm = TRUE)
+  still_open_q26 <- sum(q26_clean$MX26_EM_HHW_CAT %in% c(444L, 555L), na.rm = TRUE)
+  still_open_q16 <- sum(
+    q16_clean$MX16_SCEN_01 == 555L | q16_clean$MX16_SCEN_03 == 555L |
+    q16_clean$MX16_SCEN_05 == 555L | q16_clean$MX16_SCEN_99 == 555L,
+    na.rm = TRUE
+  )
+  cat(sprintf("  Still unresolved – Q19: %d | Q26: %d | Q16: %d\n",
+              still_open_q19, still_open_q26, still_open_q16))
+}
+```
+
+---
+
+# 13.6. Review file – HRS_PER_WEEK, D_HH_SIZE, and Cont_int
+
+Exports `03.continuous_to_review.csv`: one row per (ID × variable) where
+`MX5_WFREQ_HRS_PER_WEEK`, `D_HH_SIZE`, or `MX3_CONT_INT` is NA or carries a
+sentinel code. The student fills in the `consensus` column, saves it as
+`03.continuous_consensus.csv`, and re-runs section 13.7 to patch the dataset
+before the final merge in section 14.
+
+```{r export-continuous-review}
+MISSING_CODES_INT <- c(999L, 888L, 777L, 666L, 555L, 444L, 333L)
+MISSING_CODES_CHR <- as.character(MISSING_CODES_INT)
+
+review_vars <- c("MX5_WFREQ_HRS_PER_WEEK", "D_HH_SIZE", "MX3_CONT_INT")
+
+sentinel_labels <- c(
+  "999" = "Lost / data entry error",
+  "888" = "Don't know",
+  "777" = "Refused",
+  "666" = "Illegible",
+  "555" = "Other — outside allowed categories",
+  "444" = "Ambiguous — needs review",
+  "333" = "Pending — data exists but not entered"
+)
+
+hints <- c(
+  MX5_WFREQ_HRS_PER_WEEK = "Enter hours per week as a positive number (e.g. 3.5). Use 0 if none.",
+  D_HH_SIZE              = "Enter number of household members as a positive integer.",
+  MX3_CONT_INT           = "Enter 0 = no interruption, 1 = interrupted (continuous supply)."
+)
+
+# Long-format: one row per problematic (ID × variable)
+cont_long <- merged_final %>%
+  select(ID, all_of(review_vars)) %>%
+  mutate(across(-ID, as.character)) %>%
+  pivot_longer(cols = -ID, names_to = "variable", values_to = "current_value") %>%
+  mutate(
+    issue = case_when(
+      is.na(current_value)                  ~ "Missing / not entered",
+      current_value %in% MISSING_CODES_CHR  ~ paste0(
+        "Sentinel ", current_value, " — ", sentinel_labels[current_value]
+      ),
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  filter(!is.na(issue))
+
+# Pull D_HH_SIZE_INFO as a notes column where available
+notes_df <- merged_final %>%
+  select(ID, notes = any_of("D_HH_SIZE_INFO")) %>%
+  mutate(variable = "D_HH_SIZE")
+
+cont_review <- cont_long %>%
+  left_join(notes_df, by = c("ID", "variable")) %>%
+  mutate(
+    hint      = hints[variable],
+    consensus = NA_character_
+  ) %>%
+  select(ID, variable, current_value,
+         any_of("notes"),
+         issue, hint, consensus)
+
+write_csv(cont_review, "./data/03.continuous_to_review.csv", na = "")
+
+cat("Exported: 03.continuous_to_review.csv\n")
+for (v in review_vars) {
+  cat(sprintf("  %-28s %d rows\n", paste0(v, ":"), sum(cont_review$variable == v)))
+}
+cat("  Total:", nrow(cont_review), "rows\n")
+```
+
+---
+
+# 13.7. Apply continuous variable consensus
+
+Fill in `consensus` in `03.continuous_to_review.csv`, save as
+`03.continuous_consensus.csv`, then re-run this chunk **before** proceeding to
+section 14. The corrected values will flow automatically into `merged_final2`
+during the merge.
+
+```{r apply-continuous-consensus}
+cont_consensus_path <- "./data/03.continuous_consensus.csv"
+
+if (!file.exists(cont_consensus_path)) {
+
+  cat("Consensus file not found:", cont_consensus_path, "\n",
+      "Fill in the 'consensus' column in 03.continuous_to_review.csv,\n",
+      "save as 03.continuous_consensus.csv, and re-run this chunk.\n")
+
+} else {
+
+  cont_consensus <- read_csv(cont_consensus_path, show_col_types = FALSE) %>%
+    filter(!is.na(consensus), str_trim(as.character(consensus)) != "")
+
+  cat("Applying", nrow(cont_consensus), "consensus values...\n")
+
+  n_applied <- 0L
+  for (i in seq_len(nrow(cont_consensus))) {
+    id_i  <- cont_consensus$ID[i]
+    v_i   <- cont_consensus$variable[i]
+    val_i <- suppressWarnings(as.numeric(cont_consensus$consensus[i]))
+
+    if (is.na(val_i)) {
+      cat(sprintf("Non-numeric value skipped — ID: %d, variable: %s, value: %s\n",
+                  id_i, v_i, cont_consensus$consensus[i]))
+      next
+    }
+
+    idx <- which(merged_final$ID == id_i)
+    if (length(idx) == 1 && v_i %in% names(merged_final)) {
+      merged_final[[v_i]][idx] <- val_i
+      n_applied <- n_applied + 1L
+    } else {
+      cat(sprintf("ID %d or variable '%s' not found — skipped\n", id_i, v_i))
+    }
+  }
+
+  cat("Applied:", n_applied, "values\n\n")
+
+  # Updated missingness summary
+  cat("Missingness after consensus update:\n")
+  merged_final %>%
+    select(all_of(review_vars)) %>%
+    mutate(across(everything(), as.character)) %>%
+    summarise(across(everything(),
+                     ~ sum(is.na(.) | . %in% MISSING_CODES_CHR))) %>%
+    pivot_longer(everything(),
+                 names_to  = "variable",
+                 values_to = "n_missing_or_flagged") %>%
+    print()
+}
+```
+
+---
+
+# 14. Merge Q16, Q19, Q26, Q28 onto main dataset
+
+```{r merge-supplemental}
+merged_final2 <- merged_final %>%
+  # Q28
+  left_join(
+    q28_clean %>% select(ID, MX28_WQ_COMP, MX28_WQ_COMP_CAT, MX28_WQ_COMP_INFO),
+    by = "ID"
+  ) %>%
+  # Q26
+  left_join(
+    q26_clean %>% select(ID, MX26_EM_HHW, MX26_EM_HHW_INFO, MX26_EM_HHW_CAT),
+    by = "ID"
+  ) %>%
+  # Q19
+  left_join(
+    q19_clean %>% select(ID, MX19_TIME_RAW, MX19_TIME_ENG, MX19_TIME_CAT),
+    by = "ID"
+  ) %>%
+  # Q16
+  left_join(
+    q16_clean,
+    by = "ID"
+  )
+
+cat("Final dimensions:", nrow(merged_final2), "rows ×", ncol(merged_final2), "cols\n")
+cat("New columns added:", paste(setdiff(names(merged_final2), names(merged_final)), collapse = ", "), "\n")
+
+# Missingness summary for new variables
+new_vars <- c("MX28_WQ_COMP_CAT", "MX26_EM_HHW_CAT", "MX19_TIME_CAT",
+              "MX16_SCEN_01", "MX16_SCEN_03", "MX16_SCEN_05", "MX16_SCEN_99")
+
+cat("\nMissing-value counts for new variables (NA = ID not in supplemental file):\n")
+merged_final2 %>%
+  summarise(across(all_of(new_vars), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "column", values_to = "n_NA") %>%
+  arrange(desc(n_NA)) %>%
+  print()
+```
+
+---
+
+# 15. Export updated dataset
+
+```{r export-v2}
+write_csv(merged_final2, "./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv", na = "")
+cat("Exported: 03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv\n")
+cat("Rows:", nrow(merged_final2), "| Cols:", ncol(merged_final2), "\n")
+```
+
+---
+
+# 16. Summary Table – Questions of Interest
+
+Distributions for Q28, Q26, Q19, and Q16.
+Sentinel/missing codes are shown separately from valid responses.
+
+```{r summary-table}
+# Helper: tabulate one variable, split valid vs. sentinel
+summarise_q <- function(df, col, label, value_labels) {
+  x <- df[[col]]
+
+  valid  <- x[!is.na(x) & !(x %in% MISSING_CODES)]
+  sentinels <- x[!is.na(x) &   x %in% MISSING_CODES]
+  n_na   <- sum(is.na(x))
+
+  sent_labels <- c(
+    "999" = "Missing", "888" = "Don't know", "777" = "Refused",
+    "666" = "Illegible", "555" = "Other", "444" = "Ambiguous", "333" = "Pending"
+  )
+
+  valid_rows <- if (length(valid) > 0) {
+    tbl <- table(valid)
+    tibble(
+      Variable = label,
+      Code     = names(tbl),
+      Label    = value_labels[names(tbl)],
+      n        = as.integer(tbl),
+      pct_valid = round(100 * as.integer(tbl) / length(valid), 1),
+      Type     = "Valid"
+    )
+  } else tibble()
+
+  sent_rows <- if (length(sentinels) > 0) {
+    tbl <- table(sentinels)
+    tibble(
+      Variable  = label,
+      Code      = names(tbl),
+      Label     = sent_labels[names(tbl)],
+      n         = as.integer(tbl),
+      pct_valid = NA_real_,
+      Type      = "Sentinel/Missing"
+    )
+  } else tibble()
+
+  na_rows <- if (n_na > 0) {
+    tibble(Variable = label, Code = "NA", Label = "Not in file (no record)",
+           n = n_na, pct_valid = NA_real_, Type = "Sentinel/Missing")
+  } else tibble()
+
+  bind_rows(valid_rows, sent_rows, na_rows)
+}
+
+lbl_q28  <- c("0" = "Better", "1" = "Same",     "2" = "Worse")
+lbl_q26  <- c("0" = "Positive", "1" = "Negative")
+lbl_q19  <- c("0" = "No",     "1" = "Yes")
+lbl_q16  <- c("1" = "Option 1", "2" = "Option 2", "3" = "Option 3", "4" = "Option 4")
+
+summary_tbl <- bind_rows(
+  summarise_q(merged_final2, "MX28_WQ_COMP_CAT",
+              "Q28 – Water Quality Comparison (0=Better, 1=Same, 2=Worse)", lbl_q28),
+  summarise_q(merged_final2, "MX26_EM_HHW_CAT",
+              "Q26 – Household Water Emotion (0=Positive, 1=Negative)",     lbl_q26),
+  summarise_q(merged_final2, "MX19_TIME_CAT",
+              "Q19 – Time Investment in Water Mgmt (0=No, 1=Yes)",          lbl_q19),
+  summarise_q(merged_final2, "MX16_SCEN_01",
+              "Q16 – Scenario 01 (Season 2 only)",                          lbl_q16),
+  summarise_q(merged_final2, "MX16_SCEN_03",
+              "Q16 – Scenario 03 (Season 2 only)",                          lbl_q16),
+  summarise_q(merged_final2, "MX16_SCEN_05",
+              "Q16 – Scenario 05 (Season 2 only)",                          lbl_q16),
+  summarise_q(merged_final2, "MX16_SCEN_99",
+              "Q16 – Scenario 99 (Season 2 only)",                          lbl_q16)
+) %>%
+  arrange(Variable, Type, Code)
+
+cat("\n=== SUMMARY TABLE: Questions of Interest ===\n\n")
+print(summary_tbl, n = 100)
+
+knitr::kable(
+  summary_tbl,
+  caption = paste(
+    "Distribution of Q16 (scenario preferences), Q19 (time investment),",
+    "Q26 (household water emotions), and Q28 (water quality comparison).",
+    "Percentages (pct_valid) are calculated over valid responses only.",
+    "Missing codes: 444=Ambiguous, 555=Other, 999=Missing/not in file."
+  ),
+  col.names = c("Variable", "Code", "Label", "n", "% (valid only)", "Type"),
+  digits = 1
+)
 ```
