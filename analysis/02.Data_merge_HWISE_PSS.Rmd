@@ -291,6 +291,48 @@ ggplot(hwise_pss %>% filter(!is.na(HW_WORRY_SUB)),
 
 ---
 
+# 3.6 Copmute HW_MEX_5SUB
+
+The 5-item subscale was proposed by Huffman and Najera in 2024 as more reliable and cost effective than the complete 12-item HWISE. They reached these conclutions after analyzing the 2021 national survey on health and nutrition data (n=12619 households). They propose a scale including the items: Clothes, Plans, Food, Hands and Body. They propose a cutoff of 3 for low/high water insecurity using this scale. 
+
+> Huffman C, Nájera H.
+> The Household Water Insecurity Experiences Scale: answer patterns and cutoffs in Mexico. Salud Publica Mex 
+> 8 de diciembre de 2023;66(1, ene-feb):59-66. 
+> https://saludpublica.mx/index.php/spm/article/view/14735
+
+```{r hwise-5items-sub}
+HW_MEX_5SUB_ITEMS <- c("HW_CLOTHES", "HW_PLANS", "HW_FOOD", "HW_HANDS", "HW_BODY")
+
+hwise_pss <- hwise_pss %>%
+  rowwise() %>%
+  mutate(
+    HW_MEX_5SUB = {
+      vals <- c_across(all_of(HW_MEX_5SUB_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %>%
+  ungroup()
+
+cat("HW_MEX_5SUB distribution:\n")
+print(summary(hwise_pss$HW_MEX_5SUB))
+cat("Missing HW_MEX_5SUB:", sum(is.na(hwise_pss$HW_MEX_5SUB)), "\n")
+
+ggplot(hwise_pss %>% filter(!is.na(HW_MEX_5SUB)),
+       aes(x = HW_MEX_5SUB)) +
+  geom_bar(fill = "#5bc0de", color = "white") +
+  scale_x_continuous(breaks = 0:9) +
+  labs(title = "HW_MEX_5SUB distribution",
+       x = "5-item subscale (0–9)", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+
 # 4. Clean PSS data
 
 ## 4.1 Preserve raw PSS values
@@ -548,6 +590,7 @@ hwise_to_merge <- hwise_pss %>%
     all_of(HWISE_ITEMS),
     HW_TOTAL,
     HW_WORRY_SUB,
+    HW_MEX_5SUB,
     HW_INFO,                           # free-text notes
     # PSS: raw items, reversed items, computed total, flags
     all_of(PSS_ITEMS),
@@ -830,3 +873,4 @@ cat("Final dimensions:", dim(df_merged), "\n")
 - check samples that are only in screening file or in hwise_pss file
 - HWISE have 8 samples with NAs (without final score)
 - ID not in database: 71
+

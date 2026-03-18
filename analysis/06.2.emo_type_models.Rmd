@@ -218,27 +218,76 @@ model_specs <- c(
     hrs_supply = list(
       label   = "M2: Core + Hours water supply/week",
       group   = "Water supply",
-      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + HRS_PER_WEEK
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + HRS_PER_WEEK + SEASON
     ),
     cont_int = list(
       label   = "M3: Core + Continuous/intermittent supply",
       group   = "Water supply",
-      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + CONT_INT
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + CONT_INT + SEASON
     ),
     ws_loc = list(
       label   = "M4: Core + WS/WI neighborhood",
       group   = "Water supply",
-      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + WS_LOC
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + WS_LOC + SEASON
     ),
     nb_comp = list(
       label   = "M5: Core + Neighborhood comparison (Q28)",
       group   = "Perception",
-      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + NB_COMP
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + NB_COMP + SEASON
     ),
     time_water = list(
       label   = "M6: Core + Time handling water (Q19)",
       group   = "Water behavior",
-      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + TIME_WATER
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + TIME_WATER + SEASON
+    ),
+    # ── Combined models: HWISE + independent water dimension ─────────────────
+    hwise_time_water = list(
+      label   = "M7: Core + HWISE Total + Time handling water",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + HW_TOTAL + TIME_WATER
+    ),
+    hwise_cont_int = list(
+      label   = "M8: Core + HWISE Total + Continuous/intermittent supply",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + HW_TOTAL + CONT_INT
+    ),
+    hwise_nb_comp = list(
+      label   = "M9: Core + HWISE Total + Neighborhood comparison",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + HW_TOTAL + NB_COMP
+    ),
+    # ── HWISE × supply/perception interactions ────────────────────────────────
+    # Each tests whether the HWISE–emotion slope differs by the level of a
+    # specific water supply or perception variable
+    hwise_x_time_water = list(
+      label   = "M10: Core + HWISE × Time handling water (interaction)",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL +
+                          HW_TOTAL + TIME_WATER + HW_TOTAL:TIME_WATER
+    ),
+    hwise_x_cont_int = list(
+      label   = "M11: Core + HWISE × Continuous/intermittent supply (interaction)",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL +
+                          HW_TOTAL + CONT_INT + HW_TOTAL:CONT_INT
+    ),
+    hwise_x_nb_comp = list(
+      label   = "M12: Core + HWISE × Neighborhood comparison (interaction)",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL +
+                          HW_TOTAL + NB_COMP + HW_TOTAL:NB_COMP
+    ),
+    hwise_x_ws_loc = list(
+      label   = "M13: Core + HWISE × WS/WI neighborhood (interaction)",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL +
+                          HW_TOTAL + WS_LOC + HW_TOTAL:WS_LOC
+    ),
+    hwise_x_hrs_supply = list(
+      label   = "M14: Core + HWISE × Hours water supply/week (interaction)",
+      group   = "Combined",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL +
+                          HW_TOTAL + HRS_PER_WEEK + HW_TOTAL:HRS_PER_WEEK
     )
   )
 )
@@ -865,3 +914,79 @@ ggplot(combined_or,
 12. **Seasonal variation**: Emotion valence about water may vary with actual
     water availability (dry vs. wet season). Include `SEASON` as a covariate
     or stratify in confirmatory analyses.
+
+
+
+
+## Additional plots
+
+
+```{r echo = FALSE}
+
+coef_df <- tidy(fitted_models$nb_comp, conf.int = TRUE)
+coef_df <- subset(coef_df) 
+# to rm intercept add subset(coef_df, term != "(Intercept)")
+
+p1 <-ggplot(coef_df, aes(x = estimate, y = reorder(term, estimate))) +
+  geom_point(size = 3) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(
+    x = "Coefficient estimate",
+    y = "",
+    title = "Regression coefficients"
+  ) +
+  theme_classic(base_size = 12)
+
+
+coef_df <- tidy(fitted_models$hwise_nb_comp, conf.int = TRUE)
+coef_df <- subset(coef_df) 
+# to rm intercept add subset(coef_df, term != "(Intercept)")
+
+
+p2 <- ggplot(coef_df, aes(x = estimate, y = reorder(term, estimate))) +
+  geom_point(size = 3) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(
+    x = "Coefficient estimate",
+    y = "",
+    title = "Regression coefficients"
+  ) +
+  theme_classic(base_size = 12)
+
+
+
+coef_df <- tidy(fitted_models$hwise_x_nb_comp, conf.int = TRUE)
+coef_df <- subset(coef_df) 
+# to rm intercept add subset(coef_df, term != "(Intercept)")
+
+
+p3 <- ggplot(coef_df, aes(x = estimate, y = reorder(term, estimate))) +
+  geom_point(size = 3) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0.2) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  labs(
+    x = "Coefficient estimate",
+    y = "",
+    title = "Regression coefficients"
+  ) +
+  theme_classic(base_size = 12)
+
+
+
+
+p1 
+ggsave("./output/coef_plot1.png", width = 6, height = 4, dpi = 300)
+p2 
+ggsave("./output/coef_plot2.png", width = 6, height = 4, dpi = 300)
+p3
+ggsave("./output/coef_plot3.png", width = 6, height = 4, dpi = 300)
+
+
+
+
+
+
+```
+

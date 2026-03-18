@@ -219,17 +219,17 @@ model_specs <- c(
     hrs_supply = list(
       label   = "M2: Core + Hours water supply/week",
       group   = "QUAIL-Mex",
-      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + HRS_PER_WEEK
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + HRS_PER_WEEK + SEASON
     ),
     cont_int = list(
       label   = "M3: Core + Continuous/intermittent supply",
       group   = "QUAIL-Mex",
-      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + CONT_INT
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + CONT_INT 
     ),
     ws_loc = list(
       label   = "M4: Core + WS/WI neighborhood",
       group   = "QUAIL-Mex",
-      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + WS_LOC
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + WS_LOC 
     ),
     nb_comp = list(
       label   = "M5: Core + Neighborhood comparison (Q28)",
@@ -239,7 +239,7 @@ model_specs <- c(
     time_water = list(
       label   = "M6: Core + Time handling water (Q19)",
       group   = "QUAIL-Mex",
-      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + TIME_WATER
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + TIME_WATER 
     )
   )
 )
@@ -813,6 +813,12 @@ augment(fitted_models[["core3_hwise_total"]]) %>%
    comparison %>%
      filter(!is.na(delta_adj_R2)) %>%
      mutate(cohens_f2 = delta_adj_R2 / (1 - adj_R2))
+
+
+
+plot(fitted_models$core3_hwise_log)
+
+plot(fitted_models$core3_hwise_total)
 ```
 
 ---

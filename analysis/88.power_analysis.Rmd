@@ -1,0 +1,205 @@
+---
+title: "Sample Size & Power Analysis"
+author: "Paloma"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+## Setup
+
+```{r packages}
+# Install packages if needed
+if (!requireNamespace("pwr",       quietly = TRUE)) install.packages("pwr")
+if (!requireNamespace("WebPower",  quietly = TRUE)) install.packages("WebPower")
+
+library(pwr)
+library(WebPower)
+```
+
+```{r load-data}
+df <- read.csv("03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv", stringsAsFactors = FALSE)
+```
+
+---
+
+## 1. Observed sample characteristics
+
+```{r sample-size}
+# Total N
+n_total <- nrow(df)
+cat("Total N:", n_total, "\n")
+
+# N with non-missing PSS_TOTAL
+n_pss <- sum(!is.na(df$PSS_TOTAL) & df$PSS_TOTAL != "" & df$PSS_TOTAL != "NA")
+cat("N with PSS_TOTAL:", n_pss, "\n")
+
+# emo_type (MX26_EM_HHW_CAT): binary 0/1, exclude 444 (ambiguous)
+emo_clean <- df$MX26_EM_HHW_CAT[df$MX26_EM_HHW_CAT %in% c("0", "1")]
+n_emo    <- length(emo_clean)
+p_neg    <- mean(emo_clean == "1")   # proportion reporting negative emotion
+cat("N with emo_type (0/1 only):", n_emo, "\n")
+cat("Proportion negative emotion (p_neg):", round(p_neg, 3), "\n")
+```
+
+---
+
+## 2. Linear regression power (PSS_TOTAL outcome)
+
+Using `pwr::pwr.f2.test()`. The model includes 1 predictor of interest + 3 core
+covariates (SES, age, household size), so **u = 4** (total regression df).
+
+```{r power-linear}
+# --- Minimum detectable effect size given N ---
+# v = residual df = N - u - 1
+n_lin <- n_pss          # use N available for PSS
+u     <- 4              # predictors (1 focal + 3 covariates)
+v     <- n_lin - u - 1
+
+pwr_lin <- pwr.f2.test(u = u, v = v, sig.level = 0.05, power = 0.80)
+
+cat("---------------------------------------------\n")
+cat("Linear regression (PSS_TOTAL)\n")
+cat("N =", n_lin, "| alpha = 0.05 | power = 0.80\n")
+cat("Minimum detectable f² =", round(pwr_lin$f2, 4), "\n")
+cat("  (small = 0.02, medium = 0.15, large = 0.35)\n")
+cat("---------------------------------------------\n")
+
+# --- What power do we have for a small effect (f2 = 0.02)? ---
+pwr_lin_small <- pwr.f2.test(u = u, v = v, f2 = 0.02, sig.level = 0.05)
+cat("Power to detect f² = 0.02:", round(pwr_lin_small$power, 3), "\n")
+
+# --- What N would we need for 80% power at f2 = 0.02? ---
+pwr_lin_req <- pwr.f2.test(u = u, f2 = 0.02, sig.level = 0.05, power = 0.80)
+cat("N required for 80% power at f² = 0.02:",
+    ceiling(pwr_lin_req$v + u + 1), "\n")
+```
+
+---
+
+## 3. Logistic regression power (emo_type outcome)
+
+### 3a. Binary predictor (e.g., W_WS_LOC: water-secure vs. water-insecure neighborhood)
+
+Using `WebPower::wp.logistic()`. We solve for the minimum detectable log-odds
+ratio (converted to OR) assuming equal group sizes.
+
+```{r power-logistic-binary}
+n_log <- n_emo           # N available for emo_type models
+
+# Baseline event rate (negative emotion) in reference group
+# We use the overall p_neg as an approximation of the reference group rate
+p0 <- p_neg
+
+# Sequence of ORs to evaluate
+or_seq <- seq(1.3, 3.0, by = 0.1)
+
+power_by_or <- sapply(or_seq, function(or) {
+  # Convert OR to p1
+  p1 <- (or * p0) / (1 - p0 + or * p0)
+  tryCatch(
+    wp.logistic(n = n_log, p0 = p0, p1 = p1,
+                alpha = 0.05, power = NULL,
+                alternative = "two.sided")$power,
+    error = function(e) NA
+  )
+})
+
+results_bin <- data.frame(OR = or_seq, Power = round(power_by_or, 3))
+print(results_bin)
+
+# Minimum OR detectable at 80% power
+min_or_80 <- or_seq[which(power_by_or >= 0.80)[1]]
+cat("\nMinimum detectable OR at 80% power (binary predictor):",
+    min_or_80, "\n")
+```
+
+### 3b. Continuous predictor (e.g., modified HWISE total score)
+
+For continuous predictors in logistic regression, power depends on the predictor's
+distribution. We use `WebPower::wp.logistic()` with the predictor standardized
+to 1 SD, so the OR reflects a 1-SD increase in the predictor.
+
+```{r power-logistic-continuous}
+# Estimate SD of HWISE total from data (proxy for continuous predictor scale)
+hw_vals <- as.numeric(df$HW_TOTAL[!is.na(df$HW_TOTAL) &
+                                    df$HW_TOTAL != "" &
+                                    df$HW_TOTAL != "NA"])
+sd_hwise <- sd(hw_vals, na.rm = TRUE)
+cat("SD of HW_TOTAL:", round(sd_hwise, 2), "\n\n")
+
+# For a 1-SD increase in a continuous predictor, we treat it similarly to
+# a binary predictor using the OR-based approximation
+or_seq_cont <- seq(1.3, 3.0, by = 0.1)
+
+power_cont <- sapply(or_seq_cont, function(or) {
+  p1 <- (or * p0) / (1 - p0 + or * p0)
+  tryCatch(
+    wp.logistic(n = n_log, p0 = p0, p1 = p1,
+                alpha = 0.05, power = NULL,
+                alternative = "two.sided")$power,
+    error = function(e) NA
+  )
+})
+
+min_or_cont <- or_seq_cont[which(power_cont >= 0.80)[1]]
+cat("Minimum detectable OR per 1-SD increase (continuous predictor) at 80% power:",
+    min_or_cont, "\n")
+```
+
+---
+
+## 4. Power note for Aim 2 (multiple models + FDR correction)
+
+With FDR correction, the effective alpha per test is lower than 0.05. Here we
+examine how power changes under a more conservative per-test alpha, to give an
+honest characterisation of Aim 2 power.
+
+```{r power-aim2}
+# Approximate number of Aim 2 models per outcome
+# (10 HWISE items + ~7 other predictors = ~17 models per outcome)
+n_tests   <- 17
+fdr_alpha <- 0.05   # BH controls FDR at 0.05, not per-comparison alpha;
+                    # for illustration we check power at alpha = 0.01 as
+                    # a conservative approximation
+
+# Linear regression at alpha = 0.01
+pwr_aim2_lin <- pwr.f2.test(u = u, v = v, f2 = 0.02, sig.level = 0.01)
+cat("Aim 2 linear: power at f² = 0.02, alpha = 0.01:",
+    round(pwr_aim2_lin$power, 3), "\n")
+
+# Logistic at alpha = 0.01, OR = min_or_80 from above
+p1_aim2 <- (min_or_80 * p0) / (1 - p0 + min_or_80 * p0)
+pwr_aim2_log <- wp.logistic(n = n_log, p0 = p0, p1 = p1_aim2,
+                             alpha = 0.01, power = NULL,
+                             alternative = "two.sided")
+cat("Aim 2 logistic: power at OR =", min_or_80, ", alpha = 0.01:",
+    round(pwr_aim2_log$power, 3), "\n")
+```
+
+---
+
+## 5. Summary for methods section
+
+```{r summary}
+cat("============================================================\n")
+cat("NUMBERS TO INSERT INTO METHODS SECTION\n")
+cat("============================================================\n\n")
+
+cat("Total analytic N (PSS models):   ", n_lin, "\n")
+cat("Total analytic N (emo_type models):", n_log, "\n")
+cat("Event rate (negative emotion):   ", round(p_neg * 100, 1), "%\n\n")
+
+cat("-- Linear regression (PSS_TOTAL) --\n")
+cat("Minimum detectable f²:           ", round(pwr_lin$f2, 4), "\n")
+cat("Power at f² = 0.02:              ", round(pwr_lin_small$power * 100, 1), "%\n\n")
+
+cat("-- Logistic regression (emo_type) --\n")
+cat("Min detectable OR (binary pred): ", min_or_80, "\n")
+cat("Min detectable OR (continuous):  ", min_or_cont, "\n\n")
+
+cat("============================================================\n")
+```

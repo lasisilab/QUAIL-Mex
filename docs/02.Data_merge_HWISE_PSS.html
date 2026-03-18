@@ -352,7 +352,13 @@ div.tocify {
   <a href="05.descriptive_plots.html">5.descr_plots</a>
 </li>
 <li>
-  <a href="Maps.html">Maps</a>
+  <a href="06.1.pss_models.html">6.1.perceoved stress</a>
+</li>
+<li>
+  <a href="06.2.emo_type_models.html">6.2.emotional response</a>
+</li>
+<li>
+  <a href="99.Maps.html">Maps</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -398,7 +404,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-15
+<strong>Last updated:</strong> 2026-03-17
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -529,15 +535,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreebcd85523ba8ea502f827ee60fe54211e1f439625targetblankbcd8552a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3d64228e2e5432690fb68a5c52192e9231362fc4targetblank3d64228a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/bcd85523ba8ea502f827ee60fe54211e1f439625" target="_blank">bcd8552</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3d64228e2e5432690fb68a5c52192e9231362fc4" target="_blank">3d64228</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreebcd85523ba8ea502f827ee60fe54211e1f439625targetblankbcd8552a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3d64228e2e5432690fb68a5c52192e9231362fc4targetblank3d64228a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -547,7 +553,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/bcd85523ba8ea502f827ee60fe54211e1f439625" target="_blank">bcd8552</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3d64228e2e5432690fb68a5c52192e9231362fc4" target="_blank">3d64228</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -577,26 +583,19 @@ Ignored files:
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  colonias_names.csv
-    Untracked:  output/TableS1.2_missing_data.docx
-    Untracked:  output/TableS2_HWISE_PSS_overall.docx
-    Untracked:  output/TableS3_HWISE_PSS_by_season.docx
-    Untracked:  output/TableS4_characteristics_by_HWISE.docx
-    Untracked:  output/TableS5_water_supply.docx
-    Untracked:  output/TableS6_water_by_neighborhood.docx
-    Untracked:  output/TableS7_water_by_season.docx
-    Untracked:  output/~$bleS2_HWISE_PSS_overall.docx
+    Untracked:  output/coef_plot1.png
+    Untracked:  output/coef_plot2.png
+    Untracked:  output/coef_plot3.png
+    Untracked:  output/~$bleS3_HWISE_PSS_by_season.docx
 
 Unstaged changes:
+    Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
+    Modified:   analysis/03.Data_merge_Q1-6.Rmd
     Modified:   analysis/04.Descriptive_stats.Rmd
-    Modified:   analysis/Maps.Rmd
-    Modified:   data/01.SCREENING.csv
-    Modified:   data/01.Screening_clean.csv
-    Modified:   data/01.conflicts_to_review.csv
-    Modified:   data/01.conflicts_to_review_V2.csv
-    Deleted:    data/03.Merged_Final.csv
-    Modified:   output/Table1_sample_characteristics.docx
-    Modified:   output/TableS1_full_descriptives.docx
+    Modified:   analysis/06.1.pss_models.Rmd
+    Modified:   analysis/06.2.emo_type_models.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
 
 </code></pre>
 <p>
@@ -1029,6 +1028,54 @@ Paloma
 <hr />
 </div>
 </div>
+<div id="copmute-hw_mex_5sub" class="section level1">
+<h1>3.6 Copmute HW_MEX_5SUB</h1>
+<p>The 5-item subscale was proposed by Huffman and Najera in 2024 as
+more reliable and cost effective than the complete 12-item HWISE. They
+reached these conclutions after analyzing the 2021 national survey on
+health and nutrition data (n=12619 households). They propose a scale
+including the items: Clothes, Plans, Food, Hands and Body. They propose
+a cutoff of 3 for low/high water insecurity using this scale.</p>
+<blockquote>
+<p>Huffman C, Nájera H. The Household Water Insecurity Experiences
+Scale: answer patterns and cutoffs in Mexico. Salud Publica Mex 8 de
+diciembre de 2023;66(1, ene-feb):59-66. <a
+href="https://saludpublica.mx/index.php/spm/article/view/14735"
+class="uri">https://saludpublica.mx/index.php/spm/article/view/14735</a></p>
+</blockquote>
+<pre class="r"><code>HW_MEX_5SUB_ITEMS &lt;- c(&quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;, &quot;HW_FOOD&quot;, &quot;HW_HANDS&quot;, &quot;HW_BODY&quot;)
+
+hwise_pss &lt;- hwise_pss %&gt;%
+  rowwise() %&gt;%
+  mutate(
+    HW_MEX_5SUB = {
+      vals &lt;- c_across(all_of(HW_MEX_5SUB_ITEMS))
+      if (any(is.na(vals)) | any(vals %in% MISSING_CODES, na.rm = TRUE)) {
+        NA_real_
+      } else {
+        sum(vals)
+      }
+    }
+  ) %&gt;%
+  ungroup()
+
+cat(&quot;HW_MEX_5SUB distribution:\n&quot;)</code></pre>
+<pre><code>HW_MEX_5SUB distribution:</code></pre>
+<pre class="r"><code>print(summary(hwise_pss$HW_MEX_5SUB))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+   0.00    1.00    3.00    3.24    5.00   14.00       2 </code></pre>
+<pre class="r"><code>cat(&quot;Missing HW_MEX_5SUB:&quot;, sum(is.na(hwise_pss$HW_MEX_5SUB)), &quot;\n&quot;)</code></pre>
+<pre><code>Missing HW_MEX_5SUB: 2 </code></pre>
+<pre class="r"><code>ggplot(hwise_pss %&gt;% filter(!is.na(HW_MEX_5SUB)),
+       aes(x = HW_MEX_5SUB)) +
+  geom_bar(fill = &quot;#5bc0de&quot;, color = &quot;white&quot;) +
+  scale_x_continuous(breaks = 0:9) +
+  labs(title = &quot;HW_MEX_5SUB distribution&quot;,
+       x = &quot;5-item subscale (0–9)&quot;, y = &quot;Count&quot;) +
+  theme_minimal()</code></pre>
+<p><img src="figure/02.data_merge_hwise_pss.Rmd/hwise-5items-sub-1.png" width="672" style="display: block; margin: auto;" /></p>
+<hr />
+</div>
 <div id="clean-pss-data" class="section level1">
 <h1>4. Clean PSS data</h1>
 <div id="preserve-raw-pss-values" class="section level2">
@@ -1411,6 +1458,7 @@ come from the screening file.</p>
     all_of(HWISE_ITEMS),
     HW_TOTAL,
     HW_WORRY_SUB,
+    HW_MEX_5SUB,
     HW_INFO,                           # free-text notes
     # PSS: raw items, reversed items, computed total, flags
     all_of(PSS_ITEMS),
@@ -1421,7 +1469,7 @@ come from the screening file.</p>
   )
 
 cat(&quot;Columns in hwise_to_merge:&quot;, ncol(hwise_to_merge), &quot;\n&quot;)</code></pre>
-<pre><code>Columns in hwise_to_merge: 42 </code></pre>
+<pre><code>Columns in hwise_to_merge: 43 </code></pre>
 <hr />
 </div>
 <div id="merge-with-screening" class="section level1">
@@ -1433,7 +1481,7 @@ of participants without HWISE_PSS data.</p>
   left_join(hwise_to_merge, by = &quot;ID&quot;)
 
 cat(&quot;Merged dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Merged dimensions: 399 105 </code></pre>
+<pre><code>Merged dimensions: 399 106 </code></pre>
 <pre class="r"><code># Cross-check SEASON from screening (0/1) vs HWISE_PSS text-derived value
 season_check &lt;- df_merged %&gt;%
   filter(!is.na(SEASON) &amp; !is.na(SEASON_CLEAN)) %&gt;%
@@ -1622,10 +1670,10 @@ clean_items &lt;- function(data, items) {
 
 # # Remove uninformative columns
 dim(df_merged)</code></pre>
-<pre><code>[1] 399 105</code></pre>
+<pre><code>[1] 399 106</code></pre>
 <pre class="r"><code>df_merged &lt;- df_merged %&gt;% select(-SEASON_CLEAN, -PSS4, -PSS5, -PSS6, -PSS7, -PSS9, -PSS10, -PSS13)
 dim(df_merged)</code></pre>
-<pre><code>[1] 399  97</code></pre>
+<pre><code>[1] 399  98</code></pre>
 <pre class="r"><code># HWISE — 12 items, scored 0–3
 alpha_hwise &lt;- clean_items(df_merged, HWISE_ITEMS) %&gt;% psych::alpha()
 
@@ -1842,7 +1890,7 @@ write.csv(df_merged, out_file, row.names = FALSE)
 cat(&quot;Saved:&quot;, out_file, &quot;\n&quot;)</code></pre>
 <pre><code>Saved: ./data/02.Merged_Screening_HWISE_PSS.csv </code></pre>
 <pre class="r"><code>cat(&quot;Final dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Final dimensions: 399 97 </code></pre>
+<pre><code>Final dimensions: 399 98 </code></pre>
 </div>
 <div id="pending" class="section level1">
 <h1>Pending</h1>
