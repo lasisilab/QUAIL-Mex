@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+<meta name="date" content="2026-03-18" />
+
+<title>07. Results Table – Main Regression Models</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="01.data_cleaning.html">1.cleaning</a>
+</li>
+<li>
+  <a href="02.data_merge_hwise_pss.html">2.merge_hwise_pss</a>
+</li>
+<li>
+  <a href="03.data_merge_q1-6.html">3.merge_q1-6</a>
+</li>
+<li>
+  <a href="04.descriptive_stats.html">4.descr_stats</a>
+</li>
+<li>
+  <a href="05.descriptive_plots.html">5.descr_plots</a>
+</li>
+<li>
+  <a href="06.1.pss_models.html">6.1.perceoved stress</a>
+</li>
+<li>
+  <a href="06.2.emo_type_models.html">6.2.emotional response</a>
+</li>
+<li>
+  <a href="99.Maps.html">Maps</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">07. Results Table – Main Regression
+Models</h1>
+<h4 class="author"></h4>
+<h4 class="date">2026-03-18</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-18
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeac035290fc116787cc65b489c2cd71a7308bd250targetblankac03529a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/ac035290fc116787cc65b489c2cd71a7308bd250" target="_blank">ac03529</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeac035290fc116787cc65b489c2cd71a7308bd250targetblankac03529a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/ac035290fc116787cc65b489c2cd71a7308bd250" target="_blank">ac03529</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  .claude/
+    Untracked:  analysis/07.table_results.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>This script recalculates the <strong>HWISE reduced score</strong>
+(excluding the <em>angry</em> and <em>shame</em> items) and fits the
+eight pre-specified regression models described in the analysis plan.
+Results are consolidated into a single publication-ready table.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="19%" />
+<col width="25%" />
+<col width="33%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Panel</th>
+<th>Outcome</th>
+<th>Model type</th>
+<th>Models</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>Perceived Stress Score (PSS, 0–56)</td>
+<td>Linear regression</td>
+<td>m_a1 – m_a4</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Water-related emotion (positive / negative)</td>
+<td>Logistic regression</td>
+<td>m_b1 – m_b4</td>
+</tr>
+</tbody>
+</table>
+<p>Covariates in all models: <strong>Age</strong> (<code>D_AGE</code>),
+<strong>SES score</strong> (<code>SES_SC_Total</code>),
+<strong>Household size</strong> (<code>D_HH_SIZE</code>). Panel B
+additionally adjusts for <strong>PSS</strong>
+(<code>PSS_TOTAL</code>).</p>
+<hr />
+</div>
+<div id="load-and-prepare-data" class="section level1">
+<h1>Load and Prepare Data</h1>
+<pre class="r"><code>MISSING_CODES &lt;- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_num &lt;- function(x) {
+  x_num &lt;- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES, NA_real_, x_num)
+}
+
+df_raw &lt;- read_csv(&quot;./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv&quot;,
+                   show_col_types = FALSE)
+
+cat(&quot;Dataset:&quot;, nrow(df_raw), &quot;rows ×&quot;, ncol(df_raw), &quot;cols\n&quot;)</code></pre>
+<pre><code>Dataset: 399 rows × 137 cols</code></pre>
+<hr />
+</div>
+<div id="recalculate-hwise-reduced-score" class="section level1">
+<h1>Recalculate HWISE Reduced Score</h1>
+<p>The <strong>HWISE reduced score</strong> sums the 10 items that
+remain after removing the emotion-laden items <em>HW_ANGRY</em> and
+<em>HW_SHAME</em>. A participant’s reduced score is set to
+<code>NA</code> if any of the 10 contributing items is missing.</p>
+<pre class="r"><code># Items included in the reduced score (original 12 minus angry and shame)
+hwise_items_reduced &lt;- c(
+  &quot;HW_WORRY&quot;, &quot;HW_INTERR&quot;, &quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;,
+  &quot;HW_FOOD&quot;,  &quot;HW_HANDS&quot;,  &quot;HW_BODY&quot;,    &quot;HW_DRINK&quot;,
+  &quot;HW_SLEEP&quot;, &quot;HW_NONE&quot;
+)
+
+df &lt;- df_raw %&gt;%
+  mutate(
+    # Clean all HWISE items
+    across(all_of(hwise_items_reduced), clean_num),
+
+    # Reduced HWISE score: row sum, NA if any item is missing
+    HWISE_REDUCED = rowSums(
+      across(all_of(hwise_items_reduced)),
+      na.rm = FALSE   # propagate NA if any item missing
+    ),
+
+    # ── Outcomes ───────────────────────────────────────────
+    PSS_TOTAL = clean_num(PSS_TOTAL),
+
+    EMO_NEG = {
+      raw &lt;- clean_num(MX26_EM_HHW_CAT)
+      case_when(
+        raw == 0 ~ 0L,   # positive emotion
+        raw == 1 ~ 1L,   # negative emotion
+        TRUE     ~ NA_integer_
+      )
+    },
+
+    # ── Core covariates ───────────────────────────────────────────
+    D_AGE        = clean_num(D_AGE),
+    SES_SC_Total = clean_num(SES_SC_Total),
+    D_HH_SIZE    = clean_num(D_HH_SIZE),
+
+    # ── Water-insecure neighbourhood (binary) ──────────────────────
+    # W_WS_LOC: &quot;WI&quot; = water-insecure, &quot;WS&quot; = water-secure
+    WI_NEIGHBORHOOD = factor(
+      case_when(
+        W_WS_LOC == &quot;WI&quot; ~ &quot;Water-insecure&quot;,
+        W_WS_LOC == &quot;WS&quot; ~ &quot;Water-secure&quot;,
+        TRUE             ~ NA_character_
+      ),
+      levels = c(&quot;Water-secure&quot;, &quot;Water-insecure&quot;)  #water-secure = reference
+    ),
+
+    # ── Season ──────────────────────────────────────────────────────────────────
+    # 0 = dry season (reference), 1 = rainy season
+    SEASON = factor(
+      SEASON,
+      levels = c(0, 1),
+      labels = c(&quot;Dry&quot;, &quot;Rainy&quot;)
+    )
+  )
+
+cat(&quot;HWISE_REDUCED — summary:\n&quot;)</code></pre>
+<pre><code>HWISE_REDUCED — summary:</code></pre>
+<pre class="r"><code>print(summary(df$HWISE_REDUCED))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+  0.000   3.000   6.000   7.201  11.000  24.000       6 </code></pre>
+<pre class="r"><code>cat(&quot;\nN with valid HWISE_REDUCED:&quot;, sum(!is.na(df$HWISE_REDUCED)), &quot;\n&quot;)</code></pre>
+<pre><code>
+N with valid HWISE_REDUCED: 393 </code></pre>
+<pre class="r"><code>cat(&quot;\nWI_NEIGHBORHOOD distribution:\n&quot;)</code></pre>
+<pre><code>
+WI_NEIGHBORHOOD distribution:</code></pre>
+<pre class="r"><code>print(table(df$WI_NEIGHBORHOOD, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+  Water-secure Water-insecure           &lt;NA&gt; 
+           196            201              2 </code></pre>
+<pre class="r"><code>cat(&quot;\nSEASON distribution:\n&quot;)</code></pre>
+<pre><code>
+SEASON distribution:</code></pre>
+<pre class="r"><code>print(table(df$SEASON, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+  Dry Rainy  &lt;NA&gt; 
+  202   197     0 </code></pre>
+<pre class="r"><code>cat(&quot;\nEMO_NEG distribution:\n&quot;)</code></pre>
+<pre><code>
+EMO_NEG distribution:</code></pre>
+<pre class="r"><code>print(table(df$EMO_NEG, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 125  239   35 </code></pre>
+<hr />
+</div>
+<div id="model-specifications" class="section level1">
+<h1>Model Specifications</h1>
+<pre class="r"><code># ── Panel A: PSS as outcome (linear regression) ─────────────────────────────
+# Covariates: Age + SES + Household size (in every model)
+
+m_a1 &lt;- lm(
+  PSS_TOTAL ~ HWISE_REDUCED + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, na.action = na.omit
+)
+
+m_a2 &lt;- lm(
+  PSS_TOTAL ~ HWISE_REDUCED * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, na.action = na.omit
+)
+
+m_a3 &lt;- lm(
+  PSS_TOTAL ~ WI_NEIGHBORHOOD + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, na.action = na.omit
+)
+
+m_a4 &lt;- lm(
+  PSS_TOTAL ~ WI_NEIGHBORHOOD * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, na.action = na.omit
+)
+
+# ── Panel B: Emotion type as outcome (logistic regression) ───────────────────
+# Covariates: PSS + Age + SES + Household size (in every model)
+
+m_b1 &lt;- glm(
+  EMO_NEG ~ HWISE_REDUCED + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, family = binomial, na.action = na.omit
+)
+
+m_b2 &lt;- glm(
+  EMO_NEG ~ HWISE_REDUCED * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, family = binomial, na.action = na.omit
+)
+
+m_b3 &lt;- glm(
+  EMO_NEG ~ WI_NEIGHBORHOOD + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, family = binomial, na.action = na.omit
+)
+
+m_b4 &lt;- glm(
+  EMO_NEG ~ WI_NEIGHBORHOOD * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE,
+  data = df, family = binomial, na.action = na.omit
+)
+
+# ── Sample sizes ─────────────────────────────────────────────────────────────
+tibble(
+  model = c(&quot;m_a1&quot;, &quot;m_a2&quot;, &quot;m_a3&quot;, &quot;m_a4&quot;,
+            &quot;m_b1&quot;, &quot;m_b2&quot;, &quot;m_b3&quot;, &quot;m_b4&quot;),
+  n = c(nobs(m_a1), nobs(m_a2), nobs(m_a3), nobs(m_a4),
+        nobs(m_b1), nobs(m_b2), nobs(m_b3), nobs(m_b4))
+) %&gt;% print()</code></pre>
+<pre><code># A tibble: 8 × 2
+  model     n
+  &lt;chr&gt; &lt;int&gt;
+1 m_a1    342
+2 m_a2    342
+3 m_a3    345
+4 m_a4    345
+5 m_b1    311
+6 m_b2    311
+7 m_b3    314
+8 m_b4    314</code></pre>
+<hr />
+</div>
+<div id="results-table" class="section level1">
+<h1>Results Table</h1>
+<p>Variable labels shared across all models:</p>
+<pre class="r"><code>shared_labels &lt;- list(
+  HWISE_REDUCED   = &quot;HWISE reduced score&quot;,
+  SEASON          = &quot;Season (Rainy vs. Dry)&quot;,
+  WI_NEIGHBORHOOD = &quot;Water-insecure neighbourhood&quot;,
+  PSS_TOTAL       = &quot;PSS total&quot;,
+  D_AGE           = &quot;Age (years)&quot;,
+  SES_SC_Total    = &quot;SES score&quot;,
+  D_HH_SIZE       = &quot;Household size&quot;
+)
+
+# Return only labels whose names match variables in the given model
+labels_for &lt;- function(model) {
+  shared_labels[names(shared_labels) %in% names(model$model)]
+}</code></pre>
+<div id="panel-a-perceived-stress-score-linear-regression"
+class="section level2">
+<h2>Panel A — Perceived Stress Score (linear regression)</h2>
+<p>β coefficients with 95% confidence intervals.</p>
+<pre class="r"><code># Individual model tables
+t_a1 &lt;- tbl_regression(m_a1, label = labels_for(m_a1)) %&gt;%
+  modify_header(estimate ~ &quot;**β (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_a1** HWISE reduced&quot;)
+
+t_a2 &lt;- tbl_regression(m_a2, label = labels_for(m_a2)) %&gt;%
+  modify_header(estimate ~ &quot;**β (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_a2** HWISE reduced × Season&quot;)
+
+t_a3 &lt;- tbl_regression(m_a3, label = labels_for(m_a3)) %&gt;%
+  modify_header(estimate ~ &quot;**β (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_a3** WI neighbourhood&quot;)
+
+t_a4 &lt;- tbl_regression(m_a4, label = labels_for(m_a4)) %&gt;%
+  modify_header(estimate ~ &quot;**β (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_a4** WI neighbourhood × Season&quot;)
+
+# Merged Panel A table
+panel_a &lt;- tbl_merge(
+  tbls        = list(t_a1, t_a2, t_a3, t_a4),
+  tab_spanner = c(&quot;**m_a1**&quot;, &quot;**m_a2**&quot;, &quot;**m_a3**&quot;, &quot;**m_a4**&quot;)
+) %&gt;%
+  modify_caption(
+    &quot;**Panel A. Linear regression models — Perceived Stress Score (PSS) as outcome**&quot;
+  )
+
+panel_a</code></pre>
+<div id="cvlxasfenu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cvlxasfenu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cvlxasfenu thead, #cvlxasfenu tbody, #cvlxasfenu tfoot, #cvlxasfenu tr, #cvlxasfenu td, #cvlxasfenu th {
+  border-style: none;
+}
+
+#cvlxasfenu p {
+  margin: 0;
+  padding: 0;
+}
+
+#cvlxasfenu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cvlxasfenu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cvlxasfenu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cvlxasfenu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cvlxasfenu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cvlxasfenu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cvlxasfenu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cvlxasfenu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cvlxasfenu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cvlxasfenu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cvlxasfenu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cvlxasfenu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cvlxasfenu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_left {
+  text-align: left;
+}
+
+#cvlxasfenu .gt_center {
+  text-align: center;
+}
+
+#cvlxasfenu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cvlxasfenu .gt_font_normal {
+  font-weight: normal;
+}
+
+#cvlxasfenu .gt_font_bold {
+  font-weight: bold;
+}
+
+#cvlxasfenu .gt_font_italic {
+  font-style: italic;
+}
+
+#cvlxasfenu .gt_super {
+  font-size: 65%;
+}
+
+#cvlxasfenu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cvlxasfenu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cvlxasfenu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cvlxasfenu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cvlxasfenu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cvlxasfenu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cvlxasfenu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#cvlxasfenu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#cvlxasfenu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Panel A. Linear regression models — Perceived Stress Score (PSS) as outcome</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_a1</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_2">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_a2</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_3">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_a3</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_4">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_a4</strong></span></div>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_1"><span class='gt_from_md'><strong>β (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_1"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_1"><span class='gt_from_md'><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_2"><span class='gt_from_md'><strong>β (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_2"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_2"><span class='gt_from_md'><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_3"><span class='gt_from_md'><strong>β (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_3"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_3"><span class='gt_from_md'><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_4"><span class='gt_from_md'><strong>β (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_4"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_4"><span class='gt_from_md'><strong>p-value</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">HWISE reduced score</td>
+<td headers="estimate_1" class="gt_row gt_center">0.28</td>
+<td headers="conf.low_1" class="gt_row gt_center">0.13, 0.43</td>
+<td headers="p.value_1" class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">0.14</td>
+<td headers="conf.low_2" class="gt_row gt_center">-0.08, 0.36</td>
+<td headers="p.value_2" class="gt_row gt_center">0.2</td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Age (years)</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.05</td>
+<td headers="conf.low_1" class="gt_row gt_center">-0.15, 0.05</td>
+<td headers="p.value_1" class="gt_row gt_center">0.4</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.05</td>
+<td headers="conf.low_2" class="gt_row gt_center">-0.16, 0.05</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.07</td>
+<td headers="conf.low_3" class="gt_row gt_center">-0.17, 0.04</td>
+<td headers="p.value_3" class="gt_row gt_center">0.2</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.07</td>
+<td headers="conf.low_4" class="gt_row gt_center">-0.18, 0.04</td>
+<td headers="p.value_4" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES score</td>
+<td headers="estimate_1" class="gt_row gt_center">0.00</td>
+<td headers="conf.low_1" class="gt_row gt_center">-0.02, 0.02</td>
+<td headers="p.value_1" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_2" class="gt_row gt_center">0.00</td>
+<td headers="conf.low_2" class="gt_row gt_center">-0.02, 0.02</td>
+<td headers="p.value_2" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_3" class="gt_row gt_center">0.00</td>
+<td headers="conf.low_3" class="gt_row gt_center">-0.02, 0.01</td>
+<td headers="p.value_3" class="gt_row gt_center">0.6</td>
+<td headers="estimate_4" class="gt_row gt_center">0.00</td>
+<td headers="conf.low_4" class="gt_row gt_center">-0.02, 0.01</td>
+<td headers="p.value_4" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Household size</td>
+<td headers="estimate_1" class="gt_row gt_center">-0.01</td>
+<td headers="conf.low_1" class="gt_row gt_center">-0.24, 0.22</td>
+<td headers="p.value_1" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_2" class="gt_row gt_center">-0.05</td>
+<td headers="conf.low_2" class="gt_row gt_center">-0.29, 0.19</td>
+<td headers="p.value_2" class="gt_row gt_center">0.7</td>
+<td headers="estimate_3" class="gt_row gt_center">-0.04</td>
+<td headers="conf.low_3" class="gt_row gt_center">-0.27, 0.19</td>
+<td headers="p.value_3" class="gt_row gt_center">0.7</td>
+<td headers="estimate_4" class="gt_row gt_center">-0.05</td>
+<td headers="conf.low_4" class="gt_row gt_center">-0.30, 0.19</td>
+<td headers="p.value_4" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Season (Rainy vs. Dry)</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Dry</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center">—</td>
+<td headers="conf.low_2" class="gt_row gt_center">—</td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">—</td>
+<td headers="conf.low_4" class="gt_row gt_center">—</td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Rainy</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center">-3.0</td>
+<td headers="conf.low_2" class="gt_row gt_center">-5.8, -0.33</td>
+<td headers="p.value_2" class="gt_row gt_center" style="font-weight: bold;">0.028</td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">-0.52</td>
+<td headers="conf.low_4" class="gt_row gt_center">-2.9, 1.9</td>
+<td headers="p.value_4" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HWISE reduced score * Season (Rainy vs. Dry)</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    HWISE reduced score * Rainy</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center">0.30</td>
+<td headers="conf.low_2" class="gt_row gt_center">-0.01, 0.60</td>
+<td headers="p.value_2" class="gt_row gt_center">0.056</td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Water-insecure neighbourhood</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Water-secure</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center">—</td>
+<td headers="conf.low_3" class="gt_row gt_center">—</td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">—</td>
+<td headers="conf.low_4" class="gt_row gt_center">—</td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Water-insecure</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center">0.47</td>
+<td headers="conf.low_3" class="gt_row gt_center">-1.1, 2.0</td>
+<td headers="p.value_3" class="gt_row gt_center">0.6</td>
+<td headers="estimate_4" class="gt_row gt_center">0.23</td>
+<td headers="conf.low_4" class="gt_row gt_center">-1.9, 2.4</td>
+<td headers="p.value_4" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Water-insecure neighbourhood * Season (Rainy vs. Dry)</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Water-insecure * Rainy</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">0.53</td>
+<td headers="conf.low_4" class="gt_row gt_center">-2.6, 3.7</td>
+<td headers="p.value_4" class="gt_row gt_center">0.7</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="13"><span class='gt_from_md'>Abbreviation: CI = Confidence Interval</span></td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+</div>
+<div id="panel-b-water-related-emotion-logistic-regression"
+class="section level2">
+<h2>Panel B — Water-related emotion (logistic regression)</h2>
+<p>Odds ratios (OR) with 95% confidence intervals.</p>
+<pre class="r"><code>t_b1 &lt;- tbl_regression(m_b1, exponentiate = TRUE, label = labels_for(m_b1)) %&gt;%
+  modify_header(estimate ~ &quot;**OR (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_b1** HWISE reduced&quot;)
+
+t_b2 &lt;- tbl_regression(m_b2, exponentiate = TRUE, label = labels_for(m_b2)) %&gt;%
+  modify_header(estimate ~ &quot;**OR (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_b2** HWISE reduced × Season&quot;)
+
+t_b3 &lt;- tbl_regression(m_b3, exponentiate = TRUE, label = labels_for(m_b3)) %&gt;%
+  modify_header(estimate ~ &quot;**OR (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_b3** WI neighbourhood&quot;)
+
+t_b4 &lt;- tbl_regression(m_b4, exponentiate = TRUE, label = labels_for(m_b4)) %&gt;%
+  modify_header(estimate ~ &quot;**OR (95% CI)**&quot;) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_caption(&quot;**m_b4** WI neighbourhood × Season&quot;)
+
+# Merged Panel B table
+panel_b &lt;- tbl_merge(
+  tbls        = list(t_b1, t_b2, t_b3, t_b4),
+  tab_spanner = c(&quot;**m_b1**&quot;, &quot;**m_b2**&quot;, &quot;**m_b3**&quot;, &quot;**m_b4**&quot;)
+) %&gt;%
+  modify_caption(
+    &quot;**Panel B. Logistic regression models — Water-related emotion (negative vs. positive) as outcome**&quot;
+  )
+
+panel_b</code></pre>
+<div id="rufkvyvisj" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rufkvyvisj table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#rufkvyvisj thead, #rufkvyvisj tbody, #rufkvyvisj tfoot, #rufkvyvisj tr, #rufkvyvisj td, #rufkvyvisj th {
+  border-style: none;
+}
+
+#rufkvyvisj p {
+  margin: 0;
+  padding: 0;
+}
+
+#rufkvyvisj .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#rufkvyvisj .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rufkvyvisj .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rufkvyvisj .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rufkvyvisj .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rufkvyvisj .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rufkvyvisj .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rufkvyvisj .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rufkvyvisj .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#rufkvyvisj .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#rufkvyvisj .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rufkvyvisj .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rufkvyvisj .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rufkvyvisj .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rufkvyvisj .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rufkvyvisj .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#rufkvyvisj .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#rufkvyvisj .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#rufkvyvisj .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rufkvyvisj .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#rufkvyvisj .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rufkvyvisj .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rufkvyvisj .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rufkvyvisj .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rufkvyvisj .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rufkvyvisj .gt_left {
+  text-align: left;
+}
+
+#rufkvyvisj .gt_center {
+  text-align: center;
+}
+
+#rufkvyvisj .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rufkvyvisj .gt_font_normal {
+  font-weight: normal;
+}
+
+#rufkvyvisj .gt_font_bold {
+  font-weight: bold;
+}
+
+#rufkvyvisj .gt_font_italic {
+  font-style: italic;
+}
+
+#rufkvyvisj .gt_super {
+  font-size: 65%;
+}
+
+#rufkvyvisj .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#rufkvyvisj .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#rufkvyvisj .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#rufkvyvisj .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#rufkvyvisj .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rufkvyvisj .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rufkvyvisj .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#rufkvyvisj .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#rufkvyvisj div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Panel B. Logistic regression models — Water-related emotion (negative vs. positive) as outcome</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_b1</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_2">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_b2</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_3">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_b3</strong></span></div>
+      </th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; estimate_4">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>m_b4</strong></span></div>
+      </th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_1"><span class='gt_from_md'><strong>OR (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_1"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_1"><span class='gt_from_md'><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_2"><span class='gt_from_md'><strong>OR (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_2"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_2"><span class='gt_from_md'><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_3"><span class='gt_from_md'><strong>OR (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_3"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_3"><span class='gt_from_md'><strong>p-value</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate_4"><span class='gt_from_md'><strong>OR (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low_4"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value_4"><span class='gt_from_md'><strong>p-value</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">HWISE reduced score</td>
+<td headers="estimate_1" class="gt_row gt_center">1.26</td>
+<td headers="conf.low_1" class="gt_row gt_center">1.18, 1.36</td>
+<td headers="p.value_1" class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+<td headers="estimate_2" class="gt_row gt_center">1.36</td>
+<td headers="conf.low_2" class="gt_row gt_center">1.22, 1.54</td>
+<td headers="p.value_2" class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">PSS total</td>
+<td headers="estimate_1" class="gt_row gt_center">1.06</td>
+<td headers="conf.low_1" class="gt_row gt_center">1.02, 1.10</td>
+<td headers="p.value_1" class="gt_row gt_center" style="font-weight: bold;">0.003</td>
+<td headers="estimate_2" class="gt_row gt_center">1.06</td>
+<td headers="conf.low_2" class="gt_row gt_center">1.02, 1.10</td>
+<td headers="p.value_2" class="gt_row gt_center" style="font-weight: bold;">0.003</td>
+<td headers="estimate_3" class="gt_row gt_center">1.08</td>
+<td headers="conf.low_3" class="gt_row gt_center">1.04, 1.12</td>
+<td headers="p.value_3" class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
+<td headers="estimate_4" class="gt_row gt_center">1.08</td>
+<td headers="conf.low_4" class="gt_row gt_center">1.04, 1.12</td>
+<td headers="p.value_4" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Age (years)</td>
+<td headers="estimate_1" class="gt_row gt_center">1.03</td>
+<td headers="conf.low_1" class="gt_row gt_center">0.99, 1.07</td>
+<td headers="p.value_1" class="gt_row gt_center">0.11</td>
+<td headers="estimate_2" class="gt_row gt_center">1.03</td>
+<td headers="conf.low_2" class="gt_row gt_center">0.99, 1.07</td>
+<td headers="p.value_2" class="gt_row gt_center">0.13</td>
+<td headers="estimate_3" class="gt_row gt_center">1.02</td>
+<td headers="conf.low_3" class="gt_row gt_center">0.99, 1.05</td>
+<td headers="p.value_3" class="gt_row gt_center">0.3</td>
+<td headers="estimate_4" class="gt_row gt_center">1.02</td>
+<td headers="conf.low_4" class="gt_row gt_center">0.99, 1.06</td>
+<td headers="p.value_4" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES score</td>
+<td headers="estimate_1" class="gt_row gt_center">1.00</td>
+<td headers="conf.low_1" class="gt_row gt_center">0.99, 1.01</td>
+<td headers="p.value_1" class="gt_row gt_center">>0.9</td>
+<td headers="estimate_2" class="gt_row gt_center">1.00</td>
+<td headers="conf.low_2" class="gt_row gt_center">0.99, 1.01</td>
+<td headers="p.value_2" class="gt_row gt_center">0.9</td>
+<td headers="estimate_3" class="gt_row gt_center">1.00</td>
+<td headers="conf.low_3" class="gt_row gt_center">0.99, 1.00</td>
+<td headers="p.value_3" class="gt_row gt_center">0.3</td>
+<td headers="estimate_4" class="gt_row gt_center">1.00</td>
+<td headers="conf.low_4" class="gt_row gt_center">0.99, 1.00</td>
+<td headers="p.value_4" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Household size</td>
+<td headers="estimate_1" class="gt_row gt_center">1.05</td>
+<td headers="conf.low_1" class="gt_row gt_center">0.98, 1.15</td>
+<td headers="p.value_1" class="gt_row gt_center">0.2</td>
+<td headers="estimate_2" class="gt_row gt_center">1.05</td>
+<td headers="conf.low_2" class="gt_row gt_center">0.97, 1.16</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center">1.03</td>
+<td headers="conf.low_3" class="gt_row gt_center">0.96, 1.12</td>
+<td headers="p.value_3" class="gt_row gt_center">0.4</td>
+<td headers="estimate_4" class="gt_row gt_center">1.05</td>
+<td headers="conf.low_4" class="gt_row gt_center">0.98, 1.15</td>
+<td headers="p.value_4" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Season (Rainy vs. Dry)</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Dry</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center">—</td>
+<td headers="conf.low_2" class="gt_row gt_center">—</td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">—</td>
+<td headers="conf.low_4" class="gt_row gt_center">—</td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Rainy</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center">1.69</td>
+<td headers="conf.low_2" class="gt_row gt_center">0.63, 4.57</td>
+<td headers="p.value_2" class="gt_row gt_center">0.3</td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">1.59</td>
+<td headers="conf.low_4" class="gt_row gt_center">0.77, 3.34</td>
+<td headers="p.value_4" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HWISE reduced score * Season (Rainy vs. Dry)</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    HWISE reduced score * Rainy</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center">0.89</td>
+<td headers="conf.low_2" class="gt_row gt_center">0.76, 1.02</td>
+<td headers="p.value_2" class="gt_row gt_center">0.10</td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Water-insecure neighbourhood</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Water-secure</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center">—</td>
+<td headers="conf.low_3" class="gt_row gt_center">—</td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">—</td>
+<td headers="conf.low_4" class="gt_row gt_center">—</td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Water-insecure</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center">1.80</td>
+<td headers="conf.low_3" class="gt_row gt_center">1.11, 2.95</td>
+<td headers="p.value_3" class="gt_row gt_center" style="font-weight: bold;">0.017</td>
+<td headers="estimate_4" class="gt_row gt_center">2.00</td>
+<td headers="conf.low_4" class="gt_row gt_center">1.03, 3.96</td>
+<td headers="p.value_4" class="gt_row gt_center" style="font-weight: bold;">0.043</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Water-insecure neighbourhood * Season (Rainy vs. Dry)</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value_4" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Water-insecure * Rainy</td>
+<td headers="estimate_1" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_1" class="gt_row gt_center"><br /></td>
+<td headers="p.value_1" class="gt_row gt_center"><br /></td>
+<td headers="estimate_2" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value_2" class="gt_row gt_center"><br /></td>
+<td headers="estimate_3" class="gt_row gt_center"><br /></td>
+<td headers="conf.low_3" class="gt_row gt_center"><br /></td>
+<td headers="p.value_3" class="gt_row gt_center"><br /></td>
+<td headers="estimate_4" class="gt_row gt_center">0.77</td>
+<td headers="conf.low_4" class="gt_row gt_center">0.29, 2.06</td>
+<td headers="p.value_4" class="gt_row gt_center">0.6</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="13"><span class='gt_from_md'>Abbreviations: CI = Confidence Interval, OR = Odds Ratio</span></td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+<hr />
+</div>
+</div>
+<div id="model-fit-statistics" class="section level1">
+<h1>Model Fit Statistics</h1>
+<pre class="r"><code># ── Panel A: R², adjusted R², AIC ────────────────────────────────────────────
+panel_a_fit &lt;- map_dfr(
+  list(m_a1 = m_a1, m_a2 = m_a2, m_a3 = m_a3, m_a4 = m_a4),
+  ~ glance(.x),
+  .id = &quot;model&quot;
+) %&gt;%
+  select(model, n = nobs, r.squared, adj.r.squared, AIC, BIC) %&gt;%
+  mutate(across(where(is.numeric), ~ round(.x, 3)))
+
+cat(&quot;Panel A — model fit:\n&quot;)</code></pre>
+<pre><code>Panel A — model fit:</code></pre>
+<pre class="r"><code>print(panel_a_fit)</code></pre>
+<pre><code># A tibble: 4 × 6
+  model     n r.squared adj.r.squared   AIC   BIC
+  &lt;chr&gt; &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 m_a1    342     0.043         0.032 2325. 2348.
+2 m_a2    342     0.057         0.04  2324. 2355.
+3 m_a3    345     0.007        -0.005 2358. 2381.
+4 m_a4    345     0.007        -0.01  2362. 2393.</code></pre>
+<pre class="r"><code># ── Panel B: McFadden R², AIC ─────────────────────────────────────────────────
+mcfadden &lt;- function(mod) round(1 - mod$deviance / mod$null.deviance, 3)
+
+panel_b_fit &lt;- tibble(
+  model       = c(&quot;m_b1&quot;, &quot;m_b2&quot;, &quot;m_b3&quot;, &quot;m_b4&quot;),
+  n           = c(nobs(m_b1), nobs(m_b2), nobs(m_b3), nobs(m_b4)),
+  mcfadden_r2 = c(mcfadden(m_b1), mcfadden(m_b2),
+                  mcfadden(m_b3), mcfadden(m_b4)),
+  AIC         = round(c(AIC(m_b1), AIC(m_b2), AIC(m_b3), AIC(m_b4)), 1),
+  BIC         = round(c(BIC(m_b1), BIC(m_b2), BIC(m_b3), BIC(m_b4)), 1)
+)
+
+cat(&quot;\nPanel B — model fit:\n&quot;)</code></pre>
+<pre><code>
+Panel B — model fit:</code></pre>
+<pre class="r"><code>print(panel_b_fit)</code></pre>
+<pre><code># A tibble: 4 × 5
+  model     n mcfadden_r2   AIC   BIC
+  &lt;chr&gt; &lt;int&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 m_b1    311       0.205  333.  356.
+2 m_b2    311       0.213  334.  364.
+3 m_b3    314       0.067  392.  415 
+4 m_b4    314       0.072  395.  425.</code></pre>
+<hr />
+</div>
+<div id="season-stratified-estimates" class="section level1">
+<h1>Season-Stratified Estimates</h1>
+<p>Interaction models (m_a2, m_a4, m_b2, m_b4) are complemented by
+season- stratified re-runs to facilitate interpretation.</p>
+<pre class="r"><code>seasons &lt;- c(&quot;Dry&quot;, &quot;Rainy&quot;)
+
+# ── Panel A: stratified ───────────────────────────────────────────────────────
+strat_a &lt;- map_dfr(seasons, function(s) {
+  df_s &lt;- filter(df, SEASON == s)
+  list(
+    hwise  = lm(PSS_TOTAL ~ HWISE_REDUCED + D_AGE + SES_SC_Total + D_HH_SIZE,
+                data = df_s, na.action = na.omit),
+    wi_nbh = lm(PSS_TOTAL ~ WI_NEIGHBORHOOD + D_AGE + SES_SC_Total + D_HH_SIZE,
+                data = df_s, na.action = na.omit)
+  ) %&gt;%
+    map_dfr(~ tidy(.x, conf.int = TRUE), .id = &quot;predictor&quot;) %&gt;%
+    filter(!term %in% c(&quot;(Intercept)&quot;, &quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;)) %&gt;%
+    mutate(season = s)
+}) %&gt;%
+  mutate(
+    ci_fmt = sprintf(&quot;%.2f [%.2f, %.2f]&quot;, estimate, conf.low, conf.high),
+    p_fmt  = case_when(p.value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+                       TRUE ~ sprintf(&quot;%.3f&quot;, p.value))
+  ) %&gt;%
+  select(season, predictor, term, n = statistic, ci_fmt, p_fmt)
+
+cat(&quot;Panel A — season-stratified focal predictors:\n&quot;)</code></pre>
+<pre><code>Panel A — season-stratified focal predictors:</code></pre>
+<pre class="r"><code>print(strat_a, n = Inf)</code></pre>
+<pre><code># A tibble: 4 × 6
+  season predictor term                              n ci_fmt             p_fmt 
+  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;                         &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt; 
+1 Dry    hwise     HWISE_REDUCED                 1.10  0.12 [-0.10, 0.34] 0.275 
+2 Dry    wi_nbh    WI_NEIGHBORHOODWater-insecure 0.179 0.19 [-1.89, 2.27] 0.858 
+3 Rainy  hwise     HWISE_REDUCED                 4.03  0.44 [0.23, 0.66]  &lt;0.001
+4 Rainy  wi_nbh    WI_NEIGHBORHOODWater-insecure 0.476 0.59 [-1.84, 3.01] 0.635 </code></pre>
+<pre class="r"><code># ── Panel B: stratified ───────────────────────────────────────────────────────
+strat_b &lt;- map_dfr(seasons, function(s) {
+  df_s &lt;- filter(df, SEASON == s)
+  list(
+    hwise  = glm(EMO_NEG ~ HWISE_REDUCED + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE,
+                 data = df_s, family = binomial, na.action = na.omit),
+    wi_nbh = glm(EMO_NEG ~ WI_NEIGHBORHOOD + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE,
+                 data = df_s, family = binomial, na.action = na.omit)
+  ) %&gt;%
+    map_dfr(~ tidy(.x, exponentiate = TRUE, conf.int = TRUE), .id = &quot;predictor&quot;) %&gt;%
+    filter(!term %in% c(&quot;(Intercept)&quot;, &quot;D_AGE&quot;, &quot;SES_SC_Total&quot;,
+                        &quot;D_HH_SIZE&quot;, &quot;PSS_TOTAL&quot;)) %&gt;%
+    mutate(season = s)
+}) %&gt;%
+  mutate(
+    or_fmt = sprintf(&quot;%.2f [%.2f, %.2f]&quot;, estimate, conf.low, conf.high),
+    p_fmt  = case_when(p.value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+                       TRUE ~ sprintf(&quot;%.3f&quot;, p.value))
+  ) %&gt;%
+  select(season, predictor, term, or_fmt, p_fmt)
+
+cat(&quot;\nPanel B — season-stratified focal predictors (OR):\n&quot;)</code></pre>
+<pre><code>
+Panel B — season-stratified focal predictors (OR):</code></pre>
+<pre class="r"><code>print(strat_b, n = Inf)</code></pre>
+<pre><code># A tibble: 4 × 5
+  season predictor term                          or_fmt            p_fmt 
+  &lt;chr&gt;  &lt;chr&gt;     &lt;chr&gt;                         &lt;chr&gt;             &lt;chr&gt; 
+1 Dry    hwise     HWISE_REDUCED                 1.35 [1.22, 1.53] &lt;0.001
+2 Dry    wi_nbh    WI_NEIGHBORHOODWater-insecure 2.00 [1.03, 3.94] 0.042 
+3 Rainy  hwise     HWISE_REDUCED                 1.20 [1.10, 1.33] &lt;0.001
+4 Rainy  wi_nbh    WI_NEIGHBORHOODWater-insecure 1.58 [0.75, 3.33] 0.226 </code></pre>
+<hr />
+</div>
+<div id="export-to-word" class="section level1">
+<h1>Export to Word</h1>
+<p>The two gtsummary tables are exported as a single Word document that
+can be dropped into the manuscript.</p>
+<pre class="r"><code># Stack both panels into one Word document
+doc &lt;- read_docx()
+
+doc &lt;- doc %&gt;%
+  body_add_par(&quot;Panel A. Linear regression — Perceived Stress Score (PSS)&quot;,
+               style = &quot;heading 1&quot;) %&gt;%
+  body_add_flextable(
+    as_flex_table(panel_a) %&gt;% autofit()
+  ) %&gt;%
+  body_add_break() %&gt;%
+  body_add_par(&quot;Panel B. Logistic regression — Water-related emotion (negative vs. positive)&quot;,
+               style = &quot;heading 1&quot;) %&gt;%
+  body_add_flextable(
+    as_flex_table(panel_b) %&gt;% autofit()
+  )
+
+out_path &lt;- &quot;./output/07.table_results.docx&quot;
+print(doc, target = out_path)
+cat(&quot;Table exported to:&quot;, out_path, &quot;\n&quot;)</code></pre>
+<pre><code>Table exported to: ./output/07.table_results.docx </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] officer_0.7.3    flextable_0.9.11 gtsummary_2.5.0  broom_1.0.12    
+ [5] lubridate_1.9.4  forcats_1.0.0    stringr_1.5.1    dplyr_1.2.0     
+ [9] purrr_1.0.4      readr_2.1.5      tidyr_1.3.1      tibble_3.2.1    
+[13] ggplot2_4.0.0    tidyverse_2.0.0 
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
+ [4] tzdb_0.5.0              vctrs_0.7.1             tools_4.5.3            
+ [7] generics_0.1.3          parallel_4.5.3          pkgconfig_2.0.3        
+[10] data.table_1.17.0       RColorBrewer_1.1-3      S7_0.2.0               
+[13] gt_1.0.0                uuid_1.2-1              lifecycle_1.0.5        
+[16] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
+[19] textshaping_1.0.0       litedown_0.7            httpuv_1.6.16          
+[22] fontquiver_0.2.1        fontLiberation_0.1.0    htmltools_0.5.8.1      
+[25] sass_0.4.10             yaml_2.3.10             crayon_1.5.3           
+[28] later_1.4.2             pillar_1.10.2           jquerylib_0.1.4        
+[31] broom.helpers_1.22.0    openssl_2.3.2           cachem_1.1.0           
+[34] fontBitstreamVera_0.1.1 commonmark_2.0.0        zip_2.3.3              
+[37] tidyselect_1.2.1        digest_0.6.37           stringi_1.8.7          
+[40] labelled_2.16.0         rprojroot_2.1.1         fastmap_1.2.0          
+[43] grid_4.5.3              cli_3.6.5               magrittr_2.0.3         
+[46] cards_0.7.1             patchwork_1.3.1         utf8_1.2.4             
+[49] withr_3.0.2             gdtools_0.5.0           scales_1.4.0           
+[52] promises_1.3.2          backports_1.5.0         bit64_4.6.0-1          
+[55] timechange_0.3.0        rmarkdown_2.30          bit_4.6.0              
+[58] workflowr_1.7.1         askpass_1.2.1           ragg_1.4.0             
+[61] hms_1.1.3               evaluate_1.0.3          haven_2.5.4            
+[64] knitr_1.50              markdown_2.0            rlang_1.1.7            
+[67] Rcpp_1.0.14             glue_1.8.0              xml2_1.3.8             
+[70] vroom_1.6.5             jsonlite_2.0.0          R6_2.6.1               
+[73] systemfonts_1.3.2       fs_1.6.6               </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
