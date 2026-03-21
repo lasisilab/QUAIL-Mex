@@ -15,7 +15,7 @@
 
 <title>Data merge &amp; cleaning — Screening + HWISE + PSS</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -404,7 +404,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-17
+<strong>Last updated:</strong> 2026-03-21
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -535,15 +535,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3d64228e2e5432690fb68a5c52192e9231362fc4targetblank3d64228a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree015a9dd1890bad37d06ac6d3636942a3fc85dedatargetblank015a9dda">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3d64228e2e5432690fb68a5c52192e9231362fc4" target="_blank">3d64228</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/015a9dd1890bad37d06ac6d3636942a3fc85deda" target="_blank">015a9dd</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree3d64228e2e5432690fb68a5c52192e9231362fc4targetblank3d64228a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree015a9dd1890bad37d06ac6d3636942a3fc85dedatargetblank015a9dda"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -553,7 +553,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/3d64228e2e5432690fb68a5c52192e9231362fc4" target="_blank">3d64228</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/015a9dd1890bad37d06ac6d3636942a3fc85deda" target="_blank">015a9dd</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -579,23 +579,77 @@ Ignored files:
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
+    Ignored:    figure/.DS_Store
     Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  output/coef_plot1.png
-    Untracked:  output/coef_plot2.png
-    Untracked:  output/coef_plot3.png
-    Untracked:  output/~$bleS3_HWISE_PSS_by_season.docx
+    Untracked:  analysis/07.aim2_emo_models.Rmd
+    Untracked:  analysis/07.aim2_pss_models.Rmd
+    Untracked:  analysis/08.forest_plot_tables.R
+    Untracked:  analysis/08.multivariate_models.Rmd
+    Untracked:  analysis/08.univariate_models.Rmd
+    Untracked:  analysis/09.uv_forest_plot_tables.R
+    Untracked:  analysis/88.power_analysis.txt
+    Untracked:  data/01.SES_consensus.csv
+    Untracked:  data/03.continuous_consensus.csv
+    Untracked:  data/71_missing.csv
+    Untracked:  data/test.csv
+    Untracked:  data/test_processed.csv
+    Untracked:  output/figures/
+    Untracked:  output/tables/
 
 Unstaged changes:
+    Modified:   README.md
+    Modified:   analysis/01.Data_cleaning.Rmd
     Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
     Modified:   analysis/03.Data_merge_Q1-6.Rmd
     Modified:   analysis/04.Descriptive_stats.Rmd
-    Modified:   analysis/06.1.pss_models.Rmd
-    Modified:   analysis/06.2.emo_type_models.Rmd
-    Modified:   analysis/_site.yml
+    Deleted:    analysis/06.1.pss_models.Rmd
+    Deleted:    analysis/06.2.emo_type_models.Rmd
+    Deleted:    analysis/07.table_results.Rmd
+    Deleted:    analysis/88.power_analysis.Rmd
+    Modified:   data/01.SCREENING.csv
+    Modified:   data/01.SES_to_review.csv
+    Modified:   data/01.Screening_clean.csv
+    Modified:   data/01.conflicts_reviewed.csv
+    Modified:   data/01.conflicts_reviewed_V2.csv
+    Modified:   data/01.conflicts_to_review.csv
+    Modified:   data/01.conflicts_to_review_V2.csv
+    Modified:   data/02.HWISE_PSS.csv
     Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Modified:   data/03.Merged_Q1-6.csv
+    Modified:   data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
+    Modified:   data/03.continuous_to_review.csv
+    Deleted:    output/07.table_results.docx
+    Deleted:    output/HLTH_counts_by_SES.png
+    Deleted:    output/HWISE_by_question_mean_sd_barplot.png
+    Deleted:    output/HWISE_likert.png
+    Deleted:    output/HWISE_likert_99CCCC_darkgoldenrod.png
+    Deleted:    output/HWISE_likert_cadet_blue_plum4.png
+    Deleted:    output/Q16_likert_plot_rm_participants.png
+    Deleted:    output/Q29_categorical.png
+    Deleted:    output/Table1_sample_characteristics.docx
+    Deleted:    output/TableS1.2_missing_data.docx
+    Deleted:    output/TableS1_full_descriptives.docx
+    Deleted:    output/TableS2.1_HWISE_overall.docx
+    Deleted:    output/TableS2_HWISE_PSS_overall.docx
+    Deleted:    output/TableS3_HWISE_PSS_by_season.docx
+    Deleted:    output/TableS3_HWISE_by_season.docx
+    Deleted:    output/TableS4_characteristics_by_HWISE.docx
+    Deleted:    output/TableS5_water_supply.docx
+    Deleted:    output/TableS5_water_supply_by_neighborhood.docx
+    Deleted:    output/TableS6_all_water_variables_by_season.docx
+    Deleted:    output/TableS6_water_by_neighborhood.docx
+    Deleted:    output/TableS7_HWISE_items_by_neighborhood.docx
+    Deleted:    output/TableS7_water_by_season.docx
+    Deleted:    output/TableS8_HWISE_items_by_season.docx
+    Deleted:    output/coef_plot1.png
+    Deleted:    output/coef_plot2.png
+    Deleted:    output/coef_plot3.png
+    Deleted:    output/plot_with_font.png
+    Deleted:    output/venn_diagram.png
+    Deleted:    output/~$bleS2_HWISE_PSS_overall.docx
 
 </code></pre>
 <p>
@@ -638,6 +692,20 @@ computation, the left-join merge, and a final missingness check.</p>
 </ul>
 <p>Sentinel codes are preserved in the master file and converted to
 <code>NA</code> only within analysis scripts.</p>
+<p><strong>Permanently excluded participants:</strong></p>
+<p>IDs <strong>10, 141, 164, and 427</strong> are removed at the start
+of this script and must not appear in any output. Full rationale is
+documented in <code>01.data_cleaning.Rmd</code>:</p>
+<ul>
+<li><strong>ID 10</strong>: Age 49 — outside the 18–46 eligibility
+range.</li>
+<li><strong>ID 141</strong>: Did not continuously reside in the study
+neighborhood (moved between neighborhoods).</li>
+<li><strong>ID 164</strong>: ID number skipped during data collection;
+participant never existed.</li>
+<li><strong>ID 427</strong>: Appeared not to understand the survey
+questions (linguistic or cognitive limitation).</li>
+</ul>
 <p><strong>Scale scoring rules:</strong></p>
 <ul>
 <li><p><strong>HWISE</strong> (Household Water InSecurity Experiences):
@@ -662,6 +730,9 @@ library(psych)
 data_path &lt;- &quot;./data&quot;
 
 MISSING_CODES &lt;- c(999, 888, 777, 666, 555, 444, 333)
+
+# IDs permanently excluded from all analyses — see Introduction for rationale
+EXCLUDED_IDS &lt;- c(10L, 141L, 164L, 427L)
 
 # HWISE items (12 substantive items, scored 0-3)
 HWISE_ITEMS &lt;- c(&quot;HW_WORRY&quot;, &quot;HW_INTERR&quot;, &quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;,
@@ -689,14 +760,25 @@ hwise_pss &lt;- read.csv(
 )
 
 cat(&quot;Screening rows/cols:&quot;, dim(screening), &quot;\n&quot;)</code></pre>
-<pre><code>Screening rows/cols: 399 64 </code></pre>
+<pre><code>Screening rows/cols: 397 64 </code></pre>
 <pre class="r"><code>cat(&quot;HWISE_PSS rows/cols:&quot;, dim(hwise_pss), &quot;\n&quot;)</code></pre>
-<pre><code>HWISE_PSS rows/cols: 398 33 </code></pre>
+<pre><code>HWISE_PSS rows/cols: 399 33 </code></pre>
 <pre class="r"><code>cat(&quot;\nScreening IDs:&quot;, length(unique(screening$ID)), &quot;\n&quot;)</code></pre>
 <pre><code>
-Screening IDs: 399 </code></pre>
+Screening IDs: 397 </code></pre>
 <pre class="r"><code>cat(&quot;HWISE_PSS IDs:&quot;, length(unique(hwise_pss$ID)), &quot;\n&quot;)</code></pre>
-<pre><code>HWISE_PSS IDs: 398 </code></pre>
+<pre><code>HWISE_PSS IDs: 399 </code></pre>
+<pre class="r"><code># Remove permanently excluded participants from both files
+screening &lt;- screening %&gt;% filter(!ID %in% EXCLUDED_IDS)
+hwise_pss &lt;- hwise_pss %&gt;% filter(!ID %in% EXCLUDED_IDS)
+
+cat(&quot;\nExcluded IDs:&quot;, paste(EXCLUDED_IDS, collapse = &quot;, &quot;), &quot;\n&quot;)</code></pre>
+<pre><code>
+Excluded IDs: 10, 141, 164, 427 </code></pre>
+<pre class="r"><code>cat(&quot;Screening rows after exclusion:&quot;, nrow(screening), &quot;\n&quot;)</code></pre>
+<pre><code>Screening rows after exclusion: 397 </code></pre>
+<pre class="r"><code>cat(&quot;HWISE_PSS rows after exclusion:&quot;, nrow(hwise_pss), &quot;\n&quot;)</code></pre>
+<pre><code>HWISE_PSS rows after exclusion: 397 </code></pre>
 <hr />
 </div>
 <div id="id-reconciliation" class="section level1">
@@ -712,17 +794,15 @@ both        &lt;- intersect(ids_screen, ids_hw)
 cat(&quot;# of IDs in both files:            &quot;, length(both),        &quot;\n&quot;)</code></pre>
 <pre><code># of IDs in both files:             397 </code></pre>
 <pre class="r"><code>cat(&quot;# of IDs only in screening:        &quot;, length(only_screen), &quot;\n&quot;)</code></pre>
-<pre><code># of IDs only in screening:         2 </code></pre>
+<pre><code># of IDs only in screening:         0 </code></pre>
 <pre class="r"><code>cat(&quot;# of IDs only in HWISE_PSS:        &quot;, length(only_hw),     &quot;\n&quot;)</code></pre>
-<pre><code># of IDs only in HWISE_PSS:         1 </code></pre>
+<pre><code># of IDs only in HWISE_PSS:         0 </code></pre>
 <pre class="r"><code>if (length(only_screen) &gt; 0) {
   cat(&quot;  Screening-only IDs:&quot;, paste(only_screen, collapse = &quot;, &quot;), &quot;\n&quot;)
-}</code></pre>
-<pre><code>  Screening-only IDs: 379, 427 </code></pre>
-<pre class="r"><code>if (length(only_hw) &gt; 0) {
+}
+if (length(only_hw) &gt; 0) {
   cat(&quot;  HWISE_PSS-only IDs:&quot;, paste(only_hw, collapse = &quot;, &quot;), &quot;\n&quot;)
 }</code></pre>
-<pre><code>  HWISE_PSS-only IDs: 71 </code></pre>
 <hr />
 </div>
 <div id="clean-hwise-data" class="section level1">
@@ -796,32 +876,32 @@ if (nrow(hwise_changelog) == 0) {
 <pre><code># A tibble: 47 × 3
    item       value     n
    &lt;chr&gt;      &lt;chr&gt; &lt;int&gt;
- 1 HW_ANGRY   0       128
- 2 HW_ANGRY   1       157
+ 1 HW_ANGRY   0       127
+ 2 HW_ANGRY   1       159
  3 HW_ANGRY   2        80
- 4 HW_ANGRY   3        32
- 5 HW_BODY    0       218
- 6 HW_BODY    1       105
- 7 HW_BODY    2        59
+ 4 HW_ANGRY   3        31
+ 5 HW_BODY    0       217
+ 6 HW_BODY    1       106
+ 7 HW_BODY    2        58
  8 HW_BODY    3        16
  9 HW_CLOTHES 0       159
 10 HW_CLOTHES 1       116
 11 HW_CLOTHES 2        91
 12 HW_CLOTHES 3        31
-13 HW_DRINK   0       260
+13 HW_DRINK   0       259
 14 HW_DRINK   1       110
 15 HW_DRINK   2        24
 16 HW_DRINK   3         4
-17 HW_FOOD    0       275
-18 HW_FOOD    1        79
+17 HW_FOOD    0       276
+18 HW_FOOD    1        78
 19 HW_FOOD    2        32
 20 HW_FOOD    3        11
-21 HW_HANDS   0       318
-22 HW_HANDS   1        57
-23 HW_HANDS   2        19
+21 HW_HANDS   0       317
+22 HW_HANDS   1        58
+23 HW_HANDS   2        18
 24 HW_HANDS   3         4
 25 HW_INTERR  0        95
-26 HW_INTERR  1       132
+26 HW_INTERR  1       131
 27 HW_INTERR  2       121
 28 HW_INTERR  3        50
 29 HW_NONE    0       209
@@ -865,23 +945,15 @@ Flagged HWISE values:</code></pre>
 cat(&quot;HW_TOTAL distribution:\n&quot;)</code></pre>
 <pre><code>HW_TOTAL distribution:</code></pre>
 <pre class="r"><code>print(summary(hwise_pss$HW_TOTAL))</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-  0.000   3.000   8.000   8.423  12.000  27.000       8 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   3.000   8.000   8.411  12.000  27.000 </code></pre>
 <pre class="r"><code>cat(&quot;Missing HW_TOTAL:&quot;, sum(is.na(hwise_pss$HW_TOTAL)), &quot;\n&quot;)</code></pre>
-<pre><code>Missing HW_TOTAL: 8 </code></pre>
+<pre><code>Missing HW_TOTAL: 0 </code></pre>
 <pre class="r"><code>hwise_pss %&gt;% filter(is.na(HW_TOTAL)) %&gt;% select(ID, all_of(HWISE_ITEMS), HW_INFO)</code></pre>
-<pre><code># A tibble: 8 × 14
-     ID HW_WORRY HW_INTERR HW_CLOTHES HW_PLANS HW_FOOD HW_HANDS HW_BODY HW_DRINK
-  &lt;int&gt;    &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-1    35        0         0          0        0       0        0       0        0
-2    48        0         0          0        1       0        0       1        0
-3    63        1         0          1        0       1        0       1        1
-4    83        0         1          0        0       0        0       0        1
-5   168        2         2          1        2       1        0       0        0
-6   347        2         3          3        2       1        1       2        2
-7   358        3         3         NA        2       0        0       0        0
-8   364        0         2          2        0      NA        0       0        0
-# ℹ 5 more variables: HW_ANGRY &lt;dbl&gt;, HW_SLEEP &lt;dbl&gt;, HW_NONE &lt;dbl&gt;,
+<pre><code># A tibble: 0 × 14
+# ℹ 14 variables: ID &lt;int&gt;, HW_WORRY &lt;dbl&gt;, HW_INTERR &lt;dbl&gt;, HW_CLOTHES &lt;dbl&gt;,
+#   HW_PLANS &lt;dbl&gt;, HW_FOOD &lt;dbl&gt;, HW_HANDS &lt;dbl&gt;, HW_BODY &lt;dbl&gt;,
+#   HW_DRINK &lt;dbl&gt;, HW_ANGRY &lt;dbl&gt;, HW_SLEEP &lt;dbl&gt;, HW_NONE &lt;dbl&gt;,
 #   HW_SHAME &lt;dbl&gt;, HW_INFO &lt;chr&gt;</code></pre>
 <pre class="r"><code># Distribution plot
 ggplot(hwise_pss %&gt;% filter(!is.na(HW_TOTAL)),
@@ -976,10 +1048,10 @@ hwise_pss &lt;- hwise_pss %&gt;%
 cat(&quot;HW_WORRY_SUB distribution:\n&quot;)</code></pre>
 <pre><code>HW_WORRY_SUB distribution:</code></pre>
 <pre class="r"><code>print(summary(hwise_pss$HW_WORRY_SUB))</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-  0.000   1.000   2.000   2.424   4.000   8.000       4 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   1.000   2.000   2.421   4.000   8.000 </code></pre>
 <pre class="r"><code>cat(&quot;Missing HW_WORRY_SUB:&quot;, sum(is.na(hwise_pss$HW_WORRY_SUB)), &quot;\n&quot;)</code></pre>
-<pre><code>Missing HW_WORRY_SUB: 4 </code></pre>
+<pre><code>Missing HW_WORRY_SUB: 0 </code></pre>
 <pre class="r"><code>ggplot(hwise_pss %&gt;% filter(!is.na(HW_WORRY_SUB)),
        aes(x = HW_WORRY_SUB)) +
   geom_bar(fill = &quot;#5bc0de&quot;, color = &quot;white&quot;) +
@@ -1062,10 +1134,10 @@ hwise_pss &lt;- hwise_pss %&gt;%
 cat(&quot;HW_MEX_5SUB distribution:\n&quot;)</code></pre>
 <pre><code>HW_MEX_5SUB distribution:</code></pre>
 <pre class="r"><code>print(summary(hwise_pss$HW_MEX_5SUB))</code></pre>
-<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-   0.00    1.00    3.00    3.24    5.00   14.00       2 </code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   1.000   3.000   3.229   5.000  14.000 </code></pre>
 <pre class="r"><code>cat(&quot;Missing HW_MEX_5SUB:&quot;, sum(is.na(hwise_pss$HW_MEX_5SUB)), &quot;\n&quot;)</code></pre>
-<pre><code>Missing HW_MEX_5SUB: 2 </code></pre>
+<pre><code>Missing HW_MEX_5SUB: 0 </code></pre>
 <pre class="r"><code>ggplot(hwise_pss %&gt;% filter(!is.na(HW_MEX_5SUB)),
        aes(x = HW_MEX_5SUB)) +
   geom_bar(fill = &quot;#5bc0de&quot;, color = &quot;white&quot;) +
@@ -1074,6 +1146,43 @@ cat(&quot;HW_MEX_5SUB distribution:\n&quot;)</code></pre>
        x = &quot;5-item subscale (0–9)&quot;, y = &quot;Count&quot;) +
   theme_minimal()</code></pre>
 <p><img src="figure/02.data_merge_hwise_pss.Rmd/hwise-5items-sub-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-5items-sub-1">
+Past versions of hwise-5items-sub-1.png
+</button>
+</p>
+<div id="fig-hwise-5items-sub-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ac035290fc116787cc65b489c2cd71a7308bd250/docs/figure/02.Data_merge_HWISE_PSS.Rmd/hwise-5items-sub-1.png" target="_blank">ac03529</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <hr />
 </div>
 <div id="clean-pss-data" class="section level1">
@@ -1145,25 +1254,25 @@ if (nrow(pss_changelog) == 0) {
    item  value     n
    &lt;chr&gt; &lt;chr&gt; &lt;int&gt;
  1 PSS1  0        38
- 2 PSS1  1        57
+ 2 PSS1  1        56
  3 PSS1  2       169
- 4 PSS1  3        89
- 5 PSS1  4        44
- 6 PSS10 0        30
+ 4 PSS1  3        88
+ 5 PSS1  4        45
+ 6 PSS10 0        29
  7 PSS10 1        79
  8 PSS10 2       180
  9 PSS10 3        80
 10 PSS10 4        28
 11 PSS11 0         9
 12 PSS11 1        49
-13 PSS11 2       138
-14 PSS11 3       109
-15 PSS11 4        92
+13 PSS11 2       137
+14 PSS11 3       108
+15 PSS11 4        93
 16 PSS12 0         2
 17 PSS12 1        29
 18 PSS12 2        90
-19 PSS12 3       140
-20 PSS12 4       136
+19 PSS12 3       138
+20 PSS12 4       137
 # ℹ 50 more rows</code></pre>
 <pre class="r"><code># Flag unexpected values
 pss_flags &lt;- hwise_pss %&gt;%
@@ -1249,19 +1358,19 @@ cat(&quot;PSS item means before and after reverse-coding:\n&quot;)</code></pre>
 <pre><code># A tibble: 14 × 4
    item  mean_before mean_after direction         
    &lt;fct&gt;       &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;             
- 1 PSS1         2.11       2.11 Direct (unchanged)
+ 1 PSS1         2.12       2.12 Direct (unchanged)
  2 PSS2         2.22       2.22 Direct (unchanged)
- 3 PSS3         2.93       2.93 Direct (unchanged)
+ 3 PSS3         2.94       2.94 Direct (unchanged)
  4 PSS8         2.13       2.13 Direct (unchanged)
  5 PSS11        2.57       2.57 Direct (unchanged)
- 6 PSS12        2.95       2.95 Direct (unchanged)
- 7 PSS14        2.16       2.16 Direct (unchanged)
+ 6 PSS12        2.96       2.96 Direct (unchanged)
+ 7 PSS14        2.17       2.17 Direct (unchanged)
  8 PSS4         2.57       1.43 Reversed          
  9 PSS5         2.66       1.34 Reversed          
 10 PSS6         2.83       1.17 Reversed          
 11 PSS7         2.58       1.42 Reversed          
 12 PSS9         2.65       1.35 Reversed          
-13 PSS10        1.99       2.01 Reversed          
+13 PSS10        2          2    Reversed          
 14 PSS13        2.55       1.45 Reversed          </code></pre>
 <pre class="r"><code># Plot
 pss_rev_check %&gt;%
@@ -1351,17 +1460,14 @@ cat(&quot;PSS_TOTAL distribution:\n&quot;)</code></pre>
 <pre><code>PSS_TOTAL distribution:</code></pre>
 <pre class="r"><code>print(summary(hwise_pss$PSS_TOTAL))</code></pre>
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-   9.00   22.00   28.00   27.27   32.00   47.00       4 </code></pre>
+   9.00   22.00   28.00   27.24   32.00   47.00       1 </code></pre>
 <pre class="r"><code>cat(&quot;Missing PSS_TOTAL:&quot;, sum(is.na(hwise_pss$PSS_TOTAL)), &quot;\n&quot;)</code></pre>
-<pre><code>Missing PSS_TOTAL: 4 </code></pre>
+<pre><code>Missing PSS_TOTAL: 1 </code></pre>
 <pre class="r"><code>hwise_pss %&gt;% filter(is.na(PSS_TOTAL)) %&gt;% select(ID, PSS_INFO, all_of(PSS_ITEMS))</code></pre>
-<pre><code># A tibble: 4 × 16
+<pre><code># A tibble: 1 × 16
      ID PSS_INFO      PSS1  PSS2  PSS3  PSS8 PSS11 PSS12 PSS14  PSS4  PSS5  PSS6
   &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 1    37 PSS-14 not …    NA    NA    NA    NA    NA    NA    NA    NA     0     0
-2    89 &lt;NA&gt;             1     3     4     2     2     3     0     3     2     2
-3   169 Falta numer…     1     2     1     1     1     1     0    NA     3     3
-4   496 &lt;NA&gt;             2     2     2     2     2     3     1    NA     3     3
 # ℹ 4 more variables: PSS7 &lt;dbl&gt;, PSS9 &lt;dbl&gt;, PSS10 &lt;dbl&gt;, PSS13 &lt;dbl&gt;</code></pre>
 <pre class="r"><code>cat(&quot;\nParticipants flagged for PSS review (PSS_REVIEW_FLAG = 1):\n&quot;)</code></pre>
 <pre><code>
@@ -1441,7 +1547,7 @@ cat(&quot;SEASON_CLEAN distribution:\n&quot;)</code></pre>
 <pre class="r"><code>print(table(hwise_pss$SEASON_CLEAN, useNA = &quot;always&quot;))</code></pre>
 <pre><code>
    0    1 &lt;NA&gt; 
- 203  195    0 </code></pre>
+ 201  196    0 </code></pre>
 <hr />
 </div>
 <div id="select-columns-for-merge" class="section level1">
@@ -1481,7 +1587,7 @@ of participants without HWISE_PSS data.</p>
   left_join(hwise_to_merge, by = &quot;ID&quot;)
 
 cat(&quot;Merged dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Merged dimensions: 399 106 </code></pre>
+<pre><code>Merged dimensions: 397 106 </code></pre>
 <pre class="r"><code># Cross-check SEASON from screening (0/1) vs HWISE_PSS text-derived value
 season_check &lt;- df_merged %&gt;%
   filter(!is.na(SEASON) &amp; !is.na(SEASON_CLEAN)) %&gt;%
@@ -1512,21 +1618,8 @@ if (nrow(season_mismatch) &gt; 0) {
 cat(&quot;Participants with no HWISE or PSS data after merge:\n&quot;)</code></pre>
 <pre><code>Participants with no HWISE or PSS data after merge:</code></pre>
 <pre class="r"><code>print(missing_hw)</code></pre>
-<pre><code>    ID SEASON HW_TOTAL PSS_TOTAL
-1   35      0       NA        18
-2   37      0        2        NA
-3   48      0       NA        23
-4   63      0       NA        29
-5   83      0       NA        19
-6   89      0        8        NA
-7  168      0       NA        22
-8  169      0        8        NA
-9  347      1       NA        33
-10 358      1       NA        37
-11 364      1       NA        23
-12 379      1       NA        NA
-13 427      1       NA        NA
-14 496      1        3        NA</code></pre>
+<pre><code>  ID SEASON HW_TOTAL PSS_TOTAL
+1 37      0        2        NA</code></pre>
 </div>
 <div id="missing-data-summary-for-key-variables" class="section level2">
 <h2>8.2 Missing data summary for key variables</h2>
@@ -1563,37 +1656,22 @@ missing_report &lt;- missing_report %&gt;%
 cat(&quot;Missing data summary — HWISE &amp; PSS variables:\n&quot;)</code></pre>
 <pre><code>Missing data summary — HWISE &amp; PSS variables:</code></pre>
 <pre class="r"><code>print(missing_report, n = 40)</code></pre>
-<pre><code># A tibble: 28 × 7
-   variable    n_na n_sentinel n_total pct_na pct_flag sample_IDs               
-   &lt;chr&gt;      &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                    
- 1 HW_TOTAL      10          0     399    2.5        0 35, 48, 63, 83, 168, 347…
- 2 PSS_TOTAL      6          0     399    1.5        0 37, 89, 169, 379, 427, 4…
- 3 HW_SHAME       5          0     399    1.3        0 63, 168, 347, 379, 427   
- 4 PSS4           5          0     399    1.3        0 37, 169, 379, 427, 496   
- 5 PSS13          4          0     399    1          0 37, 89, 379, 427         
- 6 HW_CLOTHES     3          0     399    0.8        0 358, 379, 427            
- 7 HW_FOOD        3          0     399    0.8        0 364, 379, 427            
- 8 HW_ANGRY       3          0     399    0.8        0 48, 379, 427             
- 9 HW_SLEEP       3          0     399    0.8        0 35, 379, 427             
-10 HW_NONE        3          0     399    0.8        0 83, 379, 427             
-11 PSS1           3          0     399    0.8        0 37, 379, 427             
-12 PSS2           3          0     399    0.8        0 37, 379, 427             
-13 PSS3           3          0     399    0.8        0 37, 379, 427             
-14 PSS8           3          0     399    0.8        0 37, 379, 427             
-15 PSS11          3          0     399    0.8        0 37, 379, 427             
-16 PSS12          3          0     399    0.8        0 37, 379, 427             
-17 PSS14          3          0     399    0.8        0 37, 379, 427             
-18 PSS7           3          0     399    0.8        0 37, 379, 427             
-19 PSS9           3          0     399    0.8        0 37, 379, 427             
-20 PSS10          3          0     399    0.8        0 37, 379, 427             
-21 HW_WORRY       2          0     399    0.5        0 379, 427                 
-22 HW_INTERR      2          0     399    0.5        0 379, 427                 
-23 HW_PLANS       2          0     399    0.5        0 379, 427                 
-24 HW_HANDS       2          0     399    0.5        0 379, 427                 
-25 HW_BODY        2          0     399    0.5        0 379, 427                 
-26 HW_DRINK       2          0     399    0.5        0 379, 427                 
-27 PSS5           2          0     399    0.5        0 379, 427                 
-28 PSS6           2          0     399    0.5        0 379, 427                 </code></pre>
+<pre><code># A tibble: 13 × 7
+   variable   n_na n_sentinel n_total pct_na pct_flag sample_IDs
+   &lt;chr&gt;     &lt;int&gt;      &lt;int&gt;   &lt;int&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;     
+ 1 PSS_TOTAL     1          0     397    0.3        0 37        
+ 2 PSS1          1          0     397    0.3        0 37        
+ 3 PSS2          1          0     397    0.3        0 37        
+ 4 PSS3          1          0     397    0.3        0 37        
+ 5 PSS8          1          0     397    0.3        0 37        
+ 6 PSS11         1          0     397    0.3        0 37        
+ 7 PSS12         1          0     397    0.3        0 37        
+ 8 PSS14         1          0     397    0.3        0 37        
+ 9 PSS4          1          0     397    0.3        0 37        
+10 PSS7          1          0     397    0.3        0 37        
+11 PSS9          1          0     397    0.3        0 37        
+12 PSS10         1          0     397    0.3        0 37        
+13 PSS13         1          0     397    0.3        0 37        </code></pre>
 </div>
 <div id="score-distributions-by-season" class="section level2">
 <h2>8.3 Score distributions by season</h2>
@@ -1652,236 +1730,15 @@ Paloma
 <hr />
 </div>
 </div>
-<div id="internal-consistency-cronbachs-α" class="section level1">
-<h1>9. Internal consistency (Cronbach’s α)</h1>
-<p>Cronbach’s α measures how well the items in a scale correlate with
-each other — i.e., whether they are all capturing the same underlying
-construct. Values ≥ 0.7 are generally considered acceptable. α is
-computed here on complete cases only (rows with any <code>NA</code> or
-sentinel code in the relevant items are excluded).</p>
-<pre class="r"><code># Helper to clean a set of items: exclude NAs and sentinel codes row-wise
-clean_items &lt;- function(data, items) {
-  data %&gt;%
-    select(all_of(items)) %&gt;%
-    mutate(across(everything(), ~ if_else(. %in% MISSING_CODES, NA_real_,
-                                          as.numeric(.)))) %&gt;%
-    filter(if_all(everything(), ~ !is.na(.)))
-}
-
-# # Remove uninformative columns
+<div id="remove-uninformative-columns" class="section level1">
+<h1>9. Remove uninformative columns</h1>
+<pre class="r"><code># Remove raw (un-reverse-coded) PSS items and the intermediate SEASON_CLEAN column
 dim(df_merged)</code></pre>
-<pre><code>[1] 399 106</code></pre>
+<pre><code>[1] 397 106</code></pre>
 <pre class="r"><code>df_merged &lt;- df_merged %&gt;% select(-SEASON_CLEAN, -PSS4, -PSS5, -PSS6, -PSS7, -PSS9, -PSS10, -PSS13)
 dim(df_merged)</code></pre>
-<pre><code>[1] 399  98</code></pre>
-<pre class="r"><code># HWISE — 12 items, scored 0–3
-alpha_hwise &lt;- clean_items(df_merged, HWISE_ITEMS) %&gt;% psych::alpha()
-
-# PSS-14 — use reverse-coded versions of the negative items
-alpha_pss &lt;- clean_items(df_merged, PSS_SCORED_ITEMS) %&gt;% psych::alpha()
-
-# Water worry subscale — 3 items
-alpha_worry &lt;- clean_items(df_merged, WORRY_ITEMS) %&gt;% psych::alpha()
-
-# Summary table
-alpha_summary &lt;- tibble(
-  Scale            = c(&quot;HWISE (12 items)&quot;, &quot;PSS-14 (14 items)&quot;,
-                       &quot;Water worry subscale (3 items)&quot;),
-  n_items          = c(12, 14, 3),
-  n_complete       = c(nrow(clean_items(df_merged, HWISE_ITEMS)),
-                       nrow(clean_items(df_merged, PSS_SCORED_ITEMS)),
-                       nrow(clean_items(df_merged, WORRY_ITEMS))),
-  alpha            = round(c(alpha_hwise$total$raw_alpha,
-                             alpha_pss$total$raw_alpha,
-                             alpha_worry$total$raw_alpha), 3),
-  alpha_95CI_lower = round(c(alpha_hwise$total$raw_alpha -
-                               1.96 * alpha_hwise$total$ase,
-                             alpha_pss$total$raw_alpha -
-                               1.96 * alpha_pss$total$ase,
-                             alpha_worry$total$raw_alpha -
-                               1.96 * alpha_worry$total$ase), 3),
-  alpha_95CI_upper = round(c(alpha_hwise$total$raw_alpha +
-                               1.96 * alpha_hwise$total$ase,
-                             alpha_pss$total$raw_alpha +
-                               1.96 * alpha_pss$total$ase,
-                             alpha_worry$total$raw_alpha +
-                               1.96 * alpha_worry$total$ase), 3)
-)
-
-cat(&quot;Cronbach&#39;s α summary:\n&quot;)</code></pre>
-<pre><code>Cronbach&#39;s α summary:</code></pre>
-<pre class="r"><code>print(alpha_summary)</code></pre>
-<pre><code># A tibble: 3 × 6
-  Scale               n_items n_complete alpha alpha_95CI_lower alpha_95CI_upper
-  &lt;chr&gt;                 &lt;dbl&gt;      &lt;int&gt; &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-1 HWISE (12 items)         12        389 0.848            0.827            0.869
-2 PSS-14 (14 items)        14        393 0.813            0.787            0.84 
-3 Water worry subsca…       3        393 0.539            0.468            0.61 </code></pre>
-<pre class="r"><code>ggplot(alpha_summary,
-       aes(x = reorder(Scale, alpha), y = alpha)) +
-  geom_pointrange(aes(ymin = alpha_95CI_lower, ymax = alpha_95CI_upper),
-                  size = 0.8, color = &quot;#5bc0de&quot;) +
-  geom_hline(yintercept = 0.7, linetype = &quot;dashed&quot;, color = &quot;grey50&quot;) +
-  geom_hline(yintercept = 0.9, linetype = &quot;dotted&quot;, color = &quot;grey50&quot;) +
-  annotate(&quot;text&quot;, x = 0.6, y = 0.71, label = &quot;acceptable (0.7)&quot;,
-           hjust = 0, size = 3, color = &quot;grey40&quot;) +
-  annotate(&quot;text&quot;, x = 0.6, y = 0.91, label = &quot;excellent (0.9)&quot;,
-           hjust = 0, size = 3, color = &quot;grey40&quot;) +
-  coord_flip() +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
-  labs(title = &quot;Cronbach&#39;s α by scale (95% CI)&quot;,
-       x = NULL, y = &quot;Cronbach&#39;s α&quot;) +
-  theme_minimal()</code></pre>
-<p><img src="figure/02.data_merge_hwise_pss.Rmd/cronbach-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cronbach-1">
-Past versions of cronbach-1.png
-</button>
-</p>
-<div id="fig-cronbach-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lasisilab/QUAIL-Mex/blob/616a741f3300bc3b29ad68ab083c73329cf66430/docs/figure/02.Data_merge_HWISE_PSS.Rmd/cronbach-1.png" target="_blank">616a741</a>
-</td>
-<td>
-Paloma
-</td>
-<td>
-2026-03-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div id="interpretation" class="section level3">
-<h3>Interpretation</h3>
-<p><strong>HWISE (α = 0.848, 95% CI: 0.827–0.869):</strong> Good
-internal consistency, comfortably above the 0.8 threshold. All 12 items
-contribute positively, with item-total correlations ranging from 0.36 to
-0.66. The weakest items are <code>HW_SLEEP</code> (r.drop = 0.296) and
-<code>HW_DRINK</code> (r.drop = 0.381), though neither is low enough to
-warrant removal — they likely capture a slightly different facet of
-water insecurity (disrupted sleep and drinking water access) that is
-less correlated with the broader scale but still conceptually
-relevant.</p>
-<p><strong>PSS-14 (α = 0.813, 95% CI: 0.787–0.840):</strong> Good
-internal consistency. The weakest items are <code>PSS12</code> (r.drop =
-0.274) and <code>PSS13_REV</code> (r.drop = 0.292), both of which are
-among the reverse-coded items. This pattern is common in PSS data and
-has been noted in validation studies. The overall α is consistent with
-values reported in the literature for Spanish-language administrations
-of the PSS.</p>
-<p><strong>Water worry subscale (α = 0.539, 95% CI:
-0.468–0.610):</strong> Below the conventional 0.7 threshold, which
-warrants caution in interpretation. However, this is partly expected —
-Cronbach’s α is sensitive to the number of items, and a 3-item scale
-will almost always yield lower α than the full 12-item HWISE even if the
-items are genuinely related. Among the three items,
-<code>HW_SHAME</code> has the lowest item-total correlation (r.drop =
-0.261), suggesting it is the least consistent with the other two.
-<code>HW_ANGRY</code> and <code>HW_WORRY</code> are more closely related
-to each other. These results suggest the subscale has limited
-reliability as a standalone measure and findings based on it should be
-interpreted carefully.</p>
-</div>
-<div id="item-level-detail" class="section level3">
-<h3>Item-level detail</h3>
-<p>Item-total correlations and α-if-item-deleted for each scale — useful
-for spotting items that weaken internal consistency.</p>
-<pre class="r"><code>cat(&quot;--- HWISE item-level stats ---\n&quot;)</code></pre>
-<pre><code>--- HWISE item-level stats ---</code></pre>
-<pre class="r"><code>print(alpha_hwise$item.stats %&gt;%
-        select(r.cor, r.drop) %&gt;%
-        round(3))</code></pre>
-<pre><code>           r.cor r.drop
-HW_WORRY   0.614  0.578
-HW_INTERR  0.610  0.576
-HW_CLOTHES 0.645  0.610
-HW_PLANS   0.635  0.599
-HW_FOOD    0.624  0.570
-HW_HANDS   0.488  0.439
-HW_BODY    0.662  0.612
-HW_DRINK   0.467  0.381
-HW_ANGRY   0.636  0.601
-HW_SLEEP   0.361  0.296
-HW_NONE    0.548  0.494
-HW_SHAME   0.454  0.409</code></pre>
-<pre class="r"><code>cat(&quot;\n--- PSS-14 item-level stats ---\n&quot;)</code></pre>
-<pre><code>
---- PSS-14 item-level stats ---</code></pre>
-<pre class="r"><code>print(alpha_pss$item.stats %&gt;%
-        select(r.cor, r.drop) %&gt;%
-        round(3))</code></pre>
-<pre><code>          r.cor r.drop
-PSS1      0.432  0.386
-PSS2      0.649  0.596
-PSS3      0.562  0.516
-PSS8      0.439  0.404
-PSS11     0.588  0.532
-PSS12     0.298  0.274
-PSS14     0.612  0.553
-PSS4_REV  0.497  0.425
-PSS5_REV  0.499  0.431
-PSS6_REV  0.520  0.441
-PSS7_REV  0.573  0.519
-PSS9_REV  0.504  0.434
-PSS10_REV 0.389  0.333
-PSS13_REV 0.338  0.292</code></pre>
-<pre class="r"><code>cat(&quot;\n--- Water worry subscale item-level stats ---\n&quot;)</code></pre>
-<pre><code>
---- Water worry subscale item-level stats ---</code></pre>
-<pre class="r"><code>print(alpha_worry$item.stats %&gt;%
-        select(r.cor, r.drop) %&gt;%
-        round(3))</code></pre>
-<pre><code>         r.cor r.drop
-HW_WORRY 0.526  0.403
-HW_ANGRY 0.582  0.441
-HW_SHAME 0.351  0.261</code></pre>
-</div>
-<div id="pss-subscales" class="section level2">
-<h2>PSS subscales</h2>
-<pre class="r"><code>pss_helpless &lt;- c(
-  &quot;PSS1&quot;,&quot;PSS2&quot;,&quot;PSS3&quot;,&quot;PSS8&quot;,&quot;PSS11&quot;,&quot;PSS12&quot;,&quot;PSS14&quot;
-)
-
-pss_efficacy &lt;- c(
-  &quot;PSS4_REV&quot;,&quot;PSS5_REV&quot;,&quot;PSS6_REV&quot;,&quot;PSS7_REV&quot;,
-  &quot;PSS9_REV&quot;,&quot;PSS10_REV&quot;,&quot;PSS13_REV&quot;
-)
-
-alpha_helpless &lt;- df_merged %&gt;%
-  dplyr::select(all_of(pss_helpless)) %&gt;%
-  psych::alpha()</code></pre>
-<pre><code>Warning in response.frequencies(x, max = max): response.frequency has been
-deprecated and replaced with responseFrequecy.  Please fix your call</code></pre>
-<pre class="r"><code>alpha_efficacy &lt;- df_merged %&gt;%
-  dplyr::select(all_of(pss_efficacy)) %&gt;%
-  psych::alpha()</code></pre>
-<pre><code>Warning in response.frequencies(x, max = max): response.frequency has been
-deprecated and replaced with responseFrequecy.  Please fix your call</code></pre>
-<pre class="r"><code>alpha_helpless$total$raw_alpha</code></pre>
-<pre><code>[1] 0.786253</code></pre>
-<pre class="r"><code>alpha_efficacy$total$raw_alpha</code></pre>
-<pre><code>[1] 0.7511195</code></pre>
+<pre><code>[1] 397  98</code></pre>
 <hr />
-</div>
 </div>
 <div id="save-merged-dataset" class="section level1">
 <h1>10. Save merged dataset</h1>
@@ -1890,7 +1747,7 @@ write.csv(df_merged, out_file, row.names = FALSE)
 cat(&quot;Saved:&quot;, out_file, &quot;\n&quot;)</code></pre>
 <pre><code>Saved: ./data/02.Merged_Screening_HWISE_PSS.csv </code></pre>
 <pre class="r"><code>cat(&quot;Final dimensions:&quot;, dim(df_merged), &quot;\n&quot;)</code></pre>
-<pre><code>Final dimensions: 399 98 </code></pre>
+<pre><code>Final dimensions: 397 98 </code></pre>
 </div>
 <div id="pending" class="section level1">
 <h1>Pending</h1>
@@ -1918,7 +1775,7 @@ BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRbla
 LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
 
 time zone: America/Detroit
 tzcode source: internal
@@ -1931,20 +1788,20 @@ other attached packages:
 [6] dplyr_1.2.0  
 
 loaded via a namespace (and not attached):
- [1] sass_0.4.10        utf8_1.2.4         generics_0.1.3     stringi_1.8.7     
- [5] lattice_0.22-9     hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
- [9] evaluate_1.0.3     grid_4.5.3         RColorBrewer_1.1-3 fastmap_1.2.0     
-[13] rprojroot_2.1.1    workflowr_1.7.1    jsonlite_2.0.0     whisker_0.4.1     
-[17] promises_1.3.2     purrr_1.0.4        scales_1.4.0       jquerylib_0.1.4   
-[21] mnormt_2.1.2       cli_3.6.5          rlang_1.1.7        withr_3.0.2       
-[25] cachem_1.1.0       yaml_2.3.10        tools_4.5.3        parallel_4.5.3    
-[29] tzdb_0.5.0         httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1          
-[33] lifecycle_1.0.5    git2r_0.36.2       fs_1.6.6           pkgconfig_2.0.3   
-[37] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
-[41] glue_1.8.0         Rcpp_1.0.14        xfun_0.52          tibble_3.2.1      
-[45] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
-[49] htmltools_0.5.8.1  nlme_3.1-168       rmarkdown_2.29     labeling_0.4.3    
-[53] compiler_4.5.3     S7_0.2.0          </code></pre>
+ [1] gtable_0.3.6       jsonlite_2.0.0     compiler_4.5.3     promises_1.3.2    
+ [5] tidyselect_1.2.1   Rcpp_1.0.14        git2r_0.36.2       parallel_4.5.3    
+ [9] later_1.4.2        jquerylib_0.1.4    scales_1.4.0       yaml_2.3.10       
+[13] fastmap_1.2.0      lattice_0.22-9     R6_2.6.1           labeling_0.4.3    
+[17] generics_0.1.3     workflowr_1.7.1    knitr_1.50         tibble_3.2.1      
+[21] rprojroot_2.1.1    RColorBrewer_1.1-3 bslib_0.9.0        pillar_1.10.2     
+[25] tzdb_0.5.0         rlang_1.1.7        utf8_1.2.4         cachem_1.1.0      
+[29] stringi_1.8.7      httpuv_1.6.16      xfun_0.52          S7_0.2.0          
+[33] fs_1.6.6           sass_0.4.10        cli_3.6.5          withr_3.0.2       
+[37] magrittr_2.0.3     grid_4.5.3         digest_0.6.37      hms_1.1.3         
+[41] nlme_3.1-168       lifecycle_1.0.5    vctrs_0.7.1        mnormt_2.1.2      
+[45] evaluate_1.0.3     glue_1.8.0         whisker_0.4.1      farver_2.1.2      
+[49] rmarkdown_2.30     purrr_1.0.4        tools_4.5.3        pkgconfig_2.0.3   
+[53] htmltools_0.5.8.1 </code></pre>
 </div>
 </div>
 </div>

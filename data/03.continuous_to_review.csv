@@ -1,5 +1,4 @@
 ID,variable,current_value,notes,issue,hint,consensus
-10,D_HH_SIZE,999,999,Sentinel 999 — Lost / data entry error,Enter number of household members as a positive integer.,
 18,D_HH_SIZE,,,Missing / not entered,Enter number of household members as a positive integer.,
 27,MX5_WFREQ_HRS_PER_WEEK,,,Missing / not entered,Enter hours per week as a positive number (e.g. 3.5). Use 0 if none.,
 64,MX5_WFREQ_HRS_PER_WEEK,,,Missing / not entered,Enter hours per week as a positive number (e.g. 3.5). Use 0 if none.,

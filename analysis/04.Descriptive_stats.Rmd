@@ -10,7 +10,7 @@ editor_options:
 ## Introduction
 
 This document produces descriptive statistics tables for the merged dataset
-(`03.Merged_Q1-6.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
+(`3.Merged_Q1-6_Q16_Q19_Q26_Q28.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
 It includes:
 
 1. A comprehensive descriptive statistics table (all analytic variables)
@@ -41,6 +41,13 @@ library(flextable)
 library(purrr)
 library(officer)
 library(ggplot2)
+
+# --- Pretty tables theme ---
+theme_gtsummary_journal(journal = "jama")
+set_gtsummary_theme(list(
+  "pkgwide-fn:pvalue_fun"  = label_style_pvalue(digits = 3),
+  "tbl_summary-fn:percent_fun" = label_style_percent(digits = 1)
+))
 
 data_path <- "./data"
 
@@ -82,16 +89,13 @@ All sentinel codes are converted to NA since they represent non-informative resp
 ```{r prepare}
 
 edu_levels <- c(
-  "No formal education",
-  "Incomplete primary (1–5 yrs)",
+  "No formal / incomplete primary",
   "Complete primary",
-  "Incomplete secondary (7–8 yrs)",
+  "Incomplete secondary",
   "Complete secondary",
-  "Incomplete high school (10–11 yrs)",
+  "Incomplete high school",
   "Complete high school",
-  "Incomplete university (13–15 yrs)",
-  "Complete university",
-  "Postgraduate"
+  "University or higher"
 )
 
 df_table <- df %>%
@@ -109,17 +113,82 @@ df_table <- df %>%
 
     # --- SES ---
     Education    = factor(
-      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
-        "Incomplete primary"    = "Incomplete primary (1–5 yrs)",
-        "Incomplete secondary"  = "Incomplete secondary (7–8 yrs)",
-        "Incomplete high school" = "Incomplete high school (10–11 yrs)",
-        "Incomplete university"  = "Incomplete university (13–15 yrs)"
+      case_when(
+        is.na(SES_EDU_CAT_CLEAN) | SES_EDU_CAT_CLEAN == ""          ~ NA_character_,
+        SES_EDU_CAT_CLEAN %in% c("No formal education",
+                                  "Incomplete primary")              ~ "No formal / incomplete primary",
+        SES_EDU_CAT_CLEAN == "Complete primary"                      ~ "Complete primary",
+        SES_EDU_CAT_CLEAN == "Incomplete secondary"                  ~ "Incomplete secondary",
+        SES_EDU_CAT_CLEAN == "Complete secondary"                    ~ "Complete secondary",
+        SES_EDU_CAT_CLEAN == "Incomplete high school"                ~ "Incomplete high school",
+        SES_EDU_CAT_CLEAN == "Complete high school"                  ~ "Complete high school",
+        SES_EDU_CAT_CLEAN %in% c("Incomplete university",
+                                  "Complete university",
+                                  "Postgraduate")                    ~ "University or higher",
+        TRUE                                                         ~ NA_character_
       ),
       levels = edu_levels, ordered = TRUE
     ),
     SES          = factor(SES_CAT_AMAI,
                           levels = c("E", "D-", "D+", "C-", "C", "C+", "AB"),
                           ordered = TRUE),
+    # SES items — derived from item scores (sentinel 666 → NA)
+    SES_Bthr_cat = factor(
+      case_when(
+        clean_for_table(SES_BTHR_SC) ==  0 ~ "0 bathrooms",
+        clean_for_table(SES_BTHR_SC) == 24 ~ "1 bathroom",
+        clean_for_table(SES_BTHR_SC) == 47 ~ "2+ bathrooms",
+        TRUE                               ~ NA_character_
+      ),
+      levels = c("0 bathrooms", "1 bathroom", "2+ bathrooms"),
+      ordered = TRUE
+    ),
+
+    SES_Car_cat = factor(
+      case_when(
+        clean_for_table(SES_CAR_SC) ==  0 ~ "0 cars",
+        clean_for_table(SES_CAR_SC) == 18 ~ "1 car",
+        clean_for_table(SES_CAR_SC) == 37 ~ "2+ cars",
+        TRUE                              ~ NA_character_
+      ),
+      levels = c("0 cars", "1 car", "2+ cars"),
+      ordered = TRUE
+    ),
+
+    SES_Int_cat = factor(
+      case_when(
+        clean_for_table(SES_INT_SC) ==  0 ~ "No",
+        clean_for_table(SES_INT_SC) == 31 ~ "Yes",
+        TRUE                              ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+
+    SES_Wrk_cat = factor(
+      case_when(
+        clean_for_table(SES_WRK_SC) ==  0 ~ "0 workers",
+        clean_for_table(SES_WRK_SC) == 15 ~ "1 worker",
+        clean_for_table(SES_WRK_SC) == 31 ~ "2 workers",
+        clean_for_table(SES_WRK_SC) == 46 ~ "3 workers",
+        clean_for_table(SES_WRK_SC) == 61 ~ "4+ workers",
+        TRUE                              ~ NA_character_
+      ),
+      levels = c("0 workers", "1 worker", "2 workers", "3 workers", "4+ workers"),
+      ordered = TRUE
+    ),
+
+    SES_Bedr_cat = factor(
+      case_when(
+        clean_for_table(SES_BEDR_SC) ==  0 ~ "0 bedrooms",
+        clean_for_table(SES_BEDR_SC) ==  6 ~ "1 bedroom",
+        clean_for_table(SES_BEDR_SC) == 12 ~ "2 bedrooms",
+        clean_for_table(SES_BEDR_SC) == 17 ~ "3 bedrooms",
+        clean_for_table(SES_BEDR_SC) == 23 ~ "4+ bedrooms",
+        TRUE                               ~ NA_character_
+      ),
+      levels = c("0 bedrooms", "1 bedroom", "2 bedrooms", "3 bedrooms", "4+ bedrooms"),
+      ordered = TRUE
+    ),
 
     # --- Employment ---
     Employed = factor(clean_for_table(D_EMP_CLEAN),
@@ -130,9 +199,14 @@ df_table <- df %>%
                              labels = c("Informal", "Formal")),
 
     # --- Health ---
-    Smoking = factor(clean_for_table(HLTH_SMK_CLEAN),
-                     levels = c(0, 1, 2),
-                     labels = c("No", "Yes", "Occasionally")),
+    Smoking = factor(
+      case_when(
+        clean_for_table(HLTH_SMK_CLEAN) == 0 ~ "No",
+        clean_for_table(HLTH_SMK_CLEAN) %in% c(1, 2) ~ "Yes",
+        TRUE ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
     Hormonal_tx   = factor(clean_for_table(HLTH_TTM_CAT),
                            levels = c(0, 1), labels = c("No", "Yes")),
     Medication    = factor(clean_for_table(HLTH_MED_CAT),
@@ -147,18 +221,14 @@ df_table <- df %>%
     Water_worry   = clean_for_table(as.numeric(HW_WORRY_SUB)),
     Water_5sub   = clean_for_table(HW_MEX_5SUB),
     
-    # Standard HWISE categories (Young et al. 2019, BMJ Global Health)
-    # 0 = secure; 1-11 = marginal; 12-23 = moderate; 24-36 = severe
     HWISE_Cat     = factor(
       case_when(
         is.na(clean_for_table(HW_TOTAL))             ~ NA_character_,
-        clean_for_table(HW_TOTAL) == 0               ~ "Secure (0)",
-        clean_for_table(HW_TOTAL) <= 11              ~ "Marginal (1-11)",
-        clean_for_table(HW_TOTAL) <= 23              ~ "Moderate (12-23)",
-        TRUE                                         ~ "Severe (24-36)"
+        clean_for_table(HW_TOTAL) <= 3               ~ "Marginal (0-3)",
+        clean_for_table(HW_TOTAL) <= 11              ~ "Low (4-11)",
+        TRUE                                         ~ "Moderate/Severe (≥12)"
       ),
-      levels = c("Secure (0)", "Marginal (1-11)",
-                 "Moderate (12-23)", "Severe (24-36)")
+      levels = c("Marginal (0-3)", "Low (4-11)", "Moderate/Severe (≥12)")
     ),
 
     # --- Individual HWISE items ---
@@ -180,14 +250,25 @@ HW_Shame    = clean_for_table(HW_SHAME),
     PSS_Cat       = factor(
       case_when(
         is.na(clean_for_table(PSS_TOTAL))            ~ NA_character_,
-        clean_for_table(PSS_TOTAL) <= 22             ~ "Low stress (≤22)",
-        clean_for_table(PSS_TOTAL) <= 31             ~ "Moderate stress (23-31)",
-        TRUE                                         ~ "High stress (≥32)"
+        clean_for_table(PSS_TOTAL) <= 18             ~ "Low stress (0–18)",
+        clean_for_table(PSS_TOTAL) <= 37             ~ "Moderate stress (19–37)",
+        TRUE                                         ~ "High stress (38–56)"
       ),
-      levels = c("Low stress (≤22)", "Moderate stress (23-31)",
-                 "High stress (≥32)")
+      levels = c("Low stress (0–18)", "Moderate stress (19–37)",
+                 "High stress (38–56)")
     )
   )
+
+# Shared type list: force HWISE items and Water_worry to continuous
+hwise_items_type <- list(
+  HW_Worry    ~ "continuous", HW_Interr  ~ "continuous",
+  HW_Clothes  ~ "continuous", HW_Plans   ~ "continuous",
+  HW_Food     ~ "continuous", HW_Hands   ~ "continuous",
+  HW_Body     ~ "continuous", HW_Drink   ~ "continuous",
+  HW_Angry    ~ "continuous", HW_Sleep   ~ "continuous",
+  HW_None     ~ "continuous", HW_Shame   ~ "continuous",
+  Water_worry ~ "continuous"
+)
 ```
 
 ---
@@ -240,7 +321,7 @@ tbl_full <- df_table %>%
   modify_header(label = "**Variable**") %>%
   modify_caption("**Table S1. Sample characteristics — full variable set (n = {N})**")
 
-tbl_full
+tbl_full |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
 
 ---
@@ -253,7 +334,10 @@ Sample characteristics stratified by season to show comparability across data co
 tbl_ms <- df_table %>%
   select(
     Season, Age, Yrs_in_nbhd, HH_size, Parity,
-    SES, Education,
+    SES,
+    SES_Bthr_cat, SES_Car_cat,
+    SES_Int_cat, SES_Wrk_cat, SES_Bedr_cat,
+    Education,
     Employed, Employment_type,
     Smoking, Chronic_pain, Chronic_dis
   ) %>%
@@ -272,7 +356,12 @@ tbl_ms <- df_table %>%
       HH_size         ~ "Household size",
       Parity          ~ "Parity",
       SES             ~ "SES (NSE-AMAI)",
-      Education       ~ "Education",
+      SES_Bthr_cat    ~ "  Bathrooms",
+      SES_Car_cat     ~ "  Car ownership",
+      SES_Int_cat     ~ "  Internet access",
+      SES_Wrk_cat     ~ "  Workers in household",
+      SES_Bedr_cat    ~ "  Bedrooms",
+      Education       ~ "Education (category)",
       Employed        ~ "Employed",
       Employment_type ~ "Employment type",
       Smoking         ~ "Smoking",
@@ -290,7 +379,7 @@ tbl_ms <- df_table %>%
   modify_header(label = "**Variable**") %>%
   modify_caption("**Table 1. Sample characteristics by season**")
 
-tbl_ms
+tbl_ms |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
 
 ---
@@ -359,28 +448,53 @@ missing_tbl <- df %>%
          n_999, n_888, n_777, n_666, n_555, n_444, n_333) %>%
   arrange(desc(n_na))
 
-missing_tbl_print <- missing_tbl %>%
+# Drop sentinel columns with no occurrences across all variables
+all_sentinel_cols <- c("n_999", "n_888", "n_777", "n_666", "n_555", "n_444", "n_333")
+sentinel_col_labels <- c(
+  n_999 = "999", n_888 = "888", n_777 = "777", n_666 = "666",
+  n_555 = "Other", n_444 = "Ambiguous", n_333 = "Pending"
+)
+sentinel_footnotes <- c(
+  n_999 = "999=Missing/lost",
+  n_888 = "888=Don't know",
+  n_777 = "777=Refused",
+  n_666 = "666=Illegible",
+  n_555 = "555=Other",
+  n_444 = "444=Ambiguous",
+  n_333 = "333=Pending"
+)
+
+active_sentinel_cols <- all_sentinel_cols[
+  sapply(all_sentinel_cols, function(col) sum(missing_tbl[[col]], na.rm = TRUE) > 0)
+]
+
+missing_tbl_trimmed <- missing_tbl %>%
+  select(-all_of(setdiff(all_sentinel_cols, active_sentinel_cols)))
+
+sentinel_label_list  <- as.list(sentinel_col_labels[active_sentinel_cols])
+footnote_text        <- paste(sentinel_footnotes[active_sentinel_cols], collapse = ", ")
+
+missing_tbl_print <- missing_tbl_trimmed %>%
   gt() %>%
   tab_header(title = "Missing Data Summary") %>%
   tab_spanner(label = "Complete",  columns = c(n_complete, pct_complete)) %>%
   tab_spanner(label = "True NA",   columns = c(n_na, pct_na)) %>%
   tab_spanner(label = "Flagged",   columns = c(n_flagged, pct_flagged)) %>%
-  tab_spanner(label = "Sentinel code breakdown",
-              columns = c(n_999, n_888, n_777, n_666, n_555, n_444, n_333)) %>%
+  { if (length(active_sentinel_cols) > 0)
+      tab_spanner(., label = "Sentinel code breakdown",
+                  columns = all_of(active_sentinel_cols))
+    else . } %>%
   cols_label(
     label        = "Variable",
     n_complete   = "n", pct_complete = "%",
     n_na         = "n", pct_na       = "%",
     n_flagged    = "n", pct_flagged  = "%",
-    n_999 = "999", n_888 = "888", n_777 = "777", n_666 = "666",
-    n_555 = "555", n_444 = "444", n_333 = "333"
+    .list        = sentinel_label_list
   ) %>%
   fmt_number(columns = where(is.numeric), decimals = 0) %>%
-  tab_footnote(
-    footnote = "999=Missing/lost, 888=Don't know, 777=Refused, 666=Illegible, 555=Other, 444=Ambiguous, 333=Pending"
-  )
+  { if (nchar(footnote_text) > 0) tab_footnote(., footnote = footnote_text) else . }
 
-missing_tbl_print
+missing_tbl_print |> opt_stylize(style = 6, color = "gray")
 ```
 
 ---
@@ -390,55 +504,280 @@ missing_tbl_print
 ## 6.1 Overall summary
 
 ```{r hwise-pss-overall}
-tbl_hwise_pss_overall <- df_table %>%
-  select(HWISE_Total, HWISE_Cat, Water_worry, Water_5sub, PSS_Total, PSS_Cat) %>%
+# Build water supply variables (same logic as section 8) and join to df_table
+df_s2 <- df %>%
+  mutate(
+    W_Continuity = case_when(
+      is_sentinel_str(MX3_CONT_INT)                             ~ NA_character_,
+      str_detect(tolower(MX3_CONT_INT), "^contin")              ~ "Continuous",
+      str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja") ~ "Intermittent",
+      MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)    ~ NA_character_,
+      TRUE                                                       ~ "Other"
+    ),
+    W_Continuity = factor(W_Continuity,
+                          levels = c("Continuous", "Intermittent", "Other")),
+    W_Freq_raw  = coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str(W_Freq_raw)                               ~ NA_character_,
+      str_detect(tolower(W_Freq_raw), "^diari|every day")       ~ "Daily",
+      str_detect(tolower(W_Freq_raw), "1 a 3|1-3")              ~ "1–3 days/week",
+      str_detect(tolower(W_Freq_raw), "4 a 6|4-6")              ~ "4–6 days/week",
+      W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)        ~ NA_character_,
+      TRUE                                                       ~ NA_character_
+    ),
+    W_Frequency = factor(W_Frequency,
+                         levels = c("Daily", "4–6 days/week", "1–3 days/week")),
+    W_Days_week_num = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
+             as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
+    ),
+    W_Days_week_num = ifelse(W_Days_week_num %in% MISSING_CODES | W_Days_week_num > 7,
+                             NA, W_Days_week_num),
+    W_Days_week = factor(
+      case_when(
+        is.na(W_Days_week_num) ~ NA_character_,
+        W_Days_week_num <= 2   ~ "1–2 days/week",
+        W_Days_week_num <= 5   ~ "3–5 days/week",
+        TRUE                   ~ "6–7 days/week"
+      ),
+      levels = c("1–2 days/week", "3–5 days/week", "6–7 days/week")
+    ),
+    W_Hrs_week  = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))
+    ),
+    W_Hrs_week  = ifelse(W_Hrs_week %in% MISSING_CODES | W_Hrs_week > 168,
+                         NA, W_Hrs_week),
+    W_Pressure  = case_when(
+      is_sentinel_str(MX6_WPRESS)                                  ~ NA_character_,
+      str_detect(tolower(MX6_WPRESS), "^s[ií]|^yes|^buena|^bien") ~ "Yes",
+      str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")          ~ "No/Low",
+      MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)          ~ NA_character_,
+      TRUE                                                          ~ "Variable"
+    ),
+    W_Pressure  = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable")),
+    W_Nbhd      = factor(W_WS_LOC, levels = c("WS", "WI"),
+                         labels = c("Water Secure", "Water Insecure"))
+  ) %>%
+  # Add all df_table variables via a join
+  select(ID, W_Continuity, W_Frequency, W_Days_week, W_Hrs_week,
+         W_Pressure, W_Nbhd) %>%   # W_Source excluded (incomplete data entry)
+  right_join(
+    df_table %>%
+      mutate(
+        HWISE_Binary = factor(
+          case_when(
+            is.na(HWISE_Total)      ~ NA_character_,
+            HWISE_Total <= 11       ~ "Water secure (0–11)",
+            TRUE                    ~ "Water insecure (≥12)"
+          ),
+          levels = c("Water secure (0–11)", "Water insecure (≥12)")
+        ),
+        HWISE_Cat4 = factor(
+          case_when(
+            is.na(HWISE_Total)      ~ NA_character_,
+            HWISE_Total == 0        ~ "Secure (0)",
+            HWISE_Total <= 3        ~ "Marginal (1–3)",
+            HWISE_Total <= 11       ~ "Low (4–11)",
+            TRUE                    ~ "Moderate/Severe (≥12)"
+          ),
+          levels = c("Secure (0)", "Marginal (1–3)",
+                     "Low (4–11)", "Moderate/Severe (≥12)")
+        ),
+        Frongillo_2024 = factor(
+          case_when(
+            is.na(HWISE_Total)      ~ NA_character_,
+            HWISE_Total <= 2        ~ "No to marginal (0–2)",
+            HWISE_Total <= 11       ~ "Low (3–11)",
+            HWISE_Total <= 23       ~ "Moderate (12–23)",
+            TRUE                    ~ "High (24–36)"
+          ),
+          levels = c("No to marginal (0–2)", "Low (3–11)",
+                     "Moderate (12–23)", "High (24–36)")
+        ),
+        Jepson_2021 = factor(
+          case_when(
+            is.na(HWISE_Total)      ~ NA_character_,
+            HWISE_Total <= 3        ~ "Marginal (0–3)",
+            HWISE_Total <= 11       ~ "Low (4–11)",
+            HWISE_Total <= 20       ~ "Moderate (12–20)",
+            HWISE_Total <= 29       ~ "High (21–29)",
+            TRUE                    ~ "Severe (30–36)"
+          ),
+          levels = c("Marginal (0–3)", "Low (4–11)",
+                     "Moderate (12–20)", "High (21–29)", "Severe (30–36)")
+        ),
+        Water_5sub_binary = factor(
+          case_when(
+            is.na(Water_5sub)  ~ NA_character_,
+            Water_5sub >= 3    ~ "High (≥3)",
+            TRUE               ~ "Low (0–2)"
+          ),
+          levels = c("Low (0–2)", "High (≥3)")
+        )
+      ),
+    by = "ID"
+  )
+
+s2_select <- function(by_var) {
+  list(
+    # PSS
+    PSS_Total, PSS_Cat,
+    # HWISE scores and key categorizations
+    HWISE_Total,
+    HWISE_Binary, Frongillo_2024, Jepson_2021,
+    # Water 5-item subscale
+    Water_5sub, Water_5sub_binary,
+    # Water worry subscale
+    Water_worry,
+    # HWISE items
+    HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
+    HW_Food, HW_Hands, HW_Body, HW_Drink,
+    HW_Angry, HW_Sleep, HW_None, HW_Shame,
+    # Objective water supply
+    W_Continuity, W_Frequency,
+    W_Hrs_week, W_Days_week, W_Pressure
+  )
+}
+
+s2_labels <- list(
+  PSS_Total      ~ "PSS-14 total score (0–56)",
+  PSS_Cat        ~ "Perceived stress level",
+  HWISE_Total    ~ "HWISE total score (0–36)",
+  Water_worry    ~ "Water worry subscale (0–9)",
+  Water_5sub        ~ "Water 5-item subscale (0–15)",
+  Water_5sub_binary ~ "Water 5-item subscale — binary (high ≥3)",
+  HWISE_Binary      ~ "HWISE binary — Young 2019 (≥12 = insecure)",
+  Frongillo_2024    ~ "HWISE — Frongillo et al. 2024 (4 cat.)",
+  Jepson_2021       ~ "HWISE — Jepson et al. 2021 (5 cat.)",
+  HW_Worry       ~ "1. Worried about water",
+  HW_Interr      ~ "2. Water interrupted",
+  HW_Clothes     ~ "3. Unable to wash clothes",
+  HW_Plans       ~ "4. Changed plans due to water",
+  HW_Food        ~ "5. Unable to prepare food",
+  HW_Hands       ~ "6. Unable to wash hands",
+  HW_Body        ~ "7. Unable to wash body",
+  HW_Drink       ~ "8. No drinking water",
+  HW_Angry       ~ "9. Felt angry about water",
+  HW_Sleep       ~ "10. Went to sleep thirsty",
+  HW_None        ~ "11. Had no water at all",
+  HW_Shame       ~ "12. Felt shame about water",
+  W_Continuity   ~ "Supply continuity",
+  W_Frequency    ~ "Supply frequency",
+  W_Hrs_week     ~ "Hours of supply per week",
+  W_Days_week    ~ "Days of supply per week",
+  W_Pressure     ~ "Adequate water pressure"
+)
+
+hwise_item_vars <- c("HW_Worry","HW_Interr","HW_Clothes","HW_Plans",
+                     "HW_Food","HW_Hands","HW_Body","HW_Drink",
+                     "HW_Angry","HW_Sleep","HW_None","HW_Shame")
+
+tbl_hwise_pss_overall <- df_s2 %>%
+  select(
+    Season,
+    PSS_Total, PSS_Cat,
+    HWISE_Total,
+    HWISE_Binary, Frongillo_2024, Jepson_2021,
+    Water_5sub, Water_5sub_binary,
+    Water_worry,
+    HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
+    HW_Food, HW_Hands, HW_Body, HW_Drink,
+    HW_Angry, HW_Sleep, HW_None, HW_Shame,
+    W_Continuity, W_Frequency,
+    W_Hrs_week, W_Days_week, W_Pressure
+  ) %>%
   tbl_summary(
-    type = list(Water_worry ~ "continuous"),
+    by        = Season,
+    type      = hwise_items_type,
     statistic = list(
-      all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
+      all_continuous()  ~ "{mean} ({sd})",
       all_categorical() ~ "{n} ({p}%)"
     ),
     digits  = list(all_continuous() ~ 1),
     missing = "no",
-    label   = list(
-      HWISE_Total  ~ "HWISE total score (0-36)",
-      HWISE_Cat    ~ "Water insecurity level",
-      Water_worry  ~ "Water worry subscale (0-9)",
-      Water_5sub   ~ "Water 5item subscale (0-15)",
-      PSS_Total    ~ "PSS-14 total score (0-56)",
-      PSS_Cat      ~ "Perceived stress level"
-    )
+    label   = s2_labels
   ) %>%
+  add_overall(last = FALSE) %>%
+  add_p(test = list(
+    all_continuous()  ~ "wilcox.test",
+    all_categorical() ~ "fisher.test"
+  )) %>%
   bold_labels() %>%
-  modify_caption("**Table. HWISE and PSS scores — full sample (n = {N})**")
+  modify_table_body(~{
+    # Unbold the 12 HWISE item label rows
+    .x <- .x %>% mutate(label = ifelse(variable %in% hwise_item_vars,
+                                       gsub("\\*\\*(.+)\\*\\*", "\\1", label), label))
+    # Insert a bold group header row just before HW_Worry
+    first_idx <- which(.x$variable == "HW_Worry" & .x$row_type == "label")[1]
+    header <- .x[first_idx, ]
+    header$variable  <- "hwise_items_group"
+    header$var_label <- "**HWISE individual items**"
+    header$label     <- "**HWISE individual items**"
+    header$row_type  <- "label"
+    stat_cols <- grep("^stat_", names(header), value = TRUE)
+    header[stat_cols] <- NA_character_
+    if ("p.value" %in% names(header)) header$p.value <- NA_real_
+    dplyr::bind_rows(.x[seq_len(first_idx - 1), ], header, .x[first_idx:nrow(.x), ])
+  }) %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
+  modify_caption("**Table S2. Water-related variables and PSS by season (n = {N})**")
 
-tbl_hwise_pss_overall
-```
+tbl_hwise_pss_overall |> as_gt() |> opt_stylize(style = 6, color = "gray")
 
-## 6.1.2 HWISE only
-
-```{r hwise-overall}
-tbl_hwise_overall <- df_table %>%
-  select(HWISE_Total, HWISE_Cat, Water_worry, Water_5sub) %>%
+# --- Table S3: same variables, by neighborhood ---
+tbl_s3_by_nbhd <- df_s2 %>%
+  filter(!is.na(W_Nbhd)) %>%
+  select(
+    W_Nbhd,
+    PSS_Total, PSS_Cat,
+    HWISE_Total,
+    HWISE_Binary, Frongillo_2024, Jepson_2021,
+    Water_5sub, Water_5sub_binary,
+    Water_worry,
+    HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
+    HW_Food, HW_Hands, HW_Body, HW_Drink,
+    HW_Angry, HW_Sleep, HW_None, HW_Shame,
+    W_Continuity, W_Frequency,
+    W_Hrs_week, W_Days_week, W_Pressure
+  ) %>%
   tbl_summary(
-    type = list(Water_worry ~ "continuous"),
+    by        = W_Nbhd,
+    type      = hwise_items_type,
     statistic = list(
-      all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
+      all_continuous()  ~ "{mean} ({sd})",
       all_categorical() ~ "{n} ({p}%)"
     ),
     digits  = list(all_continuous() ~ 1),
     missing = "no",
-    label   = list(
-      HWISE_Total  ~ "HWISE total score (0-36)",
-      HWISE_Cat    ~ "Water insecurity level",
-      Water_worry  ~ "Water worry subscale (0-9)",
-      Water_5sub   ~ "Water 5item subscale (0-15)"
-    )
+    label   = s2_labels
   ) %>%
+  add_overall(last = FALSE) %>%
+  add_p(test = list(
+    all_continuous()  ~ "wilcox.test",
+    all_categorical() ~ "fisher.test"
+  )) %>%
   bold_labels() %>%
-  modify_caption("**Table. HWISE scores — full sample (n = {N})**")
+  modify_table_body(~{
+    # Unbold the 12 HWISE item label rows
+    .x <- .x %>% mutate(label = ifelse(variable %in% hwise_item_vars,
+                                       gsub("\\*\\*(.+)\\*\\*", "\\1", label), label))
+    # Insert a bold group header row just before HW_Worry
+    first_idx <- which(.x$variable == "HW_Worry" & .x$row_type == "label")[1]
+    header <- .x[first_idx, ]
+    header$variable  <- "hwise_items_group"
+    header$var_label <- "**HWISE individual items**"
+    header$label     <- "**HWISE individual items**"
+    header$row_type  <- "label"
+    stat_cols <- grep("^stat_", names(header), value = TRUE)
+    header[stat_cols] <- NA_character_
+    if ("p.value" %in% names(header)) header$p.value <- NA_real_
+    dplyr::bind_rows(.x[seq_len(first_idx - 1), ], header, .x[first_idx:nrow(.x), ])
+  }) %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Neighborhood**") %>%
+  modify_caption("**Table S3. Water-related variables and PSS by neighborhood (n = {N})**")
 
-tbl_hwise_overall
+tbl_s3_by_nbhd |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
 
 
@@ -457,11 +796,11 @@ tbl_scores_season <- df_table %>%
     digits  = list(all_continuous() ~ 1),
     missing = "no",
     label   = list(
-      HWISE_Total  ~ "HWISE total score (0-36)",
-      HWISE_Cat    ~ "Water insecurity level",
-      Water_worry  ~ "Water worry subscale (0-9)",
-      Water_5sub   ~ "Water 5item subscale (0-15)",
-      PSS_Total    ~ "PSS-14 total score (0-56)",
+      HWISE_Total  ~ "HWISE total score (0–36)",
+      HWISE_Cat    ~ "HWISE 3 categories",
+      Water_worry  ~ "Water worry subscale (0–9)",
+      Water_5sub   ~ "Water 5-item subscale (0–15)",
+      PSS_Total    ~ "PSS-14 total score (0–56)",
       PSS_Cat      ~ "Perceived stress level"
     )
   ) %>%
@@ -474,46 +813,10 @@ tbl_scores_season <- df_table %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
   modify_caption("**Table. HWISE and PSS scores by season (n = {N})**")
 
-tbl_scores_season
+tbl_scores_season |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
 
 ---
-
-## 6.2.1 SEASON HWISE only
-
-
-
-```{r hwise-by-season}
-tbl_hw_scores_season <- df_table %>%
-  select(Season, HWISE_Total, HWISE_Cat, Water_worry, Water_5sub) %>%
-  tbl_summary(
-    by        = Season,
-    type = list(Water_worry ~ "continuous"),
-    statistic = list(
-      all_continuous()  ~ "{mean} ({sd})",
-      all_categorical() ~ "{n} ({p}%)"
-    ),
-    digits  = list(all_continuous() ~ 1),
-    missing = "no",
-    label   = list(
-      HWISE_Total  ~ "HWISE total score (0-36)",
-      HWISE_Cat    ~ "Water insecurity level",
-      Water_worry  ~ "Water worry subscale (0-9)",
-      Water_5sub   ~ "Water 5item subscale (0-15)"
-    )
-  ) %>%
-  add_overall() %>%
-  add_p(test = list(
-    all_continuous()  ~ "wilcox.test",
-    all_categorical() ~ "fisher.test"
-  )) %>%
-  bold_labels() %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
-  modify_caption("**Table. HWISE by season (n = {N})**")
-
-tbl_hw_scores_season
-```
-
 
 
 # 7. Sample characteristics by water insecurity level
@@ -535,6 +838,7 @@ tbl_by_hwise <- df_table %>%
   ) %>%
   tbl_summary(
     by        = HWISE_Cat,
+    type      = list(Water_worry ~ "continuous"),
     statistic = list(
       all_continuous()  ~ "{mean} ({sd})",
       all_categorical() ~ "{n} ({p}%)"
@@ -554,7 +858,7 @@ tbl_by_hwise <- df_table %>%
       Chronic_dis  ~ "Chronic disease",
       PSS_Total    ~ "PSS-14 total score",
       PSS_Cat      ~ "Perceived stress level",
-      Water_worry  ~ "Water worry subscale"
+      Water_worry  ~ "Water worry subscale (0–9)"
     )
   ) %>%
   add_overall() %>%
@@ -563,113 +867,11 @@ tbl_by_hwise <- df_table %>%
     all_categorical() ~ "chisq.test"
   )) %>%
   bold_labels() %>%
-  modify_spanning_header(c("stat_1", "stat_2", "stat_3", "stat_4") ~
-                           "**Water insecurity level (HWISE)**") %>%
+  modify_spanning_header(c("stat_1", "stat_2", "stat_3") ~
+                           "**HWISE 3 categories**") %>%
   modify_caption("**Table. Sample characteristics by water insecurity level (n = {N})**")
 
-tbl_by_hwise
-```
-
-## 7. HWISE item-level table
-
-This table shows the distribution of each HWISE item (scored 0–3: never, rarely,
-sometimes, always), the water worry subscale (HW1), the HWISE total score, and
-the overall HWISE category. Presented overall, stratified by neighborhood
-(water secure vs. water insecure), and by season. Kruskal-Wallis test used for
-item scores and totals (ordinal); Fisher's exact test for categories.
-
-## 7.1 Overall and by neighborhood
-```{r hwise-items-by-neighborhood}
-hwise_item_labels <- list(
-  HW_Worry   ~ "1. Worried about water",
-  HW_Interr  ~ "2. Water interrupted",
-  HW_Clothes ~ "3. Unable to wash clothes",
-  HW_Plans   ~ "4. Changed plans due to water",
-  HW_Food    ~ "5. Unable to prepare food",
-  HW_Hands   ~ "6. Unable to wash hands",
-  HW_Body    ~ "7. Unable to wash body",
-  HW_Drink   ~ "8. No drinking water",
-  HW_Angry   ~ "9. Felt angry about water",
-  HW_Sleep   ~ "10. Went to sleep thirsty",
-  HW_None    ~ "11. Had no water at all",
-  HW_Shame   ~ "12. Felt shame about water",
-  Water_worry  ~ "Water worry subscale (items 1+9)",
-  HWISE_Total  ~ "HWISE total score (0–36)",
-  HWISE_Cat    ~ "Water insecurity category"
-)
-
-tbl_hwise_nbhd <- df_table %>%
-  filter(!is.na(W_WS_LOC)) %>%
-  select(W_WS_LOC,
-         HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
-         HW_Food, HW_Hands, HW_Body, HW_Drink,
-         HW_Angry, HW_Sleep, HW_None, HW_Shame,
-         Water_worry, HWISE_Total, HWISE_Cat) %>%
-  tbl_summary(
-    by        = W_WS_LOC,
-    statistic = list(
-      all_continuous()  ~ "{median} ({p25}, {p75})",
-      all_categorical() ~ "{n} ({p}%)"
-    ),
-    digits  = list(all_continuous() ~ 1),
-    missing = "no",
-    label   = hwise_item_labels
-  ) %>%
-  add_overall() %>%
-  add_p(test = list(
-    all_continuous()  ~ "kruskal.test",
-    all_categorical() ~ "fisher.test"
-  )) %>%
-  add_q(method = "BH") %>%
-  bold_p(t = 0.05) %>%
-  bold_labels() %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Neighborhood**") %>%
-  modify_caption("**Table. HWISE item scores by neighborhood (n = {N})**") %>%
-  modify_footnote(
-    all_stat_cols() ~ "Median (Q1, Q3) for continuous; n (%) for categorical.",
-    p.value ~ "Kruskal-Wallis for item scores/totals; Fisher's exact test for categories.",
-    q.value ~ "FDR-adjusted p-value (Benjamini-Hochberg)."
-  )
-
-tbl_hwise_nbhd
-```
-
-## 7.2 By season
-```{r hwise-items-by-season}
-tbl_hwise_season <- df_table %>%
-  filter(!is.na(Season)) %>%
-  select(Season,
-         HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
-         HW_Food, HW_Hands, HW_Body, HW_Drink,
-         HW_Angry, HW_Sleep, HW_None, HW_Shame,
-         Water_worry, HWISE_Total, HWISE_Cat) %>%
-  tbl_summary(
-    by        = Season,
-    statistic = list(
-      all_continuous()  ~ "{median} ({p25}, {p75})",
-      all_categorical() ~ "{n} ({p}%)"
-    ),
-    digits  = list(all_continuous() ~ 1),
-    missing = "no",
-    label   = hwise_item_labels
-  ) %>%
-  add_overall() %>%
-  add_p(test = list(
-    all_continuous()  ~ "wilcox.test",   # 2 groups only
-    all_categorical() ~ "fisher.test"
-  )) %>%
-  add_q(method = "BH") %>%
-  bold_p(t = 0.05) %>%
-  bold_labels() %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
-  modify_caption("**Table. HWISE item scores by season (n = {N})**") %>%
-  modify_footnote(
-    all_stat_cols() ~ "Median (Q1, Q3) for continuous; n (%) for categorical.",
-    p.value ~ "Wilcoxon rank-sum for item scores/totals; Fisher's exact test for categories.",
-    q.value ~ "FDR-adjusted p-value (Benjamini-Hochberg)."
-  )
-
-tbl_hwise_season
+tbl_by_hwise |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
 
 ## 7.3 HWISE item response distributions
@@ -751,63 +953,34 @@ ggplot(hwise_long, aes(x = pct, y = item, fill = response)) +
 
 # 8. Objective water supply variables
 
-These variables capture objective, interviewer-recorded characteristics of each
-participant's household water supply. Sentinel codes are excluded from summaries
-and tracked in the audit table at the end of this section.
-
-Sentinel code key:
-
-- **999** = Missing / lost / data entry error
-- **333** = Pending
-- **888** = Don't know
-- **777** = Refused
-- **666** = Illegible
-- **555** = Other
-- **444** = Ambiguous
-
 ## 8.1 Prepare water supply variables
 
 ```{r water-vars-prepare}
 df_water <- df %>%
   mutate(
-    # Water source (Season 2 only: MX1_W_SRC)
-    W_Source = case_when(
-      is_sentinel_str(MX1_W_SRC)                              ~ NA_character_,
-      str_detect(tolower(MX1_W_SRC), "servicio|publ")         ~ "Public network",
-      str_detect(tolower(MX1_W_SRC), "pipa|truck")            ~ "Water truck (pipa)",
-      str_detect(tolower(MX1_W_SRC), "pozo|well")             ~ "Well",
-      MX1_W_SRC %in% c("", "N/A") | is.na(MX1_W_SRC)        ~ NA_character_,
-      TRUE                                                     ~ "Other"
-    ),
-
     # Continuity of supply (MX3_CONT_INT — both seasons)
     W_Continuity = case_when(
       is_sentinel_str(MX3_CONT_INT)                                  ~ NA_character_,
       str_detect(tolower(MX3_CONT_INT), "^contin")                   ~ "Continuous",
       str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja")      ~ "Intermittent",
-      str_detect(tolower(MX3_CONT_INT), "disminu")                   ~ "Reduced pressure/flow",
       MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)         ~ NA_character_,
       TRUE                                                            ~ "Other"
     ),
     W_Continuity = factor(W_Continuity,
-                          levels = c("Continuous", "Intermittent",
-                                     "Reduced pressure/flow", "Other")),
+                          levels = c("Continuous", "Intermittent", "Other")),
 
     # Frequency of supply (MX4_WFREQ / MX4_W_FREQ — harmonised across seasons)
     W_Freq_raw = coalesce(MX4_WFREQ, MX4_W_FREQ),
     W_Frequency = case_when(
       is_sentinel_str(W_Freq_raw)                                    ~ NA_character_,
       str_detect(tolower(W_Freq_raw), "^diari|every day")            ~ "Daily",
-      str_detect(tolower(W_Freq_raw), "^intermi")                    ~ "Intermittent",
       str_detect(tolower(W_Freq_raw), "1 a 3|1-3")                   ~ "1–3 days/week",
       str_detect(tolower(W_Freq_raw), "4 a 6|4-6")                   ~ "4–6 days/week",
-      str_detect(tolower(W_Freq_raw), "^contin")                     ~ "Continuous",
       W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)             ~ NA_character_,
-      TRUE                                                            ~ "Other"
+      TRUE                                                            ~ NA_character_
     ),
     W_Frequency = factor(W_Frequency,
-                         levels = c("Continuous", "Daily", "4–6 days/week",
-                                    "1–3 days/week", "Intermittent", "Other")),
+                         levels = c("Daily", "4–6 days/week", "1–3 days/week")),
 
     # Hours per week (MX5_WFREQ_HRS_PER_WEEK)
     W_Hrs_week = suppressWarnings(
@@ -817,13 +990,22 @@ df_water <- df %>%
     W_Hrs_week = ifelse(W_Hrs_week %in% MISSING_CODES, NA, W_Hrs_week),
     W_Hrs_week = ifelse(W_Hrs_week > 168, NA, W_Hrs_week),
 
-    # Days per week (MX5_WFREQ_NDAYS)
-    W_Days_week = suppressWarnings(
+    # Days per week (MX5_WFREQ_NDAYS) — grouped into 3 categories
+    W_Days_week_num = suppressWarnings(
       ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
              as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
     ),
-    W_Days_week = ifelse(W_Days_week %in% MISSING_CODES, NA, W_Days_week),
-    W_Days_week = ifelse(W_Days_week > 7, NA, W_Days_week),
+    W_Days_week_num = ifelse(W_Days_week_num %in% MISSING_CODES, NA, W_Days_week_num),
+    W_Days_week_num = ifelse(W_Days_week_num > 7, NA, W_Days_week_num),
+    W_Days_week = factor(
+      case_when(
+        is.na(W_Days_week_num) ~ NA_character_,
+        W_Days_week_num <= 2   ~ "1–2 days/week",
+        W_Days_week_num <= 5   ~ "3–5 days/week",
+        TRUE                   ~ "6–7 days/week"
+      ),
+      levels = c("1–2 days/week", "3–5 days/week", "6–7 days/week")
+    ),
 
     # Water pressure (MX6_WPRESS)
     W_Pressure = case_when(
@@ -841,105 +1023,71 @@ df_water <- df %>%
   )
 ```
 
-## 8.2 All water-related variables (overall and by season)
 
-This table consolidates all water-related variables in one place:
-HWISE items (1-12), HWISE summary scores/categories, and objective
-water supply characteristics. Presented overall and stratified by season.
-
-```{r water-all-by-season}
-tbl_water_all <- df_water %>%
+```{r water-vars-table, eval=FALSE, include=FALSE}
+tbl_water <- df_water %>%
   mutate(
-    Season = factor(SEASON, levels = c(0, 1), labels = c("Rainy", "Dry")),
     HWISE_Total = clean_for_table(HW_TOTAL),
     Water_worry = clean_for_table(as.numeric(HW_WORRY_SUB)),
     Water_5sub  = clean_for_table(HW_MEX_5SUB),
-    HWISE_Cat = factor(
+    HWISE_Binary = factor(
       case_when(
-        is.na(clean_for_table(HW_TOTAL)) ~ NA_character_,
-        clean_for_table(HW_TOTAL) == 0   ~ "Secure (0)",
-        clean_for_table(HW_TOTAL) <= 11  ~ "Marginal (1-11)",
-        clean_for_table(HW_TOTAL) <= 23  ~ "Moderate (12-23)",
-        TRUE                             ~ "Severe (24-36)"
+        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
+        clean_for_table(HW_TOTAL) <= 11        ~ "Water secure (0–11)",
+        TRUE                                   ~ "Water insecure (≥12)"
       ),
-      levels = c("Secure (0)", "Marginal (1-11)", "Moderate (12-23)", "Severe (24-36)")
+      levels = c("Water secure (0–11)", "Water insecure (≥12)")
     ),
-    HW_Worry   = clean_for_table(HW_WORRY),
-    HW_Interr  = clean_for_table(HW_INTERR),
-    HW_Clothes = clean_for_table(HW_CLOTHES),
-    HW_Plans   = clean_for_table(HW_PLANS),
-    HW_Food    = clean_for_table(HW_FOOD),
-    HW_Hands   = clean_for_table(HW_HANDS),
-    HW_Body    = clean_for_table(HW_BODY),
-    HW_Drink   = clean_for_table(HW_DRINK),
-    HW_Angry   = clean_for_table(HW_ANGRY),
-    HW_Sleep   = clean_for_table(HW_SLEEP),
-    HW_None    = clean_for_table(HW_NONE),
-    HW_Shame   = clean_for_table(HW_SHAME)
-  ) %>%
-  select(
-    Season,
-    HWISE_Total, HWISE_Cat, Water_worry, Water_5sub,
-    HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
-    HW_Food, HW_Hands, HW_Body, HW_Drink,
-    HW_Angry, HW_Sleep, HW_None, HW_Shame,
-    W_WS_LOC_F, W_Source, W_Continuity, W_Frequency,
-    W_Days_week, W_Hrs_week, W_Pressure
-  ) %>%
-  tbl_summary(
-    by = Season,
-    statistic = list(
-      all_continuous()  ~ "{median} [{p25}, {p75}]",
-      all_categorical() ~ "{n} ({p}%)"
+    HWISE_3cat = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
+        clean_for_table(HW_TOTAL) <= 3         ~ "Marginal (0–3)",
+        clean_for_table(HW_TOTAL) <= 11        ~ "Low (4–11)",
+        TRUE                                   ~ "Moderate/Severe (≥12)"
+      ),
+      levels = c("Marginal (0–3)", "Low (4–11)", "Moderate/Severe (≥12)")
     ),
-    digits = list(all_continuous() ~ 1),
-    missing = "ifany",
-    label = list(
-      HWISE_Total ~ "HWISE total score (0-36)",
-      HWISE_Cat   ~ "Water insecurity level",
-      Water_worry ~ "Water worry subscale (0-9)",
-      Water_5sub  ~ "Water 5-item subscale (0-15)",
-      HW_Worry    ~ "1. Worried about water",
-      HW_Interr   ~ "2. Water interrupted",
-      HW_Clothes  ~ "3. Unable to wash clothes",
-      HW_Plans    ~ "4. Changed plans due to water",
-      HW_Food     ~ "5. Unable to prepare food",
-      HW_Hands    ~ "6. Unable to wash hands",
-      HW_Body     ~ "7. Unable to wash body",
-      HW_Drink    ~ "8. No drinking water",
-      HW_Angry    ~ "9. Felt angry about water",
-      HW_Sleep    ~ "10. Went to sleep thirsty",
-      HW_None     ~ "11. Had no water at all",
-      HW_Shame    ~ "12. Felt shame about water",
-      W_WS_LOC_F  ~ "Neighborhood type",
-      W_Source    ~ "Water source (Season 2 only)",
-      W_Continuity ~ "Supply continuity",
-      W_Frequency  ~ "Supply frequency",
-      W_Days_week  ~ "Days of supply per week",
-      W_Hrs_week   ~ "Hours of supply per week",
-      W_Pressure   ~ "Adequate water pressure"
+    HWISE_4cat = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
+        clean_for_table(HW_TOTAL) == 0         ~ "Secure (0)",
+        clean_for_table(HW_TOTAL) <= 3         ~ "Marginal (1–3)",
+        clean_for_table(HW_TOTAL) <= 11        ~ "Low (4–11)",
+        TRUE                                   ~ "Moderate/Severe (≥12)"
+      ),
+      levels = c("Secure (0)", "Marginal (1–3)",
+                 "Low (4–11)", "Moderate/Severe (≥12)")
+    ),
+    Frongillo_2024 = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
+        clean_for_table(HW_TOTAL) <= 2         ~ "No to marginal (0–2)",
+        clean_for_table(HW_TOTAL) <= 11        ~ "Low (3–11)",
+        clean_for_table(HW_TOTAL) <= 23        ~ "Moderate (12–23)",
+        TRUE                                   ~ "High (24–36)"
+      ),
+      levels = c("No to marginal (0–2)", "Low (3–11)",
+                 "Moderate (12–23)", "High (24–36)")
+    ),
+    Jepson_2021 = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
+        clean_for_table(HW_TOTAL) <= 3         ~ "Marginal (0–3)",
+        clean_for_table(HW_TOTAL) <= 11        ~ "Low (4–11)",
+        clean_for_table(HW_TOTAL) <= 20        ~ "Moderate (12–20)",
+        clean_for_table(HW_TOTAL) <= 29        ~ "High (21–29)",
+        TRUE                                   ~ "Severe (30–36)"
+      ),
+      levels = c("Marginal (0–3)", "Low (4–11)",
+                 "Moderate (12–20)", "High (21–29)", "Severe (30–36)")
     )
   ) %>%
-  add_overall(last = FALSE) %>%
-  add_p(test = list(
-    all_continuous()  ~ "wilcox.test",
-    all_categorical() ~ "fisher.test"
-  )) %>%
-  bold_labels() %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**By season**") %>%
-  modify_caption("**Table. All water-related variables (overall and by season) (n = {N})**")
-
-tbl_water_all
-```
-
-## 8.3 Summary table by neighborhood
-
-```{r water-vars-table}
-tbl_water <- df_water %>%
   select(
     W_WS_LOC_F,
-    W_Source, W_Continuity, W_Frequency,
-    W_Days_week, W_Hrs_week,
+    HWISE_Total, Water_worry, Water_5sub,
+    HWISE_Binary, Frongillo_2024, Jepson_2021,
+    W_Continuity, W_Frequency,
+    W_Hrs_week, W_Days_week,
     W_Pressure
   ) %>%
   tbl_summary(
@@ -948,15 +1096,21 @@ tbl_water <- df_water %>%
       all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
       all_categorical() ~ "{n} ({p}%)"
     ),
+    type = list(Water_worry ~ "continuous"),
     digits  = list(all_continuous() ~ 1),
     missing = "ifany",
     label   = list(
-      W_Source          ~ "Water source (Season 2 only)",
-      W_Continuity      ~ "Supply continuity",
-      W_Frequency       ~ "Supply frequency",
-      W_Days_week       ~ "Days of supply per week",
-      W_Hrs_week        ~ "Hours of supply per week",
-      W_Pressure        ~ "Adequate water pressure"
+      HWISE_Total    ~ "HWISE total score (0–36)",
+      Water_worry    ~ "Water worry subscale (0–9)",
+      Water_5sub     ~ "Water 5-item subscale (0–15)",
+      HWISE_Binary   ~ "HWISE binary — Young 2019 (≥12 = insecure)",
+      Frongillo_2024 ~ "HWISE — Frongillo et al. 2024 (4 cat.)",
+      Jepson_2021    ~ "HWISE — Jepson et al. 2021 (5 cat.)",
+      W_Continuity   ~ "Supply continuity",
+      W_Frequency    ~ "Supply frequency",
+      W_Hrs_week     ~ "Hours of supply per week",
+      W_Days_week    ~ "Days of supply per week",
+      W_Pressure     ~ "Adequate water pressure"
     )
   ) %>%
   add_overall() %>%
@@ -966,16 +1120,14 @@ tbl_water <- df_water %>%
   )) %>%
   bold_labels() %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Neighborhood type**") %>%
-  modify_caption("**Table. Objective water supply characteristics by neighborhood (n = {N})**")
+  modify_caption("**Table. Water supply and HWISE by neighborhood (n = {N})**")
 
 tbl_water
 ```
 
-## 8.4 Sentinel code audit for water supply variables
-
-```{r water-sentinel-summary}
+```{r water-sentinel-summary, eval=FALSE, include=FALSE}
 water_raw_cols <- c(
-  "MX1_W_SRC", "MX3_CONT_INT",
+  "MX3_CONT_INT",
   "MX4_WFREQ", "MX4_W_FREQ",
   "MX5_WFREQ_NDAYS", "MX5_WFREQ_NHRS", "MX5_WFREQ_HRS_PER_WEEK",
   "MX6_WPRESS"
@@ -1030,35 +1182,368 @@ if (nrow(sentinel_tbl) == 0) {
 
 ---
 
-# 9. Export tables to Word
+# 9. Internal consistency (Cronbach's α)
+
+Cronbach's α measures how well the items in a scale correlate with each other —
+i.e., whether they are all capturing the same underlying construct. Values ≥ 0.7
+are generally considered acceptable. α is computed here on complete cases only
+(rows with any `NA` or sentinel code in the relevant items are excluded).
+
+```{r cronbach, message=FALSE, warning=FALSE}
+library(psych)
+
+HWISE_ITEMS <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                 "HW_FOOD", "HW_HANDS", "HW_BODY", "HW_DRINK",
+                 "HW_ANGRY", "HW_SLEEP", "HW_NONE", "HW_SHAME")
+
+PSS_SCORED_DIRECT  <- c("PSS1","PSS2","PSS3","PSS8","PSS11","PSS12","PSS14")
+PSS_SCORED_REVERSE <- c("PSS4_REV","PSS5_REV","PSS6_REV","PSS7_REV",
+                        "PSS9_REV","PSS10_REV","PSS13_REV")
+PSS_SCORED_ITEMS   <- c(PSS_SCORED_DIRECT, PSS_SCORED_REVERSE)
+
+WORRY_ITEMS <- c("HW_WORRY", "HW_ANGRY", "HW_SHAME")
+
+# Helper to clean a set of items: exclude NAs and sentinel codes row-wise
+clean_items <- function(data, items) {
+  data %>%
+    select(all_of(items)) %>%
+    mutate(across(everything(), ~ if_else(. %in% MISSING_CODES, NA_real_,
+                                          as.numeric(.)))) %>%
+    filter(if_all(everything(), ~ !is.na(.)))
+}
+
+# HWISE — 12 items, scored 0–3
+alpha_hwise <- clean_items(df, HWISE_ITEMS) %>% psych::alpha()
+
+# PSS-14 — use reverse-coded versions of the negative items
+alpha_pss <- clean_items(df, PSS_SCORED_ITEMS) %>% psych::alpha()
+
+# Water worry subscale — 3 items
+alpha_worry <- clean_items(df, WORRY_ITEMS) %>% psych::alpha()
+
+# Summary table
+alpha_summary <- tibble(
+  Scale            = c("HWISE (12 items)", "PSS-14 (14 items)",
+                       "Water worry subscale (3 items)"),
+  n_items          = c(12, 14, 3),
+  n_complete       = c(nrow(clean_items(df, HWISE_ITEMS)),
+                       nrow(clean_items(df, PSS_SCORED_ITEMS)),
+                       nrow(clean_items(df, WORRY_ITEMS))),
+  alpha            = round(c(alpha_hwise$total$raw_alpha,
+                             alpha_pss$total$raw_alpha,
+                             alpha_worry$total$raw_alpha), 3),
+  alpha_95CI_lower = round(c(alpha_hwise$total$raw_alpha -
+                               1.96 * alpha_hwise$total$ase,
+                             alpha_pss$total$raw_alpha -
+                               1.96 * alpha_pss$total$ase,
+                             alpha_worry$total$raw_alpha -
+                               1.96 * alpha_worry$total$ase), 3),
+  alpha_95CI_upper = round(c(alpha_hwise$total$raw_alpha +
+                               1.96 * alpha_hwise$total$ase,
+                             alpha_pss$total$raw_alpha +
+                               1.96 * alpha_pss$total$ase,
+                             alpha_worry$total$raw_alpha +
+                               1.96 * alpha_worry$total$ase), 3)
+)
+
+cat("Cronbach's α summary:\n")
+print(alpha_summary)
+
+ggplot(alpha_summary,
+       aes(x = reorder(Scale, alpha), y = alpha)) +
+  geom_pointrange(aes(ymin = alpha_95CI_lower, ymax = alpha_95CI_upper),
+                  size = 0.8, color = "#5bc0de") +
+  geom_hline(yintercept = 0.7, linetype = "dashed", color = "grey50") +
+  geom_hline(yintercept = 0.9, linetype = "dotted", color = "grey50") +
+  annotate("text", x = 0.6, y = 0.71, label = "acceptable (0.7)",
+           hjust = 0, size = 3, color = "grey40") +
+  annotate("text", x = 0.6, y = 0.91, label = "excellent (0.9)",
+           hjust = 0, size = 3, color = "grey40") +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
+  labs(title = "Cronbach's α by scale (95% CI)",
+       x = NULL, y = "Cronbach's α") +
+  theme_minimal()
+```
+
+### Interpretation
+
+**HWISE (α = 0.848, 95% CI: 0.827–0.869):** Good internal consistency, comfortably
+above the 0.8 threshold. All 12 items contribute positively, with item-total
+correlations ranging from 0.36 to 0.66. The weakest items are `HW_SLEEP`
+(r.drop = 0.296) and `HW_DRINK` (r.drop = 0.381), though neither is low enough
+to warrant removal — they likely capture a slightly different facet of water
+insecurity (disrupted sleep and drinking water access) that is less correlated
+with the broader scale but still conceptually relevant.
+
+**PSS-14 (α = 0.813, 95% CI: 0.787–0.840):** Good internal consistency. The
+weakest items are `PSS12` (r.drop = 0.274) and `PSS13_REV` (r.drop = 0.292),
+both of which are among the reverse-coded items. This pattern is common in PSS
+data and has been noted in validation studies. The overall α is consistent with
+values reported in the literature for Spanish-language administrations of the PSS.
+
+**Water worry subscale (α = 0.539, 95% CI: 0.468–0.610):** Below the conventional
+0.7 threshold, which warrants caution in interpretation. However, this is partly
+expected — Cronbach's α is sensitive to the number of items, and a 3-item scale
+will almost always yield lower α than the full 12-item HWISE even if the items are
+genuinely related. Among the three items, `HW_SHAME` has the lowest item-total
+correlation (r.drop = 0.261), suggesting it is the least consistent with the other
+two. `HW_ANGRY` and `HW_WORRY` are more closely related to each other. These
+results suggest the subscale has limited reliability as a standalone measure and
+findings based on it should be interpreted carefully.
+
+### Item-level detail
+
+Item-total correlations and α-if-item-deleted for each scale — useful for
+spotting items that weaken internal consistency.
+
+```{r cronbach-itemlevel}
+cat("--- HWISE item-level stats ---\n")
+print(alpha_hwise$item.stats %>%
+        select(r.cor, r.drop) %>%
+        round(3))
+
+cat("\n--- PSS-14 item-level stats ---\n")
+print(alpha_pss$item.stats %>%
+        select(r.cor, r.drop) %>%
+        round(3))
+
+cat("\n--- Water worry subscale item-level stats ---\n")
+print(alpha_worry$item.stats %>%
+        select(r.cor, r.drop) %>%
+        round(3))
+```
+
+---
+
+# 10. Export tables to Word
 
 ```{r export-tables, message=FALSE, warning=FALSE}
-output_dir <- "./output"
-if (!dir.exists(output_dir)) dir.create(output_dir)
+output_dir <- "./output/tables"
+if (!dir.exists(output_dir)) dir.create(output_dir, recursive = TRUE)
+
+# Helper: convert a gtsummary table to a formatted flextable ready for Word
+fmt_docx <- function(tbl) {
+  ft <- tbl %>% as_flex_table()
+  n_body <- nrow(ft$body$dataset)
+  ft %>%
+    font(fontname = "Calibri", part = "all") %>%
+    fontsize(size = 10, part = "body") %>%
+    fontsize(size = 10, part = "header") %>%
+    fontsize(size = 9,  part = "footer") %>%
+    # Header: dark navy background, white bold text
+    bg(bg = "#2c3e50", part = "header") %>%
+    color(color = "white", part = "header") %>%
+    bold(part = "header") %>%
+    # Alternating row shading
+    bg(i = seq(2, n_body, by = 2), bg = "#f4f6f9", part = "body") %>%
+    # Horizontal-only borders
+    border_remove() %>%
+    hline_top(part = "header",
+              border = fp_border(color = "#2c3e50", width = 1.5)) %>%
+    hline_bottom(part = "header",
+                 border = fp_border(color = "#2c3e50", width = 1.5)) %>%
+    hline_bottom(part = "body",
+                 border = fp_border(color = "#2c3e50", width = 1.5)) %>%
+    hline(border = fp_border(color = "#bdc3c7", width = 0.5), part = "body") %>%
+    # Align: label column left, stats/p-value columns centre
+    align(j = 1, align = "left",   part = "all") %>%
+    align(j = -1, align = "center", part = "all") %>%
+    # Compact row height and padding
+    padding(padding.top = 2, padding.bottom = 2, part = "all") %>%
+    # Footer: italic, grey
+    italic(part = "footer") %>%
+    color(color = "#555555", part = "footer") %>%
+    set_table_properties(layout = "autofit", width = 1) %>%
+    fix_border_issues()
+}
 
 tables <- list(
-  "Table1_sample_characteristics.docx"     = tbl_ms,
-  "TableS1_full_descriptives.docx"         = tbl_full,
-  "TableS2_HWISE_PSS_overall.docx"         = tbl_hwise_pss_overall,
-  "TableS2.1_HWISE_overall.docx"           = tbl_hwise_overall,
-  "TableS3_HWISE_by_season.docx"           = tbl_hw_scores_season,
-  "TableS4_characteristics_by_HWISE.docx"  = tbl_by_hwise,
-  "TableS5_water_supply_by_neighborhood.docx" = tbl_water,
-  "TableS6_all_water_variables_by_season.docx" = tbl_water_all,
-  "TableS7_HWISE_items_by_neighborhood.docx" = tbl_hwise_nbhd,
-  "TableS8_HWISE_items_by_season.docx"      = tbl_hwise_season
+  "04.Table1_sample_characteristics.docx"        = tbl_ms,
+  "04.TableS1_full_descriptives.docx"             = tbl_full,
+  "04.TableS2_HWISE_PSS_by_season.docx"           = tbl_hwise_pss_overall,
+  "04.TableS3_HWISE_PSS_by_neighborhood.docx"     = tbl_s3_by_nbhd
 )
 
 for (fname in names(tables)) {
   tables[[fname]] %>%
-    as_flex_table() %>%
+    fmt_docx() %>%
     save_as_docx(path = file.path(output_dir, fname))
   cat("Exported:", fname, "\n")
 }
 
-missing_tbl_print %>%
-  gtsave(file.path(output_dir, "TableS1.2_missing_data.docx"))
+# Missing data table — build flextable directly from data (gt_tbl can't use as_flex_table)
+n_fixed_cols <- 7L   # label + 3×(n, %) pairs
+n_total_cols  <- n_fixed_cols + length(active_sentinel_cols)
 
+# Row indices where missingness is notable (for conditional highlighting)
+rows_high_miss <- which(missing_tbl_trimmed$pct_na >= 10)
+rows_any_flag  <- which(missing_tbl_trimmed$n_flagged > 0)
+
+# Spanner column ranges (1-indexed after "label" col)
+cols_complete  <- c("n_complete", "pct_complete")
+cols_na        <- c("n_na",       "pct_na")
+cols_flagged   <- c("n_flagged",  "pct_flagged")
+
+missing_table <- flextable(missing_tbl_trimmed) %>%
+  # ── Column labels (bottom header row) ─────────────────────────────────────
+  set_header_labels(.list = c(
+    list(label        = "Variable",
+         n_complete   = "n",  pct_complete = "%",
+         n_na         = "n",  pct_na       = "%",
+         n_flagged    = "n",  pct_flagged  = "%"),
+    sentinel_label_list
+  )) %>%
+  # ── Spanner row ───────────────────────────────────────────────────────────
+  add_header_row(
+    values    = c("", "Complete", "True NA", "Flagged",
+                  if (length(active_sentinel_cols) > 0) "Sentinel codes" else character(0)),
+    colwidths = c(1, 2, 2, 2,
+                  if (length(active_sentinel_cols) > 0) length(active_sentinel_cols) else integer(0))
+  ) %>%
+  # ── Title row ─────────────────────────────────────────────────────────────
+  add_header_row(
+    values    = "Table S1.2. Missing data summary",
+    colwidths = n_total_cols
+  ) %>%
+  # ── Typography ────────────────────────────────────────────────────────────
+  font(fontname = "Times New Roman", part = "all") %>%
+  fontsize(size = 10,  part = "all") %>%
+  fontsize(size = 11,  i = 1, part = "header") %>%
+  bold(part = "header") %>%
+  bold(i = 1, part = "header", bold = FALSE) %>%   # title not bold — styled via size/italic
+  italic(i = 1, part = "header") %>%
+  color(i = 1, color = "#2c2c2c", part = "header") %>%
+  # ── Header background colours (per spanner group) ─────────────────────────
+  bg(i = 2, j = cols_complete, bg = "#d9ead3", part = "header") %>%   # soft green
+  bg(i = 2, j = cols_na,       bg = "#fce5cd", part = "header") %>%   # soft orange
+  bg(i = 2, j = cols_flagged,  bg = "#ffd966", part = "header") %>%   # soft yellow
+  bg(i = 3, j = cols_complete, bg = "#d9ead3", part = "header") %>%
+  bg(i = 3, j = cols_na,       bg = "#fce5cd", part = "header") %>%
+  bg(i = 3, j = cols_flagged,  bg = "#ffd966", part = "header") %>%
+  { if (length(active_sentinel_cols) > 0)
+      bg(., i = 2:3, j = active_sentinel_cols, bg = "#cfe2f3", part = "header")   # soft blue
+    else . } %>%
+  # ── Body: zebra stripe ────────────────────────────────────────────────────
+  bg(i = seq(2, nrow(missing_tbl_trimmed), by = 2), bg = "#f9f9f9", part = "body") %>%
+  # ── Body: highlight rows with ≥10% true NA (orange tint on NA cols) ───────
+  { if (length(rows_high_miss) > 0)
+      bg(., i = rows_high_miss, j = cols_na, bg = "#f4cccc", part = "body")
+    else . } %>%
+  # ── Body: highlight rows with any flagged values (yellow tint) ────────────
+  { if (length(rows_any_flag) > 0)
+      bg(., i = rows_any_flag, j = cols_flagged, bg = "#fff2cc", part = "body")
+    else . } %>%
+  # ── Borders ───────────────────────────────────────────────────────────────
+  border_remove() %>%
+  hline_top(part = "header",
+            border = fp_border(color = "#333333", width = 1.5)) %>%
+  hline(i = 1, part = "header",                     # below title
+        border = fp_border(color = "#aaaaaa", width = 0.5)) %>%
+  hline(i = 2, part = "header",                     # below spanner
+        border = fp_border(color = "#555555", width = 0.75)) %>%
+  hline(i = 3, part = "header",                     # below column labels
+        border = fp_border(color = "#333333", width = 1.0)) %>%
+  hline_bottom(part = "body",
+               border = fp_border(color = "#333333", width = 1.5)) %>%
+  # Light horizontal rule between every body row
+  border(part = "body",
+         border.bottom = fp_border(color = "#dddddd", width = 0.25)) %>%
+  # ── Alignment ─────────────────────────────────────────────────────────────
+  align(j = 1,  align = "left",   part = "all") %>%
+  align(j = -1, align = "center", part = "all") %>%
+  align(i = 1,  align = "left",   part = "header") %>%
+  # ── Number formatting ─────────────────────────────────────────────────────
+  colformat_num(j = c("n_complete", "n_na", "n_flagged", active_sentinel_cols),
+                big.mark = ",", digits = 0) %>%
+  colformat_num(j = c("pct_complete", "pct_na", "pct_flagged"), digits = 1) %>%
+  # ── Footnote ──────────────────────────────────────────────────────────────
+  { if (nchar(footnote_text) > 0)
+      add_footer_lines(., c(
+        paste0("Note. Sentinel codes: ", footnote_text, "."),
+        "Rows are sorted by number of true NAs (descending). True NA \u2265 10% highlighted in red; flagged values highlighted in yellow."
+      ))
+    else
+      add_footer_lines(., "Rows are sorted by number of true NAs (descending).") } %>%
+  font(fontname = "Times New Roman", part = "footer") %>%
+  fontsize(size = 9, part = "footer") %>%
+  italic(part = "footer") %>%
+  color(color = "#555555", part = "footer") %>%
+  # ── Layout ────────────────────────────────────────────────────────────────
+  padding(padding.top    = 3, padding.bottom = 3,
+          padding.left   = 4, padding.right  = 4, part = "all") %>%
+  padding(padding.top    = 4, padding.bottom = 4, part = "header") %>%
+  set_table_properties(layout = "autofit", width = 1) %>%
+  fix_border_issues()
+
+missing_table
+save_as_docx(missing_table, path = file.path(output_dir, "04.missing_table.docx"))
+
+cat("Exported: missing_table.docx\n")
 ```
 
+```{r missing-by-season}
+# ── Missing data by season ──────────────────────────────────────────────────
+# Computes % missing (true NA) for every analytic variable, by SEASON value.
+
+seasons     <- sort(unique(df$SEASON))
+season_N    <- table(df$SEASON)   # n per season
+
+missing_by_season <- df %>%
+  select(all_of(analytic_cols)) %>%
+  group_by(SEASON) %>%
+  summarise(across(
+    all_of(setdiff(analytic_cols, "SEASON")),
+    ~ round(mean(is.na(.)) * 100, 1),
+    .names = "{.col}"
+  ), .groups = "drop") %>%
+  mutate(SEASON = paste0(SEASON, " (n=", season_N[as.character(SEASON)], ")")) %>%
+  pivot_longer(-SEASON, names_to = "variable", values_to = "pct_na") %>%
+  pivot_wider(names_from = SEASON, values_from = pct_na) %>%
+  mutate(label = var_labels[variable]) %>%
+  select(label, everything(), -variable)
+
+season_cols <- setdiff(names(missing_by_season), "label")
+
+missing_table_by_season <- flextable(missing_by_season) %>%
+  set_header_labels(label = "Variable") %>%
+  add_header_row(
+    values    = "Missing data by season (% true NA)",
+    colwidths = ncol(missing_by_season)
+  ) %>%
+  font(fontname = "Times New Roman", part = "all") %>%
+  fontsize(size = 10, part = "all") %>%
+  fontsize(size = 11, i = 1, part = "header") %>%
+  bold(part = "header") %>%
+  bold(i = 1, part = "header", bold = FALSE) %>%
+  italic(i = 1, part = "header") %>%
+  color(i = 1, color = "#2c2c2c", part = "header") %>%
+  bg(i = seq(2, nrow(missing_by_season), by = 2), bg = "#f9f9f9", part = "body") %>%
+  border_remove() %>%
+  hline_top(part = "header", border = fp_border(color = "#333333", width = 1.5)) %>%
+  hline(i = 1, part = "header", border = fp_border(color = "#aaaaaa", width = 0.5)) %>%
+  hline(i = 2, part = "header", border = fp_border(color = "#333333", width = 1.0)) %>%
+  hline_bottom(part = "body",   border = fp_border(color = "#333333", width = 1.5)) %>%
+  border(part = "body", border.bottom = fp_border(color = "#dddddd", width = 0.25)) %>%
+  align(j = 1,  align = "left",   part = "all") %>%
+  align(j = -1, align = "center", part = "all") %>%
+  align(i = 1,  align = "left",   part = "header") %>%
+  colformat_num(j = season_cols, digits = 1) %>%
+  add_footer_lines("Note. Values are percentage of true NAs within each season group.") %>%
+  font(fontname = "Times New Roman", part = "footer") %>%
+  fontsize(size = 9, part = "footer") %>%
+  italic(part = "footer") %>%
+  color(color = "#555555", part = "footer") %>%
+  padding(padding.top = 3, padding.bottom = 3,
+          padding.left = 4, padding.right  = 4, part = "all") %>%
+  padding(padding.top = 4, padding.bottom = 4, part = "header") %>%
+  set_table_properties(layout = "autofit", width = 1) %>%
+  fix_border_issues()
+
+missing_table_by_season
+save_as_docx(missing_table_by_season,
+             path = file.path(output_dir, "04.missing_table_by_season.docx"))
+
+cat("Exported: missing_table_by_season.docx\n")
+```
 

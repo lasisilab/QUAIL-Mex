@@ -31,8 +31,19 @@ within analysis scripts.
 *Important modifications to include in manuscript*
 
 - Age range was modified to 18-46 to include three participants
-- Participant 10 was labeled as "999" in all its variables, as age is 49.
 - Rainy season is 0, dry season is 1.
+
+**Permanently excluded participants (removed from all databases and analyses):**
+
+The following four participants are excluded at the start of this script and must
+not appear in any analysis, table, or model:
+
+| ID  | Reason |
+|-----|--------|
+| 10  | Does not meet the inclusion criteria: participant is 49 years old (eligibility range: 18–46). |
+| 141 | Participant did not continuously reside in the study neighborhood; she moved between different neighborhoods during the study period, violating the residential stability criterion. |
+| 164 | This ID number was skipped during data collection and was never assigned to a participant; it does not exist in the dataset. |
+| 427 | Participant appeared not to understand the survey questions, suggesting a linguistic or cognitive limitation that compromises data validity. |
 
 ---
 
@@ -49,6 +60,9 @@ data_path <- "./data"      # cleaned output
 raw_path  <- "./data"      # raw input
 
 MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+# IDs permanently excluded from all analyses — see Introduction for rationale
+EXCLUDED_IDS <- c(10L, 141L, 164L, 427L)
 ```
 
 ---
@@ -300,6 +314,20 @@ for (i in seq_len(nrow(resolved))) {
 }
 
 table(df$HLTH_MED_RAW)
+```
+
+---
+
+# 3.4. Exclude ineligible and invalid participants
+
+Remove the four permanently excluded IDs before any further processing.
+See the Introduction for the full rationale for each exclusion.
+
+```{r exclude-participants}
+df <- df %>% filter(!ID %in% EXCLUDED_IDS)
+
+cat("Excluded IDs:", paste(EXCLUDED_IDS, collapse = ", "), "\n")
+cat("Rows remaining after exclusion:", nrow(df), "\n")
 ```
 
 ---
@@ -945,6 +973,8 @@ print(filter(missing_report, pct_na > 3), n =nrow(missing_report))
 
 write.csv(df, file.path(data_path, "01.Screening_clean.csv"), row.names = FALSE)
 cat("Saved. Final dimensions:", dim(df), "\n")
+
+df$ID
 ```
 
 

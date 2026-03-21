@@ -1,0 +1,859 @@
+---
+title: "07.1 PSS Models – Aim 2: Components of Water Insecurity"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(broom)
+library(gtsummary)
+library(lmtest)
+library(flextable)
+library(ggplot2)
+library(officer)
+library(ggstance)
+```
+
+## Overview
+
+This script fits the **Aim 2 linear regression models** predicting **Perceived
+Stress Scale total score (`PSS_TOTAL`)**. Each predictor is tested in a separate
+model adjusted for core covariates. Model names follow **Table 2** in the
+methods section.
+
+| Role | Variables |
+|------|-----------|
+| Outcome | `PSS_TOTAL` (continuous, 0–56) |
+| Core covariates (every model) | Age (`D_AGE`), SES composite (`SES_SC_Total`), Household size (`D_HH_SIZE`), Chronic disease (`Chronic_dis`) |
+| Augmenting (one per model) | HWISE individual items (m_a5) · Hours of water supply/week (m_a6) · Intermittent supply (m_a7) · Season (m_a8) · Neighborhood comparison (m_a9) · Excessive time handling water (m_a10) · Sufficiency rating (m_a11) |
+
+> **Multiple testing**: Given the number of models estimated within this
+> outcome, all F-test p-values are adjusted using the **Benjamini-Hochberg (BH)**
+> procedure, applied across all Aim 2 models.
+
+---
+
+# Load and Prepare Data
+
+```{r load-data}
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_num <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES, NA_real_, x_num)
+}
+
+df_raw <- read_csv("./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv",
+                   show_col_types = FALSE)
+
+cat("Dataset:", nrow(df_raw), "rows ×", ncol(df_raw), "cols\n")
+
+# ── Check new column availability ─────────────────────────────────────────────
+new_cols <- c("HLTH_CDIS_CAT", "HW_TOTAL", "HW_WORRY_SUB", "HW_MEX_5SUB",
+              "MX6_WPRESS", "MX4_WFREQ", "MX4_W_FREQ", "W_WS_LOC")
+cat("\nNew column availability:\n")
+for (col in new_cols) {
+  cat(sprintf("  %-20s %s\n", col,
+              ifelse(col %in% names(df_raw), "FOUND", "*** MISSING ***")))
+}
+```
+
+```{r prepare-variables}
+hwise_items <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                 "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
+                 "HW_ANGRY", "HW_SLEEP",  "HW_NONE",    "HW_SHAME")
+
+df <- df_raw %>%
+  mutate(
+    # ── Outcome ────────────────────────────────────────────────────────────────
+    PSS_TOTAL    = clean_num(PSS_TOTAL),
+
+    # ── Core covariates ────────────────────────────────────────────────────────
+    D_AGE        = clean_num(D_AGE),
+    SES_SC_Total = clean_num(SES_SC_Total),
+    D_HH_SIZE    = clean_num(D_HH_SIZE),
+
+    # ── HWISE individual items (m_a5) ──────────────────────────────────────────
+    across(all_of(hwise_items), clean_num),
+
+    # ── Hours of water supply per week (m_a6) ──────────────────────────────────
+    HRS_PER_WEEK = clean_num(MX5_WFREQ_HRS_PER_WEEK),
+
+    # ── Continuous vs. intermittent supply (m_a7) ──────────────────────────────
+    # 0 = Continuous (reference), 1 = Intermittent
+    CONT_INT = {
+      raw     <- as.character(MX3_CONT_INT)
+      raw_num <- suppressWarnings(as.numeric(raw))
+      factor(case_when(
+        raw_num %in% MISSING_CODES                         ~ NA_character_,
+        raw_num == 0                                       ~ "Continuous",
+        raw_num == 1                                       ~ "Intermittent",
+        str_detect(str_to_lower(raw), "contin")            ~ "Continuous",
+        str_detect(str_to_lower(raw), "inter")             ~ "Intermittent",
+        is.na(raw) | str_trim(raw) == "" | raw == "NA"    ~ NA_character_,
+        TRUE                                               ~ raw
+      ), levels = c("Continuous", "Intermittent"))
+    },
+
+    # ── Season (m_a8) ──────────────────────────────────────────────────────────
+    # 0 = Season 1 (rainy, reference), 1 = Season 2 (dry)
+    SEASON = factor(SEASON, levels = c(0, 1), labels = c("Rainy", "Dry")),
+
+    # ── Neighborhood water comparison (m_a9) ───────────────────────────────────
+    # 0 = Better (reference), 1 = Same, 2 = Worse
+    NB_COMP = factor(
+      case_when(
+        clean_num(MX28_WQ_COMP_CAT) == 0 ~ "Better",
+        clean_num(MX28_WQ_COMP_CAT) == 1 ~ "Same",
+        clean_num(MX28_WQ_COMP_CAT) == 2 ~ "Worse",
+        TRUE                             ~ NA_character_
+      ),
+      levels = c("Better", "Same", "Worse")
+    ),
+
+    # ── Excessive time handling water (m_a10) ──────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    TIME_WATER = factor(
+      case_when(
+        clean_num(MX19_TIME_CAT) == 0 ~ "No",
+        clean_num(MX19_TIME_CAT) == 1 ~ "Yes",
+        TRUE                          ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+
+    # ── Sufficiency rating (m_a11) ─────────────────────────────────────────────
+    # Participant's self-rating of their own water sufficiency (1–4 scale)
+    # 1 = not sufficient, 2 = moderately sufficient, 3 = almost, 4 = completely
+    # Entered as numeric (higher = more sufficient → expected negative β with PSS)
+    SUFF_RATING = clean_num(MX16_SCEN_99),
+
+    # ── Chronic disease (core covariate) ──────────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    Chronic_dis = factor(
+      case_when(
+        clean_num(HLTH_CDIS_CAT) == 0 ~ "No",
+        clean_num(HLTH_CDIS_CAT) == 1 ~ "Yes",
+        TRUE                          ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+
+    # ── HWISE categorical ────────────────────────────────────────────────────
+    HWISE_Cat = factor(
+      case_when(
+        is.na(clean_num(HW_TOTAL))    ~ NA_character_,
+        clean_num(HW_TOTAL) <= 3      ~ "Marginal (0-3)",
+        clean_num(HW_TOTAL) <= 11     ~ "Low (4-11)",
+        TRUE                          ~ "Moderate/Severe (\u226512)"
+      ),
+      levels = c("Marginal (0-3)", "Low (4-11)", "Moderate/Severe (\u226512)")
+    ),
+
+    # ── Water worry subscale ─────────────────────────────────────────────────
+    Water_worry = clean_num(HW_WORRY_SUB),
+
+    # ── 5-item subscale ───────────────────────────────────────────────────────
+    Water_5sub  = clean_num(HW_MEX_5SUB),
+    HWI_5sub_hi = factor(
+      case_when(
+        is.na(clean_num(HW_MEX_5SUB)) ~ NA_character_,
+        clean_num(HW_MEX_5SUB) >= 3   ~ "High",
+        TRUE                          ~ "Low/none"
+      ),
+      levels = c("Low/none", "High")
+    ),
+
+    # ── Water pressure ───────────────────────────────────────────────────────
+    W_Pressure = factor(
+      case_when(
+        str_detect(str_to_lower(as.character(MX6_WPRESS)),
+                   "s[i\u00ed]|yes|buena|bien")  ~ "Yes",
+        str_detect(str_to_lower(as.character(MX6_WPRESS)),
+                   "^no|baja|poca")               ~ "No/Low",
+        TRUE                                      ~ NA_character_
+      ),
+      levels = c("Yes", "No/Low")
+    ),
+
+    # ── Supply frequency ─────────────────────────────────────────────────────
+    W_Frequency = {
+      freq_raw <- if ("MX4_W_FREQ" %in% names(df_raw)) {
+        dplyr::coalesce(as.character(MX4_WFREQ), as.character(MX4_W_FREQ))
+      } else {
+        as.character(MX4_WFREQ)
+      }
+      raw <- str_to_lower(as.character(freq_raw))
+      factor(
+        case_when(
+          str_detect(raw, "^contin")           ~ "Continuous",
+          str_detect(raw, "^diari|every day")  ~ "Daily",
+          str_detect(raw, "4 a 6|4-6")         ~ "4\u20136 days/week",
+          str_detect(raw, "1 a 3|1-3")         ~ "1\u20133 days/week",
+          str_detect(raw, "^intermi")          ~ "Intermittent",
+          TRUE                                 ~ NA_character_
+        ),
+        levels = c("Continuous", "Daily", "4\u20136 days/week",
+                   "1\u20133 days/week", "Intermittent")
+      )
+    },
+
+    # ── Neighborhood water security ───────────────────────────────────────────
+    W_WS_LOC_F = if ("W_WS_LOC" %in% names(df_raw)) {
+      factor(W_WS_LOC, levels = c("WS", "WI"),
+             labels = c("Water Secure", "Water Insecure"))
+    } else {
+      factor(NA_character_, levels = c("Water Secure", "Water Insecure"))
+    }
+  )
+```
+
+```{r check-missingness}
+analytic_vars <- c("PSS_TOTAL", "D_AGE", "SES_SC_Total", "D_HH_SIZE", "SEASON",
+                   "Chronic_dis",
+                   hwise_items, "HRS_PER_WEEK", "CONT_INT",
+                   "NB_COMP", "TIME_WATER", "SUFF_RATING",
+                   "HWISE_Cat", "Water_worry", "Water_5sub", "HWI_5sub_hi",
+                   "W_Pressure", "W_Frequency", "W_WS_LOC_F")
+
+df %>%
+  summarise(across(all_of(analytic_vars), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_missing") %>%
+  mutate(pct_missing = round(100 * n_missing / nrow(df), 1)) %>%
+  arrange(desc(n_missing)) %>%
+  print(n = Inf)
+```
+
+---
+
+# Model Specifications {#model-specs}
+
+All models share the same **core covariates**: `D_AGE`, `SES_SC_Total`,
+`D_HH_SIZE`. One water predictor is added per model. Model names correspond to
+**Table 2** in the methods.
+
+```{r model-specs}
+core_formula <- PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis
+
+# ── m_a5: Individual HWISE item models (one per item) ─────────────────────────
+hwise_item_specs <- setNames(
+  lapply(hwise_items, function(item) {
+    list(
+      label   = paste0("m_a5 – ", item),
+      group   = "m_a5: HWISE items",
+      formula = as.formula(
+        paste("PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +", item)
+      )
+    )
+  }),
+  paste0("m_a5_", tolower(hwise_items))
+)
+
+# ── Main model registry ────────────────────────────────────────────────────────
+model_specs <- c(
+  hwise_item_specs,
+  list(
+    m_a6 = list(
+      label   = "m_a6: Hours of water supply/week",
+      group   = "m_a6: Hours supply",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HRS_PER_WEEK
+    ),
+    m_a7 = list(
+      label   = "m_a7: Intermittent supply",
+      group   = "m_a7: Intermittent",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + CONT_INT
+    ),
+    m_a8 = list(
+      label   = "m_a8: Season (dry vs. rainy)",
+      group   = "m_a8: Season",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + SEASON
+    ),
+    m_a9 = list(
+      label   = "m_a9: Neighborhood comparison",
+      group   = "m_a9: Neighborhood comparison",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + NB_COMP
+    ),
+    m_a10 = list(
+      label   = "m_a10: Excessive time handling water",
+      group   = "m_a10: Time burden",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + TIME_WATER
+    ),
+    m_a11 = list(
+      label   = "m_a11: Sufficiency rating",
+      group   = "m_a11: Sufficiency",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + SUFF_RATING
+    ),
+    m_a12 = list(
+      label   = "m_a12: HWISE (categorical)",
+      group   = "m_a12: HWISE categorical",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HWISE_Cat
+    ),
+    m_a13 = list(
+      label   = "m_a13: Water worry subscale",
+      group   = "m_a13: Water worry",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + Water_worry
+    ),
+    m_a14 = list(
+      label   = "m_a14: 5-item subscale (categorical)",
+      group   = "m_a14: 5-item categorical",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HWI_5sub_hi
+    ),
+    m_a15 = list(
+      label   = "m_a15: 5-item subscale (continuous)",
+      group   = "m_a15: 5-item continuous",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + Water_5sub
+    ),
+    m_a16 = list(
+      label   = "m_a16: Water pressure",
+      group   = "m_a16: Water pressure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Pressure
+    ),
+    m_a17 = list(
+      label   = "m_a17: Supply frequency",
+      group   = "m_a17: Supply frequency",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Frequency
+    ),
+    m_a18 = list(
+      label   = "m_a18: Neighborhood (WS/WI)",
+      group   = "m_a18: Neighborhood",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_WS_LOC_F
+    )
+  )
+)
+
+cat("Total models registered:", length(model_specs), "\n")
+cat("Model IDs:\n")
+cat(paste(" -", names(model_specs)), sep = "\n")
+```
+
+---
+
+# Fit Models
+
+```{r fit-models}
+fitted_models <- lapply(model_specs, function(spec) {
+  lm(spec$formula, data = df, na.action = na.omit)
+})
+
+# Sample sizes per model
+tibble(
+  model_id = names(model_specs),
+  label    = map_chr(model_specs, "label"),
+  n        = map_int(fitted_models, nobs)
+) %>% print(n = Inf)
+```
+
+---
+
+# Summary Table with BH Correction {#summary-table}
+
+One row per model. The **focal predictor** is the augmenting water variable.
+P-values are adjusted with the **Benjamini-Hochberg procedure** applied across
+all Aim 2 models.
+
+```{r summary-table}
+core_terms <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE", "Chronic_disYes")
+
+# ── Extract focal predictor rows from each model ───────────────────────────────
+summary_raw <- map_dfr(names(fitted_models), function(nm) {
+  mod  <- fitted_models[[nm]]
+  spec <- model_specs[[nm]]
+  fit  <- glance(mod)
+
+  # Refit M0 on same rows for F-test
+  rows_used <- as.integer(rownames(model.frame(mod)))
+  m0_sub    <- lm(core_formula, data = df[rows_used, ])
+  lrt_tab   <- anova(m0_sub, mod)
+  f_stat    <- lrt_tab$F[2]
+  f_df1     <- lrt_tab$Df[2]
+  f_df2     <- lrt_tab$Res.Df[2]
+  f_p       <- lrt_tab$`Pr(>F)`[2]
+
+  focal_coefs <- tidy(mod, conf.int = TRUE) %>%
+    filter(!term %in% core_terms)
+
+  if (nrow(focal_coefs) == 0) return(NULL)
+
+  focal_coefs %>%
+    mutate(
+      model_id  = nm,
+      label     = spec$label,
+      group     = spec$group,
+      n         = nobs(mod),
+      adj_R2    = round(fit$adj.r.squared, 3),
+      delta_adj_R2 = round(fit$adj.r.squared - glance(m0_sub)$adj.r.squared, 3),
+      AIC       = round(fit$AIC, 1),
+      F_stat    = round(f_stat, 2),
+      F_df1     = as.integer(f_df1),
+      F_df2     = as.integer(f_df2),
+      F_p       = round(f_p, 4)
+    )
+})
+
+# ── Apply BH correction across all model F-test p-values ──────────────────────
+# One p-value per model (not per coefficient)
+model_fps <- summary_raw %>%
+  distinct(model_id, F_p) %>%
+  mutate(F_p_adj = round(p.adjust(F_p, method = "BH"), 4))
+
+summary_table <- summary_raw %>%
+  left_join(model_fps, by = c("model_id", "F_p")) %>%
+  mutate(
+    beta_ci = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
+    p_coef  = case_when(
+      is.na(p.value)  ~ "—",
+      p.value < 0.001 ~ "<0.001",
+      TRUE            ~ sprintf("%.3f", p.value)
+    ),
+    p_F_fmt = case_when(
+      is.na(F_p)      ~ "—",
+      F_p < 0.001     ~ "<0.001",
+      TRUE            ~ sprintf("%.3f", F_p)
+    ),
+    p_adj_fmt = case_when(
+      is.na(F_p_adj)   ~ "—",
+      F_p_adj < 0.001  ~ "<0.001",
+      TRUE             ~ sprintf("%.3f", F_p_adj)
+    )
+  )
+
+# ── Display ────────────────────────────────────────────────────────────────────
+summary_table %>%
+  arrange(AIC) %>%
+  select(label, term, n, adj_R2, delta_adj_R2, AIC, beta_ci,
+         p_coef, F_stat, p_F_fmt, p_adj_fmt) %>%
+  flextable() %>%
+  set_header_labels(
+    label        = "Model",
+    term         = "Predictor term",
+    n            = "N",
+    adj_R2       = "Adj. R²",
+    delta_adj_R2 = "Δ Adj. R²",
+    AIC          = "AIC",
+    beta_ci      = "β [95% CI]",
+    p_coef       = "p (coef.)",
+    F_stat       = "F",
+    p_F_fmt      = "p (F-test)",
+    p_adj_fmt    = "p_adj (BH)"
+  ) %>%
+  bold(~ !is.na(p_coef) & as.numeric(gsub("<", "", p_coef)) < 0.05,
+       j = "p_coef") %>%
+  color(~ !is.na(p_adj_fmt) & p_adj_fmt != "—" &
+          as.numeric(gsub("<", "0", p_adj_fmt)) < 0.05,
+        j = "p_adj_fmt", color = "darkgreen") %>%
+  color(~ !is.na(p_adj_fmt) & p_adj_fmt != "—" &
+          as.numeric(gsub("<", "0", p_adj_fmt)) >= 0.05,
+        j = "p_adj_fmt", color = "grey50") %>%
+  autofit()
+```
+
+---
+
+# Top 5 Models: Publication Table {#top5-table}
+
+```{r top5-pub-table, fig.width=10}
+library(flextable)
+library(officer)
+
+# ── Readable predictor labels ─────────────────────────────────────────────────
+readable_terms <- c(
+  HRS_PER_WEEK                     = "Hours of supply / week",
+  CONTINTIntermittent              = "Intermittent vs. continuous supply",
+  SEASONDry                        = "Dry vs. rainy season",
+  NB_COMPSame                      = "Neighborhood: same as CDMX",
+  NB_COMPWorse                     = "Neighborhood: worse than CDMX",
+  TIME_WATERYes                    = "Excessive time managing water",
+  SUFF_RATING                      = "Sufficiency rating (1–4)",
+  `HWISE_CatLow (4-11)`            = "HWISE: Low (4–11)",
+  `HWISE_CatModerate/Severe (≥12)` = "HWISE: Moderate/Severe (≥12)",
+  Water_worry                      = "Water worry subscale",
+  HWI_5sub_hiHigh                  = "5-item subscale: High (≥3)",
+  Water_5sub                       = "5-item subscale (continuous)",
+  W_PressureNo.Low                 = "Water pressure: No/Low",
+  `W_PressureNo/Low`               = "Water pressure: No/Low",
+  W_FrequencyDaily                 = "Supply frequency: Daily",
+  `W_Frequency4–6 days/week`       = "Supply frequency: 4–6 days/wk",
+  `W_Frequency1–3 days/week`       = "Supply frequency: 1–3 days/wk",
+  W_FrequencyIntermittent          = "Supply frequency: Intermittent",
+  `W_WS_LOC_FWater Insecure`       = "Neighborhood: Water Insecure"
+)
+
+# ── Select top 5 models by AIC ────────────────────────────────────────────────
+top5_ids <- summary_table %>%
+  distinct(model_id, AIC) %>%
+  slice_min(AIC, n = 5, with_ties = FALSE) %>%
+  arrange(AIC) %>%
+  mutate(rank = row_number())
+
+top5_data <- summary_table %>%
+  filter(model_id %in% top5_ids$model_id) %>%
+  left_join(select(top5_ids, model_id, rank), by = "model_id") %>%
+  arrange(rank, estimate) %>%
+  transmute(
+    rank        = rank,
+    Model       = label,
+    Predictor   = coalesce(readable_terms[term], term),
+    N           = n,
+    beta_ci     = beta_ci,
+    adj_r2      = adj_R2,
+    delta_r2    = delta_adj_R2,
+    AIC         = AIC,
+    p_coef      = p_coef,
+    p_adj       = p_adj_fmt
+  )
+
+# ── Define colour palette ─────────────────────────────────────────────────────
+col_header  <- "#2c3e50"   # dark navy (matches UV1 style)
+col_sig     <- "#fff3cd"   # amber highlight  (BH-significant rows)
+col_ns      <- "#f4f6f9"   # light grey       (non-significant rows)
+
+# ── Build flextable ───────────────────────────────────────────────────────────
+ft <- top5_data %>%
+  select(rank, Model, Predictor, N, beta_ci, adj_r2, delta_r2,
+         AIC, p_coef, p_adj) %>%
+  flextable() %>%
+  set_header_labels(
+    rank      = "#",
+    Model     = "Model",
+    Predictor = "Focal predictor",
+    N         = "N",
+    beta_ci   = "β [95% CI]",
+    adj_r2    = "Adj. R²",
+    delta_r2  = "Δ Adj. R²",
+    AIC       = "AIC",
+    p_coef    = "p (coef.)",
+    p_adj     = "p_adj (BH)"
+  ) %>%
+  # ── header styling ──────────────────────────────────────────────────────────
+  bg(bg = col_header, part = "header") %>%
+  color(color = "white", part = "header") %>%
+  bold(part = "header") %>%
+  fontsize(size = 10, part = "header") %>%
+  # ── rank column ─────────────────────────────────────────────────────────────
+  align(j = "rank", align = "center", part = "all") %>%
+  # ── Amber background for BH-significant rows ─────────────────────────────
+  bg(
+    i = ~ !p_adj %in% c("—") &
+          suppressWarnings(
+            as.numeric(gsub("<0.001", "0.0005", p_adj))
+          ) < 0.05,
+    bg = col_sig, part = "body"
+  ) %>%
+  bg(
+    i = ~ p_adj == "—" | suppressWarnings(
+            as.numeric(gsub("<0.001", "0.0005", p_adj))
+          ) >= 0.05,
+    bg = col_ns, part = "body"
+  ) %>%
+  # ── p-value colouring ───────────────────────────────────────────────────────
+  color(
+    i = ~ !p_coef %in% c("—") &
+          suppressWarnings(as.numeric(gsub("<", "0", p_coef))) < 0.05,
+    j = "p_coef", color = "#1A5276"
+  ) %>%
+  bold(
+    i = ~ !p_coef %in% c("—") &
+          suppressWarnings(as.numeric(gsub("<", "0", p_coef))) < 0.05,
+    j = "p_coef"
+  ) %>%
+  color(
+    i = ~ !p_adj %in% c("—") &
+          suppressWarnings(
+            as.numeric(gsub("<0.001", "0.0005", p_adj))
+          ) < 0.05,
+    j = "p_adj", color = "#1E8449"
+  ) %>%
+  bold(
+    i = ~ !p_adj %in% c("—") &
+          suppressWarnings(
+            as.numeric(gsub("<0.001", "0.0005", p_adj))
+          ) < 0.05,
+    j = "p_adj"
+  ) %>%
+  color(
+    i = ~ p_adj == "—" | suppressWarnings(
+            as.numeric(gsub("<0.001", "0.0005", p_adj))
+          ) >= 0.05,
+    j = "p_adj", color = "grey55"
+  ) %>%
+  # ── merge repeated Model / N / Adj.R² / ΔAIC / AIC cells ──────────────────
+  merge_v(j = c("rank", "Model", "N", "adj_r2", "delta_r2", "AIC",
+                "p_adj")) %>%
+  valign(j = c("rank", "Model", "N", "adj_r2", "delta_r2", "AIC",
+               "p_adj"),
+         valign = "top", part = "body") %>%
+  # ── borders ─────────────────────────────────────────────────────────────────
+  border_remove() %>%
+  hline_top(part = "header", border = fp_border(color = col_header, width = 1.5)) %>%
+  hline_bottom(part = "header", border = fp_border(color = col_header, width = 1.5)) %>%
+  hline_bottom(part = "body",   border = fp_border(color = col_header, width = 1.5)) %>%
+  hline(border = fp_border(color = "#bdc3c7", width = 0.5), part = "body") %>%
+  # ── alignment ───────────────────────────────────────────────────────────────
+  align(j = c("N", "adj_r2", "delta_r2", "AIC", "p_coef", "p_adj"),
+        align = "center", part = "all") %>%
+  align(j = c("beta_ci"), align = "right", part = "body") %>%
+  # ── font ────────────────────────────────────────────────────────────────────
+  font(fontname = "Calibri", part = "all") %>%
+  fontsize(size = 9.5, part = "body") %>%
+  # ── caption ─────────────────────────────────────────────────────────────────
+  add_footer_lines(paste0(
+    "Top 5 models ranked by AIC (lower = better fit). ",
+    "β = unstandardised regression coefficient; 95% CI = confidence interval. ",
+    "Adj. R² = adjusted R-squared of the full model; ",
+    "Δ Adj. R² = change over core-covariate-only model. ",
+    "p_adj (BH) = F-test p-value adjusted using the Benjamini-Hochberg procedure ",
+    "across all Aim 2 PSS models. ",
+    "Amber rows: BH-adjusted p < 0.05. Bold blue: unadjusted p < 0.05."
+  )) %>%
+  color(color = "#555555", part = "footer") %>%
+  fontsize(size = 9, part = "footer") %>%
+  italic(part = "footer") %>%
+  set_table_properties(layout = "fixed")
+
+ft  # display in HTML
+
+# ── Save to Word ──────────────────────────────────────────────────────────────
+save_as_docx(
+  ft,
+  path = "./output/tables/07.Table_Top5_PSS_models.docx",
+  pr_section = prop_section(
+    page_size   = page_size(orient = "landscape"),
+    page_margins = page_mar(top = 0.8, bottom = 0.8,
+                            left = 0.8, right = 0.8)
+  )
+)
+cat("Saved: output/Table_Top5_PSS_models.docx\n")
+```
+
+---
+
+# HWISE Items Summary (m_a5) {#hwise-summary}
+
+```{r hwise-summary}
+hwise_readable <- c(
+  HW_WORRY   = "Worry about water",
+  HW_INTERR  = "Interrupted supply",
+  HW_CLOTHES = "Couldn't wash clothes",
+  HW_PLANS   = "Plans disrupted",
+  HW_FOOD    = "Food preparation affected",
+  HW_HANDS   = "Couldn't wash hands",
+  HW_BODY    = "Couldn't bathe",
+  HW_DRINK   = "Not enough to drink",
+  HW_ANGRY   = "Felt angry",
+  HW_SLEEP   = "Sleep disrupted",
+  HW_NONE    = "No water at all",
+  HW_SHAME   = "Felt shame"
+)
+
+summary_table %>%
+  filter(group == "m_a5: HWISE items") %>%
+  mutate(item_label = hwise_readable[term]) %>%
+  select(item_label, n, adj_R2, delta_adj_R2, beta_ci,
+         p_coef, p_F_fmt, p_adj_fmt) %>%
+  arrange(as.numeric(gsub("<0.001", "0", p_F_fmt))) %>%
+  flextable() %>%
+  set_header_labels(
+    item_label   = "HWISE item",
+    n            = "N",
+    adj_R2       = "Adj. R²",
+    delta_adj_R2 = "Δ Adj. R²",
+    beta_ci      = "β [95% CI]",
+    p_coef       = "p (coef.)",
+    p_F_fmt      = "p (F-test)",
+    p_adj_fmt    = "p_adj (BH)"
+  ) %>%
+  color(~ !is.na(p_adj_fmt) & p_adj_fmt != "—" &
+          as.numeric(gsub("<", "0", p_adj_fmt)) < 0.05,
+        j = "p_adj_fmt", color = "darkgreen") %>%
+  color(~ !is.na(p_adj_fmt) & p_adj_fmt != "—" &
+          as.numeric(gsub("<", "0", p_adj_fmt)) >= 0.05,
+        j = "p_adj_fmt", color = "grey50") %>%
+  autofit()
+```
+
+---
+
+# Forest Plot: Non-HWISE Predictors (m_a6–m_a11) {#forest-plot-main}
+
+```{r forest-plot-main, fig.width = 9, fig.height = 7}
+pub_theme <- theme_classic(base_size = 11) +
+  theme(
+    plot.title         = element_text(face = "bold", size = 12),
+    axis.text.y        = element_text(size = 9),
+    axis.text.x        = element_text(size = 9),
+    legend.position    = "none",
+    strip.text         = element_text(face = "bold", size = 9),
+    strip.background   = element_rect(fill = "grey92", colour = NA),
+    panel.grid.major.x = element_line(colour = "grey88", linewidth = 0.3),
+    plot.caption       = element_text(size = 9, colour = "grey40", hjust = 0)
+  )
+
+sig_sym <- function(p) {
+  dplyr::case_when(
+    p < 0.001 ~ "***", p < 0.01 ~ "**", p < 0.05 ~ "*",
+    p < 0.1   ~ "\u2020", TRUE ~ ""
+  )
+}
+
+term_labels <- c(
+  HRS_PER_WEEK                         = "Hours of supply/week",
+  CONTINTIntermittent                  = "Intermittent vs. continuous",
+  SEASONDry                            = "Dry vs. rainy season",
+  NB_COMPSame                          = "Neighborhood: same as CDMX",
+  NB_COMPWorse                         = "Neighborhood: worse than CDMX",
+  TIME_WATERYes                        = "Excessive time managing water",
+  SUFF_RATING                          = "Sufficiency rating (1\u20134)",
+  `HWISE_CatLow (4-11)`                = "HWISE: Low (4\u201311)",
+  `HWISE_CatModerate/Severe (≥12)`     = "HWISE: Moderate/Severe (\u226512)",
+  Water_worry                          = "Water worry subscale",
+  HWI_5sub_hiHigh                      = "5-item subscale: High (\u22653)",
+  Water_5sub                           = "5-item subscale (continuous)",
+  W_PressureNo.Low                     = "Water pressure: No/Low",
+  `W_PressureNo/Low`                   = "Water pressure: No/Low",
+  W_FrequencyDaily                     = "Supply frequency: Daily",
+  `W_Frequency4–6 days/week`           = "Supply frequency: 4\u20136 days/wk",
+  `W_Frequency1–3 days/week`           = "Supply frequency: 1\u20133 days/wk",
+  W_FrequencyIntermittent              = "Supply frequency: Intermittent",
+  `W_WS_LOC_FWater Insecure`           = "Neighborhood: Water Insecure"
+)
+
+group_labels <- c(
+  "m_a6: Hours supply"       = "Water supply",
+  "m_a7: Intermittent"       = "Water supply",
+  "m_a8: Season"             = "Water supply",
+  "m_a9: Neighborhood comparison" = "Neighborhood",
+  "m_a10: Time burden"       = "Water supply",
+  "m_a11: Sufficiency"       = "Water supply",
+  "m_a12: HWISE categorical" = "HWISE composite",
+  "m_a13: Water worry"       = "HWISE composite",
+  "m_a14: 5-item categorical" = "HWISE composite",
+  "m_a15: 5-item continuous" = "HWISE composite",
+  "m_a16: Water pressure"    = "Water supply",
+  "m_a17: Supply frequency"  = "Water supply",
+  "m_a18: Neighborhood"      = "Neighborhood"
+)
+
+main_coefs <- summary_table %>%
+  filter(!grepl("m_a5", group)) %>%
+  mutate(
+    term_label  = coalesce(term_labels[term], term),
+    panel_group = coalesce(group_labels[group], group),
+    panel_group = factor(panel_group,
+                         levels = c("HWISE composite", "Water supply",
+                                    "Neighborhood")),
+    sig         = sig_sym(p.value)
+  ) %>%
+  arrange(panel_group, estimate)
+
+main_coefs$term_label <- factor(main_coefs$term_label,
+                                levels = unique(main_coefs$term_label))
+
+ggplot(main_coefs,
+       aes(x = estimate, y = term_label,
+           xmin = conf.low, xmax = conf.high,
+           colour = p.value < 0.05)) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.5) +
+  geom_text(aes(label = sig), nudge_y = 0.35, size = 3.5,
+            fontface = "bold", show.legend = FALSE) +
+  facet_grid(panel_group ~ ., scales = "free_y", space = "free_y") +
+  scale_colour_manual(values = c("FALSE" = "grey60", "TRUE" = "#c0392b")) +
+  scale_x_continuous(expand = expansion(mult = c(0.05, 0.12))) +
+  labs(
+    title    = "Aim 2: Water predictors of PSS",
+    subtitle = "Adjusted for age, SES composite, household size, and chronic disease",
+    caption  = "Red = p < 0.05  |  Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001\nEach predictor from a separate model; 95% CI shown.",
+    x        = "\u03b2 coefficient (95% CI)",
+    y        = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.4, "lines"))
+```
+
+---
+
+# Forest Plot: HWISE Individual Items (m_a5) {#forest-plot-hwise}
+
+```{r forest-plot-hwise, fig.width = 8, fig.height = 6}
+hwise_coefs <- summary_table %>%
+  filter(group == "m_a5: HWISE items") %>%
+  mutate(
+    item_label  = coalesce(hwise_readable[term], term),
+    sig         = sig_sym(p.value),
+    significant = !is.na(p.value) & p.value < 0.05
+  ) %>%
+  arrange(estimate)
+
+hwise_coefs$item_label <- factor(hwise_coefs$item_label,
+                                 levels = unique(hwise_coefs$item_label))
+
+ggplot(hwise_coefs,
+       aes(x = estimate, y = item_label,
+           xmin = conf.low, xmax = conf.high,
+           colour = significant)) +
+  geom_vline(xintercept = 0, linetype = "dashed",
+             colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.5) +
+  geom_text(aes(label = sig), nudge_y = 0.35, size = 3.5,
+            fontface = "bold", show.legend = FALSE) +
+  scale_colour_manual(values = c("FALSE" = "grey60", "TRUE" = "#c0392b")) +
+  scale_x_continuous(expand = expansion(mult = c(0.05, 0.12))) +
+  labs(
+    title    = "Aim 2: HWISE individual items as predictors of PSS (m_a5)",
+    subtitle = "Adjusted for age, SES composite, household size, and chronic disease",
+    caption  = "Red = p < 0.05  |  Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001\n95% CI shown.  |  Note: Each item tested in a separate model.",
+    x        = "\u03b2 coefficient (95% CI)",
+    y        = NULL
+  ) +
+  pub_theme
+```
+
+---
+
+# Per-Model Coefficient Tables {#per-model-tables}
+
+Full regression tables (all terms) for each Aim 2 model.
+
+```{r results-tables, results="asis"}
+core_label_list <- list(
+  D_AGE        ~ "Age (years)",
+  SES_SC_Total ~ "SES composite score",
+  D_HH_SIZE    ~ "Household size"
+)
+
+for (nm in names(fitted_models)) {
+  spec <- model_specs[[nm]]
+  mod  <- fitted_models[[nm]]
+  fit  <- glance(mod)
+
+  cat("\n\n## ", spec$label, " {.unnumbered}\n\n", sep = "")
+  cat("**N =**", nobs(mod),
+      "| **R² =**", round(fit$r.squared, 3),
+      "| **Adj. R² =**", round(fit$adj.r.squared, 3),
+      "| **AIC =**", round(fit$AIC, 1), "\n\n")
+
+  print(
+    tbl_regression(
+      mod,
+      label    = core_label_list,
+      conf.int = TRUE
+    ) %>%
+      bold_p(t = 0.05) %>%
+      italicize_levels() %>%
+      modify_caption(paste("**", spec$label, "**"))
+  )
+}
+```

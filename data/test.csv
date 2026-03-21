@@ -1,0 +1,540 @@
+ID,HLTH_CPAIN_CAT,HLTH_CDIS_CAT,ID_B,HLTH_CPAIN_CAT_B,HLTH_CDIS_CAT_B,ID_C,HLTH_CPAIN_C,HLTH_CDIS_C
+1,0,1,1,0,1,154,No,No
+2,0,0,2,0,0,375,N/A,N/A
+3,0,0,3,0,0,375,No,hipertension
+4,0,0,4,0,0,52,No,No
+5,1,0,5,1,0,53,No,No
+6,0,0,6,0,0,54,No,Tuvo colesterol alto ya he
+7,1,0,7,1,0,180,gastritis--colitio nerviosa-2 x mes,No
+8,0,1,8,0,1,167,No,No
+9,1,0,9,1,0,167,No,No
+10,0,0,10,0,0,170,No,No
+11,1,0,11,1,0,180,gastritis--colitio nerviosa-2 x mes,no
+12,0,0,12,0,0,390,No,No
+13,0,0,13,0,0,390,N/A,N/A
+14,0,0,14,0,0,392,No,no
+15,0,0,15,0,0,395,No,no
+16,0,0,16,0,0,395,N/A,N/A
+17,0,0,17,0,0,423,No,No
+18,1,0,18,1,0,425,No,no
+19,1,0,19,1,0,426,Yes,falta de respiracion. No me han diagnosticado 
+20,0,0,20,0,0,442,No,no
+21,0,0,21,0,0,461,No,No
+22,0,0,22,0,0,462,No,Hipertension
+23,0,0,23,0,0,481,No,no
+24,0,0,24,0,0,389,No,no
+25,0,0,25,0,0,389,N/A,N/A
+26,0,0,26,0,0,431,Gastrisis,No
+27,0,0,27,0,0,373,No,Ansiedad 
+28,1,1,28,1,1,373,N/A,N/A
+29,1,0,29,1,0,388,No,no
+30,0,0,30,0,0,388,N/A,N/A
+31,1,0,31,1,0,393,No,no
+32,0,0,32,0,0,393,N/A,N/A
+33,0,0,33,0,0,394,Gastritis,Episodios de hipertension (Losartan)
+34,1,1,34,1,1,394,Gastritis,Episodios de hipertension (Losartan)
+35,1,0,35,1,0,397,No,No
+36,0,0,36,0,0,405,No,No
+37,0,0,37,0,0,421,Yes,diabetes tipo 1 
+38,0,0,38,0,0,424,Yes,No
+39,1,0,39,1,0,427,No,No
+40,0,0,40,0,0,427,No,No
+41,0,0,41,0,0,427,No,no
+42,0,0,42,0,0,428,No,No
+43,0,0,43,0,0,429,Yes,No
+44,0,0,44,0,0,430,No,No
+45,0,0,45,0,0,440,No,No
+46,0,0,46,0,0,441,No,no
+47,0,0,47,0,0,74,Si - dolor de cabeza -cafiaspirina tiene tomar c/ coca -- 2-3 x semana--2 anios,No
+48,1,0,48,1,0,384,Yes,diabetes
+49,0,1,49,0,1,384,N/A,N/A
+50,0,1,50,0,1,396,Yes,no
+51,0,1,51,0,1,418,No,No
+52,0,0,52,0,0,422,No,diabetes tipo 1 
+53,0,0,53,0,0,443,No,no
+54,0,1,54,0,1,459,No,no
+55,1,0,55,1,0,59,No,No
+56,0,0,56,0,0,60,No,No
+57,1,0,57,1,0,63,No,Diabetes
+58,1,0,58,1,0,64,No,No
+59,0,0,59,0,0,66,No,No
+60,0,0,60,0,0,73,Si migrania 1 al mes (hace 10 anios) // ciatica (hace 5 anios),No
+61,1,0,61,1,0,168,No,No
+62,0,0,62,0,0,171,No,Diabetes
+63,0,1,63,0,1,185,No,No
+64,0,0,64,0,0,187,No,No
+65,0,0,65,0,0,188,No,No
+66,0,0,66,0,0,189,No,No
+67,0,0,67,0,0,192,No,No
+68,0,0,68,0,0,198,No,diabetes - tipo 2
+69,0,0,69,0,0,199,Colitis - por dos veces al anio.,No
+70,0,0,70,0,0,201,No,No
+71,1,0,72,0,0,201,No,No
+72,0,0,73,1,0,202,No,hipotension (presion baja)
+73,1,0,74,1,0,202,No,No
+74,1,0,75,1,0,204,Colitis,No
+75,1,0,76,0,0,67,No,No
+76,0,0,77,1,0,68,No,No
+77,1,0,78,0,0,172,Dolor de cabeza/Migrania (1 vez al mes),No
+78,0,0,79,0,1,178,No,No
+79,0,1,80,1,0,184,No,no
+80,1,0,81,0,0,304,No,No
+81,0,0,82,0,0,304,N/A,N/A
+82,0,0,83,0,0,305,No,No
+83,0,0,84,1,0,305,N/A,N/A
+84,1,0,85,1,0,306,No,No
+85,1,0,86,0,0,306,N/A,N/A
+86,0,0,87,0,0,307,Yes,Depresion
+87,0,0,88,0,0,307,N/A,N/A
+88,0,0,89,0,0,308,No,no
+89,0,0,90,0,0,308,N/A,N/A
+90,0,0,91,0,0,309,No,No
+91,0,0,92,0,0,309,N/A,N/A
+92,0,0,93,0,0,312,No,no
+93,0,0,94,0,0,312,N/A,N/A
+94,0,0,95,0,0,314,Yes,"Colesterol, presion alta, y alergias "
+95,0,0,96,0,0,314,N/A,N/A
+96,0,0,97,1,0,317,No,no
+97,1,0,98,0,1,317,N/A,N/A
+98,0,1,99,0,0,321,Yes,No
+99,0,0,100,0,0,321,N/A,N/A
+100,0,0,101,0,0,323,No,no
+101,0,0,102,0,0,323,No,no
+102,0,0,103,1,0,323,N/A,N/A
+103,1,0,104,0,0,324,No,Ansiedad y depresion
+104,0,0,105,0,0,324,N/A,N/A
+105,0,0,106,0,0,325,No,migrana 
+106,0,0,107,0,0,325,N/A,N/A
+107,0,0,108,0,0,328,No,no
+108,0,0,109,0,1,328,N/A,N/A
+109,0,1,110,0,0,331,No,no
+110,0,0,111,0,0,331,N/A,N/A
+111,0,0,112,0,0,356,N/A,N/A
+112,0,0,113,0,0,372,No,no
+113,0,0,114,0,1,372,N/A,N/A
+114,0,1,115,1,0,377,Yes,ansiedad 
+115,1,0,116,NA,1,377,N/A,N/A
+116,,1,117,1,0,398,No,No
+117,1,0,118,1,0,403,Dolor de cabeza-hace 20 dias,no
+118,1,0,119,0,0,457,No,no
+119,0,0,120,0,0,460,Yes,no
+120,0,0,121,0,0,177,dolor al caminar - rodilla,artritis
+121,0,0,122,0,0,55,Yes,No
+122,0,0,123,0,0,182,Yes,No
+123,0,0,124,1,0,183,No,no
+124,1,0,125,1,1,191,No,No
+125,1,1,126,0,0,302,No,No
+126,0,0,127,1,0,302,N/A,N/A
+127,1,0,128,1,0,310,No,Diabetes
+128,1,0,129,0,1,310,N/A,N/A
+129,0,1,130,0,0,311,No,No
+130,0,0,131,0,0,311,N/A,N/A
+131,0,0,132,0,0,313,No,No
+132,0,0,133,1,0,313,N/A,N/A
+133,1,0,134,0,0,315,No,no
+134,0,0,135,0,0,315,N/A,N/A
+135,0,0,136,0,0,316,No, Azucar alta 
+136,0,0,137,0,0,316,N/A,N/A
+137,0,0,138,0,0,318,No,no
+138,0,0,139,1,0,318,N/A,N/A
+139,1,0,140,1,0,319,Yes,no
+140,1,0,141,1,1,319,N/A,N/A
+141,1,1,142,0,0,322,No,no
+142,0,0,143,0,0,322,N/A,N/A
+143,0,0,144,0,0,329,Yes,no
+144,0,0,145,0,0,329,N/A,N/A
+145,0,0,146,0,0,330,No,Ansiedad (no diagnosticado)
+146,0,0,147,0,0,330,No,Ansiedad (no diagnosticado)
+147,0,0,148,1,0,330,N/A,N/A
+148,1,0,149,0,0,354,N/A,N/A
+149,0,0,150,1,0,374,No,No
+150,1,0,151,0,0,374,N/A,N/A
+151,0,0,152,0,0,376,No,no
+152,0,0,153,1,0,376,N/A,N/A
+153,1,0,154,0,0,379,Yes,"asma, ansiedad "
+154,0,0,155,0,0,379,N/A,N/A
+155,0,0,156,1,0,382,No,no
+156,1,0,157,0,0,382,N/A,N/A
+157,0,0,158,1,0,383,Yes,no
+158,1,0,159,0,0,383,N/A,N/A
+159,0,0,160,0,0,387,No,no
+160,0,0,161,0,0,387,N/A,N/A
+161,0,0,162,0,0,402,No,No
+162,0,0,163,0,0,402,No,no
+163,0,0,165,1,1,420,No,No
+165,1,1,166,0,0,444,No hay respuesta.,hipertiroidismo
+166,0,0,167,0,0,445,"Si, migrania c/7 dias // gastritis c/15 dias",no
+167,0,0,168,0,0,446,No,ansiedad--> no diagnosticado
+168,0,0,169,0,0,447,tension espalda baja--> dolor Ketorolaco/ibuprofano,no
+169,0,0,170,0,0,448,gastritis--2 al mes,no
+170,0,0,171,0,1,478,No-- hace 8 anios calculo a vesicula,no
+171,0,1,172,1,0,479,No,no
+172,1,0,173,0,0,480,No,artritis reumatoida. --> sindrome de sjogren--> autoinmune--> podria influir en cort (alta inflamacion)
+173,0,0,174,0,1,482,No,no
+174,0,1,175,0,0,46,No,No
+175,0,0,176,1,0,46,No,No
+176,1,0,177,1,1,58,"A veces, cabeza-migrania",No
+177,1,1,178,0,0,62,No,No
+178,0,0,179,NA,0,65,No,No
+179,,0,180,1,0,75,Si gastritis,No
+180,1,0,181,0,0,75,No,No
+181,0,0,182,1,0,169,No,No
+182,1,0,183,0,0,186,No,No
+183,0,0,184,0,0,190,"dientes, huesos","Cancer, higado graso"
+184,0,0,185,0,0,190,"dientes, huesos","Cancer, higado graso"
+185,0,0,186,0,0,191,No,No
+186,0,0,187,0,0,193,No,No
+187,0,0,188,0,0,194,No,No
+188,0,0,189,0,0,195,Dolor de huesos,No
+189,0,0,190,1,1,196,No,No
+190,1,1,191,0,0,197,No,No
+191,0,0,192,0,0,200,Dolor por sindrome pre-menstrual,No
+192,0,0,193,0,0,203,No,Hipertension.
+193,0,0,194,0,0,302,No,No
+194,0,0,195,1,0,310,No,Diabetes
+195,1,0,196,0,0,69,No,No
+196,0,0,197,0,0,301,No,"Gastritis, tiene 2 que no"
+197,0,0,198,0,1,181,No,No
+198,0,1,199,1,0,301,No,"Gastritis, tiene 2 que no"
+199,1,0,200,1,0,301,N/A,N/A
+200,1,0,201,0,0,391,N/A,N/A
+201,0,0,202,0,1,399,No,ansiedad 
+202,0,1,203,0,1,401,No,No
+203,0,1,204,1,0,378,No,No
+204,1,0,301,0,1,378,N/A,N/A
+301,0,1,302,0,0,386,No,no
+302,0,0,303,0,0,386,N/A,N/A
+303,0,0,304,0,0,404,No,Pre-diabetes
+304,0,0,305,0,0,320,Migrania,No
+305,0,0,306,0,0,320,Migrania,no
+306,0,0,307,1,1,320,Migrania,N/A
+307,1,1,308,0,0,380,No,no
+308,0,0,309,0,0,380,N/A,N/A
+309,0,0,310,0,1,391,No,no
+310,0,1,311,0,0,400,No,no
+311,0,0,312,0,0,6,No,no
+312,0,0,313,0,0,61,Yes,No
+313,0,0,314,1,1,12,No,No
+314,1,1,315,0,0,303,No,No
+315,0,0,315,0,0,303,N/A,N/A
+316,0,1,316,0,1,381,Yes,no
+317,0,0,317,0,0,381,N/A,N/A
+318,0,0,318,0,0,385,No,no
+319,1,0,319,1,0,385,N/A,N/A
+320,1,0,320,1,0,92,No,No
+321,1,0,321,1,0,137,No,No
+322,0,0,322,0,0,362,No,no
+323,0,0,323,0,0,362,N/A,N/A
+324,0,1,324,0,1,406,No,No
+325,0,1,325,0,1,496,dolor de cabeza- 2 al ano,No
+326,0,0,326,0,0,340,No,no
+327,0,0,327,0,0,340,N/A,N/A
+328,0,0,328,0,0,348,N/A,N/A
+329,1,0,329,1,0,349,N/A,N/A
+330,0,1,330,0,1,458,Yes,no
+331,0,0,331,0,0,76,No,No
+332,0,0,332,0,0,148,"Migrania, 1 vez al mes.",No
+333,0,0,333,0,0,82,No,No
+334,0,1,334,0,1,93,No,No
+335,1,0,335,1,0,116,No hay respuesta.,Diabetes
+336,0,0,336,0,0,122,No,No
+337,1,0,337,1,0,449,No,no
+338,0,0,338,0,0,359,No,No
+339,1,0,339,1,0,407,No,No
+340,0,0,340,0,0,415,No,no
+341,0,0,341,0,0,415,No,no
+342,0,0,342,0,0,436,No,No
+343,1,0,343,1,0,108,No,No 
+344,0,0,344,0,0,77,Si gastritis,No
+345,0,0,345,0,0,130,No,No
+346,1,0,353,1,0,152,No,no
+347,0,0,359,0,0,106,No,No
+348,1,1,361,0,0,43,No,No
+349,1,0,362,0,0,72,No,No
+350,0,0,363,0,0,81,No,No
+351,1,0,364,1,0,111,No,No
+352,0,0,365,0,0,44,No,No
+353,1,0,366,0,0,113,No,No
+354,1,0,367,0,0,114,No,Hipertension.
+355,1,0,368,1,1,121,No,No
+356,1,1,369,0,0,125,Yes,Deficiencia Pulmonar 
+357,0,0,370,0,0,127,Yes,No
+358,0,1,371,0,1,134,No,No
+359,0,0,372,0,0,143,No,No
+360,0,0,373,0,1,145,No,No
+361,0,0,374,0,0,146,No,No
+362,0,0,376,0,0,146,No,No
+363,0,0,377,1,1,327,No,no
+364,1,0,378,0,0,327,N/A,N/A
+365,0,0,379,1,1,332,No,no
+366,0,0,380,0,0,332,N/A,N/A
+367,0,0,381,1,0,333,No,no
+368,1,1,382,0,0,333,N/A,N/A
+369,0,0,383,1,0,334,No,hipertiroidismo
+370,0,0,384,1,1,334,No,hipertiroidismo
+371,0,1,385,0,0,334,N/A,N/A
+372,0,0,386,0,0,335,Yes,no
+373,0,1,387,0,0,335,N/A,N/A
+374,0,0,388,0,0,336,No,no
+375,0,1,389,0,0,336,N/A,N/A
+376,0,0,390,0,0,337,Yes,no
+377,1,1,391,0,0,337,N/A,N/A
+378,0,0,392,0,0,341,No,no
+379,1,1,393,0,0,341,N/A,N/A
+380,0,0,394,1,1,342,No,no
+381,1,0,395,0,0,342,N/A,N/A
+382,0,0,396,1,0,344,No,no
+383,1,0,397,0,0,344,N/A,N/A
+384,1,1,398,0,0,345,No,no
+385,0,0,399,0,1,345,N/A,N/A
+386,0,0,400,0,0,346,N/A,N/A
+387,0,0,401,0,0,347,N/A,N/A
+388,0,0,402,0,0,350,N/A,N/A
+389,0,0,403,1,0,353,Yes,No
+390,0,0,404,0,1,353,Yes,No
+391,0,0,405,0,0,353,N/A,N/A
+392,0,0,406,0,0,355,N/A,N/A
+393,0,0,407,0,0,358,N/A,N/A
+394,1,1,408,1,1,360,N/A,N/A
+395,0,0,409,1,0,364,Yes,no
+396,1,0,410,0,0,364,N/A,N/A
+397,0,0,411,1,0,365,No,no
+398,0,0,412,0,0,365,N/A,N/A
+399,0,1,413,1,0,366,No,no
+400,0,0,414,0,0,366,N/A,N/A
+401,0,0,415,0,0,367,No,no
+402,0,0,416,1,1,367,N/A,N/A
+403,1,0,417,0,1,369,No,no
+404,0,1,418,0,0,369,N/A,N/A
+405,0,0,419,0,1,414,No,No
+406,0,0,420,0,0,434,No,No
+407,0,0,421,1,1,453,gastritis--desde siempre-- 1 x semana,no
+408,1,1,422,0,1,453,gastritis--desde siempre-- 1 x semana,no
+409,1,0,423,0,0,469,No,No
+410,0,0,424,1,0,493,No,No
+411,1,0,425,0,0,100,No,No
+412,0,0,426,1,1,80,"Yes,dolor de espalda por estar sentada",No
+413,1,0,427,0,0,83,No,No
+414,0,0,428,0,0,135,No,No
+415,0,0,429,1,0,86,No,No
+416,1,1,430,0,0,78,No,No
+417,0,1,431,1,0,79,No,Diabetes tipo 2
+418,0,0,432,0,0,84,gastritis - nguido- 3 al mes.,No
+419,0,1,433,0,0,87,No,No
+420,0,0,434,0,0,89,No,No
+421,1,1,435,0,1,90,No,No
+422,0,1,436,0,0,91,No,No
+423,0,0,437,0,1,94,No,No
+424,1,0,438,0,0,95,No,No
+425,0,0,439,0,0,97,Yes,No
+426,1,1,440,0,0,104,No,No
+427,0,0,441,0,0,110,No,No
+428,0,0,442,0,0,112,No,No
+429,1,0,443,0,0,115,"Si, periodos dolorosos.",No
+430,0,0,444,NA,1,117,Cabeza - x esta x frio. 1 x semana.,No
+431,1,0,445,1,0,118,"Yes,cabeza; diario",No
+432,0,0,446,0,1,124,Yes,Migrana 
+433,0,0,447,1,0,128,gastritis ~ 1/mes | es soplo,No
+434,0,0,448,1,0,128,gastritis ~ 1/mes | es soplo,
+435,0,1,449,0,0,129,No,Depresion y Ansiedad 
+436,0,0,450,0,0,131,No,No
+437,0,1,451,0,0,132,No,No
+438,0,0,452,0,0,133,Dolor de cabeza,No
+439,0,0,453,1,0,136,No,No
+440,0,0,454,0,0,140,Artritis,No
+441,0,0,455,0,0,147,No,No
+442,0,0,456,1,0,153,Yes,No
+443,0,0,457,0,0,157,No,No
+444,,1,458,1,0,158,Yes,No
+445,1,0,459,0,0,159,No,No
+446,0,1,460,1,0,102,No,No
+447,1,0,461,0,0,102,No,No
+448,1,0,462,0,1,149,No,No
+449,0,0,463,0,0,99,No,No
+450,0,0,464,0,0,101,No,No
+451,0,0,465,0,0,107,No,No
+452,0,0,466,0,0,139,Migrania - 1-4 al mes,No
+453,1,0,467,1,0,150,Yes,no
+454,0,0,468,1,0,155,No,No
+455,0,0,469,0,0,120,No,No
+456,1,0,470,0,1,105,No,No
+457,0,0,471,0,0,138,No,No
+458,1,0,472,1,0,42,No,No
+459,0,0,473,0,1,88,No,No
+460,1,0,474,0,0,103,"Gastritis, 1 por mes",No
+461,0,0,475,0,0,103,"Gastritis, 1 por mes",No
+462,0,1,476,0,0,48,Yes,No
+463,0,0,477,0,0,51,No,Ansiedad
+464,0,0,478,0,0,162,No,No
+465,0,0,479,0,0,326,No,no
+466,0,0,480,0,1,326,N/A,N/A
+467,1,0,481,0,0,357,N/A,N/A
+468,1,0,482,0,0,370,No,no
+469,0,0,483,0,0,370,N/A,N/A
+470,0,1,484,0,0,416,Migranias/Mareos,Depresion
+471,0,0,485,0,0,437,No,Depresion (autodignoostico)
+472,1,0,486,1,1,483,No,No
+473,0,1,487,0,0,483,No,No
+474,0,0,488,0,1,483,No,no
+475,0,0,489,1,0,483,No,no
+476,0,0,490,0,1,484,No,no
+477,0,0,491,0,0,486,Yes,hypertension ansiedad (depreo)  
+478,0,0,492,0,0,161,No,No
+479,0,0,493,0,0,162,No,No
+480,0,1,494,1,0,41,No,No
+481,0,0,495,0,0,109,No,Depresion
+482,0,0,496,1,0,151,No,No
+483,0,0,497,0,1,163,No,No
+484,0,0,71,1,0,165,Gastrisis -- 4/3 x meses,Colesterol alto
+485,0,0,346,1,0,160,No,No
+486,1,1,347,0,0,163,No,No
+487,0,0,348,1,1,163,No,No
+488,0,1,349,1,0,361,No,No
+489,1,0,350,0,0,363,No,No
+490,0,1,351,1,0,408,Migrania y ansiedad,Depresion
+491,0,0,352,0,0,409,Colitis,No
+492,0,0,354,1,0,410,No,No
+493,0,0,355,1,0,411,Calculo vesicula no remedido (tratamiento),no
+494,1,0,356,1,1,412,No,No
+495,0,0,357,0,0,413,no // gastritis - 48 meses,No
+496,1,0,358,0,1,417,No,depresion - no diagnostico
+497,0,1,360,0,0,432,No,No
+,,,375,0,1,433,No,No
+,,,164,NA,NA,435,No,"Hipotensa, diabetes gestacional--pasado (hace 3)"
+,,,,,,438,No,No
+,,,,,,439,No,No
+,,,,,,439,No,No
+,,,,,,450,No,No
+,,,,,,451,No,no
+,,,,,,452,No,11 personas 
+,,,,,,454,No,no
+,,,,,,455,No,no
+,,,,,,456,Yes,no
+,,,,,,463,No,No
+,,,,,,463,No,No
+,,,,,,463,No,No
+,,,,,,464,No,No
+,,,,,,465,No,No
+,,,,,,466,No,No
+,,,,,,468,"Migrania, cabeza (2 o 3 dias) -- 3 veces al mes",No
+,,,,,,470,No,"Diabeta, tipo 2"
+,,,,,,471,No,No
+,,,,,,471,No,No
+,,,,,,472,gastritis --> 3 al mes,no
+,,,,,,473,No,Probablemente hipertension. --aun no diagnosticado--
+,,,,,,474,No,No
+,,,,,,475,No,No
+,,,,,,476,No,no
+,,,,,,476,No,No
+,,,,,,477,No,No
+,,,,,,485,No,no
+,,,,,,485,No,No
+,,,,,,487,No,no
+,,,,,,487,No,No
+,,,,,,488,No,hipotiroidismo ansiedad (no diagnosticado)  
+,,,,,,488,No,hipotiroidismo ansiedad (no diagnosticado)  
+,,,,,,489,"Yes,Migrana ",no
+,,,,,,489,"Yes,Migrana ",No
+,,,,,,490,No,Hipertension
+,,,,,,490,No,Hipertension
+,,,,,,492,No,NO
+,,,,,,492,No,NO
+,,,,,,492,No,no
+,,,,,,50,No,Enfermedad con el corazon. Arteria tapada
+,,,,,,98,No,Hipotiroidismo despues de COVID-19 
+,,,,,,119,No,No
+,,,,,,144,No,No
+,,,,,,85,intestinales dolores + gastritis y colitis siempre,No
+,,,,,,70,Si- Migrania,"Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente"
+,,,,,,96,No,No
+,,,,,,96,No,No
+,,,,,,368,Yes,"plaquetas altas, ansiedad, depresion"
+,,,,,,368,N/A,N/A
+,,,,,,339,Yes,no
+,,,,,,339,N/A,N/A
+,,,,,,419,No,diabetes- tipo 2
+,,,,,,491,No,No
+,,,,,,495,No,No
+,,,,,,495,No,No
+,,,,,,496,dolor de cabeza- 2 al ano,no
+,,,,,,497,No,"Hipertension, colesterol alto"
+,,,,,,497,No,"Hipertension, colesterol alto"
+,,,,,,142,No,No
+,,,,,,338,No,no
+,,,,,,338,N/A,N/A
+,,,,,,343,Yes,no
+,,,,,,343,N/A,N/A
+,,,,,,351,N/A,N/A
+,,,,,,352,N/A,N/A
+,,,,,,371,No,hipertension 
+,,,,,,371,N/A,N/A
+,,,,,,467,Dolor rodillas,No
+,,,,,,494,Gastritis - 2 al mes,No
+,,,,,,494,Gastritis - 2 al mes,No
+,,,,,,156,Yes,No
+,,,,,,141,"Lumbalgia, hace 2 anios // cuando le de diclofenaco o dextrometorfano","depresion posible / no diagnosticado // --> hace 2 anios, fallecio hermano --> vitaminas"
+,,,,,,179,No hay respuesta.,No
+,,,,,,126,No,No
+,,,,,,44,No,No
+,,,,,,32,No,No
+,,,,,,4,No,No
+,,,,,,21,No,No
+,,,,,,22,No,No
+,,,,,,22,No,No
+,,,,,,34,Yes,Gastritis 
+,,,,,,35,Yes,No
+,,,,,,36,No,No
+,,,,,,45,No,No
+,,,,,,166,No,No
+,,,,,,3,No,No
+,,,,,,3,No,No
+,,,,,,7,Yes,"dolor cronico- gastritis- de vez en cuando 
+no enfermedad cronica "
+,,,,,,1,No,Tuve colesterol elevado hace dos semanas hice estudios y salio normal 
+,,,,,,2,No,No
+,,,,,,2,No,No
+,,,,,,5,Yes,"Dolor cronico de talon y Dolor de cabeza (migrana)
+- no enfermedad cronica"
+,,,,,,9,dolor cabeza ~ 2 al mes,No
+,,,,,,9,dolor cabeza ~ 2 al mes,Dolor cronico: dolor cabeza 2 al mes 
+,,,,,,10,No,No
+,,,,,,14,No,No
+,,,,,,15,No,No
+,,,,,,16,No,No
+,,,,,,17,No,No
+,,,,,,20,No,No
+,,,,,,23,No,No
+,,,,,,24,No,No
+,,,,,,24,No,No
+,,,,,,25,No,No
+,,,,,,25,No,No
+,,,,,,26,No,No
+,,,,,,26,No,No
+,,,,,,27,No,No
+,,,,,,27,No,No
+,,,,,,28,Yes,"Colitis/gastritis, y trigliceridos elevados"
+,,,,,,29,Yes,No
+,,,,,,30,No,no
+,,,,,,30,No,No
+,,,,,,31,Yes,No
+,,,,,,33,No,No
+,,,,,,33,No,No
+,,,,,,40,No,No
+,,,,,,47,No,No
+,,,,,,49,No,Diabetes y hipertension
+,,,,,,56,No,No
+,,,,,,123,No,No
+,,,,,,173,No,No
+,,,,,,174,No,Hipertension
+,,,,,,175,No,No
+,,,,,,176,Dolor de cabeza,No
+,,,,,,37,No,No
+,,,,,,11,Yes,Dolor cronico: recurrente 
+,,,,,,18,Yes,Dolor cronico: dolor de cabeza antes- 9 ya no
+,,,,,,19,Yes,"Dolor Cronico: migrania, 1 al mes "
+,,,,,,38,No,No
+,,,,,,39,Yes,NO
+,,,,,,57,"Si, Rodillas",No 
+,,,,,,8,No,No diabates por embarazo 
+,,,,,,13,No,No
+,,,,,,70,No,No

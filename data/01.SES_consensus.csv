@@ -1,0 +1,110 @@
+﻿ID,variable,raw_value,current_value,issue,scoring_hint,consensus
+8,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+10,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",43
+10,SES_BTHR_SC,999,999,Lost / data entry error,Bathrooms score — see NSE-AMAI table,0
+10,SES_CAR_SC,999,999,Lost / data entry error,Cars score — see NSE-AMAI table,0
+10,SES_INT_SC,999,999,Lost / data entry error,Internet access score — see NSE-AMAI table,31
+10,SES_WRK_SC,999,999,Lost / data entry error,Primary earner education score — see NSE-AMAI table,31
+10,SES_BEDR_SC,999,999,Lost / data entry error,Bedrooms score — see NSE-AMAI table,12
+11,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+12,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+18,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",999
+18,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,999
+18,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,999
+18,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,999
+18,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,999
+18,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,999
+22,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,999
+22,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,999
+22,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,999
+22,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,999
+22,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,999
+57,SES_BTHR_SC,espacio no regadera,666,Illegible / column-shift error,Bathrooms score — see NSE-AMAI table,0
+58,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,1
+85,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,23
+107,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",43
+108,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",999
+109,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,444
+125,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+127,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+182,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+194,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+302,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,999
+312,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,999
+346,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+346,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+346,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,0
+346,SES_WRK_SC,NA,NA,Missing / not entered,,61
+346,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+347,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+347,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,18
+347,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+347,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+347,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+348,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+348,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+348,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,0
+348,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,15
+348,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,6
+349,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+349,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+349,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,0
+349,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+349,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,17
+350,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+350,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+350,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+350,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+350,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+351,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",23
+351,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+351,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+351,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,0
+351,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+351,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+352,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+352,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+352,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+352,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+352,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,6
+354,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",73
+354,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+354,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+354,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+354,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,15
+354,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,6
+355,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+355,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+355,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+355,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+355,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+356,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,47
+356,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,18
+356,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+356,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,31
+356,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,17
+357,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+357,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,18
+357,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,0
+357,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,15
+357,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,6
+358,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",43
+358,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+358,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+358,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,31
+358,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,15
+358,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,6
+360,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",73
+360,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,24
+360,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+360,SES_INT_SC,NA,NA,Missing / not entered,Internet access score — see NSE-AMAI table,0
+360,SES_WRK_SC,NA,NA,Missing / not entered,Primary earner education score — see NSE-AMAI table,15
+360,SES_BEDR_SC,NA,NA,Missing / not entered,Bedrooms score — see NSE-AMAI table,12
+362,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+371,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+387,SES_EDU_SC_CLEAN,NA,NA,Missing / not entered,"0=No formal, 10=Inc.primary, 22=Comp.primary, 23=Inc.secondary, 31=Comp.secondary, 35=Inc.high school, 43=Comp.high school, 59=Inc.university, 73=Comp.university, 101=Postgraduate",22
+395,SES_CAR_SC,NA,NA,Missing / not entered,Cars score — see NSE-AMAI table,0
+397,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+411,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+417,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0
+470,SES_BTHR_SC,NA,NA,Missing / not entered,Bathrooms score — see NSE-AMAI table,0

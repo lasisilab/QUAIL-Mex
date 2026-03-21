@@ -10,6 +10,9 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(tidyverse)
+
+# IDs permanently excluded from all analyses — see Overview for rationale
+EXCLUDED_IDS <- c(10L, 141L, 164L, 427L)
 ```
 
 ## Overview
@@ -17,9 +20,19 @@ library(tidyverse)
 This script merges three supplemental files onto the base dataset
 (`02.Merged_Screening_HWISE_PSS.csv`):
 
-1. **03.Chronic_pain_illness.csv** – corrected `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` values  
-2. **03.Q2-3-4-5-6.csv** – supplemental water variables (Season 1, IDs 1–330)  
+1. **03.Chronic_pain_illness.csv** – corrected `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` values
+2. **03.Q2-3-4-5-6.csv** – supplemental water variables (Season 1, IDs 1–330)
 3. **03.Q1-2-3-4-5_season2.csv** – supplemental water variables (Season 2, IDs 331+)
+
+**Permanently excluded participants:**
+
+IDs **10, 141, 164, and 427** are removed at the start of this script and must not
+appear in any output. Full rationale is documented in `01.data_cleaning.Rmd`:
+
+- **ID 10**: Age 49 — outside the 18–46 eligibility range.
+- **ID 141**: Did not continuously reside in the study neighborhood (moved between neighborhoods).
+- **ID 164**: ID number skipped during data collection; participant never existed.
+- **ID 427**: Appeared not to understand the survey questions (linguistic or cognitive limitation).
 
 
 Missing code system:
@@ -42,6 +55,11 @@ base <- read_csv("./data/02.Merged_Screening_HWISE_PSS.csv", show_col_types = FA
 cat("Base dimensions:", nrow(base), "rows ×", ncol(base), "cols\n")
 cat("ID range:", min(base$ID), "–", max(base$ID), "\n")
 
+# Remove permanently excluded participants
+base <- base %>% filter(!ID %in% EXCLUDED_IDS)
+
+cat("Excluded IDs:", paste(EXCLUDED_IDS, collapse = ", "), "\n")
+cat("Rows after exclusion:", nrow(base), "\n")
 ```
 
 ---
@@ -73,6 +91,69 @@ merged <- base %>%
 cat("After chronic merge:", nrow(merged), "rows\n")
 cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
 cat("IDs not in base:", paste(chronic$ID[!chronic$ID %in% base$ID], collapse = ", "), "\n")
+```
+
+---
+
+## 2.5 Apply three-source consensus for chronic pain and illness
+
+`test_processed.csv` reconciles `HLTH_CPAIN_CAT` and `HLTH_CDIS_CAT` across three
+independent data sources (Sources A, B, and C). For each participant the consensus
+value is used when all available sources agree; rows where sources disagree are
+left unchanged and flagged for manual review.
+
+Some participants appear more than once in the file because Source C had multiple
+entries for the same ID (e.g., different household members). These are collapsed
+to one row per ID: a consensus is accepted only when every row for that ID agrees.
+
+```{r apply-consensus-pain-dis}
+test_proc <- read_csv("./data/test_processed.csv", show_col_types = FALSE)
+
+# Aggregate to one row per ID
+# A consensus is accepted when all non-NA values for that ID are identical
+chronic_cons <- test_proc %>%
+  group_by(ID) %>%
+  summarise(
+    pain_vals = list(na.omit(consensus_pain)),
+    dis_vals  = list(na.omit(consensus_dis)),
+    any_flag  = any(flag_review == 1, na.rm = TRUE),
+    .groups   = "drop"
+  ) %>%
+  mutate(
+    HLTH_CPAIN_CAT_cons = map_dbl(pain_vals, ~ {
+      v <- unique(.x)
+      if (length(v) == 1) v else NA_real_
+    }),
+    HLTH_CDIS_CAT_cons = map_dbl(dis_vals, ~ {
+      v <- unique(.x)
+      if (length(v) == 1) v else NA_real_
+    })
+  ) %>%
+  select(ID, HLTH_CPAIN_CAT_cons, HLTH_CDIS_CAT_cons, any_flag)
+
+# Report IDs that still need manual review
+flagged_ids <- chronic_cons %>% filter(any_flag) %>% pull(ID) %>% sort()
+cat("IDs flagged for manual review (sources disagree — values left unchanged):\n")
+cat(paste(flagged_ids, collapse = ", "), "\n\n")
+
+# Apply consensus: overwrite existing values where a consensus exists
+merged <- merged %>%
+  left_join(chronic_cons, by = "ID") %>%
+  mutate(
+    HLTH_CPAIN_CAT = if_else(!is.na(HLTH_CPAIN_CAT_cons),
+                             HLTH_CPAIN_CAT_cons,
+                             as.double(HLTH_CPAIN_CAT)),
+    HLTH_CDIS_CAT  = if_else(!is.na(HLTH_CDIS_CAT_cons),
+                             HLTH_CDIS_CAT_cons,
+                             as.double(HLTH_CDIS_CAT))
+  ) %>%
+  select(-HLTH_CPAIN_CAT_cons, -HLTH_CDIS_CAT_cons, -any_flag)
+
+cat("HLTH_CPAIN_CAT distribution after consensus update:\n")
+print(table(merged$HLTH_CPAIN_CAT, useNA = "always"))
+cat("\nHLTH_CDIS_CAT distribution after consensus update:\n")
+print(table(merged$HLTH_CDIS_CAT, useNA = "always"))
+cat("\nRows after consensus update:", nrow(merged), "\n")
 ```
 
 ---
@@ -891,6 +972,7 @@ if (!file.exists(cont_consensus_path)) {
 } else {
 
   cont_consensus <- read_csv(cont_consensus_path, show_col_types = FALSE) %>%
+    rename_with(tolower) %>%
     filter(!is.na(consensus), str_trim(as.character(consensus)) != "")
 
   cat("Applying", nrow(cont_consensus), "consensus values...\n")

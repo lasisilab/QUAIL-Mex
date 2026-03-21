@@ -1,20 +1,2 @@
 "ID","variable","value_1","value_2","resolution"
-"202","HLTH_MED_RAW","Lozzartan- presion","No",NA
-"70","HLTH_CPAIN_RAW","Si- Migrania","No",NA
-"202","HLTH_CDIS_RAW","hipotension (presion baja)","No",NA
-"70","HLTH_CDIS_RAW","Sospecha que tiene artritis o hipotension, pero no esta diagnosticada, sido lo siente","No",NA
-"9","HLTH_CDIS_RAW","No","Dolor cronico: dolor cabeza 2 al mes",NA
-"167","HLTH_SMK_RAW","No","Yes",NA
-"202","HLTH_SMK_RAW","1 al dia","No",NA
-"202","D_EMP_TYPE_RAW","informal--hace limpieza--vende ropa que regalan--> quedo sin trabajo. --> les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.","Formal",NA
-"320","D_EMP_TYPE_RAW","Trabajo domestico. Trabajo comerciante.",NA,NA
-"323","D_EMP_TYPE_RAW","tiene un negocio",NA,NA
-"334","D_EMP_TYPE_RAW","Si, seguridad privada.",NA,NA
-"394","D_EMP_TYPE_RAW","Comerciante","Informal",NA
-"202","D_CHLD_RAW","2","1",NA
-"415","D_CHLD_RAW","333","2",NA
-"427","D_CHLD_RAW","1","4",NA
-"103","SES_EDU_CAT_RAW","Bachillerato, carrera tecnica completa. 35 (3 march 2023)","Preparatoria incompleta",NA
-"327","SES_EDU_CAT_RAW","Licenciatura incompleta","carrera tecnica bachi",NA
-"427","SES_EDU_CAT_RAW","5 to de primaria","Primaria incompleta",NA
-"70","SES_EDU_CAT_RAW","Secundaria completa","Preparatoria completa",NA
+"71","HLTH_CDIS_CAT","444","444",NA

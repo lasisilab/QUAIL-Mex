@@ -1,30 +1,77 @@
 # QUAIL-Mex
-QUantitative And qualItative perceptions of water insecurity Levels in Mexico City
+**QU**antitative **A**nd qual**I**tative perceptions of water insecurity **L**evels in Mexico City
 
 **Study**: Perception of Water Insecurity and Epigenetic Signatures of Stress Among Urban Adult Women
 
-**Study overview**: This research project investigates the relationship between perceived water insecurity, psychological stress, and biological markers of stress among adult women. The study focuses on understanding the impact of water access challenges, emotional responses to water insecurity, and potential biological stress indicators like DNA methylation on stress related genes, and hair cortisol levels. 
+**Overview**: This project investigates the relationship between perceived water insecurity, psychological stress, and biological markers of stress among adult women in Iztapalapa, Mexico City. It examines water access challenges, emotional responses to water insecurity, and potential biological stress indicators (DNA methylation, hair cortisol).
 
 **Location**: Iztapalapa, Mexico City, Mexico
+**Population**: Self-identified adult women, ages 18–45, in neighborhoods with varying water insecurity levels. Pregnant and lactating individuals were excluded.
+**Data collection**: Season 1 (Oct–Dec 2022) and Season 2 (Apr–Jun 2023), via in-person interviews (<50 min/person). All participants provided IRB consent and received economic compensation.
 
-**Target Population**: Adult women (self-identified), ages 18 to 45,  living in neighborhoods with varying levels of water insecurity. Pregnant and lactating people were excluded from the study.
+**Instruments**: Screening survey · NSE-AMAI (SES) · HWISE (Young et al. 2019) · PSS (Cohen 1994) · QUAIL-Mex
 
-**Data collection period:**
+---
 
-- Season 1: Oct-Dec 2022 
-- Season 2: Apr-Jun 2023
+## Repository structure
 
+### `analysis/` — R Markdown scripts (source code)
 
-**Data collection method:**
-Surveys were applied through in-person interviews, conducted by one of the PIs (Contreras) and four Mexican research assistants (two biologists and two anthropologists). 
-Data collection took <50 minutes per person. 
-Participants were invited to participate in the study near neighborhood community centers where many women exercise, take classes, or bring their children for enrichment activities.
-All individuals provided IRB consent and received economic compensation. 
-Completed surveys were anonymized and coded into a secure database.
-Data were collected through the following tools: 
-- Screening survey
-- NSE-AMAI (Niveles Socioeconómicos-Asociación Mexicana de Agencias de Inteligencia de Mercado y Opinión), a six-item tool developed specifically for measuring SES in Mexico.
-- HWISE (Household Water Insecurity Scale, Young et al. 2019)
-- PSS (Perceived Stress Scores, Cohen 1994)
-- QUAIL-Mex
+Scripts are numbered in the order they should be run. Each produces an HTML report in `docs/`.
+
+| File | What it does |
+|------|-------------|
+| `01.data_cleaning.Rmd` | Cleans the raw screening survey: recodes variables (employment, education, parity, smoking), resolves SES conflicts via dual-entry comparison, and exports a clean dataset |
+| `02.data_merge_hwise_pss.Rmd` | Merges the screening data with HWISE and PSS questionnaires; scores HWISE items and subscales (total, worry, 5-item); scores and reverse-codes PSS; checks internal consistency (Cronbach's α) |
+| `03.data_merge_q1-6.Rmd` | Merges in the QUAIL-Mex water supply questionnaires (Q1–Q6) and additional modules (Q16, Q19, Q26, Q28); resolves duplicate entries and continuous variable conflicts; produces the main analysis dataset |
+| `04.descriptive_stats.Rmd` | Produces Table 1 (sample characteristics), supplementary descriptive tables, and missing data summaries; exports all as `.docx` to `output/tables/` |
+| `05.descriptive_plots.Rmd` | Visualizes distributions of HWISE, PSS, water supply variables, and missing data patterns; saves figures to `output/figures/` |
+| `07.aim2_pss_models.Rmd` | **Aim 2 — PSS outcome**: fits adjusted linear regression models (m_a5–m_a18), one water predictor per model; applies Benjamini-Hochberg correction across models; exports top-5 results table |
+| `07.aim2_emo_models.Rmd` | **Aim 2 — Emotion outcome**: fits adjusted logistic regression models (m_b5–m_b18) predicting water-related emotion valence; reports odds ratios with BH-corrected p-values; exports top-5 results table |
+| `08.multivariate_models.Rmd` | **Pre-specified models (m_a1–m_a4, m_b1–m_b4)**: fits the eight primary multivariable models for both outcomes; includes PCA/FAMD for SES structure; exports coefficient plots and results tables |
+| `08.univariate_models.Rmd` | Runs univariable regressions for all candidate predictors across both outcomes; produces forest plots and ranked predictor tables |
+| `08.forest_plot_tables.R` | Standalone R script: consolidates Aim 2 forest plot results from `07.aim2_pss_models` and `07.aim2_emo_models` into a single formatted Word document |
+| `09.uv_forest_plot_tables.R` | Standalone R script: consolidates univariable forest plot results into a single formatted Word document |
+| `99.Maps.Rmd` | Study area maps of Iztapalapa neighborhoods |
+
+---
+
+### `data/` — Processed datasets
+
+Files are numbered to match the script that creates them. **Raw data are not included** in this repository.
+
+| File | Created by | Contents |
+|------|-----------|----------|
+| `00.Dictionary.csv` | — | Variable dictionary |
+| `01.Screening_clean.csv` | `01` | Cleaned screening data |
+| `01.SES_consensus.csv` | `01` | Resolved SES scores |
+| `01.conflicts_reviewed_V2.csv` | `01` | Manually reviewed data entry conflicts |
+| `02.HWISE_PSS.csv` | `02` | Scored HWISE and PSS data |
+| `02.Merged_Screening_HWISE_PSS.csv` | `02` | Merged screening + HWISE + PSS |
+| `03.Merged_Q1-6.csv` | `03` | Merged with water supply questionnaires |
+| `03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv` | `03` | **Main analysis dataset** (all modules merged) |
+| `03.continuous_consensus.csv` | `03` | Resolved continuous variable conflicts |
+
+---
+
+### `output/` — Results
+
+| Subfolder / File | Contents |
+|-----------------|----------|
+| `output/tables/` | All Word (`.docx`) tables: sample characteristics (Table 1), supplementary descriptive tables, missing data summaries, univariable and multivariable regression results, forest plot summary tables |
+| `output/figures/` | All publication figures: coefficient plots, forest plots, PCA/FAMD plots, SES comparison panels, univariable result plots |
+
+---
+
+### `docs/` — HTML reports
+
+Knitted HTML versions of each analysis script, browsable online. Figures embedded in the reports are auto-generated by knitr into `docs/figure/` — these are not publication figures.
+
+---
+
+## How to reproduce the analysis
+
+1. Open `QUAIL-Mex.Rproj` in RStudio.
+2. Run scripts in numbered order (`01` → `02` → `03` → `04` → `05` → `07` → `08`).
+3. After knitting the `07` and `08` Rmd files, run `08.forest_plot_tables.R` and `09.uv_forest_plot_tables.R` from the project root to regenerate the consolidated Word tables.
 

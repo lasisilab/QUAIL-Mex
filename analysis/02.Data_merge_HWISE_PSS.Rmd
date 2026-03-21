@@ -27,6 +27,16 @@ Missing data coding scheme (inherited from `Data_cleaning.Rmd`):
 Sentinel codes are preserved in the master file and converted to `NA` only within
 analysis scripts.
 
+**Permanently excluded participants:**
+
+IDs **10, 141, 164, and 427** are removed at the start of this script and must not
+appear in any output. Full rationale is documented in `01.data_cleaning.Rmd`:
+
+- **ID 10**: Age 49 — outside the 18–46 eligibility range.
+- **ID 141**: Did not continuously reside in the study neighborhood (moved between neighborhoods).
+- **ID 164**: ID number skipped during data collection; participant never existed.
+- **ID 427**: Appeared not to understand the survey questions (linguistic or cognitive limitation).
+
 **Scale scoring rules:**
 
 - **HWISE** (Household Water InSecurity Experiences): 12 items (`HW_WORRY` through
@@ -51,6 +61,9 @@ library(psych)
 data_path <- "./data"
 
 MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+# IDs permanently excluded from all analyses — see Introduction for rationale
+EXCLUDED_IDS <- c(10L, 141L, 164L, 427L)
 
 # HWISE items (12 substantive items, scored 0-3)
 HWISE_ITEMS <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
@@ -85,6 +98,14 @@ cat("HWISE_PSS rows/cols:", dim(hwise_pss), "\n")
 
 cat("\nScreening IDs:", length(unique(screening$ID)), "\n")
 cat("HWISE_PSS IDs:", length(unique(hwise_pss$ID)), "\n")
+
+# Remove permanently excluded participants from both files
+screening <- screening %>% filter(!ID %in% EXCLUDED_IDS)
+hwise_pss <- hwise_pss %>% filter(!ID %in% EXCLUDED_IDS)
+
+cat("\nExcluded IDs:", paste(EXCLUDED_IDS, collapse = ", "), "\n")
+cat("Screening rows after exclusion:", nrow(screening), "\n")
+cat("HWISE_PSS rows after exclusion:", nrow(hwise_pss), "\n")
 ```
 
 ---
@@ -705,156 +726,14 @@ df_merged %>%
 
 ---
 
-# 9. Internal consistency (Cronbach's α)
+# 9. Remove uninformative columns
 
-Cronbach's α measures how well the items in a scale correlate with each other —
-i.e., whether they are all capturing the same underlying construct. Values ≥ 0.7
-are generally considered acceptable. α is computed here on complete cases only
-(rows with any `NA` or sentinel code in the relevant items are excluded).
-
-```{r cronbach, message=FALSE, warning=FALSE}
-
-
-# Helper to clean a set of items: exclude NAs and sentinel codes row-wise
-clean_items <- function(data, items) {
-  data %>%
-    select(all_of(items)) %>%
-    mutate(across(everything(), ~ if_else(. %in% MISSING_CODES, NA_real_,
-                                          as.numeric(.)))) %>%
-    filter(if_all(everything(), ~ !is.na(.)))
-}
-
-# # Remove uninformative columns
+```{r drop-cols}
+# Remove raw (un-reverse-coded) PSS items and the intermediate SEASON_CLEAN column
 dim(df_merged)
 df_merged <- df_merged %>% select(-SEASON_CLEAN, -PSS4, -PSS5, -PSS6, -PSS7, -PSS9, -PSS10, -PSS13)
 dim(df_merged)
-
-# HWISE — 12 items, scored 0–3
-alpha_hwise <- clean_items(df_merged, HWISE_ITEMS) %>% psych::alpha()
-
-# PSS-14 — use reverse-coded versions of the negative items
-alpha_pss <- clean_items(df_merged, PSS_SCORED_ITEMS) %>% psych::alpha()
-
-# Water worry subscale — 3 items
-alpha_worry <- clean_items(df_merged, WORRY_ITEMS) %>% psych::alpha()
-
-# Summary table
-alpha_summary <- tibble(
-  Scale            = c("HWISE (12 items)", "PSS-14 (14 items)",
-                       "Water worry subscale (3 items)"),
-  n_items          = c(12, 14, 3),
-  n_complete       = c(nrow(clean_items(df_merged, HWISE_ITEMS)),
-                       nrow(clean_items(df_merged, PSS_SCORED_ITEMS)),
-                       nrow(clean_items(df_merged, WORRY_ITEMS))),
-  alpha            = round(c(alpha_hwise$total$raw_alpha,
-                             alpha_pss$total$raw_alpha,
-                             alpha_worry$total$raw_alpha), 3),
-  alpha_95CI_lower = round(c(alpha_hwise$total$raw_alpha -
-                               1.96 * alpha_hwise$total$ase,
-                             alpha_pss$total$raw_alpha -
-                               1.96 * alpha_pss$total$ase,
-                             alpha_worry$total$raw_alpha -
-                               1.96 * alpha_worry$total$ase), 3),
-  alpha_95CI_upper = round(c(alpha_hwise$total$raw_alpha +
-                               1.96 * alpha_hwise$total$ase,
-                             alpha_pss$total$raw_alpha +
-                               1.96 * alpha_pss$total$ase,
-                             alpha_worry$total$raw_alpha +
-                               1.96 * alpha_worry$total$ase), 3)
-)
-
-cat("Cronbach's α summary:\n")
-print(alpha_summary)
-
-ggplot(alpha_summary,
-       aes(x = reorder(Scale, alpha), y = alpha)) +
-  geom_pointrange(aes(ymin = alpha_95CI_lower, ymax = alpha_95CI_upper),
-                  size = 0.8, color = "#5bc0de") +
-  geom_hline(yintercept = 0.7, linetype = "dashed", color = "grey50") +
-  geom_hline(yintercept = 0.9, linetype = "dotted", color = "grey50") +
-  annotate("text", x = 0.6, y = 0.71, label = "acceptable (0.7)",
-           hjust = 0, size = 3, color = "grey40") +
-  annotate("text", x = 0.6, y = 0.91, label = "excellent (0.9)",
-           hjust = 0, size = 3, color = "grey40") +
-  coord_flip() +
-  scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.1)) +
-  labs(title = "Cronbach's α by scale (95% CI)",
-       x = NULL, y = "Cronbach's α") +
-  theme_minimal()
 ```
-
-### Interpretation
-
-**HWISE (α = 0.848, 95% CI: 0.827–0.869):** Good internal consistency, comfortably
-above the 0.8 threshold. All 12 items contribute positively, with item-total
-correlations ranging from 0.36 to 0.66. The weakest items are `HW_SLEEP`
-(r.drop = 0.296) and `HW_DRINK` (r.drop = 0.381), though neither is low enough
-to warrant removal — they likely capture a slightly different facet of water
-insecurity (disrupted sleep and drinking water access) that is less correlated
-with the broader scale but still conceptually relevant.
-
-**PSS-14 (α = 0.813, 95% CI: 0.787–0.840):** Good internal consistency. The
-weakest items are `PSS12` (r.drop = 0.274) and `PSS13_REV` (r.drop = 0.292),
-both of which are among the reverse-coded items. This pattern is common in PSS
-data and has been noted in validation studies. The overall α is consistent with
-values reported in the literature for Spanish-language administrations of the PSS.
-
-**Water worry subscale (α = 0.539, 95% CI: 0.468–0.610):** Below the conventional
-0.7 threshold, which warrants caution in interpretation. However, this is partly
-expected — Cronbach's α is sensitive to the number of items, and a 3-item scale
-will almost always yield lower α than the full 12-item HWISE even if the items are
-genuinely related. Among the three items, `HW_SHAME` has the lowest item-total
-correlation (r.drop = 0.261), suggesting it is the least consistent with the other
-two. `HW_ANGRY` and `HW_WORRY` are more closely related to each other. These
-results suggest the subscale has limited reliability as a standalone measure and
-findings based on it should be interpreted carefully.
-
-### Item-level detail
-
-Item-total correlations and α-if-item-deleted for each scale — useful for
-spotting items that weaken internal consistency.
-
-```{r cronbach-itemlevel}
-cat("--- HWISE item-level stats ---\n")
-print(alpha_hwise$item.stats %>%
-        select(r.cor, r.drop) %>%
-        round(3))
-
-cat("\n--- PSS-14 item-level stats ---\n")
-print(alpha_pss$item.stats %>%
-        select(r.cor, r.drop) %>%
-        round(3))
-
-cat("\n--- Water worry subscale item-level stats ---\n")
-print(alpha_worry$item.stats %>%
-        select(r.cor, r.drop) %>%
-        round(3))
-```
-
-## PSS subscales
-
-```{r}
-pss_helpless <- c(
-  "PSS1","PSS2","PSS3","PSS8","PSS11","PSS12","PSS14"
-)
-
-pss_efficacy <- c(
-  "PSS4_REV","PSS5_REV","PSS6_REV","PSS7_REV",
-  "PSS9_REV","PSS10_REV","PSS13_REV"
-)
-
-alpha_helpless <- df_merged %>%
-  dplyr::select(all_of(pss_helpless)) %>%
-  psych::alpha()
-
-alpha_efficacy <- df_merged %>%
-  dplyr::select(all_of(pss_efficacy)) %>%
-  psych::alpha()
-
-alpha_helpless$total$raw_alpha
-alpha_efficacy$total$raw_alpha
-```
-
 
 ---
 

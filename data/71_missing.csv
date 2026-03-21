@@ -1,0 +1,6 @@
+﻿ID,D_YRBR,D_AGE,D_LOC,D_LOC_CODE,D_LOC_TIME,D_LOC_INFO,HLTH_SMK,HLTH_TTM,HLTH_MED,HLTH_CPAIN,HLTH_CPAIN_CAT,HLTH_CDIS,HLTH_CDIS_CAT,D_HH_SIZE,D_HH_SIZE_INFO,D_CHLD,D_EMP_TYPE,D_EMP_DAYS,W_HH_SIZE,W_STORAGE,D_INFO,SES_EDU_CAT,SES_EDU_SC,SES_BTHR_CAT,SES_BTHR_SC,SES_CAR_CAT,SES_CAR_SC,SES_INT_CAT,SES_INT_SC,SES_WRK_CAT,SES_WRK_SC,SES_BEDR_CAT,SES_BEDR_SC,SES_INFO
+154,1978,44,Jardines De San Lorenzo,9940,14,N/A,Yes,No,No,No,N/A,No,N/A,9,9 personas viviendo en el mismo terreno. Solo son 4 de la familia nuclear. Comparten la misma fuente de agua ,3,"Yes,limpieza de casas ",,,,,Primaria completa,22,0 bathrooms,0,0 cars,0,NO,0,1 persona,15,2 cuartos,12,
+375,1998,25,N/A,3580,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+375,1998,24,N/A,3580,3,N/A,"Si, 1 o 2 x semana",no,no,No,N/A,hipertension,N/A,4,2 fam. en terreno,2,"Si, formal.",1 dia x semana,9,"2 tinacos, 1 cisterna",,Preparatoria completa,43,1 bathroom,24,0 cars,0,SI,31,1 persona,15,2 cuartos,12,
+52,1984,38,Lomas de Zaragoza,9260,20,N/A,No,No,No,No,N/A,No,N/A,4,,2,No,,,,,Preparatoria incompleta,35,1 bathroom,24,0 cars,0,SI,31,1 persona,15,1 cuarto,6,
+71,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
