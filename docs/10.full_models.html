@@ -1,0 +1,4312 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+<meta name="date" content="2026-03-23" />
+
+<title>10. Full Models: All Significant Predictors</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="01.data_cleaning.html">1.cleaning</a>
+</li>
+<li>
+  <a href="02.data_merge_hwise_pss.html">2.merge_hwise_pss</a>
+</li>
+<li>
+  <a href="03.data_merge_q1-6.html">3.merge_q1-6</a>
+</li>
+<li>
+  <a href="04.descriptive_stats.html">4.descr_stats</a>
+</li>
+<li>
+  <a href="05.descriptive_plots.html">5.descr_plots</a>
+</li>
+<li>
+  <a href="06.unadjusted_models.html">6.Unadjusted models</a>
+</li>
+<li>
+  <a href="07.aim1_models.html">7.Aim 1 models</a>
+</li>
+<li>
+  <a href="08.aim2_models.html">8.Aim 2 models</a>
+</li>
+<li>
+  <a href="99.Maps.html">Maps</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">10. Full Models: All Significant
+Predictors</h1>
+<h4 class="author"></h4>
+<h4 class="date">2026-03-23</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-23
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    figure/.DS_Store
+    Ignored:    output/.DS_Store
+    Ignored:    output/figures/.DS_Store
+    Ignored:    output/tables/.DS_Store
+
+Untracked files:
+    Untracked:  .claude/
+    Untracked:  analysis/06.unadjusted_models.Rmd
+    Untracked:  analysis/07.aim1_models.Rmd
+    Untracked:  analysis/08.aim2_models.Rmd
+    Untracked:  analysis/09.aim2_hwise_adjusted.Rmd
+    Untracked:  analysis/10.full_models.Rmd
+    Untracked:  output/figures/06.Unadj_coef_EMO.png
+    Untracked:  output/figures/06.Unadj_coef_PSS.png
+    Untracked:  output/figures/07.aim1_panel_a_coef_plot.png
+    Untracked:  output/figures/07.aim1_panel_b_coef_plot.png
+    Untracked:  output/figures/07.aim2_emo_forest.png
+    Untracked:  output/figures/07.aim2_pss_forest.png
+    Untracked:  output/figures/08.aim2_emo_forest.png
+    Untracked:  output/figures/08.aim2_pss_forest.png
+    Untracked:  output/figures/09.aim2_hwise_emo_forest.png
+    Untracked:  output/figures/09.aim2_hwise_pss_forest.png
+    Untracked:  output/figures/10.emo_full_model.png
+    Untracked:  output/figures/10.pss_full_model.png
+    Untracked:  output/tables/04.Table1_full_descriptives.docx
+    Untracked:  output/tables/04.Table2_HWISE_PSS_by_season.docx
+    Untracked:  output/tables/04.Table3_HWISE_PSS_by_neighborhood.docx
+    Untracked:  output/tables/06.TableUnadj1_unadjreg_PSS.docx
+    Untracked:  output/tables/06.TableUnadj2_unadjreg_EmoType.docx
+    Untracked:  output/tables/06.Tables_Unadj_ForestPlot_Results.docx
+    Untracked:  output/tables/06.Tables_Unadjusted_Models.docx
+    Untracked:  output/tables/07.Tables_Aim1_ForestPlot_Results.docx
+    Untracked:  output/tables/07.Tables_Aim1_Models.docx
+    Untracked:  output/tables/07.aim1_models.docx
+    Untracked:  output/tables/07.aim1_models_core.docx
+    Untracked:  output/tables/08.TableUV1_uvreg_PSS.docx
+    Untracked:  output/tables/08.TableUV2_uvreg_EmoType.docx
+    Untracked:  output/tables/08.Table_All_Emotion_models.docx
+    Untracked:  output/tables/08.Table_All_PSS_models.docx
+    Untracked:  output/tables/08.Tables_Aim2_Models.docx
+    Untracked:  output/tables/08.Tables_ForestPlot_Results.docx
+    Untracked:  output/tables/08.adjusted_models.docx
+    Untracked:  output/tables/08.adjusted_models_core.docx
+    Untracked:  output/tables/09.Tables_Aim2_HWISEadj_Models.docx
+    Untracked:  output/tables/09.Tables_UV_ForestPlot_Results.docx
+    Untracked:  output/tables/10.Tables_Full_Models.docx
+
+Unstaged changes:
+    Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/04.Descriptive_stats.Rmd
+    Deleted:    analysis/07.aim2_emo_models.Rmd
+    Deleted:    analysis/07.aim2_pss_models.Rmd
+    Deleted:    analysis/08.forest_plot_tables.R
+    Deleted:    analysis/08.multivariate_models.Rmd
+    Deleted:    analysis/08.univariate_models.Rmd
+    Deleted:    analysis/09.uv_forest_plot_tables.R
+    Modified:   analysis/_site.yml
+    Modified:   data/01.Screening_clean.csv
+    Modified:   data/01.conflicts_reviewed.csv
+    Modified:   data/01.conflicts_reviewed_V2.csv
+    Modified:   data/01.conflicts_to_review.csv
+    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Modified:   data/03.Merged_Q1-6.csv
+    Modified:   data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
+    Modified:   output/figures/07.UV_coef_EMO.png
+    Modified:   output/figures/07.UV_coef_PSS.png
+    Modified:   output/figures/07.famd_cos2_heatmap.png
+    Modified:   output/figures/07.famd_scores.png
+    Modified:   output/figures/07.famd_scree.png
+    Modified:   output/figures/07.famd_var_contrib.png
+    Modified:   output/figures/07.famd_var_map.png
+    Modified:   output/figures/07.pca_heatmap.png
+    Modified:   output/figures/07.pca_loadings.png
+    Modified:   output/figures/07.pca_scores.png
+    Modified:   output/figures/07.pca_scree.png
+    Modified:   output/figures/07.poly_cor_heatmap.png
+    Modified:   output/figures/07.poly_pca_heatmap.png
+    Modified:   output/figures/07.poly_pca_loadings.png
+    Modified:   output/figures/07.ses_comparison_panel_a.png
+    Modified:   output/figures/07.ses_comparison_panel_b.png
+    Deleted:    output/figures/UV_coef_EMO.png
+    Deleted:    output/figures/UV_coef_PSS.png
+    Deleted:    output/figures/famd_cos2_heatmap.png
+    Deleted:    output/figures/famd_scores.png
+    Deleted:    output/figures/famd_scree.png
+    Deleted:    output/figures/famd_var_contrib.png
+    Deleted:    output/figures/famd_var_map.png
+    Deleted:    output/figures/panel_a_coef_plot.png
+    Deleted:    output/figures/panel_b_coef_plot.png
+    Deleted:    output/figures/pca_heatmap.png
+    Deleted:    output/figures/pca_loadings.png
+    Deleted:    output/figures/pca_scores.png
+    Deleted:    output/figures/pca_scree.png
+    Deleted:    output/figures/poly_cor_heatmap.png
+    Deleted:    output/figures/poly_pca_heatmap.png
+    Deleted:    output/figures/poly_pca_loadings.png
+    Deleted:    output/figures/poly_pca_scores.png
+    Deleted:    output/figures/poly_pca_scree.png
+    Deleted:    output/figures/ses_comparison_panel_a.png
+    Deleted:    output/figures/ses_comparison_panel_b.png
+    Modified:   output/tables/04.Table1_sample_characteristics.docx
+    Modified:   output/tables/04.missing_table.docx
+    Modified:   output/tables/04.missing_table_by_season.docx
+    Modified:   output/tables/07.Table_Top5_Emotion_models.docx
+    Modified:   output/tables/07.Table_Top5_PSS_models.docx
+    Modified:   output/tables/08.multivariate_models.docx
+    Modified:   output/tables/08.multivariate_models_core.docx
+    Deleted:    output/tables/Table1_sample_characteristics.docx
+    Deleted:    output/tables/TableS1.2_missing_data.docx
+    Deleted:    output/tables/TableS1_full_descriptives.docx
+    Deleted:    output/tables/TableS2_HWISE_PSS_by_season.docx
+    Deleted:    output/tables/TableS3_HWISE_PSS_by_neighborhood.docx
+    Modified:   output/tables/Tables_ForestPlot_Results.docx
+    Modified:   output/tables/Tables_UV_ForestPlot_Results.docx
+    Deleted:    output/tables/missing_table.docx
+    Deleted:    output/tables/missing_table_by_season.docx
+    Deleted:    output/tables/~$ble_Top5_PSS_models.docx
+    Deleted:    output/tables/~$bles_ForestPlot_Results.docx
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>This script builds <strong>full models</strong> for each of the two
+outcomes by simultaneously including all predictors that showed a
+statistically significant unadjusted focal coefficient (p &lt; 0.05,
+raw) in any of the Aim 1 or Aim 2 adjusted models.</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="30%" />
+<col width="44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Model type</th>
+<th>Core covariates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>PSS_TOTAL</code></td>
+<td>Linear regression</td>
+<td>Age, SES, Household size, Chronic disease</td>
+</tr>
+<tr class="even">
+<td><code>EMO_NEG</code></td>
+<td>Logistic regression</td>
+<td>Age, SES, Household size, Chronic disease, PSS_TOTAL</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Collinearity note</strong>: The HWISE items (HW_WORRY,
+HW_INTERR, etc.) are highly correlated with each other. Including
+multiple items simultaneously in the full model may inflate standard
+errors and produce unstable estimates. It is recommended to compare
+results with and without the individual HWISE items (e.g., substituting
+the HWISE reduced composite score instead). See Section 5 for a
+sensitivity analysis using <code>HWISE_REDUCED</code> in place of
+individual items.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note on D_LOC_TIME</strong>: Years in neighborhood
+(<code>D_LOC_TIME</code>) is treated as a focal predictor (not a core
+covariate) in these full models, consistent with its role in Aim 2.</p>
+</blockquote>
+<hr />
+</div>
+<div id="section-1-data-setup" class="section level1">
+<h1>Section 1: Data Setup</h1>
+<pre class="r"><code>MISSING_CODES &lt;- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_num &lt;- function(x) {
+  x_num &lt;- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES, NA_real_, x_num)
+}
+
+df_raw &lt;- read_csv(&quot;./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv&quot;,
+                   show_col_types = FALSE)
+
+cat(&quot;Dataset:&quot;, nrow(df_raw), &quot;rows ×&quot;, ncol(df_raw), &quot;cols\n&quot;)</code></pre>
+<pre><code>Dataset: 397 rows × 137 cols</code></pre>
+<pre class="r"><code>new_cols &lt;- c(&quot;HLTH_CDIS_CAT&quot;, &quot;HW_TOTAL&quot;, &quot;HW_WORRY_SUB&quot;, &quot;HW_MEX_5SUB&quot;,
+              &quot;MX6_WPRESS&quot;, &quot;MX4_WFREQ&quot;, &quot;MX4_W_FREQ&quot;, &quot;W_WS_LOC&quot;,
+              &quot;D_LOC_TIME_CLEAN&quot;)
+cat(&quot;\nNew column availability:\n&quot;)</code></pre>
+<pre><code>
+New column availability:</code></pre>
+<pre class="r"><code>for (col in new_cols) {
+  cat(sprintf(&quot;  %-20s %s\n&quot;, col,
+              ifelse(col %in% names(df_raw), &quot;FOUND&quot;, &quot;*** MISSING ***&quot;)))
+}</code></pre>
+<pre><code>  HLTH_CDIS_CAT        FOUND
+  HW_TOTAL             FOUND
+  HW_WORRY_SUB         FOUND
+  HW_MEX_5SUB          FOUND
+  MX6_WPRESS           FOUND
+  MX4_WFREQ            FOUND
+  MX4_W_FREQ           FOUND
+  W_WS_LOC             FOUND
+  D_LOC_TIME_CLEAN     FOUND</code></pre>
+<pre class="r"><code>hwise_items &lt;- c(&quot;HW_WORRY&quot;, &quot;HW_INTERR&quot;, &quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;,
+                 &quot;HW_FOOD&quot;,  &quot;HW_HANDS&quot;,  &quot;HW_BODY&quot;,    &quot;HW_DRINK&quot;,
+                 &quot;HW_ANGRY&quot;, &quot;HW_SLEEP&quot;,  &quot;HW_NONE&quot;,    &quot;HW_SHAME&quot;)
+
+hwise_items_reduced &lt;- c(&quot;HW_WORRY&quot;, &quot;HW_INTERR&quot;, &quot;HW_CLOTHES&quot;, &quot;HW_PLANS&quot;,
+                         &quot;HW_FOOD&quot;,  &quot;HW_HANDS&quot;,  &quot;HW_BODY&quot;,    &quot;HW_DRINK&quot;,
+                         &quot;HW_SLEEP&quot;, &quot;HW_NONE&quot;)
+
+df &lt;- df_raw %&gt;%
+  mutate(
+    # ── Outcomes ───────────────────────────────────────────────────────────────
+    PSS_TOTAL = clean_num(PSS_TOTAL),
+
+    EMO_NEG = {
+      raw &lt;- clean_num(MX26_EM_HHW_CAT)
+      case_when(
+        raw == 0 ~ 0L,
+        raw == 1 ~ 1L,
+        TRUE     ~ NA_integer_
+      )
+    },
+
+    # ── Core covariates ────────────────────────────────────────────────────────
+    D_AGE        = clean_num(D_AGE),
+    SES_SC_Total = clean_num(SES_SC_Total),
+    D_HH_SIZE    = clean_num(D_HH_SIZE),
+    D_LOC_TIME   = clean_num(D_LOC_TIME_CLEAN),
+
+    # ── HWISE individual items ─────────────────────────────────────────────────
+    across(all_of(hwise_items), clean_num),
+
+    # ── HWISE reduced score (10 items, excluding angry and shame) ─────────────
+    HWISE_REDUCED = rowSums(across(all_of(hwise_items_reduced)), na.rm = FALSE),
+
+    # ── Hours of water supply per week ─────────────────────────────────────────
+    HRS_PER_WEEK = clean_num(MX5_WFREQ_HRS_PER_WEEK),
+
+    # ── Continuous vs. intermittent supply ─────────────────────────────────────
+    # 0 = Continuous (reference), 1 = Intermittent
+    CONT_INT = {
+      raw     &lt;- as.character(MX3_CONT_INT)
+      raw_num &lt;- suppressWarnings(as.numeric(raw))
+      factor(case_when(
+        raw_num %in% MISSING_CODES                         ~ NA_character_,
+        raw_num == 0                                       ~ &quot;Continuous&quot;,
+        raw_num == 1                                       ~ &quot;Intermittent&quot;,
+        str_detect(str_to_lower(raw), &quot;contin&quot;)            ~ &quot;Continuous&quot;,
+        str_detect(str_to_lower(raw), &quot;inter&quot;)             ~ &quot;Intermittent&quot;,
+        is.na(raw) | str_trim(raw) == &quot;&quot; | raw == &quot;NA&quot;    ~ NA_character_,
+        TRUE                                               ~ raw
+      ), levels = c(&quot;Continuous&quot;, &quot;Intermittent&quot;))
+    },
+
+    # ── Season ─────────────────────────────────────────────────────────────────
+    # 0 = Season 1 (rainy, reference), 1 = Season 2 (dry)
+    SEASON = factor(SEASON, levels = c(0, 1), labels = c(&quot;Rainy&quot;, &quot;Dry&quot;)),
+
+    # ── Neighborhood water comparison ──────────────────────────────────────────
+    # 0 = Better (reference), 1 = Same, 2 = Worse
+    NB_COMP = factor(
+      case_when(
+        clean_num(MX28_WQ_COMP_CAT) == 0 ~ &quot;Better&quot;,
+        clean_num(MX28_WQ_COMP_CAT) == 1 ~ &quot;Same&quot;,
+        clean_num(MX28_WQ_COMP_CAT) == 2 ~ &quot;Worse&quot;,
+        TRUE                             ~ NA_character_
+      ),
+      levels = c(&quot;Better&quot;, &quot;Same&quot;, &quot;Worse&quot;)
+    ),
+
+    # ── Excessive time handling water ──────────────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    TIME_WATER = factor(
+      case_when(
+        clean_num(MX19_TIME_CAT) == 0 ~ &quot;No&quot;,
+        clean_num(MX19_TIME_CAT) == 1 ~ &quot;Yes&quot;,
+        TRUE                          ~ NA_character_
+      ),
+      levels = c(&quot;No&quot;, &quot;Yes&quot;)
+    ),
+
+    # ── Sufficiency rating ─────────────────────────────────────────────────────
+    # 1 = not sufficient, 4 = completely sufficient
+    SUFF_RATING = clean_num(MX16_SCEN_99),
+
+    # ── Chronic disease ────────────────────────────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    Chronic_dis = factor(
+      case_when(
+        clean_num(HLTH_CDIS_CAT) == 0 ~ &quot;No&quot;,
+        clean_num(HLTH_CDIS_CAT) == 1 ~ &quot;Yes&quot;,
+        TRUE                          ~ NA_character_
+      ),
+      levels = c(&quot;No&quot;, &quot;Yes&quot;)
+    ),
+
+    # ── Water pressure ─────────────────────────────────────────────────────────
+    W_Pressure = factor(
+      case_when(
+        str_detect(str_to_lower(as.character(MX6_WPRESS)),
+                   &quot;s[ií]|yes|buena|bien&quot;)  ~ &quot;Yes&quot;,
+        str_detect(str_to_lower(as.character(MX6_WPRESS)),
+                   &quot;^no|baja|poca&quot;)         ~ &quot;No/Low&quot;,
+        TRUE                                ~ NA_character_
+      ),
+      levels = c(&quot;Yes&quot;, &quot;No/Low&quot;)
+    ),
+
+    # ── Supply frequency ───────────────────────────────────────────────────────
+    W_Frequency = {
+      freq_raw &lt;- if (&quot;MX4_W_FREQ&quot; %in% names(df_raw)) {
+        dplyr::coalesce(as.character(MX4_WFREQ), as.character(MX4_W_FREQ))
+      } else {
+        as.character(MX4_WFREQ)
+      }
+      raw &lt;- str_to_lower(as.character(freq_raw))
+      factor(
+        case_when(
+          str_detect(raw, &quot;^contin&quot;)           ~ &quot;Continuous&quot;,
+          str_detect(raw, &quot;^diari|every day&quot;)  ~ &quot;Daily&quot;,
+          str_detect(raw, &quot;4 a 6|4-6&quot;)         ~ &quot;4\u20136 days/week&quot;,
+          str_detect(raw, &quot;1 a 3|1-3&quot;)         ~ &quot;1\u20133 days/week&quot;,
+          str_detect(raw, &quot;^intermi&quot;)          ~ &quot;Intermittent&quot;,
+          TRUE                                 ~ NA_character_
+        ),
+        levels = c(&quot;Continuous&quot;, &quot;Daily&quot;, &quot;4\u20136 days/week&quot;,
+                   &quot;1\u20133 days/week&quot;, &quot;Intermittent&quot;)
+      )
+    },
+
+    # ── Neighborhood water security ────────────────────────────────────────────
+    W_WS_LOC_F = if (&quot;W_WS_LOC&quot; %in% names(df_raw)) {
+      factor(W_WS_LOC, levels = c(&quot;WS&quot;, &quot;WI&quot;),
+             labels = c(&quot;Water Secure&quot;, &quot;Water Insecure&quot;))
+    } else {
+      factor(NA_character_, levels = c(&quot;Water Secure&quot;, &quot;Water Insecure&quot;))
+    }
+  )</code></pre>
+<pre class="r"><code>cat(&quot;PSS_TOTAL summary:\n&quot;)</code></pre>
+<pre><code>PSS_TOTAL summary:</code></pre>
+<pre class="r"><code>print(summary(df$PSS_TOTAL))</code></pre>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+   9.00   22.00   28.00   27.24   32.00   47.00       1 </code></pre>
+<pre class="r"><code>cat(&quot;\nEMO_NEG distribution:\n&quot;)</code></pre>
+<pre><code>
+EMO_NEG distribution:</code></pre>
+<pre class="r"><code>print(table(df$EMO_NEG, useNA = &quot;always&quot;))</code></pre>
+<pre><code>
+   0    1 &lt;NA&gt; 
+ 125  238   34 </code></pre>
+<pre class="r"><code>cat(&quot;\nProportion negative (valid responses):&quot;,
+    round(mean(df$EMO_NEG == 1, na.rm = TRUE), 3), &quot;\n&quot;)</code></pre>
+<pre><code>
+Proportion negative (valid responses): 0.656 </code></pre>
+<hr />
+</div>
+<div id="section-2-identify-significant-predictors"
+class="section level1">
+<h1>Section 2: Identify Significant Predictors</h1>
+<p>This section re-runs all adjusted models from Aim 1 (07) and Aim 2
+(08) inline, extracts the focal coefficient p-values (unadjusted), and
+identifies predictors with p &lt; 0.05.</p>
+<blockquote>
+<p><strong>Variable naming note</strong>: Aim 1 uses
+<code>SES_TOTAL</code> and <code>CHRONIC_DIS</code> (computed separately
+in that script), while Aim 2 uses <code>SES_SC_Total</code> and
+<code>Chronic_dis</code>. Here we use Aim 2 naming throughout. Aim 1
+predictors (<code>HWISE_REDUCED</code>, <code>WI_NEIGHBORHOOD</code>,
+<code>SEASON</code>) are recreated using Aim 2 variable prep (SEASON is
+already prepared above; HWISE_REDUCED and W_WS_LOC_F serve as the Aim 2
+equivalents).</p>
+</blockquote>
+<pre class="r"><code># ── Aim 1: PSS models (Panel A) ───────────────────────────────────────────────
+# Using Aim 2 variable names: SES_SC_Total, Chronic_dis, W_WS_LOC_F
+
+aim1_pss_models &lt;- list(
+  a1 = lm(PSS_TOTAL ~ HWISE_REDUCED + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a2 = lm(PSS_TOTAL ~ HWISE_REDUCED * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a3 = lm(PSS_TOTAL ~ W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a4 = lm(PSS_TOTAL ~ W_WS_LOC_F * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a5 = lm(PSS_TOTAL ~ HWISE_REDUCED + SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a6 = lm(PSS_TOTAL ~ W_WS_LOC_F + SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a7 = lm(PSS_TOTAL ~ SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a8 = lm(PSS_TOTAL ~ HWISE_REDUCED * W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a9 = lm(PSS_TOTAL ~ HWISE_REDUCED + W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit)
+)</code></pre>
+<pre class="r"><code># ── Aim 2: PSS models (one predictor per model) ───────────────────────────────
+
+hwise_specs_pss &lt;- setNames(
+  lapply(hwise_items, function(item) {
+    lm(as.formula(paste(&quot;PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +&quot;, item)),
+       data = df, na.action = na.omit)
+  }),
+  paste0(&quot;m_a5_&quot;, tolower(hwise_items))
+)
+
+aim2_pss_models &lt;- c(
+  hwise_specs_pss,
+  list(
+    m_a6  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HRS_PER_WEEK,
+               data = df, na.action = na.omit),
+    m_a7  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + CONT_INT,
+               data = df, na.action = na.omit),
+    m_a8  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + SEASON,
+               data = df, na.action = na.omit),
+    m_a9  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + NB_COMP,
+               data = df, na.action = na.omit),
+    m_a10 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + TIME_WATER,
+               data = df, na.action = na.omit),
+    m_a11 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + SUFF_RATING,
+               data = df, na.action = na.omit),
+    m_a16 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Pressure,
+               data = df, na.action = na.omit),
+    m_a17 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Frequency,
+               data = df, na.action = na.omit),
+    m_a18 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_WS_LOC_F,
+               data = df, na.action = na.omit),
+    m_a_loc = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + D_LOC_TIME,
+                 data = df, na.action = na.omit)
+  )
+)</code></pre>
+<pre class="r"><code># ── Aim 1: EMO models (Panel B) ───────────────────────────────────────────────
+
+aim1_emo_models &lt;- list(
+  b1 = glm(EMO_NEG ~ HWISE_REDUCED + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b2 = glm(EMO_NEG ~ HWISE_REDUCED * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b3 = glm(EMO_NEG ~ W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b4 = glm(EMO_NEG ~ W_WS_LOC_F * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b5 = glm(EMO_NEG ~ HWISE_REDUCED + SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b6 = glm(EMO_NEG ~ W_WS_LOC_F + SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b7 = glm(EMO_NEG ~ SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b8 = glm(EMO_NEG ~ HWISE_REDUCED * W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b9 = glm(EMO_NEG ~ HWISE_REDUCED + W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit)
+)</code></pre>
+<pre class="r"><code># ── Aim 2: EMO models (one predictor per model) ───────────────────────────────
+
+hwise_specs_emo &lt;- setNames(
+  lapply(hwise_items, function(item) {
+    glm(as.formula(paste(&quot;EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis +&quot;, item)),
+        data = df, family = binomial, na.action = na.omit)
+  }),
+  paste0(&quot;m_b5_&quot;, tolower(hwise_items))
+)
+
+aim2_emo_models &lt;- c(
+  hwise_specs_emo,
+  list(
+    m_b6  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + HRS_PER_WEEK,
+                data = df, family = binomial, na.action = na.omit),
+    m_b7  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + CONT_INT,
+                data = df, family = binomial, na.action = na.omit),
+    m_b8  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + SEASON,
+                data = df, family = binomial, na.action = na.omit),
+    m_b9  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + NB_COMP,
+                data = df, family = binomial, na.action = na.omit),
+    m_b10 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + TIME_WATER,
+                data = df, family = binomial, na.action = na.omit),
+    m_b11 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + SUFF_RATING,
+                data = df, family = binomial, na.action = na.omit),
+    m_b16 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + W_Pressure,
+                data = df, family = binomial, na.action = na.omit),
+    m_b17 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + W_Frequency,
+                data = df, family = binomial, na.action = na.omit),
+    m_b18 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + W_WS_LOC_F,
+                data = df, family = binomial, na.action = na.omit),
+    m_b_loc = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis,
+                  data = df, family = binomial, na.action = na.omit)
+  )
+)</code></pre>
+<pre class="r"><code># Core terms to exclude from significance screening
+core_terms_pss &lt;- c(&quot;(Intercept)&quot;, &quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;,
+                    &quot;Chronic_disYes&quot;, &quot;D_LOC_TIME&quot;, &quot;PSS_TOTAL&quot;)
+
+# Interaction terms to exclude (only main effects considered for full model)
+is_interaction &lt;- function(term) str_detect(term, &quot;:&quot;)
+
+# Helper: extract focal terms with p &lt; 0.05 from a list of models
+get_sig_terms &lt;- function(model_list, core_terms) {
+  map_dfr(names(model_list), function(nm) {
+    tidy(model_list[[nm]], conf.int = FALSE) %&gt;%
+      filter(!term %in% core_terms, !is_interaction(term), p.value &lt; 0.05) %&gt;%
+      mutate(model_id = nm)
+  })
+}
+
+# Identify significant PSS predictors across Aim 1 + Aim 2
+sig_pss_aim1 &lt;- get_sig_terms(aim1_pss_models, core_terms_pss)
+sig_pss_aim2 &lt;- get_sig_terms(aim2_pss_models, core_terms_pss)
+
+sig_pss_all &lt;- bind_rows(
+  sig_pss_aim1 %&gt;% mutate(aim = &quot;Aim 1&quot;),
+  sig_pss_aim2 %&gt;% mutate(aim = &quot;Aim 2&quot;)
+)
+
+cat(&quot;Significant PSS focal terms (p &lt; 0.05, unadjusted):\n&quot;)</code></pre>
+<pre><code>Significant PSS focal terms (p &lt; 0.05, unadjusted):</code></pre>
+<pre class="r"><code>sig_pss_all %&gt;%
+  arrange(term, p.value) %&gt;%
+  select(aim, model_id, term, estimate, p.value) %&gt;%
+  print(n = Inf)</code></pre>
+<pre><code># A tibble: 11 × 5
+   aim   model_id        term          estimate  p.value
+   &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;            &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Aim 1 a5              HWISE_REDUCED    0.257 0.000705
+ 2 Aim 1 a1              HWISE_REDUCED    0.237 0.00138 
+ 3 Aim 1 a9              HWISE_REDUCED    0.237 0.00143 
+ 4 Aim 1 a8              HWISE_REDUCED    0.314 0.00190 
+ 5 Aim 2 m_a5_hw_angry   HW_ANGRY         1.12  0.00869 
+ 6 Aim 2 m_a5_hw_body    HW_BODY          1.05  0.0189  
+ 7 Aim 2 m_a5_hw_clothes HW_CLOTHES       1.23  0.00212 
+ 8 Aim 2 m_a5_hw_interr  HW_INTERR        0.890 0.0230  
+ 9 Aim 2 m_a5_hw_sleep   HW_SLEEP         2.18  0.00459 
+10 Aim 2 m_a5_hw_worry   HW_WORRY         0.875 0.0192  
+11 Aim 1 a2              SEASONDry       -2.92  0.0297  </code></pre>
+<pre class="r"><code>core_terms_emo &lt;- c(&quot;(Intercept)&quot;, &quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;,
+                    &quot;Chronic_disYes&quot;, &quot;D_LOC_TIME&quot;, &quot;PSS_TOTAL&quot;)
+
+sig_emo_aim1 &lt;- get_sig_terms(aim1_emo_models, core_terms_emo)
+sig_emo_aim2 &lt;- get_sig_terms(aim2_emo_models, core_terms_emo)
+
+sig_emo_all &lt;- bind_rows(
+  sig_emo_aim1 %&gt;% mutate(aim = &quot;Aim 1&quot;),
+  sig_emo_aim2 %&gt;% mutate(aim = &quot;Aim 2&quot;)
+)
+
+cat(&quot;Significant EMO focal terms (p &lt; 0.05, unadjusted):\n&quot;)</code></pre>
+<pre><code>Significant EMO focal terms (p &lt; 0.05, unadjusted):</code></pre>
+<pre class="r"><code>sig_emo_all %&gt;%
+  arrange(term, p.value) %&gt;%
+  select(aim, model_id, term, estimate, p.value) %&gt;%
+  print(n = Inf)</code></pre>
+<pre><code># A tibble: 28 × 5
+   aim   model_id        term                     estimate  p.value
+   &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;                       &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Aim 2 m_b7            CONT_INTIntermittent      1.16    2.86e- 5
+ 2 Aim 2 m_b6            HRS_PER_WEEK             -0.00779 4.72e- 5
+ 3 Aim 1 b1              HWISE_REDUCED             0.233   6.65e-12
+ 4 Aim 1 b9              HWISE_REDUCED             0.229   1.60e-11
+ 5 Aim 1 b5              HWISE_REDUCED             0.236   1.63e-11
+ 6 Aim 1 b2              HWISE_REDUCED             0.298   8.90e- 8
+ 7 Aim 1 b8              HWISE_REDUCED             0.183   1.74e- 5
+ 8 Aim 2 m_b5_hw_angry   HW_ANGRY                  1.02    1.37e- 8
+ 9 Aim 2 m_b5_hw_body    HW_BODY                   0.885   3.89e- 6
+10 Aim 2 m_b5_hw_clothes HW_CLOTHES                1.03    1.41e- 9
+11 Aim 2 m_b5_hw_drink   HW_DRINK                  0.842   3.48e- 4
+12 Aim 2 m_b5_hw_food    HW_FOOD                   0.924   1.51e- 4
+13 Aim 2 m_b5_hw_hands   HW_HANDS                  0.586   1.66e- 2
+14 Aim 2 m_b5_hw_interr  HW_INTERR                 0.697   7.25e- 7
+15 Aim 2 m_b5_hw_none    HW_NONE                   0.463   2.22e- 3
+16 Aim 2 m_b5_hw_plans   HW_PLANS                  0.980   1.72e- 8
+17 Aim 2 m_b5_hw_shame   HW_SHAME                  1.13    2.15e- 3
+18 Aim 2 m_b5_hw_worry   HW_WORRY                  0.973   4.04e-10
+19 Aim 2 m_b9            NB_COMPSame               0.810   1.03e- 2
+20 Aim 2 m_b9            NB_COMPWorse              1.31    1.28e- 4
+21 Aim 2 m_b11           SUFF_RATING              -0.792   2.12e- 7
+22 Aim 2 m_b10           TIME_WATERYes             1.92    3.21e- 8
+23 Aim 2 m_b17           W_Frequency1–3 days/week  1.48    2.25e- 4
+24 Aim 2 m_b17           W_Frequency4–6 days/week  1.57    2.67e- 3
+25 Aim 2 m_b16           W_PressureNo/Low          1.67    2.31e- 5
+26 Aim 1 b3              W_WS_LOC_FWater Insecure  0.550   2.36e- 2
+27 Aim 2 m_b18           W_WS_LOC_FWater Insecure  0.557   2.53e- 2
+28 Aim 1 b6              W_WS_LOC_FWater Insecure  0.540   2.67e- 2</code></pre>
+<pre class="r"><code># ── Summary table of all significant predictors ───────────────────────────────
+
+sig_table &lt;- bind_rows(
+  sig_pss_all %&gt;% mutate(outcome = &quot;PSS_TOTAL&quot;),
+  sig_emo_all %&gt;% mutate(outcome = &quot;EMO_NEG&quot;)
+) %&gt;%
+  group_by(outcome, term) %&gt;%
+  summarise(
+    n_models_significant = n(),
+    min_p  = min(p.value),
+    aims   = paste(sort(unique(aim)), collapse = &quot; &amp; &quot;),
+    .groups = &quot;drop&quot;
+  ) %&gt;%
+  arrange(outcome, min_p)
+
+cat(&quot;\nSummary: predictors significant in ≥1 model\n&quot;)</code></pre>
+<pre><code>
+Summary: predictors significant in ≥1 model</code></pre>
+<pre class="r"><code>print(sig_table, n = Inf)</code></pre>
+<pre><code># A tibble: 30 × 5
+   outcome   term                     n_models_significant    min_p aims        
+   &lt;chr&gt;     &lt;chr&gt;                                   &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;       
+ 1 EMO_NEG   HWISE_REDUCED                               5 6.65e-12 Aim 1       
+ 2 EMO_NEG   HW_WORRY                                    1 4.04e-10 Aim 2       
+ 3 EMO_NEG   HW_CLOTHES                                  1 1.41e- 9 Aim 2       
+ 4 EMO_NEG   HW_ANGRY                                    1 1.37e- 8 Aim 2       
+ 5 EMO_NEG   HW_PLANS                                    1 1.72e- 8 Aim 2       
+ 6 EMO_NEG   TIME_WATERYes                               1 3.21e- 8 Aim 2       
+ 7 EMO_NEG   SUFF_RATING                                 1 2.12e- 7 Aim 2       
+ 8 EMO_NEG   HW_INTERR                                   1 7.25e- 7 Aim 2       
+ 9 EMO_NEG   HW_BODY                                     1 3.89e- 6 Aim 2       
+10 EMO_NEG   W_PressureNo/Low                            1 2.31e- 5 Aim 2       
+11 EMO_NEG   CONT_INTIntermittent                        1 2.86e- 5 Aim 2       
+12 EMO_NEG   HRS_PER_WEEK                                1 4.72e- 5 Aim 2       
+13 EMO_NEG   NB_COMPWorse                                1 1.28e- 4 Aim 2       
+14 EMO_NEG   HW_FOOD                                     1 1.51e- 4 Aim 2       
+15 EMO_NEG   W_Frequency1–3 days/week                    1 2.25e- 4 Aim 2       
+16 EMO_NEG   HW_DRINK                                    1 3.48e- 4 Aim 2       
+17 EMO_NEG   HW_SHAME                                    1 2.15e- 3 Aim 2       
+18 EMO_NEG   HW_NONE                                     1 2.22e- 3 Aim 2       
+19 EMO_NEG   W_Frequency4–6 days/week                    1 2.67e- 3 Aim 2       
+20 EMO_NEG   NB_COMPSame                                 1 1.03e- 2 Aim 2       
+21 EMO_NEG   HW_HANDS                                    1 1.66e- 2 Aim 2       
+22 EMO_NEG   W_WS_LOC_FWater Insecure                    3 2.36e- 2 Aim 1 &amp; Aim…
+23 PSS_TOTAL HWISE_REDUCED                               4 7.05e- 4 Aim 1       
+24 PSS_TOTAL HW_CLOTHES                                  1 2.12e- 3 Aim 2       
+25 PSS_TOTAL HW_SLEEP                                    1 4.59e- 3 Aim 2       
+26 PSS_TOTAL HW_ANGRY                                    1 8.69e- 3 Aim 2       
+27 PSS_TOTAL HW_BODY                                     1 1.89e- 2 Aim 2       
+28 PSS_TOTAL HW_WORRY                                    1 1.92e- 2 Aim 2       
+29 PSS_TOTAL HW_INTERR                                   1 2.30e- 2 Aim 2       
+30 PSS_TOTAL SEASONDry                                   1 2.97e- 2 Aim 1       </code></pre>
+<pre class="r"><code># ── Extract the unique variable names (stripping level suffixes) ──────────────
+# For factors, the term looks like &quot;W_FrequencyDaily&quot; — we need &quot;W_Frequency&quot;
+# For HWISE items (numeric), term == variable name
+
+extract_variable_name &lt;- function(terms) {
+  # Try to match factor variable names from df
+  factor_vars &lt;- c(&quot;CONT_INT&quot;, &quot;SEASON&quot;, &quot;NB_COMP&quot;, &quot;TIME_WATER&quot;,
+                   &quot;W_Pressure&quot;, &quot;W_Frequency&quot;, &quot;W_WS_LOC_F&quot;,
+                   &quot;Chronic_dis&quot;, &quot;HWISE_REDUCED&quot;)
+  result &lt;- character(length(terms))
+  for (i in seq_along(terms)) {
+    matched &lt;- factor_vars[str_starts(terms[i], factor_vars)]
+    if (length(matched) &gt; 0) {
+      result[i] &lt;- matched[which.max(nchar(matched))]  # longest match
+    } else {
+      result[i] &lt;- terms[i]  # numeric variables: term == variable name
+    }
+  }
+  result
+}
+
+sig_vars_pss &lt;- sig_pss_all %&gt;%
+  pull(term) %&gt;%
+  unique() %&gt;%
+  extract_variable_name() %&gt;%
+  unique()
+
+sig_vars_emo &lt;- sig_emo_all %&gt;%
+  pull(term) %&gt;%
+  unique() %&gt;%
+  extract_variable_name() %&gt;%
+  unique()
+
+cat(&quot;\nUnique significant variable names for PSS full model:\n&quot;)</code></pre>
+<pre><code>
+Unique significant variable names for PSS full model:</code></pre>
+<pre class="r"><code>cat(paste(&quot; -&quot;, sig_vars_pss), sep = &quot;\n&quot;)</code></pre>
+<pre><code> - HWISE_REDUCED
+ - SEASON
+ - HW_WORRY
+ - HW_INTERR
+ - HW_CLOTHES
+ - HW_BODY
+ - HW_ANGRY
+ - HW_SLEEP</code></pre>
+<pre class="r"><code>cat(&quot;\nUnique significant variable names for EMO full model:\n&quot;)</code></pre>
+<pre><code>
+Unique significant variable names for EMO full model:</code></pre>
+<pre class="r"><code>cat(paste(&quot; -&quot;, sig_vars_emo), sep = &quot;\n&quot;)</code></pre>
+<pre><code> - HWISE_REDUCED
+ - W_WS_LOC_F
+ - HW_WORRY
+ - HW_INTERR
+ - HW_CLOTHES
+ - HW_PLANS
+ - HW_FOOD
+ - HW_HANDS
+ - HW_BODY
+ - HW_DRINK
+ - HW_ANGRY
+ - HW_NONE
+ - HW_SHAME
+ - HRS_PER_WEEK
+ - CONT_INT
+ - NB_COMP
+ - TIME_WATER
+ - SUFF_RATING
+ - W_Pressure
+ - W_Frequency</code></pre>
+<hr />
+</div>
+<div id="section-3-pss-full-model" class="section level1">
+<h1>Section 3: PSS Full Model</h1>
+<div id="build-and-fit" class="section level2">
+<h2>Build and Fit</h2>
+<pre class="r"><code># Remove core covariates from the significant predictors list
+core_vars_pss &lt;- c(&quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;, &quot;Chronic_dis&quot;,
+                   &quot;PSS_TOTAL&quot;, &quot;D_LOC_TIME&quot;)
+
+sig_vars_pss_clean &lt;- setdiff(sig_vars_pss, core_vars_pss)
+
+if (length(sig_vars_pss_clean) == 0) {
+  warning(&quot;No significant PSS predictors identified. Using HWISE_REDUCED as placeholder.&quot;)
+  sig_vars_pss_clean &lt;- &quot;HWISE_REDUCED&quot;
+}
+
+cat(&quot;PSS full model predictors (beyond core covariates):\n&quot;)</code></pre>
+<pre><code>PSS full model predictors (beyond core covariates):</code></pre>
+<pre class="r"><code>cat(paste(&quot; -&quot;, sig_vars_pss_clean), sep = &quot;\n&quot;)</code></pre>
+<pre><code> - HWISE_REDUCED
+ - SEASON
+ - HW_WORRY
+ - HW_INTERR
+ - HW_CLOTHES
+ - HW_BODY
+ - HW_ANGRY
+ - HW_SLEEP</code></pre>
+<pre class="r"><code>pss_full_formula &lt;- as.formula(
+  paste(&quot;PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +&quot;,
+        paste(sig_vars_pss_clean, collapse = &quot; + &quot;))
+)
+
+cat(&quot;\nFull PSS formula:\n&quot;)</code></pre>
+<pre><code>
+Full PSS formula:</code></pre>
+<pre class="r"><code>print(pss_full_formula)</code></pre>
+<pre><code>PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + 
+    HWISE_REDUCED + SEASON + HW_WORRY + HW_INTERR + HW_CLOTHES + 
+    HW_BODY + HW_ANGRY + HW_SLEEP</code></pre>
+<pre class="r"><code>pss_full &lt;- lm(pss_full_formula, data = df, na.action = na.omit)
+cat(&quot;\nN =&quot;, nobs(pss_full), &quot;\n&quot;)</code></pre>
+<pre><code>
+N = 368 </code></pre>
+<pre class="r"><code>cat(&quot;Adj. R² =&quot;, round(summary(pss_full)$adj.r.squared, 3), &quot;\n&quot;)</code></pre>
+<pre><code>Adj. R² = 0.062 </code></pre>
+<pre class="r"><code>cat(&quot;AIC =&quot;, round(AIC(pss_full), 1), &quot;\n&quot;)</code></pre>
+<pre><code>AIC = 2503.4 </code></pre>
+</div>
+<div id="regression-table-pss" class="section level2">
+<h2>Regression Table (PSS)</h2>
+<pre class="r"><code>label_list_pss &lt;- list(
+  D_AGE        ~ &quot;Age (years)&quot;,
+  SES_SC_Total ~ &quot;SES composite score&quot;,
+  D_HH_SIZE    ~ &quot;Household size&quot;,
+  Chronic_dis  ~ &quot;Chronic disease&quot;,
+  D_LOC_TIME   ~ &quot;Years in neighborhood&quot;,
+  HWISE_REDUCED ~ &quot;HWISE reduced score (0–40)&quot;,
+  HRS_PER_WEEK  ~ &quot;Hours of water supply/week&quot;,
+  CONT_INT      ~ &quot;Supply continuity (ref: Continuous)&quot;,
+  SEASON        ~ &quot;Season (ref: Rainy)&quot;,
+  NB_COMP       ~ &quot;Neighborhood comparison (ref: Better)&quot;,
+  TIME_WATER    ~ &quot;Excessive time managing water (ref: No)&quot;,
+  SUFF_RATING   ~ &quot;Sufficiency rating (1–4)&quot;,
+  W_Pressure    ~ &quot;Water pressure (ref: Yes)&quot;,
+  W_Frequency   ~ &quot;Supply frequency (ref: Continuous)&quot;,
+  W_WS_LOC_F    ~ &quot;Neighborhood water security (ref: Water Secure)&quot;
+)
+
+# Keep only labels relevant to this model
+model_vars_pss &lt;- all.vars(pss_full_formula)
+label_list_pss_filtered &lt;- label_list_pss[
+  sapply(label_list_pss, function(x) as.character(x[[2]]) %in% model_vars_pss)
+]
+
+tbl_pss &lt;- tbl_regression(
+  pss_full,
+  label    = label_list_pss_filtered,
+  conf.int = TRUE
+) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  italicize_levels() %&gt;%
+  modify_caption(
+    &quot;**Full PSS Model**: All significant predictors from Aim 1 &amp; Aim 2&quot;
+  ) %&gt;%
+  modify_footnote(
+    update = everything() ~ paste0(
+      &quot;Linear regression. Adjusted R² = &quot;,
+      round(summary(pss_full)$adj.r.squared, 3),
+      &quot;. N = &quot;, nobs(pss_full),
+      &quot;. p-values are unadjusted.&quot;
+    )
+  )
+
+tbl_pss</code></pre>
+<div id="cvlxasfenu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cvlxasfenu table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cvlxasfenu thead, #cvlxasfenu tbody, #cvlxasfenu tfoot, #cvlxasfenu tr, #cvlxasfenu td, #cvlxasfenu th {
+  border-style: none;
+}
+
+#cvlxasfenu p {
+  margin: 0;
+  padding: 0;
+}
+
+#cvlxasfenu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cvlxasfenu .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cvlxasfenu .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cvlxasfenu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cvlxasfenu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cvlxasfenu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cvlxasfenu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cvlxasfenu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cvlxasfenu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cvlxasfenu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cvlxasfenu .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cvlxasfenu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cvlxasfenu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_left {
+  text-align: left;
+}
+
+#cvlxasfenu .gt_center {
+  text-align: center;
+}
+
+#cvlxasfenu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cvlxasfenu .gt_font_normal {
+  font-weight: normal;
+}
+
+#cvlxasfenu .gt_font_bold {
+  font-weight: bold;
+}
+
+#cvlxasfenu .gt_font_italic {
+  font-style: italic;
+}
+
+#cvlxasfenu .gt_super {
+  font-size: 65%;
+}
+
+#cvlxasfenu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cvlxasfenu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cvlxasfenu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cvlxasfenu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cvlxasfenu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cvlxasfenu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cvlxasfenu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#cvlxasfenu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#cvlxasfenu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Full PSS Model</strong>: All significant predictors from Aim 1 &amp; Aim 2</span></caption>
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate"><span class='gt_from_md'><strong>Beta</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low"><span class='gt_from_md'><strong>95% CI</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Age (years)</td>
+<td headers="estimate" class="gt_row gt_center">-0.11</td>
+<td headers="conf.low" class="gt_row gt_center">-0.22, -0.01</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.031</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES composite score</td>
+<td headers="estimate" class="gt_row gt_center">0.00</td>
+<td headers="conf.low" class="gt_row gt_center">-0.02, 0.02</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Household size</td>
+<td headers="estimate" class="gt_row gt_center">0.01</td>
+<td headers="conf.low" class="gt_row gt_center">-0.22, 0.24</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Chronic disease</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">3.4</td>
+<td headers="conf.low" class="gt_row gt_center">1.3, 5.4</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HWISE reduced score (0–40)</td>
+<td headers="estimate" class="gt_row gt_center">-0.19</td>
+<td headers="conf.low" class="gt_row gt_center">-0.59, 0.21</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Season (ref: Rainy)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Rainy</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Dry</td>
+<td headers="estimate" class="gt_row gt_center">-1.4</td>
+<td headers="conf.low" class="gt_row gt_center">-3.1, 0.29</td>
+<td headers="p.value" class="gt_row gt_center">0.10</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_WORRY</td>
+<td headers="estimate" class="gt_row gt_center">0.52</td>
+<td headers="conf.low" class="gt_row gt_center">-0.57, 1.6</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_INTERR</td>
+<td headers="estimate" class="gt_row gt_center">0.21</td>
+<td headers="conf.low" class="gt_row gt_center">-0.92, 1.3</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_CLOTHES</td>
+<td headers="estimate" class="gt_row gt_center">1.1</td>
+<td headers="conf.low" class="gt_row gt_center">-0.04, 2.3</td>
+<td headers="p.value" class="gt_row gt_center">0.057</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_BODY</td>
+<td headers="estimate" class="gt_row gt_center">0.55</td>
+<td headers="conf.low" class="gt_row gt_center">-0.70, 1.8</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_ANGRY</td>
+<td headers="estimate" class="gt_row gt_center">0.67</td>
+<td headers="conf.low" class="gt_row gt_center">-0.37, 1.7</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_SLEEP</td>
+<td headers="estimate" class="gt_row gt_center">2.2</td>
+<td headers="conf.low" class="gt_row gt_center">0.52, 3.9</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.011</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4"><span class='gt_from_md'>Abbreviation: CI = Confidence Interval</span></td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Linear regression. Adjusted R² = 0.062. N = 368. p-values are unadjusted.</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="coefficient-plot-pss" class="section level2">
+<h2>Coefficient Plot (PSS)</h2>
+<pre class="r"><code>readable_terms &lt;- c(
+  HWISE_REDUCED              = &quot;HWISE reduced score&quot;,
+  HRS_PER_WEEK               = &quot;Hours of supply / week&quot;,
+  CONT_INTIntermittent       = &quot;Supply continuity: Intermittent&quot;,
+  SEASONDry                  = &quot;Season: Dry&quot;,
+  NB_COMPSame                = &quot;Neighborhood comparison: Same as CDMX&quot;,
+  NB_COMPWorse               = &quot;Neighborhood comparison: Worse than CDMX&quot;,
+  TIME_WATERYes              = &quot;Excessive time managing water: Yes&quot;,
+  SUFF_RATING                = &quot;Sufficiency rating (1–4)&quot;,
+  `W_PressureNo/Low`         = &quot;Water pressure: No/Low&quot;,
+  W_FrequencyDaily           = &quot;Supply frequency: Daily&quot;,
+  `W_Frequency4–6 days/week` = &quot;Supply frequency: 4–6 days/wk&quot;,
+  `W_Frequency1–3 days/week` = &quot;Supply frequency: 1–3 days/wk&quot;,
+  W_FrequencyIntermittent    = &quot;Supply frequency: Intermittent&quot;,
+  `W_WS_LOC_FWater Insecure` = &quot;Neighborhood: Water Insecure&quot;,
+  D_LOC_TIME                 = &quot;Years in neighborhood&quot;,
+  D_AGE                      = &quot;Age (years)&quot;,
+  SES_SC_Total               = &quot;SES composite score&quot;,
+  D_HH_SIZE                  = &quot;Household size&quot;,
+  Chronic_disYes             = &quot;Chronic disease: Yes&quot;,
+  HW_WORRY                   = &quot;HWISE: Worry about water&quot;,
+  HW_INTERR                  = &quot;HWISE: Interrupted supply&quot;,
+  HW_CLOTHES                 = &quot;HWISE: Couldn&#39;t wash clothes&quot;,
+  HW_PLANS                   = &quot;HWISE: Plans disrupted&quot;,
+  HW_FOOD                    = &quot;HWISE: Food preparation affected&quot;,
+  HW_HANDS                   = &quot;HWISE: Couldn&#39;t wash hands&quot;,
+  HW_BODY                    = &quot;HWISE: Couldn&#39;t bathe&quot;,
+  HW_DRINK                   = &quot;HWISE: Not enough to drink&quot;,
+  HW_ANGRY                   = &quot;HWISE: Felt angry&quot;,
+  HW_SLEEP                   = &quot;HWISE: Went to sleep thirsty&quot;,
+  HW_NONE                    = &quot;HWISE: No water at all&quot;,
+  HW_SHAME                   = &quot;HWISE: Felt shame&quot;
+)
+
+coef_pss_full &lt;- tidy(pss_full, conf.int = TRUE) %&gt;%
+  filter(term != &quot;(Intercept)&quot;) %&gt;%
+  mutate(
+    term_label = coalesce(readable_terms[term], term),
+    is_core    = term %in% c(&quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;, &quot;Chronic_disYes&quot;),
+    sig_col    = case_when(
+      p.value &lt; 0.05 &amp; !is_core ~ &quot;Significant (p&lt;0.05)&quot;,
+      !is_core                   ~ &quot;Non-significant&quot;,
+      TRUE                       ~ &quot;Core covariate&quot;
+    )
+  ) %&gt;%
+  arrange(is_core, estimate)
+
+coef_pss_full$term_label &lt;- factor(coef_pss_full$term_label,
+                                   levels = unique(coef_pss_full$term_label))
+
+p_pss_full &lt;- ggplot(coef_pss_full,
+                     aes(x = estimate, y = term_label,
+                         xmin = conf.low, xmax = conf.high,
+                         colour = sig_col, shape = is_core)) +
+  geom_vline(xintercept = 0, linetype = &quot;dashed&quot;, colour = &quot;grey50&quot;, linewidth = 0.5) +
+  geom_errorbarh(height = 0.3, linewidth = 0.6) +
+  geom_point(size = 3) +
+  scale_colour_manual(
+    name   = NULL,
+    values = c(
+      &quot;Significant (p&lt;0.05)&quot; = &quot;#c0392b&quot;,
+      &quot;Non-significant&quot;      = &quot;grey50&quot;,
+      &quot;Core covariate&quot;       = &quot;#2980b9&quot;
+    )
+  ) +
+  scale_shape_manual(
+    name   = NULL,
+    values = c(&quot;TRUE&quot; = 17, &quot;FALSE&quot; = 16),
+    labels = c(&quot;TRUE&quot; = &quot;Core covariate&quot;, &quot;FALSE&quot; = &quot;Focal predictor&quot;)
+  ) +
+  labs(
+    title    = &quot;Full PSS Model — All significant predictors (Aim 1 &amp; Aim 2)&quot;,
+    subtitle = &quot;Linear regression; outcome: Perceived Stress Score (PSS_TOTAL)&quot;,
+    caption  = &quot;Red = p &lt; 0.05  |  Blue triangles = core covariates  |  95% CI shown&quot;,
+    x        = &quot;β coefficient (95% CI)&quot;,
+    y        = NULL
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    plot.title         = element_text(face = &quot;bold&quot;, size = 12),
+    axis.text.y        = element_text(size = 9),
+    panel.grid.major.x = element_line(colour = &quot;grey88&quot;, linewidth = 0.3),
+    legend.position    = &quot;bottom&quot;
+  )
+
+p_pss_full</code></pre>
+<p><img src="figure/10.full_models.Rmd/pss-full-plot-1.png" width="864" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;./output/figures/10.pss_full_model.png&quot;, p_pss_full,
+       width = 9, height = 7, dpi = 300, bg = &quot;white&quot;)
+cat(&quot;Saved: ./output/figures/10.pss_full_model.png\n&quot;)</code></pre>
+<pre><code>Saved: ./output/figures/10.pss_full_model.png</code></pre>
+<hr />
+</div>
+</div>
+<div id="section-4-emo-full-model" class="section level1">
+<h1>Section 4: EMO Full Model</h1>
+<div id="build-and-fit-1" class="section level2">
+<h2>Build and Fit</h2>
+<pre class="r"><code>core_vars_emo &lt;- c(&quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;, &quot;Chronic_dis&quot;,
+                   &quot;PSS_TOTAL&quot;, &quot;D_LOC_TIME&quot;)
+
+sig_vars_emo_clean &lt;- setdiff(sig_vars_emo, core_vars_emo)
+
+if (length(sig_vars_emo_clean) == 0) {
+  warning(&quot;No significant EMO predictors identified. Using SEASON as placeholder.&quot;)
+  sig_vars_emo_clean &lt;- &quot;SEASON&quot;
+}
+
+cat(&quot;EMO full model predictors (beyond core covariates):\n&quot;)</code></pre>
+<pre><code>EMO full model predictors (beyond core covariates):</code></pre>
+<pre class="r"><code>cat(paste(&quot; -&quot;, sig_vars_emo_clean), sep = &quot;\n&quot;)</code></pre>
+<pre><code> - HWISE_REDUCED
+ - W_WS_LOC_F
+ - HW_WORRY
+ - HW_INTERR
+ - HW_CLOTHES
+ - HW_PLANS
+ - HW_FOOD
+ - HW_HANDS
+ - HW_BODY
+ - HW_DRINK
+ - HW_ANGRY
+ - HW_NONE
+ - HW_SHAME
+ - HRS_PER_WEEK
+ - CONT_INT
+ - NB_COMP
+ - TIME_WATER
+ - SUFF_RATING
+ - W_Pressure
+ - W_Frequency</code></pre>
+<pre class="r"><code>emo_full_formula &lt;- as.formula(
+  paste(&quot;EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis +&quot;,
+        paste(sig_vars_emo_clean, collapse = &quot; + &quot;))
+)
+
+cat(&quot;\nFull EMO formula:\n&quot;)</code></pre>
+<pre><code>
+Full EMO formula:</code></pre>
+<pre class="r"><code>print(emo_full_formula)</code></pre>
+<pre><code>EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + 
+    HWISE_REDUCED + W_WS_LOC_F + HW_WORRY + HW_INTERR + HW_CLOTHES + 
+    HW_PLANS + HW_FOOD + HW_HANDS + HW_BODY + HW_DRINK + HW_ANGRY + 
+    HW_NONE + HW_SHAME + HRS_PER_WEEK + CONT_INT + NB_COMP + 
+    TIME_WATER + SUFF_RATING + W_Pressure + W_Frequency</code></pre>
+<pre class="r"><code>emo_full &lt;- glm(emo_full_formula, data = df, family = binomial, na.action = na.omit)
+cat(&quot;\nN =&quot;, nobs(emo_full), &quot;\n&quot;)</code></pre>
+<pre><code>
+N = 257 </code></pre>
+<pre class="r"><code>cat(&quot;AIC =&quot;, round(AIC(emo_full), 1), &quot;\n&quot;)</code></pre>
+<pre><code>AIC = 269.7 </code></pre>
+</div>
+<div id="regression-table-emo" class="section level2">
+<h2>Regression Table (EMO)</h2>
+<pre class="r"><code>label_list_emo &lt;- list(
+  D_AGE         ~ &quot;Age (years)&quot;,
+  SES_SC_Total  ~ &quot;SES composite score&quot;,
+  D_HH_SIZE     ~ &quot;Household size&quot;,
+  Chronic_dis   ~ &quot;Chronic disease&quot;,
+  PSS_TOTAL     ~ &quot;PSS total score&quot;,
+  D_LOC_TIME    ~ &quot;Years in neighborhood&quot;,
+  HWISE_REDUCED ~ &quot;HWISE reduced score (0–40)&quot;,
+  HRS_PER_WEEK  ~ &quot;Hours of water supply/week&quot;,
+  CONT_INT      ~ &quot;Supply continuity (ref: Continuous)&quot;,
+  SEASON        ~ &quot;Season (ref: Rainy)&quot;,
+  NB_COMP       ~ &quot;Neighborhood comparison (ref: Better)&quot;,
+  TIME_WATER    ~ &quot;Excessive time managing water (ref: No)&quot;,
+  SUFF_RATING   ~ &quot;Sufficiency rating (1–4)&quot;,
+  W_Pressure    ~ &quot;Water pressure (ref: Yes)&quot;,
+  W_Frequency   ~ &quot;Supply frequency (ref: Continuous)&quot;,
+  W_WS_LOC_F    ~ &quot;Neighborhood water security (ref: Water Secure)&quot;
+)
+
+model_vars_emo &lt;- all.vars(emo_full_formula)
+label_list_emo_filtered &lt;- label_list_emo[
+  sapply(label_list_emo, function(x) as.character(x[[2]]) %in% model_vars_emo)
+]
+
+tbl_emo &lt;- tbl_regression(
+  emo_full,
+  label      = label_list_emo_filtered,
+  conf.int   = TRUE,
+  exponentiate = TRUE
+) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  italicize_levels() %&gt;%
+  modify_header(estimate ~ &quot;**OR**&quot;) %&gt;%
+  modify_caption(
+    &quot;**Full EMO Model**: All significant predictors from Aim 1 &amp; Aim 2&quot;
+  ) %&gt;%
+  modify_footnote(
+    update = everything() ~ paste0(
+      &quot;Logistic regression. Estimates are odds ratios. N = &quot;, nobs(emo_full),
+      &quot;. p-values are unadjusted.&quot;
+    )
+  )
+
+tbl_emo</code></pre>
+<div id="nciljyjgmm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nciljyjgmm table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#nciljyjgmm thead, #nciljyjgmm tbody, #nciljyjgmm tfoot, #nciljyjgmm tr, #nciljyjgmm td, #nciljyjgmm th {
+  border-style: none;
+}
+
+#nciljyjgmm p {
+  margin: 0;
+  padding: 0;
+}
+
+#nciljyjgmm .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#nciljyjgmm .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nciljyjgmm .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nciljyjgmm .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nciljyjgmm .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nciljyjgmm .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nciljyjgmm .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nciljyjgmm .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nciljyjgmm .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#nciljyjgmm .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#nciljyjgmm .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nciljyjgmm .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nciljyjgmm .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nciljyjgmm .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nciljyjgmm .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nciljyjgmm .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nciljyjgmm .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nciljyjgmm .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#nciljyjgmm .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nciljyjgmm .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nciljyjgmm .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nciljyjgmm .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nciljyjgmm .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nciljyjgmm .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nciljyjgmm .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nciljyjgmm .gt_left {
+  text-align: left;
+}
+
+#nciljyjgmm .gt_center {
+  text-align: center;
+}
+
+#nciljyjgmm .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nciljyjgmm .gt_font_normal {
+  font-weight: normal;
+}
+
+#nciljyjgmm .gt_font_bold {
+  font-weight: bold;
+}
+
+#nciljyjgmm .gt_font_italic {
+  font-style: italic;
+}
+
+#nciljyjgmm .gt_super {
+  font-size: 65%;
+}
+
+#nciljyjgmm .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#nciljyjgmm .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nciljyjgmm .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#nciljyjgmm .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#nciljyjgmm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#nciljyjgmm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#nciljyjgmm .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#nciljyjgmm .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#nciljyjgmm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Full EMO Model</strong>: All significant predictors from Aim 1 &amp; Aim 2</span></caption>
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate"><span class='gt_from_md'><strong>OR</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low"><span class='gt_from_md'><strong>95% CI</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Age (years)</td>
+<td headers="estimate" class="gt_row gt_center">1.04</td>
+<td headers="conf.low" class="gt_row gt_center">0.99, 1.10</td>
+<td headers="p.value" class="gt_row gt_center">0.12</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES composite score</td>
+<td headers="estimate" class="gt_row gt_center">1.00</td>
+<td headers="conf.low" class="gt_row gt_center">0.99, 1.01</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Household size</td>
+<td headers="estimate" class="gt_row gt_center">1.00</td>
+<td headers="conf.low" class="gt_row gt_center">0.91, 1.09</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">PSS total score</td>
+<td headers="estimate" class="gt_row gt_center">1.06</td>
+<td headers="conf.low" class="gt_row gt_center">1.01, 1.12</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.012</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Chronic disease</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">0.64</td>
+<td headers="conf.low" class="gt_row gt_center">0.25, 1.64</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HWISE reduced score (0–40)</td>
+<td headers="estimate" class="gt_row gt_center">0.46</td>
+<td headers="conf.low" class="gt_row gt_center">0.18, 1.11</td>
+<td headers="p.value" class="gt_row gt_center">0.087</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Neighborhood water security (ref: Water Secure)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Water Secure</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Water Insecure</td>
+<td headers="estimate" class="gt_row gt_center">1.16</td>
+<td headers="conf.low" class="gt_row gt_center">0.38, 3.46</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_WORRY</td>
+<td headers="estimate" class="gt_row gt_center">3.49</td>
+<td headers="conf.low" class="gt_row gt_center">1.25, 10.3</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.020</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_INTERR</td>
+<td headers="estimate" class="gt_row gt_center">1.65</td>
+<td headers="conf.low" class="gt_row gt_center">0.58, 4.82</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_CLOTHES</td>
+<td headers="estimate" class="gt_row gt_center">3.22</td>
+<td headers="conf.low" class="gt_row gt_center">1.19, 9.15</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.024</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_PLANS</td>
+<td headers="estimate" class="gt_row gt_center">3.39</td>
+<td headers="conf.low" class="gt_row gt_center">1.26, 9.83</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.019</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_FOOD</td>
+<td headers="estimate" class="gt_row gt_center">3.81</td>
+<td headers="conf.low" class="gt_row gt_center">1.11, 14.7</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.041</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_HANDS</td>
+<td headers="estimate" class="gt_row gt_center">1.19</td>
+<td headers="conf.low" class="gt_row gt_center">0.36, 3.97</td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_BODY</td>
+<td headers="estimate" class="gt_row gt_center">2.36</td>
+<td headers="conf.low" class="gt_row gt_center">0.76, 7.59</td>
+<td headers="p.value" class="gt_row gt_center">0.14</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_DRINK</td>
+<td headers="estimate" class="gt_row gt_center">4.49</td>
+<td headers="conf.low" class="gt_row gt_center">1.08, 20.5</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.043</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_ANGRY</td>
+<td headers="estimate" class="gt_row gt_center">1.74</td>
+<td headers="conf.low" class="gt_row gt_center">1.04, 2.98</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.038</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_NONE</td>
+<td headers="estimate" class="gt_row gt_center">2.14</td>
+<td headers="conf.low" class="gt_row gt_center">0.78, 6.05</td>
+<td headers="p.value" class="gt_row gt_center">0.14</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HW_SHAME</td>
+<td headers="estimate" class="gt_row gt_center">1.70</td>
+<td headers="conf.low" class="gt_row gt_center">0.57, 5.71</td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Hours of water supply/week</td>
+<td headers="estimate" class="gt_row gt_center">1.01</td>
+<td headers="conf.low" class="gt_row gt_center">1.00, 1.02</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Supply continuity (ref: Continuous)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Continuous</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Intermittent</td>
+<td headers="estimate" class="gt_row gt_center">2.46</td>
+<td headers="conf.low" class="gt_row gt_center">0.83, 7.69</td>
+<td headers="p.value" class="gt_row gt_center">0.11</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Neighborhood comparison (ref: Better)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Better</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Same</td>
+<td headers="estimate" class="gt_row gt_center">2.46</td>
+<td headers="conf.low" class="gt_row gt_center">1.03, 6.03</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.045</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Worse</td>
+<td headers="estimate" class="gt_row gt_center">2.05</td>
+<td headers="conf.low" class="gt_row gt_center">0.79, 5.45</td>
+<td headers="p.value" class="gt_row gt_center">0.15</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Excessive time managing water (ref: No)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">3.61</td>
+<td headers="conf.low" class="gt_row gt_center">1.50, 9.49</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.006</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Sufficiency rating (1–4)</td>
+<td headers="estimate" class="gt_row gt_center">0.79</td>
+<td headers="conf.low" class="gt_row gt_center">0.48, 1.27</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Water pressure (ref: Yes)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No/Low</td>
+<td headers="estimate" class="gt_row gt_center">1.34</td>
+<td headers="conf.low" class="gt_row gt_center">0.42, 4.57</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Supply frequency (ref: Continuous)</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Daily</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    4–6 days/week</td>
+<td headers="estimate" class="gt_row gt_center">1.48</td>
+<td headers="conf.low" class="gt_row gt_center">0.33, 8.01</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    1–3 days/week</td>
+<td headers="estimate" class="gt_row gt_center">1.38</td>
+<td headers="conf.low" class="gt_row gt_center">0.41, 4.88</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4"><span class='gt_from_md'>Abbreviations: CI = Confidence Interval, OR = Odds Ratio</span></td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Logistic regression. Estimates are odds ratios. N = 257. p-values are unadjusted.</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="coefficient-plot-emo" class="section level2">
+<h2>Coefficient Plot (EMO)</h2>
+<pre class="r"><code>coef_emo_full &lt;- tidy(emo_full, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+  filter(term != &quot;(Intercept)&quot;) %&gt;%
+  mutate(
+    term_label = coalesce(readable_terms[term], term),
+    is_core    = term %in% c(&quot;D_AGE&quot;, &quot;SES_SC_Total&quot;, &quot;D_HH_SIZE&quot;,
+                              &quot;Chronic_disYes&quot;, &quot;PSS_TOTAL&quot;),
+    sig_col    = case_when(
+      p.value &lt; 0.05 &amp; !is_core ~ &quot;Significant (p&lt;0.05)&quot;,
+      !is_core                   ~ &quot;Non-significant&quot;,
+      TRUE                       ~ &quot;Core covariate&quot;
+    )
+  ) %&gt;%
+  arrange(is_core, estimate)
+
+coef_emo_full$term_label &lt;- factor(coef_emo_full$term_label,
+                                   levels = unique(coef_emo_full$term_label))
+
+p_emo_full &lt;- ggplot(coef_emo_full,
+                     aes(x = estimate, y = term_label,
+                         xmin = conf.low, xmax = conf.high,
+                         colour = sig_col, shape = is_core)) +
+  geom_vline(xintercept = 1, linetype = &quot;dashed&quot;, colour = &quot;grey50&quot;, linewidth = 0.5) +
+  geom_errorbarh(height = 0.3, linewidth = 0.6) +
+  geom_point(size = 3) +
+  scale_colour_manual(
+    name   = NULL,
+    values = c(
+      &quot;Significant (p&lt;0.05)&quot; = &quot;#c0392b&quot;,
+      &quot;Non-significant&quot;      = &quot;grey50&quot;,
+      &quot;Core covariate&quot;       = &quot;#2980b9&quot;
+    )
+  ) +
+  scale_shape_manual(
+    name   = NULL,
+    values = c(&quot;TRUE&quot; = 17, &quot;FALSE&quot; = 16),
+    labels = c(&quot;TRUE&quot; = &quot;Core covariate&quot;, &quot;FALSE&quot; = &quot;Focal predictor&quot;)
+  ) +
+  scale_x_log10() +
+  labs(
+    title    = &quot;Full EMO Model — All significant predictors (Aim 1 &amp; Aim 2)&quot;,
+    subtitle = &quot;Logistic regression; outcome: Negative water emotion (EMO_NEG)&quot;,
+    caption  = &quot;Red = p &lt; 0.05  |  Blue triangles = core covariates  |  95% CI shown\nX-axis on log scale; OR = 1 (dashed line) indicates no association.&quot;,
+    x        = &quot;Odds Ratio (95% CI, log scale)&quot;,
+    y        = NULL
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    plot.title         = element_text(face = &quot;bold&quot;, size = 12),
+    axis.text.y        = element_text(size = 9),
+    panel.grid.major.x = element_line(colour = &quot;grey88&quot;, linewidth = 0.3),
+    legend.position    = &quot;bottom&quot;
+  )
+
+p_emo_full</code></pre>
+<p><img src="figure/10.full_models.Rmd/emo-full-plot-1.png" width="864" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(&quot;./output/figures/10.emo_full_model.png&quot;, p_emo_full,
+       width = 9, height = 7, dpi = 300, bg = &quot;white&quot;)
+cat(&quot;Saved: ./output/figures/10.emo_full_model.png\n&quot;)</code></pre>
+<pre><code>Saved: ./output/figures/10.emo_full_model.png</code></pre>
+<hr />
+</div>
+</div>
+<div id="section-4b-sensitivity-analysis-hwise-reduced-score"
+class="section level1">
+<h1>Section 4b: Sensitivity Analysis — HWISE Reduced Score</h1>
+<blockquote>
+<p><strong>Collinearity note</strong>: Individual HWISE items are highly
+correlated. Including multiple items in the full model simultaneously
+may produce inflated standard errors and unstable estimates. This
+sensitivity analysis substitutes the HWISE reduced composite score
+(<code>HWISE_REDUCED</code>) for any individual HWISE items that
+appeared in the main full model.</p>
+</blockquote>
+<pre class="r"><code># Replace individual HWISE items with HWISE_REDUCED composite
+hwise_item_names &lt;- hwise_items  # the 12 individual items
+
+sig_vars_pss_sens &lt;- sig_vars_pss_clean
+has_hwise_items_pss &lt;- any(sig_vars_pss_sens %in% hwise_item_names)
+
+if (has_hwise_items_pss) {
+  sig_vars_pss_sens &lt;- c(
+    setdiff(sig_vars_pss_sens, hwise_item_names),
+    &quot;HWISE_REDUCED&quot;
+  )
+  cat(&quot;PSS sensitivity model: replaced individual HWISE items with HWISE_REDUCED\n&quot;)
+} else {
+  cat(&quot;PSS sensitivity: no individual HWISE items in main model — unchanged\n&quot;)
+}</code></pre>
+<pre><code>PSS sensitivity model: replaced individual HWISE items with HWISE_REDUCED</code></pre>
+<pre class="r"><code>pss_sens_formula &lt;- as.formula(
+  paste(&quot;PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +&quot;,
+        paste(sig_vars_pss_sens, collapse = &quot; + &quot;))
+)
+pss_sens &lt;- lm(pss_sens_formula, data = df, na.action = na.omit)
+
+cat(&quot;PSS sensitivity model Adj. R² =&quot;, round(summary(pss_sens)$adj.r.squared, 3),
+    &quot;| N =&quot;, nobs(pss_sens), &quot;\n&quot;)</code></pre>
+<pre><code>PSS sensitivity model Adj. R² = 0.053 | N = 368 </code></pre>
+<pre class="r"><code>tbl_pss_sens &lt;- tbl_regression(pss_sens, conf.int = TRUE) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  italicize_levels() %&gt;%
+  modify_caption(&quot;**PSS Sensitivity Model**: HWISE composite instead of individual items&quot;)
+tbl_pss_sens</code></pre>
+<div id="kinksqzwjd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kinksqzwjd table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kinksqzwjd thead, #kinksqzwjd tbody, #kinksqzwjd tfoot, #kinksqzwjd tr, #kinksqzwjd td, #kinksqzwjd th {
+  border-style: none;
+}
+
+#kinksqzwjd p {
+  margin: 0;
+  padding: 0;
+}
+
+#kinksqzwjd .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kinksqzwjd .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kinksqzwjd .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kinksqzwjd .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kinksqzwjd .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kinksqzwjd .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kinksqzwjd .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kinksqzwjd .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kinksqzwjd .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#kinksqzwjd .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#kinksqzwjd .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kinksqzwjd .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kinksqzwjd .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kinksqzwjd .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kinksqzwjd .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kinksqzwjd .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kinksqzwjd .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kinksqzwjd .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#kinksqzwjd .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kinksqzwjd .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kinksqzwjd .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kinksqzwjd .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kinksqzwjd .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kinksqzwjd .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kinksqzwjd .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kinksqzwjd .gt_left {
+  text-align: left;
+}
+
+#kinksqzwjd .gt_center {
+  text-align: center;
+}
+
+#kinksqzwjd .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kinksqzwjd .gt_font_normal {
+  font-weight: normal;
+}
+
+#kinksqzwjd .gt_font_bold {
+  font-weight: bold;
+}
+
+#kinksqzwjd .gt_font_italic {
+  font-style: italic;
+}
+
+#kinksqzwjd .gt_super {
+  font-size: 65%;
+}
+
+#kinksqzwjd .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#kinksqzwjd .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kinksqzwjd .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#kinksqzwjd .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#kinksqzwjd .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kinksqzwjd .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kinksqzwjd .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#kinksqzwjd .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#kinksqzwjd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>PSS Sensitivity Model</strong>: HWISE composite instead of individual items</span></caption>
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate"><span class='gt_from_md'><strong>Beta</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">D_AGE</td>
+<td headers="estimate" class="gt_row gt_center">-0.11</td>
+<td headers="conf.low" class="gt_row gt_center">-0.21, -0.01</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.031</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES_SC_Total</td>
+<td headers="estimate" class="gt_row gt_center">0.00</td>
+<td headers="conf.low" class="gt_row gt_center">-0.02, 0.01</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">D_HH_SIZE</td>
+<td headers="estimate" class="gt_row gt_center">0.02</td>
+<td headers="conf.low" class="gt_row gt_center">-0.21, 0.25</td>
+<td headers="p.value" class="gt_row gt_center">0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Chronic_dis</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">3.4</td>
+<td headers="conf.low" class="gt_row gt_center">1.3, 5.4</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HWISE_REDUCED</td>
+<td headers="estimate" class="gt_row gt_center">0.26</td>
+<td headers="conf.low" class="gt_row gt_center">0.11, 0.40</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SEASON</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Rainy</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Dry</td>
+<td headers="estimate" class="gt_row gt_center">-1.1</td>
+<td headers="conf.low" class="gt_row gt_center">-2.7, 0.59</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4"><span class='gt_from_md'>Abbreviation: CI = Confidence Interval</span></td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+<pre class="r"><code>sig_vars_emo_sens &lt;- sig_vars_emo_clean
+has_hwise_items_emo &lt;- any(sig_vars_emo_sens %in% hwise_item_names)
+
+if (has_hwise_items_emo) {
+  sig_vars_emo_sens &lt;- c(
+    setdiff(sig_vars_emo_sens, hwise_item_names),
+    &quot;HWISE_REDUCED&quot;
+  )
+  cat(&quot;EMO sensitivity model: replaced individual HWISE items with HWISE_REDUCED\n&quot;)
+} else {
+  cat(&quot;EMO sensitivity: no individual HWISE items in main model — unchanged\n&quot;)
+}</code></pre>
+<pre><code>EMO sensitivity model: replaced individual HWISE items with HWISE_REDUCED</code></pre>
+<pre class="r"><code>emo_sens_formula &lt;- as.formula(
+  paste(&quot;EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis +&quot;,
+        paste(sig_vars_emo_sens, collapse = &quot; + &quot;))
+)
+emo_sens &lt;- glm(emo_sens_formula, data = df, family = binomial, na.action = na.omit)
+
+cat(&quot;EMO sensitivity model AIC =&quot;, round(AIC(emo_sens), 1),
+    &quot;| N =&quot;, nobs(emo_sens), &quot;\n&quot;)</code></pre>
+<pre><code>EMO sensitivity model AIC = 269.3 | N = 257 </code></pre>
+<pre class="r"><code>tbl_emo_sens &lt;- tbl_regression(emo_sens, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  italicize_levels() %&gt;%
+  modify_header(estimate ~ &quot;**OR**&quot;) %&gt;%
+  modify_caption(&quot;**EMO Sensitivity Model**: HWISE composite instead of individual items&quot;)
+tbl_emo_sens</code></pre>
+<div id="cjryjrqurl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cjryjrqurl table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cjryjrqurl thead, #cjryjrqurl tbody, #cjryjrqurl tfoot, #cjryjrqurl tr, #cjryjrqurl td, #cjryjrqurl th {
+  border-style: none;
+}
+
+#cjryjrqurl p {
+  margin: 0;
+  padding: 0;
+}
+
+#cjryjrqurl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cjryjrqurl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cjryjrqurl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cjryjrqurl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cjryjrqurl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cjryjrqurl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cjryjrqurl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cjryjrqurl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cjryjrqurl .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cjryjrqurl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cjryjrqurl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cjryjrqurl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cjryjrqurl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cjryjrqurl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cjryjrqurl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cjryjrqurl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cjryjrqurl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cjryjrqurl .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cjryjrqurl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cjryjrqurl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cjryjrqurl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cjryjrqurl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#cjryjrqurl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cjryjrqurl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cjryjrqurl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cjryjrqurl .gt_left {
+  text-align: left;
+}
+
+#cjryjrqurl .gt_center {
+  text-align: center;
+}
+
+#cjryjrqurl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cjryjrqurl .gt_font_normal {
+  font-weight: normal;
+}
+
+#cjryjrqurl .gt_font_bold {
+  font-weight: bold;
+}
+
+#cjryjrqurl .gt_font_italic {
+  font-style: italic;
+}
+
+#cjryjrqurl .gt_super {
+  font-size: 65%;
+}
+
+#cjryjrqurl .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cjryjrqurl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cjryjrqurl .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cjryjrqurl .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cjryjrqurl .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cjryjrqurl .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cjryjrqurl .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#cjryjrqurl .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#cjryjrqurl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>EMO Sensitivity Model</strong>: HWISE composite instead of individual items</span></caption>
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="estimate"><span class='gt_from_md'><strong>OR</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="conf.low"><span class='gt_from_md'><strong>95% CI</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">D_AGE</td>
+<td headers="estimate" class="gt_row gt_center">1.03</td>
+<td headers="conf.low" class="gt_row gt_center">0.98, 1.08</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SES_SC_Total</td>
+<td headers="estimate" class="gt_row gt_center">1.00</td>
+<td headers="conf.low" class="gt_row gt_center">0.99, 1.01</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">D_HH_SIZE</td>
+<td headers="estimate" class="gt_row gt_center">1.01</td>
+<td headers="conf.low" class="gt_row gt_center">0.94, 1.10</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">PSS_TOTAL</td>
+<td headers="estimate" class="gt_row gt_center">1.06</td>
+<td headers="conf.low" class="gt_row gt_center">1.02, 1.11</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.009</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Chronic_dis</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">0.59</td>
+<td headers="conf.low" class="gt_row gt_center">0.24, 1.43</td>
+<td headers="p.value" class="gt_row gt_center">0.2</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HWISE_REDUCED</td>
+<td headers="estimate" class="gt_row gt_center">1.20</td>
+<td headers="conf.low" class="gt_row gt_center">1.10, 1.32</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">W_WS_LOC_F</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Water Secure</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Water Insecure</td>
+<td headers="estimate" class="gt_row gt_center">1.02</td>
+<td headers="conf.low" class="gt_row gt_center">0.35, 2.85</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">HRS_PER_WEEK</td>
+<td headers="estimate" class="gt_row gt_center">1.01</td>
+<td headers="conf.low" class="gt_row gt_center">1.00, 1.02</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">CONT_INT</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Continuous</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Intermittent</td>
+<td headers="estimate" class="gt_row gt_center">2.84</td>
+<td headers="conf.low" class="gt_row gt_center">1.05, 8.21</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.045</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">NB_COMP</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Better</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Same</td>
+<td headers="estimate" class="gt_row gt_center">2.68</td>
+<td headers="conf.low" class="gt_row gt_center">1.20, 6.15</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.018</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Worse</td>
+<td headers="estimate" class="gt_row gt_center">2.58</td>
+<td headers="conf.low" class="gt_row gt_center">1.06, 6.43</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.039</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">TIME_WATER</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">3.43</td>
+<td headers="conf.low" class="gt_row gt_center">1.48, 8.55</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.005</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">SUFF_RATING</td>
+<td headers="estimate" class="gt_row gt_center">0.80</td>
+<td headers="conf.low" class="gt_row gt_center">0.51, 1.25</td>
+<td headers="p.value" class="gt_row gt_center">0.3</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">W_Pressure</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Yes</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    No/Low</td>
+<td headers="estimate" class="gt_row gt_center">1.28</td>
+<td headers="conf.low" class="gt_row gt_center">0.44, 3.96</td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">W_Frequency</td>
+<td headers="estimate" class="gt_row gt_center"><br /></td>
+<td headers="conf.low" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    Daily</td>
+<td headers="estimate" class="gt_row gt_center">—</td>
+<td headers="conf.low" class="gt_row gt_center">—</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    4–6 days/week</td>
+<td headers="estimate" class="gt_row gt_center">1.58</td>
+<td headers="conf.low" class="gt_row gt_center">0.39, 7.60</td>
+<td headers="p.value" class="gt_row gt_center">0.5</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-style: italic;">    1–3 days/week</td>
+<td headers="estimate" class="gt_row gt_center">1.05</td>
+<td headers="conf.low" class="gt_row gt_center">0.35, 3.32</td>
+<td headers="p.value" class="gt_row gt_center">>0.9</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4"><span class='gt_from_md'>Abbreviations: CI = Confidence Interval, OR = Odds Ratio</span></td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+<hr />
+</div>
+<div id="section-4c-export-to-word" class="section level1">
+<h1>Section 4c: Export to Word</h1>
+<pre class="r"><code># ── Convert gtsummary tables to flextable ─────────────────────────────────────
+ft_pss_full  &lt;- as_flex_table(tbl_pss)
+ft_emo_full  &lt;- as_flex_table(tbl_emo)
+ft_pss_sens  &lt;- as_flex_table(tbl_pss_sens)
+ft_emo_sens  &lt;- as_flex_table(tbl_emo_sens)
+
+# ── Significant predictors summary table ──────────────────────────────────────
+ft_sig_summary &lt;- sig_table %&gt;%
+  flextable() %&gt;%
+  set_header_labels(
+    outcome             = &quot;Outcome&quot;,
+    term                = &quot;Predictor term&quot;,
+    n_models_significant = &quot;# Models significant&quot;,
+    min_p               = &quot;Min p-value&quot;,
+    aims                = &quot;Found in&quot;
+  ) %&gt;%
+  colformat_double(j = &quot;min_p&quot;, digits = 4) %&gt;%
+  bold(part = &quot;header&quot;) %&gt;%
+  theme_booktabs() %&gt;%
+  autofit()
+
+# ── Build Word document ───────────────────────────────────────────────────────
+out_path &lt;- &quot;./output/tables/10.Tables_Full_Models.docx&quot;
+
+doc &lt;- read_docx() %&gt;%
+  # Title
+  body_add_par(&quot;10. Full Models: All Significant Predictors&quot;, style = &quot;heading 1&quot;) %&gt;%
+  body_add_par(paste(&quot;Generated:&quot;, Sys.Date()), style = &quot;Normal&quot;) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+
+  # Section 2: Significant predictors
+  body_add_par(&quot;Significant Predictors Summary&quot;, style = &quot;heading 2&quot;) %&gt;%
+  body_add_par(
+    paste0(&quot;The following predictors had p &lt; 0.05 (unadjusted focal coefficient) &quot;,
+           &quot;in at least one Aim 1 or Aim 2 adjusted model.&quot;),
+    style = &quot;Normal&quot;
+  ) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_sig_summary) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+
+  # Section 3: PSS full model
+  body_add_par(&quot;PSS Full Model (Linear Regression)&quot;, style = &quot;heading 2&quot;) %&gt;%
+  body_add_par(
+    paste0(&quot;Outcome: PSS_TOTAL. Core covariates: Age, SES, Household size, &quot;,
+           &quot;Chronic disease. Additional predictors: all terms significant in &quot;,
+           &quot;Aim 1 or Aim 2 PSS models (p &lt; 0.05).&quot;),
+    style = &quot;Normal&quot;
+  ) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_pss_full) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+
+  # Section 4: EMO full model
+  body_add_par(&quot;EMO Full Model (Logistic Regression)&quot;, style = &quot;heading 2&quot;) %&gt;%
+  body_add_par(
+    paste0(&quot;Outcome: EMO_NEG (1 = negative emotion). Core covariates: Age, SES, &quot;,
+           &quot;Household size, Chronic disease, PSS_TOTAL. Additional predictors: &quot;,
+           &quot;all terms significant in Aim 1 or Aim 2 EMO models (p &lt; 0.05). &quot;,
+           &quot;Estimates are odds ratios.&quot;),
+    style = &quot;Normal&quot;
+  ) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_emo_full) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+
+  # Sensitivity
+  body_add_par(&quot;Sensitivity Analysis: HWISE Composite Score&quot;, style = &quot;heading 2&quot;) %&gt;%
+  body_add_par(
+    paste0(&quot;Individual HWISE items are highly correlated. These models replace &quot;,
+           &quot;all individual HWISE items with the HWISE reduced composite score.&quot;),
+    style = &quot;Normal&quot;
+  ) %&gt;%
+  body_add_par(&quot;PSS Sensitivity Model&quot;, style = &quot;heading 3&quot;) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_pss_sens) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_par(&quot;EMO Sensitivity Model&quot;, style = &quot;heading 3&quot;) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_emo_sens) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;)
+
+print(doc, target = out_path)
+cat(&quot;Saved:&quot;, out_path, &quot;\n&quot;)</code></pre>
+<pre><code>Saved: ./output/tables/10.Tables_Full_Models.docx </code></pre>
+<hr />
+</div>
+<div id="section-5-session-info" class="section level1">
+<h1>Section 5: Session Info</h1>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggstance_0.3.7   officer_0.7.3    flextable_0.9.11 gtsummary_2.5.0 
+ [5] broom_1.0.12     lubridate_1.9.4  forcats_1.0.0    stringr_1.5.1   
+ [9] dplyr_1.2.0      purrr_1.0.4      readr_2.1.5      tidyr_1.3.1     
+[13] tibble_3.2.1     ggplot2_4.0.0    tidyverse_2.0.0 
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
+ [4] tzdb_0.5.0              vctrs_0.7.1             tools_4.5.3            
+ [7] generics_0.1.3          parallel_4.5.3          pkgconfig_2.0.3        
+[10] data.table_1.17.0       RColorBrewer_1.1-3      S7_0.2.0               
+[13] gt_1.0.0                uuid_1.2-1              lifecycle_1.0.5        
+[16] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
+[19] textshaping_1.0.0       litedown_0.7            httpuv_1.6.16          
+[22] fontquiver_0.2.1        fontLiberation_0.1.0    htmltools_0.5.8.1      
+[25] sass_0.4.10             yaml_2.3.10             crayon_1.5.3           
+[28] later_1.4.2             pillar_1.10.2           jquerylib_0.1.4        
+[31] broom.helpers_1.22.0    openssl_2.3.2           cachem_1.1.0           
+[34] fontBitstreamVera_0.1.1 commonmark_2.0.0        zip_2.3.3              
+[37] tidyselect_1.2.1        digest_0.6.37           stringi_1.8.7          
+[40] labeling_0.4.3          labelled_2.16.0         rprojroot_2.1.1        
+[43] fastmap_1.2.0           grid_4.5.3              cli_3.6.5              
+[46] magrittr_2.0.3          cards_0.7.1             patchwork_1.3.1        
+[49] utf8_1.2.4              withr_3.0.2             gdtools_0.5.0          
+[52] scales_1.4.0            promises_1.3.2          backports_1.5.0        
+[55] bit64_4.6.0-1           timechange_0.3.0        rmarkdown_2.30         
+[58] bit_4.6.0               workflowr_1.7.1         askpass_1.2.1          
+[61] ragg_1.4.0              hms_1.1.3               evaluate_1.0.3         
+[64] haven_2.5.4             knitr_1.50              markdown_2.0           
+[67] rlang_1.1.7             Rcpp_1.0.14             glue_1.8.0             
+[70] xml2_1.3.8              vroom_1.6.5             jsonlite_2.0.0         
+[73] R6_2.6.1                systemfonts_1.3.2       fs_1.6.6               </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] ggstance_0.3.7   officer_0.7.3    flextable_0.9.11 gtsummary_2.5.0 
+ [5] broom_1.0.12     lubridate_1.9.4  forcats_1.0.0    stringr_1.5.1   
+ [9] dplyr_1.2.0      purrr_1.0.4      readr_2.1.5      tidyr_1.3.1     
+[13] tibble_3.2.1     ggplot2_4.0.0    tidyverse_2.0.0 
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
+ [4] tzdb_0.5.0              vctrs_0.7.1             tools_4.5.3            
+ [7] generics_0.1.3          parallel_4.5.3          pkgconfig_2.0.3        
+[10] data.table_1.17.0       RColorBrewer_1.1-3      S7_0.2.0               
+[13] gt_1.0.0                uuid_1.2-1              lifecycle_1.0.5        
+[16] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
+[19] textshaping_1.0.0       litedown_0.7            httpuv_1.6.16          
+[22] fontquiver_0.2.1        fontLiberation_0.1.0    htmltools_0.5.8.1      
+[25] sass_0.4.10             yaml_2.3.10             crayon_1.5.3           
+[28] later_1.4.2             pillar_1.10.2           jquerylib_0.1.4        
+[31] broom.helpers_1.22.0    openssl_2.3.2           cachem_1.1.0           
+[34] fontBitstreamVera_0.1.1 commonmark_2.0.0        zip_2.3.3              
+[37] tidyselect_1.2.1        digest_0.6.37           stringi_1.8.7          
+[40] labeling_0.4.3          labelled_2.16.0         rprojroot_2.1.1        
+[43] fastmap_1.2.0           grid_4.5.3              cli_3.6.5              
+[46] magrittr_2.0.3          cards_0.7.1             patchwork_1.3.1        
+[49] utf8_1.2.4              withr_3.0.2             gdtools_0.5.0          
+[52] scales_1.4.0            promises_1.3.2          backports_1.5.0        
+[55] bit64_4.6.0-1           timechange_0.3.0        rmarkdown_2.30         
+[58] bit_4.6.0               workflowr_1.7.1         askpass_1.2.1          
+[61] ragg_1.4.0              hms_1.1.3               evaluate_1.0.3         
+[64] haven_2.5.4             knitr_1.50              markdown_2.0           
+[67] rlang_1.1.7             Rcpp_1.0.14             glue_1.8.0             
+[70] xml2_1.3.8              vroom_1.6.5             jsonlite_2.0.0         
+[73] R6_2.6.1                systemfonts_1.3.2       fs_1.6.6               </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

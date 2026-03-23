@@ -441,10 +441,10 @@ changes </a>
 <div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
 <code>wflow_publish</code> to commit the R Markdown file and build the
 HTML.</p>
 </div>
@@ -537,15 +537,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree015a9dd1890bad37d06ac6d3636942a3fc85dedatargetblank015a9dda">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/015a9dd1890bad37d06ac6d3636942a3fc85deda" target="_blank">015a9dd</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree015a9dd1890bad37d06ac6d3636942a3fc85dedatargetblank015a9dda"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -555,7 +555,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/015a9dd1890bad37d06ac6d3636942a3fc85deda" target="_blank">015a9dd</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -578,81 +578,45 @@ Ignored files:
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Hrs_by_HWISE score.png
-    Ignored:    analysis/figure/
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    figure/.DS_Store
     Ignored:    output/.DS_Store
+    Ignored:    output/figures/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  analysis/07.aim2_emo_models.Rmd
-    Untracked:  analysis/07.aim2_pss_models.Rmd
-    Untracked:  analysis/08.forest_plot_tables.R
-    Untracked:  analysis/08.multivariate_models.Rmd
-    Untracked:  analysis/08.univariate_models.Rmd
-    Untracked:  analysis/09.uv_forest_plot_tables.R
-    Untracked:  analysis/88.power_analysis.txt
-    Untracked:  data/01.SES_consensus.csv
-    Untracked:  data/03.continuous_consensus.csv
-    Untracked:  data/71_missing.csv
-    Untracked:  data/test.csv
-    Untracked:  data/test_processed.csv
-    Untracked:  output/figures/
-    Untracked:  output/tables/
+    Untracked:  output/figures/07.aim2_emo_forest_hwise.png
+    Untracked:  output/figures/07.aim2_emo_forest_main.png
+    Untracked:  output/figures/07.aim2_pss_forest_hwise.png
+    Untracked:  output/figures/07.aim2_pss_forest_main.png
+    Untracked:  output/tables/09.Tables_UV_ForestPlot_Results.docx
+    Untracked:  output/tables/~$.Table_Top5_Emotion_models.docx
 
 Unstaged changes:
-    Modified:   README.md
-    Modified:   analysis/01.Data_cleaning.Rmd
-    Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Modified:   analysis/03.Data_merge_Q1-6.Rmd
-    Modified:   analysis/04.Descriptive_stats.Rmd
-    Deleted:    analysis/06.1.pss_models.Rmd
-    Deleted:    analysis/06.2.emo_type_models.Rmd
-    Deleted:    analysis/07.table_results.Rmd
-    Deleted:    analysis/88.power_analysis.Rmd
-    Modified:   data/01.SCREENING.csv
-    Modified:   data/01.SES_to_review.csv
-    Modified:   data/01.Screening_clean.csv
-    Modified:   data/01.conflicts_reviewed.csv
-    Modified:   data/01.conflicts_reviewed_V2.csv
-    Modified:   data/01.conflicts_to_review.csv
-    Modified:   data/01.conflicts_to_review_V2.csv
-    Modified:   data/02.HWISE_PSS.csv
-    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
-    Modified:   data/03.Merged_Q1-6.csv
-    Modified:   data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
-    Modified:   data/03.continuous_to_review.csv
-    Deleted:    output/07.table_results.docx
-    Deleted:    output/HLTH_counts_by_SES.png
-    Deleted:    output/HWISE_by_question_mean_sd_barplot.png
-    Deleted:    output/HWISE_likert.png
-    Deleted:    output/HWISE_likert_99CCCC_darkgoldenrod.png
-    Deleted:    output/HWISE_likert_cadet_blue_plum4.png
-    Deleted:    output/Q16_likert_plot_rm_participants.png
-    Deleted:    output/Q29_categorical.png
-    Deleted:    output/Table1_sample_characteristics.docx
-    Deleted:    output/TableS1.2_missing_data.docx
-    Deleted:    output/TableS1_full_descriptives.docx
-    Deleted:    output/TableS2.1_HWISE_overall.docx
-    Deleted:    output/TableS2_HWISE_PSS_overall.docx
-    Deleted:    output/TableS3_HWISE_PSS_by_season.docx
-    Deleted:    output/TableS3_HWISE_by_season.docx
-    Deleted:    output/TableS4_characteristics_by_HWISE.docx
-    Deleted:    output/TableS5_water_supply.docx
-    Deleted:    output/TableS5_water_supply_by_neighborhood.docx
-    Deleted:    output/TableS6_all_water_variables_by_season.docx
-    Deleted:    output/TableS6_water_by_neighborhood.docx
-    Deleted:    output/TableS7_HWISE_items_by_neighborhood.docx
-    Deleted:    output/TableS7_water_by_season.docx
-    Deleted:    output/TableS8_HWISE_items_by_season.docx
-    Deleted:    output/coef_plot1.png
-    Deleted:    output/coef_plot2.png
-    Deleted:    output/coef_plot3.png
-    Deleted:    output/plot_with_font.png
-    Deleted:    output/venn_diagram.png
-    Deleted:    output/~$bleS2_HWISE_PSS_overall.docx
+    Modified:   analysis/07.aim2_emo_models.Rmd
+    Modified:   analysis/07.aim2_pss_models.Rmd
+    Modified:   analysis/08.forest_plot_tables.R
+    Modified:   analysis/08.multivariate_models.Rmd
+    Modified:   analysis/08.univariate_models.Rmd
+    Modified:   analysis/09.uv_forest_plot_tables.R
+    Modified:   output/figures/07.famd_cos2_heatmap.png
+    Modified:   output/figures/07.famd_var_contrib.png
+    Modified:   output/figures/07.famd_var_map.png
+    Modified:   output/figures/07.pca_heatmap.png
+    Modified:   output/figures/07.pca_loadings.png
+    Modified:   output/figures/07.poly_cor_heatmap.png
+    Modified:   output/figures/07.poly_pca_heatmap.png
+    Modified:   output/figures/07.poly_pca_loadings.png
+    Deleted:    output/figures/panel_a_coef_plot.png
+    Deleted:    output/figures/panel_b_coef_plot.png
+    Modified:   output/tables/07.Table_Top5_Emotion_models.docx
+    Modified:   output/tables/07.Table_Top5_PSS_models.docx
+    Modified:   output/tables/08.multivariate_models.docx
+    Modified:   output/tables/08.multivariate_models_core.docx
+    Modified:   output/tables/Tables_ForestPlot_Results.docx
+    Modified:   output/tables/Tables_UV_ForestPlot_Results.docx
 
 </code></pre>
 <p>
@@ -668,9 +632,72 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/08.univariate_models.Rmd</code>)
+and HTML (<code>docs/08.univariate_models.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/62e53ab9d52e6e56313fd1c59af7413f98cccbfc/analysis/08.univariate_models.Rmd" target="_blank">62e53ab</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-21
+</td>
+<td>
+upd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/62e53ab9d52e6e56313fd1c59af7413f98cccbfc/docs/08.univariate_models.html" target="_blank">62e53ab</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-21
+</td>
+<td>
+upd
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -1813,6 +1840,43 @@ p_pss &lt;- ggplot(plot_df_pss, aes(x = estimate, y = label_full,
 
 p_pss</code></pre>
 <p><img src="figure/08.univariate_models.Rmd/coef-plot-pss-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-coef-plot-pss-1">
+Past versions of coef-plot-pss-1.png
+</button>
+</p>
+<div id="fig-coef-plot-pss-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/62e53ab9d52e6e56313fd1c59af7413f98cccbfc/docs/figure/08.univariate_models.Rmd/coef-plot-pss-1.png" target="_blank">62e53ab</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(file.path(fig_dir, &quot;07.UV_coef_PSS.png&quot;), p_pss,
        width = 9, height = 8, dpi = 300, bg = &quot;white&quot;)</code></pre>
 <hr />
@@ -2652,6 +2716,43 @@ p_emo &lt;- ggplot(plot_df_emo, aes(x = estimate, y = label_full,
 
 p_emo</code></pre>
 <p><img src="figure/08.univariate_models.Rmd/coef-plot-emo-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-coef-plot-emo-1">
+Past versions of coef-plot-emo-1.png
+</button>
+</p>
+<div id="fig-coef-plot-emo-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/62e53ab9d52e6e56313fd1c59af7413f98cccbfc/docs/figure/08.univariate_models.Rmd/coef-plot-emo-1.png" target="_blank">62e53ab</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggsave(file.path(fig_dir, &quot;07.UV_coef_EMO.png&quot;), p_emo,
        width = 9, height = 8, dpi = 300, bg = &quot;white&quot;)</code></pre>
 <hr />
@@ -2761,15 +2862,15 @@ emo_ft &lt;- make_uv_flextable(
   hi_color    = &quot;#d6eaf8&quot;
 )
 
-save_as_docx(pss_ft, path = file.path(output_dir, &quot;07.TableUV1_uvreg_PSS.docx&quot;))
-save_as_docx(emo_ft, path = file.path(output_dir, &quot;07.TableUV2_uvreg_EmoType.docx&quot;))
+save_as_docx(pss_ft, path = file.path(output_dir, &quot;08.TableUV1_uvreg_PSS.docx&quot;))
+save_as_docx(emo_ft, path = file.path(output_dir, &quot;08.TableUV2_uvreg_EmoType.docx&quot;))
 
 cat(&quot;Exported:\n&quot;,
-    &quot; -&quot;, file.path(output_dir, &quot;07.TableUV1_uvreg_PSS.docx&quot;), &quot;\n&quot;,
-    &quot; -&quot;, file.path(output_dir, &quot;07.TableUV2_uvreg_EmoType.docx&quot;), &quot;\n&quot;)</code></pre>
+    &quot; -&quot;, file.path(output_dir, &quot;08.TableUV1_uvreg_PSS.docx&quot;), &quot;\n&quot;,
+    &quot; -&quot;, file.path(output_dir, &quot;08.TableUV2_uvreg_EmoType.docx&quot;), &quot;\n&quot;)</code></pre>
 <pre><code>Exported:
-  - ./output/tables/07.TableUV1_uvreg_PSS.docx 
-  - ./output/tables/07.TableUV2_uvreg_EmoType.docx </code></pre>
+  - ./output/tables/08.TableUV1_uvreg_PSS.docx 
+  - ./output/tables/08.TableUV2_uvreg_EmoType.docx </code></pre>
 <hr />
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.5.3 (2026-03-11)
@@ -2800,22 +2901,22 @@ loaded via a namespace (and not attached):
  [7] magrittr_2.0.3          evaluate_1.0.3          grid_4.5.3             
 [10] RColorBrewer_1.1-3      fastmap_1.2.0           rprojroot_2.1.1        
 [13] workflowr_1.7.1         jsonlite_2.0.0          zip_2.3.3              
-[16] backports_1.5.0         promises_1.3.2          scales_1.4.0           
-[19] fontBitstreamVera_0.1.1 textshaping_1.0.0       jquerylib_0.1.4        
-[22] cli_3.6.5               rlang_1.1.7             fontquiver_0.2.1       
-[25] litedown_0.7            commonmark_2.0.0        withr_3.0.2            
-[28] cachem_1.1.0            yaml_2.3.10             gdtools_0.5.0          
-[31] tools_4.5.3             uuid_1.2-1              httpuv_1.6.16          
-[34] vctrs_0.7.1             R6_2.6.1                lifecycle_1.0.5        
-[37] git2r_0.36.2            fs_1.6.6                ragg_1.4.0             
-[40] pkgconfig_2.0.3         pillar_1.10.2           bslib_0.9.0            
-[43] later_1.4.2             gtable_0.3.6            glue_1.8.0             
-[46] data.table_1.17.0       Rcpp_1.0.14             systemfonts_1.3.2      
-[49] xfun_0.52               tibble_3.2.1            tidyselect_1.2.1       
-[52] knitr_1.50              farver_2.1.2            patchwork_1.3.1        
-[55] htmltools_0.5.8.1       labeling_0.4.3          rmarkdown_2.30         
-[58] compiler_4.5.3          S7_0.2.0                markdown_2.0           
-[61] askpass_1.2.1           openssl_2.3.2          </code></pre>
+[16] whisker_0.4.1           backports_1.5.0         promises_1.3.2         
+[19] scales_1.4.0            fontBitstreamVera_0.1.1 textshaping_1.0.0      
+[22] jquerylib_0.1.4         cli_3.6.5               rlang_1.1.7            
+[25] fontquiver_0.2.1        litedown_0.7            commonmark_2.0.0       
+[28] withr_3.0.2             cachem_1.1.0            yaml_2.3.10            
+[31] gdtools_0.5.0           tools_4.5.3             uuid_1.2-1             
+[34] httpuv_1.6.16           vctrs_0.7.1             R6_2.6.1               
+[37] lifecycle_1.0.5         git2r_0.36.2            fs_1.6.6               
+[40] ragg_1.4.0              pkgconfig_2.0.3         pillar_1.10.2          
+[43] bslib_0.9.0             later_1.4.2             gtable_0.3.6           
+[46] glue_1.8.0              data.table_1.17.0       Rcpp_1.0.14            
+[49] systemfonts_1.3.2       xfun_0.52               tibble_3.2.1           
+[52] tidyselect_1.2.1        knitr_1.50              farver_2.1.2           
+[55] patchwork_1.3.1         htmltools_0.5.8.1       labeling_0.4.3         
+[58] rmarkdown_2.30          compiler_4.5.3          S7_0.2.0               
+[61] markdown_2.0            askpass_1.2.1           openssl_2.3.2          </code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -2853,22 +2954,22 @@ loaded via a namespace (and not attached):
  [7] magrittr_2.0.3          evaluate_1.0.3          grid_4.5.3             
 [10] RColorBrewer_1.1-3      fastmap_1.2.0           rprojroot_2.1.1        
 [13] workflowr_1.7.1         jsonlite_2.0.0          zip_2.3.3              
-[16] backports_1.5.0         promises_1.3.2          scales_1.4.0           
-[19] fontBitstreamVera_0.1.1 textshaping_1.0.0       jquerylib_0.1.4        
-[22] cli_3.6.5               rlang_1.1.7             fontquiver_0.2.1       
-[25] litedown_0.7            commonmark_2.0.0        withr_3.0.2            
-[28] cachem_1.1.0            yaml_2.3.10             gdtools_0.5.0          
-[31] tools_4.5.3             uuid_1.2-1              httpuv_1.6.16          
-[34] vctrs_0.7.1             R6_2.6.1                lifecycle_1.0.5        
-[37] git2r_0.36.2            fs_1.6.6                ragg_1.4.0             
-[40] pkgconfig_2.0.3         pillar_1.10.2           bslib_0.9.0            
-[43] later_1.4.2             gtable_0.3.6            glue_1.8.0             
-[46] data.table_1.17.0       Rcpp_1.0.14             systemfonts_1.3.2      
-[49] xfun_0.52               tibble_3.2.1            tidyselect_1.2.1       
-[52] knitr_1.50              farver_2.1.2            patchwork_1.3.1        
-[55] htmltools_0.5.8.1       labeling_0.4.3          rmarkdown_2.30         
-[58] compiler_4.5.3          S7_0.2.0                markdown_2.0           
-[61] askpass_1.2.1           openssl_2.3.2          </code></pre>
+[16] whisker_0.4.1           backports_1.5.0         promises_1.3.2         
+[19] scales_1.4.0            fontBitstreamVera_0.1.1 textshaping_1.0.0      
+[22] jquerylib_0.1.4         cli_3.6.5               rlang_1.1.7            
+[25] fontquiver_0.2.1        litedown_0.7            commonmark_2.0.0       
+[28] withr_3.0.2             cachem_1.1.0            yaml_2.3.10            
+[31] gdtools_0.5.0           tools_4.5.3             uuid_1.2-1             
+[34] httpuv_1.6.16           vctrs_0.7.1             R6_2.6.1               
+[37] lifecycle_1.0.5         git2r_0.36.2            fs_1.6.6               
+[40] ragg_1.4.0              pkgconfig_2.0.3         pillar_1.10.2          
+[43] bslib_0.9.0             later_1.4.2             gtable_0.3.6           
+[46] glue_1.8.0              data.table_1.17.0       Rcpp_1.0.14            
+[49] systemfonts_1.3.2       xfun_0.52               tibble_3.2.1           
+[52] tidyselect_1.2.1        knitr_1.50              farver_2.1.2           
+[55] patchwork_1.3.1         htmltools_0.5.8.1       labeling_0.4.3         
+[58] rmarkdown_2.30          compiler_4.5.3          S7_0.2.0               
+[61] markdown_2.0            askpass_1.2.1           openssl_2.3.2          </code></pre>
 </div>
 </div>
 </div>

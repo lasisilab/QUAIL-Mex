@@ -17,10 +17,12 @@ navbar:
     href: 04.descriptive_stats.html
   - text: 5.descr_plots
     href: 05.descriptive_plots.html
-  - text: 6.1.perceoved stress
-    href: 06.1.pss_models.html
-  - text: 6.2.emotional response
-    href: 06.2.emo_type_models.html
+  - text: 6.Unadjusted models
+    href: 06.unadjusted_models.html
+  - text: 7.Aim 1 models
+    href: 07.aim1_models.html
+  - text: 8.Aim 2 models
+    href: 08.aim2_models.html
   - text: Maps
     href: 99.Maps.html
 

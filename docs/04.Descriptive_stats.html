@@ -354,10 +354,13 @@ div.tocify {
   <a href="05.descriptive_plots.html">5.descr_plots</a>
 </li>
 <li>
-  <a href="06.1.pss_models.html">6.1.perceoved stress</a>
+  <a href="06.unadjusted_models.html">6.Unadjusted models</a>
 </li>
 <li>
-  <a href="06.2.emo_type_models.html">6.2.emotional response</a>
+  <a href="07.aim1_models.html">7.Aim 1 models</a>
+</li>
+<li>
+  <a href="08.aim2_models.html">8.Aim 2 models</a>
 </li>
 <li>
   <a href="99.Maps.html">Maps</a>
@@ -405,7 +408,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-21
+<strong>Last updated:</strong> 2026-03-23
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -536,15 +539,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree015a9dd1890bad37d06ac6d3636942a3fc85dedatargetblank015a9dda">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/015a9dd1890bad37d06ac6d3636942a3fc85deda" target="_blank">015a9dd</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree015a9dd1890bad37d06ac6d3636942a3fc85dedatargetblank015a9dda"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -554,7 +557,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/015a9dd1890bad37d06ac6d3636942a3fc85deda" target="_blank">015a9dd</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -582,75 +585,113 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    figure/.DS_Store
     Ignored:    output/.DS_Store
+    Ignored:    output/figures/.DS_Store
+    Ignored:    output/tables/.DS_Store
 
 Untracked files:
     Untracked:  .claude/
-    Untracked:  analysis/07.aim2_emo_models.Rmd
-    Untracked:  analysis/07.aim2_pss_models.Rmd
-    Untracked:  analysis/08.forest_plot_tables.R
-    Untracked:  analysis/08.multivariate_models.Rmd
-    Untracked:  analysis/08.univariate_models.Rmd
-    Untracked:  analysis/09.uv_forest_plot_tables.R
-    Untracked:  analysis/88.power_analysis.txt
-    Untracked:  data/01.SES_consensus.csv
-    Untracked:  data/03.continuous_consensus.csv
-    Untracked:  data/71_missing.csv
-    Untracked:  data/test.csv
-    Untracked:  data/test_processed.csv
-    Untracked:  output/figures/
-    Untracked:  output/tables/
+    Untracked:  analysis/06.unadjusted_models.Rmd
+    Untracked:  analysis/07.aim1_models.Rmd
+    Untracked:  analysis/08.aim2_models.Rmd
+    Untracked:  analysis/09.aim2_hwise_adjusted.Rmd
+    Untracked:  analysis/10.full_models.Rmd
+    Untracked:  output/figures/06.Unadj_coef_EMO.png
+    Untracked:  output/figures/06.Unadj_coef_PSS.png
+    Untracked:  output/figures/07.aim1_panel_a_coef_plot.png
+    Untracked:  output/figures/07.aim1_panel_b_coef_plot.png
+    Untracked:  output/figures/07.aim2_emo_forest.png
+    Untracked:  output/figures/07.aim2_pss_forest.png
+    Untracked:  output/figures/08.aim2_emo_forest.png
+    Untracked:  output/figures/08.aim2_pss_forest.png
+    Untracked:  output/tables/04.Table1_full_descriptives.docx
+    Untracked:  output/tables/04.Table2_HWISE_PSS_by_season.docx
+    Untracked:  output/tables/04.Table3_HWISE_PSS_by_neighborhood.docx
+    Untracked:  output/tables/06.TableUnadj1_unadjreg_PSS.docx
+    Untracked:  output/tables/06.TableUnadj2_unadjreg_EmoType.docx
+    Untracked:  output/tables/06.Tables_Unadj_ForestPlot_Results.docx
+    Untracked:  output/tables/07.Tables_Aim1_ForestPlot_Results.docx
+    Untracked:  output/tables/07.aim1_models.docx
+    Untracked:  output/tables/07.aim1_models_core.docx
+    Untracked:  output/tables/08.TableUV1_uvreg_PSS.docx
+    Untracked:  output/tables/08.TableUV2_uvreg_EmoType.docx
+    Untracked:  output/tables/08.Table_All_Emotion_models.docx
+    Untracked:  output/tables/08.Table_All_PSS_models.docx
+    Untracked:  output/tables/08.Tables_ForestPlot_Results.docx
+    Untracked:  output/tables/08.adjusted_models.docx
+    Untracked:  output/tables/08.adjusted_models_core.docx
+    Untracked:  output/tables/09.Tables_UV_ForestPlot_Results.docx
 
 Unstaged changes:
-    Modified:   README.md
     Modified:   analysis/01.Data_cleaning.Rmd
-    Modified:   analysis/02.Data_merge_HWISE_PSS.Rmd
-    Modified:   analysis/03.Data_merge_Q1-6.Rmd
     Modified:   analysis/04.Descriptive_stats.Rmd
-    Deleted:    analysis/06.1.pss_models.Rmd
-    Deleted:    analysis/06.2.emo_type_models.Rmd
-    Deleted:    analysis/07.table_results.Rmd
-    Deleted:    analysis/88.power_analysis.Rmd
-    Modified:   data/01.SCREENING.csv
-    Modified:   data/01.SES_to_review.csv
+    Deleted:    analysis/07.aim2_emo_models.Rmd
+    Deleted:    analysis/07.aim2_pss_models.Rmd
+    Deleted:    analysis/08.forest_plot_tables.R
+    Deleted:    analysis/08.multivariate_models.Rmd
+    Deleted:    analysis/08.univariate_models.Rmd
+    Deleted:    analysis/09.uv_forest_plot_tables.R
+    Modified:   analysis/_site.yml
     Modified:   data/01.Screening_clean.csv
     Modified:   data/01.conflicts_reviewed.csv
     Modified:   data/01.conflicts_reviewed_V2.csv
     Modified:   data/01.conflicts_to_review.csv
-    Modified:   data/01.conflicts_to_review_V2.csv
-    Modified:   data/02.HWISE_PSS.csv
     Modified:   data/02.Merged_Screening_HWISE_PSS.csv
     Modified:   data/03.Merged_Q1-6.csv
     Modified:   data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
-    Modified:   data/03.continuous_to_review.csv
-    Deleted:    output/07.table_results.docx
-    Deleted:    output/HLTH_counts_by_SES.png
-    Deleted:    output/HWISE_by_question_mean_sd_barplot.png
-    Deleted:    output/HWISE_likert.png
-    Deleted:    output/HWISE_likert_99CCCC_darkgoldenrod.png
-    Deleted:    output/HWISE_likert_cadet_blue_plum4.png
-    Deleted:    output/Q16_likert_plot_rm_participants.png
-    Deleted:    output/Q29_categorical.png
-    Deleted:    output/Table1_sample_characteristics.docx
-    Deleted:    output/TableS1.2_missing_data.docx
-    Deleted:    output/TableS1_full_descriptives.docx
-    Deleted:    output/TableS2.1_HWISE_overall.docx
-    Deleted:    output/TableS2_HWISE_PSS_overall.docx
-    Deleted:    output/TableS3_HWISE_PSS_by_season.docx
-    Deleted:    output/TableS3_HWISE_by_season.docx
-    Deleted:    output/TableS4_characteristics_by_HWISE.docx
-    Deleted:    output/TableS5_water_supply.docx
-    Deleted:    output/TableS5_water_supply_by_neighborhood.docx
-    Deleted:    output/TableS6_all_water_variables_by_season.docx
-    Deleted:    output/TableS6_water_by_neighborhood.docx
-    Deleted:    output/TableS7_HWISE_items_by_neighborhood.docx
-    Deleted:    output/TableS7_water_by_season.docx
-    Deleted:    output/TableS8_HWISE_items_by_season.docx
-    Deleted:    output/coef_plot1.png
-    Deleted:    output/coef_plot2.png
-    Deleted:    output/coef_plot3.png
-    Deleted:    output/plot_with_font.png
-    Deleted:    output/venn_diagram.png
-    Deleted:    output/~$bleS2_HWISE_PSS_overall.docx
+    Modified:   output/figures/07.UV_coef_EMO.png
+    Modified:   output/figures/07.UV_coef_PSS.png
+    Modified:   output/figures/07.famd_cos2_heatmap.png
+    Modified:   output/figures/07.famd_scores.png
+    Modified:   output/figures/07.famd_scree.png
+    Modified:   output/figures/07.famd_var_contrib.png
+    Modified:   output/figures/07.famd_var_map.png
+    Modified:   output/figures/07.pca_heatmap.png
+    Modified:   output/figures/07.pca_loadings.png
+    Modified:   output/figures/07.pca_scores.png
+    Modified:   output/figures/07.pca_scree.png
+    Modified:   output/figures/07.poly_cor_heatmap.png
+    Modified:   output/figures/07.poly_pca_heatmap.png
+    Modified:   output/figures/07.poly_pca_loadings.png
+    Modified:   output/figures/07.ses_comparison_panel_a.png
+    Modified:   output/figures/07.ses_comparison_panel_b.png
+    Deleted:    output/figures/UV_coef_EMO.png
+    Deleted:    output/figures/UV_coef_PSS.png
+    Deleted:    output/figures/famd_cos2_heatmap.png
+    Deleted:    output/figures/famd_scores.png
+    Deleted:    output/figures/famd_scree.png
+    Deleted:    output/figures/famd_var_contrib.png
+    Deleted:    output/figures/famd_var_map.png
+    Deleted:    output/figures/panel_a_coef_plot.png
+    Deleted:    output/figures/panel_b_coef_plot.png
+    Deleted:    output/figures/pca_heatmap.png
+    Deleted:    output/figures/pca_loadings.png
+    Deleted:    output/figures/pca_scores.png
+    Deleted:    output/figures/pca_scree.png
+    Deleted:    output/figures/poly_cor_heatmap.png
+    Deleted:    output/figures/poly_pca_heatmap.png
+    Deleted:    output/figures/poly_pca_loadings.png
+    Deleted:    output/figures/poly_pca_scores.png
+    Deleted:    output/figures/poly_pca_scree.png
+    Deleted:    output/figures/ses_comparison_panel_a.png
+    Deleted:    output/figures/ses_comparison_panel_b.png
+    Modified:   output/tables/04.Table1_sample_characteristics.docx
+    Modified:   output/tables/04.missing_table.docx
+    Modified:   output/tables/04.missing_table_by_season.docx
+    Modified:   output/tables/07.Table_Top5_Emotion_models.docx
+    Modified:   output/tables/07.Table_Top5_PSS_models.docx
+    Modified:   output/tables/08.multivariate_models.docx
+    Modified:   output/tables/08.multivariate_models_core.docx
+    Deleted:    output/tables/Table1_sample_characteristics.docx
+    Deleted:    output/tables/TableS1.2_missing_data.docx
+    Deleted:    output/tables/TableS1_full_descriptives.docx
+    Deleted:    output/tables/TableS2_HWISE_PSS_by_season.docx
+    Deleted:    output/tables/TableS3_HWISE_PSS_by_neighborhood.docx
+    Modified:   output/tables/Tables_ForestPlot_Results.docx
+    Modified:   output/tables/Tables_UV_ForestPlot_Results.docx
+    Deleted:    output/tables/missing_table.docx
+    Deleted:    output/tables/missing_table_by_season.docx
+    Deleted:    output/tables/~$ble_Top5_PSS_models.docx
+    Deleted:    output/tables/~$bles_ForestPlot_Results.docx
 
 </code></pre>
 <p>
@@ -1461,10 +1502,10 @@ N = 196</span></th>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years), Mean (SD)</td>
-<td headers="stat_0" class="gt_row gt_center">32.2 (7.4)</td>
+<td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
 <td headers="stat_1" class="gt_row gt_center">33.2 (7.1)</td>
 <td headers="stat_2" class="gt_row gt_center">31.3 (7.6)</td>
-<td headers="p.value" class="gt_row gt_center">0.012</td>
+<td headers="p.value" class="gt_row gt_center">0.011</td>
 <td headers="n" class="gt_row gt_center">0.50%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood, Mean (SD)</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
@@ -2178,10 +2219,10 @@ N = 196</span></th>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age, Mean (SD)</td>
-<td headers="stat_0" class="gt_row gt_center">32.2 (7.4)</td>
+<td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
 <td headers="stat_1" class="gt_row gt_center">33.2 (7.1)</td>
 <td headers="stat_2" class="gt_row gt_center">31.3 (7.6)</td>
-<td headers="p.value" class="gt_row gt_center">0.012</td></tr>
+<td headers="p.value" class="gt_row gt_center">0.011</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood, Mean (SD)</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
 <td headers="stat_1" class="gt_row gt_center gt_striped">22.7 (11.3)</td>
@@ -2488,7 +2529,6 @@ missing_tbl &lt;- df %&gt;%
   ) %&gt;%
   select(label, n_complete, pct_complete,
          n_na, pct_na,
-         n_flagged, pct_flagged,
          n_999, n_888, n_777, n_666, n_555, n_444, n_333) %&gt;%
   arrange(desc(n_na))
 
@@ -2523,7 +2563,6 @@ missing_tbl_print &lt;- missing_tbl_trimmed %&gt;%
   tab_header(title = &quot;Missing Data Summary&quot;) %&gt;%
   tab_spanner(label = &quot;Complete&quot;,  columns = c(n_complete, pct_complete)) %&gt;%
   tab_spanner(label = &quot;True NA&quot;,   columns = c(n_na, pct_na)) %&gt;%
-  tab_spanner(label = &quot;Flagged&quot;,   columns = c(n_flagged, pct_flagged)) %&gt;%
   { if (length(active_sentinel_cols) &gt; 0)
       tab_spanner(., label = &quot;Sentinel code breakdown&quot;,
                   columns = all_of(active_sentinel_cols))
@@ -2532,7 +2571,6 @@ missing_tbl_print &lt;- missing_tbl_trimmed %&gt;%
     label        = &quot;Variable&quot;,
     n_complete   = &quot;n&quot;, pct_complete = &quot;%&quot;,
     n_na         = &quot;n&quot;, pct_na       = &quot;%&quot;,
-    n_flagged    = &quot;n&quot;, pct_flagged  = &quot;%&quot;,
     .list        = sentinel_label_list
   ) %&gt;%
   fmt_number(columns = where(is.numeric), decimals = 0) %&gt;%
@@ -2991,7 +3029,7 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_heading">
-      <td colspan="10" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Missing Data Summary</td>
+      <td colspan="8" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Missing Data Summary</td>
     </tr>
     
     <tr class="gt_col_headings gt_spanner_row">
@@ -3002,9 +3040,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="True NA">
         <div class="gt_column_spanner">True NA</div>
       </th>
-      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="Flagged">
-        <div class="gt_column_spanner">Flagged</div>
-      </th>
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="Sentinel code breakdown">
         <div class="gt_column_spanner">Sentinel code breakdown</div>
       </th>
@@ -3014,8 +3049,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="pct_complete">pct_complete</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_na">n_na</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="pct_na">pct_na</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_flagged">n_flagged</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="pct_flagged">pct_flagged</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_555">Other</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_444">Ambiguous</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="n_333">Pending</th>
@@ -3027,8 +3060,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">54</td>
 <td headers="n_na" class="gt_row gt_right">129</td>
 <td headers="pct_na" class="gt_row gt_right">32</td>
-<td headers="n_flagged" class="gt_row gt_right">55</td>
-<td headers="pct_flagged" class="gt_row gt_right">14</td>
 <td headers="n_555" class="gt_row gt_right">55</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3037,8 +3068,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">92</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">31</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">8</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">2</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">2</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">0</td></tr>
@@ -3047,8 +3076,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">96</td>
 <td headers="n_na" class="gt_row gt_right">17</td>
 <td headers="pct_na" class="gt_row gt_right">4</td>
-<td headers="n_flagged" class="gt_row gt_right">0</td>
-<td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_555" class="gt_row gt_right">0</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3057,8 +3084,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">96</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">15</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">4</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">1</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">1</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">0</td></tr>
@@ -3067,8 +3092,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">96</td>
 <td headers="n_na" class="gt_row gt_right">15</td>
 <td headers="pct_na" class="gt_row gt_right">4</td>
-<td headers="n_flagged" class="gt_row gt_right">0</td>
-<td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_555" class="gt_row gt_right">0</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3077,8 +3100,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">96</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">14</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">4</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">4</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">1</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">1</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">1</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">2</td></tr>
@@ -3087,8 +3108,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">88</td>
 <td headers="n_na" class="gt_row gt_right">14</td>
 <td headers="pct_na" class="gt_row gt_right">4</td>
-<td headers="n_flagged" class="gt_row gt_right">34</td>
-<td headers="pct_flagged" class="gt_row gt_right">9</td>
 <td headers="n_555" class="gt_row gt_right">34</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3097,8 +3116,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">84</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">13</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">3</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">50</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">13</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">50</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">0</td></tr>
@@ -3107,8 +3124,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">98</td>
 <td headers="n_na" class="gt_row gt_right">6</td>
 <td headers="pct_na" class="gt_row gt_right">2</td>
-<td headers="n_flagged" class="gt_row gt_right">0</td>
-<td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_555" class="gt_row gt_right">0</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3117,8 +3132,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">98</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">6</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">2</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">0</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">0</td></tr>
@@ -3127,8 +3140,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">100</td>
 <td headers="n_na" class="gt_row gt_right">2</td>
 <td headers="pct_na" class="gt_row gt_right">0</td>
-<td headers="n_flagged" class="gt_row gt_right">0</td>
-<td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_555" class="gt_row gt_right">0</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3137,8 +3148,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">100</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">0</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">0</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">0</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">0</td></tr>
@@ -3147,8 +3156,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right">100</td>
 <td headers="n_na" class="gt_row gt_right">0</td>
 <td headers="pct_na" class="gt_row gt_right">0</td>
-<td headers="n_flagged" class="gt_row gt_right">0</td>
-<td headers="pct_flagged" class="gt_row gt_right">0</td>
 <td headers="n_555" class="gt_row gt_right">0</td>
 <td headers="n_444" class="gt_row gt_right">0</td>
 <td headers="n_333" class="gt_row gt_right">0</td></tr>
@@ -3157,8 +3164,6 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
 <td headers="pct_complete" class="gt_row gt_right gt_striped">100</td>
 <td headers="n_na" class="gt_row gt_right gt_striped">0</td>
 <td headers="pct_na" class="gt_row gt_right gt_striped">0</td>
-<td headers="n_flagged" class="gt_row gt_right gt_striped">0</td>
-<td headers="pct_flagged" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_555" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_444" class="gt_row gt_right gt_striped">0</td>
 <td headers="n_333" class="gt_row gt_right gt_striped">0</td></tr>
@@ -3166,7 +3171,7 @@ missing_tbl_print |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code><
   
   <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="10"> 555=Other, 444=Ambiguous, 333=Pending</td>
+      <td class="gt_footnote" colspan="8"> 555=Other, 444=Ambiguous, 333=Pending</td>
     </tr>
   </tfoot>
 </table>
@@ -6084,11 +6089,11 @@ N = 111</span></th>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years), Mean (SD)</td>
-<td headers="stat_0" class="gt_row gt_center">32.2 (7.4)</td>
+<td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
 <td headers="stat_1" class="gt_row gt_center">33.0 (7.0)</td>
 <td headers="stat_2" class="gt_row gt_center">31.9 (7.3)</td>
 <td headers="stat_3" class="gt_row gt_center">32.2 (8.0)</td>
-<td headers="p.value" class="gt_row gt_center">0.479</td></tr>
+<td headers="p.value" class="gt_row gt_center">0.496</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood, Mean (SD)</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
 <td headers="stat_1" class="gt_row gt_center gt_striped">22.9 (11.0)</td>
@@ -6398,11 +6403,7 @@ ggplot(hwise_long, aes(x = pct, y = item, fill = response)) +
     axis.text.y        = element_text(size = 10),
     axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)
   ) + coord_flip()</code></pre>
-<img src="figure/04.descriptive_stats.Rmd/hwise-response-dist-1.png" width="864" style="display: block; margin: auto;" />
-<div class="alert alert-warning">
-<strong>Warning!</strong> The custom <code>fig.path</code> you set was
-ignored by workflowr.
-</div>
+<p><img src="figure/04.descriptive_stats.Rmd/hwise-response-dist-1.png" width="864" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hwise-response-dist-1">
 Past versions of hwise-response-dist-1.png
@@ -6425,6 +6426,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/62e53ab9d52e6e56313fd1c59af7413f98cccbfc/docs/figure/04.descriptive_stats.Rmd/hwise-response-dist-1.png" target="_blank">62e53ab</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-21
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lasisilab/QUAIL-Mex/blob/ac035290fc116787cc65b489c2cd71a7308bd250/docs/figure/04.descriptive_stats.Rmd/hwise-response-dist-1.png" target="_blank">ac03529</a>
@@ -6613,10 +6625,43 @@ cat(&quot;Cronbach&#39;s α summary:\n&quot;)</code></pre>
   labs(title = &quot;Cronbach&#39;s α by scale (95% CI)&quot;,
        x = NULL, y = &quot;Cronbach&#39;s α&quot;) +
   theme_minimal()</code></pre>
-<img src="figure/04.descriptive_stats.Rmd/cronbach-1.png" width="672" style="display: block; margin: auto;" />
-<div class="alert alert-warning">
-<strong>Warning!</strong> The custom <code>fig.path</code> you set was
-ignored by workflowr.
+<p><img src="figure/04.descriptive_stats.Rmd/cronbach-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cronbach-1">
+Past versions of cronbach-1.png
+</button>
+</p>
+<div id="fig-cronbach-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/62e53ab9d52e6e56313fd1c59af7413f98cccbfc/docs/figure/04.descriptive_stats.Rmd/cronbach-1.png" target="_blank">62e53ab</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="interpretation" class="section level3">
 <h3>Interpretation</h3>
@@ -6748,9 +6793,9 @@ fmt_docx &lt;- function(tbl) {
 
 tables &lt;- list(
   &quot;04.Table1_sample_characteristics.docx&quot;        = tbl_ms,
-  &quot;04.TableS1_full_descriptives.docx&quot;             = tbl_full,
-  &quot;04.TableS2_HWISE_PSS_by_season.docx&quot;           = tbl_hwise_pss_overall,
-  &quot;04.TableS3_HWISE_PSS_by_neighborhood.docx&quot;     = tbl_s3_by_nbhd
+  &quot;04.Table1_full_descriptives.docx&quot;             = tbl_full,
+  &quot;04.Table2_HWISE_PSS_by_season.docx&quot;           = tbl_hwise_pss_overall,
+  &quot;04.Table3_HWISE_PSS_by_neighborhood.docx&quot;     = tbl_s3_by_nbhd
 )
 
 for (fname in names(tables)) {
@@ -6760,36 +6805,38 @@ for (fname in names(tables)) {
   cat(&quot;Exported:&quot;, fname, &quot;\n&quot;)
 }</code></pre>
 <pre><code>Exported: 04.Table1_sample_characteristics.docx 
-Exported: 04.TableS1_full_descriptives.docx 
-Exported: 04.TableS2_HWISE_PSS_by_season.docx 
-Exported: 04.TableS3_HWISE_PSS_by_neighborhood.docx </code></pre>
+Exported: 04.Table1_full_descriptives.docx 
+Exported: 04.Table2_HWISE_PSS_by_season.docx 
+Exported: 04.Table3_HWISE_PSS_by_neighborhood.docx </code></pre>
 <pre class="r"><code># Missing data table — build flextable directly from data (gt_tbl can&#39;t use as_flex_table)
-n_fixed_cols &lt;- 7L   # label + 3×(n, %) pairs
+COL_HDR_MISS  &lt;- &quot;#1A3A5C&quot;   # matches COL_HEADER in other Rmd files
+COL_SUB_MISS  &lt;- &quot;#2E6DA4&quot;   # matches COL_SUBHEAD
+COL_ALT_MISS  &lt;- &quot;#F9F9F9&quot;   # alt row shade (matches COL_NS)
+COL_HIGH_MISS &lt;- &quot;#D5F5E3&quot;   # high-NA highlight (matches COL_SIG palette)
+
+n_fixed_cols &lt;- 5L   # label + 2×(n, %) pairs  [Complete + True NA; Flagged removed]
 n_total_cols  &lt;- n_fixed_cols + length(active_sentinel_cols)
 
-# Row indices where missingness is notable (for conditional highlighting)
+# Row indices with ≥10% true NA (for conditional highlighting)
 rows_high_miss &lt;- which(missing_tbl_trimmed$pct_na &gt;= 10)
-rows_any_flag  &lt;- which(missing_tbl_trimmed$n_flagged &gt; 0)
 
-# Spanner column ranges (1-indexed after &quot;label&quot; col)
+# Spanner column ranges
 cols_complete  &lt;- c(&quot;n_complete&quot;, &quot;pct_complete&quot;)
 cols_na        &lt;- c(&quot;n_na&quot;,       &quot;pct_na&quot;)
-cols_flagged   &lt;- c(&quot;n_flagged&quot;,  &quot;pct_flagged&quot;)
 
 missing_table &lt;- flextable(missing_tbl_trimmed) %&gt;%
   # ── Column labels (bottom header row) ─────────────────────────────────────
   set_header_labels(.list = c(
     list(label        = &quot;Variable&quot;,
          n_complete   = &quot;n&quot;,  pct_complete = &quot;%&quot;,
-         n_na         = &quot;n&quot;,  pct_na       = &quot;%&quot;,
-         n_flagged    = &quot;n&quot;,  pct_flagged  = &quot;%&quot;),
+         n_na         = &quot;n&quot;,  pct_na       = &quot;%&quot;),
     sentinel_label_list
   )) %&gt;%
   # ── Spanner row ───────────────────────────────────────────────────────────
   add_header_row(
-    values    = c(&quot;&quot;, &quot;Complete&quot;, &quot;True NA&quot;, &quot;Flagged&quot;,
+    values    = c(&quot;&quot;, &quot;Complete&quot;, &quot;True NA&quot;,
                   if (length(active_sentinel_cols) &gt; 0) &quot;Sentinel codes&quot; else character(0)),
-    colwidths = c(1, 2, 2, 2,
+    colwidths = c(1, 2, 2,
                   if (length(active_sentinel_cols) &gt; 0) length(active_sentinel_cols) else integer(0))
   ) %&gt;%
   # ── Title row ─────────────────────────────────────────────────────────────
@@ -6798,65 +6845,48 @@ missing_table &lt;- flextable(missing_tbl_trimmed) %&gt;%
     colwidths = n_total_cols
   ) %&gt;%
   # ── Typography ────────────────────────────────────────────────────────────
-  font(fontname = &quot;Times New Roman&quot;, part = &quot;all&quot;) %&gt;%
-  fontsize(size = 10,  part = &quot;all&quot;) %&gt;%
+  font(fontname = &quot;Calibri&quot;, part = &quot;all&quot;) %&gt;%
+  fontsize(size = 9.5, part = &quot;all&quot;) %&gt;%
   fontsize(size = 11,  i = 1, part = &quot;header&quot;) %&gt;%
   bold(part = &quot;header&quot;) %&gt;%
-  bold(i = 1, part = &quot;header&quot;, bold = FALSE) %&gt;%   # title not bold — styled via size/italic
+  bold(i = 1, part = &quot;header&quot;, bold = FALSE) %&gt;%
   italic(i = 1, part = &quot;header&quot;) %&gt;%
-  color(i = 1, color = &quot;#2c2c2c&quot;, part = &quot;header&quot;) %&gt;%
-  # ── Header background colours (per spanner group) ─────────────────────────
-  bg(i = 2, j = cols_complete, bg = &quot;#d9ead3&quot;, part = &quot;header&quot;) %&gt;%   # soft green
-  bg(i = 2, j = cols_na,       bg = &quot;#fce5cd&quot;, part = &quot;header&quot;) %&gt;%   # soft orange
-  bg(i = 2, j = cols_flagged,  bg = &quot;#ffd966&quot;, part = &quot;header&quot;) %&gt;%   # soft yellow
-  bg(i = 3, j = cols_complete, bg = &quot;#d9ead3&quot;, part = &quot;header&quot;) %&gt;%
-  bg(i = 3, j = cols_na,       bg = &quot;#fce5cd&quot;, part = &quot;header&quot;) %&gt;%
-  bg(i = 3, j = cols_flagged,  bg = &quot;#ffd966&quot;, part = &quot;header&quot;) %&gt;%
-  { if (length(active_sentinel_cols) &gt; 0)
-      bg(., i = 2:3, j = active_sentinel_cols, bg = &quot;#cfe2f3&quot;, part = &quot;header&quot;)   # soft blue
-    else . } %&gt;%
-  # ── Body: zebra stripe ────────────────────────────────────────────────────
-  bg(i = seq(2, nrow(missing_tbl_trimmed), by = 2), bg = &quot;#f9f9f9&quot;, part = &quot;body&quot;) %&gt;%
-  # ── Body: highlight rows with ≥10% true NA (orange tint on NA cols) ───────
+  color(i = 1, color = &quot;white&quot;, part = &quot;header&quot;) %&gt;%
+  color(i = 2:3, color = &quot;white&quot;, part = &quot;header&quot;) %&gt;%
+  # ── Header background colours ──────────────────────────────────────────────
+  bg(i = 1,   bg = COL_SUB_MISS, part = &quot;header&quot;) %&gt;%   # title row
+  bg(i = 2:3, bg = COL_HDR_MISS, part = &quot;header&quot;) %&gt;%   # spanner + col labels
+  # ── Body: alternating rows ────────────────────────────────────────────────
+  bg(i = seq(2, nrow(missing_tbl_trimmed), by = 2), bg = COL_ALT_MISS, part = &quot;body&quot;) %&gt;%
+  # ── Body: highlight rows with ≥10% true NA ───────────────────────────────
   { if (length(rows_high_miss) &gt; 0)
-      bg(., i = rows_high_miss, j = cols_na, bg = &quot;#f4cccc&quot;, part = &quot;body&quot;)
-    else . } %&gt;%
-  # ── Body: highlight rows with any flagged values (yellow tint) ────────────
-  { if (length(rows_any_flag) &gt; 0)
-      bg(., i = rows_any_flag, j = cols_flagged, bg = &quot;#fff2cc&quot;, part = &quot;body&quot;)
+      bg(., i = rows_high_miss, j = cols_na, bg = COL_HIGH_MISS, part = &quot;body&quot;)
     else . } %&gt;%
   # ── Borders ───────────────────────────────────────────────────────────────
   border_remove() %&gt;%
-  hline_top(part = &quot;header&quot;,
-            border = fp_border(color = &quot;#333333&quot;, width = 1.5)) %&gt;%
-  hline(i = 1, part = &quot;header&quot;,                     # below title
-        border = fp_border(color = &quot;#aaaaaa&quot;, width = 0.5)) %&gt;%
-  hline(i = 2, part = &quot;header&quot;,                     # below spanner
-        border = fp_border(color = &quot;#555555&quot;, width = 0.75)) %&gt;%
-  hline(i = 3, part = &quot;header&quot;,                     # below column labels
-        border = fp_border(color = &quot;#333333&quot;, width = 1.0)) %&gt;%
-  hline_bottom(part = &quot;body&quot;,
-               border = fp_border(color = &quot;#333333&quot;, width = 1.5)) %&gt;%
-  # Light horizontal rule between every body row
-  border(part = &quot;body&quot;,
-         border.bottom = fp_border(color = &quot;#dddddd&quot;, width = 0.25)) %&gt;%
+  border_outer(border = fp_border(color = COL_HDR_MISS, width = 1.5), part = &quot;all&quot;) %&gt;%
+  hline(border = fp_border(color = COL_SUB_MISS, width = 0.5), part = &quot;body&quot;) %&gt;%
+  hline(i = 2, part = &quot;header&quot;,
+        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %&gt;%
+  hline(i = 3, part = &quot;header&quot;,
+        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %&gt;%
   # ── Alignment ─────────────────────────────────────────────────────────────
   align(j = 1,  align = &quot;left&quot;,   part = &quot;all&quot;) %&gt;%
   align(j = -1, align = &quot;center&quot;, part = &quot;all&quot;) %&gt;%
   align(i = 1,  align = &quot;left&quot;,   part = &quot;header&quot;) %&gt;%
   # ── Number formatting ─────────────────────────────────────────────────────
-  colformat_num(j = c(&quot;n_complete&quot;, &quot;n_na&quot;, &quot;n_flagged&quot;, active_sentinel_cols),
+  colformat_num(j = c(&quot;n_complete&quot;, &quot;n_na&quot;, active_sentinel_cols),
                 big.mark = &quot;,&quot;, digits = 0) %&gt;%
-  colformat_num(j = c(&quot;pct_complete&quot;, &quot;pct_na&quot;, &quot;pct_flagged&quot;), digits = 1) %&gt;%
+  colformat_num(j = c(&quot;pct_complete&quot;, &quot;pct_na&quot;), digits = 1) %&gt;%
   # ── Footnote ──────────────────────────────────────────────────────────────
   { if (nchar(footnote_text) &gt; 0)
       add_footer_lines(., c(
         paste0(&quot;Note. Sentinel codes: &quot;, footnote_text, &quot;.&quot;),
-        &quot;Rows are sorted by number of true NAs (descending). True NA \u2265 10% highlighted in red; flagged values highlighted in yellow.&quot;
+        &quot;Rows sorted by number of true NAs (descending). True NA \u2265 10% highlighted.&quot;
       ))
     else
-      add_footer_lines(., &quot;Rows are sorted by number of true NAs (descending).&quot;) } %&gt;%
-  font(fontname = &quot;Times New Roman&quot;, part = &quot;footer&quot;) %&gt;%
+      add_footer_lines(., &quot;Rows sorted by number of true NAs (descending).&quot;) } %&gt;%
+  font(fontname = &quot;Calibri&quot;, part = &quot;footer&quot;) %&gt;%
   fontsize(size = 9, part = &quot;footer&quot;) %&gt;%
   italic(part = &quot;footer&quot;) %&gt;%
   color(color = &quot;#555555&quot;, part = &quot;footer&quot;) %&gt;%
@@ -6868,62 +6898,97 @@ missing_table &lt;- flextable(missing_tbl_trimmed) %&gt;%
   fix_border_issues()
 
 missing_table</code></pre>
-<div class="tabwid"><style>.cl-e4a607a8{table-layout:auto;width:100%;}.cl-e4a11d24{font-family:'Times New Roman';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(44, 44, 44, 1.00);background-color:transparent;}.cl-e4a11d38{font-family:'Times New Roman';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4a11d39{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4a11d42{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(85, 85, 85, 1.00);background-color:transparent;}.cl-e4a30346{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4a30350{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4a30351{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4a3035a{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4a31660{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(170, 170, 170, 1.00);border-top: 1.5pt solid rgba(51, 51, 51, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a31661{background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(85, 85, 85, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a3166a{background-color:rgba(217, 234, 211, 1.00);vertical-align: middle;border-bottom: 0.75pt solid rgba(85, 85, 85, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a3166b{background-color:rgba(252, 229, 205, 1.00);vertical-align: middle;border-bottom: 0.75pt solid rgba(85, 85, 85, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a31674{background-color:rgba(255, 217, 102, 1.00);vertical-align: middle;border-bottom: 0.75pt solid rgba(85, 85, 85, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a3167e{background-color:rgba(207, 226, 243, 1.00);vertical-align: middle;border-bottom: 0.75pt solid rgba(85, 85, 85, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a31688{background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.75pt solid rgba(85, 85, 85, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a31689{background-color:rgba(217, 234, 211, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.75pt solid rgba(85, 85, 85, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a31692{background-color:rgba(252, 229, 205, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.75pt solid rgba(85, 85, 85, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a3169c{background-color:rgba(255, 217, 102, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.75pt solid rgba(85, 85, 85, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a3169d{background-color:rgba(207, 226, 243, 1.00);vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.75pt solid rgba(85, 85, 85, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316a6{background-color:transparent;vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316a7{background-color:transparent;vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316a8{background-color:rgba(244, 204, 204, 1.00);vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316b0{background-color:rgba(255, 242, 204, 1.00);vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316b1{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316ba{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4a316c4{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-e4a607a8'><thead><tr style="overflow-wrap:break-word;"><th  colspan="10"class="cl-e4a31660"><p class="cl-e4a30346"><span class="cl-e4a11d24">Table S1.2. Missing data summary</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-e4a31661"><p class="cl-e4a30346"><span class="cl-e4a11d38"></span></p></th><th  colspan="2"class="cl-e4a3166a"><p class="cl-e4a30350"><span class="cl-e4a11d38">Complete</span></p></th><th  colspan="2"class="cl-e4a3166b"><p class="cl-e4a30350"><span class="cl-e4a11d38">True NA</span></p></th><th  colspan="2"class="cl-e4a31674"><p class="cl-e4a30350"><span class="cl-e4a11d38">Flagged</span></p></th><th  colspan="3"class="cl-e4a3167e"><p class="cl-e4a30350"><span class="cl-e4a11d38">Sentinel codes</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-e4a31688"><p class="cl-e4a30346"><span class="cl-e4a11d38">label</span></p></th><th class="cl-e4a31689"><p class="cl-e4a30350"><span class="cl-e4a11d38">n_complete</span></p></th><th class="cl-e4a31689"><p class="cl-e4a30350"><span class="cl-e4a11d38">pct_complete</span></p></th><th class="cl-e4a31692"><p class="cl-e4a30350"><span class="cl-e4a11d38">n_na</span></p></th><th class="cl-e4a31692"><p class="cl-e4a30350"><span class="cl-e4a11d38">pct_na</span></p></th><th class="cl-e4a3169c"><p class="cl-e4a30350"><span class="cl-e4a11d38">n_flagged</span></p></th><th class="cl-e4a3169c"><p class="cl-e4a30350"><span class="cl-e4a11d38">pct_flagged</span></p></th><th class="cl-e4a3169d"><p class="cl-e4a30350"><span class="cl-e4a11d38">n_555</span></p></th><th class="cl-e4a3169d"><p class="cl-e4a30350"><span class="cl-e4a11d38">n_444</span></p></th><th class="cl-e4a3169d"><p class="cl-e4a30350"><span class="cl-e4a11d38">n_333</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">Employment type</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">213</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">53.7</span></p></td><td class="cl-e4a316a8"><p class="cl-e4a3035a"><span class="cl-e4a11d39">129</span></p></td><td class="cl-e4a316a8"><p class="cl-e4a3035a"><span class="cl-e4a11d39">32.5</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">55</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">13.9</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">55</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">Years in neighborhood</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">364</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">91.7</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">31</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">7.8</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">2</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.5</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">2</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">Household size</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">380</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">95.7</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">17</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">4.3</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">Employed (yes/no)</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">381</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">96.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">15</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">3.8</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.3</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">Smoking</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">382</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">96.2</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">15</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">3.8</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">Parity</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">379</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">95.5</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">14</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">3.5</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">4</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">Hormonal treatment</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">349</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">87.9</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">14</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">3.5</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">34</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">8.6</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">34</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">Medication use</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">334</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">84.1</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">13</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">3.3</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">50</span></p></td><td class="cl-e4a316b0"><p class="cl-e4a3035a"><span class="cl-e4a11d39">12.6</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">50</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">SES composite score</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">391</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">98.5</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">6</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1.5</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">SES category</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">391</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">98.5</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">6</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">1.5</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">Age</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">395</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">99.5</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">2</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.5</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">Season</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">397</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">100.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316a6"><p class="cl-e4a30351"><span class="cl-e4a11d39">Chronic pain</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">397</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">100.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316a7"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4a316b1"><p class="cl-e4a30351"><span class="cl-e4a11d39">Chronic disease</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">397</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">100.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0.0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td><td class="cl-e4a316ba"><p class="cl-e4a3035a"><span class="cl-e4a11d39">0</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="10"class="cl-e4a316c4"><p class="cl-e4a30351"><span class="cl-e4a11d42">Note. Sentinel codes: 555=Other, 444=Ambiguous, 333=Pending.</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="10"class="cl-e4a316c4"><p class="cl-e4a30351"><span class="cl-e4a11d42">Rows are sorted by number of true NAs (descending). True NA ≥ 10% highlighted in red; flagged values highlighted in yellow.</span></p></td></tr></tfoot></table></div>
+<div class="tabwid"><style>.cl-30cb8efa{table-layout:auto;width:100%;}.cl-30c6a5c0{font-family:'Calibri';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-30c6a5d4{font-family:'Calibri';font-size:9.5pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-30c6a5de{font-family:'Calibri';font-size:9.5pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-30c6a5e8{font-family:'Calibri';font-size:9pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(85, 85, 85, 1.00);background-color:transparent;}.cl-30c898bc{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-30c898bd{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-30c898c6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-30c898c7{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-30c8ac44{background-color:rgba(46, 109, 164, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac4e{background-color:rgba(46, 109, 164, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac4f{background-color:rgba(46, 109, 164, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac58{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac62{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac63{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac6c{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac76{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac77{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac80{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac8a{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac8b{background-color:rgba(213, 245, 227, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac94{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac9e{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8ac9f{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8aca8{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8acb2{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8acb3{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8acbc{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-30c8acc6{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-30cb8efa'><thead><tr style="overflow-wrap:break-word;"><th  colspan="8"class="cl-30c8ac44"><p class="cl-30c898bc"><span class="cl-30c6a5c0">Table S1.2. Missing data summary</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-30c8ac58"><p class="cl-30c898bc"><span class="cl-30c6a5d4"></span></p></th><th  colspan="2"class="cl-30c8ac62"><p class="cl-30c898bd"><span class="cl-30c6a5d4">Complete</span></p></th><th  colspan="2"class="cl-30c8ac62"><p class="cl-30c898bd"><span class="cl-30c6a5d4">True NA</span></p></th><th  colspan="3"class="cl-30c8ac63"><p class="cl-30c898bd"><span class="cl-30c6a5d4">Sentinel codes</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-30c8ac6c"><p class="cl-30c898bc"><span class="cl-30c6a5d4">label</span></p></th><th class="cl-30c8ac76"><p class="cl-30c898bd"><span class="cl-30c6a5d4">n_complete</span></p></th><th class="cl-30c8ac76"><p class="cl-30c898bd"><span class="cl-30c6a5d4">pct_complete</span></p></th><th class="cl-30c8ac76"><p class="cl-30c898bd"><span class="cl-30c6a5d4">n_na</span></p></th><th class="cl-30c8ac76"><p class="cl-30c898bd"><span class="cl-30c6a5d4">pct_na</span></p></th><th class="cl-30c8ac76"><p class="cl-30c898bd"><span class="cl-30c6a5d4">n_555</span></p></th><th class="cl-30c8ac76"><p class="cl-30c898bd"><span class="cl-30c6a5d4">n_444</span></p></th><th class="cl-30c8ac77"><p class="cl-30c898bd"><span class="cl-30c6a5d4">n_333</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac80"><p class="cl-30c898c6"><span class="cl-30c6a5de">Employment type</span></p></td><td class="cl-30c8ac8a"><p class="cl-30c898c7"><span class="cl-30c6a5de">213</span></p></td><td class="cl-30c8ac8a"><p class="cl-30c898c7"><span class="cl-30c6a5de">53.7</span></p></td><td class="cl-30c8ac8b"><p class="cl-30c898c7"><span class="cl-30c6a5de">129</span></p></td><td class="cl-30c8ac8b"><p class="cl-30c898c7"><span class="cl-30c6a5de">32.5</span></p></td><td class="cl-30c8ac8a"><p class="cl-30c898c7"><span class="cl-30c6a5de">55</span></p></td><td class="cl-30c8ac8a"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8ac94"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">Years in neighborhood</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">364</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">91.7</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">31</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">7.8</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">2</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8acb2"><p class="cl-30c898c6"><span class="cl-30c6a5de">Household size</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">380</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">95.7</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">17</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">4.3</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acbc"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">Employed (yes/no)</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">381</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">96.0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">15</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">3.8</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">1</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8acb2"><p class="cl-30c898c6"><span class="cl-30c6a5de">Smoking</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">382</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">96.2</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">15</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">3.8</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acbc"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">Parity</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">379</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">95.5</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">14</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">3.5</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">1</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">1</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8acb2"><p class="cl-30c898c6"><span class="cl-30c6a5de">Hormonal treatment</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">349</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">87.9</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">14</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">3.5</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">34</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acbc"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">Medication use</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">334</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">84.1</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">13</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">3.3</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">50</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8acb2"><p class="cl-30c898c6"><span class="cl-30c6a5de">SES composite score</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">391</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">98.5</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">6</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">1.5</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acbc"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">SES category</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">391</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">98.5</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">6</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">1.5</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8acb2"><p class="cl-30c898c6"><span class="cl-30c6a5de">Age</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">395</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">99.5</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">2</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0.5</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acbc"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">Season</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">397</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">100.0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0.0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8acb2"><p class="cl-30c898c6"><span class="cl-30c6a5de">Chronic pain</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">397</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">100.0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0.0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acb3"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8acbc"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-30c8ac9e"><p class="cl-30c898c6"><span class="cl-30c6a5de">Chronic disease</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">397</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">100.0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0.0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8ac9f"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td><td class="cl-30c8aca8"><p class="cl-30c898c7"><span class="cl-30c6a5de">0</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="8"class="cl-30c8acc6"><p class="cl-30c898c6"><span class="cl-30c6a5e8">Note. Sentinel codes: 555=Other, 444=Ambiguous, 333=Pending.</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="8"class="cl-30c8acc6"><p class="cl-30c898c6"><span class="cl-30c6a5e8">Rows sorted by number of true NAs (descending). True NA ≥ 10% highlighted.</span></p></td></tr></tfoot></table></div>
 <pre class="r"><code>save_as_docx(missing_table, path = file.path(output_dir, &quot;04.missing_table.docx&quot;))
 
 cat(&quot;Exported: missing_table.docx\n&quot;)</code></pre>
 <pre><code>Exported: missing_table.docx</code></pre>
 <pre class="r"><code># ── Missing data by season ──────────────────────────────────────────────────
-# Computes % missing (true NA) for every analytic variable, by SEASON value.
+SEASON_LABELS &lt;- c(&quot;0&quot; = &quot;Rainy&quot;, &quot;1&quot; = &quot;Dry&quot;)
+season_N      &lt;- table(df$SEASON)
+miss_vars     &lt;- setdiff(analytic_cols, &quot;SEASON&quot;)
 
-seasons     &lt;- sort(unique(df$SEASON))
-season_N    &lt;- table(df$SEASON)   # n per season
+# ── Chi-square / Fisher test: is_na ~ season, per variable ──────────────────
+miss_pvals &lt;- sapply(miss_vars, function(v) {
+  tbl &lt;- table(is.na(df[[v]]), df$SEASON)
+  if (any(dim(tbl) &lt; 2) || nrow(tbl) &lt; 2) return(NA_real_)
+  tryCatch(
+    if (any(tbl &lt; 5)) fisher.test(tbl)$p.value
+    else              chisq.test(tbl, correct = FALSE)$p.value,
+    error = function(e) NA_real_
+  )
+})
 
+miss_pval_df &lt;- tibble(
+  variable = names(miss_pvals),
+  p_value  = miss_pvals,
+  p_fmt    = case_when(
+    is.na(p_value)  ~ &quot;\u2014&quot;,
+    p_value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+    TRUE            ~ sprintf(&quot;%.3f&quot;, p_value)
+  )
+)
+
+# ── Build wide table: one row per variable, one col per season ───────────────
 missing_by_season &lt;- df %&gt;%
-  select(all_of(analytic_cols)) %&gt;%
-  group_by(SEASON) %&gt;%
-  summarise(across(
-    all_of(setdiff(analytic_cols, &quot;SEASON&quot;)),
-    ~ round(mean(is.na(.)) * 100, 1),
-    .names = &quot;{.col}&quot;
-  ), .groups = &quot;drop&quot;) %&gt;%
-  mutate(SEASON = paste0(SEASON, &quot; (n=&quot;, season_N[as.character(SEASON)], &quot;)&quot;)) %&gt;%
-  pivot_longer(-SEASON, names_to = &quot;variable&quot;, values_to = &quot;pct_na&quot;) %&gt;%
-  pivot_wider(names_from = SEASON, values_from = pct_na) %&gt;%
+  select(SEASON, all_of(miss_vars)) %&gt;%
+  mutate(season_label = paste0(
+    SEASON_LABELS[as.character(SEASON)],
+    &quot; (n=&quot;, season_N[as.character(SEASON)], &quot;)&quot;
+  )) %&gt;%
+  group_by(season_label) %&gt;%
+  summarise(across(all_of(miss_vars), ~ round(mean(is.na(.)) * 100, 1)),
+            .groups = &quot;drop&quot;) %&gt;%
+  pivot_longer(-season_label, names_to = &quot;variable&quot;, values_to = &quot;pct_na&quot;) %&gt;%
+  pivot_wider(names_from = season_label, values_from = pct_na) %&gt;%
+  left_join(miss_pval_df, by = &quot;variable&quot;) %&gt;%
   mutate(label = var_labels[variable]) %&gt;%
-  select(label, everything(), -variable)
+  select(label, everything(), -variable, -p_value)
 
-season_cols &lt;- setdiff(names(missing_by_season), &quot;label&quot;)
+season_cols    &lt;- setdiff(names(missing_by_season), c(&quot;label&quot;, &quot;p_fmt&quot;))
+n_total_bs_cols &lt;- ncol(missing_by_season)
 
 missing_table_by_season &lt;- flextable(missing_by_season) %&gt;%
-  set_header_labels(label = &quot;Variable&quot;) %&gt;%
+  set_header_labels(label = &quot;Variable&quot;, p_fmt = &quot;p-value&quot;) %&gt;%
   add_header_row(
-    values    = &quot;Missing data by season (% true NA)&quot;,
-    colwidths = ncol(missing_by_season)
+    values    = &quot;Table S1.3. Missing data by season (% true NA)&quot;,
+    colwidths = n_total_bs_cols
   ) %&gt;%
-  font(fontname = &quot;Times New Roman&quot;, part = &quot;all&quot;) %&gt;%
-  fontsize(size = 10, part = &quot;all&quot;) %&gt;%
+  # ── Typography ──────────────────────────────────────────────────────────────
+  font(fontname = &quot;Calibri&quot;, part = &quot;all&quot;) %&gt;%
+  fontsize(size = 9.5, part = &quot;all&quot;) %&gt;%
   fontsize(size = 11, i = 1, part = &quot;header&quot;) %&gt;%
   bold(part = &quot;header&quot;) %&gt;%
   bold(i = 1, part = &quot;header&quot;, bold = FALSE) %&gt;%
   italic(i = 1, part = &quot;header&quot;) %&gt;%
-  color(i = 1, color = &quot;#2c2c2c&quot;, part = &quot;header&quot;) %&gt;%
-  bg(i = seq(2, nrow(missing_by_season), by = 2), bg = &quot;#f9f9f9&quot;, part = &quot;body&quot;) %&gt;%
+  color(i = 1:2, color = &quot;white&quot;, part = &quot;header&quot;) %&gt;%
+  # ── Header colours ──────────────────────────────────────────────────────────
+  bg(i = 1, bg = COL_SUB_MISS, part = &quot;header&quot;) %&gt;%
+  bg(i = 2, bg = COL_HDR_MISS, part = &quot;header&quot;) %&gt;%
+  # ── Body ────────────────────────────────────────────────────────────────────
+  bg(i = seq(2, nrow(missing_by_season), by = 2), bg = COL_ALT_MISS, part = &quot;body&quot;) %&gt;%
+  # ── Borders ─────────────────────────────────────────────────────────────────
   border_remove() %&gt;%
-  hline_top(part = &quot;header&quot;, border = fp_border(color = &quot;#333333&quot;, width = 1.5)) %&gt;%
-  hline(i = 1, part = &quot;header&quot;, border = fp_border(color = &quot;#aaaaaa&quot;, width = 0.5)) %&gt;%
-  hline(i = 2, part = &quot;header&quot;, border = fp_border(color = &quot;#333333&quot;, width = 1.0)) %&gt;%
-  hline_bottom(part = &quot;body&quot;,   border = fp_border(color = &quot;#333333&quot;, width = 1.5)) %&gt;%
-  border(part = &quot;body&quot;, border.bottom = fp_border(color = &quot;#dddddd&quot;, width = 0.25)) %&gt;%
+  border_outer(border = fp_border(color = COL_HDR_MISS, width = 1.5), part = &quot;all&quot;) %&gt;%
+  hline(border = fp_border(color = COL_SUB_MISS, width = 0.5), part = &quot;body&quot;) %&gt;%
+  hline(i = 2, part = &quot;header&quot;,
+        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %&gt;%
+  # ── Alignment ───────────────────────────────────────────────────────────────
   align(j = 1,  align = &quot;left&quot;,   part = &quot;all&quot;) %&gt;%
   align(j = -1, align = &quot;center&quot;, part = &quot;all&quot;) %&gt;%
   align(i = 1,  align = &quot;left&quot;,   part = &quot;header&quot;) %&gt;%
+  # ── Number formatting ────────────────────────────────────────────────────────
   colformat_num(j = season_cols, digits = 1) %&gt;%
-  add_footer_lines(&quot;Note. Values are percentage of true NAs within each season group.&quot;) %&gt;%
-  font(fontname = &quot;Times New Roman&quot;, part = &quot;footer&quot;) %&gt;%
+  # ── Footnote ────────────────────────────────────────────────────────────────
+  add_footer_lines(c(
+    &quot;Note. Values are percentage of true NAs within each season group.&quot;,
+    &quot;p-value from chi-square test (Fisher\u2019s exact if any cell &lt; 5) comparing proportion missing between seasons.&quot;
+  )) %&gt;%
+  font(fontname = &quot;Calibri&quot;, part = &quot;footer&quot;) %&gt;%
   fontsize(size = 9, part = &quot;footer&quot;) %&gt;%
   italic(part = &quot;footer&quot;) %&gt;%
   color(color = &quot;#555555&quot;, part = &quot;footer&quot;) %&gt;%
+  # ── Layout ───────────────────────────────────────────────────────────────────
   padding(padding.top = 3, padding.bottom = 3,
           padding.left = 4, padding.right  = 4, part = &quot;all&quot;) %&gt;%
   padding(padding.top = 4, padding.bottom = 4, part = &quot;header&quot;) %&gt;%
@@ -6931,7 +6996,7 @@ missing_table_by_season &lt;- flextable(missing_by_season) %&gt;%
   fix_border_issues()
 
 missing_table_by_season</code></pre>
-<div class="tabwid"><style>.cl-e4ff462e{table-layout:auto;width:100%;}.cl-e4fb12c0{font-family:'Times New Roman';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(44, 44, 44, 1.00);background-color:transparent;}.cl-e4fb12d4{font-family:'Times New Roman';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4fb12de{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e4fb12e8{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(85, 85, 85, 1.00);background-color:transparent;}.cl-e4fcc93a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4fcc944{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4fcc94e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4fcc94f{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-e4fcda92{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(170, 170, 170, 1.00);border-top: 1.5pt solid rgba(51, 51, 51, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcda93{background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcda9c{background-color:transparent;vertical-align: middle;border-bottom: 1pt solid rgba(51, 51, 51, 1.00);border-top: 0.5pt solid rgba(170, 170, 170, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcda9d{background-color:transparent;vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcdaa6{background-color:transparent;vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcdaa7{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcdab0{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.25pt solid rgba(221, 221, 221, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e4fcdab1{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-e4ff462e'><thead><tr style="overflow-wrap:break-word;"><th  colspan="3"class="cl-e4fcda92"><p class="cl-e4fcc93a"><span class="cl-e4fb12c0">Missing data by season (% true NA)</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-e4fcda93"><p class="cl-e4fcc93a"><span class="cl-e4fb12d4">Variable</span></p></th><th class="cl-e4fcda9c"><p class="cl-e4fcc944"><span class="cl-e4fb12d4">0 (n=201)</span></p></th><th class="cl-e4fcda9c"><p class="cl-e4fcc944"><span class="cl-e4fb12d4">1 (n=196)</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Age</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.5</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcdaa7"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Years in neighborhood</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">7.5</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">8.2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Household size</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">1.0</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">7.7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcdaa7"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Parity</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.5</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">6.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">SES composite score</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">2.0</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">1.0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcdaa7"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">SES category</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">2.0</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">1.0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Employed (yes/no)</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">1.0</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">6.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcdaa7"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Employment type</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">31.3</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">33.7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Smoking</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.5</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">7.1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcdaa7"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Hormonal treatment</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.0</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">7.1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Medication use</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.0</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">6.6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcdaa7"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Chronic pain</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.0</span></p></td><td class="cl-e4fcdab0"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.0</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-e4fcda9d"><p class="cl-e4fcc94e"><span class="cl-e4fb12de">Chronic disease</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.0</span></p></td><td class="cl-e4fcdaa6"><p class="cl-e4fcc94f"><span class="cl-e4fb12de">0.0</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="3"class="cl-e4fcdab1"><p class="cl-e4fcc94e"><span class="cl-e4fb12e8">Note. Values are percentage of true NAs within each season group.</span></p></td></tr></tfoot></table></div>
+<div class="tabwid"><style>.cl-312496ee{table-layout:auto;width:100%;}.cl-311ed25e{font-family:'Calibri';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-311ed272{font-family:'Calibri';font-size:9.5pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-311ed273{font-family:'Calibri';font-size:9.5pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-311ed27c{font-family:'Calibri';font-size:9pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(85, 85, 85, 1.00);background-color:transparent;}.cl-3120aa98{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-3120aaa2{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:4pt;padding-top:4pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-3120aaac{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-3120aaad{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:3pt;padding-top:3pt;padding-left:4pt;padding-right:4pt;line-height: 1;background-color:transparent;}.cl-3120bd76{background-color:rgba(46, 109, 164, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd80{background-color:rgba(46, 109, 164, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd81{background-color:rgba(46, 109, 164, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd8a{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd94{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd95{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd9e{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bd9f{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bda8{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bda9{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bdaa{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bdb2{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bdbc{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 1.5pt solid rgba(26, 58, 92, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bdbd{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bdc6{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(46, 109, 164, 1.00);border-top: 0.5pt solid rgba(46, 109, 164, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 1.5pt solid rgba(26, 58, 92, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-3120bdc7{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-312496ee'><thead><tr style="overflow-wrap:break-word;"><th  colspan="4"class="cl-3120bd76"><p class="cl-3120aa98"><span class="cl-311ed25e">Table S1.3. Missing data by season (% true NA)</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-3120bd8a"><p class="cl-3120aa98"><span class="cl-311ed272">Variable</span></p></th><th class="cl-3120bd94"><p class="cl-3120aaa2"><span class="cl-311ed272">Dry (n=196)</span></p></th><th class="cl-3120bd94"><p class="cl-3120aaa2"><span class="cl-311ed272">Rainy (n=201)</span></p></th><th class="cl-3120bd95"><p class="cl-3120aaa2"><span class="cl-311ed272">p-value</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-3120bd9e"><p class="cl-3120aaac"><span class="cl-311ed273">Age</span></p></td><td class="cl-3120bd9f"><p class="cl-3120aaad"><span class="cl-311ed273">0.5</span></p></td><td class="cl-3120bd9f"><p class="cl-3120aaad"><span class="cl-311ed273">0.5</span></p></td><td class="cl-3120bda8"><p class="cl-3120aaad"><span class="cl-311ed273">1.000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bda9"><p class="cl-3120aaac"><span class="cl-311ed273">Years in neighborhood</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">8.2</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">7.5</span></p></td><td class="cl-3120bdb2"><p class="cl-3120aaad"><span class="cl-311ed273">0.795</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bdbc"><p class="cl-3120aaac"><span class="cl-311ed273">Household size</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">7.7</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">1.0</span></p></td><td class="cl-3120bdc6"><p class="cl-3120aaad"><span class="cl-311ed273">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bda9"><p class="cl-3120aaac"><span class="cl-311ed273">Parity</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">6.6</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">0.5</span></p></td><td class="cl-3120bdb2"><p class="cl-3120aaad"><span class="cl-311ed273">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bdbc"><p class="cl-3120aaac"><span class="cl-311ed273">SES composite score</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">1.0</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">2.0</span></p></td><td class="cl-3120bdc6"><p class="cl-3120aaad"><span class="cl-311ed273">0.685</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bda9"><p class="cl-3120aaac"><span class="cl-311ed273">SES category</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">1.0</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">2.0</span></p></td><td class="cl-3120bdb2"><p class="cl-3120aaad"><span class="cl-311ed273">0.685</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bdbc"><p class="cl-3120aaac"><span class="cl-311ed273">Employed (yes/no)</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">6.6</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">1.0</span></p></td><td class="cl-3120bdc6"><p class="cl-3120aaad"><span class="cl-311ed273">0.003</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bda9"><p class="cl-3120aaac"><span class="cl-311ed273">Employment type</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">33.7</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">31.3</span></p></td><td class="cl-3120bdb2"><p class="cl-3120aaad"><span class="cl-311ed273">0.620</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bdbc"><p class="cl-3120aaac"><span class="cl-311ed273">Smoking</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">7.1</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">0.5</span></p></td><td class="cl-3120bdc6"><p class="cl-3120aaad"><span class="cl-311ed273">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bda9"><p class="cl-3120aaac"><span class="cl-311ed273">Hormonal treatment</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">7.1</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">0.0</span></p></td><td class="cl-3120bdb2"><p class="cl-3120aaad"><span class="cl-311ed273">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bdbc"><p class="cl-3120aaac"><span class="cl-311ed273">Medication use</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">6.6</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">0.0</span></p></td><td class="cl-3120bdc6"><p class="cl-3120aaad"><span class="cl-311ed273">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bda9"><p class="cl-3120aaac"><span class="cl-311ed273">Chronic pain</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">0.0</span></p></td><td class="cl-3120bdaa"><p class="cl-3120aaad"><span class="cl-311ed273">0.0</span></p></td><td class="cl-3120bdb2"><p class="cl-3120aaad"><span class="cl-311ed273">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-3120bdbc"><p class="cl-3120aaac"><span class="cl-311ed273">Chronic disease</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">0.0</span></p></td><td class="cl-3120bdbd"><p class="cl-3120aaad"><span class="cl-311ed273">0.0</span></p></td><td class="cl-3120bdc6"><p class="cl-3120aaad"><span class="cl-311ed273">—</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="4"class="cl-3120bdc7"><p class="cl-3120aaac"><span class="cl-311ed27c">Note. Values are percentage of true NAs within each season group.</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="4"class="cl-3120bdc7"><p class="cl-3120aaac"><span class="cl-311ed27c">p-value from chi-square test (Fisher’s exact if any cell &lt; 5) comparing proportion missing between seasons.</span></p></td></tr></tfoot></table></div>
 <pre class="r"><code>save_as_docx(missing_table_by_season,
              path = file.path(output_dir, &quot;04.missing_table_by_season.docx&quot;))
 
@@ -6966,33 +7031,35 @@ attached base packages:
 other attached packages:
  [1] psych_2.6.1      forcats_1.0.0    ggplot2_4.0.0    officer_0.7.3   
  [5] purrr_1.0.4      flextable_0.9.11 gt_1.0.0         gtsummary_2.5.0 
- [9] stringr_1.5.1    tidyr_1.3.1      dplyr_1.2.0     
+ [9] stringr_1.5.1    tidyr_1.3.1      dplyr_1.2.0      workflowr_1.7.1 
 
 loaded via a namespace (and not attached):
  [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
- [4] lattice_0.22-9          vctrs_0.7.1             tools_4.5.3            
- [7] generics_0.1.3          parallel_4.5.3          tibble_3.2.1           
-[10] pkgconfig_2.0.3         data.table_1.17.0       RColorBrewer_1.1-3     
-[13] S7_0.2.0                uuid_1.2-1              lifecycle_1.0.5        
-[16] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
-[19] textshaping_1.0.0       mnormt_2.1.2            httpuv_1.6.16          
-[22] litedown_0.7            fontquiver_0.2.1        fontLiberation_0.1.0   
-[25] htmltools_0.5.8.1       sass_0.4.10             yaml_2.3.10            
-[28] whisker_0.4.1           later_1.4.2             pillar_1.10.2          
-[31] jquerylib_0.1.4         openssl_2.3.2           cachem_1.1.0           
-[34] nlme_3.1-168            fontBitstreamVera_0.1.1 commonmark_2.0.0       
-[37] tidyselect_1.2.1        zip_2.3.3               digest_0.6.37          
-[40] stringi_1.8.7           labeling_0.4.3          rprojroot_2.1.1        
-[43] fastmap_1.2.0           grid_4.5.3              cli_3.6.5              
-[46] magrittr_2.0.3          patchwork_1.3.1         cards_0.7.1            
-[49] utf8_1.2.4              broom_1.0.12            withr_3.0.2            
-[52] gdtools_0.5.0           scales_1.4.0            promises_1.3.2         
-[55] backports_1.5.0         cardx_0.3.2             rmarkdown_2.30         
-[58] workflowr_1.7.1         askpass_1.2.1           ragg_1.4.0             
-[61] evaluate_1.0.3          knitr_1.50              markdown_2.0           
-[64] rlang_1.1.7             Rcpp_1.0.14             glue_1.8.0             
-[67] xml2_1.3.8              jsonlite_2.0.0          R6_2.6.1               
-[70] systemfonts_1.3.2       fs_1.6.6               </code></pre>
+ [4] processx_3.8.6          lattice_0.22-9          callr_3.7.6            
+ [7] vctrs_0.7.1             tools_4.5.3             ps_1.9.1               
+[10] generics_0.1.3          parallel_4.5.3          tibble_3.2.1           
+[13] pkgconfig_2.0.3         data.table_1.17.0       RColorBrewer_1.1-3     
+[16] S7_0.2.0                uuid_1.2-1              lifecycle_1.0.5        
+[19] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
+[22] textshaping_1.0.0       mnormt_2.1.2            getPass_0.2-4          
+[25] litedown_0.7            httpuv_1.6.16           fontquiver_0.2.1       
+[28] fontLiberation_0.1.0    htmltools_0.5.8.1       sass_0.4.10            
+[31] yaml_2.3.10             later_1.4.2             pillar_1.10.2          
+[34] jquerylib_0.1.4         whisker_0.4.1           openssl_2.3.2          
+[37] cachem_1.1.0            nlme_3.1-168            fontBitstreamVera_0.1.1
+[40] commonmark_2.0.0        tidyselect_1.2.1        zip_2.3.3              
+[43] digest_0.6.37           stringi_1.8.7           labeling_0.4.3         
+[46] rprojroot_2.1.1         fastmap_1.2.0           grid_4.5.3             
+[49] cli_3.6.5               magrittr_2.0.3          cards_0.7.1            
+[52] patchwork_1.3.1         utf8_1.2.4              broom_1.0.12           
+[55] withr_3.0.2             backports_1.5.0         gdtools_0.5.0          
+[58] scales_1.4.0            promises_1.3.2          cardx_0.3.2            
+[61] rmarkdown_2.30          httr_1.4.7              askpass_1.2.1          
+[64] ragg_1.4.0              evaluate_1.0.3          knitr_1.50             
+[67] markdown_2.0            rlang_1.1.7             Rcpp_1.0.14            
+[70] glue_1.8.0              xml2_1.3.8              rstudioapi_0.17.1      
+[73] jsonlite_2.0.0          R6_2.6.1                systemfonts_1.3.2      
+[76] fs_1.6.6               </code></pre>
 </div>
 </div>
 </div>

@@ -1,0 +1,3483 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+<meta name="date" content="2026-03-23" />
+
+<title>06. Unadjusted Regression Models</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="01.data_cleaning.html">1.cleaning</a>
+</li>
+<li>
+  <a href="02.data_merge_hwise_pss.html">2.merge_hwise_pss</a>
+</li>
+<li>
+  <a href="03.data_merge_q1-6.html">3.merge_q1-6</a>
+</li>
+<li>
+  <a href="04.descriptive_stats.html">4.descr_stats</a>
+</li>
+<li>
+  <a href="05.descriptive_plots.html">5.descr_plots</a>
+</li>
+<li>
+  <a href="06.unadjusted_models.html">6.Unadjusted models</a>
+</li>
+<li>
+  <a href="07.aim1_models.html">7.Aim 1 models</a>
+</li>
+<li>
+  <a href="08.aim2_models.html">8.Aim 2 models</a>
+</li>
+<li>
+  <a href="99.Maps.html">Maps</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">06. Unadjusted Regression Models</h1>
+<h4 class="author"></h4>
+<h4 class="date">2026-03-23</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-23
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree62e53ab9d52e6e56313fd1c59af7413f98cccbfctargetblank62e53aba"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/62e53ab9d52e6e56313fd1c59af7413f98cccbfc" target="_blank">62e53ab</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    figure/.DS_Store
+    Ignored:    output/.DS_Store
+    Ignored:    output/figures/.DS_Store
+    Ignored:    output/tables/.DS_Store
+
+Untracked files:
+    Untracked:  .claude/
+    Untracked:  analysis/06.unadjusted_models.Rmd
+    Untracked:  analysis/07.aim1_models.Rmd
+    Untracked:  analysis/08.aim2_models.Rmd
+    Untracked:  analysis/09.aim2_hwise_adjusted.Rmd
+    Untracked:  analysis/10.full_models.Rmd
+    Untracked:  output/figures/06.Unadj_coef_EMO.png
+    Untracked:  output/figures/06.Unadj_coef_PSS.png
+    Untracked:  output/figures/07.aim1_panel_a_coef_plot.png
+    Untracked:  output/figures/07.aim1_panel_b_coef_plot.png
+    Untracked:  output/figures/07.aim2_emo_forest.png
+    Untracked:  output/figures/07.aim2_pss_forest.png
+    Untracked:  output/figures/08.aim2_emo_forest.png
+    Untracked:  output/figures/08.aim2_pss_forest.png
+    Untracked:  output/tables/04.Table1_full_descriptives.docx
+    Untracked:  output/tables/04.Table2_HWISE_PSS_by_season.docx
+    Untracked:  output/tables/04.Table3_HWISE_PSS_by_neighborhood.docx
+    Untracked:  output/tables/06.TableUnadj1_unadjreg_PSS.docx
+    Untracked:  output/tables/06.TableUnadj2_unadjreg_EmoType.docx
+    Untracked:  output/tables/06.Tables_Unadj_ForestPlot_Results.docx
+    Untracked:  output/tables/07.Tables_Aim1_ForestPlot_Results.docx
+    Untracked:  output/tables/07.aim1_models.docx
+    Untracked:  output/tables/07.aim1_models_core.docx
+    Untracked:  output/tables/08.TableUV1_uvreg_PSS.docx
+    Untracked:  output/tables/08.TableUV2_uvreg_EmoType.docx
+    Untracked:  output/tables/08.Table_All_Emotion_models.docx
+    Untracked:  output/tables/08.Table_All_PSS_models.docx
+    Untracked:  output/tables/08.Tables_ForestPlot_Results.docx
+    Untracked:  output/tables/08.adjusted_models.docx
+    Untracked:  output/tables/08.adjusted_models_core.docx
+    Untracked:  output/tables/09.Tables_UV_ForestPlot_Results.docx
+
+Unstaged changes:
+    Modified:   analysis/01.Data_cleaning.Rmd
+    Modified:   analysis/04.Descriptive_stats.Rmd
+    Deleted:    analysis/07.aim2_emo_models.Rmd
+    Deleted:    analysis/07.aim2_pss_models.Rmd
+    Deleted:    analysis/08.forest_plot_tables.R
+    Deleted:    analysis/08.multivariate_models.Rmd
+    Deleted:    analysis/08.univariate_models.Rmd
+    Deleted:    analysis/09.uv_forest_plot_tables.R
+    Modified:   analysis/_site.yml
+    Modified:   data/01.Screening_clean.csv
+    Modified:   data/01.conflicts_reviewed.csv
+    Modified:   data/01.conflicts_reviewed_V2.csv
+    Modified:   data/01.conflicts_to_review.csv
+    Modified:   data/02.Merged_Screening_HWISE_PSS.csv
+    Modified:   data/03.Merged_Q1-6.csv
+    Modified:   data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
+    Modified:   output/figures/07.UV_coef_EMO.png
+    Modified:   output/figures/07.UV_coef_PSS.png
+    Modified:   output/figures/07.famd_cos2_heatmap.png
+    Modified:   output/figures/07.famd_scores.png
+    Modified:   output/figures/07.famd_scree.png
+    Modified:   output/figures/07.famd_var_contrib.png
+    Modified:   output/figures/07.famd_var_map.png
+    Modified:   output/figures/07.pca_heatmap.png
+    Modified:   output/figures/07.pca_loadings.png
+    Modified:   output/figures/07.pca_scores.png
+    Modified:   output/figures/07.pca_scree.png
+    Modified:   output/figures/07.poly_cor_heatmap.png
+    Modified:   output/figures/07.poly_pca_heatmap.png
+    Modified:   output/figures/07.poly_pca_loadings.png
+    Modified:   output/figures/07.ses_comparison_panel_a.png
+    Modified:   output/figures/07.ses_comparison_panel_b.png
+    Deleted:    output/figures/UV_coef_EMO.png
+    Deleted:    output/figures/UV_coef_PSS.png
+    Deleted:    output/figures/famd_cos2_heatmap.png
+    Deleted:    output/figures/famd_scores.png
+    Deleted:    output/figures/famd_scree.png
+    Deleted:    output/figures/famd_var_contrib.png
+    Deleted:    output/figures/famd_var_map.png
+    Deleted:    output/figures/panel_a_coef_plot.png
+    Deleted:    output/figures/panel_b_coef_plot.png
+    Deleted:    output/figures/pca_heatmap.png
+    Deleted:    output/figures/pca_loadings.png
+    Deleted:    output/figures/pca_scores.png
+    Deleted:    output/figures/pca_scree.png
+    Deleted:    output/figures/poly_cor_heatmap.png
+    Deleted:    output/figures/poly_pca_heatmap.png
+    Deleted:    output/figures/poly_pca_loadings.png
+    Deleted:    output/figures/poly_pca_scores.png
+    Deleted:    output/figures/poly_pca_scree.png
+    Deleted:    output/figures/ses_comparison_panel_a.png
+    Deleted:    output/figures/ses_comparison_panel_b.png
+    Modified:   output/tables/04.Table1_sample_characteristics.docx
+    Modified:   output/tables/04.missing_table.docx
+    Modified:   output/tables/04.missing_table_by_season.docx
+    Modified:   output/tables/07.Table_Top5_Emotion_models.docx
+    Modified:   output/tables/07.Table_Top5_PSS_models.docx
+    Modified:   output/tables/08.multivariate_models.docx
+    Modified:   output/tables/08.multivariate_models_core.docx
+    Deleted:    output/tables/Table1_sample_characteristics.docx
+    Deleted:    output/tables/TableS1.2_missing_data.docx
+    Deleted:    output/tables/TableS1_full_descriptives.docx
+    Deleted:    output/tables/TableS2_HWISE_PSS_by_season.docx
+    Deleted:    output/tables/TableS3_HWISE_PSS_by_neighborhood.docx
+    Modified:   output/tables/Tables_ForestPlot_Results.docx
+    Modified:   output/tables/Tables_UV_ForestPlot_Results.docx
+    Deleted:    output/tables/missing_table.docx
+    Deleted:    output/tables/missing_table_by_season.docx
+    Deleted:    output/tables/~$ble_Top5_PSS_models.docx
+    Deleted:    output/tables/~$bles_ForestPlot_Results.docx
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<hr />
+<div id="load-data" class="section level1">
+<h1>Load Data</h1>
+<pre class="r"><code>df &lt;- read.csv(&quot;./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv&quot;,
+               stringsAsFactors = FALSE,
+               na.strings = c(&quot;&quot;))
+
+cat(&quot;Dimensions:&quot;, dim(df), &quot;\n&quot;)</code></pre>
+<pre><code>Dimensions: 397 137 </code></pre>
+<pre class="r"><code>cat(&quot;Participants:&quot;, nrow(df), &quot;\n&quot;)</code></pre>
+<pre><code>Participants: 397 </code></pre>
+<hr />
+</div>
+<div id="prepare-analytic-dataset" class="section level1">
+<h1>Prepare Analytic Dataset</h1>
+<pre class="r"><code>edu_levels &lt;- c(
+  &quot;No formal education&quot;,
+  &quot;Incomplete primary (1–5 yrs)&quot;,
+  &quot;Complete primary&quot;,
+  &quot;Incomplete secondary (7–8 yrs)&quot;,
+  &quot;Complete secondary&quot;,
+  &quot;Incomplete high school (10–11 yrs)&quot;,
+  &quot;Complete high school&quot;,
+  &quot;Incomplete university (13–15 yrs)&quot;,
+  &quot;Complete university&quot;,
+  &quot;Postgraduate&quot;
+)
+
+df_table &lt;- df %&gt;%
+  mutate(
+    Age          = clean_for_table(D_AGE),
+    Yrs_in_nbhd  = clean_for_table(D_LOC_TIME_CLEAN),
+    HH_size      = clean_for_table(D_HH_SIZE),
+    Parity       = clean_for_table(D_CHLD_CLEAN),
+
+    Season = factor(SEASON, levels = c(0, 1), labels = c(&quot;Rainy&quot;, &quot;Dry&quot;)),
+
+    Education = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        &quot;Incomplete primary&quot;     = &quot;Incomplete primary (1–5 yrs)&quot;,
+        &quot;Incomplete secondary&quot;   = &quot;Incomplete secondary (7–8 yrs)&quot;,
+        &quot;Incomplete high school&quot; = &quot;Incomplete high school (10–11 yrs)&quot;,
+        &quot;Incomplete university&quot;  = &quot;Incomplete university (13–15 yrs)&quot;
+      ),
+      levels = edu_levels, ordered = TRUE
+    ),
+    SES_Score       = clean_for_table(SES_SC_Total),
+    Edu_Score       = as.numeric(Education),
+
+    Employed = factor(clean_for_table(D_EMP_CLEAN),
+                      levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Employment_type = factor(clean_for_table(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1), labels = c(&quot;Informal&quot;, &quot;Formal&quot;)),
+
+    Hormonal_tx  = factor(clean_for_table(HLTH_TTM_CAT),
+                          levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Medication   = factor(clean_for_table(HLTH_MED_CAT),
+                          levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Chronic_pain = factor(clean_for_table(HLTH_CPAIN_CAT),
+                          levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Chronic_dis  = factor(clean_for_table(HLTH_CDIS_CAT),
+                          levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+
+    HWISE_Total  = clean_for_table(HW_TOTAL),
+    Water_worry  = clean_for_table(as.numeric(HW_WORRY_SUB)),
+    Water_5sub   = clean_for_table(HW_MEX_5SUB),
+    HWISE_Cat    = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))  ~ NA_character_,
+        clean_for_table(HW_TOTAL) &lt;= 3    ~ &quot;Marginal (0-3)&quot;,
+        clean_for_table(HW_TOTAL) &lt;= 11   ~ &quot;Low (4-11)&quot;,
+        TRUE                              ~ &quot;Moderate/Severe (≥12)&quot;
+      ),
+      levels = c(&quot;Marginal (0-3)&quot;, &quot;Low (4-11)&quot;, &quot;Moderate/Severe (≥12)&quot;)
+    ),
+    HWI_5sub_hi = factor(
+      case_when(
+        is.na(Water_5sub) ~ NA_character_,
+        Water_5sub &gt;= 3   ~ &quot;High&quot;,
+        TRUE              ~ &quot;Low/none&quot;
+      ),
+      levels = c(&quot;Low/none&quot;, &quot;High&quot;)
+    ),
+
+    HW_Worry   = clean_for_table(HW_WORRY),
+    HW_Interr  = clean_for_table(HW_INTERR),
+    HW_Clothes = clean_for_table(HW_CLOTHES),
+    HW_Plans   = clean_for_table(HW_PLANS),
+    HW_Food    = clean_for_table(HW_FOOD),
+    HW_Hands   = clean_for_table(HW_HANDS),
+    HW_Body    = clean_for_table(HW_BODY),
+    HW_Drink   = clean_for_table(HW_DRINK),
+    HW_Angry   = clean_for_table(HW_ANGRY),
+    HW_Sleep   = clean_for_table(HW_SLEEP),
+    HW_None    = clean_for_table(HW_NONE),
+    HW_Shame   = clean_for_table(HW_SHAME),
+
+    PSS_Total  = clean_for_table(PSS_TOTAL)
+  )</code></pre>
+<hr />
+</div>
+<div id="prepare-water-supply-variables" class="section level1">
+<h1>Prepare Water Supply Variables</h1>
+<pre class="r"><code>df_water &lt;- df %&gt;%
+  mutate(
+    W_Continuity = case_when(
+      is_sentinel_str(MX3_CONT_INT)                             ~ NA_character_,
+      str_detect(tolower(MX3_CONT_INT), &quot;^contin&quot;)              ~ &quot;Continuous&quot;,
+      str_detect(tolower(MX3_CONT_INT), &quot;^intermi|cortan|deja&quot;) ~ &quot;Intermittent&quot;,
+      str_detect(tolower(MX3_CONT_INT), &quot;disminu&quot;)              ~ &quot;Reduced pressure/flow&quot;,
+      MX3_CONT_INT %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(MX3_CONT_INT)    ~ NA_character_,
+      TRUE                                                       ~ &quot;Other&quot;
+    ),
+    W_Continuity = factor(W_Continuity,
+                          levels = c(&quot;Continuous&quot;, &quot;Intermittent&quot;,
+                                     &quot;Reduced pressure/flow&quot;, &quot;Other&quot;)),
+
+    W_Freq_raw = coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str(W_Freq_raw)                              ~ NA_character_,
+      str_detect(tolower(W_Freq_raw), &quot;^diari|every day&quot;)      ~ &quot;Daily&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;^intermi&quot;)              ~ &quot;Intermittent&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;1 a 3|1-3&quot;)            ~ &quot;1–3 days/week&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;4 a 6|4-6&quot;)            ~ &quot;4–6 days/week&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;^contin&quot;)               ~ &quot;Continuous&quot;,
+      W_Freq_raw %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(W_Freq_raw)       ~ NA_character_,
+      TRUE                                                      ~ &quot;Other&quot;
+    ),
+    W_Frequency = factor(W_Frequency,
+                         levels = c(&quot;Continuous&quot;, &quot;Daily&quot;, &quot;4–6 days/week&quot;,
+                                    &quot;1–3 days/week&quot;, &quot;Intermittent&quot;, &quot;Other&quot;)),
+
+    W_Hrs_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, &quot;^[0-9\\.]+&quot;)))
+    ),
+    W_Hrs_week = ifelse(W_Hrs_week %in% MISSING_CODES | W_Hrs_week &gt; 168, NA, W_Hrs_week),
+
+    W_Days_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
+             as.numeric(str_extract(MX5_WFREQ_NDAYS, &quot;^[0-9]+&quot;)))
+    ),
+    W_Days_week = ifelse(W_Days_week %in% MISSING_CODES | W_Days_week &gt; 7, NA, W_Days_week),
+
+    W_Pressure = case_when(
+      is_sentinel_str(MX6_WPRESS)                                ~ NA_character_,
+      str_detect(tolower(MX6_WPRESS), &quot;^s[ií]|^yes|^buena|^bien&quot;) ~ &quot;Yes&quot;,
+      str_detect(tolower(MX6_WPRESS), &quot;^no|^baja|^poca&quot;)         ~ &quot;No/Low&quot;,
+      MX6_WPRESS %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(MX6_WPRESS)         ~ NA_character_,
+      TRUE                                                         ~ &quot;Variable&quot;
+    ),
+    W_Pressure = factor(W_Pressure, levels = c(&quot;Yes&quot;, &quot;No/Low&quot;, &quot;Variable&quot;)),
+
+    W_WS_LOC_F = factor(W_WS_LOC, levels = c(&quot;WS&quot;, &quot;WI&quot;),
+                        labels = c(&quot;Water Secure&quot;, &quot;Water Insecure&quot;))
+  )</code></pre>
+<hr />
+</div>
+<div id="prepare-regression-dataset" class="section level1">
+<h1>Prepare Regression Dataset</h1>
+<pre class="r"><code>EMO_raw &lt;- suppressWarnings(as.numeric(as.character(df$MX26_EM_HHW_CAT)))
+EMO_raw &lt;- ifelse(EMO_raw %in% MISSING_CODES, NA, EMO_raw)
+
+df_reg &lt;- df_table %&gt;%
+  mutate(
+    EMO_NEG = case_when(
+      EMO_raw == 0 ~ 0L,
+      EMO_raw == 1 ~ 1L,
+      TRUE         ~ NA_integer_
+    ),
+    W_WS_LOC_F  = df_water$W_WS_LOC_F,
+    W_Continuity = df_water$W_Continuity,
+    W_Frequency  = df_water$W_Frequency,
+    W_Days_week  = df_water$W_Days_week,
+    W_Hrs_week   = df_water$W_Hrs_week,
+    W_Pressure   = df_water$W_Pressure
+  )
+
+# Desired within-group display order (lower number = appears first in plot/table)
+predictor_order &lt;- c(
+  # Demographics
+  Age = 1, Parity = 2, HH_size = 3,
+  # Socioeconomic
+  SES_Score = 1, Edu_Score = 2, Employed = 3, Employment_type = 4,
+  # Health
+  Chronic_pain = 1, Chronic_dis = 2, PSS_Total = 3,
+  # HWISE (Water_worry moved to end)
+  HWISE_Total = 1, Water_5sub = 2, HWI_5sub_hi = 3, HWISE_Cat = 4, Water_worry = 5,
+  # HWISE items
+  HW_Worry = 1, HW_Interr = 2, HW_Clothes = 3, HW_Plans = 4,
+  HW_Food = 5, HW_Hands = 6, HW_Body = 7, HW_Drink = 8,
+  HW_Angry = 9, HW_Sleep = 10, HW_None = 11, HW_Shame = 12,
+  # Water supply
+  Season = 1, W_WS_LOC_F = 2, W_Continuity = 3, W_Frequency = 4,
+  W_Days_week = 5, W_Hrs_week = 6, W_Pressure = 7, Yrs_in_nbhd = 8
+)
+
+# Shared predictor labels
+pred_labels &lt;- c(
+  Age             = &quot;Age (years)&quot;,
+  Parity          = &quot;Parity&quot;,
+  HH_size         = &quot;Household size&quot;,
+  Yrs_in_nbhd    = &quot;Years in neighborhood&quot;,
+  Season          = &quot;Season&quot;,
+  SES_Score       = &quot;SES composite score&quot;,
+  Edu_Score       = &quot;Education (ordinal score)&quot;,
+  Employed        = &quot;Employed&quot;,
+  Employment_type = &quot;Employment type&quot;,
+  Chronic_pain    = &quot;Chronic pain&quot;,
+  Chronic_dis     = &quot;Chronic disease&quot;,
+  PSS_Total       = &quot;PSS-14 total score&quot;,
+  HWISE_Total     = &quot;HWISE total score&quot;,
+  Water_5sub      = &quot;5-item subscale (continuous)&quot;,
+  HWI_5sub_hi     = &quot;5-item subscale (high \u2265 3)&quot;,
+  HWISE_Cat       = &quot;HWISE&quot;,
+  Water_worry     = &quot;Water worry subscale&quot;,
+  HW_Worry        = &quot;HW1: Worried about water&quot;,
+  HW_Interr       = &quot;HW2: Water interrupted&quot;,
+  HW_Clothes      = &quot;HW3: Unable to wash clothes&quot;,
+  HW_Plans        = &quot;HW4: Changed plans&quot;,
+  HW_Food         = &quot;HW5: Unable to prepare food&quot;,
+  HW_Hands        = &quot;HW6: Unable to wash hands&quot;,
+  HW_Body         = &quot;HW7: Unable to wash body&quot;,
+  HW_Drink        = &quot;HW8: No drinking water&quot;,
+  HW_Angry        = &quot;HW9: Felt angry&quot;,
+  HW_Sleep        = &quot;HW10: Went to sleep thirsty&quot;,
+  HW_None         = &quot;HW11: Had no water at all&quot;,
+  HW_Shame        = &quot;HW12: Felt shame&quot;,
+  W_WS_LOC_F      = &quot;Neighborhood&quot;,
+  W_Continuity    = &quot;Supply continuity&quot;,
+  W_Frequency     = &quot;Supply frequency&quot;,
+  W_Days_week     = &quot;Days of supply per week&quot;,
+  W_Hrs_week      = &quot;Hours of supply per week&quot;,
+  W_Pressure      = &quot;Adequate water pressure&quot;
+)
+
+# Reference levels for every factor predictor in df_reg
+ref_levels &lt;- sapply(names(df_reg), function(v) {
+  x &lt;- df_reg[[v]]
+  if (is.factor(x)) levels(x)[1] else NA_character_
+})
+
+# Build a display label that appends level &amp; ref for categorical terms
+make_display_label &lt;- function(predictor, term, label) {
+  if (predictor == term) return(label)          # continuous
+  level &lt;- gsub(predictor, &quot;&quot;, term, fixed = TRUE)
+  ref   &lt;- ref_levels[predictor]
+  if (!is.na(ref)) {
+    paste0(label, &quot;: &quot;, level, &quot; (ref: &quot;, ref, &quot;)&quot;)
+  } else {
+    paste0(label, &quot;: &quot;, level)
+  }
+}
+
+# Helper: unadjusted linear regression
+run_lm_uv &lt;- function(outcome, predictors, data, labels) {
+  map_dfr(predictors, function(v) {
+    dat &lt;- data[, c(outcome, v)]
+    if (v == &quot;W_Pressure&quot;) {
+      dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != &quot;Variable&quot;, ]
+      dat[[v]] &lt;- droplevels(dat[[v]])
+    }
+    if (v == &quot;W_Frequency&quot;) {
+      dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != &quot;Other&quot;, ]
+      dat[[v]] &lt;- droplevels(dat[[v]])
+    }
+    if (v == &quot;W_Continuity&quot;) {
+      dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != &quot;Other&quot;, ]
+      dat[[v]] &lt;- droplevels(dat[[v]])
+    }
+    dat &lt;- dat[complete.cases(dat), ]
+    fit &lt;- tryCatch(
+      lm(as.formula(paste(outcome, &quot;~ .&quot;)), data = dat),
+      error = function(e) NULL
+    )
+    if (is.null(fit)) return(NULL)
+    tidy(fit, conf.int = TRUE) %&gt;%
+      filter(term != &quot;(Intercept)&quot;) %&gt;%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+# Helper: unadjusted logistic regression
+run_glm_uv &lt;- function(outcome, predictors, data, labels) {
+  map_dfr(predictors, function(v) {
+    dat &lt;- data[, c(outcome, v)]
+    if (v == &quot;W_Pressure&quot;) {
+      dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != &quot;Variable&quot;, ]
+      dat[[v]] &lt;- droplevels(dat[[v]])
+    }
+    if (v == &quot;W_Frequency&quot;) {
+      dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != &quot;Other&quot;, ]
+      dat[[v]] &lt;- droplevels(dat[[v]])
+    }
+    if (v == &quot;W_Continuity&quot;) {
+      dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != &quot;Other&quot;, ]
+      dat[[v]] &lt;- droplevels(dat[[v]])
+    }
+    dat &lt;- dat[complete.cases(dat), ]
+    fit &lt;- tryCatch(
+      glm(as.formula(paste(outcome, &quot;~ .&quot;)), data = dat, family = binomial),
+      error = function(e) NULL
+    )
+    if (is.null(fit)) return(NULL)
+    tidy(fit, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+      filter(term != &quot;(Intercept)&quot;) %&gt;%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}</code></pre>
+<hr />
+</div>
+<div id="unadjusted-models-pss-total-score-linear"
+class="section level1">
+<h1>Unadjusted Models: PSS Total Score (linear)</h1>
+<p>β (95% CI), p-value, BH-adjusted q-value, and AIC per model. Sorted
+by predictor group then variable order.</p>
+<pre class="r"><code>pss_predictors &lt;- c(
+  # Demographics (Age, Parity, HH_size, Yrs_in_nbhd)
+  &quot;Age&quot;, &quot;Parity&quot;, &quot;HH_size&quot;, &quot;Yrs_in_nbhd&quot;,
+  # Socioeconomic (SES_Score, Edu_Score, Employed, Employment_type)
+  &quot;SES_Score&quot;, &quot;Edu_Score&quot;, &quot;Employed&quot;, &quot;Employment_type&quot;,
+  # Health (no hormonal_tx, no medication)
+  &quot;Chronic_pain&quot;, &quot;Chronic_dis&quot;,
+  # HWISE (Water_worry at end)
+  &quot;HWISE_Total&quot;, &quot;Water_5sub&quot;, &quot;HWI_5sub_hi&quot;, &quot;HWISE_Cat&quot;, &quot;Water_worry&quot;,
+  # Water supply
+  &quot;Season&quot;, &quot;W_WS_LOC_F&quot;, &quot;W_Continuity&quot;, &quot;W_Frequency&quot;,
+  &quot;W_Days_week&quot;, &quot;W_Hrs_week&quot;, &quot;W_Pressure&quot;
+)
+
+pss_results &lt;- run_lm_uv(&quot;PSS_Total&quot;, pss_predictors, df_reg, pred_labels) %&gt;%
+  mutate(
+    q.value       = p.adjust(p.value, method = &quot;BH&quot;),
+    group         = group_map[predictor],
+    group         = factor(group, levels = group_order),
+    var_order     = predictor_order[predictor],
+    display_label = mapply(make_display_label, predictor, term, label)
+  ) %&gt;%
+  arrange(group, var_order)
+
+pss_tbl &lt;- pss_results %&gt;%
+  mutate(
+    `β (95% CI)` = sprintf(&quot;%.2f (%.2f, %.2f)&quot;, estimate, conf.low, conf.high),
+    sig          = sig_sym(p.value),
+    p_fmt        = case_when(
+      p.value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+      TRUE            ~ sprintf(&quot;%.3f&quot;, p.value)
+    ),
+    q_fmt = case_when(
+      q.value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+      TRUE            ~ sprintf(&quot;%.3f&quot;, q.value)
+    ),
+    AIC_r = round(AIC, 1)
+  ) %&gt;%
+  select(display_label, n, `β (95% CI)`, sig, p_fmt, q_fmt, AIC_r, p.value) %&gt;%
+  rename(
+    Variable       = display_label,
+    N              = n,
+    Sig            = sig,
+    `p-value`      = p_fmt,
+    `q-value (BH)` = q_fmt,
+    AIC            = AIC_r
+  )</code></pre>
+<div id="table-pss-publication-ready" class="section level2">
+<h2>Table: PSS (publication-ready)</h2>
+<pre class="r"><code>pss_sig_rows &lt;- which(pss_tbl$p.value &lt; 0.05)
+
+pss_gt &lt;- pss_tbl %&gt;%
+  select(-p.value) %&gt;%
+  gt() %&gt;%
+  tab_header(
+    title    = md(&quot;**Table Unadj1. Unadjusted Linear Regression: Predictors of Perceived Stress Score**&quot;),
+    subtitle = md(&quot;Each predictor entered separately as the sole regressor. Grouped by predictor domain.&quot;)
+  ) %&gt;%
+  cols_label(
+    Variable       = md(&quot;**Predictor**&quot;),
+    N              = md(&quot;***n***&quot;),
+    `β (95% CI)`   = md(&quot;**β (95% CI)**&quot;),
+    Sig            = md(&quot;**Sig.**&quot;),
+    `p-value`      = md(&quot;***p***&quot;),
+    `q-value (BH)` = md(&quot;***q***&quot;),
+    AIC            = md(&quot;**AIC**&quot;)
+  ) %&gt;%
+  # Header background
+  tab_style(
+    style     = list(cell_fill(color = &quot;#2c3e50&quot;), cell_text(color = &quot;white&quot;, weight = &quot;bold&quot;)),
+    locations = cells_column_labels()
+  ) %&gt;%
+  tab_style(
+    style     = list(cell_fill(color = &quot;#2c3e50&quot;), cell_text(color = &quot;white&quot;)),
+    locations = cells_title()
+  ) %&gt;%
+  # Significant rows
+  tab_style(
+    style     = list(cell_fill(color = &quot;#fff3cd&quot;), cell_text(weight = &quot;bold&quot;)),
+    locations = cells_body(rows = pss_sig_rows)
+  ) %&gt;%
+  # Centred columns
+  tab_style(
+    style     = cell_text(align = &quot;center&quot;),
+    locations = cells_body(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %&gt;%
+  tab_style(
+    style     = cell_text(align = &quot;center&quot;),
+    locations = cells_column_labels(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %&gt;%
+  cols_width(
+    Variable       ~ px(210),
+    N              ~ px(50),
+    `β (95% CI)`   ~ px(155),
+    Sig            ~ px(48),
+    `p-value`      ~ px(70),
+    `q-value (BH)` ~ px(70),
+    AIC            ~ px(68)
+  ) %&gt;%
+  tab_footnote(
+    footnote = md(
+      &quot;**Highlighted rows:** *p* &lt; 0.05.
+      **Sig.:** \u2020 *p* &lt; 0.10 &amp;nbsp; \\* *p* &lt; 0.05 &amp;nbsp; \\*\\* *p* &lt; 0.01 &amp;nbsp; \\*\\*\\* *p* &lt; 0.001.
+      ***p*-value:** unadjusted two-sided Wald test.
+      ***q*-value (BH):** *p*-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
+      **AIC:** Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome.&quot;
+    )
+  ) %&gt;%
+  opt_row_striping(row_striping = TRUE) %&gt;%
+  opt_table_font(font = list(google_font(&quot;Source Sans Pro&quot;), default_fonts())) %&gt;%
+  tab_options(
+    table.border.top.color          = &quot;#2c3e50&quot;,
+    table.border.top.width          = px(2),
+    table.border.bottom.color       = &quot;#2c3e50&quot;,
+    table.border.bottom.width       = px(2),
+    column_labels.border.bottom.color = &quot;#2c3e50&quot;,
+    column_labels.border.bottom.width = px(1),
+    row.striping.background_color   = &quot;#f7f9fc&quot;,
+    data_row.padding                = px(5),
+    footnotes.font.size             = px(11),
+    heading.title.font.size         = px(14),
+    heading.subtitle.font.size      = px(11),
+    heading.padding                 = px(6)
+  )
+
+pss_gt</code></pre>
+<div id="cvlxasfenu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#cvlxasfenu table {
+  font-family: 'Source Sans Pro', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#cvlxasfenu thead, #cvlxasfenu tbody, #cvlxasfenu tfoot, #cvlxasfenu tr, #cvlxasfenu td, #cvlxasfenu th {
+  border-style: none;
+}
+
+#cvlxasfenu p {
+  margin: 0;
+  padding: 0;
+}
+
+#cvlxasfenu .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #2C3E50;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #2C3E50;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cvlxasfenu .gt_title {
+  color: #333333;
+  font-size: 14px;
+  font-weight: initial;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#cvlxasfenu .gt_subtitle {
+  color: #333333;
+  font-size: 11px;
+  font-weight: initial;
+  padding-top: 5px;
+  padding-bottom: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#cvlxasfenu .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #2C3E50;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#cvlxasfenu .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#cvlxasfenu .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #2C3E50;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#cvlxasfenu .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#cvlxasfenu .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#cvlxasfenu .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#cvlxasfenu .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#cvlxasfenu .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#cvlxasfenu .gt_row {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#cvlxasfenu .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#cvlxasfenu .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#cvlxasfenu .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_striped {
+  background-color: #F7F9FC;
+}
+
+#cvlxasfenu .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_footnote {
+  margin: 0px;
+  font-size: 11px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#cvlxasfenu .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#cvlxasfenu .gt_left {
+  text-align: left;
+}
+
+#cvlxasfenu .gt_center {
+  text-align: center;
+}
+
+#cvlxasfenu .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#cvlxasfenu .gt_font_normal {
+  font-weight: normal;
+}
+
+#cvlxasfenu .gt_font_bold {
+  font-weight: bold;
+}
+
+#cvlxasfenu .gt_font_italic {
+  font-style: italic;
+}
+
+#cvlxasfenu .gt_super {
+  font-size: 65%;
+}
+
+#cvlxasfenu .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#cvlxasfenu .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#cvlxasfenu .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#cvlxasfenu .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#cvlxasfenu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#cvlxasfenu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#cvlxasfenu .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#cvlxasfenu .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#cvlxasfenu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" style="table-layout:fixed;width:0px;" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <colgroup>
+    <col style="width:210px;"/>
+    <col style="width:50px;"/>
+    <col style="width:155px;"/>
+    <col style="width:48px;"/>
+    <col style="width:70px;"/>
+    <col style="width:70px;"/>
+    <col style="width:68px;"/>
+  </colgroup>
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_title gt_font_normal" style="background-color: #2C3E50; color: #FFFFFF;"><span class='gt_from_md'><strong>Table Unadj1. Unadjusted Linear Regression: Predictors of Perceived Stress Score</strong></span></td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="background-color: #2C3E50; color: #FFFFFF;"><span class='gt_from_md'>Each predictor entered separately as the sole regressor. Grouped by predictor domain.</span></td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold;" scope="col" id="Variable"><span class='gt_from_md'><strong>Predictor</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="N"><span class='gt_from_md'><em><strong>n</strong></em></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold;" scope="col" id="aβ-(95%-CI)"><span class='gt_from_md'><strong>β (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="Sig"><span class='gt_from_md'><strong>Sig.</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="p-value"><span class='gt_from_md'><em><strong>p</strong></em></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="q-value-(BH)"><span class='gt_from_md'><em><strong>q</strong></em></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #2C3E50; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="AIC"><span class='gt_from_md'><strong>AIC</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable" class="gt_row gt_left">Age (years)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">394</td>
+<td headers="β (95% CI)" class="gt_row gt_right">-0.09 (-0.19, 0.00)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;">†</td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.057</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.124</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">2680.2</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Parity</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">378</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">0.03 (-0.56, 0.63)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.911</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.974</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2583.3</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Household size</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">375</td>
+<td headers="β (95% CI)" class="gt_row gt_right">-0.01 (-0.22, 0.20)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.933</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.974</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">2560.1</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">SES composite score</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">390</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">-0.00 (-0.02, 0.01)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.891</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.974</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2661.1</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold;">Education (ordinal score)</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">388</td>
+<td headers="β (95% CI)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold;">-0.50 (-0.92, -0.09)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">*</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.018</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.063</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2640.3</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Employed: Yes (ref: No)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">380</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">0.21 (-1.40, 1.83)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.796</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.955</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2596.3</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Employment type: Formal (ref: Informal)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">212</td>
+<td headers="β (95% CI)" class="gt_row gt_right">-0.69 (-2.89, 1.52)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.541</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.760</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">1450.8</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Chronic pain: Yes (ref: No)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">1.36 (-0.25, 2.96)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;">†</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.097</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.179</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2694.1</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold;">Chronic disease: Yes (ref: No)</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold;">3.00 (1.09, 4.91)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">**</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.002</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.010</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2687.4</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold;">HWISE total score</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold;">0.22 (0.11, 0.34)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.004</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2682.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold;">5-item subscale (continuous)</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold;">0.38 (0.14, 0.61)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">**</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.002</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.010</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2687.0</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold;">5-item subscale (high ≥ 3): High (ref: Low/none)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold;">1.88 (0.46, 3.30)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">**</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.010</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.039</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2690.1</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold;">HWISE: Low (4-11) (ref: Marginal (0-3))</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold;">1.92 (0.18, 3.67)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">*</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.030</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.081</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2685.7</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold;">HWISE: Moderate/Severe (≥12) (ref: Marginal (0-3))</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold;">3.59 (1.65, 5.52)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.004</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2685.7</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold;">Water worry subscale</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold;">0.62 (0.24, 1.01)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">**</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.002</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.010</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2686.7</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Season: Dry (ref: Rainy)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">-0.01 (-1.44, 1.42)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.989</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.989</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2696.9</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Neighborhood: Water Insecure (ref: Water Secure)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">396</td>
+<td headers="β (95% CI)" class="gt_row gt_right">0.41 (-1.02, 1.85)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.570</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.760</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">2696.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold;">Supply continuity: Intermittent (ref: Continuous)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">375</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold;">1.72 (0.09, 3.34)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">*</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.038</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.091</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2553.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Supply frequency: 4–6 days/week (ref: Continuous)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">386</td>
+<td headers="β (95% CI)" class="gt_row gt_right">0.36 (-2.05, 2.76)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.771</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.955</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">2626.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Supply frequency: 1–3 days/week (ref: Continuous)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">386</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">1.58 (-0.28, 3.44)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;">†</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.096</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.179</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2626.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Days of supply per week</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">382</td>
+<td headers="β (95% CI)" class="gt_row gt_right">-0.23 (-0.58, 0.12)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.200</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.343</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">2597.8</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Hours of supply per week</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">362</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped">-0.01 (-0.02, 0.01)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.338</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="text-align: center;">0.506</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">2466.1</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Adequate water pressure: No/Low (ref: Yes)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">380</td>
+<td headers="β (95% CI)" class="gt_row gt_right">1.02 (-0.73, 2.76)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.254</td>
+<td headers="q-value (BH)" class="gt_row gt_right" style="text-align: center;">0.406</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">2584.7</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold;">Years in neighborhood</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">363</td>
+<td headers="β (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold;">-0.08 (-0.14, -0.01)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">*</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.025</td>
+<td headers="q-value (BH)" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">0.074</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #FFF3CD; font-weight: bold; text-align: center;">2474.3</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="7"> <span class='gt_from_md'><strong>Highlighted rows:</strong> <em>p</em> &lt; 0.05.
+<strong>Sig.:</strong> † <em>p</em> &lt; 0.10   * <em>p</em> &lt; 0.05   ** <em>p</em> &lt; 0.01   *** <em>p</em> &lt; 0.001.
+<strong><em>p</em>-value:</strong> unadjusted two-sided Wald test.
+<strong><em>q</em>-value (BH):</strong> <em>p</em>-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
+<strong>AIC:</strong> Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome.</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="coefficient-plot-pss" class="section level2">
+<h2>Coefficient Plot: PSS</h2>
+<pre class="r"><code>plot_df_pss &lt;- pss_results %&gt;%
+  mutate(
+    label_full = factor(display_label,
+                        levels = rev(unique(display_label))),
+    sig        = sig_sym(p.value),
+    n_label    = paste0(&quot;n=&quot;, n)
+  )
+
+p_pss &lt;- ggplot(plot_df_pss, aes(x = estimate, y = label_full,
+                                  colour = p.value &lt; 0.05)) +
+  geom_vline(xintercept = 0, linetype = &quot;dashed&quot;, colour = &quot;grey50&quot;, linewidth = 0.5) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
+                 height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(label = sig), nudge_y = 0.25, size = 3.5,
+            fontface = &quot;bold&quot;, show.legend = FALSE) +
+  geom_text(aes(x = max(conf.high, na.rm = TRUE) * 1.08,
+                label = n_label),
+            size = 2.8, colour = &quot;grey40&quot;, hjust = 0) +
+  facet_grid(group ~ ., scales = &quot;free_y&quot;, space = &quot;free_y&quot;) +
+  scale_colour_manual(values = c(&quot;FALSE&quot; = &quot;grey55&quot;, &quot;TRUE&quot; = &quot;#c0392b&quot;)) +
+  scale_x_continuous(expand = expansion(mult = c(0.05, 0.18))) +
+  scale_y_discrete(expand = expansion(add = 0.4)) +
+  labs(
+    title   = &quot;Unadjusted Linear Regression — Perceived Stress Score (β)&quot;,
+    caption = &quot;Red = p &lt; 0.05  |  Symbols: \u2020p&lt;0.10  *p&lt;0.05  **p&lt;0.01  ***p&lt;0.001&quot;,
+    x       = &quot;β coefficient (95% CI)&quot;,
+    y       = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.8, &quot;lines&quot;))
+
+p_pss</code></pre>
+<p><img src="figure/06.unadjusted_models.Rmd/coef-plot-pss-1.png" width="864" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file.path(fig_dir, &quot;06.Unadj_coef_PSS.png&quot;), p_pss,
+       width = 9, height = 8, dpi = 300, bg = &quot;white&quot;)</code></pre>
+<hr />
+</div>
+</div>
+<div id="unadjusted-models-emotion-type-logistic"
+class="section level1">
+<h1>Unadjusted Models: Emotion Type (logistic)</h1>
+<p>OR (95% CI), p-value, BH-adjusted q-value, and AIC per model.
+Reference: positive emotion (0). Sorted by predictor group then variable
+order.</p>
+<pre class="r"><code>emo_predictors &lt;- c(
+  # Demographics (Age, Parity, HH_size, Yrs_in_nbhd)
+  &quot;Age&quot;, &quot;Parity&quot;, &quot;HH_size&quot;, &quot;Yrs_in_nbhd&quot;,
+  # Socioeconomic (SES_Score, Edu_Score, Employed, Employment_type)
+  &quot;SES_Score&quot;, &quot;Edu_Score&quot;, &quot;Employed&quot;, &quot;Employment_type&quot;,
+  # Health (no hormonal_tx, no medication)
+  &quot;Chronic_pain&quot;, &quot;Chronic_dis&quot;, &quot;PSS_Total&quot;,
+  # HWISE (Water_worry at end)
+  &quot;HWISE_Total&quot;, &quot;Water_5sub&quot;, &quot;HWI_5sub_hi&quot;, &quot;HWISE_Cat&quot;, &quot;Water_worry&quot;,
+  # Water supply
+  &quot;Season&quot;, &quot;W_WS_LOC_F&quot;, &quot;W_Continuity&quot;, &quot;W_Frequency&quot;,
+  &quot;W_Days_week&quot;, &quot;W_Hrs_week&quot;, &quot;W_Pressure&quot;
+)
+
+emo_results &lt;- run_glm_uv(&quot;EMO_NEG&quot;, emo_predictors, df_reg, pred_labels) %&gt;%
+  mutate(
+    q.value       = p.adjust(p.value, method = &quot;BH&quot;),
+    group         = group_map[predictor],
+    group         = factor(group, levels = group_order),
+    var_order     = predictor_order[predictor],
+    display_label = mapply(make_display_label, predictor, term, label)
+  ) %&gt;%
+  arrange(group, var_order)
+
+emo_tbl &lt;- emo_results %&gt;%
+  mutate(
+    `OR (95% CI)` = sprintf(&quot;%.2f (%.2f, %.2f)&quot;, estimate, conf.low, conf.high),
+    sig           = sig_sym(p.value),
+    p_fmt = case_when(
+      p.value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+      TRUE            ~ sprintf(&quot;%.3f&quot;, p.value)
+    ),
+    q_fmt = case_when(
+      q.value &lt; 0.001 ~ &quot;&lt;0.001&quot;,
+      TRUE            ~ sprintf(&quot;%.3f&quot;, q.value)
+    ),
+    AIC_r = round(AIC, 1)
+  ) %&gt;%
+  select(display_label, n, `OR (95% CI)`, sig, p_fmt, q_fmt, AIC_r, p.value) %&gt;%
+  rename(
+    Variable       = display_label,
+    N              = n,
+    Sig            = sig,
+    `p-value`      = p_fmt,
+    `q-value (BH)` = q_fmt,
+    AIC            = AIC_r
+  )</code></pre>
+<div id="table-emotion-type-publication-ready" class="section level2">
+<h2>Table: Emotion Type (publication-ready)</h2>
+<pre class="r"><code>emo_sig_rows &lt;- which(emo_tbl$p.value &lt; 0.05)
+
+emo_gt &lt;- emo_tbl %&gt;%
+  select(-p.value) %&gt;%
+  gt() %&gt;%
+  tab_header(
+    title    = md(&quot;**Table Unadj2. Unadjusted Logistic Regression: Predictors of Negative Emotional Response to Water**&quot;),
+    subtitle = md(&quot;Each predictor entered separately as the sole regressor. Grouped by predictor domain. Reference category: positive emotional response.&quot;)
+  ) %&gt;%
+  cols_label(
+    Variable       = md(&quot;**Predictor**&quot;),
+    N              = md(&quot;***n***&quot;),
+    `OR (95% CI)`  = md(&quot;**OR (95% CI)**&quot;),
+    Sig            = md(&quot;**Sig.**&quot;),
+    `p-value`      = md(&quot;***p***&quot;),
+    `q-value (BH)` = md(&quot;***q***&quot;),
+    AIC            = md(&quot;**AIC**&quot;)
+  ) %&gt;%
+  tab_style(
+    style     = list(cell_fill(color = &quot;#1a3a5c&quot;), cell_text(color = &quot;white&quot;, weight = &quot;bold&quot;)),
+    locations = cells_column_labels()
+  ) %&gt;%
+  tab_style(
+    style     = list(cell_fill(color = &quot;#1a3a5c&quot;), cell_text(color = &quot;white&quot;)),
+    locations = cells_title()
+  ) %&gt;%
+  tab_style(
+    style     = list(cell_fill(color = &quot;#d6eaf8&quot;), cell_text(weight = &quot;bold&quot;)),
+    locations = cells_body(rows = emo_sig_rows)
+  ) %&gt;%
+  tab_style(
+    style     = cell_text(align = &quot;center&quot;),
+    locations = cells_body(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %&gt;%
+  tab_style(
+    style     = cell_text(align = &quot;center&quot;),
+    locations = cells_column_labels(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %&gt;%
+  cols_width(
+    Variable       ~ px(210),
+    N              ~ px(50),
+    `OR (95% CI)`  ~ px(155),
+    Sig            ~ px(48),
+    `p-value`      ~ px(70),
+    `q-value (BH)` ~ px(70),
+    AIC            ~ px(68)
+  ) %&gt;%
+  tab_footnote(
+    footnote = md(
+      &quot;**Highlighted rows:** *p* &lt; 0.05.
+      **Sig.:** \u2020 *p* &lt; 0.10 &amp;nbsp; \\* *p* &lt; 0.05 &amp;nbsp; \\*\\* *p* &lt; 0.01 &amp;nbsp; \\*\\*\\* *p* &lt; 0.001.
+      **OR:** Odds ratio from binary logistic regression (outcome = negative emotion = 1 vs. positive = 0); OR &gt; 1 indicates higher odds of negative response.
+      ***p*-value:** unadjusted two-sided Wald test.
+      ***q*-value (BH):** *p*-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
+      **AIC:** Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome.&quot;
+    )
+  ) %&gt;%
+  opt_row_striping(row_striping = TRUE) %&gt;%
+  opt_table_font(font = list(google_font(&quot;Source Sans Pro&quot;), default_fonts())) %&gt;%
+  tab_options(
+    table.border.top.color          = &quot;#1a3a5c&quot;,
+    table.border.top.width          = px(2),
+    table.border.bottom.color       = &quot;#1a3a5c&quot;,
+    table.border.bottom.width       = px(2),
+    column_labels.border.bottom.color = &quot;#1a3a5c&quot;,
+    column_labels.border.bottom.width = px(1),
+    row.striping.background_color   = &quot;#f4f8fb&quot;,
+    data_row.padding                = px(5),
+    footnotes.font.size             = px(11),
+    heading.title.font.size         = px(14),
+    heading.subtitle.font.size      = px(11),
+    heading.padding                 = px(6)
+  )
+
+emo_gt</code></pre>
+<div id="ysxvahcbal" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+#ysxvahcbal table {
+  font-family: 'Source Sans Pro', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#ysxvahcbal thead, #ysxvahcbal tbody, #ysxvahcbal tfoot, #ysxvahcbal tr, #ysxvahcbal td, #ysxvahcbal th {
+  border-style: none;
+}
+
+#ysxvahcbal p {
+  margin: 0;
+  padding: 0;
+}
+
+#ysxvahcbal .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #1A3A5C;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #1A3A5C;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#ysxvahcbal .gt_title {
+  color: #333333;
+  font-size: 14px;
+  font-weight: initial;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ysxvahcbal .gt_subtitle {
+  color: #333333;
+  font-size: 11px;
+  font-weight: initial;
+  padding-top: 5px;
+  padding-bottom: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ysxvahcbal .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #1A3A5C;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ysxvahcbal .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ysxvahcbal .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ysxvahcbal .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ysxvahcbal .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #1A3A5C;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ysxvahcbal .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#ysxvahcbal .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#ysxvahcbal .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ysxvahcbal .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ysxvahcbal .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ysxvahcbal .gt_row {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ysxvahcbal .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxvahcbal .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#ysxvahcbal .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#ysxvahcbal .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#ysxvahcbal .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxvahcbal .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#ysxvahcbal .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxvahcbal .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_striped {
+  background-color: #F4F8FB;
+}
+
+#ysxvahcbal .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_footnote {
+  margin: 0px;
+  font-size: 11px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxvahcbal .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ysxvahcbal .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ysxvahcbal .gt_left {
+  text-align: left;
+}
+
+#ysxvahcbal .gt_center {
+  text-align: center;
+}
+
+#ysxvahcbal .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ysxvahcbal .gt_font_normal {
+  font-weight: normal;
+}
+
+#ysxvahcbal .gt_font_bold {
+  font-weight: bold;
+}
+
+#ysxvahcbal .gt_font_italic {
+  font-style: italic;
+}
+
+#ysxvahcbal .gt_super {
+  font-size: 65%;
+}
+
+#ysxvahcbal .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#ysxvahcbal .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#ysxvahcbal .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#ysxvahcbal .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#ysxvahcbal .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#ysxvahcbal .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#ysxvahcbal .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#ysxvahcbal .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#ysxvahcbal div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" style="table-layout:fixed;width:0px;" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <colgroup>
+    <col style="width:210px;"/>
+    <col style="width:50px;"/>
+    <col style="width:155px;"/>
+    <col style="width:48px;"/>
+    <col style="width:70px;"/>
+    <col style="width:70px;"/>
+    <col style="width:68px;"/>
+  </colgroup>
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_title gt_font_normal" style="background-color: #1A3A5C; color: #FFFFFF;"><span class='gt_from_md'><strong>Table Unadj2. Unadjusted Logistic Regression: Predictors of Negative Emotional Response to Water</strong></span></td>
+    </tr>
+    <tr class="gt_heading">
+      <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="background-color: #1A3A5C; color: #FFFFFF;"><span class='gt_from_md'>Each predictor entered separately as the sole regressor. Grouped by predictor domain. Reference category: positive emotional response.</span></td>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold;" scope="col" id="Variable"><span class='gt_from_md'><strong>Predictor</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="N"><span class='gt_from_md'><em><strong>n</strong></em></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold;" scope="col" id="OR-(95%-CI)"><span class='gt_from_md'><strong>OR (95% CI)</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="Sig"><span class='gt_from_md'><strong>Sig.</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="p-value"><span class='gt_from_md'><em><strong>p</strong></em></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="q-value-(BH)"><span class='gt_from_md'><em><strong>q</strong></em></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="background-color: #1A3A5C; color: #FFFFFF; font-weight: bold; text-align: center;" scope="col" id="AIC"><span class='gt_from_md'><strong>AIC</strong></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Variable" class="gt_row gt_left">Age (years)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">361</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">1.01 (0.98, 1.04)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.511</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.608</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">468.0</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Parity</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">345</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped">1.11 (0.93, 1.33)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.247</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="text-align: center;">0.364</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">450.9</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Household size</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">342</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">1.01 (0.95, 1.08)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.687</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.687</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">445.8</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">SES composite score</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">357</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped">1.00 (0.99, 1.00)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.391</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="text-align: center;">0.544</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">464.4</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Education (ordinal score)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">355</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">0.95 (0.84, 1.08)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.461</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.607</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">461.6</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Employed: Yes (ref: No)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">348</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped">1.41 (0.88, 2.25)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.155</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="text-align: center;">0.258</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">452.9</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Employment type: Formal (ref: Informal)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">190</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">1.18 (0.60, 2.39)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.631</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.685</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">237.6</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Chronic pain: Yes (ref: No)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped">1.41 (0.86, 2.34)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.180</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="text-align: center;">0.281</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">469.6</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Chronic disease: Yes (ref: No)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">0.86 (0.49, 1.56)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.614</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.685</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">471.2</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">PSS-14 total score</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">362</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">1.08 (1.05, 1.12)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">446.3</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold;">HWISE total score</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold;">1.25 (1.19, 1.33)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">381.2</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">5-item subscale (continuous)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">1.52 (1.36, 1.72)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">395.9</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold;">5-item subscale (high ≥ 3): High (ref: Low/none)</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold;">5.29 (3.31, 8.60)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">419.7</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">HWISE: Low (4-11) (ref: Marginal (0-3))</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">3.91 (2.30, 6.76)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">398.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold;">HWISE: Moderate/Severe (≥12) (ref: Marginal (0-3))</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold;">20.22 (9.39, 48.06)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">398.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">Water worry subscale</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">2.00 (1.69, 2.40)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">386.9</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Season: Dry (ref: Rainy)</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">1.16 (0.75, 1.79)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.510</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.608</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">471.0</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped">Neighborhood: Water Insecure (ref: Water Secure)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="text-align: center;">363</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped">1.48 (0.96, 2.30)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="text-align: center;">†</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="text-align: center;">0.076</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="text-align: center;">0.135</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="text-align: center;">468.3</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold;">Supply continuity: Intermittent (ref: Continuous)</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">343</td>
+<td headers="OR (95% CI)" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold;">3.04 (1.87, 4.99)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">421.6</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">Supply frequency: 4–6 days/week (ref: Continuous)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">354</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">3.94 (1.70, 10.77)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">**</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">0.003</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">0.006</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">439.8</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold;">Supply frequency: 1–3 days/week (ref: Continuous)</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">354</td>
+<td headers="OR (95% CI)" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold;">3.51 (1.85, 7.17)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">439.8</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">Days of supply per week</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">349</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">0.76 (0.66, 0.86)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">433.0</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold;">Hours of supply per week</td>
+<td headers="N" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">332</td>
+<td headers="OR (95% CI)" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold;">0.99 (0.99, 1.00)</td>
+<td headers="Sig" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">410.4</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold;">Adequate water pressure: No/Low (ref: Yes)</td>
+<td headers="N" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">348</td>
+<td headers="OR (95% CI)" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold;">4.75 (2.44, 10.17)</td>
+<td headers="Sig" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">***</td>
+<td headers="p-value" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="q-value (BH)" class="gt_row gt_left gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">&lt;0.001</td>
+<td headers="AIC" class="gt_row gt_right gt_striped" style="background-color: #D6EAF8; font-weight: bold; text-align: center;">429.5</td></tr>
+    <tr><td headers="Variable" class="gt_row gt_left">Years in neighborhood</td>
+<td headers="N" class="gt_row gt_right" style="text-align: center;">333</td>
+<td headers="OR (95% CI)" class="gt_row gt_right">1.00 (0.98, 1.02)</td>
+<td headers="Sig" class="gt_row gt_left" style="text-align: center;"></td>
+<td headers="p-value" class="gt_row gt_left" style="text-align: center;">0.684</td>
+<td headers="q-value (BH)" class="gt_row gt_left" style="text-align: center;">0.687</td>
+<td headers="AIC" class="gt_row gt_right" style="text-align: center;">433.1</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="7"> <span class='gt_from_md'><strong>Highlighted rows:</strong> <em>p</em> &lt; 0.05.
+<strong>Sig.:</strong> † <em>p</em> &lt; 0.10   * <em>p</em> &lt; 0.05   ** <em>p</em> &lt; 0.01   *** <em>p</em> &lt; 0.001.
+<strong>OR:</strong> Odds ratio from binary logistic regression (outcome = negative emotion = 1 vs. positive = 0); OR &gt; 1 indicates higher odds of negative response.
+<strong><em>p</em>-value:</strong> unadjusted two-sided Wald test.
+<strong><em>q</em>-value (BH):</strong> <em>p</em>-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
+<strong>AIC:</strong> Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome.</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="coefficient-plot-emotion-type-or-scale" class="section level2">
+<h2>Coefficient Plot: Emotion Type (OR scale)</h2>
+<pre class="r"><code>plot_df_emo &lt;- emo_results %&gt;%
+  mutate(
+    label_full = factor(display_label,
+                        levels = rev(unique(display_label))),
+    sig        = sig_sym(p.value),
+    n_label    = paste0(&quot;n=&quot;, n)
+  )
+
+p_emo &lt;- ggplot(plot_df_emo, aes(x = estimate, y = label_full,
+                                   colour = p.value &lt; 0.05)) +
+  geom_vline(xintercept = 1, linetype = &quot;dashed&quot;, colour = &quot;grey50&quot;, linewidth = 0.5) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
+                 height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(label = sig), nudge_y = 0.25, size = 3.5,
+            fontface = &quot;bold&quot;, show.legend = FALSE) +
+  geom_text(aes(x = max(conf.high, na.rm = TRUE) * 1.12,
+                label = n_label),
+            size = 2.8, colour = &quot;grey40&quot;, hjust = 0) +
+  facet_grid(group ~ ., scales = &quot;free_y&quot;, space = &quot;free_y&quot;) +
+  scale_colour_manual(values = c(&quot;FALSE&quot; = &quot;grey55&quot;, &quot;TRUE&quot; = &quot;#2471a3&quot;)) +
+  scale_x_log10(expand = expansion(mult = c(0.05, 0.22))) +
+  scale_y_discrete(expand = expansion(add = 0.4)) +
+  labs(
+    title   = stringr::str_wrap(&quot;Unadjusted Logistic Regression — Negative Emotional Response (OR)&quot;, width = 55),
+    caption = &quot;Blue = p &lt; 0.05  |  Log scale  |  Symbols: \u2020p&lt;0.10  *p&lt;0.05  **p&lt;0.01  ***p&lt;0.001&quot;,
+    x       = &quot;Odds Ratio (95% CI, log scale)&quot;,
+    y       = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.8, &quot;lines&quot;))
+
+p_emo</code></pre>
+<p><img src="figure/06.unadjusted_models.Rmd/coef-plot-emo-1.png" width="864" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file.path(fig_dir, &quot;06.Unadj_coef_EMO.png&quot;), p_emo,
+       width = 9, height = 8, dpi = 300, bg = &quot;white&quot;)</code></pre>
+<hr />
+</div>
+</div>
+<div id="export-to-word" class="section level1">
+<h1>Export to Word</h1>
+<pre class="r"><code>header_border &lt;- fp_border(color = &quot;#2c3e50&quot;, width = 1.5)
+thin_border   &lt;- fp_border(color = &quot;#bdc3c7&quot;, width = 0.5)
+
+make_uv_flextable &lt;- function(tbl, sig_rows, title_str, footnote_str,
+                               hi_color = &quot;#fff3cd&quot;) {
+  nrow_tbl &lt;- nrow(tbl) - 1  # exclude p.value col placeholder
+
+  tbl %&gt;%
+    select(-p.value) %&gt;%
+    flextable() %&gt;%
+    set_header_labels(
+      Variable       = &quot;Predictor&quot;,
+      N              = &quot;n&quot;,
+      Sig            = &quot;Sig.&quot;,
+      `p-value`      = &quot;p-value&quot;,
+      `q-value (BH)` = &quot;q-value (BH)&quot;,
+      AIC            = &quot;AIC&quot;
+    ) %&gt;%
+    # Title row above header
+    add_header_lines(title_str) %&gt;%
+    # Fonts
+    font(fontname = &quot;Calibri&quot;, part = &quot;all&quot;) %&gt;%
+    fontsize(size = 10, part = &quot;body&quot;) %&gt;%
+    fontsize(size = 10, part = &quot;header&quot;) %&gt;%
+    fontsize(size = 9,  part = &quot;footer&quot;) %&gt;%
+    # Header styling
+    bold(part = &quot;header&quot;) %&gt;%
+    color(part = &quot;header&quot;, color = &quot;white&quot;) %&gt;%
+    bg(part = &quot;header&quot;, bg = &quot;#2c3e50&quot;) %&gt;%
+    # Title row styling (first header row = title)
+    fontsize(i = 1, part = &quot;header&quot;, size = 11) %&gt;%
+    bold(i = 1, part = &quot;header&quot;) %&gt;%
+    # Alternating row shading
+    bg(i = seq(2, nrow(tbl %&gt;% select(-p.value)), by = 2),
+       bg = &quot;#f4f6f9&quot;, part = &quot;body&quot;) %&gt;%
+    # Significant row highlight
+    bold(i = sig_rows) %&gt;%
+    bg(i = sig_rows, bg = hi_color) %&gt;%
+    color(i = sig_rows, color = &quot;#7d3c00&quot;) %&gt;%
+    # Borders
+    border_remove() %&gt;%
+    hline_top(part = &quot;header&quot;, border = header_border) %&gt;%
+    hline_bottom(part = &quot;header&quot;, border = header_border) %&gt;%
+    hline_bottom(part = &quot;body&quot;,   border = header_border) %&gt;%
+    hline(border = thin_border, part = &quot;body&quot;) %&gt;%
+    # Alignment
+    align(j = ~ N + Sig + `p-value` + `q-value (BH)` + AIC,
+          align = &quot;center&quot;, part = &quot;all&quot;) %&gt;%
+    align(j = ~ Variable, align = &quot;left&quot;, part = &quot;all&quot;) %&gt;%
+    # Column widths (inches for Word)
+    width(j = &quot;Variable&quot;,       width = 2.8) %&gt;%
+    width(j = &quot;N&quot;,              width = 0.4) %&gt;%
+    width(j = 3,                width = 1.8) %&gt;%  # β or OR col
+    width(j = &quot;Sig&quot;,            width = 0.4) %&gt;%
+    width(j = &quot;p-value&quot;,        width = 0.7) %&gt;%
+    width(j = &quot;q-value (BH)&quot;,   width = 0.8) %&gt;%
+    width(j = &quot;AIC&quot;,            width = 0.6) %&gt;%
+    # Footer
+    add_footer_lines(footnote_str) %&gt;%
+    italic(part = &quot;footer&quot;) %&gt;%
+    color(part = &quot;footer&quot;, color = &quot;#555555&quot;) %&gt;%
+    set_table_properties(layout = &quot;fixed&quot;)
+}
+
+pss_footnote &lt;- paste0(
+  &quot;Highlighted rows: p &lt; 0.05 (shown in amber). &quot;,
+  &quot;Sig.: \u2020 p&lt;0.10, * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001. &quot;,
+  &quot;p-value: unadjusted two-sided Wald test. &quot;,
+  &quot;q-value (BH): p-value corrected for multiple comparisons using the &quot;,
+  &quot;Benjamini-Hochberg false discovery rate (FDR) procedure across all predictors &quot;,
+  &quot;in this table. A q-value &lt; 0.05 indicates the result is expected to remain &quot;,
+  &quot;significant while controlling the FDR at 5%. &quot;,
+  &quot;AIC: Akaike Information Criterion; lower = better fit.&quot;
+)
+
+emo_footnote &lt;- paste0(
+  &quot;Highlighted rows: p &lt; 0.05 (shown in blue). &quot;,
+  &quot;OR: odds ratio from binary logistic regression (outcome: negative emotion = 1 &quot;,
+  &quot;vs. positive = 0); OR &gt; 1 indicates higher odds of negative emotional response. &quot;,
+  &quot;Sig.: \u2020 p&lt;0.10, * p&lt;0.05, ** p&lt;0.01, *** p&lt;0.001. &quot;,
+  &quot;p-value: unadjusted two-sided Wald test. &quot;,
+  &quot;q-value (BH): p-value corrected for multiple comparisons using the &quot;,
+  &quot;Benjamini-Hochberg false discovery rate (FDR) procedure across all predictors &quot;,
+  &quot;in this table. A q-value &lt; 0.05 indicates the result is expected to remain &quot;,
+  &quot;significant while controlling the FDR at 5%. &quot;,
+  &quot;AIC: Akaike Information Criterion; lower = better fit.&quot;
+)
+
+pss_ft &lt;- make_uv_flextable(
+  pss_tbl, pss_sig_rows,
+  title_str   = &quot;Table Unadj1. Unadjusted Linear Regression: Predictors of Perceived Stress Score&quot;,
+  footnote_str = pss_footnote,
+  hi_color    = &quot;#fff3cd&quot;
+)
+
+emo_ft &lt;- make_uv_flextable(
+  emo_tbl, emo_sig_rows,
+  title_str   = &quot;Table Unadj2. Unadjusted Logistic Regression: Predictors of Negative Emotional Response to Water&quot;,
+  footnote_str = emo_footnote,
+  hi_color    = &quot;#d6eaf8&quot;
+)
+
+portrait_sec_uv &lt;- prop_section(
+  page_size    = page_size(orient = &quot;portrait&quot;),
+  page_margins = page_mar(top = 0.8, bottom = 0.8, left = 0.9, right = 0.9)
+)
+
+combined_outpath &lt;- file.path(output_dir, &quot;06.Tables_Unadjusted_Models.docx&quot;)
+
+doc_combined &lt;- read_docx() %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(pss_ft) %&gt;%
+  body_add_break(pos = &quot;after&quot;) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(emo_ft)
+
+cat(&quot;Compact tables built; forest plot tables will be appended in unadj-forest-tables-export.\n&quot;)</code></pre>
+<pre><code>Compact tables built; forest plot tables will be appended in unadj-forest-tables-export.</code></pre>
+<hr />
+</div>
+<div id="forest-plot-tables-publication-ready" class="section level1">
+<h1>Forest Plot Tables (Publication-Ready)</h1>
+<pre class="r"><code># ── Colour palette ────────────────────────────────────────────────────────────
+COL_HEADER  &lt;- &quot;#1A3A5C&quot;
+COL_SUBHEAD &lt;- &quot;#2E6DA4&quot;
+COL_SIG     &lt;- &quot;#D5F5E3&quot;   # BH-significant rows
+COL_NS      &lt;- &quot;#F9F9F9&quot;
+COL_GROUP   &lt;- &quot;#EAF2FB&quot;   # group header rows
+
+# ── Helper functions ──────────────────────────────────────────────────────────
+p_fmt_uv &lt;- function(p) {
+  case_when(is.na(p) ~ &quot;—&quot;, p &lt; 0.001 ~ &quot;&lt;0.001&quot;, TRUE ~ sprintf(&quot;%.3f&quot;, p))
+}
+
+is_sig_uv &lt;- function(p_str) {
+  suppressWarnings(as.numeric(gsub(&quot;&lt;0.001&quot;, &quot;0.0005&quot;, p_str))) &lt; 0.05
+}
+
+# ── Variable ordering / grouping ──────────────────────────────────────────────
+uv_group_order &lt;- c(&quot;Demographics&quot;, &quot;Socioeconomic&quot;, &quot;Health&quot;,
+                    &quot;HWISE&quot;, &quot;HWISE items&quot;, &quot;Water supply&quot;)
+
+uv_predictor_order &lt;- c(
+  Age = 1, Parity = 2, HH_size = 3,
+  SES_Score = 1, Edu_Score = 2, Employed = 3, Employment_type = 4,
+  Chronic_pain = 1, Chronic_dis = 2, PSS_Total = 3,
+  HWISE_Total = 1, Water_5sub = 2, HWI_5sub_hi = 3, HWISE_Cat = 4, Water_worry = 5,
+  HW_Worry = 1, HW_Interr = 2, HW_Clothes = 3, HW_Plans = 4,
+  HW_Food = 5, HW_Hands = 6, HW_Body = 7, HW_Drink = 8,
+  HW_Angry = 9, HW_Sleep = 10, HW_None = 11, HW_Shame = 12,
+  Season = 1, W_WS_LOC_F = 2, W_Continuity = 3, W_Frequency = 4,
+  W_Days_week = 5, W_Hrs_week = 6, W_Pressure = 7, Yrs_in_nbhd = 8
+)
+
+uv_pred_labels &lt;- c(
+  Age             = &quot;Age (years)&quot;,
+  Parity          = &quot;Parity&quot;,
+  HH_size         = &quot;Household size&quot;,
+  Yrs_in_nbhd     = &quot;Years in neighborhood&quot;,
+  Season          = &quot;Season&quot;,
+  SES_Score       = &quot;SES composite score&quot;,
+  Edu_Score       = &quot;Education (ordinal score)&quot;,
+  Employed        = &quot;Employed&quot;,
+  Employment_type = &quot;Employment type&quot;,
+  Chronic_pain    = &quot;Chronic pain&quot;,
+  Chronic_dis     = &quot;Chronic disease&quot;,
+  PSS_Total       = &quot;PSS-14 total score&quot;,
+  HWISE_Total     = &quot;HWISE total score&quot;,
+  Water_5sub      = &quot;5-item subscale (continuous)&quot;,
+  HWI_5sub_hi     = &quot;5-item subscale (high \u2265 3)&quot;,
+  HWISE_Cat       = &quot;HWISE&quot;,
+  Water_worry     = &quot;Water worry subscale&quot;,
+  HW_Worry        = &quot;HW1: Worried about water&quot;,
+  HW_Interr       = &quot;HW2: Water interrupted&quot;,
+  HW_Clothes      = &quot;HW3: Unable to wash clothes&quot;,
+  HW_Plans        = &quot;HW4: Changed plans&quot;,
+  HW_Food         = &quot;HW5: Unable to prepare food&quot;,
+  HW_Hands        = &quot;HW6: Unable to wash hands&quot;,
+  HW_Body         = &quot;HW7: Unable to wash body&quot;,
+  HW_Drink        = &quot;HW8: No drinking water&quot;,
+  HW_Angry        = &quot;HW9: Felt angry&quot;,
+  HW_Sleep        = &quot;HW10: Went to sleep thirsty&quot;,
+  HW_None         = &quot;HW11: Had no water at all&quot;,
+  HW_Shame        = &quot;HW12: Felt shame&quot;,
+  W_WS_LOC_F      = &quot;Neighborhood&quot;,
+  W_Continuity    = &quot;Supply continuity&quot;,
+  W_Frequency     = &quot;Supply frequency&quot;,
+  W_Days_week     = &quot;Days of supply per week&quot;,
+  W_Hrs_week      = &quot;Hours of supply per week&quot;,
+  W_Pressure      = &quot;Adequate water pressure&quot;
+)</code></pre>
+<pre class="r"><code># ── Load &amp; prepare data for forest plot tables ─────────────────────────────
+MISSING_CODES_UV    &lt;- c(999, 888, 777, 666, 555, 444, 333)
+SENTINEL_STRINGS_UV &lt;- as.character(MISSING_CODES_UV)
+
+clean_for_table_uv &lt;- function(x) {
+  x_num &lt;- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES_UV | is.na(x_num), NA, x_num)
+}
+is_sentinel_str_uv &lt;- function(x) stringr::str_trim(as.character(x)) %in% SENTINEL_STRINGS_UV
+
+df_raw_uv &lt;- read.csv(&quot;./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv&quot;,
+                      stringsAsFactors = FALSE, na.strings = c(&quot;&quot;))
+
+edu_levels_uv &lt;- c(
+  &quot;No formal education&quot;, &quot;Incomplete primary (1–5 yrs)&quot;, &quot;Complete primary&quot;,
+  &quot;Incomplete secondary (7–8 yrs)&quot;, &quot;Complete secondary&quot;,
+  &quot;Incomplete high school (10–11 yrs)&quot;, &quot;Complete high school&quot;,
+  &quot;Incomplete university (13–15 yrs)&quot;, &quot;Complete university&quot;, &quot;Postgraduate&quot;
+)
+
+df_table_uv &lt;- df_raw_uv %&gt;%
+  mutate(
+    Age         = clean_for_table_uv(D_AGE),
+    Yrs_in_nbhd = clean_for_table_uv(D_LOC_TIME_CLEAN),
+    HH_size     = clean_for_table_uv(D_HH_SIZE),
+    Parity      = clean_for_table_uv(D_CHLD_CLEAN),
+    Season      = factor(SEASON, levels = c(0, 1), labels = c(&quot;Rainy&quot;, &quot;Dry&quot;)),
+    Education = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        &quot;Incomplete primary&quot;     = &quot;Incomplete primary (1–5 yrs)&quot;,
+        &quot;Incomplete secondary&quot;   = &quot;Incomplete secondary (7–8 yrs)&quot;,
+        &quot;Incomplete high school&quot; = &quot;Incomplete high school (10–11 yrs)&quot;,
+        &quot;Incomplete university&quot;  = &quot;Incomplete university (13–15 yrs)&quot;
+      ),
+      levels = edu_levels_uv, ordered = TRUE
+    ),
+    SES_Score       = clean_for_table_uv(SES_SC_Total),
+    Edu_Score       = as.numeric(Education),
+    Employed        = factor(clean_for_table_uv(D_EMP_CLEAN),
+                             levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Employment_type = factor(clean_for_table_uv(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1), labels = c(&quot;Informal&quot;, &quot;Formal&quot;)),
+    Chronic_pain    = factor(clean_for_table_uv(HLTH_CPAIN_CAT),
+                             levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Chronic_dis     = factor(clean_for_table_uv(HLTH_CDIS_CAT),
+                             levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    HWISE_Total = clean_for_table_uv(HW_TOTAL),
+    Water_worry = clean_for_table_uv(as.numeric(HW_WORRY_SUB)),
+    Water_5sub  = clean_for_table_uv(HW_MEX_5SUB),
+    HWISE_Cat   = factor(
+      case_when(
+        is.na(clean_for_table_uv(HW_TOTAL))  ~ NA_character_,
+        clean_for_table_uv(HW_TOTAL) &lt;= 3    ~ &quot;Marginal (0-3)&quot;,
+        clean_for_table_uv(HW_TOTAL) &lt;= 11   ~ &quot;Low (4-11)&quot;,
+        TRUE                                  ~ &quot;Moderate/Severe (\u226512)&quot;
+      ),
+      levels = c(&quot;Marginal (0-3)&quot;, &quot;Low (4-11)&quot;, &quot;Moderate/Severe (\u226512)&quot;)
+    ),
+    HWI_5sub_hi = factor(
+      case_when(
+        is.na(Water_5sub) ~ NA_character_,
+        Water_5sub &gt;= 3   ~ &quot;High&quot;,
+        TRUE              ~ &quot;Low/none&quot;
+      ),
+      levels = c(&quot;Low/none&quot;, &quot;High&quot;)
+    ),
+    HW_Worry   = clean_for_table_uv(HW_WORRY),
+    HW_Interr  = clean_for_table_uv(HW_INTERR),
+    HW_Clothes = clean_for_table_uv(HW_CLOTHES),
+    HW_Plans   = clean_for_table_uv(HW_PLANS),
+    HW_Food    = clean_for_table_uv(HW_FOOD),
+    HW_Hands   = clean_for_table_uv(HW_HANDS),
+    HW_Body    = clean_for_table_uv(HW_BODY),
+    HW_Drink   = clean_for_table_uv(HW_DRINK),
+    HW_Angry   = clean_for_table_uv(HW_ANGRY),
+    HW_Sleep   = clean_for_table_uv(HW_SLEEP),
+    HW_None    = clean_for_table_uv(HW_NONE),
+    HW_Shame   = clean_for_table_uv(HW_SHAME),
+    PSS_Total  = clean_for_table_uv(PSS_TOTAL)
+  )
+
+df_water_uv &lt;- df_raw_uv %&gt;%
+  mutate(
+    W_Continuity = case_when(
+      is_sentinel_str_uv(MX3_CONT_INT)                             ~ NA_character_,
+      stringr::str_detect(tolower(MX3_CONT_INT), &quot;^contin&quot;)        ~ &quot;Continuous&quot;,
+      stringr::str_detect(tolower(MX3_CONT_INT), &quot;^intermi|cortan|deja&quot;) ~ &quot;Intermittent&quot;,
+      stringr::str_detect(tolower(MX3_CONT_INT), &quot;disminu&quot;)        ~ &quot;Reduced pressure/flow&quot;,
+      MX3_CONT_INT %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(MX3_CONT_INT)       ~ NA_character_,
+      TRUE                                                          ~ &quot;Other&quot;
+    ),
+    W_Continuity = factor(W_Continuity,
+                          levels = c(&quot;Continuous&quot;, &quot;Intermittent&quot;,
+                                     &quot;Reduced pressure/flow&quot;, &quot;Other&quot;)),
+    W_Freq_raw  = dplyr::coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str_uv(W_Freq_raw)                               ~ NA_character_,
+      stringr::str_detect(tolower(W_Freq_raw), &quot;^diari|every day&quot;) ~ &quot;Daily&quot;,
+      stringr::str_detect(tolower(W_Freq_raw), &quot;^intermi&quot;)         ~ &quot;Intermittent&quot;,
+      stringr::str_detect(tolower(W_Freq_raw), &quot;1 a 3|1-3&quot;)        ~ &quot;1\u20133 days/week&quot;,
+      stringr::str_detect(tolower(W_Freq_raw), &quot;4 a 6|4-6&quot;)        ~ &quot;4\u20136 days/week&quot;,
+      stringr::str_detect(tolower(W_Freq_raw), &quot;^contin&quot;)          ~ &quot;Continuous&quot;,
+      W_Freq_raw %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(W_Freq_raw)           ~ NA_character_,
+      TRUE                                                          ~ &quot;Other&quot;
+    ),
+    W_Frequency = factor(W_Frequency,
+                         levels = c(&quot;Continuous&quot;, &quot;Daily&quot;, &quot;4\u20136 days/week&quot;,
+                                    &quot;1\u20133 days/week&quot;, &quot;Intermittent&quot;, &quot;Other&quot;)),
+    W_Hrs_week  = suppressWarnings(
+      ifelse(is_sentinel_str_uv(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(stringr::str_extract(MX5_WFREQ_HRS_PER_WEEK, &quot;^[0-9\\.]+&quot;)))),
+    W_Hrs_week  = ifelse(W_Hrs_week %in% MISSING_CODES_UV | W_Hrs_week &gt; 168, NA, W_Hrs_week),
+    W_Days_week = suppressWarnings(
+      ifelse(is_sentinel_str_uv(MX5_WFREQ_NDAYS), NA,
+             as.numeric(stringr::str_extract(MX5_WFREQ_NDAYS, &quot;^[0-9]+&quot;)))),
+    W_Days_week = ifelse(W_Days_week %in% MISSING_CODES_UV | W_Days_week &gt; 7, NA, W_Days_week),
+    W_Pressure  = case_when(
+      is_sentinel_str_uv(MX6_WPRESS)                                     ~ NA_character_,
+      stringr::str_detect(tolower(MX6_WPRESS), &quot;^s[i\u00ed]|^yes|^buena|^bien&quot;) ~ &quot;Yes&quot;,
+      stringr::str_detect(tolower(MX6_WPRESS), &quot;^no|^baja|^poca&quot;)        ~ &quot;No/Low&quot;,
+      MX6_WPRESS %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(MX6_WPRESS)                 ~ NA_character_,
+      TRUE                                                                 ~ &quot;Variable&quot;
+    ),
+    W_Pressure  = factor(W_Pressure, levels = c(&quot;Yes&quot;, &quot;No/Low&quot;, &quot;Variable&quot;)),
+    W_WS_LOC_F  = factor(W_WS_LOC, levels = c(&quot;WS&quot;, &quot;WI&quot;),
+                         labels = c(&quot;Water Secure&quot;, &quot;Water Insecure&quot;))
+  )
+
+EMO_raw_uv &lt;- suppressWarnings(as.numeric(as.character(df_raw_uv$MX26_EM_HHW_CAT)))
+EMO_raw_uv &lt;- ifelse(EMO_raw_uv %in% MISSING_CODES_UV, NA, EMO_raw_uv)
+
+df_reg_uv &lt;- df_table_uv %&gt;%
+  mutate(
+    EMO_NEG      = case_when(EMO_raw_uv == 0 ~ 0L, EMO_raw_uv == 1 ~ 1L, TRUE ~ NA_integer_),
+    W_WS_LOC_F   = df_water_uv$W_WS_LOC_F,
+    W_Continuity = df_water_uv$W_Continuity,
+    W_Frequency  = df_water_uv$W_Frequency,
+    W_Days_week  = df_water_uv$W_Days_week,
+    W_Hrs_week   = df_water_uv$W_Hrs_week,
+    W_Pressure   = df_water_uv$W_Pressure
+  )
+
+ref_levels_uv &lt;- sapply(names(df_reg_uv), function(v) {
+  x &lt;- df_reg_uv[[v]]
+  if (is.factor(x)) levels(x)[1] else NA_character_
+})
+
+make_display_label_uv &lt;- function(predictor, term, label) {
+  if (predictor == term) return(label)
+  level &lt;- gsub(predictor, &quot;&quot;, term, fixed = TRUE)
+  ref   &lt;- ref_levels_uv[predictor]
+  if (!is.na(ref)) paste0(label, &quot;: &quot;, level, &quot; (ref: &quot;, ref, &quot;)&quot;)
+  else             paste0(label, &quot;: &quot;, level)
+}</code></pre>
+<pre class="r"><code># ── Regression runners ────────────────────────────────────────────────────────
+run_lm_uv_fp &lt;- function(outcome, predictors, data, labels) {
+  purrr::map_dfr(predictors, function(v) {
+    dat &lt;- data[, c(outcome, v)]
+    for (drop_lvl in c(&quot;Variable&quot;, &quot;Other&quot;)) {
+      if (v %in% c(&quot;W_Pressure&quot;, &quot;W_Frequency&quot;, &quot;W_Continuity&quot;) &amp;&amp;
+          drop_lvl %in% levels(dat[[v]])) {
+        dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != drop_lvl, ]
+        dat[[v]] &lt;- droplevels(dat[[v]])
+      }
+    }
+    dat &lt;- dat[complete.cases(dat), ]
+    fit &lt;- tryCatch(lm(as.formula(paste(outcome, &quot;~ .&quot;)), data = dat), error = function(e) NULL)
+    if (is.null(fit)) return(NULL)
+    broom::tidy(fit, conf.int = TRUE) %&gt;%
+      filter(term != &quot;(Intercept)&quot;) %&gt;%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+run_glm_uv_fp &lt;- function(outcome, predictors, data, labels) {
+  purrr::map_dfr(predictors, function(v) {
+    dat &lt;- data[, c(outcome, v)]
+    for (drop_lvl in c(&quot;Variable&quot;, &quot;Other&quot;)) {
+      if (v %in% c(&quot;W_Pressure&quot;, &quot;W_Frequency&quot;, &quot;W_Continuity&quot;) &amp;&amp;
+          drop_lvl %in% levels(dat[[v]])) {
+        dat &lt;- dat[is.na(dat[[v]]) | dat[[v]] != drop_lvl, ]
+        dat[[v]] &lt;- droplevels(dat[[v]])
+      }
+    }
+    dat &lt;- dat[complete.cases(dat), ]
+    fit &lt;- tryCatch(glm(as.formula(paste(outcome, &quot;~ .&quot;)), data = dat, family = binomial),
+                    error = function(e) NULL)
+    if (is.null(fit)) return(NULL)
+    broom::tidy(fit, conf.int = TRUE, exponentiate = TRUE) %&gt;%
+      filter(term != &quot;(Intercept)&quot;) %&gt;%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+pss_predictors_fp &lt;- c(
+  &quot;Age&quot;, &quot;Parity&quot;, &quot;HH_size&quot;, &quot;Yrs_in_nbhd&quot;,
+  &quot;SES_Score&quot;, &quot;Edu_Score&quot;, &quot;Employed&quot;, &quot;Employment_type&quot;,
+  &quot;Chronic_pain&quot;, &quot;Chronic_dis&quot;,
+  &quot;HWISE_Total&quot;, &quot;Water_5sub&quot;, &quot;HWI_5sub_hi&quot;, &quot;HWISE_Cat&quot;, &quot;Water_worry&quot;,
+  &quot;HW_Worry&quot;, &quot;HW_Interr&quot;, &quot;HW_Clothes&quot;, &quot;HW_Plans&quot;, &quot;HW_Food&quot;,
+  &quot;HW_Hands&quot;, &quot;HW_Body&quot;, &quot;HW_Drink&quot;, &quot;HW_Angry&quot;, &quot;HW_Sleep&quot;,
+  &quot;HW_None&quot;, &quot;HW_Shame&quot;,
+  &quot;Season&quot;, &quot;W_WS_LOC_F&quot;, &quot;W_Continuity&quot;, &quot;W_Frequency&quot;,
+  &quot;W_Days_week&quot;, &quot;W_Hrs_week&quot;, &quot;W_Pressure&quot;
+)
+
+emo_predictors_fp &lt;- c(
+  &quot;Age&quot;, &quot;Parity&quot;, &quot;HH_size&quot;, &quot;Yrs_in_nbhd&quot;,
+  &quot;SES_Score&quot;, &quot;Edu_Score&quot;, &quot;Employed&quot;, &quot;Employment_type&quot;,
+  &quot;Chronic_pain&quot;, &quot;Chronic_dis&quot;, &quot;PSS_Total&quot;,
+  &quot;HWISE_Total&quot;, &quot;Water_5sub&quot;, &quot;HWI_5sub_hi&quot;, &quot;HWISE_Cat&quot;, &quot;Water_worry&quot;,
+  &quot;HW_Worry&quot;, &quot;HW_Interr&quot;, &quot;HW_Clothes&quot;, &quot;HW_Plans&quot;, &quot;HW_Food&quot;,
+  &quot;HW_Hands&quot;, &quot;HW_Body&quot;, &quot;HW_Drink&quot;, &quot;HW_Angry&quot;, &quot;HW_Sleep&quot;,
+  &quot;HW_None&quot;, &quot;HW_Shame&quot;,
+  &quot;Season&quot;, &quot;W_WS_LOC_F&quot;, &quot;W_Continuity&quot;, &quot;W_Frequency&quot;,
+  &quot;W_Days_week&quot;, &quot;W_Hrs_week&quot;, &quot;W_Pressure&quot;
+)
+
+pss_results_fp &lt;- run_lm_uv_fp(&quot;PSS_Total&quot;, pss_predictors_fp, df_reg_uv, uv_pred_labels) %&gt;%
+  mutate(
+    q.value       = p.adjust(p.value, method = &quot;BH&quot;),
+    group         = group_map[predictor],
+    group         = factor(group, levels = uv_group_order),
+    var_order     = uv_predictor_order[predictor],
+    display_label = mapply(make_display_label_uv, predictor, term, label),
+    est_ci        = sprintf(&quot;%.2f [%.2f, %.2f]&quot;, estimate, conf.low, conf.high),
+    p_fmt         = p_fmt_uv(p.value),
+    q_fmt         = p_fmt_uv(q.value)
+  ) %&gt;%
+  arrange(group, var_order)
+
+emo_results_fp &lt;- run_glm_uv_fp(&quot;EMO_NEG&quot;, emo_predictors_fp, df_reg_uv, uv_pred_labels) %&gt;%
+  mutate(
+    q.value       = p.adjust(p.value, method = &quot;BH&quot;),
+    group         = group_map[predictor],
+    group         = factor(group, levels = uv_group_order),
+    var_order     = uv_predictor_order[predictor],
+    display_label = mapply(make_display_label_uv, predictor, term, label),
+    est_ci        = sprintf(&quot;%.2f [%.2f, %.2f]&quot;, estimate, conf.low, conf.high),
+    p_fmt         = p_fmt_uv(p.value),
+    q_fmt         = p_fmt_uv(q.value)
+  ) %&gt;%
+  arrange(group, var_order)</code></pre>
+<pre class="r"><code>insert_group_headers_uv &lt;- function(df, group_col = &quot;Group&quot;) {
+  groups &lt;- unique(df[[group_col]])
+  purrr::map_dfr(groups, function(g) {
+    rows       &lt;- df[df[[group_col]] == g, ]
+    header_row &lt;- rows[1, ]
+    for (col in names(header_row)) header_row[[col]] &lt;- NA
+    header_row[[group_col]]   &lt;- g
+    header_row[[&quot;Predictor&quot;]] &lt;- g
+    bind_rows(header_row, rows)
+  })
+}
+
+build_uv_ft &lt;- function(results, outcome_label, est_col_label,
+                         footnote_txt, is_logistic = FALSE) {
+  tbl_data &lt;- results %&gt;%
+    transmute(
+      Group     = as.character(group),
+      Predictor = display_label,
+      N         = n,
+      est_ci    = est_ci,
+      AIC       = round(AIC, 1),
+      p_fmt     = p_fmt,
+      q_fmt     = q_fmt,
+      p_raw     = p.value,
+      q_raw     = q.value
+    )
+
+  tbl_with_headers &lt;- insert_group_headers_uv(tbl_data) %&gt;%
+    select(-Group)
+
+  data &lt;- tbl_with_headers
+
+  grp_rows  &lt;- which(is.na(data$est_ci) | data$est_ci == &quot;&quot;)
+  sig_rows  &lt;- which(!data$q_fmt %in% c(&quot;—&quot;, NA) &amp; is_sig_uv(data$q_fmt))
+  nsig_rows &lt;- setdiff(seq_len(nrow(data)), sig_rows)
+  sig_coef  &lt;- which(!data$p_fmt %in% c(&quot;—&quot;, NA) &amp;
+                       suppressWarnings(as.numeric(gsub(&quot;&lt;&quot;, &quot;0&quot;, data$p_fmt))) &lt; 0.05)
+
+  ft &lt;- data %&gt;%
+    select(Predictor, N, est_ci, AIC, p_fmt, q_fmt) %&gt;%
+    flextable() %&gt;%
+    set_header_labels(
+      Predictor = &quot;Predictor&quot;,
+      N         = &quot;N&quot;,
+      est_ci    = est_col_label,
+      AIC       = &quot;AIC&quot;,
+      p_fmt     = &quot;p-value&quot;,
+      q_fmt     = &quot;q-value (BH)&quot;
+    ) %&gt;%
+    add_header_lines(outcome_label) %&gt;%
+    bg(bg = COL_SUBHEAD, i = 1, part = &quot;header&quot;) %&gt;%
+    color(color = &quot;white&quot;, i = 1, part = &quot;header&quot;) %&gt;%
+    bold(i = 1, part = &quot;header&quot;) %&gt;%
+    fontsize(i = 1, part = &quot;header&quot;, size = 11) %&gt;%
+    bg(bg = COL_HEADER, i = 2, part = &quot;header&quot;) %&gt;%
+    color(color = &quot;white&quot;, i = 2, part = &quot;header&quot;) %&gt;%
+    bold(i = 2, part = &quot;header&quot;) %&gt;%
+    fontsize(i = 2, part = &quot;header&quot;, size = 10) %&gt;%
+    bg(i = sig_rows,  bg = COL_SIG,   part = &quot;body&quot;) %&gt;%
+    bg(i = nsig_rows, bg = COL_NS,    part = &quot;body&quot;) %&gt;%
+    bg(i = grp_rows,  bg = COL_GROUP, part = &quot;body&quot;) %&gt;%
+    bold(i = grp_rows, part = &quot;body&quot;) %&gt;%
+    color(i = sig_coef, j = &quot;p_fmt&quot;, color = &quot;#1A5276&quot;) %&gt;%
+    bold( i = sig_coef, j = &quot;p_fmt&quot;) %&gt;%
+    color(i = sig_rows,  j = &quot;q_fmt&quot;, color = &quot;#1E8449&quot;) %&gt;%
+    bold( i = sig_rows,  j = &quot;q_fmt&quot;) %&gt;%
+    color(i = nsig_rows, j = &quot;q_fmt&quot;, color = &quot;grey55&quot;) %&gt;%
+    border_outer(border = fp_border(color = COL_HEADER, width = 1.5), part = &quot;all&quot;) %&gt;%
+    hline(border = fp_border(color = COL_SUBHEAD, width = 0.5), part = &quot;body&quot;) %&gt;%
+    align(j = c(&quot;N&quot;, &quot;AIC&quot;, &quot;p_fmt&quot;, &quot;q_fmt&quot;), align = &quot;center&quot;, part = &quot;all&quot;) %&gt;%
+    align(j = &quot;est_ci&quot;, align = &quot;right&quot;, part = &quot;body&quot;) %&gt;%
+    font(fontname = &quot;Calibri&quot;, part = &quot;all&quot;) %&gt;%
+    fontsize(size = 9.5, part = &quot;body&quot;) %&gt;%
+    add_footer_lines(footnote_txt) %&gt;%
+    color(color = &quot;grey40&quot;, part = &quot;footer&quot;) %&gt;%
+    fontsize(size = 8, part = &quot;footer&quot;) %&gt;%
+    italic(part = &quot;footer&quot;) %&gt;%
+    autofit()
+
+  ft
+}</code></pre>
+<pre class="r"><code>pss_footnote_fp &lt;- paste0(
+  &quot;Each predictor entered in a separate unadjusted linear regression model. &quot;,
+  &quot;Predictor groups: Demographics (Age, Parity, Household size, Years in neighborhood); &quot;,
+  &quot;Socioeconomic (SES composite score, Education, Employed, Employment type); &quot;,
+  &quot;Health (Chronic pain, Chronic disease); &quot;,
+  &quot;HWISE (total score, 5-item subscale variants, HWISE categorical, Water worry subscale); &quot;,
+  &quot;HWISE items (each item separately); Water supply variables. &quot;,
+  &quot;\u03b2 = unstandardised regression coefficient; 95% CI = confidence interval. &quot;,
+  &quot;AIC = Akaike Information Criterion (lower = better fit). &quot;,
+  &quot;p-value: unadjusted two-sided Wald test. &quot;,
+  &quot;q-value (BH): p-value adjusted for multiple comparisons using the Benjamini\u2013Hochberg &quot;,
+  &quot;false discovery rate procedure across all predictors for this outcome. &quot;,
+  &quot;Green rows: BH-adjusted q &lt; 0.05. Bold blue: unadjusted p &lt; 0.05.&quot;
+)
+
+emo_footnote_fp &lt;- paste0(
+  &quot;Each predictor entered in a separate unadjusted logistic regression model. &quot;,
+  &quot;Outcome: negative water-related emotion (1) vs. positive (0). &quot;,
+  &quot;Predictor groups: Demographics (Age, Parity, Household size, Years in neighborhood); &quot;,
+  &quot;Socioeconomic (SES composite score, Education, Employed, Employment type); &quot;,
+  &quot;Health (Chronic pain, Chronic disease, PSS total); &quot;,
+  &quot;HWISE (total score, 5-item subscale variants, HWISE categorical, Water worry subscale); &quot;,
+  &quot;HWISE items (each item separately); Water supply variables. &quot;,
+  &quot;OR = odds ratio; 95% CI = confidence interval. OR &gt; 1 = higher odds of negative response. &quot;,
+  &quot;AIC = Akaike Information Criterion (lower = better fit). &quot;,
+  &quot;p-value: unadjusted two-sided Wald test. &quot;,
+  &quot;q-value (BH): p-value adjusted for multiple comparisons using the Benjamini\u2013Hochberg &quot;,
+  &quot;false discovery rate procedure across all predictors for this outcome. &quot;,
+  &quot;Green rows: BH-adjusted q &lt; 0.05. Bold blue: unadjusted p &lt; 0.05.&quot;
+)
+
+ft_pss_fp &lt;- build_uv_ft(
+  results       = pss_results_fp,
+  outcome_label = &quot;Table Unadj1. Unadjusted Linear Regression \u2014 Perceived Stress Score (PSS)&quot;,
+  est_col_label = &quot;\u03b2 [95% CI]&quot;,
+  footnote_txt  = pss_footnote_fp,
+  is_logistic   = FALSE
+)
+
+ft_emo_fp &lt;- build_uv_ft(
+  results       = emo_results_fp,
+  outcome_label = &quot;Table Unadj2. Unadjusted Logistic Regression \u2014 Negative Emotional Response to Water&quot;,
+  est_col_label = &quot;OR [95% CI]&quot;,
+  footnote_txt  = emo_footnote_fp,
+  is_logistic   = TRUE
+)
+
+portrait_sec_fp &lt;- prop_section(
+  page_size    = page_size(orient = &quot;portrait&quot;),
+  page_margins = page_mar(top = 0.8, bottom = 0.8, left = 0.9, right = 0.9)
+)
+
+doc_combined &lt;- doc_combined %&gt;%
+  body_add_break(pos = &quot;after&quot;) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_pss_fp) %&gt;%
+  body_add_break(pos = &quot;after&quot;) %&gt;%
+  body_add_par(&quot;&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_flextable(ft_emo_fp) %&gt;%
+  body_set_default_section(portrait_sec_fp)
+
+print(doc_combined, target = combined_outpath)
+cat(&quot;Saved:&quot;, combined_outpath, &quot;\n&quot;)</code></pre>
+<pre><code>Saved: ./output/tables/06.Tables_Unadjusted_Models.docx </code></pre>
+<hr />
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] officer_0.7.3    flextable_0.9.11 gt_1.0.0         ggplot2_4.0.0   
+ [5] broom_1.0.12     purrr_1.0.4      stringr_1.5.1    tidyr_1.3.1     
+ [9] dplyr_1.2.0      workflowr_1.7.1 
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
+ [4] processx_3.8.6          callr_3.7.6             vctrs_0.7.1            
+ [7] tools_4.5.3             ps_1.9.1                generics_0.1.3         
+[10] tibble_3.2.1            pkgconfig_2.0.3         data.table_1.17.0      
+[13] RColorBrewer_1.1-3      S7_0.2.0                uuid_1.2-1             
+[16] lifecycle_1.0.5         compiler_4.5.3          farver_2.1.2           
+[19] git2r_0.36.2            textshaping_1.0.0       getPass_0.2-4          
+[22] litedown_0.7            httpuv_1.6.16           fontquiver_0.2.1       
+[25] fontLiberation_0.1.0    htmltools_0.5.8.1       sass_0.4.10            
+[28] yaml_2.3.10             later_1.4.2             pillar_1.10.2          
+[31] jquerylib_0.1.4         whisker_0.4.1           openssl_2.3.2          
+[34] cachem_1.1.0            fontBitstreamVera_0.1.1 commonmark_2.0.0       
+[37] tidyselect_1.2.1        zip_2.3.3               digest_0.6.37          
+[40] stringi_1.8.7           labeling_0.4.3          rprojroot_2.1.1        
+[43] fastmap_1.2.0           grid_4.5.3              cli_3.6.5              
+[46] magrittr_2.0.3          patchwork_1.3.1         withr_3.0.2            
+[49] gdtools_0.5.0           scales_1.4.0            promises_1.3.2         
+[52] backports_1.5.0         rmarkdown_2.30          httr_1.4.7             
+[55] askpass_1.2.1           ragg_1.4.0              evaluate_1.0.3         
+[58] knitr_1.50              markdown_2.0            rlang_1.1.7            
+[61] Rcpp_1.0.14             glue_1.8.0              xml2_1.3.8             
+[64] rstudioapi_0.17.1       jsonlite_2.0.0          R6_2.6.1               
+[67] systemfonts_1.3.2       fs_1.6.6               </code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] officer_0.7.3    flextable_0.9.11 gt_1.0.0         ggplot2_4.0.0   
+ [5] broom_1.0.12     purrr_1.0.4      stringr_1.5.1    tidyr_1.3.1     
+ [9] dplyr_1.2.0      workflowr_1.7.1 
+
+loaded via a namespace (and not attached):
+ [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
+ [4] processx_3.8.6          callr_3.7.6             vctrs_0.7.1            
+ [7] tools_4.5.3             ps_1.9.1                generics_0.1.3         
+[10] tibble_3.2.1            pkgconfig_2.0.3         data.table_1.17.0      
+[13] RColorBrewer_1.1-3      S7_0.2.0                uuid_1.2-1             
+[16] lifecycle_1.0.5         compiler_4.5.3          farver_2.1.2           
+[19] git2r_0.36.2            textshaping_1.0.0       getPass_0.2-4          
+[22] litedown_0.7            httpuv_1.6.16           fontquiver_0.2.1       
+[25] fontLiberation_0.1.0    htmltools_0.5.8.1       sass_0.4.10            
+[28] yaml_2.3.10             later_1.4.2             pillar_1.10.2          
+[31] jquerylib_0.1.4         whisker_0.4.1           openssl_2.3.2          
+[34] cachem_1.1.0            fontBitstreamVera_0.1.1 commonmark_2.0.0       
+[37] tidyselect_1.2.1        zip_2.3.3               digest_0.6.37          
+[40] stringi_1.8.7           labeling_0.4.3          rprojroot_2.1.1        
+[43] fastmap_1.2.0           grid_4.5.3              cli_3.6.5              
+[46] magrittr_2.0.3          patchwork_1.3.1         withr_3.0.2            
+[49] gdtools_0.5.0           scales_1.4.0            promises_1.3.2         
+[52] backports_1.5.0         rmarkdown_2.30          httr_1.4.7             
+[55] askpass_1.2.1           ragg_1.4.0              evaluate_1.0.3         
+[58] knitr_1.50              markdown_2.0            rlang_1.1.7            
+[61] Rcpp_1.0.14             glue_1.8.0              xml2_1.3.8             
+[64] rstudioapi_0.17.1       jsonlite_2.0.0          R6_2.6.1               
+[67] systemfonts_1.3.2       fs_1.6.6               </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

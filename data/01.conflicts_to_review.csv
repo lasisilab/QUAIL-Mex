@@ -1,6 +1,5 @@
 "ID","variable","value_1","value_2","resolution"
-"329","D_YRBR","2001","2002",NA
-"376","D_YRBR","1993","1998",NA
+"196","D_AGE",NA,NA,NA
 "322","D_AGE","33","34",NA
 "324","D_AGE","20","21",NA
 "325","D_AGE","43","44",NA
@@ -51,25 +50,3006 @@
 "391","D_AGE","30","29",NA
 "393","D_AGE","29","30",NA
 "395","D_AGE","18","19",NA
-"391","D_LOC_CODE","9640","9690",NA
-"496","D_LOC_CODE","9780","9960",NA
-"394","D_LOC_TIME","3","31",NA
-"24","HLTH_SMK","No","Yes",NA
-"71","HLTH_CDIS_CAT","444","444",NA
+"474","D_AGE",NA,NA,NA
+"5","D_CHLD","333",NA,NA
+"16","D_CHLD","Si (no hay nota de cuantos)",NA,NA
+"18","D_CHLD",NA,NA,NA
+"173","D_CHLD","Yes",NA,NA
+"319","D_CHLD","333",NA,NA
+"346","D_CHLD",NA,NA,NA
+"347","D_CHLD",NA,NA,NA
+"348","D_CHLD",NA,NA,NA
+"349","D_CHLD",NA,NA,NA
+"350","D_CHLD",NA,NA,NA
+"351","D_CHLD",NA,NA,NA
+"352","D_CHLD",NA,NA,NA
+"354","D_CHLD",NA,NA,NA
+"355","D_CHLD",NA,NA,NA
+"356","D_CHLD",NA,NA,NA
+"357","D_CHLD",NA,NA,NA
+"358","D_CHLD",NA,NA,NA
+"360","D_CHLD",NA,NA,NA
+"375","D_CHLD",NA,NA,NA
+"391","D_CHLD",NA,NA,NA
+"415","D_CHLD","333","2",NA
+"415","D_CHLD","333",NA,NA
+"427","D_CHLD","1","4",NA
+"415","D_CHLD_RAW","333","2",NA
+"427","D_CHLD_RAW","1","4",NA
+"1","D_EMP_TYPE","Yes,venta de productos",NA,NA
+"2","D_EMP_TYPE","Yes,comerciante",NA,NA
+"3","D_EMP_TYPE","No, antes viendia comida en escuela",NA,NA
+"4","D_EMP_TYPE","Administrativo esparadico local de productos de calzado",NA,NA
+"5","D_EMP_TYPE","Ama de cas",NA,NA
+"6","D_EMP_TYPE","Yes,witatechnologia- 1 dia a la semana",NA,NA
+"7","D_EMP_TYPE","informal: venta de ropa de vez en cuando",NA,NA
+"8","D_EMP_TYPE","No",NA,NA
+"9","D_EMP_TYPE","Si, vendedora-informal",NA,NA
+"10","D_EMP_TYPE","No: regularmente informal",NA,NA
+"11","D_EMP_TYPE","Informal: vendedora",NA,NA
+"12","D_EMP_TYPE","Si formal los fines de semana",NA,NA
+"13","D_EMP_TYPE","Yes,vento online FB",NA,NA
+"14","D_EMP_TYPE","No",NA,NA
+"15","D_EMP_TYPE","No",NA,NA
+"16","D_EMP_TYPE","No",NA,NA
+"17","D_EMP_TYPE","Si (no hay nota de formal o informal)",NA,NA
+"18","D_EMP_TYPE",NA,NA,NA
+"19","D_EMP_TYPE","Informal: diario",NA,NA
+"20","D_EMP_TYPE","Si (no hay informacion si es formal o informal)",NA,NA
+"21","D_EMP_TYPE","No",NA,NA
+"22","D_EMP_TYPE","informal-3 y le semana",NA,NA
+"23","D_EMP_TYPE","No",NA,NA
+"24","D_EMP_TYPE","Formal",NA,NA
+"25","D_EMP_TYPE","No",NA,NA
+"26","D_EMP_TYPE","No",NA,NA
+"27","D_EMP_TYPE","Si, comerciante",NA,NA
+"28","D_EMP_TYPE","No",NA,NA
+"29","D_EMP_TYPE","Informal, venta de dulces",NA,NA
+"30","D_EMP_TYPE","Yes,asistente de estilista",NA,NA
+"31","D_EMP_TYPE","Ma de trabajo?",NA,NA
+"32","D_EMP_TYPE","formal como comerciante",NA,NA
+"33","D_EMP_TYPE","Formal, comerciante en polleria",NA,NA
+"34","D_EMP_TYPE","Informal, limpieza 2/3 dias",NA,NA
+"35","D_EMP_TYPE","Nada",NA,NA
+"36","D_EMP_TYPE","No",NA,NA
+"37","D_EMP_TYPE","Comercio- todos los dias",NA,NA
+"38","D_EMP_TYPE","No",NA,NA
+"39","D_EMP_TYPE","Informal- lu a vi",NA,NA
+"40","D_EMP_TYPE","No",NA,NA
+"41","D_EMP_TYPE","Si",NA,NA
+"42","D_EMP_TYPE","Yes,solo fds",NA,NA
+"43","D_EMP_TYPE","Yes,informal. 3-4 dias por semana",NA,NA
+"44","D_EMP_TYPE","Trabaja a primavera--freelance. Vende pan. Lunes a viernes",NA,NA
+"45","D_EMP_TYPE","Comerante",NA,NA
+"46","D_EMP_TYPE","No",NA,NA
+"47","D_EMP_TYPE","Informal, vende chocolateria",NA,NA
+"48","D_EMP_TYPE","No",NA,NA
+"49","D_EMP_TYPE","Informal, vende por catalogo.",NA,NA
+"50","D_EMP_TYPE","Informal, venta de postres",NA,NA
+"51","D_EMP_TYPE","Formal, author administrativa",NA,NA
+"52","D_EMP_TYPE","No",NA,NA
+"53","D_EMP_TYPE","No",NA,NA
+"54","D_EMP_TYPE","Informal-lava, 2 veces",NA,NA
+"55","D_EMP_TYPE","Informal--vende ropa a facebook",NA,NA
+"56","D_EMP_TYPE","No-a veces cocer-1-3 veces x semena",NA,NA
+"57","D_EMP_TYPE","Informal-limpieza. diario, eventual",NA,NA
+"58","D_EMP_TYPE","Informal, a veces vende pinturan",NA,NA
+"59","D_EMP_TYPE","No",NA,NA
+"60","D_EMP_TYPE","negocio lunes a viernes informal",NA,NA
+"61","D_EMP_TYPE","informal, comerciante. algunos dias por semana; 3 o 4",NA,NA
+"62","D_EMP_TYPE","Informal estudio de tortugas",NA,NA
+"63","D_EMP_TYPE","Informal (aplicacion unia-estilismo)",NA,NA
+"64","D_EMP_TYPE","Formal comerciante (venta comida)",NA,NA
+"65","D_EMP_TYPE","Formal, costura",NA,NA
+"66","D_EMP_TYPE","Informal (venta por catalogo)",NA,NA
+"67","D_EMP_TYPE","Si",NA,NA
+"68","D_EMP_TYPE","Yes",NA,NA
+"69","D_EMP_TYPE","Si.",NA,NA
+"70","D_EMP_TYPE","Yes",NA,NA
+"71","D_EMP_TYPE","Formal, ayudante general en fabrica de popotes",NA,NA
+"72","D_EMP_TYPE","No",NA,NA
+"73","D_EMP_TYPE","Informal, vende-fin de semana",NA,NA
+"74","D_EMP_TYPE","Taller de cortura- cambia x temporade. Lun-sab",NA,NA
+"75","D_EMP_TYPE","Informal, 1 vez por semana",NA,NA
+"76","D_EMP_TYPE","Levado de selas",NA,NA
+"77","D_EMP_TYPE","Formal, 5 dias por semana",NA,NA
+"78","D_EMP_TYPE","Si obrera",NA,NA
+"79","D_EMP_TYPE","Si trabajo IMSS",NA,NA
+"80","D_EMP_TYPE","Formal. 5 dias/semana",NA,NA
+"81","D_EMP_TYPE","formal--5 dias/semana",NA,NA
+"82","D_EMP_TYPE","informal- lunes-viernes",NA,NA
+"83","D_EMP_TYPE","formal- lunes-sabado (6 dias)",NA,NA
+"84","D_EMP_TYPE","No",NA,NA
+"85","D_EMP_TYPE","formal",NA,NA
+"86","D_EMP_TYPE","No (ama de casa)",NA,NA
+"87","D_EMP_TYPE","Formal (pintora)",NA,NA
+"88","D_EMP_TYPE","Formal (trabajo en una cafeteria)",NA,NA
+"89","D_EMP_TYPE","Informal (hamburguesas)",NA,NA
+"90","D_EMP_TYPE","Yes,reproduccion celulares en casa",NA,NA
+"91","D_EMP_TYPE","Ninguno",NA,NA
+"92","D_EMP_TYPE","Informal, trabajo en una tienda",NA,NA
+"93","D_EMP_TYPE","No",NA,NA
+"94","D_EMP_TYPE","Yes,Lu-Vi & DO",NA,NA
+"95","D_EMP_TYPE","No",NA,NA
+"96","D_EMP_TYPE","Informal, 5 dias x semana",NA,NA
+"97","D_EMP_TYPE","informal, 4 dias x semana",NA,NA
+"98","D_EMP_TYPE","Informal: Lv-Vi",NA,NA
+"99","D_EMP_TYPE","Formal (Empreso plestios)",NA,NA
+"100","D_EMP_TYPE","No",NA,NA
+"101","D_EMP_TYPE","Formal - negocio de desayuno",NA,NA
+"102","D_EMP_TYPE","Comerciante",NA,NA
+"103","D_EMP_TYPE","Informal - 5 dias per semana",NA,NA
+"104","D_EMP_TYPE","Informal - venta por catalogo",NA,NA
+"105","D_EMP_TYPE","Formal--trabajo en una alberca",NA,NA
+"106","D_EMP_TYPE","No",NA,NA
+"107","D_EMP_TYPE","Comerciante",NA,NA
+"108","D_EMP_TYPE","Formal, es educadora",NA,NA
+"109","D_EMP_TYPE",NA,NA,NA
+"110","D_EMP_TYPE","informal - 7 dias por semana",NA,NA
+"111","D_EMP_TYPE","Ama de casa",NA,NA
+"112","D_EMP_TYPE","No",NA,NA
+"113","D_EMP_TYPE","No",NA,NA
+"114","D_EMP_TYPE","Si.",NA,NA
+"115","D_EMP_TYPE","No",NA,NA
+"116","D_EMP_TYPE","No",NA,NA
+"117","D_EMP_TYPE","comerciante; tianguir - 6 dias/semana",NA,NA
+"118","D_EMP_TYPE","No",NA,NA
+"119","D_EMP_TYPE","informal. Ventas // 3 dias por semana",NA,NA
+"120","D_EMP_TYPE","No",NA,NA
+"121","D_EMP_TYPE","Informal, fines de semana es commerricante",NA,NA
+"122","D_EMP_TYPE","Yes,comerciante",NA,NA
+"123","D_EMP_TYPE","Si",NA,NA
+"124","D_EMP_TYPE","Informal, deminstradara en fines de semana",NA,NA
+"125","D_EMP_TYPE","No",NA,NA
+"126","D_EMP_TYPE","Yes,en el IMSS",NA,NA
+"127","D_EMP_TYPE","Yes,tenica radiologo",NA,NA
+"128","D_EMP_TYPE","Si, formal 6 dias/semana",NA,NA
+"129","D_EMP_TYPE","Informal",NA,NA
+"130","D_EMP_TYPE","No",NA,NA
+"131","D_EMP_TYPE","Formal",NA,NA
+"132","D_EMP_TYPE","Si capturista",NA,NA
+"133","D_EMP_TYPE","Ama de casa",NA,NA
+"134","D_EMP_TYPE","No",NA,NA
+"135","D_EMP_TYPE","Formal",NA,NA
+"136","D_EMP_TYPE","Formal, temporal - 5 x semana",NA,NA
+"137","D_EMP_TYPE","Informal-comercio-3 dias x semana",NA,NA
+"138","D_EMP_TYPE","Formal - 6 x seman",NA,NA
+"139","D_EMP_TYPE","Formal? No mucho. 2 horas diarias - Lu - so",NA,NA
+"140","D_EMP_TYPE","informal- 3 d/week",NA,NA
+"141","D_EMP_TYPE","temporal. todos los dias; usual % 7 dias.",NA,NA
+"142","D_EMP_TYPE","Yes",NA,NA
+"143","D_EMP_TYPE","No",NA,NA
+"144","D_EMP_TYPE","Yes",NA,NA
+"145","D_EMP_TYPE","No",NA,NA
+"146","D_EMP_TYPE","No",NA,NA
+"147","D_EMP_TYPE","Venta de bordados",NA,NA
+"148","D_EMP_TYPE","No",NA,NA
+"149","D_EMP_TYPE","No. Ama de casa / vende chocolate en temporadas - informal",NA,NA
+"150","D_EMP_TYPE","informal, ventas toda la semana",NA,NA
+"151","D_EMP_TYPE","Yes,comerciante 2-v",NA,NA
+"152","D_EMP_TYPE","Informal, 3 dias por semana",NA,NA
+"153","D_EMP_TYPE","Informal, 4 dias/ semana",NA,NA
+"154","D_EMP_TYPE","Yes,limpieza de casas",NA,NA
+"155","D_EMP_TYPE","Informal, venta de comida",NA,NA
+"156","D_EMP_TYPE","Informal, 3 dias x semanas",NA,NA
+"157","D_EMP_TYPE","No",NA,NA
+"158","D_EMP_TYPE","no",NA,NA
+"159","D_EMP_TYPE","Yes,comerciante",NA,NA
+"160","D_EMP_TYPE","No",NA,NA
+"161","D_EMP_TYPE","Formal",NA,NA
+"162","D_EMP_TYPE","Si (formal) - militar",NA,NA
+"163","D_EMP_TYPE","Informal--Lavar ropa 2 dias por semana",NA,NA
+"165","D_EMP_TYPE","No",NA,NA
+"166","D_EMP_TYPE","Lu - sa ; informal",NA,NA
+"167","D_EMP_TYPE","No",NA,NA
+"168","D_EMP_TYPE","No",NA,NA
+"169","D_EMP_TYPE","Ventas. Comerciante",NA,NA
+"170","D_EMP_TYPE","Comerciante",NA,NA
+"171","D_EMP_TYPE","Limpieza",NA,NA
+"172","D_EMP_TYPE","Yes",NA,NA
+"173","D_EMP_TYPE","Yes",NA,NA
+"174","D_EMP_TYPE","No",NA,NA
+"175","D_EMP_TYPE","No",NA,NA
+"176","D_EMP_TYPE","Si.",NA,NA
+"177","D_EMP_TYPE","informal - limpieza. 1 vez por semana",NA,NA
+"178","D_EMP_TYPE","Informal, trabaja en una cocina.",NA,NA
+"179","D_EMP_TYPE","Informal",NA,NA
+"180","D_EMP_TYPE","Informal - 1 o 2 x semana",NA,NA
+"181","D_EMP_TYPE","informal, es comerciante",NA,NA
+"182","D_EMP_TYPE","No",NA,NA
+"183","D_EMP_TYPE","Formal, promolara",NA,NA
+"184","D_EMP_TYPE","informal, 3 dias x semana",NA,NA
+"185","D_EMP_TYPE","Informal. Estilista canina.",NA,NA
+"186","D_EMP_TYPE","No",NA,NA
+"187","D_EMP_TYPE","Comerciante",NA,NA
+"188","D_EMP_TYPE","Informal. Limpieza",NA,NA
+"189","D_EMP_TYPE","No",NA,NA
+"190","D_EMP_TYPE","No",NA,NA
+"191","D_EMP_TYPE","Informal, comercio",NA,NA
+"192","D_EMP_TYPE","Informal, 3 veces por semana",NA,NA
+"193","D_EMP_TYPE","Informal, venta la ropa",NA,NA
+"194","D_EMP_TYPE","Informal--comerciante; todos los dias",NA,NA
+"195","D_EMP_TYPE","No",NA,NA
+"196","D_EMP_TYPE","Informal, Cuidado de ninios",NA,NA
+"197","D_EMP_TYPE","Informal. Reportera revistas digitales.",NA,NA
+"198","D_EMP_TYPE","No",NA,NA
+"199","D_EMP_TYPE","No",NA,NA
+"200","D_EMP_TYPE","Informal. Ventas de joyeria y cosmeticos",NA,NA
+"201","D_EMP_TYPE","No",NA,NA
+"202","D_EMP_TYPE","informal--hace limpieza--vende ropa que regalan--> quedo sin trabajo. --> les cortan para no dar aguinaldo. Lava ropa, no tiene trabajo fitable. Hizo c/TDH, no puede unidarlo. | cuando tiene mucho trabajo, apurados. Cuando no trabaja se deprime.",NA,NA
+"203","D_EMP_TYPE","informal -- 6 dias por semana",NA,NA
+"204","D_EMP_TYPE","Informal. Limpieza",NA,NA
+"301","D_EMP_TYPE","Informal, vendo juguetes y dulces",NA,NA
+"302","D_EMP_TYPE","formal",NA,NA
+"303","D_EMP_TYPE","Informal",NA,NA
+"304","D_EMP_TYPE","No",NA,NA
+"305","D_EMP_TYPE","formal",NA,NA
+"306","D_EMP_TYPE","informal",NA,NA
+"307","D_EMP_TYPE","no",NA,NA
+"308","D_EMP_TYPE","no",NA,NA
+"309","D_EMP_TYPE","informal",NA,NA
+"310","D_EMP_TYPE","informal. Comerciante",NA,NA
+"311","D_EMP_TYPE","informal",NA,NA
+"312","D_EMP_TYPE","formal",NA,NA
+"313","D_EMP_TYPE","no",NA,NA
+"314","D_EMP_TYPE","No",NA,NA
+"315","D_EMP_TYPE","informal",NA,NA
+"316","D_EMP_TYPE","formal",NA,NA
+"317","D_EMP_TYPE","informal",NA,NA
+"318","D_EMP_TYPE","no",NA,NA
+"319","D_EMP_TYPE","no",NA,NA
+"320","D_EMP_TYPE","Trabajo domestico. Trabajo comerciante.",NA,NA
+"320","D_EMP_TYPE","Trabajo domestico. Trabajo comerciante.",NA,NA
+"321","D_EMP_TYPE","Si comerciante",NA,NA
+"322","D_EMP_TYPE","formal- psicologa",NA,NA
+"323","D_EMP_TYPE","tiene un negocio",NA,NA
+"324","D_EMP_TYPE","informal",NA,NA
+"325","D_EMP_TYPE","no",NA,NA
+"326","D_EMP_TYPE","formal",NA,NA
+"327","D_EMP_TYPE","no",NA,NA
+"328","D_EMP_TYPE","informal",NA,NA
+"329","D_EMP_TYPE","no",NA,NA
+"330","D_EMP_TYPE","No",NA,NA
+"331","D_EMP_TYPE","informal",NA,NA
+"332","D_EMP_TYPE","informal",NA,NA
+"333","D_EMP_TYPE","informal",NA,NA
+"334","D_EMP_TYPE","Si, seguridad privada.",NA,NA
+"334","D_EMP_TYPE","Si, seguridad privada.",NA,NA
+"335","D_EMP_TYPE","no",NA,NA
+"336","D_EMP_TYPE","informal",NA,NA
+"337","D_EMP_TYPE","informal",NA,NA
+"338","D_EMP_TYPE","si",NA,NA
+"339","D_EMP_TYPE","informal",NA,NA
+"340","D_EMP_TYPE","informal",NA,NA
+"341","D_EMP_TYPE","comerciante",NA,NA
+"342","D_EMP_TYPE","no",NA,NA
+"343","D_EMP_TYPE","formal",NA,NA
+"344","D_EMP_TYPE","formal",NA,NA
+"345","D_EMP_TYPE","formal",NA,NA
+"346","D_EMP_TYPE",NA,NA,NA
+"347","D_EMP_TYPE",NA,NA,NA
+"348","D_EMP_TYPE",NA,NA,NA
+"349","D_EMP_TYPE",NA,NA,NA
+"350","D_EMP_TYPE",NA,NA,NA
+"351","D_EMP_TYPE",NA,NA,NA
+"352","D_EMP_TYPE",NA,NA,NA
+"353","D_EMP_TYPE","Formal",NA,NA
+"354","D_EMP_TYPE",NA,NA,NA
+"355","D_EMP_TYPE",NA,NA,NA
+"356","D_EMP_TYPE",NA,NA,NA
+"357","D_EMP_TYPE",NA,NA,NA
+"358","D_EMP_TYPE",NA,NA,NA
+"359","D_EMP_TYPE","Ayudante del hogar",NA,NA
+"360","D_EMP_TYPE",NA,NA,NA
+"361","D_EMP_TYPE","informal",NA,NA
+"362","D_EMP_TYPE","si",NA,NA
+"363","D_EMP_TYPE","Informal, cosmetologa",NA,NA
+"364","D_EMP_TYPE","formal",NA,NA
+"365","D_EMP_TYPE","no",NA,NA
+"366","D_EMP_TYPE","formal",NA,NA
+"367","D_EMP_TYPE","formal",NA,NA
+"368","D_EMP_TYPE","no",NA,NA
+"369","D_EMP_TYPE","informal",NA,NA
+"370","D_EMP_TYPE","informal",NA,NA
+"371","D_EMP_TYPE","formal",NA,NA
+"372","D_EMP_TYPE","si",NA,NA
+"373","D_EMP_TYPE","si",NA,NA
+"374","D_EMP_TYPE","no",NA,NA
+"375","D_EMP_TYPE",NA,NA,NA
+"376","D_EMP_TYPE","Si",NA,NA
+"377","D_EMP_TYPE","informal y formal",NA,NA
+"378","D_EMP_TYPE","no",NA,NA
+"379","D_EMP_TYPE","formal",NA,NA
+"380","D_EMP_TYPE","no",NA,NA
+"381","D_EMP_TYPE","informal",NA,NA
+"382","D_EMP_TYPE","si",NA,NA
+"383","D_EMP_TYPE","si",NA,NA
+"384","D_EMP_TYPE","informal",NA,NA
+"385","D_EMP_TYPE","si",NA,NA
+"386","D_EMP_TYPE","no",NA,NA
+"387","D_EMP_TYPE","no",NA,NA
+"388","D_EMP_TYPE","no",NA,NA
+"389","D_EMP_TYPE","si",NA,NA
+"390","D_EMP_TYPE","no",NA,NA
+"391","D_EMP_TYPE",NA,NA,NA
+"392","D_EMP_TYPE","no",NA,NA
+"393","D_EMP_TYPE","si",NA,NA
+"394","D_EMP_TYPE","Comerciante","Informal",NA
+"394","D_EMP_TYPE","Comerciante",NA,NA
+"395","D_EMP_TYPE","Si (ventas)",NA,NA
+"396","D_EMP_TYPE","No",NA,NA
+"397","D_EMP_TYPE","no",NA,NA
+"398","D_EMP_TYPE","no",NA,NA
+"399","D_EMP_TYPE","informal",NA,NA
+"400","D_EMP_TYPE","Yes,n/a si formal o informal",NA,NA
+"401","D_EMP_TYPE","Formal",NA,NA
+"402","D_EMP_TYPE","No",NA,NA
+"403","D_EMP_TYPE","Formal",NA,NA
+"404","D_EMP_TYPE","Formal",NA,NA
+"405","D_EMP_TYPE","No",NA,NA
+"406","D_EMP_TYPE","NO",NA,NA
+"407","D_EMP_TYPE","No",NA,NA
+"408","D_EMP_TYPE","Vendedora",NA,NA
+"409","D_EMP_TYPE","Informal-ventas",NA,NA
+"410","D_EMP_TYPE","Informal, comerciante",NA,NA
+"411","D_EMP_TYPE","Si, informal",NA,NA
+"412","D_EMP_TYPE","Obrera (fabrica) Formal",NA,NA
+"413","D_EMP_TYPE","comerciante informal",NA,NA
+"414","D_EMP_TYPE","Aeropuerto. Formal. Servicio de pasajero",NA,NA
+"415","D_EMP_TYPE","comerciante, informal",NA,NA
+"416","D_EMP_TYPE","Pestanias. Tiene su propio local",NA,NA
+"417","D_EMP_TYPE","si, informal",NA,NA
+"418","D_EMP_TYPE","Yes",NA,NA
+"419","D_EMP_TYPE","no",NA,NA
+"420","D_EMP_TYPE","Yes",NA,NA
+"421","D_EMP_TYPE","Informal",NA,NA
+"422","D_EMP_TYPE","si",NA,NA
+"423","D_EMP_TYPE","comerciante",NA,NA
+"424","D_EMP_TYPE","Si",NA,NA
+"425","D_EMP_TYPE","no",NA,NA
+"426","D_EMP_TYPE","Si",NA,NA
+"427","D_EMP_TYPE","Informal",NA,NA
+"428","D_EMP_TYPE","no",NA,NA
+"429","D_EMP_TYPE","si",NA,NA
+"430","D_EMP_TYPE","Si",NA,NA
+"431","D_EMP_TYPE","Yes",NA,NA
+"432","D_EMP_TYPE","Informal (comerciante)",NA,NA
+"433","D_EMP_TYPE","Formal -- tienda",NA,NA
+"434","D_EMP_TYPE","Informal, ayuda en negocio",NA,NA
+"435","D_EMP_TYPE","No",NA,NA
+"436","D_EMP_TYPE","No",NA,NA
+"437","D_EMP_TYPE","Informal",NA,NA
+"438","D_EMP_TYPE","Informal--vendedora",NA,NA
+"439","D_EMP_TYPE","Informal",NA,NA
+"440","D_EMP_TYPE","Comerciante",NA,NA
+"441","D_EMP_TYPE","no",NA,NA
+"442","D_EMP_TYPE","informal",NA,NA
+"443","D_EMP_TYPE","formal- 2 trabajos",NA,NA
+"444","D_EMP_TYPE","si, comerciante",NA,NA
+"445","D_EMP_TYPE","no",NA,NA
+"446","D_EMP_TYPE","si, formal.",NA,NA
+"447","D_EMP_TYPE","si, informal",NA,NA
+"448","D_EMP_TYPE","no",NA,NA
+"449","D_EMP_TYPE","no",NA,NA
+"450","D_EMP_TYPE","Administradora--Formal",NA,NA
+"451","D_EMP_TYPE","Yes,informal",NA,NA
+"452","D_EMP_TYPE","no",NA,NA
+"453","D_EMP_TYPE","Si, informal",NA,NA
+"454","D_EMP_TYPE","no",NA,NA
+"455","D_EMP_TYPE","Si, informal",NA,NA
+"456","D_EMP_TYPE","en una farmacia. Ayudante formal",NA,NA
+"457","D_EMP_TYPE","no",NA,NA
+"458","D_EMP_TYPE","no",NA,NA
+"459","D_EMP_TYPE","Yes,unidad administra de agua en prender y apagar bomba",NA,NA
+"460","D_EMP_TYPE","Yes,informal",NA,NA
+"461","D_EMP_TYPE","No",NA,NA
+"462","D_EMP_TYPE","Informal",NA,NA
+"463","D_EMP_TYPE","No",NA,NA
+"464","D_EMP_TYPE","Formal",NA,NA
+"465","D_EMP_TYPE","Informal-vende ropa",NA,NA
+"466","D_EMP_TYPE","Venta",NA,NA
+"467","D_EMP_TYPE","Informal, comercio dulces",NA,NA
+"468","D_EMP_TYPE","No",NA,NA
+"469","D_EMP_TYPE","Informal--comercio de tamales",NA,NA
+"470","D_EMP_TYPE","Formal",NA,NA
+"471","D_EMP_TYPE","Informal, cuidadora de perros",NA,NA
+"472","D_EMP_TYPE","Si, informal. vende platanos",NA,NA
+"473","D_EMP_TYPE","Informal. Venta de pasteles.",NA,NA
+"474","D_EMP_TYPE","Si, informal",NA,NA
+"475","D_EMP_TYPE","Informal. Se dedica a comercios",NA,NA
+"476","D_EMP_TYPE","No",NA,NA
+"477","D_EMP_TYPE","No",NA,NA
+"478","D_EMP_TYPE","comerciante, informal",NA,NA
+"479","D_EMP_TYPE","si, formal",NA,NA
+"480","D_EMP_TYPE","no",NA,NA
+"481","D_EMP_TYPE","Yes,formal",NA,NA
+"482","D_EMP_TYPE","Yes,informal",NA,NA
+"483","D_EMP_TYPE","Yes,informal",NA,NA
+"484","D_EMP_TYPE","Yes,informal",NA,NA
+"485","D_EMP_TYPE","comerciante, informal",NA,NA
+"486","D_EMP_TYPE","informal, comerciante",NA,NA
+"487","D_EMP_TYPE","no",NA,NA
+"488","D_EMP_TYPE","comerciante (ropa)",NA,NA
+"489","D_EMP_TYPE","no",NA,NA
+"490","D_EMP_TYPE","Formal",NA,NA
+"491","D_EMP_TYPE","No",NA,NA
+"492","D_EMP_TYPE","Informal",NA,NA
+"493","D_EMP_TYPE","Formal - licencia maternal",NA,NA
+"494","D_EMP_TYPE","Informal",NA,NA
+"495","D_EMP_TYPE","Informal",NA,NA
+"496","D_EMP_TYPE","Informal",NA,NA
+"497","D_EMP_TYPE","No",NA,NA
+"320","D_EMP_TYPE_RAW","Trabajo domestico. Trabajo comerciante.",NA,NA
+"334","D_EMP_TYPE_RAW","Si, seguridad privada.",NA,NA
+"394","D_EMP_TYPE_RAW","Comerciante","Informal",NA
 "190","D_HH_SIZE","6","3",NA
 "191","D_HH_SIZE","3","8",NA
-"415","D_CHLD","333","2",NA
-"427","D_CHLD","1","4",NA
-"320","D_EMP_TYPE","Trabajo domestico. Trabajo comerciante.",NA,NA
-"334","D_EMP_TYPE","Si, seguridad privada.",NA,NA
-"394","D_EMP_TYPE","Comerciante","Informal",NA
+"391","D_LOC_CODE","9640","9690",NA
+"496","D_LOC_CODE","9780","9960",NA
+"7","D_LOC_TIME",NA,NA,NA
+"18","D_LOC_TIME",NA,NA,NA
+"34","D_LOC_TIME",NA,NA,NA
+"38","D_LOC_TIME",NA,NA,NA
+"41","D_LOC_TIME",NA,NA,NA
+"62","D_LOC_TIME",NA,NA,NA
+"63","D_LOC_TIME",NA,NA,NA
+"66","D_LOC_TIME",NA,NA,NA
+"110","D_LOC_TIME",NA,NA,NA
+"138","D_LOC_TIME",NA,NA,NA
+"150","D_LOC_TIME",NA,NA,NA
+"184","D_LOC_TIME",NA,"Calle Simon Bolivar 24, Lomas de 2",NA
+"189","D_LOC_TIME",NA,"No hay una repuesta para el tiempo que ha vivido en esta colonia",NA
+"194","D_LOC_TIME",NA,"No hay el tiempo que ha vivido en esta colonia",NA
+"197","D_LOC_TIME",NA,NA,NA
+"346","D_LOC_TIME",NA,NA,NA
+"347","D_LOC_TIME",NA,NA,NA
+"348","D_LOC_TIME",NA,NA,NA
+"349","D_LOC_TIME",NA,NA,NA
+"350","D_LOC_TIME",NA,NA,NA
+"351","D_LOC_TIME",NA,NA,NA
+"352","D_LOC_TIME",NA,NA,NA
+"354","D_LOC_TIME",NA,NA,NA
+"355","D_LOC_TIME",NA,NA,NA
+"356","D_LOC_TIME",NA,NA,NA
+"357","D_LOC_TIME",NA,NA,NA
+"358","D_LOC_TIME",NA,NA,NA
+"360","D_LOC_TIME",NA,NA,NA
+"375","D_LOC_TIME",NA,NA,NA
+"376","D_LOC_TIME",NA,NA,NA
+"384","D_LOC_TIME","1 ano en casa, anterior 5 (2 casas).",NA,NA
+"391","D_LOC_TIME",NA,NA,NA
+"394","D_LOC_TIME","3","31",NA
+"442","D_LOC_TIME",NA,NA,NA
+"451","D_LOC_TIME","1 ano en casa nueva",NA,NA
+"470","D_LOC_TIME",NA,NA,NA
+"496","D_LOC_TIME",NA,NA,NA
+"329","D_YRBR","2001","2002",NA
+"376","D_YRBR","1993","1998",NA
+"1","HLTH_CDIS","Tuve colesterol elevado hace dos semanas hice estudios y salio normal",NA,NA
+"2","HLTH_CDIS","No",NA,NA
+"3","HLTH_CDIS","No",NA,NA
+"4","HLTH_CDIS","No",NA,NA
+"5","HLTH_CDIS","No",NA,NA
+"6","HLTH_CDIS","no",NA,NA
+"7","HLTH_CDIS","gastritis- de vez en cuando 
+no enfermedad cronica",NA,NA
+"8","HLTH_CDIS","No diabates por embarazo",NA,NA
+"9","HLTH_CDIS","No",NA,NA
+"10","HLTH_CDIS","No",NA,NA
+"11","HLTH_CDIS","No",NA,NA
+"12","HLTH_CDIS","No",NA,NA
+"13","HLTH_CDIS","No",NA,NA
+"14","HLTH_CDIS","No",NA,NA
+"15","HLTH_CDIS","No",NA,NA
+"16","HLTH_CDIS","No",NA,NA
+"17","HLTH_CDIS","No",NA,NA
+"18","HLTH_CDIS","No",NA,NA
+"19","HLTH_CDIS","No",NA,NA
+"20","HLTH_CDIS","No",NA,NA
+"21","HLTH_CDIS","No",NA,NA
+"22","HLTH_CDIS","No",NA,NA
+"23","HLTH_CDIS","No",NA,NA
+"24","HLTH_CDIS","No",NA,NA
+"25","HLTH_CDIS","No",NA,NA
+"26","HLTH_CDIS","No",NA,NA
+"27","HLTH_CDIS","No",NA,NA
+"28","HLTH_CDIS","Colitis/gastritis, y trigliceridos elevados",NA,NA
+"29","HLTH_CDIS","No",NA,NA
+"30","HLTH_CDIS","no",NA,NA
+"31","HLTH_CDIS","No",NA,NA
+"32","HLTH_CDIS","No",NA,NA
+"33","HLTH_CDIS","No",NA,NA
+"34","HLTH_CDIS","Gastritis",NA,NA
+"35","HLTH_CDIS","No",NA,NA
+"36","HLTH_CDIS","No",NA,NA
+"37","HLTH_CDIS","No",NA,NA
+"38","HLTH_CDIS","No",NA,NA
+"39","HLTH_CDIS","NO",NA,NA
+"40","HLTH_CDIS","No",NA,NA
+"41","HLTH_CDIS","No",NA,NA
+"42","HLTH_CDIS","No",NA,NA
+"43","HLTH_CDIS","No",NA,NA
+"44","HLTH_CDIS","No",NA,NA
+"45","HLTH_CDIS","No",NA,NA
+"46","HLTH_CDIS","No",NA,NA
+"47","HLTH_CDIS","No",NA,NA
+"48","HLTH_CDIS","No",NA,NA
+"49","HLTH_CDIS","Diabetes y hipertension",NA,NA
+"50","HLTH_CDIS","Enfermedad con el corazon. Arteria tapada",NA,NA
+"51","HLTH_CDIS","Ansiedad",NA,NA
+"52","HLTH_CDIS","No",NA,NA
+"53","HLTH_CDIS","No",NA,NA
+"54","HLTH_CDIS","Tuvo colesterol alto ya he",NA,NA
+"55","HLTH_CDIS","No",NA,NA
+"56","HLTH_CDIS","No",NA,NA
+"57","HLTH_CDIS","No",NA,NA
+"58","HLTH_CDIS","No",NA,NA
+"59","HLTH_CDIS","No",NA,NA
+"60","HLTH_CDIS","No",NA,NA
+"61","HLTH_CDIS","No",NA,NA
+"62","HLTH_CDIS","No",NA,NA
+"63","HLTH_CDIS","Diabetes",NA,NA
+"64","HLTH_CDIS","No",NA,NA
+"65","HLTH_CDIS","No",NA,NA
+"66","HLTH_CDIS","No",NA,NA
+"67","HLTH_CDIS","No",NA,NA
+"68","HLTH_CDIS","No",NA,NA
+"69","HLTH_CDIS","No",NA,NA
+"70","HLTH_CDIS","No",NA,NA
+"71","HLTH_CDIS","Sospecha que tiene artitris o hipotension pero no esta diagnosticada solo lo siente.",NA,NA
+"72","HLTH_CDIS","No",NA,NA
+"73","HLTH_CDIS","No",NA,NA
+"74","HLTH_CDIS","No",NA,NA
+"75","HLTH_CDIS","Si gastritis",NA,NA
+"76","HLTH_CDIS","No",NA,NA
+"77","HLTH_CDIS","No",NA,NA
+"78","HLTH_CDIS","No",NA,NA
+"79","HLTH_CDIS","Diabetes tipo 2",NA,NA
+"80","HLTH_CDIS","No",NA,NA
+"81","HLTH_CDIS","No",NA,NA
+"82","HLTH_CDIS","No",NA,NA
+"83","HLTH_CDIS","No",NA,NA
+"84","HLTH_CDIS","No",NA,NA
+"85","HLTH_CDIS","No",NA,NA
+"86","HLTH_CDIS","No",NA,NA
+"87","HLTH_CDIS","No",NA,NA
+"88","HLTH_CDIS","No",NA,NA
+"89","HLTH_CDIS","No",NA,NA
+"90","HLTH_CDIS","No",NA,NA
+"91","HLTH_CDIS","No",NA,NA
+"92","HLTH_CDIS","No",NA,NA
+"93","HLTH_CDIS","No",NA,NA
+"94","HLTH_CDIS","No",NA,NA
+"95","HLTH_CDIS","No",NA,NA
+"96","HLTH_CDIS","No",NA,NA
+"97","HLTH_CDIS","No",NA,NA
+"98","HLTH_CDIS","Hipotiroidismo despues de COVID-19",NA,NA
+"99","HLTH_CDIS","No",NA,NA
+"100","HLTH_CDIS","No",NA,NA
+"101","HLTH_CDIS","No",NA,NA
+"102","HLTH_CDIS","No",NA,NA
+"103","HLTH_CDIS","No",NA,NA
+"104","HLTH_CDIS","No",NA,NA
+"105","HLTH_CDIS","No",NA,NA
+"106","HLTH_CDIS","No",NA,NA
+"107","HLTH_CDIS","No",NA,NA
+"108","HLTH_CDIS","No",NA,NA
+"109","HLTH_CDIS","Depresion",NA,NA
+"110","HLTH_CDIS","No",NA,NA
+"111","HLTH_CDIS","No",NA,NA
+"112","HLTH_CDIS","No",NA,NA
+"113","HLTH_CDIS","No",NA,NA
+"114","HLTH_CDIS","Hipertension.",NA,NA
+"115","HLTH_CDIS","No",NA,NA
+"116","HLTH_CDIS","Diabetes",NA,NA
+"117","HLTH_CDIS","No",NA,NA
+"118","HLTH_CDIS","No",NA,NA
+"119","HLTH_CDIS","No",NA,NA
+"120","HLTH_CDIS","No",NA,NA
+"121","HLTH_CDIS","No",NA,NA
+"122","HLTH_CDIS","No",NA,NA
+"123","HLTH_CDIS","No",NA,NA
+"124","HLTH_CDIS","Migrana",NA,NA
+"125","HLTH_CDIS","Deficiencia Pulmonar",NA,NA
+"126","HLTH_CDIS","No",NA,NA
+"127","HLTH_CDIS","No",NA,NA
+"128","HLTH_CDIS","No",NA,NA
+"129","HLTH_CDIS","Depresion y Ansiedad",NA,NA
+"130","HLTH_CDIS","No",NA,NA
+"131","HLTH_CDIS","No",NA,NA
+"132","HLTH_CDIS","No",NA,NA
+"133","HLTH_CDIS","No",NA,NA
+"134","HLTH_CDIS","No",NA,NA
+"135","HLTH_CDIS","No",NA,NA
+"136","HLTH_CDIS","No",NA,NA
+"137","HLTH_CDIS","No",NA,NA
+"138","HLTH_CDIS","No",NA,NA
+"139","HLTH_CDIS","No",NA,NA
+"140","HLTH_CDIS","No",NA,NA
+"141","HLTH_CDIS","depresion posible / no diagnosticado // --> hace 2 anios, fallecio hermano --> vitaminas",NA,NA
+"142","HLTH_CDIS","No",NA,NA
+"143","HLTH_CDIS","No",NA,NA
+"144","HLTH_CDIS","No",NA,NA
+"145","HLTH_CDIS","No",NA,NA
+"146","HLTH_CDIS","No",NA,NA
+"147","HLTH_CDIS","No",NA,NA
+"148","HLTH_CDIS","No",NA,NA
+"149","HLTH_CDIS","No",NA,NA
+"150","HLTH_CDIS","no",NA,NA
+"151","HLTH_CDIS","No",NA,NA
+"152","HLTH_CDIS","no",NA,NA
+"153","HLTH_CDIS","No",NA,NA
+"154","HLTH_CDIS","No",NA,NA
+"155","HLTH_CDIS","No",NA,NA
+"156","HLTH_CDIS","No",NA,NA
+"157","HLTH_CDIS","No",NA,NA
+"158","HLTH_CDIS","No",NA,NA
+"159","HLTH_CDIS","No",NA,NA
+"160","HLTH_CDIS","No",NA,NA
+"161","HLTH_CDIS","No",NA,NA
+"162","HLTH_CDIS","No",NA,NA
+"163","HLTH_CDIS","No",NA,NA
+"165","HLTH_CDIS","Colesterol alto",NA,NA
+"166","HLTH_CDIS","No",NA,NA
+"167","HLTH_CDIS","No",NA,NA
+"168","HLTH_CDIS","No",NA,NA
+"169","HLTH_CDIS","No",NA,NA
+"170","HLTH_CDIS","No",NA,NA
+"171","HLTH_CDIS","Diabetes",NA,NA
+"172","HLTH_CDIS","No",NA,NA
+"173","HLTH_CDIS","No",NA,NA
+"174","HLTH_CDIS","Hipertension",NA,NA
+"175","HLTH_CDIS","No",NA,NA
+"176","HLTH_CDIS","No",NA,NA
+"177","HLTH_CDIS","artritis",NA,NA
+"178","HLTH_CDIS","No",NA,NA
+"179","HLTH_CDIS","No",NA,NA
+"180","HLTH_CDIS","No",NA,NA
+"181","HLTH_CDIS","No",NA,NA
+"182","HLTH_CDIS","No",NA,NA
+"183","HLTH_CDIS","no",NA,NA
+"184","HLTH_CDIS","no",NA,NA
+"185","HLTH_CDIS","No",NA,NA
+"186","HLTH_CDIS","No",NA,NA
+"187","HLTH_CDIS","No",NA,NA
+"188","HLTH_CDIS","No",NA,NA
+"189","HLTH_CDIS","No",NA,NA
+"190","HLTH_CDIS","Cancer, higado graso",NA,NA
+"191","HLTH_CDIS","No",NA,NA
+"192","HLTH_CDIS","No",NA,NA
+"193","HLTH_CDIS","No",NA,NA
+"194","HLTH_CDIS","No",NA,NA
+"195","HLTH_CDIS","No",NA,NA
+"196","HLTH_CDIS","No",NA,NA
+"197","HLTH_CDIS","No",NA,NA
+"198","HLTH_CDIS","diabetes - tipo 2",NA,NA
+"199","HLTH_CDIS","No",NA,NA
+"200","HLTH_CDIS","No",NA,NA
+"201","HLTH_CDIS","No",NA,NA
+"202","HLTH_CDIS","hipotension (presion baja)",NA,NA
+"203","HLTH_CDIS","Hipertension.",NA,NA
+"204","HLTH_CDIS","No",NA,NA
+"301","HLTH_CDIS","Gastritis, tiene 2 que no",NA,NA
+"302","HLTH_CDIS","No",NA,NA
+"303","HLTH_CDIS","No",NA,NA
+"304","HLTH_CDIS","No",NA,NA
+"305","HLTH_CDIS","No",NA,NA
+"306","HLTH_CDIS","No",NA,NA
+"307","HLTH_CDIS","Depresion",NA,NA
+"308","HLTH_CDIS","no",NA,NA
+"309","HLTH_CDIS","No",NA,NA
+"310","HLTH_CDIS","Diabetes",NA,NA
+"311","HLTH_CDIS","No",NA,NA
+"312","HLTH_CDIS","no",NA,NA
+"313","HLTH_CDIS","No",NA,NA
+"314","HLTH_CDIS","Colesterol, presion alta, y alergias",NA,NA
+"315","HLTH_CDIS","no",NA,NA
+"316","HLTH_CDIS","Azucar alta",NA,NA
+"317","HLTH_CDIS","no",NA,NA
+"318","HLTH_CDIS","no",NA,NA
+"319","HLTH_CDIS","no",NA,NA
+"320","HLTH_CDIS","No",NA,NA
+"321","HLTH_CDIS","No",NA,NA
+"322","HLTH_CDIS","no",NA,NA
+"323","HLTH_CDIS","no",NA,NA
+"324","HLTH_CDIS","Ansiedad y depresion",NA,NA
+"325","HLTH_CDIS","migrana",NA,NA
+"326","HLTH_CDIS","no",NA,NA
+"327","HLTH_CDIS","no",NA,NA
+"328","HLTH_CDIS","no",NA,NA
+"329","HLTH_CDIS","no",NA,NA
+"330","HLTH_CDIS","Ansiedad (no diagnosticado)",NA,NA
+"331","HLTH_CDIS","no",NA,NA
+"332","HLTH_CDIS","no",NA,NA
+"333","HLTH_CDIS","no",NA,NA
+"334","HLTH_CDIS","hipertiroidismo",NA,NA
+"335","HLTH_CDIS","no",NA,NA
+"336","HLTH_CDIS","no",NA,NA
+"337","HLTH_CDIS","no",NA,NA
+"338","HLTH_CDIS","no",NA,NA
+"339","HLTH_CDIS","no",NA,NA
+"340","HLTH_CDIS","no",NA,NA
+"341","HLTH_CDIS","no",NA,NA
+"342","HLTH_CDIS","no",NA,NA
+"343","HLTH_CDIS","no",NA,NA
+"344","HLTH_CDIS","no",NA,NA
+"345","HLTH_CDIS","no",NA,NA
+"346","HLTH_CDIS",NA,NA,NA
+"347","HLTH_CDIS",NA,NA,NA
+"348","HLTH_CDIS",NA,NA,NA
+"349","HLTH_CDIS",NA,NA,NA
+"350","HLTH_CDIS",NA,NA,NA
+"351","HLTH_CDIS",NA,NA,NA
+"352","HLTH_CDIS",NA,NA,NA
+"353","HLTH_CDIS","No",NA,NA
+"354","HLTH_CDIS",NA,NA,NA
+"355","HLTH_CDIS",NA,NA,NA
+"356","HLTH_CDIS",NA,NA,NA
+"357","HLTH_CDIS",NA,NA,NA
+"358","HLTH_CDIS",NA,NA,NA
+"359","HLTH_CDIS","No",NA,NA
+"360","HLTH_CDIS",NA,NA,NA
+"361","HLTH_CDIS","No",NA,NA
+"362","HLTH_CDIS","no",NA,NA
+"363","HLTH_CDIS","No",NA,NA
+"364","HLTH_CDIS","no",NA,NA
+"365","HLTH_CDIS","no",NA,NA
+"366","HLTH_CDIS","no",NA,NA
+"367","HLTH_CDIS","no",NA,NA
+"368","HLTH_CDIS","plaquetas altas, ansiedad, depresion",NA,NA
+"369","HLTH_CDIS","no",NA,NA
+"370","HLTH_CDIS","no",NA,NA
+"371","HLTH_CDIS","hipertension",NA,NA
+"372","HLTH_CDIS","no",NA,NA
+"373","HLTH_CDIS","Ansiedad",NA,NA
+"374","HLTH_CDIS","No",NA,NA
+"375","HLTH_CDIS",NA,NA,NA
+"376","HLTH_CDIS","no",NA,NA
+"377","HLTH_CDIS","ansiedad",NA,NA
+"378","HLTH_CDIS","No",NA,NA
+"379","HLTH_CDIS","asma, ansiedad",NA,NA
+"380","HLTH_CDIS","no",NA,NA
+"381","HLTH_CDIS","no",NA,NA
+"382","HLTH_CDIS","no",NA,NA
+"383","HLTH_CDIS","no",NA,NA
+"384","HLTH_CDIS","diabetes",NA,NA
+"385","HLTH_CDIS","no",NA,NA
+"386","HLTH_CDIS","no",NA,NA
+"387","HLTH_CDIS","no",NA,NA
+"388","HLTH_CDIS","no",NA,NA
+"389","HLTH_CDIS","no",NA,NA
+"390","HLTH_CDIS","No",NA,NA
+"391","HLTH_CDIS",NA,NA,NA
+"392","HLTH_CDIS","no",NA,NA
+"393","HLTH_CDIS","no",NA,NA
+"394","HLTH_CDIS","Episodios de hipertension (Losartan)",NA,NA
+"395","HLTH_CDIS","no",NA,NA
+"396","HLTH_CDIS","no",NA,NA
+"397","HLTH_CDIS","No",NA,NA
+"398","HLTH_CDIS","No",NA,NA
+"399","HLTH_CDIS","ansiedad",NA,NA
+"400","HLTH_CDIS","no",NA,NA
+"401","HLTH_CDIS","No",NA,NA
+"402","HLTH_CDIS","No",NA,NA
+"403","HLTH_CDIS","no",NA,NA
+"404","HLTH_CDIS","Pre-diabetes",NA,NA
+"405","HLTH_CDIS","No",NA,NA
+"406","HLTH_CDIS","No",NA,NA
+"407","HLTH_CDIS","No",NA,NA
+"408","HLTH_CDIS","Depresion",NA,NA
+"409","HLTH_CDIS","No",NA,NA
+"410","HLTH_CDIS","No",NA,NA
+"411","HLTH_CDIS","no",NA,NA
+"412","HLTH_CDIS","No",NA,NA
+"413","HLTH_CDIS","No",NA,NA
+"414","HLTH_CDIS","No",NA,NA
+"415","HLTH_CDIS","no",NA,NA
+"416","HLTH_CDIS","Depresion",NA,NA
+"417","HLTH_CDIS","depresion - no diagnostico",NA,NA
+"418","HLTH_CDIS","No",NA,NA
+"419","HLTH_CDIS","diabetes- tipo 2",NA,NA
+"420","HLTH_CDIS","No",NA,NA
+"421","HLTH_CDIS","diabetes tipo 1",NA,NA
+"422","HLTH_CDIS","diabetes tipo 1",NA,NA
+"423","HLTH_CDIS","No",NA,NA
+"424","HLTH_CDIS","No",NA,NA
+"425","HLTH_CDIS","no",NA,NA
+"426","HLTH_CDIS","falta de respiracion. No me han diagnosticado",NA,NA
+"427","HLTH_CDIS","No",NA,NA
+"428","HLTH_CDIS","No",NA,NA
+"429","HLTH_CDIS","No",NA,NA
+"430","HLTH_CDIS","No",NA,NA
+"431","HLTH_CDIS","No",NA,NA
+"432","HLTH_CDIS","No",NA,NA
+"433","HLTH_CDIS","No",NA,NA
+"434","HLTH_CDIS","No",NA,NA
+"435","HLTH_CDIS","Hipotensa, diabetes gestacional--pasado (hace 3)",NA,NA
+"436","HLTH_CDIS","No",NA,NA
+"437","HLTH_CDIS","Depresion (autodignoostico)",NA,NA
+"438","HLTH_CDIS","No",NA,NA
+"439","HLTH_CDIS","No",NA,NA
+"440","HLTH_CDIS","No",NA,NA
+"441","HLTH_CDIS","no",NA,NA
+"442","HLTH_CDIS","no",NA,NA
+"443","HLTH_CDIS","no",NA,NA
+"444","HLTH_CDIS","hipertiroidismo",NA,NA
+"445","HLTH_CDIS","no",NA,NA
+"446","HLTH_CDIS","ansiedad--> no diagnosticado",NA,NA
+"447","HLTH_CDIS","no",NA,NA
+"448","HLTH_CDIS","no",NA,NA
+"449","HLTH_CDIS","no",NA,NA
+"450","HLTH_CDIS","No",NA,NA
+"451","HLTH_CDIS","no",NA,NA
+"452","HLTH_CDIS","11 personas",NA,NA
+"453","HLTH_CDIS","no",NA,NA
+"454","HLTH_CDIS","no",NA,NA
+"455","HLTH_CDIS","no",NA,NA
+"456","HLTH_CDIS","no",NA,NA
+"457","HLTH_CDIS","no",NA,NA
+"458","HLTH_CDIS","no",NA,NA
+"459","HLTH_CDIS","no",NA,NA
+"460","HLTH_CDIS","no",NA,NA
+"461","HLTH_CDIS","No",NA,NA
+"462","HLTH_CDIS","Hipertension",NA,NA
+"463","HLTH_CDIS","No",NA,NA
+"464","HLTH_CDIS","No",NA,NA
+"465","HLTH_CDIS","No",NA,NA
+"466","HLTH_CDIS","No",NA,NA
+"467","HLTH_CDIS","No",NA,NA
+"468","HLTH_CDIS","No",NA,NA
+"469","HLTH_CDIS","No",NA,NA
+"470","HLTH_CDIS","Diabeta, tipo 2",NA,NA
+"471","HLTH_CDIS","No",NA,NA
+"472","HLTH_CDIS","no",NA,NA
+"473","HLTH_CDIS","Probablemente hipertension. --aun no diagnosticado--",NA,NA
+"474","HLTH_CDIS","No",NA,NA
+"475","HLTH_CDIS","No",NA,NA
+"476","HLTH_CDIS","no",NA,NA
+"477","HLTH_CDIS","No",NA,NA
+"478","HLTH_CDIS","No",NA,NA
+"479","HLTH_CDIS","no",NA,NA
+"480","HLTH_CDIS","artritis reumatoida. --> sindrome de sjogren--> autoinmune--> podria influir en cort (alta inflamacion)",NA,NA
+"481","HLTH_CDIS","no",NA,NA
+"482","HLTH_CDIS","no",NA,NA
+"483","HLTH_CDIS","No",NA,NA
+"484","HLTH_CDIS","no",NA,NA
+"485","HLTH_CDIS","no",NA,NA
+"486","HLTH_CDIS","hypertension ansiedad (depreo)",NA,NA
+"487","HLTH_CDIS","no",NA,NA
+"488","HLTH_CDIS","hipotiroidismo ansiedad (no diagnosticado)",NA,NA
+"489","HLTH_CDIS","no",NA,NA
+"490","HLTH_CDIS","Hipertension",NA,NA
+"491","HLTH_CDIS","No",NA,NA
+"492","HLTH_CDIS","NO",NA,NA
+"493","HLTH_CDIS","No",NA,NA
+"494","HLTH_CDIS","No",NA,NA
+"495","HLTH_CDIS","No",NA,NA
+"496","HLTH_CDIS","No",NA,NA
+"497","HLTH_CDIS","Hipertension, colesterol alto",NA,NA
+"71","HLTH_CDIS_CAT","444","444",NA
+"1","HLTH_CPAIN","No",NA,NA
+"2","HLTH_CPAIN","No",NA,NA
+"3","HLTH_CPAIN","No",NA,NA
+"4","HLTH_CPAIN","No",NA,NA
+"5","HLTH_CPAIN","Dolor cronico de talon y Dolor de cabeza (migrana)",NA,NA
+"6","HLTH_CPAIN","No",NA,NA
+"7","HLTH_CPAIN","No",NA,NA
+"8","HLTH_CPAIN","No",NA,NA
+"9","HLTH_CPAIN","dolor cabeza ~ 2 al mes",NA,NA
+"10","HLTH_CPAIN","No",NA,NA
+"11","HLTH_CPAIN","Dolor cronico: recurrente",NA,NA
+"12","HLTH_CPAIN","No",NA,NA
+"13","HLTH_CPAIN","No",NA,NA
+"14","HLTH_CPAIN","No",NA,NA
+"15","HLTH_CPAIN","No",NA,NA
+"16","HLTH_CPAIN","No",NA,NA
+"17","HLTH_CPAIN","No",NA,NA
+"18","HLTH_CPAIN","Dolor cronico: dolor de cabeza antes- 9 ya no",NA,NA
+"19","HLTH_CPAIN","Dolor Cronico: migrania, 1 al mes",NA,NA
+"20","HLTH_CPAIN","No",NA,NA
+"21","HLTH_CPAIN","No",NA,NA
+"22","HLTH_CPAIN","No",NA,NA
+"23","HLTH_CPAIN","No",NA,NA
+"24","HLTH_CPAIN","No",NA,NA
+"25","HLTH_CPAIN","No",NA,NA
+"26","HLTH_CPAIN","No",NA,NA
+"27","HLTH_CPAIN","No",NA,NA
+"28","HLTH_CPAIN","Yes",NA,NA
+"29","HLTH_CPAIN","Yes",NA,NA
+"30","HLTH_CPAIN","No",NA,NA
+"31","HLTH_CPAIN","Yes",NA,NA
+"32","HLTH_CPAIN","No",NA,NA
+"33","HLTH_CPAIN","No",NA,NA
+"34","HLTH_CPAIN","Yes",NA,NA
+"35","HLTH_CPAIN","Yes",NA,NA
+"36","HLTH_CPAIN","No",NA,NA
+"37","HLTH_CPAIN","No",NA,NA
+"38","HLTH_CPAIN","No",NA,NA
+"39","HLTH_CPAIN","Yes",NA,NA
+"40","HLTH_CPAIN","No",NA,NA
+"41","HLTH_CPAIN","No",NA,NA
+"42","HLTH_CPAIN","No",NA,NA
+"43","HLTH_CPAIN","No",NA,NA
+"44","HLTH_CPAIN","No",NA,NA
+"45","HLTH_CPAIN","No",NA,NA
+"46","HLTH_CPAIN","No",NA,NA
+"47","HLTH_CPAIN","No",NA,NA
+"48","HLTH_CPAIN","Yes",NA,NA
+"49","HLTH_CPAIN","No",NA,NA
+"50","HLTH_CPAIN","No",NA,NA
+"51","HLTH_CPAIN","No",NA,NA
+"52","HLTH_CPAIN","No",NA,NA
+"53","HLTH_CPAIN","No",NA,NA
+"54","HLTH_CPAIN","No",NA,NA
+"55","HLTH_CPAIN","Yes",NA,NA
+"56","HLTH_CPAIN","No",NA,NA
+"57","HLTH_CPAIN","Si, Rodillas",NA,NA
+"58","HLTH_CPAIN","A veces, cabeza-migrania",NA,NA
+"59","HLTH_CPAIN","No",NA,NA
+"60","HLTH_CPAIN","No",NA,NA
+"61","HLTH_CPAIN","Yes",NA,NA
+"62","HLTH_CPAIN","No",NA,NA
+"63","HLTH_CPAIN","No",NA,NA
+"64","HLTH_CPAIN","No",NA,NA
+"65","HLTH_CPAIN","No",NA,NA
+"66","HLTH_CPAIN","No",NA,NA
+"67","HLTH_CPAIN","No",NA,NA
+"68","HLTH_CPAIN","No",NA,NA
+"69","HLTH_CPAIN","No",NA,NA
+"70","HLTH_CPAIN","No",NA,NA
+"71","HLTH_CPAIN","Migrana",NA,NA
+"72","HLTH_CPAIN","No",NA,NA
+"73","HLTH_CPAIN","Si migrania 1 al mes (hace 10 anios) // ciatica (hace 5 anios)",NA,NA
+"74","HLTH_CPAIN","Si - dolor de cabeza -cafiaspirina tiene tomar c/ coca -- 2-3 x semana--2 anios",NA,NA
+"75","HLTH_CPAIN","No",NA,NA
+"76","HLTH_CPAIN","No",NA,NA
+"77","HLTH_CPAIN","Si gastritis",NA,NA
+"78","HLTH_CPAIN","No",NA,NA
+"79","HLTH_CPAIN","No",NA,NA
+"80","HLTH_CPAIN","Yes,dolor de espalda por estar sentada",NA,NA
+"81","HLTH_CPAIN","No",NA,NA
+"82","HLTH_CPAIN","No",NA,NA
+"83","HLTH_CPAIN","No",NA,NA
+"84","HLTH_CPAIN","gastritis - nguido- 3 al mes.",NA,NA
+"85","HLTH_CPAIN","intestinales dolores + gastritis y colitis siempre",NA,NA
+"86","HLTH_CPAIN","No",NA,NA
+"87","HLTH_CPAIN","No",NA,NA
+"88","HLTH_CPAIN","No",NA,NA
+"89","HLTH_CPAIN","No",NA,NA
+"90","HLTH_CPAIN","No",NA,NA
+"91","HLTH_CPAIN","No",NA,NA
+"92","HLTH_CPAIN","No",NA,NA
+"93","HLTH_CPAIN","No",NA,NA
+"94","HLTH_CPAIN","No",NA,NA
+"95","HLTH_CPAIN","No",NA,NA
+"96","HLTH_CPAIN","No",NA,NA
+"97","HLTH_CPAIN","Yes",NA,NA
+"98","HLTH_CPAIN","No",NA,NA
+"99","HLTH_CPAIN","No",NA,NA
+"100","HLTH_CPAIN","No",NA,NA
+"101","HLTH_CPAIN","No",NA,NA
+"102","HLTH_CPAIN","No",NA,NA
+"103","HLTH_CPAIN","Gastritis, 1 por mes",NA,NA
+"104","HLTH_CPAIN","No",NA,NA
+"105","HLTH_CPAIN","No",NA,NA
+"106","HLTH_CPAIN","No",NA,NA
+"107","HLTH_CPAIN","No",NA,NA
+"108","HLTH_CPAIN","No",NA,NA
+"109","HLTH_CPAIN","No",NA,NA
+"110","HLTH_CPAIN","No",NA,NA
+"111","HLTH_CPAIN","No",NA,NA
+"112","HLTH_CPAIN","No",NA,NA
+"113","HLTH_CPAIN","No",NA,NA
+"114","HLTH_CPAIN","No",NA,NA
+"115","HLTH_CPAIN","Si, periodos dolorosos.",NA,NA
+"116","HLTH_CPAIN","No hay respuesta.",NA,NA
+"117","HLTH_CPAIN","Cabeza - x esta x frio. 1 x semana.",NA,NA
+"118","HLTH_CPAIN","Yes,cabeza; diario",NA,NA
+"119","HLTH_CPAIN","No",NA,NA
+"120","HLTH_CPAIN","No",NA,NA
+"121","HLTH_CPAIN","No",NA,NA
+"122","HLTH_CPAIN","No",NA,NA
+"123","HLTH_CPAIN","No",NA,NA
+"124","HLTH_CPAIN","Yes",NA,NA
+"125","HLTH_CPAIN","Yes",NA,NA
+"126","HLTH_CPAIN","No",NA,NA
+"127","HLTH_CPAIN","Yes",NA,NA
+"128","HLTH_CPAIN","gastritis ~ 1/mes | es soplo",NA,NA
+"129","HLTH_CPAIN","No",NA,NA
+"130","HLTH_CPAIN","No",NA,NA
+"131","HLTH_CPAIN","No",NA,NA
+"132","HLTH_CPAIN","No",NA,NA
+"133","HLTH_CPAIN","Dolor de cabeza",NA,NA
+"134","HLTH_CPAIN","No",NA,NA
+"135","HLTH_CPAIN","No",NA,NA
+"136","HLTH_CPAIN","No",NA,NA
+"137","HLTH_CPAIN","No",NA,NA
+"138","HLTH_CPAIN","No",NA,NA
+"139","HLTH_CPAIN","Migrania - 1-4 al mes",NA,NA
+"140","HLTH_CPAIN","Artritis",NA,NA
+"141","HLTH_CPAIN","Lumbalgia, hace 2 anios // cuando le de diclofenaco o dextrometorfano",NA,NA
+"142","HLTH_CPAIN","No",NA,NA
+"143","HLTH_CPAIN","No",NA,NA
+"144","HLTH_CPAIN","No",NA,NA
+"145","HLTH_CPAIN","No",NA,NA
+"146","HLTH_CPAIN","No",NA,NA
+"147","HLTH_CPAIN","No",NA,NA
+"148","HLTH_CPAIN","Migrania, 1 vez al mes.",NA,NA
+"149","HLTH_CPAIN","No",NA,NA
+"150","HLTH_CPAIN","Yes",NA,NA
+"151","HLTH_CPAIN","No",NA,NA
+"152","HLTH_CPAIN","No",NA,NA
+"153","HLTH_CPAIN","Yes",NA,NA
+"154","HLTH_CPAIN","No",NA,NA
+"155","HLTH_CPAIN","No",NA,NA
+"156","HLTH_CPAIN","Yes",NA,NA
+"157","HLTH_CPAIN","No",NA,NA
+"158","HLTH_CPAIN","Yes",NA,NA
+"159","HLTH_CPAIN","No",NA,NA
+"160","HLTH_CPAIN","No",NA,NA
+"161","HLTH_CPAIN","No",NA,NA
+"162","HLTH_CPAIN","No",NA,NA
+"163","HLTH_CPAIN","No",NA,NA
+"165","HLTH_CPAIN","Gastrisis -- 4/3 x meses",NA,NA
+"166","HLTH_CPAIN","No",NA,NA
+"167","HLTH_CPAIN","No",NA,NA
+"168","HLTH_CPAIN","No",NA,NA
+"169","HLTH_CPAIN","No",NA,NA
+"170","HLTH_CPAIN","No",NA,NA
+"171","HLTH_CPAIN","No",NA,NA
+"172","HLTH_CPAIN","Dolor de cabeza/Migrania (1 vez al mes)",NA,NA
+"173","HLTH_CPAIN","No",NA,NA
+"174","HLTH_CPAIN","No",NA,NA
+"175","HLTH_CPAIN","No",NA,NA
+"176","HLTH_CPAIN","Dolor de cabeza",NA,NA
+"177","HLTH_CPAIN","dolor al caminar - rodilla",NA,NA
+"178","HLTH_CPAIN","No",NA,NA
+"179","HLTH_CPAIN","No hay respuesta.",NA,NA
+"180","HLTH_CPAIN","gastritis--colitio nerviosa-2 x mes",NA,NA
+"181","HLTH_CPAIN","No",NA,NA
+"182","HLTH_CPAIN","Yes",NA,NA
+"183","HLTH_CPAIN","No",NA,NA
+"184","HLTH_CPAIN","No",NA,NA
+"185","HLTH_CPAIN","No",NA,NA
+"186","HLTH_CPAIN","No",NA,NA
+"187","HLTH_CPAIN","No",NA,NA
+"188","HLTH_CPAIN","No",NA,NA
+"189","HLTH_CPAIN","No",NA,NA
+"190","HLTH_CPAIN","dientes, huesos",NA,NA
+"191","HLTH_CPAIN","No",NA,NA
+"192","HLTH_CPAIN","No",NA,NA
+"193","HLTH_CPAIN","No",NA,NA
+"194","HLTH_CPAIN","No",NA,NA
+"195","HLTH_CPAIN","Dolor de huesos",NA,NA
+"196","HLTH_CPAIN","No",NA,NA
+"197","HLTH_CPAIN","No",NA,NA
+"198","HLTH_CPAIN","No",NA,NA
+"199","HLTH_CPAIN","Colitis - por dos veces al anio.",NA,NA
+"200","HLTH_CPAIN","Dolor por sindrome pre-menstrual",NA,NA
+"201","HLTH_CPAIN","No",NA,NA
+"202","HLTH_CPAIN","No",NA,NA
+"203","HLTH_CPAIN","No",NA,NA
+"204","HLTH_CPAIN","Colitis",NA,NA
+"301","HLTH_CPAIN","No",NA,NA
+"302","HLTH_CPAIN","No",NA,NA
+"303","HLTH_CPAIN","No",NA,NA
+"304","HLTH_CPAIN","No",NA,NA
+"305","HLTH_CPAIN","No",NA,NA
+"306","HLTH_CPAIN","No",NA,NA
+"307","HLTH_CPAIN","Yes",NA,NA
+"308","HLTH_CPAIN","No",NA,NA
+"309","HLTH_CPAIN","No",NA,NA
+"310","HLTH_CPAIN","No",NA,NA
+"311","HLTH_CPAIN","No",NA,NA
+"312","HLTH_CPAIN","No",NA,NA
+"313","HLTH_CPAIN","No",NA,NA
+"314","HLTH_CPAIN","Yes",NA,NA
+"315","HLTH_CPAIN","No",NA,NA
+"316","HLTH_CPAIN","No",NA,NA
+"317","HLTH_CPAIN","No",NA,NA
+"318","HLTH_CPAIN","No",NA,NA
+"319","HLTH_CPAIN","Yes",NA,NA
+"320","HLTH_CPAIN","Migrania",NA,NA
+"321","HLTH_CPAIN","Yes",NA,NA
+"322","HLTH_CPAIN","No",NA,NA
+"323","HLTH_CPAIN","No",NA,NA
+"324","HLTH_CPAIN","No",NA,NA
+"325","HLTH_CPAIN","No",NA,NA
+"326","HLTH_CPAIN","No",NA,NA
+"327","HLTH_CPAIN","No",NA,NA
+"328","HLTH_CPAIN","No",NA,NA
+"329","HLTH_CPAIN","Yes",NA,NA
+"330","HLTH_CPAIN","No",NA,NA
+"331","HLTH_CPAIN","No",NA,NA
+"332","HLTH_CPAIN","No",NA,NA
+"333","HLTH_CPAIN","No",NA,NA
+"334","HLTH_CPAIN","No",NA,NA
+"335","HLTH_CPAIN","Yes",NA,NA
+"336","HLTH_CPAIN","No",NA,NA
+"337","HLTH_CPAIN","Yes",NA,NA
+"338","HLTH_CPAIN","No",NA,NA
+"339","HLTH_CPAIN","Yes",NA,NA
+"340","HLTH_CPAIN","No",NA,NA
+"341","HLTH_CPAIN","No",NA,NA
+"342","HLTH_CPAIN","No",NA,NA
+"343","HLTH_CPAIN","Yes",NA,NA
+"344","HLTH_CPAIN","No",NA,NA
+"345","HLTH_CPAIN","No",NA,NA
+"346","HLTH_CPAIN",NA,NA,NA
+"347","HLTH_CPAIN",NA,NA,NA
+"348","HLTH_CPAIN",NA,NA,NA
+"349","HLTH_CPAIN",NA,NA,NA
+"350","HLTH_CPAIN",NA,NA,NA
+"351","HLTH_CPAIN",NA,NA,NA
+"352","HLTH_CPAIN",NA,NA,NA
+"353","HLTH_CPAIN","Yes",NA,NA
+"354","HLTH_CPAIN",NA,NA,NA
+"355","HLTH_CPAIN",NA,NA,NA
+"356","HLTH_CPAIN",NA,NA,NA
+"357","HLTH_CPAIN",NA,NA,NA
+"358","HLTH_CPAIN",NA,NA,NA
+"359","HLTH_CPAIN","No",NA,NA
+"360","HLTH_CPAIN",NA,NA,NA
+"361","HLTH_CPAIN","No",NA,NA
+"362","HLTH_CPAIN","No",NA,NA
+"363","HLTH_CPAIN","No",NA,NA
+"364","HLTH_CPAIN","Yes",NA,NA
+"365","HLTH_CPAIN","No",NA,NA
+"366","HLTH_CPAIN","No",NA,NA
+"367","HLTH_CPAIN","No",NA,NA
+"368","HLTH_CPAIN","Yes",NA,NA
+"369","HLTH_CPAIN","No",NA,NA
+"370","HLTH_CPAIN","No",NA,NA
+"371","HLTH_CPAIN","No",NA,NA
+"372","HLTH_CPAIN","No",NA,NA
+"373","HLTH_CPAIN","No",NA,NA
+"374","HLTH_CPAIN","No",NA,NA
+"375","HLTH_CPAIN",NA,NA,NA
+"376","HLTH_CPAIN","No",NA,NA
+"377","HLTH_CPAIN","Yes",NA,NA
+"378","HLTH_CPAIN","No",NA,NA
+"379","HLTH_CPAIN","Yes",NA,NA
+"380","HLTH_CPAIN","No",NA,NA
+"381","HLTH_CPAIN","Yes",NA,NA
+"382","HLTH_CPAIN","No",NA,NA
+"383","HLTH_CPAIN","Yes",NA,NA
+"384","HLTH_CPAIN","Yes",NA,NA
+"385","HLTH_CPAIN","No",NA,NA
+"386","HLTH_CPAIN","No",NA,NA
+"387","HLTH_CPAIN","No",NA,NA
+"388","HLTH_CPAIN","No",NA,NA
+"389","HLTH_CPAIN","No",NA,NA
+"390","HLTH_CPAIN","No",NA,NA
+"391","HLTH_CPAIN",NA,NA,NA
+"392","HLTH_CPAIN","No",NA,NA
+"393","HLTH_CPAIN","No",NA,NA
+"394","HLTH_CPAIN","Gastritis",NA,NA
+"395","HLTH_CPAIN","No",NA,NA
+"396","HLTH_CPAIN","Yes",NA,NA
+"397","HLTH_CPAIN","No",NA,NA
+"398","HLTH_CPAIN","No",NA,NA
+"399","HLTH_CPAIN","No",NA,NA
+"400","HLTH_CPAIN","No",NA,NA
+"401","HLTH_CPAIN","No",NA,NA
+"402","HLTH_CPAIN","No",NA,NA
+"403","HLTH_CPAIN","Dolor de cabeza-hace 20 dias",NA,NA
+"404","HLTH_CPAIN","No",NA,NA
+"405","HLTH_CPAIN","No",NA,NA
+"406","HLTH_CPAIN","No",NA,NA
+"407","HLTH_CPAIN","No",NA,NA
+"408","HLTH_CPAIN","Migrania y ansiedad",NA,NA
+"409","HLTH_CPAIN","Colitis",NA,NA
+"410","HLTH_CPAIN","No",NA,NA
+"411","HLTH_CPAIN","Calculo vesicula no remedido (tratamiento)",NA,NA
+"412","HLTH_CPAIN","No",NA,NA
+"413","HLTH_CPAIN","no // gastritis - 48 meses",NA,NA
+"414","HLTH_CPAIN","No",NA,NA
+"415","HLTH_CPAIN","No",NA,NA
+"416","HLTH_CPAIN","Migranias/Mareos",NA,NA
+"417","HLTH_CPAIN","No",NA,NA
+"418","HLTH_CPAIN","No",NA,NA
+"419","HLTH_CPAIN","No",NA,NA
+"420","HLTH_CPAIN","No",NA,NA
+"421","HLTH_CPAIN","Yes",NA,NA
+"422","HLTH_CPAIN","No",NA,NA
+"423","HLTH_CPAIN","No",NA,NA
+"424","HLTH_CPAIN","Yes",NA,NA
+"425","HLTH_CPAIN","No",NA,NA
+"426","HLTH_CPAIN","Yes",NA,NA
+"427","HLTH_CPAIN","No",NA,NA
+"428","HLTH_CPAIN","No",NA,NA
+"429","HLTH_CPAIN","Yes",NA,NA
+"430","HLTH_CPAIN","No",NA,NA
+"431","HLTH_CPAIN","Gastrisis",NA,NA
+"432","HLTH_CPAIN","No",NA,NA
+"433","HLTH_CPAIN","No",NA,NA
+"434","HLTH_CPAIN","No",NA,NA
+"435","HLTH_CPAIN","No",NA,NA
+"436","HLTH_CPAIN","No",NA,NA
+"437","HLTH_CPAIN","No",NA,NA
+"438","HLTH_CPAIN","No",NA,NA
+"439","HLTH_CPAIN","No",NA,NA
+"440","HLTH_CPAIN","No",NA,NA
+"441","HLTH_CPAIN","No",NA,NA
+"442","HLTH_CPAIN","No",NA,NA
+"443","HLTH_CPAIN","No",NA,NA
+"444","HLTH_CPAIN","No hay respuesta.",NA,NA
+"445","HLTH_CPAIN","Si, migrania c/7 dias // gastritis c/15 dias",NA,NA
+"446","HLTH_CPAIN","No",NA,NA
+"447","HLTH_CPAIN","tension espalda baja--> dolor Ketorolaco/ibuprofano",NA,NA
+"448","HLTH_CPAIN","gastritis--2 al mes",NA,NA
+"449","HLTH_CPAIN","No",NA,NA
+"450","HLTH_CPAIN","No",NA,NA
+"451","HLTH_CPAIN","No",NA,NA
+"452","HLTH_CPAIN","No",NA,NA
+"453","HLTH_CPAIN","gastritis--desde siempre-- 1 x semana",NA,NA
+"454","HLTH_CPAIN","No",NA,NA
+"455","HLTH_CPAIN","No",NA,NA
+"456","HLTH_CPAIN","Yes",NA,NA
+"457","HLTH_CPAIN","No",NA,NA
+"458","HLTH_CPAIN","Yes",NA,NA
+"459","HLTH_CPAIN","No",NA,NA
+"460","HLTH_CPAIN","Yes",NA,NA
+"461","HLTH_CPAIN","No",NA,NA
+"462","HLTH_CPAIN","No",NA,NA
+"463","HLTH_CPAIN","No",NA,NA
+"464","HLTH_CPAIN","No",NA,NA
+"465","HLTH_CPAIN","No",NA,NA
+"466","HLTH_CPAIN","No",NA,NA
+"467","HLTH_CPAIN","Dolor rodillas",NA,NA
+"468","HLTH_CPAIN","Migrania, cabeza (2 o 3 dias) -- 3 veces al mes",NA,NA
+"469","HLTH_CPAIN","No",NA,NA
+"470","HLTH_CPAIN","No",NA,NA
+"471","HLTH_CPAIN","No",NA,NA
+"472","HLTH_CPAIN","gastritis --> 3 al mes",NA,NA
+"473","HLTH_CPAIN","No",NA,NA
+"474","HLTH_CPAIN","No",NA,NA
+"475","HLTH_CPAIN","No",NA,NA
+"476","HLTH_CPAIN","No",NA,NA
+"477","HLTH_CPAIN","No",NA,NA
+"478","HLTH_CPAIN","No-- hace 8 anios calculo a vesicula",NA,NA
+"479","HLTH_CPAIN","No",NA,NA
+"480","HLTH_CPAIN","No",NA,NA
+"481","HLTH_CPAIN","No",NA,NA
+"482","HLTH_CPAIN","No",NA,NA
+"483","HLTH_CPAIN","No",NA,NA
+"484","HLTH_CPAIN","No",NA,NA
+"485","HLTH_CPAIN","No",NA,NA
+"486","HLTH_CPAIN","Yes",NA,NA
+"487","HLTH_CPAIN","No",NA,NA
+"488","HLTH_CPAIN","No",NA,NA
+"489","HLTH_CPAIN","Yes,Migrana",NA,NA
+"490","HLTH_CPAIN","No",NA,NA
+"491","HLTH_CPAIN","No",NA,NA
+"492","HLTH_CPAIN","No",NA,NA
+"493","HLTH_CPAIN","No",NA,NA
+"494","HLTH_CPAIN","Gastritis - 2 al mes",NA,NA
+"495","HLTH_CPAIN","No",NA,NA
+"496","HLTH_CPAIN","dolor de cabeza- 2 al ano",NA,NA
+"497","HLTH_CPAIN","No",NA,NA
+"1","HLTH_MED","No",NA,NA
+"2","HLTH_MED","Yes, Loratadina/ Betolmetasona Urticaria",NA,NA
+"3","HLTH_MED","No",NA,NA
+"4","HLTH_MED","No",NA,NA
+"5","HLTH_MED","Yes,omeprazol y medicamento para pie de atleta",NA,NA
+"6","HLTH_MED","no",NA,NA
+"7","HLTH_MED","no",NA,NA
+"8","HLTH_MED","no",NA,NA
+"9","HLTH_MED","No",NA,NA
+"10","HLTH_MED","No",NA,NA
+"11","HLTH_MED","No",NA,NA
+"12","HLTH_MED","No",NA,NA
+"13","HLTH_MED","No",NA,NA
+"14","HLTH_MED","No",NA,NA
+"15","HLTH_MED","No",NA,NA
+"16","HLTH_MED","No",NA,NA
+"17","HLTH_MED","No",NA,NA
+"18","HLTH_MED","No",NA,NA
+"19","HLTH_MED","No",NA,NA
+"20","HLTH_MED","No",NA,NA
+"21","HLTH_MED","No",NA,NA
+"22","HLTH_MED","No",NA,NA
+"23","HLTH_MED","No",NA,NA
+"24","HLTH_MED","No",NA,NA
+"25","HLTH_MED","No",NA,NA
+"26","HLTH_MED","No",NA,NA
+"27","HLTH_MED","No",NA,NA
+"28","HLTH_MED","Si, Atorvastatina, trigliceridos elevados",NA,NA
+"29","HLTH_MED","Paracetamol",NA,NA
+"30","HLTH_MED","no",NA,NA
+"31","HLTH_MED","No",NA,NA
+"32","HLTH_MED","No",NA,NA
+"33","HLTH_MED","No",NA,NA
+"34","HLTH_MED","No",NA,NA
+"35","HLTH_MED","No",NA,NA
+"36","HLTH_MED","No",NA,NA
+"37","HLTH_MED","No",NA,NA
+"38","HLTH_MED","No",NA,NA
+"39","HLTH_MED","No",NA,NA
+"40","HLTH_MED","No",NA,NA
+"41","HLTH_MED","No",NA,NA
+"42","HLTH_MED","No",NA,NA
+"43","HLTH_MED","No",NA,NA
+"44","HLTH_MED","No",NA,NA
+"45","HLTH_MED","No",NA,NA
+"46","HLTH_MED","No",NA,NA
+"47","HLTH_MED","No, tenia miomas y se esta estabilizando. Pero no toma medicamento. Fue hace 5 anios que se los detectaron.",NA,NA
+"48","HLTH_MED","No",NA,NA
+"49","HLTH_MED","Endapril y metformina",NA,NA
+"50","HLTH_MED","No",NA,NA
+"51","HLTH_MED","No",NA,NA
+"52","HLTH_MED","No",NA,NA
+"53","HLTH_MED","NO",NA,NA
+"54","HLTH_MED","No",NA,NA
+"55","HLTH_MED","No",NA,NA
+"56","HLTH_MED","No",NA,NA
+"57","HLTH_MED","No",NA,NA
+"58","HLTH_MED","No",NA,NA
+"59","HLTH_MED","No",NA,NA
+"60","HLTH_MED","No",NA,NA
+"61","HLTH_MED","No",NA,NA
+"62","HLTH_MED","No",NA,NA
+"63","HLTH_MED","Si (metformina)",NA,NA
+"64","HLTH_MED","No",NA,NA
+"65","HLTH_MED","No",NA,NA
+"66","HLTH_MED","No",NA,NA
+"67","HLTH_MED","No",NA,NA
+"68","HLTH_MED","No",NA,NA
+"69","HLTH_MED","No",NA,NA
+"70","HLTH_MED","No",NA,NA
+"71","HLTH_MED","No",NA,NA
+"72","HLTH_MED","Si, para dolor de cabeza para nuerologia",NA,NA
+"73","HLTH_MED","No",NA,NA
+"74","HLTH_MED","No",NA,NA
+"75","HLTH_MED","No",NA,NA
+"76","HLTH_MED","No",NA,NA
+"77","HLTH_MED","No",NA,NA
+"78","HLTH_MED","No",NA,NA
+"79","HLTH_MED","*metformin occasialmente",NA,NA
+"80","HLTH_MED","No",NA,NA
+"81","HLTH_MED","No",NA,NA
+"82","HLTH_MED","No",NA,NA
+"83","HLTH_MED","No",NA,NA
+"84","HLTH_MED","No",NA,NA
+"85","HLTH_MED","No",NA,NA
+"86","HLTH_MED","No",NA,NA
+"87","HLTH_MED","No",NA,NA
+"88","HLTH_MED","No",NA,NA
+"89","HLTH_MED","No",NA,NA
+"90","HLTH_MED","No",NA,NA
+"91","HLTH_MED","No",NA,NA
+"92","HLTH_MED","No",NA,NA
+"93","HLTH_MED","no",NA,NA
+"94","HLTH_MED","No",NA,NA
+"95","HLTH_MED","No",NA,NA
+"96","HLTH_MED","No",NA,NA
+"97","HLTH_MED","No",NA,NA
+"98","HLTH_MED","No",NA,NA
+"99","HLTH_MED","No",NA,NA
+"100","HLTH_MED","No",NA,NA
+"101","HLTH_MED","No",NA,NA
+"102","HLTH_MED","No",NA,NA
+"103","HLTH_MED","No",NA,NA
+"104","HLTH_MED","No",NA,NA
+"105","HLTH_MED","No",NA,NA
+"106","HLTH_MED","No",NA,NA
+"107","HLTH_MED","No",NA,NA
+"108","HLTH_MED","No",NA,NA
+"109","HLTH_MED","Citopean, Ketiapëna",NA,NA
+"110","HLTH_MED","No",NA,NA
+"111","HLTH_MED","No",NA,NA
+"112","HLTH_MED","No",NA,NA
+"113","HLTH_MED","No",NA,NA
+"114","HLTH_MED","Yes,Mifedipino.",NA,NA
+"115","HLTH_MED","Antibioticos, gripe.",NA,NA
+"116","HLTH_MED","Yes,metformina.",NA,NA
+"117","HLTH_MED","dolor de cabeza",NA,NA
+"118","HLTH_MED","Antibioticos",NA,NA
+"119","HLTH_MED","No",NA,NA
+"120","HLTH_MED","No",NA,NA
+"121","HLTH_MED","No",NA,NA
+"122","HLTH_MED","No",NA,NA
+"123","HLTH_MED","No",NA,NA
+"124","HLTH_MED","Ergotamina c/ cafeino",NA,NA
+"125","HLTH_MED","No, siderafil hace 3 meses que no toma",NA,NA
+"126","HLTH_MED","No",NA,NA
+"127","HLTH_MED","No",NA,NA
+"128","HLTH_MED","Acido acetil salesilico",NA,NA
+"129","HLTH_MED","Yes,Velafaxina (antidepresivo)",NA,NA
+"130","HLTH_MED","No",NA,NA
+"131","HLTH_MED","No",NA,NA
+"132","HLTH_MED","No",NA,NA
+"133","HLTH_MED","No",NA,NA
+"134","HLTH_MED","No",NA,NA
+"135","HLTH_MED","No",NA,NA
+"136","HLTH_MED","No",NA,NA
+"137","HLTH_MED","No",NA,NA
+"138","HLTH_MED","no",NA,NA
+"139","HLTH_MED","Metamizol",NA,NA
+"140","HLTH_MED","Si. Artritis ~ anti-inflamatorio -- leflunamida",NA,NA
+"141","HLTH_MED","No",NA,NA
+"142","HLTH_MED","No",NA,NA
+"143","HLTH_MED","No",NA,NA
+"144","HLTH_MED","No",NA,NA
+"145","HLTH_MED","No",NA,NA
+"146","HLTH_MED","Vitamina C",NA,NA
+"147","HLTH_MED","No",NA,NA
+"148","HLTH_MED","No",NA,NA
+"149","HLTH_MED","Salbutamol - asma",NA,NA
+"150","HLTH_MED","no",NA,NA
+"151","HLTH_MED","No",NA,NA
+"152","HLTH_MED","Prenion, a veces",NA,NA
+"153","HLTH_MED","No",NA,NA
+"154","HLTH_MED","No",NA,NA
+"155","HLTH_MED","Solo para dolor de cabeza",NA,NA
+"156","HLTH_MED","No",NA,NA
+"157","HLTH_MED","No",NA,NA
+"158","HLTH_MED","No",NA,NA
+"159","HLTH_MED","No",NA,NA
+"160","HLTH_MED","No",NA,NA
+"161","HLTH_MED","No",NA,NA
+"162","HLTH_MED","No",NA,NA
+"163","HLTH_MED","No",NA,NA
+"165","HLTH_MED","Todos los dias",NA,NA
+"166","HLTH_MED","No - implante",NA,NA
+"167","HLTH_MED","No",NA,NA
+"168","HLTH_MED","No",NA,NA
+"169","HLTH_MED","No",NA,NA
+"170","HLTH_MED","No",NA,NA
+"171","HLTH_MED","No",NA,NA
+"172","HLTH_MED","No",NA,NA
+"173","HLTH_MED","No",NA,NA
+"174","HLTH_MED","Si, telmizartan.",NA,NA
+"175","HLTH_MED","No",NA,NA
+"176","HLTH_MED","No",NA,NA
+"177","HLTH_MED","Medicina para artritis",NA,NA
+"178","HLTH_MED","No",NA,NA
+"179","HLTH_MED","No",NA,NA
+"180","HLTH_MED","No",NA,NA
+"181","HLTH_MED","No",NA,NA
+"182","HLTH_MED","No",NA,NA
+"183","HLTH_MED","no",NA,NA
+"184","HLTH_MED","No (vitamins)",NA,NA
+"185","HLTH_MED","Medicamento para gripe",NA,NA
+"186","HLTH_MED","No",NA,NA
+"187","HLTH_MED","No",NA,NA
+"188","HLTH_MED","No",NA,NA
+"189","HLTH_MED","No",NA,NA
+"190","HLTH_MED","Si tamoxifeno (tratamiento hormonal)",NA,NA
+"191","HLTH_MED","No",NA,NA
+"192","HLTH_MED","No",NA,NA
+"193","HLTH_MED","No",NA,NA
+"194","HLTH_MED","No",NA,NA
+"195","HLTH_MED","Medicamento para una infeccion en el oido",NA,NA
+"196","HLTH_MED","No",NA,NA
+"197","HLTH_MED","No",NA,NA
+"198","HLTH_MED","DIU / metformina--glucosa",NA,NA
+"199","HLTH_MED","No",NA,NA
+"200","HLTH_MED","No",NA,NA
+"201","HLTH_MED","No",NA,NA
+"202","HLTH_MED","Lozzartan- presion",NA,NA
+"203","HLTH_MED","No",NA,NA
+"204","HLTH_MED","No",NA,NA
+"301","HLTH_MED","No",NA,NA
+"302","HLTH_MED","No",NA,NA
+"303","HLTH_MED","No",NA,NA
+"304","HLTH_MED","No",NA,NA
+"305","HLTH_MED","No",NA,NA
+"306","HLTH_MED","No",NA,NA
+"307","HLTH_MED","N/a",NA,NA
+"308","HLTH_MED","no",NA,NA
+"309","HLTH_MED","No",NA,NA
+"310","HLTH_MED","Medicamento para diabetes",NA,NA
+"311","HLTH_MED","no",NA,NA
+"312","HLTH_MED","no",NA,NA
+"313","HLTH_MED","No",NA,NA
+"314","HLTH_MED","No",NA,NA
+"315","HLTH_MED","no",NA,NA
+"316","HLTH_MED","No",NA,NA
+"317","HLTH_MED","No",NA,NA
+"318","HLTH_MED","no",NA,NA
+"319","HLTH_MED","no",NA,NA
+"320","HLTH_MED","No",NA,NA
+"321","HLTH_MED","No",NA,NA
+"322","HLTH_MED","Yes,hydroxiana",NA,NA
+"323","HLTH_MED","No",NA,NA
+"324","HLTH_MED","no",NA,NA
+"325","HLTH_MED","no",NA,NA
+"326","HLTH_MED","no",NA,NA
+"327","HLTH_MED","no",NA,NA
+"328","HLTH_MED","no",NA,NA
+"329","HLTH_MED","no",NA,NA
+"330","HLTH_MED","No",NA,NA
+"331","HLTH_MED","no",NA,NA
+"332","HLTH_MED","no",NA,NA
+"333","HLTH_MED","no",NA,NA
+"334","HLTH_MED","No",NA,NA
+"335","HLTH_MED","DIU",NA,NA
+"336","HLTH_MED","no",NA,NA
+"337","HLTH_MED","no",NA,NA
+"338","HLTH_MED","no",NA,NA
+"339","HLTH_MED","no",NA,NA
+"340","HLTH_MED","no",NA,NA
+"341","HLTH_MED","no",NA,NA
+"342","HLTH_MED","no",NA,NA
+"343","HLTH_MED","no",NA,NA
+"344","HLTH_MED","no",NA,NA
+"345","HLTH_MED","no",NA,NA
+"346","HLTH_MED",NA,NA,NA
+"347","HLTH_MED",NA,NA,NA
+"348","HLTH_MED",NA,NA,NA
+"349","HLTH_MED",NA,NA,NA
+"350","HLTH_MED",NA,NA,NA
+"351","HLTH_MED",NA,NA,NA
+"352","HLTH_MED",NA,NA,NA
+"353","HLTH_MED","No",NA,NA
+"354","HLTH_MED",NA,NA,NA
+"355","HLTH_MED",NA,NA,NA
+"356","HLTH_MED",NA,NA,NA
+"357","HLTH_MED",NA,NA,NA
+"358","HLTH_MED",NA,NA,NA
+"359","HLTH_MED","No",NA,NA
+"360","HLTH_MED",NA,NA,NA
+"361","HLTH_MED","No",NA,NA
+"362","HLTH_MED","no",NA,NA
+"363","HLTH_MED","No",NA,NA
+"364","HLTH_MED","no",NA,NA
+"365","HLTH_MED","no",NA,NA
+"366","HLTH_MED","no",NA,NA
+"367","HLTH_MED","no",NA,NA
+"368","HLTH_MED","aspirina asprotec",NA,NA
+"369","HLTH_MED","polico para cabello",NA,NA
+"370","HLTH_MED","no",NA,NA
+"371","HLTH_MED","si",NA,NA
+"372","HLTH_MED","no",NA,NA
+"373","HLTH_MED","No",NA,NA
+"374","HLTH_MED","No",NA,NA
+"375","HLTH_MED",NA,NA,NA
+"376","HLTH_MED","no",NA,NA
+"377","HLTH_MED","anticonceptivo",NA,NA
+"378","HLTH_MED","Implante",NA,NA
+"379","HLTH_MED","no",NA,NA
+"380","HLTH_MED","no",NA,NA
+"381","HLTH_MED","no",NA,NA
+"382","HLTH_MED","no",NA,NA
+"383","HLTH_MED","no",NA,NA
+"384","HLTH_MED","metpormina",NA,NA
+"385","HLTH_MED","no",NA,NA
+"386","HLTH_MED","no",NA,NA
+"387","HLTH_MED","no",NA,NA
+"388","HLTH_MED","no",NA,NA
+"389","HLTH_MED","no",NA,NA
+"390","HLTH_MED","Implante",NA,NA
+"391","HLTH_MED",NA,NA,NA
+"392","HLTH_MED","no",NA,NA
+"393","HLTH_MED","no",NA,NA
+"394","HLTH_MED","No",NA,NA
+"395","HLTH_MED","no",NA,NA
+"396","HLTH_MED","No",NA,NA
+"397","HLTH_MED","No",NA,NA
+"398","HLTH_MED","No",NA,NA
+"399","HLTH_MED","implante",NA,NA
+"400","HLTH_MED","no",NA,NA
+"401","HLTH_MED","No",NA,NA
+"402","HLTH_MED","No",NA,NA
+"403","HLTH_MED","no",NA,NA
+"404","HLTH_MED","Levotiroxina-tiroides-hipotiroidismo",NA,NA
+"405","HLTH_MED","No",NA,NA
+"406","HLTH_MED","No",NA,NA
+"407","HLTH_MED","No",NA,NA
+"408","HLTH_MED","No",NA,NA
+"409","HLTH_MED","No",NA,NA
+"410","HLTH_MED","No",NA,NA
+"411","HLTH_MED","no",NA,NA
+"412","HLTH_MED","No",NA,NA
+"413","HLTH_MED","no",NA,NA
+"414","HLTH_MED","No",NA,NA
+"415","HLTH_MED","no",NA,NA
+"416","HLTH_MED","No",NA,NA
+"417","HLTH_MED","no",NA,NA
+"418","HLTH_MED","No",NA,NA
+"419","HLTH_MED","metformina",NA,NA
+"420","HLTH_MED","No",NA,NA
+"421","HLTH_MED","metformina",NA,NA
+"422","HLTH_MED","no",NA,NA
+"423","HLTH_MED","No",NA,NA
+"424","HLTH_MED","Omeprazol ( Gastritis)",NA,NA
+"425","HLTH_MED","no",NA,NA
+"426","HLTH_MED","No",NA,NA
+"427","HLTH_MED","No",NA,NA
+"428","HLTH_MED","no",NA,NA
+"429","HLTH_MED","No",NA,NA
+"430","HLTH_MED","No",NA,NA
+"431","HLTH_MED","No",NA,NA
+"432","HLTH_MED","No",NA,NA
+"433","HLTH_MED","No",NA,NA
+"434","HLTH_MED","No",NA,NA
+"435","HLTH_MED","No",NA,NA
+"436","HLTH_MED","No",NA,NA
+"437","HLTH_MED","No",NA,NA
+"438","HLTH_MED","Implante",NA,NA
+"439","HLTH_MED","No",NA,NA
+"440","HLTH_MED","No",NA,NA
+"441","HLTH_MED","no",NA,NA
+"442","HLTH_MED","no",NA,NA
+"443","HLTH_MED","no",NA,NA
+"444","HLTH_MED","levotoroxina",NA,NA
+"445","HLTH_MED","bioelectro (migranias), lanzoprazol (gastritis)",NA,NA
+"446","HLTH_MED","no, Div",NA,NA
+"447","HLTH_MED","no",NA,NA
+"448","HLTH_MED","no",NA,NA
+"449","HLTH_MED","no // implante",NA,NA
+"450","HLTH_MED","No",NA,NA
+"451","HLTH_MED","no",NA,NA
+"452","HLTH_MED","no",NA,NA
+"453","HLTH_MED","gastritis- omeprazole",NA,NA
+"454","HLTH_MED","no",NA,NA
+"455","HLTH_MED","no",NA,NA
+"456","HLTH_MED","no",NA,NA
+"457","HLTH_MED","no",NA,NA
+"458","HLTH_MED","no",NA,NA
+"459","HLTH_MED","no",NA,NA
+"460","HLTH_MED","no",NA,NA
+"461","HLTH_MED","Sup. alimentario",NA,NA
+"462","HLTH_MED","NO",NA,NA
+"463","HLTH_MED","No",NA,NA
+"464","HLTH_MED","No",NA,NA
+"465","HLTH_MED","No",NA,NA
+"466","HLTH_MED","No",NA,NA
+"467","HLTH_MED","No",NA,NA
+"468","HLTH_MED","No",NA,NA
+"469","HLTH_MED","No",NA,NA
+"470","HLTH_MED","No -- div // metformina",NA,NA
+"471","HLTH_MED","No",NA,NA
+"472","HLTH_MED","no",NA,NA
+"473","HLTH_MED","si, para la presion.",NA,NA
+"474","HLTH_MED","No",NA,NA
+"475","HLTH_MED","No",NA,NA
+"476","HLTH_MED","no",NA,NA
+"477","HLTH_MED","No",NA,NA
+"478","HLTH_MED","no",NA,NA
+"479","HLTH_MED","no",NA,NA
+"480","HLTH_MED","toma pastilla--> desinflamar--> 1 diario",NA,NA
+"481","HLTH_MED","no",NA,NA
+"482","HLTH_MED","no",NA,NA
+"483","HLTH_MED","No",NA,NA
+"484","HLTH_MED","no",NA,NA
+"485","HLTH_MED","no",NA,NA
+"486","HLTH_MED","Yes,levotiroxina",NA,NA
+"487","HLTH_MED","no",NA,NA
+"488","HLTH_MED","levotiroxina (diario)",NA,NA
+"489","HLTH_MED","no",NA,NA
+"490","HLTH_MED","No",NA,NA
+"491","HLTH_MED","Vitaminas",NA,NA
+"492","HLTH_MED","No",NA,NA
+"493","HLTH_MED","No",NA,NA
+"494","HLTH_MED","No",NA,NA
+"495","HLTH_MED","no",NA,NA
+"496","HLTH_MED","NO",NA,NA
+"497","HLTH_MED","Anapril- para la presion",NA,NA
+"1","HLTH_SMK","No",NA,NA
+"2","HLTH_SMK","Yes",NA,NA
+"3","HLTH_SMK","No",NA,NA
+"4","HLTH_SMK","No",NA,NA
+"5","HLTH_SMK","No",NA,NA
+"6","HLTH_SMK","a veces/ una vez por semana",NA,NA
+"7","HLTH_SMK","aveces",NA,NA
+"8","HLTH_SMK","No",NA,NA
+"9","HLTH_SMK","No",NA,NA
+"10","HLTH_SMK","No",NA,NA
+"11","HLTH_SMK","No",NA,NA
+"12","HLTH_SMK","No",NA,NA
+"13","HLTH_SMK","No",NA,NA
+"14","HLTH_SMK","No",NA,NA
+"15","HLTH_SMK","Yes",NA,NA
+"16","HLTH_SMK","No",NA,NA
+"17","HLTH_SMK","No",NA,NA
+"18","HLTH_SMK",NA,NA,NA
+"19","HLTH_SMK","No",NA,NA
+"20","HLTH_SMK","No",NA,NA
+"21","HLTH_SMK","No",NA,NA
+"22","HLTH_SMK","No",NA,NA
+"23","HLTH_SMK","Yes",NA,NA
+"24","HLTH_SMK","No","Yes",NA
+"24","HLTH_SMK","No",NA,NA
+"25","HLTH_SMK","No",NA,NA
+"26","HLTH_SMK","No",NA,NA
+"27","HLTH_SMK","No",NA,NA
+"28","HLTH_SMK","No",NA,NA
+"29","HLTH_SMK","No",NA,NA
+"30","HLTH_SMK","de vez en cuando",NA,NA
+"31","HLTH_SMK","No",NA,NA
+"32","HLTH_SMK","No",NA,NA
+"33","HLTH_SMK","No",NA,NA
+"34","HLTH_SMK","No",NA,NA
+"35","HLTH_SMK","No",NA,NA
+"36","HLTH_SMK","No",NA,NA
+"37","HLTH_SMK","Poquito- 3 x semana",NA,NA
+"38","HLTH_SMK","No",NA,NA
+"39","HLTH_SMK","Casi nada",NA,NA
+"40","HLTH_SMK","No",NA,NA
+"41","HLTH_SMK","No",NA,NA
+"42","HLTH_SMK","Yes",NA,NA
+"43","HLTH_SMK","Yes",NA,NA
+"44","HLTH_SMK","de vez en cuando",NA,NA
+"45","HLTH_SMK","No",NA,NA
+"46","HLTH_SMK","No",NA,NA
+"47","HLTH_SMK","Yes",NA,NA
+"48","HLTH_SMK","No",NA,NA
+"49","HLTH_SMK","No",NA,NA
+"50","HLTH_SMK","No",NA,NA
+"51","HLTH_SMK","No",NA,NA
+"52","HLTH_SMK","No",NA,NA
+"53","HLTH_SMK","No",NA,NA
+"54","HLTH_SMK","Si de vez en cuando",NA,NA
+"55","HLTH_SMK","No",NA,NA
+"56","HLTH_SMK","No",NA,NA
+"57","HLTH_SMK","No",NA,NA
+"58","HLTH_SMK","No",NA,NA
+"59","HLTH_SMK","No",NA,NA
+"60","HLTH_SMK","Yes,1 diario",NA,NA
+"61","HLTH_SMK","Yes,1 a la semana.",NA,NA
+"62","HLTH_SMK","Ocasionalmente",NA,NA
+"63","HLTH_SMK","Yes",NA,NA
+"64","HLTH_SMK","No",NA,NA
+"65","HLTH_SMK","No",NA,NA
+"66","HLTH_SMK","No",NA,NA
+"67","HLTH_SMK","No",NA,NA
+"68","HLTH_SMK","No",NA,NA
+"69","HLTH_SMK","No",NA,NA
+"70","HLTH_SMK","No",NA,NA
+"71","HLTH_SMK","No",NA,NA
+"72","HLTH_SMK","No",NA,NA
+"73","HLTH_SMK","No",NA,NA
+"74","HLTH_SMK","No",NA,NA
+"75","HLTH_SMK","No",NA,NA
+"76","HLTH_SMK","No",NA,NA
+"77","HLTH_SMK","No",NA,NA
+"78","HLTH_SMK","No",NA,NA
+"79","HLTH_SMK","No",NA,NA
+"80","HLTH_SMK","No",NA,NA
+"81","HLTH_SMK","No",NA,NA
+"82","HLTH_SMK","Si, dos por semana.",NA,NA
+"83","HLTH_SMK","No",NA,NA
+"84","HLTH_SMK","No",NA,NA
+"85","HLTH_SMK","No",NA,NA
+"86","HLTH_SMK","Si (cada 8-15 dias) + - 2 cigarros",NA,NA
+"87","HLTH_SMK","Si (5 cigarros al dia)",NA,NA
+"88","HLTH_SMK","Si (2 cigarros a la semana)",NA,NA
+"89","HLTH_SMK","No",NA,NA
+"90","HLTH_SMK","Yes,1 cigaro a la semana",NA,NA
+"91","HLTH_SMK","No",NA,NA
+"92","HLTH_SMK","No",NA,NA
+"93","HLTH_SMK","Ocasionalmente (1 vez x semana)",NA,NA
+"94","HLTH_SMK","No",NA,NA
+"95","HLTH_SMK","No",NA,NA
+"96","HLTH_SMK","No",NA,NA
+"97","HLTH_SMK","No",NA,NA
+"98","HLTH_SMK","5 x mes",NA,NA
+"99","HLTH_SMK","No",NA,NA
+"100","HLTH_SMK","No",NA,NA
+"101","HLTH_SMK","Si 3 cigaros al dia",NA,NA
+"102","HLTH_SMK","No",NA,NA
+"103","HLTH_SMK","No",NA,NA
+"104","HLTH_SMK","Si tres veces por semana",NA,NA
+"105","HLTH_SMK","No",NA,NA
+"106","HLTH_SMK","No",NA,NA
+"107","HLTH_SMK","Yes",NA,NA
+"108","HLTH_SMK","No",NA,NA
+"109","HLTH_SMK","A veces, 2-3 x semana",NA,NA
+"110","HLTH_SMK","Yes,1-4 por dia",NA,NA
+"111","HLTH_SMK","Yes",NA,NA
+"112","HLTH_SMK","No",NA,NA
+"113","HLTH_SMK","No",NA,NA
+"114","HLTH_SMK","No",NA,NA
+"115","HLTH_SMK","No",NA,NA
+"116","HLTH_SMK","No",NA,NA
+"117","HLTH_SMK","Yes,1 o 2/dia.",NA,NA
+"118","HLTH_SMK","No, hace 2 anios.",NA,NA
+"119","HLTH_SMK","No",NA,NA
+"120","HLTH_SMK","No",NA,NA
+"121","HLTH_SMK","No",NA,NA
+"122","HLTH_SMK","No",NA,NA
+"123","HLTH_SMK","No",NA,NA
+"124","HLTH_SMK","No",NA,NA
+"125","HLTH_SMK","No",NA,NA
+"126","HLTH_SMK","Yes",NA,NA
+"127","HLTH_SMK","Yes",NA,NA
+"128","HLTH_SMK","No",NA,NA
+"129","HLTH_SMK","No",NA,NA
+"130","HLTH_SMK","Yes",NA,NA
+"131","HLTH_SMK","Yes",NA,NA
+"132","HLTH_SMK","No",NA,NA
+"133","HLTH_SMK","Yes",NA,NA
+"134","HLTH_SMK","De vez en cuando",NA,NA
+"135","HLTH_SMK","No",NA,NA
+"136","HLTH_SMK","No",NA,NA
+"137","HLTH_SMK","Si, does veces x semana",NA,NA
+"138","HLTH_SMK","A vez al anio",NA,NA
+"139","HLTH_SMK","No",NA,NA
+"140","HLTH_SMK","No",NA,NA
+"141","HLTH_SMK","Si, 2 por dia",NA,NA
+"142","HLTH_SMK","No",NA,NA
+"143","HLTH_SMK","No",NA,NA
+"144","HLTH_SMK","Yes",NA,NA
+"145","HLTH_SMK","Yes",NA,NA
+"146","HLTH_SMK","No",NA,NA
+"147","HLTH_SMK","No",NA,NA
+"148","HLTH_SMK","1 al dia",NA,NA
+"149","HLTH_SMK","No",NA,NA
+"150","HLTH_SMK","No",NA,NA
+"151","HLTH_SMK","Yes",NA,NA
+"152","HLTH_SMK","No",NA,NA
+"153","HLTH_SMK","No",NA,NA
+"154","HLTH_SMK","Yes",NA,NA
+"155","HLTH_SMK","No",NA,NA
+"156","HLTH_SMK","No",NA,NA
+"157","HLTH_SMK","No",NA,NA
+"158","HLTH_SMK","Yes",NA,NA
+"159","HLTH_SMK","No",NA,NA
+"160","HLTH_SMK","No",NA,NA
+"161","HLTH_SMK","Si social menos uno diario",NA,NA
+"162","HLTH_SMK","Si (1 por dia)",NA,NA
+"163","HLTH_SMK","No",NA,NA
+"165","HLTH_SMK","No",NA,NA
+"166","HLTH_SMK","No",NA,NA
+"167","HLTH_SMK","Yes 1/sem",NA,NA
+"168","HLTH_SMK","No",NA,NA
+"169","HLTH_SMK","No",NA,NA
+"170","HLTH_SMK","No",NA,NA
+"171","HLTH_SMK","No",NA,NA
+"172","HLTH_SMK","No",NA,NA
+"173","HLTH_SMK","No",NA,NA
+"174","HLTH_SMK","Si, 2 cigarros a la semana.",NA,NA
+"175","HLTH_SMK","No",NA,NA
+"176","HLTH_SMK","No",NA,NA
+"177","HLTH_SMK","No",NA,NA
+"178","HLTH_SMK","Yes",NA,NA
+"179","HLTH_SMK","No",NA,NA
+"180","HLTH_SMK","3 x semana",NA,NA
+"181","HLTH_SMK","No",NA,NA
+"182","HLTH_SMK","Yes",NA,NA
+"183","HLTH_SMK","Yes",NA,NA
+"184","HLTH_SMK","No",NA,NA
+"185","HLTH_SMK","No",NA,NA
+"186","HLTH_SMK","Si, 4 x mes.",NA,NA
+"187","HLTH_SMK","No",NA,NA
+"188","HLTH_SMK","No",NA,NA
+"189","HLTH_SMK","No",NA,NA
+"190","HLTH_SMK","No",NA,NA
+"191","HLTH_SMK","No",NA,NA
+"192","HLTH_SMK","No",NA,NA
+"193","HLTH_SMK","No",NA,NA
+"194","HLTH_SMK","No",NA,NA
+"195","HLTH_SMK","No",NA,NA
+"196","HLTH_SMK","Yes",NA,NA
+"197","HLTH_SMK","No",NA,NA
+"198","HLTH_SMK","No",NA,NA
+"199","HLTH_SMK","No",NA,NA
+"200","HLTH_SMK","No",NA,NA
+"201","HLTH_SMK","No",NA,NA
+"202","HLTH_SMK","Si, 1 al dia",NA,NA
+"203","HLTH_SMK","No",NA,NA
+"204","HLTH_SMK","No",NA,NA
+"301","HLTH_SMK","No",NA,NA
+"302","HLTH_SMK","No",NA,NA
+"303","HLTH_SMK","Yes",NA,NA
+"304","HLTH_SMK","No",NA,NA
+"305","HLTH_SMK","Yes",NA,NA
+"306","HLTH_SMK","No",NA,NA
+"307","HLTH_SMK","fumaba",NA,NA
+"308","HLTH_SMK","No",NA,NA
+"309","HLTH_SMK","No",NA,NA
+"310","HLTH_SMK","No",NA,NA
+"311","HLTH_SMK","Yes",NA,NA
+"312","HLTH_SMK","No",NA,NA
+"313","HLTH_SMK","No",NA,NA
+"314","HLTH_SMK","No",NA,NA
+"315","HLTH_SMK","No",NA,NA
+"316","HLTH_SMK","No",NA,NA
+"317","HLTH_SMK","No",NA,NA
+"318","HLTH_SMK","Yes",NA,NA
+"319","HLTH_SMK","No",NA,NA
+"320","HLTH_SMK","No",NA,NA
+"321","HLTH_SMK","No",NA,NA
+"322","HLTH_SMK","No",NA,NA
+"323","HLTH_SMK","No",NA,NA
+"324","HLTH_SMK","Yes",NA,NA
+"325","HLTH_SMK","No",NA,NA
+"326","HLTH_SMK","No",NA,NA
+"327","HLTH_SMK","No",NA,NA
+"328","HLTH_SMK","No",NA,NA
+"329","HLTH_SMK","No",NA,NA
+"330","HLTH_SMK","No",NA,NA
+"331","HLTH_SMK","No",NA,NA
+"332","HLTH_SMK",NA,NA,NA
+"333","HLTH_SMK","No",NA,NA
+"334","HLTH_SMK","Yes",NA,NA
+"335","HLTH_SMK","Yes",NA,NA
+"336","HLTH_SMK","No",NA,NA
+"337","HLTH_SMK","No",NA,NA
+"338","HLTH_SMK","No",NA,NA
+"339","HLTH_SMK","ya no- 10 atras",NA,NA
+"340","HLTH_SMK","No",NA,NA
+"341","HLTH_SMK","No",NA,NA
+"342","HLTH_SMK","No",NA,NA
+"343","HLTH_SMK","No",NA,NA
+"344","HLTH_SMK","Yes",NA,NA
+"345","HLTH_SMK","No",NA,NA
+"346","HLTH_SMK",NA,NA,NA
+"347","HLTH_SMK",NA,NA,NA
+"348","HLTH_SMK",NA,NA,NA
+"349","HLTH_SMK",NA,NA,NA
+"350","HLTH_SMK",NA,NA,NA
+"351","HLTH_SMK",NA,NA,NA
+"352","HLTH_SMK",NA,NA,NA
+"353","HLTH_SMK","No",NA,NA
+"354","HLTH_SMK",NA,NA,NA
+"355","HLTH_SMK",NA,NA,NA
+"356","HLTH_SMK",NA,NA,NA
+"357","HLTH_SMK",NA,NA,NA
+"358","HLTH_SMK",NA,NA,NA
+"359","HLTH_SMK","Si, 4 cigarros por dia.",NA,NA
+"360","HLTH_SMK",NA,NA,NA
+"361","HLTH_SMK","No",NA,NA
+"362","HLTH_SMK","No",NA,NA
+"363","HLTH_SMK","No",NA,NA
+"364","HLTH_SMK","Yes",NA,NA
+"365","HLTH_SMK","a veces",NA,NA
+"366","HLTH_SMK","Yes",NA,NA
+"367","HLTH_SMK","Yes",NA,NA
+"368","HLTH_SMK","No",NA,NA
+"369","HLTH_SMK","No",NA,NA
+"370","HLTH_SMK","No",NA,NA
+"371","HLTH_SMK","Yes",NA,NA
+"372","HLTH_SMK","Yes",NA,NA
+"373","HLTH_SMK","Yes",NA,NA
+"374","HLTH_SMK","Yes",NA,NA
+"375","HLTH_SMK",NA,NA,NA
+"376","HLTH_SMK","No",NA,NA
+"377","HLTH_SMK","No",NA,NA
+"378","HLTH_SMK","Yes",NA,NA
+"379","HLTH_SMK","No",NA,NA
+"380","HLTH_SMK","Yes",NA,NA
+"381","HLTH_SMK","No",NA,NA
+"382","HLTH_SMK","No",NA,NA
+"383","HLTH_SMK","Yes",NA,NA
+"384","HLTH_SMK","No",NA,NA
+"385","HLTH_SMK","No",NA,NA
+"386","HLTH_SMK","No",NA,NA
+"387","HLTH_SMK","Yes",NA,NA
+"388","HLTH_SMK","No",NA,NA
+"389","HLTH_SMK","No",NA,NA
+"390","HLTH_SMK","No",NA,NA
+"391","HLTH_SMK",NA,NA,NA
+"392","HLTH_SMK","No",NA,NA
+"393","HLTH_SMK","No",NA,NA
+"394","HLTH_SMK","Si dos cigarros al dia",NA,NA
+"395","HLTH_SMK","No",NA,NA
+"396","HLTH_SMK","No",NA,NA
+"397","HLTH_SMK","No",NA,NA
+"398","HLTH_SMK","No",NA,NA
+"399","HLTH_SMK","Yes",NA,NA
+"400","HLTH_SMK","Yes",NA,NA
+"401","HLTH_SMK","No",NA,NA
+"402","HLTH_SMK","1 cada 3 dia",NA,NA
+"403","HLTH_SMK","No",NA,NA
+"404","HLTH_SMK","Si 1 al dia",NA,NA
+"405","HLTH_SMK","No",NA,NA
+"406","HLTH_SMK","No",NA,NA
+"407","HLTH_SMK","No",NA,NA
+"408","HLTH_SMK","No",NA,NA
+"409","HLTH_SMK","3 al mes",NA,NA
+"410","HLTH_SMK","No",NA,NA
+"411","HLTH_SMK","1 c/ 2 o 3 meses",NA,NA
+"412","HLTH_SMK","No",NA,NA
+"413","HLTH_SMK","No",NA,NA
+"414","HLTH_SMK","Yes",NA,NA
+"415","HLTH_SMK","Si, 6 al dia",NA,NA
+"416","HLTH_SMK","No",NA,NA
+"417","HLTH_SMK","No",NA,NA
+"418","HLTH_SMK","No",NA,NA
+"419","HLTH_SMK","Si, 1 al dia",NA,NA
+"420","HLTH_SMK","Si ( 1 cigarro al dia)",NA,NA
+"421","HLTH_SMK","Yes",NA,NA
+"422","HLTH_SMK","No",NA,NA
+"423","HLTH_SMK","Yes",NA,NA
+"424","HLTH_SMK","Yes",NA,NA
+"425","HLTH_SMK","No",NA,NA
+"426","HLTH_SMK","No",NA,NA
+"427","HLTH_SMK","No",NA,NA
+"428","HLTH_SMK","No",NA,NA
+"429","HLTH_SMK","No",NA,NA
+"430","HLTH_SMK","No",NA,NA
+"431","HLTH_SMK","Si--1 cigarro al dia",NA,NA
+"432","HLTH_SMK","No",NA,NA
+"433","HLTH_SMK","No",NA,NA
+"434","HLTH_SMK","No",NA,NA
+"435","HLTH_SMK","No",NA,NA
+"436","HLTH_SMK","Si 2 al dia",NA,NA
+"437","HLTH_SMK","1 al mes",NA,NA
+"438","HLTH_SMK","No",NA,NA
+"439","HLTH_SMK","No",NA,NA
+"440","HLTH_SMK","No",NA,NA
+"441","HLTH_SMK","No",NA,NA
+"442","HLTH_SMK","No",NA,NA
+"443","HLTH_SMK","No",NA,NA
+"444","HLTH_SMK","No",NA,NA
+"445","HLTH_SMK","No",NA,NA
+"446","HLTH_SMK","Si, 1 diario o more.",NA,NA
+"447","HLTH_SMK","No",NA,NA
+"448","HLTH_SMK","Si, 3 al dia.",NA,NA
+"449","HLTH_SMK","No",NA,NA
+"450","HLTH_SMK","No",NA,NA
+"451","HLTH_SMK","Yes",NA,NA
+"452","HLTH_SMK","Yes",NA,NA
+"453","HLTH_SMK","Si, 3 al dia.",NA,NA
+"454","HLTH_SMK","Yes",NA,NA
+"455","HLTH_SMK","No",NA,NA
+"456","HLTH_SMK","No",NA,NA
+"457","HLTH_SMK","No",NA,NA
+"458","HLTH_SMK","No",NA,NA
+"459","HLTH_SMK","Yes",NA,NA
+"460","HLTH_SMK","No",NA,NA
+"461","HLTH_SMK","Si, 1 al dia",NA,NA
+"462","HLTH_SMK","No",NA,NA
+"463","HLTH_SMK","No",NA,NA
+"464","HLTH_SMK","No",NA,NA
+"465","HLTH_SMK","No",NA,NA
+"466","HLTH_SMK","Si 4 al dia",NA,NA
+"467","HLTH_SMK","No",NA,NA
+"468","HLTH_SMK","Si 2 al dia",NA,NA
+"469","HLTH_SMK","No",NA,NA
+"470","HLTH_SMK","c/6 meses",NA,NA
+"471","HLTH_SMK","No",NA,NA
+"472","HLTH_SMK","No",NA,NA
+"473","HLTH_SMK","No",NA,NA
+"474","HLTH_SMK","No",NA,NA
+"475","HLTH_SMK","No",NA,NA
+"476","HLTH_SMK","No",NA,NA
+"477","HLTH_SMK","No",NA,NA
+"478","HLTH_SMK","Si, 2 o 3 al dia.",NA,NA
+"479","HLTH_SMK","No",NA,NA
+"480","HLTH_SMK","No",NA,NA
+"481","HLTH_SMK","No",NA,NA
+"482","HLTH_SMK","No",NA,NA
+"483","HLTH_SMK","7 x dia",NA,NA
+"484","HLTH_SMK","No",NA,NA
+"485","HLTH_SMK","Yes",NA,NA
+"486","HLTH_SMK","No",NA,NA
+"487","HLTH_SMK","Yes",NA,NA
+"488","HLTH_SMK","Yes",NA,NA
+"489","HLTH_SMK","No",NA,NA
+"490","HLTH_SMK","No",NA,NA
+"491","HLTH_SMK","No",NA,NA
+"492","HLTH_SMK","No",NA,NA
+"493","HLTH_SMK","No",NA,NA
+"494","HLTH_SMK","No",NA,NA
+"495","HLTH_SMK","Si 2 por dia",NA,NA
+"496","HLTH_SMK","Casi nada (1 c/2 meses)",NA,NA
+"497","HLTH_SMK","No",NA,NA
+"24","HLTH_SMK_RAW","No","Yes",NA
+"1","HLTH_TTM","No",NA,NA
+"2","HLTH_TTM","No",NA,NA
+"3","HLTH_TTM","No",NA,NA
+"4","HLTH_TTM","No",NA,NA
+"5","HLTH_TTM","No",NA,NA
+"6","HLTH_TTM","no",NA,NA
+"7","HLTH_TTM","no",NA,NA
+"8","HLTH_TTM","no",NA,NA
+"9","HLTH_TTM","No",NA,NA
+"10","HLTH_TTM","No",NA,NA
+"11","HLTH_TTM","No",NA,NA
+"12","HLTH_TTM","Yes,implante",NA,NA
+"13","HLTH_TTM","No",NA,NA
+"14","HLTH_TTM","No",NA,NA
+"15","HLTH_TTM","No",NA,NA
+"16","HLTH_TTM","No",NA,NA
+"17","HLTH_TTM","No",NA,NA
+"18","HLTH_TTM","No",NA,NA
+"19","HLTH_TTM","No",NA,NA
+"20","HLTH_TTM","No",NA,NA
+"21","HLTH_TTM","No",NA,NA
+"22","HLTH_TTM","No",NA,NA
+"23","HLTH_TTM","No",NA,NA
+"24","HLTH_TTM","No",NA,NA
+"25","HLTH_TTM","No",NA,NA
+"26","HLTH_TTM","No",NA,NA
+"27","HLTH_TTM","No",NA,NA
+"28","HLTH_TTM","No",NA,NA
+"29","HLTH_TTM","No",NA,NA
+"30","HLTH_TTM","no",NA,NA
+"31","HLTH_TTM","No",NA,NA
+"32","HLTH_TTM","No",NA,NA
+"33","HLTH_TTM","No",NA,NA
+"34","HLTH_TTM","No",NA,NA
+"35","HLTH_TTM","No",NA,NA
+"36","HLTH_TTM","No",NA,NA
+"37","HLTH_TTM","No",NA,NA
+"38","HLTH_TTM","No",NA,NA
+"39","HLTH_TTM","No",NA,NA
+"40","HLTH_TTM","No",NA,NA
+"41","HLTH_TTM","No",NA,NA
+"42","HLTH_TTM","No",NA,NA
+"43","HLTH_TTM","No - div",NA,NA
+"44","HLTH_TTM","No",NA,NA
+"45","HLTH_TTM","No",NA,NA
+"46","HLTH_TTM","No",NA,NA
+"47","HLTH_TTM","No",NA,NA
+"48","HLTH_TTM","No",NA,NA
+"49","HLTH_TTM","No",NA,NA
+"50","HLTH_TTM","No",NA,NA
+"51","HLTH_TTM","No",NA,NA
+"52","HLTH_TTM","No",NA,NA
+"53","HLTH_TTM","No",NA,NA
+"54","HLTH_TTM","No",NA,NA
+"55","HLTH_TTM","No",NA,NA
+"56","HLTH_TTM","No",NA,NA
+"57","HLTH_TTM","No",NA,NA
+"58","HLTH_TTM","No",NA,NA
+"59","HLTH_TTM","No",NA,NA
+"60","HLTH_TTM","No",NA,NA
+"61","HLTH_TTM","No",NA,NA
+"62","HLTH_TTM","Anticonceptivo (implante)",NA,NA
+"63","HLTH_TTM","No",NA,NA
+"64","HLTH_TTM","No",NA,NA
+"65","HLTH_TTM","No",NA,NA
+"66","HLTH_TTM","No",NA,NA
+"67","HLTH_TTM","No",NA,NA
+"68","HLTH_TTM","No",NA,NA
+"69","HLTH_TTM","No",NA,NA
+"70","HLTH_TTM","No",NA,NA
+"71","HLTH_TTM","No",NA,NA
+"72","HLTH_TTM","No",NA,NA
+"73","HLTH_TTM","No",NA,NA
+"74","HLTH_TTM","No",NA,NA
+"75","HLTH_TTM","No",NA,NA
+"76","HLTH_TTM","No",NA,NA
+"77","HLTH_TTM","No",NA,NA
+"78","HLTH_TTM","Si diario",NA,NA
+"79","HLTH_TTM","No",NA,NA
+"80","HLTH_TTM","Implante",NA,NA
+"81","HLTH_TTM","No",NA,NA
+"82","HLTH_TTM","No",NA,NA
+"83","HLTH_TTM","No",NA,NA
+"84","HLTH_TTM","Implante",NA,NA
+"85","HLTH_TTM","No",NA,NA
+"86","HLTH_TTM","No",NA,NA
+"87","HLTH_TTM","No",NA,NA
+"88","HLTH_TTM","No",NA,NA
+"89","HLTH_TTM","No",NA,NA
+"90","HLTH_TTM","No",NA,NA
+"91","HLTH_TTM","No",NA,NA
+"92","HLTH_TTM","No",NA,NA
+"93","HLTH_TTM","no",NA,NA
+"94","HLTH_TTM","No",NA,NA
+"95","HLTH_TTM","No",NA,NA
+"96","HLTH_TTM","No",NA,NA
+"97","HLTH_TTM","No",NA,NA
+"98","HLTH_TTM","No",NA,NA
+"99","HLTH_TTM","No",NA,NA
+"100","HLTH_TTM","No",NA,NA
+"101","HLTH_TTM","No",NA,NA
+"102","HLTH_TTM","No",NA,NA
+"103","HLTH_TTM","No",NA,NA
+"104","HLTH_TTM","No",NA,NA
+"105","HLTH_TTM","No",NA,NA
+"106","HLTH_TTM","No",NA,NA
+"107","HLTH_TTM","No",NA,NA
+"108","HLTH_TTM","No",NA,NA
+"109","HLTH_TTM","No",NA,NA
+"110","HLTH_TTM","No",NA,NA
+"111","HLTH_TTM","No",NA,NA
+"112","HLTH_TTM","No",NA,NA
+"113","HLTH_TTM","No",NA,NA
+"114","HLTH_TTM","No",NA,NA
+"115","HLTH_TTM","Dispositivo",NA,NA
+"116","HLTH_TTM","No",NA,NA
+"117","HLTH_TTM","No",NA,NA
+"118","HLTH_TTM","No",NA,NA
+"119","HLTH_TTM","No",NA,NA
+"120","HLTH_TTM","No",NA,NA
+"121","HLTH_TTM","No",NA,NA
+"122","HLTH_TTM","No",NA,NA
+"123","HLTH_TTM","No",NA,NA
+"124","HLTH_TTM","No",NA,NA
+"125","HLTH_TTM","No",NA,NA
+"126","HLTH_TTM","No",NA,NA
+"127","HLTH_TTM","No",NA,NA
+"128","HLTH_TTM","No",NA,NA
+"129","HLTH_TTM","DIU Hormonal",NA,NA
+"130","HLTH_TTM","No",NA,NA
+"131","HLTH_TTM","No",NA,NA
+"132","HLTH_TTM","No",NA,NA
+"133","HLTH_TTM","No",NA,NA
+"134","HLTH_TTM","No",NA,NA
+"135","HLTH_TTM","No",NA,NA
+"136","HLTH_TTM","No",NA,NA
+"137","HLTH_TTM","No",NA,NA
+"138","HLTH_TTM","Dispositivo / nada mas",NA,NA
+"139","HLTH_TTM","No",NA,NA
+"140","HLTH_TTM","No",NA,NA
+"141","HLTH_TTM","No",NA,NA
+"142","HLTH_TTM","No",NA,NA
+"143","HLTH_TTM","No",NA,NA
+"144","HLTH_TTM","No",NA,NA
+"145","HLTH_TTM","Si, implante (anticonceptivo).",NA,NA
+"146","HLTH_TTM","No",NA,NA
+"147","HLTH_TTM","No",NA,NA
+"148","HLTH_TTM","No",NA,NA
+"149","HLTH_TTM","No",NA,NA
+"150","HLTH_TTM","no",NA,NA
+"151","HLTH_TTM","Implante",NA,NA
+"152","HLTH_TTM","no",NA,NA
+"153","HLTH_TTM","No",NA,NA
+"154","HLTH_TTM","No",NA,NA
+"155","HLTH_TTM","No",NA,NA
+"156","HLTH_TTM","No",NA,NA
+"157","HLTH_TTM","Implante",NA,NA
+"158","HLTH_TTM","No",NA,NA
+"159","HLTH_TTM","No",NA,NA
+"160","HLTH_TTM","No",NA,NA
+"161","HLTH_TTM","No",NA,NA
+"162","HLTH_TTM","No",NA,NA
+"163","HLTH_TTM","No",NA,NA
+"165","HLTH_TTM","Menopausia-estrogenos",NA,NA
+"166","HLTH_TTM","No",NA,NA
+"167","HLTH_TTM","No",NA,NA
+"168","HLTH_TTM","No",NA,NA
+"169","HLTH_TTM","No",NA,NA
+"170","HLTH_TTM","No",NA,NA
+"171","HLTH_TTM","No",NA,NA
+"172","HLTH_TTM","Implante (anticonceptivo)",NA,NA
+"173","HLTH_TTM","Implante (anticonceptivo).",NA,NA
+"174","HLTH_TTM","No",NA,NA
+"175","HLTH_TTM","Implante (anticonceptivo)",NA,NA
+"176","HLTH_TTM","No",NA,NA
+"177","HLTH_TTM","No",NA,NA
+"178","HLTH_TTM","No",NA,NA
+"179","HLTH_TTM","Inyecciones anticonceptivos",NA,NA
+"180","HLTH_TTM","No",NA,NA
+"181","HLTH_TTM","No",NA,NA
+"182","HLTH_TTM","No",NA,NA
+"183","HLTH_TTM","no",NA,NA
+"184","HLTH_TTM","No",NA,NA
+"185","HLTH_TTM","No",NA,NA
+"186","HLTH_TTM","No",NA,NA
+"187","HLTH_TTM","No",NA,NA
+"188","HLTH_TTM","No",NA,NA
+"189","HLTH_TTM","No",NA,NA
+"190","HLTH_TTM","Si, tamoxifeno",NA,NA
+"191","HLTH_TTM","No",NA,NA
+"192","HLTH_TTM","No",NA,NA
+"193","HLTH_TTM","No",NA,NA
+"194","HLTH_TTM","No",NA,NA
+"195","HLTH_TTM","No",NA,NA
+"196","HLTH_TTM","No",NA,NA
+"197","HLTH_TTM","No",NA,NA
+"198","HLTH_TTM","Mirena. 5 dias recien",NA,NA
+"199","HLTH_TTM","No",NA,NA
+"200","HLTH_TTM","No",NA,NA
+"201","HLTH_TTM","No",NA,NA
+"202","HLTH_TTM","No",NA,NA
+"203","HLTH_TTM","No",NA,NA
+"204","HLTH_TTM","No",NA,NA
+"301","HLTH_TTM","No",NA,NA
+"302","HLTH_TTM","No",NA,NA
+"303","HLTH_TTM","No",NA,NA
+"304","HLTH_TTM","No",NA,NA
+"305","HLTH_TTM","No",NA,NA
+"306","HLTH_TTM","No",NA,NA
+"307","HLTH_TTM","No",NA,NA
+"308","HLTH_TTM","no",NA,NA
+"309","HLTH_TTM","No",NA,NA
+"310","HLTH_TTM","No",NA,NA
+"311","HLTH_TTM","no",NA,NA
+"312","HLTH_TTM","no",NA,NA
+"313","HLTH_TTM","No",NA,NA
+"314","HLTH_TTM","No",NA,NA
+"315","HLTH_TTM","no",NA,NA
+"316","HLTH_TTM","No",NA,NA
+"317","HLTH_TTM","No",NA,NA
+"318","HLTH_TTM","no",NA,NA
+"319","HLTH_TTM","no",NA,NA
+"320","HLTH_TTM","Si, DIU. hormonal",NA,NA
+"321","HLTH_TTM","No",NA,NA
+"322","HLTH_TTM","Implante subdemico",NA,NA
+"323","HLTH_TTM","No",NA,NA
+"324","HLTH_TTM","no",NA,NA
+"325","HLTH_TTM","no",NA,NA
+"326","HLTH_TTM","no",NA,NA
+"327","HLTH_TTM","no",NA,NA
+"328","HLTH_TTM","no",NA,NA
+"329","HLTH_TTM","no",NA,NA
+"330","HLTH_TTM","Implante 3 anios",NA,NA
+"331","HLTH_TTM","no",NA,NA
+"332","HLTH_TTM","no",NA,NA
+"333","HLTH_TTM","no",NA,NA
+"334","HLTH_TTM","No",NA,NA
+"335","HLTH_TTM","no",NA,NA
+"336","HLTH_TTM","no",NA,NA
+"337","HLTH_TTM","no",NA,NA
+"338","HLTH_TTM","no",NA,NA
+"339","HLTH_TTM","no",NA,NA
+"340","HLTH_TTM","no",NA,NA
+"341","HLTH_TTM","no",NA,NA
+"342","HLTH_TTM","no",NA,NA
+"343","HLTH_TTM","no",NA,NA
+"344","HLTH_TTM","no",NA,NA
+"345","HLTH_TTM","no",NA,NA
+"346","HLTH_TTM",NA,NA,NA
+"347","HLTH_TTM",NA,NA,NA
+"348","HLTH_TTM",NA,NA,NA
+"349","HLTH_TTM",NA,NA,NA
+"350","HLTH_TTM",NA,NA,NA
+"351","HLTH_TTM",NA,NA,NA
+"352","HLTH_TTM",NA,NA,NA
+"353","HLTH_TTM","No",NA,NA
+"354","HLTH_TTM",NA,NA,NA
+"355","HLTH_TTM",NA,NA,NA
+"356","HLTH_TTM",NA,NA,NA
+"357","HLTH_TTM",NA,NA,NA
+"358","HLTH_TTM",NA,NA,NA
+"359","HLTH_TTM","Implante",NA,NA
+"360","HLTH_TTM",NA,NA,NA
+"361","HLTH_TTM","No",NA,NA
+"362","HLTH_TTM","no",NA,NA
+"363","HLTH_TTM","No",NA,NA
+"364","HLTH_TTM","no",NA,NA
+"365","HLTH_TTM","no",NA,NA
+"366","HLTH_TTM","no",NA,NA
+"367","HLTH_TTM","no",NA,NA
+"368","HLTH_TTM","no",NA,NA
+"369","HLTH_TTM","no",NA,NA
+"370","HLTH_TTM","no",NA,NA
+"371","HLTH_TTM","no",NA,NA
+"372","HLTH_TTM","no",NA,NA
+"373","HLTH_TTM","No",NA,NA
+"374","HLTH_TTM","No",NA,NA
+"375","HLTH_TTM",NA,NA,NA
+"376","HLTH_TTM","no",NA,NA
+"377","HLTH_TTM","Yes,inyectando subdermico",NA,NA
+"378","HLTH_TTM","No",NA,NA
+"379","HLTH_TTM","no",NA,NA
+"380","HLTH_TTM","no",NA,NA
+"381","HLTH_TTM","no",NA,NA
+"382","HLTH_TTM","no",NA,NA
+"383","HLTH_TTM","no",NA,NA
+"384","HLTH_TTM","no",NA,NA
+"385","HLTH_TTM","no",NA,NA
+"386","HLTH_TTM","no",NA,NA
+"387","HLTH_TTM","no",NA,NA
+"388","HLTH_TTM","no",NA,NA
+"389","HLTH_TTM","Yes,implante",NA,NA
+"390","HLTH_TTM","no",NA,NA
+"391","HLTH_TTM",NA,NA,NA
+"392","HLTH_TTM","Implante",NA,NA
+"393","HLTH_TTM","no",NA,NA
+"394","HLTH_TTM","No",NA,NA
+"395","HLTH_TTM","implante",NA,NA
+"396","HLTH_TTM","Tirpides perfil hormonal",NA,NA
+"397","HLTH_TTM","No",NA,NA
+"398","HLTH_TTM","No",NA,NA
+"399","HLTH_TTM","no",NA,NA
+"400","HLTH_TTM","no",NA,NA
+"401","HLTH_TTM","No",NA,NA
+"402","HLTH_TTM","No",NA,NA
+"403","HLTH_TTM","no",NA,NA
+"404","HLTH_TTM","Es un poco confundido pero creo que no (hay cosas en el ""box"" pero creo que no es para este pregunta)",NA,NA
+"405","HLTH_TTM","No",NA,NA
+"406","HLTH_TTM","No",NA,NA
+"407","HLTH_TTM","no",NA,NA
+"408","HLTH_TTM","No",NA,NA
+"409","HLTH_TTM","No",NA,NA
+"410","HLTH_TTM","No",NA,NA
+"411","HLTH_TTM","no",NA,NA
+"412","HLTH_TTM","No",NA,NA
+"413","HLTH_TTM","no",NA,NA
+"414","HLTH_TTM","No",NA,NA
+"415","HLTH_TTM","no",NA,NA
+"416","HLTH_TTM","Implante",NA,NA
+"417","HLTH_TTM","implante",NA,NA
+"418","HLTH_TTM","No",NA,NA
+"419","HLTH_TTM","No",NA,NA
+"420","HLTH_TTM","No",NA,NA
+"421","HLTH_TTM","no",NA,NA
+"422","HLTH_TTM","no",NA,NA
+"423","HLTH_TTM","implante",NA,NA
+"424","HLTH_TTM","No",NA,NA
+"425","HLTH_TTM","no",NA,NA
+"426","HLTH_TTM","No (implante)",NA,NA
+"427","HLTH_TTM","No",NA,NA
+"428","HLTH_TTM","no",NA,NA
+"429","HLTH_TTM","No",NA,NA
+"430","HLTH_TTM","No",NA,NA
+"431","HLTH_TTM","No",NA,NA
+"432","HLTH_TTM","No",NA,NA
+"433","HLTH_TTM","No",NA,NA
+"434","HLTH_TTM","No",NA,NA
+"435","HLTH_TTM","Implante",NA,NA
+"436","HLTH_TTM","De implante",NA,NA
+"437","HLTH_TTM","No",NA,NA
+"438","HLTH_TTM","No",NA,NA
+"439","HLTH_TTM","No",NA,NA
+"440","HLTH_TTM","No",NA,NA
+"441","HLTH_TTM","no",NA,NA
+"442","HLTH_TTM","no",NA,NA
+"443","HLTH_TTM","no",NA,NA
+"444","HLTH_TTM","levotoroxina",NA,NA
+"445","HLTH_TTM","no",NA,NA
+"446","HLTH_TTM","no",NA,NA
+"447","HLTH_TTM","no / implante",NA,NA
+"448","HLTH_TTM","no",NA,NA
+"449","HLTH_TTM","no",NA,NA
+"450","HLTH_TTM","No",NA,NA
+"451","HLTH_TTM","implante",NA,NA
+"452","HLTH_TTM","no",NA,NA
+"453","HLTH_TTM","no",NA,NA
+"454","HLTH_TTM","no",NA,NA
+"455","HLTH_TTM","no",NA,NA
+"456","HLTH_TTM","no",NA,NA
+"457","HLTH_TTM","no",NA,NA
+"458","HLTH_TTM","no",NA,NA
+"459","HLTH_TTM","no",NA,NA
+"460","HLTH_TTM","no",NA,NA
+"461","HLTH_TTM","No",NA,NA
+"462","HLTH_TTM","NO",NA,NA
+"463","HLTH_TTM","No",NA,NA
+"464","HLTH_TTM","No-implante",NA,NA
+"465","HLTH_TTM","No. Implante subdermico",NA,NA
+"466","HLTH_TTM","Implante",NA,NA
+"467","HLTH_TTM","No",NA,NA
+"468","HLTH_TTM","No",NA,NA
+"469","HLTH_TTM","No",NA,NA
+"470","HLTH_TTM","No",NA,NA
+"471","HLTH_TTM","No",NA,NA
+"472","HLTH_TTM","no",NA,NA
+"473","HLTH_TTM","No",NA,NA
+"474","HLTH_TTM","No",NA,NA
+"475","HLTH_TTM","No",NA,NA
+"476","HLTH_TTM","no",NA,NA
+"477","HLTH_TTM","No",NA,NA
+"478","HLTH_TTM","no",NA,NA
+"479","HLTH_TTM","no",NA,NA
+"480","HLTH_TTM","no",NA,NA
+"481","HLTH_TTM","no",NA,NA
+"482","HLTH_TTM","no",NA,NA
+"483","HLTH_TTM","No",NA,NA
+"484","HLTH_TTM","no",NA,NA
+"485","HLTH_TTM","no",NA,NA
+"486","HLTH_TTM","no",NA,NA
+"487","HLTH_TTM","no",NA,NA
+"488","HLTH_TTM","Yes",NA,NA
+"489","HLTH_TTM","no",NA,NA
+"490","HLTH_TTM","No",NA,NA
+"491","HLTH_TTM","No",NA,NA
+"492","HLTH_TTM","No",NA,NA
+"493","HLTH_TTM","No",NA,NA
+"494","HLTH_TTM","No",NA,NA
+"495","HLTH_TTM",NA,NA,NA
+"496","HLTH_TTM","No",NA,NA
+"497","HLTH_TTM","No",NA,NA
+"12","SES_BEDR_SC",NA,NA,NA
+"18","SES_BEDR_SC",NA,NA,NA
+"22","SES_BEDR_SC",NA,NA,NA
+"85","SES_BEDR_SC",NA,NA,NA
+"346","SES_BEDR_SC",NA,NA,NA
+"347","SES_BEDR_SC",NA,NA,NA
+"348","SES_BEDR_SC",NA,NA,NA
+"349","SES_BEDR_SC",NA,NA,NA
+"350","SES_BEDR_SC",NA,NA,NA
+"351","SES_BEDR_SC",NA,NA,NA
+"352","SES_BEDR_SC",NA,NA,NA
+"354","SES_BEDR_SC",NA,NA,NA
+"355","SES_BEDR_SC",NA,NA,NA
+"356","SES_BEDR_SC",NA,NA,NA
+"357","SES_BEDR_SC",NA,NA,NA
+"358","SES_BEDR_SC",NA,NA,NA
+"360","SES_BEDR_SC",NA,NA,NA
+"375","SES_BEDR_SC",NA,NA,NA
+"391","SES_BEDR_SC",NA,NA,NA
+"18","SES_BTHR_SC",NA,NA,NA
+"22","SES_BTHR_SC",NA,NA,NA
+"109","SES_BTHR_SC",NA,NA,NA
+"125","SES_BTHR_SC",NA,NA,NA
+"127","SES_BTHR_SC",NA,NA,NA
+"182","SES_BTHR_SC",NA,NA,NA
+"346","SES_BTHR_SC",NA,NA,NA
+"347","SES_BTHR_SC",NA,NA,NA
+"348","SES_BTHR_SC",NA,NA,NA
+"349","SES_BTHR_SC",NA,NA,NA
+"350","SES_BTHR_SC",NA,NA,NA
+"351","SES_BTHR_SC",NA,NA,NA
+"352","SES_BTHR_SC",NA,NA,NA
+"354","SES_BTHR_SC",NA,NA,NA
+"355","SES_BTHR_SC",NA,NA,NA
+"356","SES_BTHR_SC",NA,NA,NA
+"357","SES_BTHR_SC",NA,NA,NA
+"358","SES_BTHR_SC",NA,NA,NA
+"360","SES_BTHR_SC",NA,NA,NA
+"362","SES_BTHR_SC",NA,NA,NA
+"371","SES_BTHR_SC",NA,NA,NA
+"375","SES_BTHR_SC",NA,NA,NA
+"391","SES_BTHR_SC",NA,NA,NA
+"397","SES_BTHR_SC",NA,NA,NA
+"411","SES_BTHR_SC",NA,NA,NA
+"417","SES_BTHR_SC",NA,NA,NA
+"470","SES_BTHR_SC",NA,NA,NA
+"18","SES_CAR_SC",NA,NA,NA
+"22","SES_CAR_SC",NA,NA,NA
+"302","SES_CAR_SC",NA,NA,NA
+"312","SES_CAR_SC",NA,NA,NA
+"346","SES_CAR_SC",NA,NA,NA
+"347","SES_CAR_SC",NA,NA,NA
+"348","SES_CAR_SC",NA,NA,NA
+"349","SES_CAR_SC",NA,NA,NA
+"350","SES_CAR_SC",NA,NA,NA
+"351","SES_CAR_SC",NA,NA,NA
+"352","SES_CAR_SC",NA,NA,NA
+"354","SES_CAR_SC",NA,NA,NA
+"355","SES_CAR_SC",NA,NA,NA
+"356","SES_CAR_SC",NA,NA,NA
+"357","SES_CAR_SC",NA,NA,NA
+"358","SES_CAR_SC",NA,NA,NA
+"360","SES_CAR_SC",NA,NA,NA
+"375","SES_CAR_SC",NA,NA,NA
+"391","SES_CAR_SC",NA,NA,NA
+"395","SES_CAR_SC",NA,NA,NA
+"1","SES_EDU_CAT","Primaria incompleta",NA,NA
+"2","SES_EDU_CAT","Secundaria completa",NA,NA
+"3","SES_EDU_CAT","Secundaria completa",NA,NA
+"4","SES_EDU_CAT","Licenciatura completa",NA,NA
+"5","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"6","SES_EDU_CAT","Licenciatura completa",NA,NA
+"7","SES_EDU_CAT","Secundaria completa",NA,NA
+"8","SES_EDU_CAT","Secundaria completa",NA,NA
+"9","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"10","SES_EDU_CAT","Preparatoria completa",NA,NA
+"11","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"12","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"13","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"14","SES_EDU_CAT","Primaria completa",NA,NA
+"15","SES_EDU_CAT","Secundaria completa",NA,NA
+"16","SES_EDU_CAT","Preparatoria completa",NA,NA
+"17","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"18","SES_EDU_CAT",NA,NA,NA
+"19","SES_EDU_CAT","Preparatoria completa",NA,NA
+"20","SES_EDU_CAT","Preparatoria completa",NA,NA
+"21","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"22","SES_EDU_CAT","Secundaria completa",NA,NA
+"23","SES_EDU_CAT","Secundaria completa",NA,NA
+"24","SES_EDU_CAT","Preparatoria completa",NA,NA
+"25","SES_EDU_CAT","Primaria completa",NA,NA
+"26","SES_EDU_CAT","Secundaria completa",NA,NA
+"27","SES_EDU_CAT","Preparatoria completa",NA,NA
+"28","SES_EDU_CAT","Secundaria completa",NA,NA
+"29","SES_EDU_CAT","Preparatoria completa",NA,NA
+"30","SES_EDU_CAT","Primaria incompleta",NA,NA
+"31","SES_EDU_CAT","Preparatoria completa",NA,NA
+"32","SES_EDU_CAT","Primaria incompleta",NA,NA
+"33","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"34","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"35","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"36","SES_EDU_CAT","Secundaria completa",NA,NA
+"37","SES_EDU_CAT","Secundaria completa",NA,NA
+"38","SES_EDU_CAT","Licenciatura completa",NA,NA
+"39","SES_EDU_CAT","Preparatoria completa",NA,NA
+"40","SES_EDU_CAT","Secundaria completa",NA,NA
+"41","SES_EDU_CAT","Licenciatura completa",NA,NA
+"42","SES_EDU_CAT","Preparatoria completa",NA,NA
+"43","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"44","SES_EDU_CAT","Primaria completa",NA,NA
+"45","SES_EDU_CAT","Preparatoria completa",NA,NA
+"46","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"47","SES_EDU_CAT","Postgrado",NA,NA
+"48","SES_EDU_CAT","Preparatoria completa",NA,NA
+"49","SES_EDU_CAT","Preparatoria completa",NA,NA
+"50","SES_EDU_CAT","Preparatoria completa",NA,NA
+"51","SES_EDU_CAT","Preparatoria completa",NA,NA
+"52","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"53","SES_EDU_CAT","Primaria completa",NA,NA
+"54","SES_EDU_CAT","Primaria completa",NA,NA
+"55","SES_EDU_CAT","Secundaria completa",NA,NA
+"56","SES_EDU_CAT","Primaria completa",NA,NA
+"57","SES_EDU_CAT","Secundaria completa",NA,NA
+"58","SES_EDU_CAT","Preparatoria completa",NA,NA
+"59","SES_EDU_CAT","Preparatoria completa",NA,NA
+"60","SES_EDU_CAT","Preparatoria completa",NA,NA
+"61","SES_EDU_CAT","Secundaria completa",NA,NA
+"62","SES_EDU_CAT","Primaria incompleta",NA,NA
+"63","SES_EDU_CAT","Preparatoria completa",NA,NA
+"64","SES_EDU_CAT","Secundaria completa",NA,NA
+"65","SES_EDU_CAT","Preparatoria completa",NA,NA
+"66","SES_EDU_CAT","Preparatoria completa",NA,NA
+"67","SES_EDU_CAT","Preparatoria completa",NA,NA
+"68","SES_EDU_CAT","Preparatoria completa",NA,NA
+"69","SES_EDU_CAT","Secundaria completa",NA,NA
+"70","SES_EDU_CAT","Preparatoria completa",NA,NA
+"71","SES_EDU_CAT","Secundaria completa",NA,NA
+"72","SES_EDU_CAT","Secundaria completa",NA,NA
+"73","SES_EDU_CAT","Preparatoria completa",NA,NA
+"74","SES_EDU_CAT","Primaria incompleta",NA,NA
+"75","SES_EDU_CAT","Secundaria completa",NA,NA
+"76","SES_EDU_CAT","Secundaria completa",NA,NA
+"77","SES_EDU_CAT","Secundaria completa",NA,NA
+"78","SES_EDU_CAT","Secundaria completa",NA,NA
+"79","SES_EDU_CAT","Licenciatura completa",NA,NA
+"80","SES_EDU_CAT","Preparatoria completa",NA,NA
+"81","SES_EDU_CAT","carrera tecnica completa --> 35 puntos (for now: 3 march 2023)",NA,NA
+"82","SES_EDU_CAT","Preparatoria completa",NA,NA
+"83","SES_EDU_CAT","Licenciatura completa",NA,NA
+"84","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"85","SES_EDU_CAT","Secundaria completa",NA,NA
+"86","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"87","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"88","SES_EDU_CAT","Preparatoria completa",NA,NA
+"89","SES_EDU_CAT","Secundaria completa",NA,NA
+"90","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"91","SES_EDU_CAT","Licenciatura completa",NA,NA
+"92","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"93","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"94","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"95","SES_EDU_CAT","Carrera Tecnica: 35 pints ( 3 March 23)",NA,NA
+"96","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"97","SES_EDU_CAT","Preparatoria completa",NA,NA
+"98","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"99","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"100","SES_EDU_CAT","Preparatoria completa",NA,NA
+"101","SES_EDU_CAT","Secundaria completa. Tomo un per de curso (secretaicido y computear) sin concluir",NA,NA
+"102","SES_EDU_CAT","Preparatoria completa",NA,NA
+"103","SES_EDU_CAT","Bachillerato, carrera tecnica completa. 35 (3 march 2023)",NA,NA
+"104","SES_EDU_CAT","Preparatoria completa",NA,NA
+"105","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"106","SES_EDU_CAT","Preparatoria completa",NA,NA
+"107","SES_EDU_CAT","No hay una clara marca, necesita ver la grabacion",NA,NA
+"108","SES_EDU_CAT","No hay",NA,NA
+"109","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"110","SES_EDU_CAT","Preparatoria completa",NA,NA
+"111","SES_EDU_CAT","Primaria completa",NA,NA
+"112","SES_EDU_CAT","Secundaria completa",NA,NA
+"113","SES_EDU_CAT","Preparatoria completa",NA,NA
+"114","SES_EDU_CAT","Preparatoria completa",NA,NA
+"115","SES_EDU_CAT","Licenciatura completa",NA,NA
+"116","SES_EDU_CAT","Primaria completa",NA,NA
+"117","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"118","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"119","SES_EDU_CAT","Preparatoria completa",NA,NA
+"120","SES_EDU_CAT","Secundaria completa",NA,NA
+"121","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"122","SES_EDU_CAT","Primaria incompleta",NA,NA
+"123","SES_EDU_CAT","Preparatoria completa",NA,NA
+"124","SES_EDU_CAT","Preparatoria completa",NA,NA
+"125","SES_EDU_CAT","Preparatoria completa",NA,NA
+"126","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"127","SES_EDU_CAT","Licenciatura completa",NA,NA
+"128","SES_EDU_CAT","Secundaria completa",NA,NA
+"129","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"130","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"131","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"132","SES_EDU_CAT","Primaria completa",NA,NA
+"133","SES_EDU_CAT","Secundaria completa",NA,NA
+"134","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"135","SES_EDU_CAT","Licenciatura completa",NA,NA
+"136","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"137","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"138","SES_EDU_CAT","Primaria completa",NA,NA
+"139","SES_EDU_CAT","Secundaria completa",NA,NA
+"140","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"141","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"142","SES_EDU_CAT","Secundaria completa",NA,NA
+"143","SES_EDU_CAT","Primaria completa",NA,NA
+"144","SES_EDU_CAT","Secundaria completa",NA,NA
+"145","SES_EDU_CAT","Secundaria completa",NA,NA
+"146","SES_EDU_CAT","Primaria completa",NA,NA
+"147","SES_EDU_CAT","Secundaria completa",NA,NA
+"148","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"149","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"150","SES_EDU_CAT","Secundaria completa",NA,NA
+"151","SES_EDU_CAT","Secundaria completa",NA,NA
+"152","SES_EDU_CAT","Secundaria completa",NA,NA
+"153","SES_EDU_CAT","Secundaria completa",NA,NA
+"154","SES_EDU_CAT","Primaria completa",NA,NA
+"155","SES_EDU_CAT","Secundaria completa",NA,NA
+"156","SES_EDU_CAT","Carrera tecnica completa",NA,NA
+"157","SES_EDU_CAT","Primaria incompleta",NA,NA
+"158","SES_EDU_CAT","Secundaria completa",NA,NA
+"159","SES_EDU_CAT","Secundaria completa",NA,NA
+"160","SES_EDU_CAT","Secundaria completa",NA,NA
+"161","SES_EDU_CAT","Licenciatura completa",NA,NA
+"162","SES_EDU_CAT","Preparatoria completa",NA,NA
+"163","SES_EDU_CAT","Preparatoria completa",NA,NA
+"165","SES_EDU_CAT","Licenciatura completa",NA,NA
+"166","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"167","SES_EDU_CAT","Preparatoria completa",NA,NA
+"168","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"169","SES_EDU_CAT","Licenciatura completa",NA,NA
+"170","SES_EDU_CAT","Primaria incompleta",NA,NA
+"171","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"172","SES_EDU_CAT","Secundaria completa",NA,NA
+"173","SES_EDU_CAT","Preparatoria completa",NA,NA
+"174","SES_EDU_CAT","Secundaria completa",NA,NA
+"175","SES_EDU_CAT","Preparatoria completa",NA,NA
+"176","SES_EDU_CAT","Primaria completa",NA,NA
+"177","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"178","SES_EDU_CAT","Primaria incompleta",NA,NA
+"179","SES_EDU_CAT","Preparatoria completa",NA,NA
+"180","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"181","SES_EDU_CAT","Preparatoria completa",NA,NA
+"182","SES_EDU_CAT","Secundaria completa",NA,NA
+"183","SES_EDU_CAT","Secundaria completa",NA,NA
+"184","SES_EDU_CAT","Preparatoria completa",NA,NA
+"185","SES_EDU_CAT","Primaria completa",NA,NA
+"186","SES_EDU_CAT","Preparatoria completa",NA,NA
+"187","SES_EDU_CAT","Secundaria completa",NA,NA
+"188","SES_EDU_CAT","Secundaria completa",NA,NA
+"189","SES_EDU_CAT","Secundaria completa",NA,NA
+"190","SES_EDU_CAT","Preparatoria completa",NA,NA
+"191","SES_EDU_CAT","Preparatoria completa",NA,NA
+"192","SES_EDU_CAT","Secundaria completa",NA,NA
+"193","SES_EDU_CAT","Secundaria completa",NA,NA
+"194","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"195","SES_EDU_CAT","Licenciatura completa",NA,NA
+"196","SES_EDU_CAT","Secundaria completa",NA,NA
+"197","SES_EDU_CAT","Primaria incompleta",NA,NA
+"198","SES_EDU_CAT","Bachillerato completo",NA,NA
+"199","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"200","SES_EDU_CAT","Secundaria completa",NA,NA
+"201","SES_EDU_CAT","Secundaria completa",NA,NA
+"202","SES_EDU_CAT","Secundaria completa",NA,NA
+"203","SES_EDU_CAT","Primaria completa",NA,NA
+"204","SES_EDU_CAT","Secundaria completa",NA,NA
+"301","SES_EDU_CAT","Preparatoria completa",NA,NA
+"302","SES_EDU_CAT","Secundaria completa",NA,NA
+"303","SES_EDU_CAT","Secundaria completa",NA,NA
+"304","SES_EDU_CAT","Carrera comercial",NA,NA
+"305","SES_EDU_CAT","Secundaria completa",NA,NA
+"306","SES_EDU_CAT","Carrera comercial",NA,NA
+"307","SES_EDU_CAT","Secundaria completa",NA,NA
+"308","SES_EDU_CAT","Primaria completa",NA,NA
+"309","SES_EDU_CAT","Secundaria completa",NA,NA
+"310","SES_EDU_CAT","Secundaria completa",NA,NA
+"311","SES_EDU_CAT","Secundaria completa",NA,NA
+"312","SES_EDU_CAT","Secundaria completa",NA,NA
+"313","SES_EDU_CAT","Secundaria completa",NA,NA
+"314","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"315","SES_EDU_CAT","Licenciatura completa",NA,NA
+"316","SES_EDU_CAT","Preparatoria completa",NA,NA
+"317","SES_EDU_CAT","Secundaria completa",NA,NA
+"318","SES_EDU_CAT","Secundaria completa",NA,NA
+"319","SES_EDU_CAT","Secundaria completa",NA,NA
+"320","SES_EDU_CAT","Secundaria completa",NA,NA
+"321","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"322","SES_EDU_CAT","Postgrado",NA,NA
+"323","SES_EDU_CAT","Licenciatura completa",NA,NA
+"324","SES_EDU_CAT","Secundaria completa",NA,NA
+"325","SES_EDU_CAT","no estudio/preescolar",NA,NA
+"326","SES_EDU_CAT","Preparatoria completa",NA,NA
+"327","SES_EDU_CAT","carrera tecnica bachi",NA,NA
+"328","SES_EDU_CAT","Secundaria completa",NA,NA
+"329","SES_EDU_CAT","Preparatoria completa",NA,NA
+"330","SES_EDU_CAT","Preparatoria completa",NA,NA
+"331","SES_EDU_CAT","Secundaria completa",NA,NA
+"332","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"333","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"334","SES_EDU_CAT","Preparatoria completa",NA,NA
+"335","SES_EDU_CAT","Licenciatura completa",NA,NA
+"336","SES_EDU_CAT","Primaria completa",NA,NA
+"337","SES_EDU_CAT","Secundaria completa",NA,NA
+"338","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"339","SES_EDU_CAT","Secundaria completa",NA,NA
+"340","SES_EDU_CAT","Primaria completa",NA,NA
+"341","SES_EDU_CAT","Secundaria completa",NA,NA
+"342","SES_EDU_CAT","Secundaria completa",NA,NA
+"343","SES_EDU_CAT","Primaria incompleta",NA,NA
+"344","SES_EDU_CAT","Secundaria completa",NA,NA
+"345","SES_EDU_CAT","Primaria incompleta",NA,NA
+"346","SES_EDU_CAT","Primaria completa",NA,NA
+"347","SES_EDU_CAT","Secundaria completa",NA,NA
+"348","SES_EDU_CAT","Primaria completa",NA,NA
+"349","SES_EDU_CAT","Secundaria completa",NA,NA
+"350","SES_EDU_CAT","Primaria completa",NA,NA
+"351","SES_EDU_CAT",NA,NA,NA
+"352","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"353","SES_EDU_CAT","Primaria incompleta",NA,NA
+"354","SES_EDU_CAT",NA,NA,NA
+"355","SES_EDU_CAT","Secundaria completa",NA,NA
+"356","SES_EDU_CAT","Secundaria completa",NA,NA
+"357","SES_EDU_CAT","Secundaria completa",NA,NA
+"358","SES_EDU_CAT",NA,NA,NA
+"359","SES_EDU_CAT","Preparatoria completa",NA,NA
+"360","SES_EDU_CAT",NA,NA,NA
+"361","SES_EDU_CAT","Carrera tecnica",NA,NA
+"362","SES_EDU_CAT","Preparatoria completa",NA,NA
+"363","SES_EDU_CAT","Licenciatura completa",NA,NA
+"364","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"365","SES_EDU_CAT","Secundaria completa",NA,NA
+"366","SES_EDU_CAT","Secundaria completa",NA,NA
+"367","SES_EDU_CAT","Licenciatura completa",NA,NA
+"368","SES_EDU_CAT","Secundaria completa",NA,NA
+"369","SES_EDU_CAT","Secundaria completa",NA,NA
+"370","SES_EDU_CAT","Preparatoria completa",NA,NA
+"371","SES_EDU_CAT","Licenciatura completa",NA,NA
+"372","SES_EDU_CAT","Primaria incompleta",NA,NA
+"373","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"374","SES_EDU_CAT","Secundaria completa",NA,NA
+"375","SES_EDU_CAT",NA,NA,NA
+"376","SES_EDU_CAT","Secundaria completa",NA,NA
+"377","SES_EDU_CAT","Primaria completa",NA,NA
+"378","SES_EDU_CAT","Carrera comercial",NA,NA
+"379","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"380","SES_EDU_CAT","Secundaria completa",NA,NA
+"381","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"382","SES_EDU_CAT","Preparatoria completa",NA,NA
+"383","SES_EDU_CAT","Primaria completa",NA,NA
+"384","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"385","SES_EDU_CAT","Secundaria completa",NA,NA
+"386","SES_EDU_CAT","Preparatoria completa",NA,NA
+"387","SES_EDU_CAT","no sabe si es completa o no para primaria",NA,NA
+"388","SES_EDU_CAT","Licenciatura completa",NA,NA
+"389","SES_EDU_CAT","Licenciatura completa",NA,NA
+"390","SES_EDU_CAT","Preparatoria completa",NA,NA
+"391","SES_EDU_CAT",NA,NA,NA
+"392","SES_EDU_CAT","Secundaria completa",NA,NA
+"393","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"394","SES_EDU_CAT","Preparatoria completa",NA,NA
+"395","SES_EDU_CAT","Secundaria completa",NA,NA
+"396","SES_EDU_CAT","Secundaria completa",NA,NA
+"397","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"398","SES_EDU_CAT","Primaria incompleta",NA,NA
+"399","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"400","SES_EDU_CAT","Licenciatura completa",NA,NA
+"401","SES_EDU_CAT","Primaria completa",NA,NA
+"402","SES_EDU_CAT","Secundaria completa",NA,NA
+"403","SES_EDU_CAT","Carrera tecnica",NA,NA
+"404","SES_EDU_CAT","Secundaria completa",NA,NA
+"405","SES_EDU_CAT","Secundaria completa",NA,NA
+"406","SES_EDU_CAT","Preparatoria completa",NA,NA
+"407","SES_EDU_CAT","Secundaria completa",NA,NA
+"408","SES_EDU_CAT","Secundaria completa",NA,NA
+"409","SES_EDU_CAT","Primaria completa",NA,NA
+"410","SES_EDU_CAT","Secundaria completa",NA,NA
+"411","SES_EDU_CAT","Preparatoria completa",NA,NA
+"412","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"413","SES_EDU_CAT","Secundaria completa",NA,NA
+"414","SES_EDU_CAT","Licenciatura completa",NA,NA
+"415","SES_EDU_CAT","Preparatoria completa",NA,NA
+"416","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"417","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"418","SES_EDU_CAT","Carrera tecnica",NA,NA
+"419","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"420","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"421","SES_EDU_CAT","Secundaria completa",NA,NA
+"422","SES_EDU_CAT","Preparatoria completa",NA,NA
+"423","SES_EDU_CAT","Secundaria completa",NA,NA
+"424","SES_EDU_CAT","Secundaria completa",NA,NA
+"425","SES_EDU_CAT","Carrera comercial",NA,NA
+"426","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"427","SES_EDU_CAT","Primaria incompleta",NA,NA
+"428","SES_EDU_CAT","Secundaria completa",NA,NA
+"429","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"430","SES_EDU_CAT","Primaria completa",NA,NA
+"431","SES_EDU_CAT","Secundaria completa",NA,NA
+"432","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"433","SES_EDU_CAT","Preparatoria completa",NA,NA
+"434","SES_EDU_CAT","Preparatoria completa",NA,NA
+"435","SES_EDU_CAT","Primaria completa",NA,NA
+"436","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"437","SES_EDU_CAT","Secundaria completa",NA,NA
+"438","SES_EDU_CAT","Preparatoria completa",NA,NA
+"439","SES_EDU_CAT","Secundaria completa",NA,NA
+"440","SES_EDU_CAT","Preparatoria completa",NA,NA
+"441","SES_EDU_CAT","Secundaria completa",NA,NA
+"442","SES_EDU_CAT","Secundaria completa",NA,NA
+"443","SES_EDU_CAT","Preparatoria completa",NA,NA
+"444","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"445","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"446","SES_EDU_CAT","Secundaria completa",NA,NA
+"447","SES_EDU_CAT","Preparatoria completa",NA,NA
+"448","SES_EDU_CAT","Secundaria completa",NA,NA
+"449","SES_EDU_CAT","Licenciatura completa",NA,NA
+"450","SES_EDU_CAT","Preparatoria completa",NA,NA
+"451","SES_EDU_CAT","Secundaria completa",NA,NA
+"452","SES_EDU_CAT","Primaria completa",NA,NA
+"453","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"454","SES_EDU_CAT","Secundaria incompleta",NA,NA
+"455","SES_EDU_CAT","Preparatoria incompleta",NA,NA
+"456","SES_EDU_CAT","Preparatoria completa",NA,NA
+"457","SES_EDU_CAT","Primaria completa",NA,NA
+"458","SES_EDU_CAT","Secundaria completa",NA,NA
+"459","SES_EDU_CAT","Preparatoria completa",NA,NA
+"460","SES_EDU_CAT","Preparatoria completa",NA,NA
+"461","SES_EDU_CAT","Bachillerato trunco",NA,NA
+"462","SES_EDU_CAT","Preparatoria completa",NA,NA
+"463","SES_EDU_CAT","Secundaria completa",NA,NA
+"464","SES_EDU_CAT","Licenciatura completa",NA,NA
+"465","SES_EDU_CAT","Preparatoria completa",NA,NA
+"466","SES_EDU_CAT","Secundaria completa",NA,NA
+"467","SES_EDU_CAT","Preparatoria completa",NA,NA
+"468","SES_EDU_CAT","Primaria completa",NA,NA
+"469","SES_EDU_CAT","Primaria completa",NA,NA
+"470","SES_EDU_CAT","Secundaria completa",NA,NA
+"471","SES_EDU_CAT","Secundaria completa",NA,NA
+"472","SES_EDU_CAT","Secundaria completa",NA,NA
+"473","SES_EDU_CAT","Preparatoria completa",NA,NA
+"474","SES_EDU_CAT","Secundaria completa",NA,NA
+"475","SES_EDU_CAT","Secundaria completa",NA,NA
+"476","SES_EDU_CAT","Secundaria completa",NA,NA
+"477","SES_EDU_CAT","Primaria completa",NA,NA
+"478","SES_EDU_CAT","Secundaria completa",NA,NA
+"479","SES_EDU_CAT","Secundaria completa",NA,NA
+"480","SES_EDU_CAT","Primaria completa",NA,NA
+"481","SES_EDU_CAT","Primaria completa",NA,NA
+"482","SES_EDU_CAT","Primaria completa",NA,NA
+"483","SES_EDU_CAT","Secundaria completa",NA,NA
+"484","SES_EDU_CAT","Preparatoria completa",NA,NA
+"485","SES_EDU_CAT","Secundaria completa",NA,NA
+"486","SES_EDU_CAT","Bauhi? Completo",NA,NA
+"487","SES_EDU_CAT","Secundaria completa",NA,NA
+"488","SES_EDU_CAT","Preparatoria completa",NA,NA
+"489","SES_EDU_CAT","Secundaria completa",NA,NA
+"490","SES_EDU_CAT","Secundaria completa",NA,NA
+"491","SES_EDU_CAT","Licenciatura completa",NA,NA
+"492","SES_EDU_CAT","Preparatoria completa",NA,NA
+"493","SES_EDU_CAT","Licenciatura incompleta",NA,NA
+"494","SES_EDU_CAT","Secundaria completa",NA,NA
+"495","SES_EDU_CAT","Preparatoria completa",NA,NA
+"496","SES_EDU_CAT","Secundaria completa",NA,NA
+"497","SES_EDU_CAT","Bachillerato trunco",NA,NA
+"18","SES_EDU_SC",NA,NA,NA
+"81","SES_EDU_SC",NA,NA,NA
+"95","SES_EDU_SC",NA,NA,NA
+"101","SES_EDU_SC",NA,NA,NA
+"103","SES_EDU_SC",NA,NA,NA
+"107","SES_EDU_SC",NA,NA,NA
+"108","SES_EDU_SC",NA,NA,NA
+"156","SES_EDU_SC",NA,NA,NA
+"198","SES_EDU_SC",NA,NA,NA
+"325","SES_EDU_SC",NA,NA,NA
+"351","SES_EDU_SC",NA,NA,NA
+"354","SES_EDU_SC",NA,NA,NA
+"358","SES_EDU_SC",NA,NA,NA
+"360","SES_EDU_SC",NA,NA,NA
+"375","SES_EDU_SC",NA,NA,NA
+"387","SES_EDU_SC",NA,NA,NA
+"391","SES_EDU_SC",NA,NA,NA
+"461","SES_EDU_SC",NA,NA,NA
+"486","SES_EDU_SC",NA,NA,NA
+"497","SES_EDU_SC","333",NA,NA
+"18","SES_INT_SC",NA,NA,NA
+"22","SES_INT_SC",NA,NA,NA
+"346","SES_INT_SC",NA,NA,NA
+"347","SES_INT_SC",NA,NA,NA
+"348","SES_INT_SC",NA,NA,NA
+"349","SES_INT_SC",NA,NA,NA
+"350","SES_INT_SC",NA,NA,NA
+"351","SES_INT_SC",NA,NA,NA
+"352","SES_INT_SC",NA,NA,NA
+"354","SES_INT_SC",NA,NA,NA
+"355","SES_INT_SC",NA,NA,NA
+"356","SES_INT_SC",NA,NA,NA
+"357","SES_INT_SC",NA,NA,NA
+"358","SES_INT_SC",NA,NA,NA
+"360","SES_INT_SC",NA,NA,NA
+"375","SES_INT_SC",NA,NA,NA
+"391","SES_INT_SC",NA,NA,NA
+"18","SES_WRK_SC",NA,NA,NA
+"22","SES_WRK_SC",NA,NA,NA
+"346","SES_WRK_SC",NA,NA,NA
+"347","SES_WRK_SC",NA,NA,NA
+"348","SES_WRK_SC",NA,NA,NA
+"349","SES_WRK_SC",NA,NA,NA
+"350","SES_WRK_SC",NA,NA,NA
+"351","SES_WRK_SC",NA,NA,NA
+"352","SES_WRK_SC",NA,NA,NA
+"354","SES_WRK_SC",NA,NA,NA
+"355","SES_WRK_SC",NA,NA,NA
+"356","SES_WRK_SC",NA,NA,NA
+"357","SES_WRK_SC",NA,NA,NA
+"358","SES_WRK_SC",NA,NA,NA
+"360","SES_WRK_SC",NA,NA,NA
+"375","SES_WRK_SC",NA,NA,NA
+"391","SES_WRK_SC",NA,NA,NA
 "453","W_HH_SIZE","15","viven mas familias ahi. llave sole en lavando",NA
 "427","W_STORAGE","tambos chiquitos--> turnos (3 famen terreno) --> una toma de agua","tambos chiquitos --> turnos (3 fam en terreno) --> una toma de agua",NA
 "476","W_STORAGE","tinaco --> bathroom (baniarse)
 botes--> 2 llaves directo de calle","Tinaco--> bathroom. Botes--> 2 llaves directo de calle",NA
-"24","HLTH_SMK_RAW","No","Yes",NA
-"320","D_EMP_TYPE_RAW","Trabajo domestico. Trabajo comerciante.",NA,NA
-"334","D_EMP_TYPE_RAW","Si, seguridad privada.",NA,NA
-"394","D_EMP_TYPE_RAW","Comerciante","Informal",NA
-"415","D_CHLD_RAW","333","2",NA
-"427","D_CHLD_RAW","1","4",NA

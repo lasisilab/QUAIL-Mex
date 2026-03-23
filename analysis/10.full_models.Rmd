@@ -1,0 +1,976 @@
+---
+title: "10. Full Models: All Significant Predictors"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(broom)
+library(gtsummary)
+library(flextable)
+library(officer)
+library(ggplot2)
+library(ggstance)
+
+dir.create("./output/figures", recursive = TRUE, showWarnings = FALSE)
+dir.create("./output/tables",  recursive = TRUE, showWarnings = FALSE)
+```
+
+## Overview
+
+This script builds **full models** for each of the two outcomes by simultaneously
+including all predictors that showed a statistically significant unadjusted focal
+coefficient (p < 0.05, raw) in any of the Aim 1 or Aim 2 adjusted models.
+
+| Outcome | Model type | Core covariates |
+|---------|-----------|----------------|
+| `PSS_TOTAL` | Linear regression | Age, SES, Household size, Chronic disease |
+| `EMO_NEG` | Logistic regression | Age, SES, Household size, Chronic disease, PSS_TOTAL |
+
+> **Collinearity note**: The HWISE items (HW_WORRY, HW_INTERR, etc.) are
+> highly correlated with each other. Including multiple items simultaneously
+> in the full model may inflate standard errors and produce unstable estimates.
+> It is recommended to compare results with and without the individual HWISE
+> items (e.g., substituting the HWISE reduced composite score instead). See
+> Section 5 for a sensitivity analysis using `HWISE_REDUCED` in place of
+> individual items.
+
+> **Note on D_LOC_TIME**: Years in neighborhood (`D_LOC_TIME`) is treated as
+> a focal predictor (not a core covariate) in these full models, consistent
+> with its role in Aim 2.
+
+---
+
+# Section 1: Data Setup
+
+```{r load-data}
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_num <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES, NA_real_, x_num)
+}
+
+df_raw <- read_csv("./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv",
+                   show_col_types = FALSE)
+
+cat("Dataset:", nrow(df_raw), "rows ×", ncol(df_raw), "cols\n")
+
+new_cols <- c("HLTH_CDIS_CAT", "HW_TOTAL", "HW_WORRY_SUB", "HW_MEX_5SUB",
+              "MX6_WPRESS", "MX4_WFREQ", "MX4_W_FREQ", "W_WS_LOC",
+              "D_LOC_TIME_CLEAN")
+cat("\nNew column availability:\n")
+for (col in new_cols) {
+  cat(sprintf("  %-20s %s\n", col,
+              ifelse(col %in% names(df_raw), "FOUND", "*** MISSING ***")))
+}
+```
+
+```{r prepare-variables}
+hwise_items <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                 "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
+                 "HW_ANGRY", "HW_SLEEP",  "HW_NONE",    "HW_SHAME")
+
+hwise_items_reduced <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                         "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
+                         "HW_SLEEP", "HW_NONE")
+
+df <- df_raw %>%
+  mutate(
+    # ── Outcomes ───────────────────────────────────────────────────────────────
+    PSS_TOTAL = clean_num(PSS_TOTAL),
+
+    EMO_NEG = {
+      raw <- clean_num(MX26_EM_HHW_CAT)
+      case_when(
+        raw == 0 ~ 0L,
+        raw == 1 ~ 1L,
+        TRUE     ~ NA_integer_
+      )
+    },
+
+    # ── Core covariates ────────────────────────────────────────────────────────
+    D_AGE        = clean_num(D_AGE),
+    SES_SC_Total = clean_num(SES_SC_Total),
+    D_HH_SIZE    = clean_num(D_HH_SIZE),
+    D_LOC_TIME   = clean_num(D_LOC_TIME_CLEAN),
+
+    # ── HWISE individual items ─────────────────────────────────────────────────
+    across(all_of(hwise_items), clean_num),
+
+    # ── HWISE reduced score (10 items, excluding angry and shame) ─────────────
+    HWISE_REDUCED = rowSums(across(all_of(hwise_items_reduced)), na.rm = FALSE),
+
+    # ── Hours of water supply per week ─────────────────────────────────────────
+    HRS_PER_WEEK = clean_num(MX5_WFREQ_HRS_PER_WEEK),
+
+    # ── Continuous vs. intermittent supply ─────────────────────────────────────
+    # 0 = Continuous (reference), 1 = Intermittent
+    CONT_INT = {
+      raw     <- as.character(MX3_CONT_INT)
+      raw_num <- suppressWarnings(as.numeric(raw))
+      factor(case_when(
+        raw_num %in% MISSING_CODES                         ~ NA_character_,
+        raw_num == 0                                       ~ "Continuous",
+        raw_num == 1                                       ~ "Intermittent",
+        str_detect(str_to_lower(raw), "contin")            ~ "Continuous",
+        str_detect(str_to_lower(raw), "inter")             ~ "Intermittent",
+        is.na(raw) | str_trim(raw) == "" | raw == "NA"    ~ NA_character_,
+        TRUE                                               ~ raw
+      ), levels = c("Continuous", "Intermittent"))
+    },
+
+    # ── Season ─────────────────────────────────────────────────────────────────
+    # 0 = Season 1 (rainy, reference), 1 = Season 2 (dry)
+    SEASON = factor(SEASON, levels = c(0, 1), labels = c("Rainy", "Dry")),
+
+    # ── Neighborhood water comparison ──────────────────────────────────────────
+    # 0 = Better (reference), 1 = Same, 2 = Worse
+    NB_COMP = factor(
+      case_when(
+        clean_num(MX28_WQ_COMP_CAT) == 0 ~ "Better",
+        clean_num(MX28_WQ_COMP_CAT) == 1 ~ "Same",
+        clean_num(MX28_WQ_COMP_CAT) == 2 ~ "Worse",
+        TRUE                             ~ NA_character_
+      ),
+      levels = c("Better", "Same", "Worse")
+    ),
+
+    # ── Excessive time handling water ──────────────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    TIME_WATER = factor(
+      case_when(
+        clean_num(MX19_TIME_CAT) == 0 ~ "No",
+        clean_num(MX19_TIME_CAT) == 1 ~ "Yes",
+        TRUE                          ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+
+    # ── Sufficiency rating ─────────────────────────────────────────────────────
+    # 1 = not sufficient, 4 = completely sufficient
+    SUFF_RATING = clean_num(MX16_SCEN_99),
+
+    # ── Chronic disease ────────────────────────────────────────────────────────
+    # 0 = No (reference), 1 = Yes
+    Chronic_dis = factor(
+      case_when(
+        clean_num(HLTH_CDIS_CAT) == 0 ~ "No",
+        clean_num(HLTH_CDIS_CAT) == 1 ~ "Yes",
+        TRUE                          ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+
+    # ── Water pressure ─────────────────────────────────────────────────────────
+    W_Pressure = factor(
+      case_when(
+        str_detect(str_to_lower(as.character(MX6_WPRESS)),
+                   "s[ií]|yes|buena|bien")  ~ "Yes",
+        str_detect(str_to_lower(as.character(MX6_WPRESS)),
+                   "^no|baja|poca")         ~ "No/Low",
+        TRUE                                ~ NA_character_
+      ),
+      levels = c("Yes", "No/Low")
+    ),
+
+    # ── Supply frequency ───────────────────────────────────────────────────────
+    W_Frequency = {
+      freq_raw <- if ("MX4_W_FREQ" %in% names(df_raw)) {
+        dplyr::coalesce(as.character(MX4_WFREQ), as.character(MX4_W_FREQ))
+      } else {
+        as.character(MX4_WFREQ)
+      }
+      raw <- str_to_lower(as.character(freq_raw))
+      factor(
+        case_when(
+          str_detect(raw, "^contin")           ~ "Continuous",
+          str_detect(raw, "^diari|every day")  ~ "Daily",
+          str_detect(raw, "4 a 6|4-6")         ~ "4\u20136 days/week",
+          str_detect(raw, "1 a 3|1-3")         ~ "1\u20133 days/week",
+          str_detect(raw, "^intermi")          ~ "Intermittent",
+          TRUE                                 ~ NA_character_
+        ),
+        levels = c("Continuous", "Daily", "4\u20136 days/week",
+                   "1\u20133 days/week", "Intermittent")
+      )
+    },
+
+    # ── Neighborhood water security ────────────────────────────────────────────
+    W_WS_LOC_F = if ("W_WS_LOC" %in% names(df_raw)) {
+      factor(W_WS_LOC, levels = c("WS", "WI"),
+             labels = c("Water Secure", "Water Insecure"))
+    } else {
+      factor(NA_character_, levels = c("Water Secure", "Water Insecure"))
+    }
+  )
+```
+
+```{r check-outcomes}
+cat("PSS_TOTAL summary:\n")
+print(summary(df$PSS_TOTAL))
+cat("\nEMO_NEG distribution:\n")
+print(table(df$EMO_NEG, useNA = "always"))
+cat("\nProportion negative (valid responses):",
+    round(mean(df$EMO_NEG == 1, na.rm = TRUE), 3), "\n")
+```
+
+---
+
+# Section 2: Identify Significant Predictors
+
+This section re-runs all adjusted models from Aim 1 (07) and Aim 2 (08) inline,
+extracts the focal coefficient p-values (unadjusted), and identifies predictors
+with p < 0.05.
+
+> **Variable naming note**: Aim 1 uses `SES_TOTAL` and `CHRONIC_DIS` (computed
+> separately in that script), while Aim 2 uses `SES_SC_Total` and `Chronic_dis`.
+> Here we use Aim 2 naming throughout. Aim 1 predictors
+> (`HWISE_REDUCED`, `WI_NEIGHBORHOOD`, `SEASON`) are recreated using Aim 2
+> variable prep (SEASON is already prepared above; HWISE_REDUCED and W_WS_LOC_F
+> serve as the Aim 2 equivalents).
+
+```{r aim1-models-pss}
+# ── Aim 1: PSS models (Panel A) ───────────────────────────────────────────────
+# Using Aim 2 variable names: SES_SC_Total, Chronic_dis, W_WS_LOC_F
+
+aim1_pss_models <- list(
+  a1 = lm(PSS_TOTAL ~ HWISE_REDUCED + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a2 = lm(PSS_TOTAL ~ HWISE_REDUCED * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a3 = lm(PSS_TOTAL ~ W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a4 = lm(PSS_TOTAL ~ W_WS_LOC_F * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a5 = lm(PSS_TOTAL ~ HWISE_REDUCED + SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a6 = lm(PSS_TOTAL ~ W_WS_LOC_F + SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a7 = lm(PSS_TOTAL ~ SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a8 = lm(PSS_TOTAL ~ HWISE_REDUCED * W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit),
+  a9 = lm(PSS_TOTAL ~ HWISE_REDUCED + W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, na.action = na.omit)
+)
+```
+
+```{r aim2-models-pss}
+# ── Aim 2: PSS models (one predictor per model) ───────────────────────────────
+
+hwise_specs_pss <- setNames(
+  lapply(hwise_items, function(item) {
+    lm(as.formula(paste("PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +", item)),
+       data = df, na.action = na.omit)
+  }),
+  paste0("m_a5_", tolower(hwise_items))
+)
+
+aim2_pss_models <- c(
+  hwise_specs_pss,
+  list(
+    m_a6  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HRS_PER_WEEK,
+               data = df, na.action = na.omit),
+    m_a7  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + CONT_INT,
+               data = df, na.action = na.omit),
+    m_a8  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + SEASON,
+               data = df, na.action = na.omit),
+    m_a9  = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + NB_COMP,
+               data = df, na.action = na.omit),
+    m_a10 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + TIME_WATER,
+               data = df, na.action = na.omit),
+    m_a11 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + SUFF_RATING,
+               data = df, na.action = na.omit),
+    m_a16 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Pressure,
+               data = df, na.action = na.omit),
+    m_a17 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Frequency,
+               data = df, na.action = na.omit),
+    m_a18 = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_WS_LOC_F,
+               data = df, na.action = na.omit),
+    m_a_loc = lm(PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + D_LOC_TIME,
+                 data = df, na.action = na.omit)
+  )
+)
+```
+
+```{r aim1-models-emo}
+# ── Aim 1: EMO models (Panel B) ───────────────────────────────────────────────
+
+aim1_emo_models <- list(
+  b1 = glm(EMO_NEG ~ HWISE_REDUCED + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b2 = glm(EMO_NEG ~ HWISE_REDUCED * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b3 = glm(EMO_NEG ~ W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b4 = glm(EMO_NEG ~ W_WS_LOC_F * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b5 = glm(EMO_NEG ~ HWISE_REDUCED + SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b6 = glm(EMO_NEG ~ W_WS_LOC_F + SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b7 = glm(EMO_NEG ~ SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b8 = glm(EMO_NEG ~ HWISE_REDUCED * W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit),
+  b9 = glm(EMO_NEG ~ HWISE_REDUCED + W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
+           data = df, family = binomial, na.action = na.omit)
+)
+```
+
+```{r aim2-models-emo}
+# ── Aim 2: EMO models (one predictor per model) ───────────────────────────────
+
+hwise_specs_emo <- setNames(
+  lapply(hwise_items, function(item) {
+    glm(as.formula(paste("EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis +", item)),
+        data = df, family = binomial, na.action = na.omit)
+  }),
+  paste0("m_b5_", tolower(hwise_items))
+)
+
+aim2_emo_models <- c(
+  hwise_specs_emo,
+  list(
+    m_b6  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + HRS_PER_WEEK,
+                data = df, family = binomial, na.action = na.omit),
+    m_b7  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + CONT_INT,
+                data = df, family = binomial, na.action = na.omit),
+    m_b8  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + SEASON,
+                data = df, family = binomial, na.action = na.omit),
+    m_b9  = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + NB_COMP,
+                data = df, family = binomial, na.action = na.omit),
+    m_b10 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + TIME_WATER,
+                data = df, family = binomial, na.action = na.omit),
+    m_b11 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + SUFF_RATING,
+                data = df, family = binomial, na.action = na.omit),
+    m_b16 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + W_Pressure,
+                data = df, family = binomial, na.action = na.omit),
+    m_b17 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + W_Frequency,
+                data = df, family = binomial, na.action = na.omit),
+    m_b18 = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis + W_WS_LOC_F,
+                data = df, family = binomial, na.action = na.omit),
+    m_b_loc = glm(EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + D_LOC_TIME + PSS_TOTAL + Chronic_dis,
+                  data = df, family = binomial, na.action = na.omit)
+  )
+)
+```
+
+```{r identify-sig-pss}
+# Core terms to exclude from significance screening
+core_terms_pss <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE",
+                    "Chronic_disYes", "D_LOC_TIME", "PSS_TOTAL")
+
+# Interaction terms to exclude (only main effects considered for full model)
+is_interaction <- function(term) str_detect(term, ":")
+
+# Helper: extract focal terms with p < 0.05 from a list of models
+get_sig_terms <- function(model_list, core_terms) {
+  map_dfr(names(model_list), function(nm) {
+    tidy(model_list[[nm]], conf.int = FALSE) %>%
+      filter(!term %in% core_terms, !is_interaction(term), p.value < 0.05) %>%
+      mutate(model_id = nm)
+  })
+}
+
+# Identify significant PSS predictors across Aim 1 + Aim 2
+sig_pss_aim1 <- get_sig_terms(aim1_pss_models, core_terms_pss)
+sig_pss_aim2 <- get_sig_terms(aim2_pss_models, core_terms_pss)
+
+sig_pss_all <- bind_rows(
+  sig_pss_aim1 %>% mutate(aim = "Aim 1"),
+  sig_pss_aim2 %>% mutate(aim = "Aim 2")
+)
+
+cat("Significant PSS focal terms (p < 0.05, unadjusted):\n")
+sig_pss_all %>%
+  arrange(term, p.value) %>%
+  select(aim, model_id, term, estimate, p.value) %>%
+  print(n = Inf)
+```
+
+```{r identify-sig-emo}
+core_terms_emo <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE",
+                    "Chronic_disYes", "D_LOC_TIME", "PSS_TOTAL")
+
+sig_emo_aim1 <- get_sig_terms(aim1_emo_models, core_terms_emo)
+sig_emo_aim2 <- get_sig_terms(aim2_emo_models, core_terms_emo)
+
+sig_emo_all <- bind_rows(
+  sig_emo_aim1 %>% mutate(aim = "Aim 1"),
+  sig_emo_aim2 %>% mutate(aim = "Aim 2")
+)
+
+cat("Significant EMO focal terms (p < 0.05, unadjusted):\n")
+sig_emo_all %>%
+  arrange(term, p.value) %>%
+  select(aim, model_id, term, estimate, p.value) %>%
+  print(n = Inf)
+```
+
+```{r sig-summary-table}
+# ── Summary table of all significant predictors ───────────────────────────────
+
+sig_table <- bind_rows(
+  sig_pss_all %>% mutate(outcome = "PSS_TOTAL"),
+  sig_emo_all %>% mutate(outcome = "EMO_NEG")
+) %>%
+  group_by(outcome, term) %>%
+  summarise(
+    n_models_significant = n(),
+    min_p  = min(p.value),
+    aims   = paste(sort(unique(aim)), collapse = " & "),
+    .groups = "drop"
+  ) %>%
+  arrange(outcome, min_p)
+
+cat("\nSummary: predictors significant in ≥1 model\n")
+print(sig_table, n = Inf)
+
+# ── Extract the unique variable names (stripping level suffixes) ──────────────
+# For factors, the term looks like "W_FrequencyDaily" — we need "W_Frequency"
+# For HWISE items (numeric), term == variable name
+
+extract_variable_name <- function(terms) {
+  # Try to match factor variable names from df
+  factor_vars <- c("CONT_INT", "SEASON", "NB_COMP", "TIME_WATER",
+                   "W_Pressure", "W_Frequency", "W_WS_LOC_F",
+                   "Chronic_dis", "HWISE_REDUCED")
+  result <- character(length(terms))
+  for (i in seq_along(terms)) {
+    matched <- factor_vars[str_starts(terms[i], factor_vars)]
+    if (length(matched) > 0) {
+      result[i] <- matched[which.max(nchar(matched))]  # longest match
+    } else {
+      result[i] <- terms[i]  # numeric variables: term == variable name
+    }
+  }
+  result
+}
+
+sig_vars_pss <- sig_pss_all %>%
+  pull(term) %>%
+  unique() %>%
+  extract_variable_name() %>%
+  unique()
+
+sig_vars_emo <- sig_emo_all %>%
+  pull(term) %>%
+  unique() %>%
+  extract_variable_name() %>%
+  unique()
+
+cat("\nUnique significant variable names for PSS full model:\n")
+cat(paste(" -", sig_vars_pss), sep = "\n")
+
+cat("\nUnique significant variable names for EMO full model:\n")
+cat(paste(" -", sig_vars_emo), sep = "\n")
+```
+
+---
+
+# Section 3: PSS Full Model
+
+## Build and Fit
+
+```{r pss-full-model}
+# Remove core covariates from the significant predictors list
+core_vars_pss <- c("D_AGE", "SES_SC_Total", "D_HH_SIZE", "Chronic_dis",
+                   "PSS_TOTAL", "D_LOC_TIME")
+
+sig_vars_pss_clean <- setdiff(sig_vars_pss, core_vars_pss)
+
+if (length(sig_vars_pss_clean) == 0) {
+  warning("No significant PSS predictors identified. Using HWISE_REDUCED as placeholder.")
+  sig_vars_pss_clean <- "HWISE_REDUCED"
+}
+
+cat("PSS full model predictors (beyond core covariates):\n")
+cat(paste(" -", sig_vars_pss_clean), sep = "\n")
+
+pss_full_formula <- as.formula(
+  paste("PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +",
+        paste(sig_vars_pss_clean, collapse = " + "))
+)
+
+cat("\nFull PSS formula:\n")
+print(pss_full_formula)
+
+pss_full <- lm(pss_full_formula, data = df, na.action = na.omit)
+cat("\nN =", nobs(pss_full), "\n")
+cat("Adj. R² =", round(summary(pss_full)$adj.r.squared, 3), "\n")
+cat("AIC =", round(AIC(pss_full), 1), "\n")
+```
+
+## Regression Table (PSS)
+
+```{r pss-full-table, results="asis"}
+label_list_pss <- list(
+  D_AGE        ~ "Age (years)",
+  SES_SC_Total ~ "SES composite score",
+  D_HH_SIZE    ~ "Household size",
+  Chronic_dis  ~ "Chronic disease",
+  D_LOC_TIME   ~ "Years in neighborhood",
+  HWISE_REDUCED ~ "HWISE reduced score (0–40)",
+  HRS_PER_WEEK  ~ "Hours of water supply/week",
+  CONT_INT      ~ "Supply continuity (ref: Continuous)",
+  SEASON        ~ "Season (ref: Rainy)",
+  NB_COMP       ~ "Neighborhood comparison (ref: Better)",
+  TIME_WATER    ~ "Excessive time managing water (ref: No)",
+  SUFF_RATING   ~ "Sufficiency rating (1–4)",
+  W_Pressure    ~ "Water pressure (ref: Yes)",
+  W_Frequency   ~ "Supply frequency (ref: Continuous)",
+  W_WS_LOC_F    ~ "Neighborhood water security (ref: Water Secure)"
+)
+
+# Keep only labels relevant to this model
+model_vars_pss <- all.vars(pss_full_formula)
+label_list_pss_filtered <- label_list_pss[
+  sapply(label_list_pss, function(x) as.character(x[[2]]) %in% model_vars_pss)
+]
+
+tbl_pss <- tbl_regression(
+  pss_full,
+  label    = label_list_pss_filtered,
+  conf.int = TRUE
+) %>%
+  bold_p(t = 0.05) %>%
+  italicize_levels() %>%
+  modify_caption(
+    "**Full PSS Model**: All significant predictors from Aim 1 & Aim 2"
+  ) %>%
+  modify_footnote(
+    update = everything() ~ paste0(
+      "Linear regression. Adjusted R² = ",
+      round(summary(pss_full)$adj.r.squared, 3),
+      ". N = ", nobs(pss_full),
+      ". p-values are unadjusted."
+    )
+  )
+
+tbl_pss
+```
+
+## Coefficient Plot (PSS)
+
+```{r pss-full-plot, fig.width=9, fig.height=7}
+readable_terms <- c(
+  HWISE_REDUCED              = "HWISE reduced score",
+  HRS_PER_WEEK               = "Hours of supply / week",
+  CONT_INTIntermittent       = "Supply continuity: Intermittent",
+  SEASONDry                  = "Season: Dry",
+  NB_COMPSame                = "Neighborhood comparison: Same as CDMX",
+  NB_COMPWorse               = "Neighborhood comparison: Worse than CDMX",
+  TIME_WATERYes              = "Excessive time managing water: Yes",
+  SUFF_RATING                = "Sufficiency rating (1–4)",
+  `W_PressureNo/Low`         = "Water pressure: No/Low",
+  W_FrequencyDaily           = "Supply frequency: Daily",
+  `W_Frequency4–6 days/week` = "Supply frequency: 4–6 days/wk",
+  `W_Frequency1–3 days/week` = "Supply frequency: 1–3 days/wk",
+  W_FrequencyIntermittent    = "Supply frequency: Intermittent",
+  `W_WS_LOC_FWater Insecure` = "Neighborhood: Water Insecure",
+  D_LOC_TIME                 = "Years in neighborhood",
+  D_AGE                      = "Age (years)",
+  SES_SC_Total               = "SES composite score",
+  D_HH_SIZE                  = "Household size",
+  Chronic_disYes             = "Chronic disease: Yes",
+  HW_WORRY                   = "HWISE: Worry about water",
+  HW_INTERR                  = "HWISE: Interrupted supply",
+  HW_CLOTHES                 = "HWISE: Couldn't wash clothes",
+  HW_PLANS                   = "HWISE: Plans disrupted",
+  HW_FOOD                    = "HWISE: Food preparation affected",
+  HW_HANDS                   = "HWISE: Couldn't wash hands",
+  HW_BODY                    = "HWISE: Couldn't bathe",
+  HW_DRINK                   = "HWISE: Not enough to drink",
+  HW_ANGRY                   = "HWISE: Felt angry",
+  HW_SLEEP                   = "HWISE: Went to sleep thirsty",
+  HW_NONE                    = "HWISE: No water at all",
+  HW_SHAME                   = "HWISE: Felt shame"
+)
+
+coef_pss_full <- tidy(pss_full, conf.int = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(
+    term_label = coalesce(readable_terms[term], term),
+    is_core    = term %in% c("D_AGE", "SES_SC_Total", "D_HH_SIZE", "Chronic_disYes"),
+    sig_col    = case_when(
+      p.value < 0.05 & !is_core ~ "Significant (p<0.05)",
+      !is_core                   ~ "Non-significant",
+      TRUE                       ~ "Core covariate"
+    )
+  ) %>%
+  arrange(is_core, estimate)
+
+coef_pss_full$term_label <- factor(coef_pss_full$term_label,
+                                   levels = unique(coef_pss_full$term_label))
+
+p_pss_full <- ggplot(coef_pss_full,
+                     aes(x = estimate, y = term_label,
+                         xmin = conf.low, xmax = conf.high,
+                         colour = sig_col, shape = is_core)) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(height = 0.3, linewidth = 0.6) +
+  geom_point(size = 3) +
+  scale_colour_manual(
+    name   = NULL,
+    values = c(
+      "Significant (p<0.05)" = "#c0392b",
+      "Non-significant"      = "grey50",
+      "Core covariate"       = "#2980b9"
+    )
+  ) +
+  scale_shape_manual(
+    name   = NULL,
+    values = c("TRUE" = 17, "FALSE" = 16),
+    labels = c("TRUE" = "Core covariate", "FALSE" = "Focal predictor")
+  ) +
+  labs(
+    title    = "Full PSS Model — All significant predictors (Aim 1 & Aim 2)",
+    subtitle = "Linear regression; outcome: Perceived Stress Score (PSS_TOTAL)",
+    caption  = "Red = p < 0.05  |  Blue triangles = core covariates  |  95% CI shown",
+    x        = "β coefficient (95% CI)",
+    y        = NULL
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    plot.title         = element_text(face = "bold", size = 12),
+    axis.text.y        = element_text(size = 9),
+    panel.grid.major.x = element_line(colour = "grey88", linewidth = 0.3),
+    legend.position    = "bottom"
+  )
+
+p_pss_full
+
+ggsave("./output/figures/10.pss_full_model.png", p_pss_full,
+       width = 9, height = 7, dpi = 300, bg = "white")
+cat("Saved: ./output/figures/10.pss_full_model.png\n")
+```
+
+---
+
+# Section 4: EMO Full Model
+
+## Build and Fit
+
+```{r emo-full-model}
+core_vars_emo <- c("D_AGE", "SES_SC_Total", "D_HH_SIZE", "Chronic_dis",
+                   "PSS_TOTAL", "D_LOC_TIME")
+
+sig_vars_emo_clean <- setdiff(sig_vars_emo, core_vars_emo)
+
+if (length(sig_vars_emo_clean) == 0) {
+  warning("No significant EMO predictors identified. Using SEASON as placeholder.")
+  sig_vars_emo_clean <- "SEASON"
+}
+
+cat("EMO full model predictors (beyond core covariates):\n")
+cat(paste(" -", sig_vars_emo_clean), sep = "\n")
+
+emo_full_formula <- as.formula(
+  paste("EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis +",
+        paste(sig_vars_emo_clean, collapse = " + "))
+)
+
+cat("\nFull EMO formula:\n")
+print(emo_full_formula)
+
+emo_full <- glm(emo_full_formula, data = df, family = binomial, na.action = na.omit)
+cat("\nN =", nobs(emo_full), "\n")
+cat("AIC =", round(AIC(emo_full), 1), "\n")
+```
+
+## Regression Table (EMO)
+
+```{r emo-full-table, results="asis"}
+label_list_emo <- list(
+  D_AGE         ~ "Age (years)",
+  SES_SC_Total  ~ "SES composite score",
+  D_HH_SIZE     ~ "Household size",
+  Chronic_dis   ~ "Chronic disease",
+  PSS_TOTAL     ~ "PSS total score",
+  D_LOC_TIME    ~ "Years in neighborhood",
+  HWISE_REDUCED ~ "HWISE reduced score (0–40)",
+  HRS_PER_WEEK  ~ "Hours of water supply/week",
+  CONT_INT      ~ "Supply continuity (ref: Continuous)",
+  SEASON        ~ "Season (ref: Rainy)",
+  NB_COMP       ~ "Neighborhood comparison (ref: Better)",
+  TIME_WATER    ~ "Excessive time managing water (ref: No)",
+  SUFF_RATING   ~ "Sufficiency rating (1–4)",
+  W_Pressure    ~ "Water pressure (ref: Yes)",
+  W_Frequency   ~ "Supply frequency (ref: Continuous)",
+  W_WS_LOC_F    ~ "Neighborhood water security (ref: Water Secure)"
+)
+
+model_vars_emo <- all.vars(emo_full_formula)
+label_list_emo_filtered <- label_list_emo[
+  sapply(label_list_emo, function(x) as.character(x[[2]]) %in% model_vars_emo)
+]
+
+tbl_emo <- tbl_regression(
+  emo_full,
+  label      = label_list_emo_filtered,
+  conf.int   = TRUE,
+  exponentiate = TRUE
+) %>%
+  bold_p(t = 0.05) %>%
+  italicize_levels() %>%
+  modify_header(estimate ~ "**OR**") %>%
+  modify_caption(
+    "**Full EMO Model**: All significant predictors from Aim 1 & Aim 2"
+  ) %>%
+  modify_footnote(
+    update = everything() ~ paste0(
+      "Logistic regression. Estimates are odds ratios. N = ", nobs(emo_full),
+      ". p-values are unadjusted."
+    )
+  )
+
+tbl_emo
+```
+
+## Coefficient Plot (EMO)
+
+```{r emo-full-plot, fig.width=9, fig.height=7}
+coef_emo_full <- tidy(emo_full, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(
+    term_label = coalesce(readable_terms[term], term),
+    is_core    = term %in% c("D_AGE", "SES_SC_Total", "D_HH_SIZE",
+                              "Chronic_disYes", "PSS_TOTAL"),
+    sig_col    = case_when(
+      p.value < 0.05 & !is_core ~ "Significant (p<0.05)",
+      !is_core                   ~ "Non-significant",
+      TRUE                       ~ "Core covariate"
+    )
+  ) %>%
+  arrange(is_core, estimate)
+
+coef_emo_full$term_label <- factor(coef_emo_full$term_label,
+                                   levels = unique(coef_emo_full$term_label))
+
+p_emo_full <- ggplot(coef_emo_full,
+                     aes(x = estimate, y = term_label,
+                         xmin = conf.low, xmax = conf.high,
+                         colour = sig_col, shape = is_core)) +
+  geom_vline(xintercept = 1, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(height = 0.3, linewidth = 0.6) +
+  geom_point(size = 3) +
+  scale_colour_manual(
+    name   = NULL,
+    values = c(
+      "Significant (p<0.05)" = "#c0392b",
+      "Non-significant"      = "grey50",
+      "Core covariate"       = "#2980b9"
+    )
+  ) +
+  scale_shape_manual(
+    name   = NULL,
+    values = c("TRUE" = 17, "FALSE" = 16),
+    labels = c("TRUE" = "Core covariate", "FALSE" = "Focal predictor")
+  ) +
+  scale_x_log10() +
+  labs(
+    title    = "Full EMO Model — All significant predictors (Aim 1 & Aim 2)",
+    subtitle = "Logistic regression; outcome: Negative water emotion (EMO_NEG)",
+    caption  = "Red = p < 0.05  |  Blue triangles = core covariates  |  95% CI shown\nX-axis on log scale; OR = 1 (dashed line) indicates no association.",
+    x        = "Odds Ratio (95% CI, log scale)",
+    y        = NULL
+  ) +
+  theme_classic(base_size = 11) +
+  theme(
+    plot.title         = element_text(face = "bold", size = 12),
+    axis.text.y        = element_text(size = 9),
+    panel.grid.major.x = element_line(colour = "grey88", linewidth = 0.3),
+    legend.position    = "bottom"
+  )
+
+p_emo_full
+
+ggsave("./output/figures/10.emo_full_model.png", p_emo_full,
+       width = 9, height = 7, dpi = 300, bg = "white")
+cat("Saved: ./output/figures/10.emo_full_model.png\n")
+```
+
+---
+
+# Section 4b: Sensitivity Analysis — HWISE Reduced Score
+
+> **Collinearity note**: Individual HWISE items are highly correlated.
+> Including multiple items in the full model simultaneously may produce
+> inflated standard errors and unstable estimates. This sensitivity analysis
+> substitutes the HWISE reduced composite score (`HWISE_REDUCED`) for any
+> individual HWISE items that appeared in the main full model.
+
+```{r sensitivity-pss}
+# Replace individual HWISE items with HWISE_REDUCED composite
+hwise_item_names <- hwise_items  # the 12 individual items
+
+sig_vars_pss_sens <- sig_vars_pss_clean
+has_hwise_items_pss <- any(sig_vars_pss_sens %in% hwise_item_names)
+
+if (has_hwise_items_pss) {
+  sig_vars_pss_sens <- c(
+    setdiff(sig_vars_pss_sens, hwise_item_names),
+    "HWISE_REDUCED"
+  )
+  cat("PSS sensitivity model: replaced individual HWISE items with HWISE_REDUCED\n")
+} else {
+  cat("PSS sensitivity: no individual HWISE items in main model — unchanged\n")
+}
+
+pss_sens_formula <- as.formula(
+  paste("PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +",
+        paste(sig_vars_pss_sens, collapse = " + "))
+)
+pss_sens <- lm(pss_sens_formula, data = df, na.action = na.omit)
+
+cat("PSS sensitivity model Adj. R² =", round(summary(pss_sens)$adj.r.squared, 3),
+    "| N =", nobs(pss_sens), "\n")
+
+tbl_pss_sens <- tbl_regression(pss_sens, conf.int = TRUE) %>%
+  bold_p(t = 0.05) %>%
+  italicize_levels() %>%
+  modify_caption("**PSS Sensitivity Model**: HWISE composite instead of individual items")
+tbl_pss_sens
+```
+
+```{r sensitivity-emo}
+sig_vars_emo_sens <- sig_vars_emo_clean
+has_hwise_items_emo <- any(sig_vars_emo_sens %in% hwise_item_names)
+
+if (has_hwise_items_emo) {
+  sig_vars_emo_sens <- c(
+    setdiff(sig_vars_emo_sens, hwise_item_names),
+    "HWISE_REDUCED"
+  )
+  cat("EMO sensitivity model: replaced individual HWISE items with HWISE_REDUCED\n")
+} else {
+  cat("EMO sensitivity: no individual HWISE items in main model — unchanged\n")
+}
+
+emo_sens_formula <- as.formula(
+  paste("EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis +",
+        paste(sig_vars_emo_sens, collapse = " + "))
+)
+emo_sens <- glm(emo_sens_formula, data = df, family = binomial, na.action = na.omit)
+
+cat("EMO sensitivity model AIC =", round(AIC(emo_sens), 1),
+    "| N =", nobs(emo_sens), "\n")
+
+tbl_emo_sens <- tbl_regression(emo_sens, conf.int = TRUE, exponentiate = TRUE) %>%
+  bold_p(t = 0.05) %>%
+  italicize_levels() %>%
+  modify_header(estimate ~ "**OR**") %>%
+  modify_caption("**EMO Sensitivity Model**: HWISE composite instead of individual items")
+tbl_emo_sens
+```
+
+---
+
+# Section 4c: Export to Word
+
+```{r export-word}
+# ── Convert gtsummary tables to flextable ─────────────────────────────────────
+ft_pss_full  <- as_flex_table(tbl_pss)
+ft_emo_full  <- as_flex_table(tbl_emo)
+ft_pss_sens  <- as_flex_table(tbl_pss_sens)
+ft_emo_sens  <- as_flex_table(tbl_emo_sens)
+
+# ── Significant predictors summary table ──────────────────────────────────────
+ft_sig_summary <- sig_table %>%
+  flextable() %>%
+  set_header_labels(
+    outcome             = "Outcome",
+    term                = "Predictor term",
+    n_models_significant = "# Models significant",
+    min_p               = "Min p-value",
+    aims                = "Found in"
+  ) %>%
+  colformat_double(j = "min_p", digits = 4) %>%
+  bold(part = "header") %>%
+  theme_booktabs() %>%
+  autofit()
+
+# ── Build Word document ───────────────────────────────────────────────────────
+out_path <- "./output/tables/10.Tables_Full_Models.docx"
+
+doc <- read_docx() %>%
+  # Title
+  body_add_par("10. Full Models: All Significant Predictors", style = "heading 1") %>%
+  body_add_par(paste("Generated:", Sys.Date()), style = "Normal") %>%
+  body_add_par("", style = "Normal") %>%
+
+  # Section 2: Significant predictors
+  body_add_par("Significant Predictors Summary", style = "heading 2") %>%
+  body_add_par(
+    paste0("The following predictors had p < 0.05 (unadjusted focal coefficient) ",
+           "in at least one Aim 1 or Aim 2 adjusted model."),
+    style = "Normal"
+  ) %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_sig_summary) %>%
+  body_add_par("", style = "Normal") %>%
+
+  # Section 3: PSS full model
+  body_add_par("PSS Full Model (Linear Regression)", style = "heading 2") %>%
+  body_add_par(
+    paste0("Outcome: PSS_TOTAL. Core covariates: Age, SES, Household size, ",
+           "Chronic disease. Additional predictors: all terms significant in ",
+           "Aim 1 or Aim 2 PSS models (p < 0.05)."),
+    style = "Normal"
+  ) %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_pss_full) %>%
+  body_add_par("", style = "Normal") %>%
+
+  # Section 4: EMO full model
+  body_add_par("EMO Full Model (Logistic Regression)", style = "heading 2") %>%
+  body_add_par(
+    paste0("Outcome: EMO_NEG (1 = negative emotion). Core covariates: Age, SES, ",
+           "Household size, Chronic disease, PSS_TOTAL. Additional predictors: ",
+           "all terms significant in Aim 1 or Aim 2 EMO models (p < 0.05). ",
+           "Estimates are odds ratios."),
+    style = "Normal"
+  ) %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_emo_full) %>%
+  body_add_par("", style = "Normal") %>%
+
+  # Sensitivity
+  body_add_par("Sensitivity Analysis: HWISE Composite Score", style = "heading 2") %>%
+  body_add_par(
+    paste0("Individual HWISE items are highly correlated. These models replace ",
+           "all individual HWISE items with the HWISE reduced composite score."),
+    style = "Normal"
+  ) %>%
+  body_add_par("PSS Sensitivity Model", style = "heading 3") %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_pss_sens) %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_par("EMO Sensitivity Model", style = "heading 3") %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_emo_sens) %>%
+  body_add_par("", style = "Normal")
+
+print(doc, target = out_path)
+cat("Saved:", out_path, "\n")
+```
+
+---
+
+# Section 5: Session Info
+
+```{r session-info}
+sessionInfo()
+```

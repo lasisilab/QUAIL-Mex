@@ -224,11 +224,71 @@ for (v in ambig_flags$variable) {
 conflicts <- bind_rows(conflict_rows) %>%
   select(ID, variable, value_1, value_2, resolution)
 
-# Uncomment once ready to export:
- write.csv(conflicts, file.path(data_path, "01.conflicts_to_review.csv"),
-           row.names = FALSE)
- 
- head(conflicts)
+# ── Missing / sentinel values in analytic variables ───────────────────────────
+# Variables to scan, with an optional paired notes column for context
+MISSING_CODES_NUM <- c(999, 888, 777, 666, 555, 444, 333)
+
+review_vars_notes <- list(
+  D_AGE        = NA,
+  D_LOC_TIME   = "D_LOC_INFO",
+  HLTH_SMK     = NA,
+  HLTH_TTM     = NA,
+  HLTH_MED     = NA,
+  HLTH_CPAIN   = NA,
+  HLTH_CDIS    = NA,
+  D_CHLD       = NA,
+  D_EMP_TYPE   = NA,
+  SES_EDU_CAT  = NA,
+  SES_EDU_SC   = NA,
+  SES_BTHR_SC  = NA,
+  SES_CAR_SC   = NA,
+  SES_INT_SC   = NA,
+  SES_WRK_SC   = NA,
+  SES_BEDR_SC  = NA
+)
+
+missing_rows <- lapply(names(review_vars_notes), function(v) {
+  notes_col <- review_vars_notes[[v]]
+  if (!v %in% names(df_raw)) return(NULL)
+
+  tmp <- df_raw %>%
+    group_by(ID) %>%
+    slice(1) %>%          # one row per ID (duplicates already handled above)
+    ungroup() %>%
+    mutate(
+      .val     = as.character(.data[[v]]),
+      .val_num = suppressWarnings(as.numeric(.val)),
+      .flag    = is.na(.val_num) | .val_num %in% MISSING_CODES_NUM
+    ) %>%
+    filter(.flag) %>%
+    transmute(
+      ID         = as.character(ID),
+      variable   = v,
+      value_1    = .val,
+      value_2    = if (!is.na(notes_col) && notes_col %in% names(df_raw))
+                     as.character(.data[[notes_col]])
+                   else NA_character_,
+      resolution = NA_character_
+    )
+
+  if (nrow(tmp) > 0) tmp else NULL
+})
+
+missing_conflicts <- bind_rows(Filter(Negate(is.null), missing_rows))
+
+conflicts_all <- bind_rows(conflicts, missing_conflicts) %>%
+  arrange(variable, as.integer(ID))
+
+cat("Missing/sentinel rows added per variable:\n")
+missing_conflicts %>%
+  count(variable) %>%
+  print(n = Inf)
+cat("Total rows in conflicts file:", nrow(conflicts_all), "\n")
+
+write.csv(conflicts_all, file.path(data_path, "01.conflicts_to_review.csv"),
+          row.names = FALSE)
+
+head(conflicts_all)
 ```
 
 ## 3.2. Incorporate resolutions back into dataset and check again

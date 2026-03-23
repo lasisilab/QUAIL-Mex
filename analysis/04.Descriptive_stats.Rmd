@@ -444,7 +444,6 @@ missing_tbl <- df %>%
   ) %>%
   select(label, n_complete, pct_complete,
          n_na, pct_na,
-         n_flagged, pct_flagged,
          n_999, n_888, n_777, n_666, n_555, n_444, n_333) %>%
   arrange(desc(n_na))
 
@@ -479,7 +478,6 @@ missing_tbl_print <- missing_tbl_trimmed %>%
   tab_header(title = "Missing Data Summary") %>%
   tab_spanner(label = "Complete",  columns = c(n_complete, pct_complete)) %>%
   tab_spanner(label = "True NA",   columns = c(n_na, pct_na)) %>%
-  tab_spanner(label = "Flagged",   columns = c(n_flagged, pct_flagged)) %>%
   { if (length(active_sentinel_cols) > 0)
       tab_spanner(., label = "Sentinel code breakdown",
                   columns = all_of(active_sentinel_cols))
@@ -488,7 +486,6 @@ missing_tbl_print <- missing_tbl_trimmed %>%
     label        = "Variable",
     n_complete   = "n", pct_complete = "%",
     n_na         = "n", pct_na       = "%",
-    n_flagged    = "n", pct_flagged  = "%",
     .list        = sentinel_label_list
   ) %>%
   fmt_number(columns = where(is.numeric), decimals = 0) %>%
@@ -1360,9 +1357,9 @@ fmt_docx <- function(tbl) {
 
 tables <- list(
   "04.Table1_sample_characteristics.docx"        = tbl_ms,
-  "04.TableS1_full_descriptives.docx"             = tbl_full,
-  "04.TableS2_HWISE_PSS_by_season.docx"           = tbl_hwise_pss_overall,
-  "04.TableS3_HWISE_PSS_by_neighborhood.docx"     = tbl_s3_by_nbhd
+  "04.Table1_full_descriptives.docx"             = tbl_full,
+  "04.Table2_HWISE_PSS_by_season.docx"           = tbl_hwise_pss_overall,
+  "04.Table3_HWISE_PSS_by_neighborhood.docx"     = tbl_s3_by_nbhd
 )
 
 for (fname in names(tables)) {
@@ -1373,32 +1370,34 @@ for (fname in names(tables)) {
 }
 
 # Missing data table — build flextable directly from data (gt_tbl can't use as_flex_table)
-n_fixed_cols <- 7L   # label + 3×(n, %) pairs
+COL_HDR_MISS  <- "#1A3A5C"   # matches COL_HEADER in other Rmd files
+COL_SUB_MISS  <- "#2E6DA4"   # matches COL_SUBHEAD
+COL_ALT_MISS  <- "#F9F9F9"   # alt row shade (matches COL_NS)
+COL_HIGH_MISS <- "#D5F5E3"   # high-NA highlight (matches COL_SIG palette)
+
+n_fixed_cols <- 5L   # label + 2×(n, %) pairs  [Complete + True NA; Flagged removed]
 n_total_cols  <- n_fixed_cols + length(active_sentinel_cols)
 
-# Row indices where missingness is notable (for conditional highlighting)
+# Row indices with ≥10% true NA (for conditional highlighting)
 rows_high_miss <- which(missing_tbl_trimmed$pct_na >= 10)
-rows_any_flag  <- which(missing_tbl_trimmed$n_flagged > 0)
 
-# Spanner column ranges (1-indexed after "label" col)
+# Spanner column ranges
 cols_complete  <- c("n_complete", "pct_complete")
 cols_na        <- c("n_na",       "pct_na")
-cols_flagged   <- c("n_flagged",  "pct_flagged")
 
 missing_table <- flextable(missing_tbl_trimmed) %>%
   # ── Column labels (bottom header row) ─────────────────────────────────────
   set_header_labels(.list = c(
     list(label        = "Variable",
          n_complete   = "n",  pct_complete = "%",
-         n_na         = "n",  pct_na       = "%",
-         n_flagged    = "n",  pct_flagged  = "%"),
+         n_na         = "n",  pct_na       = "%"),
     sentinel_label_list
   )) %>%
   # ── Spanner row ───────────────────────────────────────────────────────────
   add_header_row(
-    values    = c("", "Complete", "True NA", "Flagged",
+    values    = c("", "Complete", "True NA",
                   if (length(active_sentinel_cols) > 0) "Sentinel codes" else character(0)),
-    colwidths = c(1, 2, 2, 2,
+    colwidths = c(1, 2, 2,
                   if (length(active_sentinel_cols) > 0) length(active_sentinel_cols) else integer(0))
   ) %>%
   # ── Title row ─────────────────────────────────────────────────────────────
@@ -1407,65 +1406,48 @@ missing_table <- flextable(missing_tbl_trimmed) %>%
     colwidths = n_total_cols
   ) %>%
   # ── Typography ────────────────────────────────────────────────────────────
-  font(fontname = "Times New Roman", part = "all") %>%
-  fontsize(size = 10,  part = "all") %>%
+  font(fontname = "Calibri", part = "all") %>%
+  fontsize(size = 9.5, part = "all") %>%
   fontsize(size = 11,  i = 1, part = "header") %>%
   bold(part = "header") %>%
-  bold(i = 1, part = "header", bold = FALSE) %>%   # title not bold — styled via size/italic
+  bold(i = 1, part = "header", bold = FALSE) %>%
   italic(i = 1, part = "header") %>%
-  color(i = 1, color = "#2c2c2c", part = "header") %>%
-  # ── Header background colours (per spanner group) ─────────────────────────
-  bg(i = 2, j = cols_complete, bg = "#d9ead3", part = "header") %>%   # soft green
-  bg(i = 2, j = cols_na,       bg = "#fce5cd", part = "header") %>%   # soft orange
-  bg(i = 2, j = cols_flagged,  bg = "#ffd966", part = "header") %>%   # soft yellow
-  bg(i = 3, j = cols_complete, bg = "#d9ead3", part = "header") %>%
-  bg(i = 3, j = cols_na,       bg = "#fce5cd", part = "header") %>%
-  bg(i = 3, j = cols_flagged,  bg = "#ffd966", part = "header") %>%
-  { if (length(active_sentinel_cols) > 0)
-      bg(., i = 2:3, j = active_sentinel_cols, bg = "#cfe2f3", part = "header")   # soft blue
-    else . } %>%
-  # ── Body: zebra stripe ────────────────────────────────────────────────────
-  bg(i = seq(2, nrow(missing_tbl_trimmed), by = 2), bg = "#f9f9f9", part = "body") %>%
-  # ── Body: highlight rows with ≥10% true NA (orange tint on NA cols) ───────
+  color(i = 1, color = "white", part = "header") %>%
+  color(i = 2:3, color = "white", part = "header") %>%
+  # ── Header background colours ──────────────────────────────────────────────
+  bg(i = 1,   bg = COL_SUB_MISS, part = "header") %>%   # title row
+  bg(i = 2:3, bg = COL_HDR_MISS, part = "header") %>%   # spanner + col labels
+  # ── Body: alternating rows ────────────────────────────────────────────────
+  bg(i = seq(2, nrow(missing_tbl_trimmed), by = 2), bg = COL_ALT_MISS, part = "body") %>%
+  # ── Body: highlight rows with ≥10% true NA ───────────────────────────────
   { if (length(rows_high_miss) > 0)
-      bg(., i = rows_high_miss, j = cols_na, bg = "#f4cccc", part = "body")
-    else . } %>%
-  # ── Body: highlight rows with any flagged values (yellow tint) ────────────
-  { if (length(rows_any_flag) > 0)
-      bg(., i = rows_any_flag, j = cols_flagged, bg = "#fff2cc", part = "body")
+      bg(., i = rows_high_miss, j = cols_na, bg = COL_HIGH_MISS, part = "body")
     else . } %>%
   # ── Borders ───────────────────────────────────────────────────────────────
   border_remove() %>%
-  hline_top(part = "header",
-            border = fp_border(color = "#333333", width = 1.5)) %>%
-  hline(i = 1, part = "header",                     # below title
-        border = fp_border(color = "#aaaaaa", width = 0.5)) %>%
-  hline(i = 2, part = "header",                     # below spanner
-        border = fp_border(color = "#555555", width = 0.75)) %>%
-  hline(i = 3, part = "header",                     # below column labels
-        border = fp_border(color = "#333333", width = 1.0)) %>%
-  hline_bottom(part = "body",
-               border = fp_border(color = "#333333", width = 1.5)) %>%
-  # Light horizontal rule between every body row
-  border(part = "body",
-         border.bottom = fp_border(color = "#dddddd", width = 0.25)) %>%
+  border_outer(border = fp_border(color = COL_HDR_MISS, width = 1.5), part = "all") %>%
+  hline(border = fp_border(color = COL_SUB_MISS, width = 0.5), part = "body") %>%
+  hline(i = 2, part = "header",
+        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %>%
+  hline(i = 3, part = "header",
+        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %>%
   # ── Alignment ─────────────────────────────────────────────────────────────
   align(j = 1,  align = "left",   part = "all") %>%
   align(j = -1, align = "center", part = "all") %>%
   align(i = 1,  align = "left",   part = "header") %>%
   # ── Number formatting ─────────────────────────────────────────────────────
-  colformat_num(j = c("n_complete", "n_na", "n_flagged", active_sentinel_cols),
+  colformat_num(j = c("n_complete", "n_na", active_sentinel_cols),
                 big.mark = ",", digits = 0) %>%
-  colformat_num(j = c("pct_complete", "pct_na", "pct_flagged"), digits = 1) %>%
+  colformat_num(j = c("pct_complete", "pct_na"), digits = 1) %>%
   # ── Footnote ──────────────────────────────────────────────────────────────
   { if (nchar(footnote_text) > 0)
       add_footer_lines(., c(
         paste0("Note. Sentinel codes: ", footnote_text, "."),
-        "Rows are sorted by number of true NAs (descending). True NA \u2265 10% highlighted in red; flagged values highlighted in yellow."
+        "Rows sorted by number of true NAs (descending). True NA \u2265 10% highlighted."
       ))
     else
-      add_footer_lines(., "Rows are sorted by number of true NAs (descending).") } %>%
-  font(fontname = "Times New Roman", part = "footer") %>%
+      add_footer_lines(., "Rows sorted by number of true NAs (descending).") } %>%
+  font(fontname = "Calibri", part = "footer") %>%
   fontsize(size = 9, part = "footer") %>%
   italic(part = "footer") %>%
   color(color = "#555555", part = "footer") %>%
@@ -1484,56 +1466,91 @@ cat("Exported: missing_table.docx\n")
 
 ```{r missing-by-season}
 # ── Missing data by season ──────────────────────────────────────────────────
-# Computes % missing (true NA) for every analytic variable, by SEASON value.
+SEASON_LABELS <- c("0" = "Rainy", "1" = "Dry")
+season_N      <- table(df$SEASON)
+miss_vars     <- setdiff(analytic_cols, "SEASON")
 
-seasons     <- sort(unique(df$SEASON))
-season_N    <- table(df$SEASON)   # n per season
+# ── Chi-square / Fisher test: is_na ~ season, per variable ──────────────────
+miss_pvals <- sapply(miss_vars, function(v) {
+  tbl <- table(is.na(df[[v]]), df$SEASON)
+  if (any(dim(tbl) < 2) || nrow(tbl) < 2) return(NA_real_)
+  tryCatch(
+    if (any(tbl < 5)) fisher.test(tbl)$p.value
+    else              chisq.test(tbl, correct = FALSE)$p.value,
+    error = function(e) NA_real_
+  )
+})
 
+miss_pval_df <- tibble(
+  variable = names(miss_pvals),
+  p_value  = miss_pvals,
+  p_fmt    = case_when(
+    is.na(p_value)  ~ "\u2014",
+    p_value < 0.001 ~ "<0.001",
+    TRUE            ~ sprintf("%.3f", p_value)
+  )
+)
+
+# ── Build wide table: one row per variable, one col per season ───────────────
 missing_by_season <- df %>%
-  select(all_of(analytic_cols)) %>%
-  group_by(SEASON) %>%
-  summarise(across(
-    all_of(setdiff(analytic_cols, "SEASON")),
-    ~ round(mean(is.na(.)) * 100, 1),
-    .names = "{.col}"
-  ), .groups = "drop") %>%
-  mutate(SEASON = paste0(SEASON, " (n=", season_N[as.character(SEASON)], ")")) %>%
-  pivot_longer(-SEASON, names_to = "variable", values_to = "pct_na") %>%
-  pivot_wider(names_from = SEASON, values_from = pct_na) %>%
+  select(SEASON, all_of(miss_vars)) %>%
+  mutate(season_label = paste0(
+    SEASON_LABELS[as.character(SEASON)],
+    " (n=", season_N[as.character(SEASON)], ")"
+  )) %>%
+  group_by(season_label) %>%
+  summarise(across(all_of(miss_vars), ~ round(mean(is.na(.)) * 100, 1)),
+            .groups = "drop") %>%
+  pivot_longer(-season_label, names_to = "variable", values_to = "pct_na") %>%
+  pivot_wider(names_from = season_label, values_from = pct_na) %>%
+  left_join(miss_pval_df, by = "variable") %>%
   mutate(label = var_labels[variable]) %>%
-  select(label, everything(), -variable)
+  select(label, everything(), -variable, -p_value)
 
-season_cols <- setdiff(names(missing_by_season), "label")
+season_cols    <- setdiff(names(missing_by_season), c("label", "p_fmt"))
+n_total_bs_cols <- ncol(missing_by_season)
 
 missing_table_by_season <- flextable(missing_by_season) %>%
-  set_header_labels(label = "Variable") %>%
+  set_header_labels(label = "Variable", p_fmt = "p-value") %>%
   add_header_row(
-    values    = "Missing data by season (% true NA)",
-    colwidths = ncol(missing_by_season)
+    values    = "Table S1.3. Missing data by season (% true NA)",
+    colwidths = n_total_bs_cols
   ) %>%
-  font(fontname = "Times New Roman", part = "all") %>%
-  fontsize(size = 10, part = "all") %>%
+  # ── Typography ──────────────────────────────────────────────────────────────
+  font(fontname = "Calibri", part = "all") %>%
+  fontsize(size = 9.5, part = "all") %>%
   fontsize(size = 11, i = 1, part = "header") %>%
   bold(part = "header") %>%
   bold(i = 1, part = "header", bold = FALSE) %>%
   italic(i = 1, part = "header") %>%
-  color(i = 1, color = "#2c2c2c", part = "header") %>%
-  bg(i = seq(2, nrow(missing_by_season), by = 2), bg = "#f9f9f9", part = "body") %>%
+  color(i = 1:2, color = "white", part = "header") %>%
+  # ── Header colours ──────────────────────────────────────────────────────────
+  bg(i = 1, bg = COL_SUB_MISS, part = "header") %>%
+  bg(i = 2, bg = COL_HDR_MISS, part = "header") %>%
+  # ── Body ────────────────────────────────────────────────────────────────────
+  bg(i = seq(2, nrow(missing_by_season), by = 2), bg = COL_ALT_MISS, part = "body") %>%
+  # ── Borders ─────────────────────────────────────────────────────────────────
   border_remove() %>%
-  hline_top(part = "header", border = fp_border(color = "#333333", width = 1.5)) %>%
-  hline(i = 1, part = "header", border = fp_border(color = "#aaaaaa", width = 0.5)) %>%
-  hline(i = 2, part = "header", border = fp_border(color = "#333333", width = 1.0)) %>%
-  hline_bottom(part = "body",   border = fp_border(color = "#333333", width = 1.5)) %>%
-  border(part = "body", border.bottom = fp_border(color = "#dddddd", width = 0.25)) %>%
+  border_outer(border = fp_border(color = COL_HDR_MISS, width = 1.5), part = "all") %>%
+  hline(border = fp_border(color = COL_SUB_MISS, width = 0.5), part = "body") %>%
+  hline(i = 2, part = "header",
+        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %>%
+  # ── Alignment ───────────────────────────────────────────────────────────────
   align(j = 1,  align = "left",   part = "all") %>%
   align(j = -1, align = "center", part = "all") %>%
   align(i = 1,  align = "left",   part = "header") %>%
+  # ── Number formatting ────────────────────────────────────────────────────────
   colformat_num(j = season_cols, digits = 1) %>%
-  add_footer_lines("Note. Values are percentage of true NAs within each season group.") %>%
-  font(fontname = "Times New Roman", part = "footer") %>%
+  # ── Footnote ────────────────────────────────────────────────────────────────
+  add_footer_lines(c(
+    "Note. Values are percentage of true NAs within each season group.",
+    "p-value from chi-square test (Fisher\u2019s exact if any cell < 5) comparing proportion missing between seasons."
+  )) %>%
+  font(fontname = "Calibri", part = "footer") %>%
   fontsize(size = 9, part = "footer") %>%
   italic(part = "footer") %>%
   color(color = "#555555", part = "footer") %>%
+  # ── Layout ───────────────────────────────────────────────────────────────────
   padding(padding.top = 3, padding.bottom = 3,
           padding.left = 4, padding.right  = 4, part = "all") %>%
   padding(padding.top = 4, padding.bottom = 4, part = "header") %>%

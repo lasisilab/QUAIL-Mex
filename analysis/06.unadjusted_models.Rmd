@@ -1,0 +1,1370 @@
+---
+title: "06. Unadjusted Regression Models"
+author: ""
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: show
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(purrr)
+library(broom)
+library(ggplot2)
+library(gt)
+library(flextable)
+library(officer)
+
+output_dir <- "./output/tables"
+fig_dir    <- "./output/figures"
+dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
+dir.create(fig_dir,    recursive = TRUE, showWarnings = FALSE)
+
+# Group labels for predictor grouping in tables / plots
+group_map <- c(
+  Age = "Demographics", Parity = "Demographics",
+  HH_size = "Demographics",
+  SES_Score = "Socioeconomic", Edu_Score = "Socioeconomic",
+  Employed = "Socioeconomic", Employment_type = "Socioeconomic",
+  Chronic_pain = "Health", Chronic_dis = "Health",
+  PSS_Total = "Health",
+  HWISE_Total = "HWISE", Water_5sub = "HWISE",
+  HWI_5sub_hi = "HWISE", HWISE_Cat = "HWISE", Water_worry = "HWISE",
+  HW_Worry = "HWISE items", HW_Interr = "HWISE items",
+  HW_Clothes = "HWISE items", HW_Plans = "HWISE items",
+  HW_Food = "HWISE items", HW_Hands = "HWISE items",
+  HW_Body = "HWISE items", HW_Drink = "HWISE items",
+  HW_Angry = "HWISE items", HW_Sleep = "HWISE items",
+  HW_None = "HWISE items", HW_Shame = "HWISE items",
+  Season = "Water supply",
+  W_WS_LOC_F = "Water supply", W_Continuity = "Water supply",
+  W_Frequency = "Water supply", W_Days_week = "Water supply",
+  W_Hrs_week = "Water supply", W_Pressure = "Water supply",
+  Yrs_in_nbhd = "Water supply"
+)
+
+group_order <- c("Demographics", "Socioeconomic", "Health",
+                 "HWISE", "HWISE items", "Water supply")
+
+# Significance symbols
+sig_sym <- function(p) {
+  case_when(p < 0.001 ~ "***", p < 0.01 ~ "**", p < 0.05 ~ "*",
+            p < 0.1 ~ "\u2020", TRUE ~ "")
+}
+
+# Publication theme
+pub_theme <- theme_classic(base_size = 11) +
+  theme(
+    plot.title      = element_text(face = "bold", size = 12),
+    axis.text.y     = element_text(size = 9),
+    axis.text.x     = element_text(size = 9),
+    legend.position = "none",
+    strip.text      = element_text(face = "bold", size = 9),
+    strip.background = element_rect(fill = "grey92", colour = NA),
+    panel.grid.major.x = element_line(colour = "grey88", linewidth = 0.3),
+    plot.caption       = element_text(size = 9, colour = "grey40", hjust = 0)
+  )
+
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_for_table <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES | is.na(x_num), NA, x_num)
+}
+
+SENTINEL_STRINGS <- as.character(c(999, 888, 777, 666, 555, 444, 333))
+is_sentinel_str <- function(x) {
+  str_trim(as.character(x)) %in% SENTINEL_STRINGS
+}
+```
+
+---
+
+# Load Data
+
+```{r load-data}
+df <- read.csv("./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv",
+               stringsAsFactors = FALSE,
+               na.strings = c(""))
+
+cat("Dimensions:", dim(df), "\n")
+cat("Participants:", nrow(df), "\n")
+```
+
+---
+
+# Prepare Analytic Dataset
+
+```{r prepare}
+edu_levels <- c(
+  "No formal education",
+  "Incomplete primary (1–5 yrs)",
+  "Complete primary",
+  "Incomplete secondary (7–8 yrs)",
+  "Complete secondary",
+  "Incomplete high school (10–11 yrs)",
+  "Complete high school",
+  "Incomplete university (13–15 yrs)",
+  "Complete university",
+  "Postgraduate"
+)
+
+df_table <- df %>%
+  mutate(
+    Age          = clean_for_table(D_AGE),
+    Yrs_in_nbhd  = clean_for_table(D_LOC_TIME_CLEAN),
+    HH_size      = clean_for_table(D_HH_SIZE),
+    Parity       = clean_for_table(D_CHLD_CLEAN),
+
+    Season = factor(SEASON, levels = c(0, 1), labels = c("Rainy", "Dry")),
+
+    Education = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        "Incomplete primary"     = "Incomplete primary (1–5 yrs)",
+        "Incomplete secondary"   = "Incomplete secondary (7–8 yrs)",
+        "Incomplete high school" = "Incomplete high school (10–11 yrs)",
+        "Incomplete university"  = "Incomplete university (13–15 yrs)"
+      ),
+      levels = edu_levels, ordered = TRUE
+    ),
+    SES_Score       = clean_for_table(SES_SC_Total),
+    Edu_Score       = as.numeric(Education),
+
+    Employed = factor(clean_for_table(D_EMP_CLEAN),
+                      levels = c(0, 1), labels = c("No", "Yes")),
+    Employment_type = factor(clean_for_table(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1), labels = c("Informal", "Formal")),
+
+    Hormonal_tx  = factor(clean_for_table(HLTH_TTM_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+    Medication   = factor(clean_for_table(HLTH_MED_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_pain = factor(clean_for_table(HLTH_CPAIN_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_dis  = factor(clean_for_table(HLTH_CDIS_CAT),
+                          levels = c(0, 1), labels = c("No", "Yes")),
+
+    HWISE_Total  = clean_for_table(HW_TOTAL),
+    Water_worry  = clean_for_table(as.numeric(HW_WORRY_SUB)),
+    Water_5sub   = clean_for_table(HW_MEX_5SUB),
+    HWISE_Cat    = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL))  ~ NA_character_,
+        clean_for_table(HW_TOTAL) <= 3    ~ "Marginal (0-3)",
+        clean_for_table(HW_TOTAL) <= 11   ~ "Low (4-11)",
+        TRUE                              ~ "Moderate/Severe (≥12)"
+      ),
+      levels = c("Marginal (0-3)", "Low (4-11)", "Moderate/Severe (≥12)")
+    ),
+    HWI_5sub_hi = factor(
+      case_when(
+        is.na(Water_5sub) ~ NA_character_,
+        Water_5sub >= 3   ~ "High",
+        TRUE              ~ "Low/none"
+      ),
+      levels = c("Low/none", "High")
+    ),
+
+    HW_Worry   = clean_for_table(HW_WORRY),
+    HW_Interr  = clean_for_table(HW_INTERR),
+    HW_Clothes = clean_for_table(HW_CLOTHES),
+    HW_Plans   = clean_for_table(HW_PLANS),
+    HW_Food    = clean_for_table(HW_FOOD),
+    HW_Hands   = clean_for_table(HW_HANDS),
+    HW_Body    = clean_for_table(HW_BODY),
+    HW_Drink   = clean_for_table(HW_DRINK),
+    HW_Angry   = clean_for_table(HW_ANGRY),
+    HW_Sleep   = clean_for_table(HW_SLEEP),
+    HW_None    = clean_for_table(HW_NONE),
+    HW_Shame   = clean_for_table(HW_SHAME),
+
+    PSS_Total  = clean_for_table(PSS_TOTAL)
+  )
+```
+
+---
+
+# Prepare Water Supply Variables
+
+```{r water-vars}
+df_water <- df %>%
+  mutate(
+    W_Continuity = case_when(
+      is_sentinel_str(MX3_CONT_INT)                             ~ NA_character_,
+      str_detect(tolower(MX3_CONT_INT), "^contin")              ~ "Continuous",
+      str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja") ~ "Intermittent",
+      str_detect(tolower(MX3_CONT_INT), "disminu")              ~ "Reduced pressure/flow",
+      MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)    ~ NA_character_,
+      TRUE                                                       ~ "Other"
+    ),
+    W_Continuity = factor(W_Continuity,
+                          levels = c("Continuous", "Intermittent",
+                                     "Reduced pressure/flow", "Other")),
+
+    W_Freq_raw = coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str(W_Freq_raw)                              ~ NA_character_,
+      str_detect(tolower(W_Freq_raw), "^diari|every day")      ~ "Daily",
+      str_detect(tolower(W_Freq_raw), "^intermi")              ~ "Intermittent",
+      str_detect(tolower(W_Freq_raw), "1 a 3|1-3")            ~ "1–3 days/week",
+      str_detect(tolower(W_Freq_raw), "4 a 6|4-6")            ~ "4–6 days/week",
+      str_detect(tolower(W_Freq_raw), "^contin")               ~ "Continuous",
+      W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)       ~ NA_character_,
+      TRUE                                                      ~ "Other"
+    ),
+    W_Frequency = factor(W_Frequency,
+                         levels = c("Continuous", "Daily", "4–6 days/week",
+                                    "1–3 days/week", "Intermittent", "Other")),
+
+    W_Hrs_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))
+    ),
+    W_Hrs_week = ifelse(W_Hrs_week %in% MISSING_CODES | W_Hrs_week > 168, NA, W_Hrs_week),
+
+    W_Days_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
+             as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
+    ),
+    W_Days_week = ifelse(W_Days_week %in% MISSING_CODES | W_Days_week > 7, NA, W_Days_week),
+
+    W_Pressure = case_when(
+      is_sentinel_str(MX6_WPRESS)                                ~ NA_character_,
+      str_detect(tolower(MX6_WPRESS), "^s[ií]|^yes|^buena|^bien") ~ "Yes",
+      str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")         ~ "No/Low",
+      MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)         ~ NA_character_,
+      TRUE                                                         ~ "Variable"
+    ),
+    W_Pressure = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable")),
+
+    W_WS_LOC_F = factor(W_WS_LOC, levels = c("WS", "WI"),
+                        labels = c("Water Secure", "Water Insecure"))
+  )
+```
+
+---
+
+# Prepare Regression Dataset
+
+```{r uvreg-prepare}
+EMO_raw <- suppressWarnings(as.numeric(as.character(df$MX26_EM_HHW_CAT)))
+EMO_raw <- ifelse(EMO_raw %in% MISSING_CODES, NA, EMO_raw)
+
+df_reg <- df_table %>%
+  mutate(
+    EMO_NEG = case_when(
+      EMO_raw == 0 ~ 0L,
+      EMO_raw == 1 ~ 1L,
+      TRUE         ~ NA_integer_
+    ),
+    W_WS_LOC_F  = df_water$W_WS_LOC_F,
+    W_Continuity = df_water$W_Continuity,
+    W_Frequency  = df_water$W_Frequency,
+    W_Days_week  = df_water$W_Days_week,
+    W_Hrs_week   = df_water$W_Hrs_week,
+    W_Pressure   = df_water$W_Pressure
+  )
+
+# Desired within-group display order (lower number = appears first in plot/table)
+predictor_order <- c(
+  # Demographics
+  Age = 1, Parity = 2, HH_size = 3,
+  # Socioeconomic
+  SES_Score = 1, Edu_Score = 2, Employed = 3, Employment_type = 4,
+  # Health
+  Chronic_pain = 1, Chronic_dis = 2, PSS_Total = 3,
+  # HWISE (Water_worry moved to end)
+  HWISE_Total = 1, Water_5sub = 2, HWI_5sub_hi = 3, HWISE_Cat = 4, Water_worry = 5,
+  # HWISE items
+  HW_Worry = 1, HW_Interr = 2, HW_Clothes = 3, HW_Plans = 4,
+  HW_Food = 5, HW_Hands = 6, HW_Body = 7, HW_Drink = 8,
+  HW_Angry = 9, HW_Sleep = 10, HW_None = 11, HW_Shame = 12,
+  # Water supply
+  Season = 1, W_WS_LOC_F = 2, W_Continuity = 3, W_Frequency = 4,
+  W_Days_week = 5, W_Hrs_week = 6, W_Pressure = 7, Yrs_in_nbhd = 8
+)
+
+# Shared predictor labels
+pred_labels <- c(
+  Age             = "Age (years)",
+  Parity          = "Parity",
+  HH_size         = "Household size",
+  Yrs_in_nbhd    = "Years in neighborhood",
+  Season          = "Season",
+  SES_Score       = "SES composite score",
+  Edu_Score       = "Education (ordinal score)",
+  Employed        = "Employed",
+  Employment_type = "Employment type",
+  Chronic_pain    = "Chronic pain",
+  Chronic_dis     = "Chronic disease",
+  PSS_Total       = "PSS-14 total score",
+  HWISE_Total     = "HWISE total score",
+  Water_5sub      = "5-item subscale (continuous)",
+  HWI_5sub_hi     = "5-item subscale (high \u2265 3)",
+  HWISE_Cat       = "HWISE",
+  Water_worry     = "Water worry subscale",
+  HW_Worry        = "HW1: Worried about water",
+  HW_Interr       = "HW2: Water interrupted",
+  HW_Clothes      = "HW3: Unable to wash clothes",
+  HW_Plans        = "HW4: Changed plans",
+  HW_Food         = "HW5: Unable to prepare food",
+  HW_Hands        = "HW6: Unable to wash hands",
+  HW_Body         = "HW7: Unable to wash body",
+  HW_Drink        = "HW8: No drinking water",
+  HW_Angry        = "HW9: Felt angry",
+  HW_Sleep        = "HW10: Went to sleep thirsty",
+  HW_None         = "HW11: Had no water at all",
+  HW_Shame        = "HW12: Felt shame",
+  W_WS_LOC_F      = "Neighborhood",
+  W_Continuity    = "Supply continuity",
+  W_Frequency     = "Supply frequency",
+  W_Days_week     = "Days of supply per week",
+  W_Hrs_week      = "Hours of supply per week",
+  W_Pressure      = "Adequate water pressure"
+)
+
+# Reference levels for every factor predictor in df_reg
+ref_levels <- sapply(names(df_reg), function(v) {
+  x <- df_reg[[v]]
+  if (is.factor(x)) levels(x)[1] else NA_character_
+})
+
+# Build a display label that appends level & ref for categorical terms
+make_display_label <- function(predictor, term, label) {
+  if (predictor == term) return(label)          # continuous
+  level <- gsub(predictor, "", term, fixed = TRUE)
+  ref   <- ref_levels[predictor]
+  if (!is.na(ref)) {
+    paste0(label, ": ", level, " (ref: ", ref, ")")
+  } else {
+    paste0(label, ": ", level)
+  }
+}
+
+# Helper: unadjusted linear regression
+run_lm_uv <- function(outcome, predictors, data, labels) {
+  map_dfr(predictors, function(v) {
+    dat <- data[, c(outcome, v)]
+    if (v == "W_Pressure") {
+      dat <- dat[is.na(dat[[v]]) | dat[[v]] != "Variable", ]
+      dat[[v]] <- droplevels(dat[[v]])
+    }
+    if (v == "W_Frequency") {
+      dat <- dat[is.na(dat[[v]]) | dat[[v]] != "Other", ]
+      dat[[v]] <- droplevels(dat[[v]])
+    }
+    if (v == "W_Continuity") {
+      dat <- dat[is.na(dat[[v]]) | dat[[v]] != "Other", ]
+      dat[[v]] <- droplevels(dat[[v]])
+    }
+    dat <- dat[complete.cases(dat), ]
+    fit <- tryCatch(
+      lm(as.formula(paste(outcome, "~ .")), data = dat),
+      error = function(e) NULL
+    )
+    if (is.null(fit)) return(NULL)
+    tidy(fit, conf.int = TRUE) %>%
+      filter(term != "(Intercept)") %>%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+# Helper: unadjusted logistic regression
+run_glm_uv <- function(outcome, predictors, data, labels) {
+  map_dfr(predictors, function(v) {
+    dat <- data[, c(outcome, v)]
+    if (v == "W_Pressure") {
+      dat <- dat[is.na(dat[[v]]) | dat[[v]] != "Variable", ]
+      dat[[v]] <- droplevels(dat[[v]])
+    }
+    if (v == "W_Frequency") {
+      dat <- dat[is.na(dat[[v]]) | dat[[v]] != "Other", ]
+      dat[[v]] <- droplevels(dat[[v]])
+    }
+    if (v == "W_Continuity") {
+      dat <- dat[is.na(dat[[v]]) | dat[[v]] != "Other", ]
+      dat[[v]] <- droplevels(dat[[v]])
+    }
+    dat <- dat[complete.cases(dat), ]
+    fit <- tryCatch(
+      glm(as.formula(paste(outcome, "~ .")), data = dat, family = binomial),
+      error = function(e) NULL
+    )
+    if (is.null(fit)) return(NULL)
+    tidy(fit, conf.int = TRUE, exponentiate = TRUE) %>%
+      filter(term != "(Intercept)") %>%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+```
+
+---
+
+# Unadjusted Models: PSS Total Score (linear)
+
+β (95% CI), p-value, BH-adjusted q-value, and AIC per model. Sorted by predictor group then variable order.
+
+```{r uvreg-pss}
+pss_predictors <- c(
+  # Demographics (Age, Parity, HH_size, Yrs_in_nbhd)
+  "Age", "Parity", "HH_size", "Yrs_in_nbhd",
+  # Socioeconomic (SES_Score, Edu_Score, Employed, Employment_type)
+  "SES_Score", "Edu_Score", "Employed", "Employment_type",
+  # Health (no hormonal_tx, no medication)
+  "Chronic_pain", "Chronic_dis",
+  # HWISE (Water_worry at end)
+  "HWISE_Total", "Water_5sub", "HWI_5sub_hi", "HWISE_Cat", "Water_worry",
+  # Water supply
+  "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
+  "W_Days_week", "W_Hrs_week", "W_Pressure"
+)
+
+pss_results <- run_lm_uv("PSS_Total", pss_predictors, df_reg, pred_labels) %>%
+  mutate(
+    q.value       = p.adjust(p.value, method = "BH"),
+    group         = group_map[predictor],
+    group         = factor(group, levels = group_order),
+    var_order     = predictor_order[predictor],
+    display_label = mapply(make_display_label, predictor, term, label)
+  ) %>%
+  arrange(group, var_order)
+
+pss_tbl <- pss_results %>%
+  mutate(
+    `β (95% CI)` = sprintf("%.2f (%.2f, %.2f)", estimate, conf.low, conf.high),
+    sig          = sig_sym(p.value),
+    p_fmt        = case_when(
+      p.value < 0.001 ~ "<0.001",
+      TRUE            ~ sprintf("%.3f", p.value)
+    ),
+    q_fmt = case_when(
+      q.value < 0.001 ~ "<0.001",
+      TRUE            ~ sprintf("%.3f", q.value)
+    ),
+    AIC_r = round(AIC, 1)
+  ) %>%
+  select(display_label, n, `β (95% CI)`, sig, p_fmt, q_fmt, AIC_r, p.value) %>%
+  rename(
+    Variable       = display_label,
+    N              = n,
+    Sig            = sig,
+    `p-value`      = p_fmt,
+    `q-value (BH)` = q_fmt,
+    AIC            = AIC_r
+  )
+```
+
+## Table: PSS (publication-ready)
+
+```{r pss-table-pub}
+pss_sig_rows <- which(pss_tbl$p.value < 0.05)
+
+pss_gt <- pss_tbl %>%
+  select(-p.value) %>%
+  gt() %>%
+  tab_header(
+    title    = md("**Table Unadj1. Unadjusted Linear Regression: Predictors of Perceived Stress Score**"),
+    subtitle = md("Each predictor entered separately as the sole regressor. Grouped by predictor domain.")
+  ) %>%
+  cols_label(
+    Variable       = md("**Predictor**"),
+    N              = md("***n***"),
+    `β (95% CI)`   = md("**β (95% CI)**"),
+    Sig            = md("**Sig.**"),
+    `p-value`      = md("***p***"),
+    `q-value (BH)` = md("***q***"),
+    AIC            = md("**AIC**")
+  ) %>%
+  # Header background
+  tab_style(
+    style     = list(cell_fill(color = "#2c3e50"), cell_text(color = "white", weight = "bold")),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style     = list(cell_fill(color = "#2c3e50"), cell_text(color = "white")),
+    locations = cells_title()
+  ) %>%
+  # Significant rows
+  tab_style(
+    style     = list(cell_fill(color = "#fff3cd"), cell_text(weight = "bold")),
+    locations = cells_body(rows = pss_sig_rows)
+  ) %>%
+  # Centred columns
+  tab_style(
+    style     = cell_text(align = "center"),
+    locations = cells_body(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %>%
+  tab_style(
+    style     = cell_text(align = "center"),
+    locations = cells_column_labels(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %>%
+  cols_width(
+    Variable       ~ px(210),
+    N              ~ px(50),
+    `β (95% CI)`   ~ px(155),
+    Sig            ~ px(48),
+    `p-value`      ~ px(70),
+    `q-value (BH)` ~ px(70),
+    AIC            ~ px(68)
+  ) %>%
+  tab_footnote(
+    footnote = md(
+      "**Highlighted rows:** *p* < 0.05.
+      **Sig.:** \u2020 *p* < 0.10 &nbsp; \\* *p* < 0.05 &nbsp; \\*\\* *p* < 0.01 &nbsp; \\*\\*\\* *p* < 0.001.
+      ***p*-value:** unadjusted two-sided Wald test.
+      ***q*-value (BH):** *p*-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
+      **AIC:** Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome."
+    )
+  ) %>%
+  opt_row_striping(row_striping = TRUE) %>%
+  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) %>%
+  tab_options(
+    table.border.top.color          = "#2c3e50",
+    table.border.top.width          = px(2),
+    table.border.bottom.color       = "#2c3e50",
+    table.border.bottom.width       = px(2),
+    column_labels.border.bottom.color = "#2c3e50",
+    column_labels.border.bottom.width = px(1),
+    row.striping.background_color   = "#f7f9fc",
+    data_row.padding                = px(5),
+    footnotes.font.size             = px(11),
+    heading.title.font.size         = px(14),
+    heading.subtitle.font.size      = px(11),
+    heading.padding                 = px(6)
+  )
+
+pss_gt
+```
+
+## Coefficient Plot: PSS
+
+```{r coef-plot-pss, fig.width=9, fig.height=8}
+plot_df_pss <- pss_results %>%
+  mutate(
+    label_full = factor(display_label,
+                        levels = rev(unique(display_label))),
+    sig        = sig_sym(p.value),
+    n_label    = paste0("n=", n)
+  )
+
+p_pss <- ggplot(plot_df_pss, aes(x = estimate, y = label_full,
+                                  colour = p.value < 0.05)) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
+                 height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(label = sig), nudge_y = 0.25, size = 3.5,
+            fontface = "bold", show.legend = FALSE) +
+  geom_text(aes(x = max(conf.high, na.rm = TRUE) * 1.08,
+                label = n_label),
+            size = 2.8, colour = "grey40", hjust = 0) +
+  facet_grid(group ~ ., scales = "free_y", space = "free_y") +
+  scale_colour_manual(values = c("FALSE" = "grey55", "TRUE" = "#c0392b")) +
+  scale_x_continuous(expand = expansion(mult = c(0.05, 0.18))) +
+  scale_y_discrete(expand = expansion(add = 0.4)) +
+  labs(
+    title   = "Unadjusted Linear Regression — Perceived Stress Score (β)",
+    caption = "Red = p < 0.05  |  Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001",
+    x       = "β coefficient (95% CI)",
+    y       = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.8, "lines"))
+
+p_pss
+
+ggsave(file.path(fig_dir, "06.Unadj_coef_PSS.png"), p_pss,
+       width = 9, height = 8, dpi = 300, bg = "white")
+```
+
+---
+
+# Unadjusted Models: Emotion Type (logistic)
+
+OR (95% CI), p-value, BH-adjusted q-value, and AIC per model.
+Reference: positive emotion (0). Sorted by predictor group then variable order.
+
+```{r uvreg-emo}
+emo_predictors <- c(
+  # Demographics (Age, Parity, HH_size, Yrs_in_nbhd)
+  "Age", "Parity", "HH_size", "Yrs_in_nbhd",
+  # Socioeconomic (SES_Score, Edu_Score, Employed, Employment_type)
+  "SES_Score", "Edu_Score", "Employed", "Employment_type",
+  # Health (no hormonal_tx, no medication)
+  "Chronic_pain", "Chronic_dis", "PSS_Total",
+  # HWISE (Water_worry at end)
+  "HWISE_Total", "Water_5sub", "HWI_5sub_hi", "HWISE_Cat", "Water_worry",
+  # Water supply
+  "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
+  "W_Days_week", "W_Hrs_week", "W_Pressure"
+)
+
+emo_results <- run_glm_uv("EMO_NEG", emo_predictors, df_reg, pred_labels) %>%
+  mutate(
+    q.value       = p.adjust(p.value, method = "BH"),
+    group         = group_map[predictor],
+    group         = factor(group, levels = group_order),
+    var_order     = predictor_order[predictor],
+    display_label = mapply(make_display_label, predictor, term, label)
+  ) %>%
+  arrange(group, var_order)
+
+emo_tbl <- emo_results %>%
+  mutate(
+    `OR (95% CI)` = sprintf("%.2f (%.2f, %.2f)", estimate, conf.low, conf.high),
+    sig           = sig_sym(p.value),
+    p_fmt = case_when(
+      p.value < 0.001 ~ "<0.001",
+      TRUE            ~ sprintf("%.3f", p.value)
+    ),
+    q_fmt = case_when(
+      q.value < 0.001 ~ "<0.001",
+      TRUE            ~ sprintf("%.3f", q.value)
+    ),
+    AIC_r = round(AIC, 1)
+  ) %>%
+  select(display_label, n, `OR (95% CI)`, sig, p_fmt, q_fmt, AIC_r, p.value) %>%
+  rename(
+    Variable       = display_label,
+    N              = n,
+    Sig            = sig,
+    `p-value`      = p_fmt,
+    `q-value (BH)` = q_fmt,
+    AIC            = AIC_r
+  )
+```
+
+## Table: Emotion Type (publication-ready)
+
+```{r emo-table-pub}
+emo_sig_rows <- which(emo_tbl$p.value < 0.05)
+
+emo_gt <- emo_tbl %>%
+  select(-p.value) %>%
+  gt() %>%
+  tab_header(
+    title    = md("**Table Unadj2. Unadjusted Logistic Regression: Predictors of Negative Emotional Response to Water**"),
+    subtitle = md("Each predictor entered separately as the sole regressor. Grouped by predictor domain. Reference category: positive emotional response.")
+  ) %>%
+  cols_label(
+    Variable       = md("**Predictor**"),
+    N              = md("***n***"),
+    `OR (95% CI)`  = md("**OR (95% CI)**"),
+    Sig            = md("**Sig.**"),
+    `p-value`      = md("***p***"),
+    `q-value (BH)` = md("***q***"),
+    AIC            = md("**AIC**")
+  ) %>%
+  tab_style(
+    style     = list(cell_fill(color = "#1a3a5c"), cell_text(color = "white", weight = "bold")),
+    locations = cells_column_labels()
+  ) %>%
+  tab_style(
+    style     = list(cell_fill(color = "#1a3a5c"), cell_text(color = "white")),
+    locations = cells_title()
+  ) %>%
+  tab_style(
+    style     = list(cell_fill(color = "#d6eaf8"), cell_text(weight = "bold")),
+    locations = cells_body(rows = emo_sig_rows)
+  ) %>%
+  tab_style(
+    style     = cell_text(align = "center"),
+    locations = cells_body(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %>%
+  tab_style(
+    style     = cell_text(align = "center"),
+    locations = cells_column_labels(columns = c(N, Sig, `p-value`, `q-value (BH)`, AIC))
+  ) %>%
+  cols_width(
+    Variable       ~ px(210),
+    N              ~ px(50),
+    `OR (95% CI)`  ~ px(155),
+    Sig            ~ px(48),
+    `p-value`      ~ px(70),
+    `q-value (BH)` ~ px(70),
+    AIC            ~ px(68)
+  ) %>%
+  tab_footnote(
+    footnote = md(
+      "**Highlighted rows:** *p* < 0.05.
+      **Sig.:** \u2020 *p* < 0.10 &nbsp; \\* *p* < 0.05 &nbsp; \\*\\* *p* < 0.01 &nbsp; \\*\\*\\* *p* < 0.001.
+      **OR:** Odds ratio from binary logistic regression (outcome = negative emotion = 1 vs. positive = 0); OR > 1 indicates higher odds of negative response.
+      ***p*-value:** unadjusted two-sided Wald test.
+      ***q*-value (BH):** *p*-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
+      **AIC:** Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome."
+    )
+  ) %>%
+  opt_row_striping(row_striping = TRUE) %>%
+  opt_table_font(font = list(google_font("Source Sans Pro"), default_fonts())) %>%
+  tab_options(
+    table.border.top.color          = "#1a3a5c",
+    table.border.top.width          = px(2),
+    table.border.bottom.color       = "#1a3a5c",
+    table.border.bottom.width       = px(2),
+    column_labels.border.bottom.color = "#1a3a5c",
+    column_labels.border.bottom.width = px(1),
+    row.striping.background_color   = "#f4f8fb",
+    data_row.padding                = px(5),
+    footnotes.font.size             = px(11),
+    heading.title.font.size         = px(14),
+    heading.subtitle.font.size      = px(11),
+    heading.padding                 = px(6)
+  )
+
+emo_gt
+```
+
+## Coefficient Plot: Emotion Type (OR scale)
+
+```{r coef-plot-emo, fig.width=9, fig.height=8}
+plot_df_emo <- emo_results %>%
+  mutate(
+    label_full = factor(display_label,
+                        levels = rev(unique(display_label))),
+    sig        = sig_sym(p.value),
+    n_label    = paste0("n=", n)
+  )
+
+p_emo <- ggplot(plot_df_emo, aes(x = estimate, y = label_full,
+                                   colour = p.value < 0.05)) +
+  geom_vline(xintercept = 1, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
+                 height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(label = sig), nudge_y = 0.25, size = 3.5,
+            fontface = "bold", show.legend = FALSE) +
+  geom_text(aes(x = max(conf.high, na.rm = TRUE) * 1.12,
+                label = n_label),
+            size = 2.8, colour = "grey40", hjust = 0) +
+  facet_grid(group ~ ., scales = "free_y", space = "free_y") +
+  scale_colour_manual(values = c("FALSE" = "grey55", "TRUE" = "#2471a3")) +
+  scale_x_log10(expand = expansion(mult = c(0.05, 0.22))) +
+  scale_y_discrete(expand = expansion(add = 0.4)) +
+  labs(
+    title   = stringr::str_wrap("Unadjusted Logistic Regression — Negative Emotional Response (OR)", width = 55),
+    caption = "Blue = p < 0.05  |  Log scale  |  Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001",
+    x       = "Odds Ratio (95% CI, log scale)",
+    y       = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.8, "lines"))
+
+p_emo
+
+ggsave(file.path(fig_dir, "06.Unadj_coef_EMO.png"), p_emo,
+       width = 9, height = 8, dpi = 300, bg = "white")
+```
+
+---
+
+# Export to Word
+
+```{r uvreg-export}
+header_border <- fp_border(color = "#2c3e50", width = 1.5)
+thin_border   <- fp_border(color = "#bdc3c7", width = 0.5)
+
+make_uv_flextable <- function(tbl, sig_rows, title_str, footnote_str,
+                               hi_color = "#fff3cd") {
+  nrow_tbl <- nrow(tbl) - 1  # exclude p.value col placeholder
+
+  tbl %>%
+    select(-p.value) %>%
+    flextable() %>%
+    set_header_labels(
+      Variable       = "Predictor",
+      N              = "n",
+      Sig            = "Sig.",
+      `p-value`      = "p-value",
+      `q-value (BH)` = "q-value (BH)",
+      AIC            = "AIC"
+    ) %>%
+    # Title row above header
+    add_header_lines(title_str) %>%
+    # Fonts
+    font(fontname = "Calibri", part = "all") %>%
+    fontsize(size = 10, part = "body") %>%
+    fontsize(size = 10, part = "header") %>%
+    fontsize(size = 9,  part = "footer") %>%
+    # Header styling
+    bold(part = "header") %>%
+    color(part = "header", color = "white") %>%
+    bg(part = "header", bg = "#2c3e50") %>%
+    # Title row styling (first header row = title)
+    fontsize(i = 1, part = "header", size = 11) %>%
+    bold(i = 1, part = "header") %>%
+    # Alternating row shading
+    bg(i = seq(2, nrow(tbl %>% select(-p.value)), by = 2),
+       bg = "#f4f6f9", part = "body") %>%
+    # Significant row highlight
+    bold(i = sig_rows) %>%
+    bg(i = sig_rows, bg = hi_color) %>%
+    color(i = sig_rows, color = "#7d3c00") %>%
+    # Borders
+    border_remove() %>%
+    hline_top(part = "header", border = header_border) %>%
+    hline_bottom(part = "header", border = header_border) %>%
+    hline_bottom(part = "body",   border = header_border) %>%
+    hline(border = thin_border, part = "body") %>%
+    # Alignment
+    align(j = ~ N + Sig + `p-value` + `q-value (BH)` + AIC,
+          align = "center", part = "all") %>%
+    align(j = ~ Variable, align = "left", part = "all") %>%
+    # Column widths (inches for Word)
+    width(j = "Variable",       width = 2.8) %>%
+    width(j = "N",              width = 0.4) %>%
+    width(j = 3,                width = 1.8) %>%  # β or OR col
+    width(j = "Sig",            width = 0.4) %>%
+    width(j = "p-value",        width = 0.7) %>%
+    width(j = "q-value (BH)",   width = 0.8) %>%
+    width(j = "AIC",            width = 0.6) %>%
+    # Footer
+    add_footer_lines(footnote_str) %>%
+    italic(part = "footer") %>%
+    color(part = "footer", color = "#555555") %>%
+    set_table_properties(layout = "fixed")
+}
+
+pss_footnote <- paste0(
+  "Highlighted rows: p < 0.05 (shown in amber). ",
+  "Sig.: \u2020 p<0.10, * p<0.05, ** p<0.01, *** p<0.001. ",
+  "p-value: unadjusted two-sided Wald test. ",
+  "q-value (BH): p-value corrected for multiple comparisons using the ",
+  "Benjamini-Hochberg false discovery rate (FDR) procedure across all predictors ",
+  "in this table. A q-value < 0.05 indicates the result is expected to remain ",
+  "significant while controlling the FDR at 5%. ",
+  "AIC: Akaike Information Criterion; lower = better fit."
+)
+
+emo_footnote <- paste0(
+  "Highlighted rows: p < 0.05 (shown in blue). ",
+  "OR: odds ratio from binary logistic regression (outcome: negative emotion = 1 ",
+  "vs. positive = 0); OR > 1 indicates higher odds of negative emotional response. ",
+  "Sig.: \u2020 p<0.10, * p<0.05, ** p<0.01, *** p<0.001. ",
+  "p-value: unadjusted two-sided Wald test. ",
+  "q-value (BH): p-value corrected for multiple comparisons using the ",
+  "Benjamini-Hochberg false discovery rate (FDR) procedure across all predictors ",
+  "in this table. A q-value < 0.05 indicates the result is expected to remain ",
+  "significant while controlling the FDR at 5%. ",
+  "AIC: Akaike Information Criterion; lower = better fit."
+)
+
+pss_ft <- make_uv_flextable(
+  pss_tbl, pss_sig_rows,
+  title_str   = "Table Unadj1. Unadjusted Linear Regression: Predictors of Perceived Stress Score",
+  footnote_str = pss_footnote,
+  hi_color    = "#fff3cd"
+)
+
+emo_ft <- make_uv_flextable(
+  emo_tbl, emo_sig_rows,
+  title_str   = "Table Unadj2. Unadjusted Logistic Regression: Predictors of Negative Emotional Response to Water",
+  footnote_str = emo_footnote,
+  hi_color    = "#d6eaf8"
+)
+
+portrait_sec_uv <- prop_section(
+  page_size    = page_size(orient = "portrait"),
+  page_margins = page_mar(top = 0.8, bottom = 0.8, left = 0.9, right = 0.9)
+)
+
+combined_outpath <- file.path(output_dir, "06.Tables_Unadjusted_Models.docx")
+
+doc_combined <- read_docx() %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(pss_ft) %>%
+  body_add_break(pos = "after") %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(emo_ft)
+
+cat("Compact tables built; forest plot tables will be appended in unadj-forest-tables-export.\n")
+```
+
+---
+
+# Forest Plot Tables (Publication-Ready)
+
+```{r unadj-forest-helpers}
+# ── Colour palette ────────────────────────────────────────────────────────────
+COL_HEADER  <- "#1A3A5C"
+COL_SUBHEAD <- "#2E6DA4"
+COL_SIG     <- "#D5F5E3"   # BH-significant rows
+COL_NS      <- "#F9F9F9"
+COL_GROUP   <- "#EAF2FB"   # group header rows
+
+# ── Helper functions ──────────────────────────────────────────────────────────
+p_fmt_uv <- function(p) {
+  case_when(is.na(p) ~ "—", p < 0.001 ~ "<0.001", TRUE ~ sprintf("%.3f", p))
+}
+
+is_sig_uv <- function(p_str) {
+  suppressWarnings(as.numeric(gsub("<0.001", "0.0005", p_str))) < 0.05
+}
+
+# ── Variable ordering / grouping ──────────────────────────────────────────────
+uv_group_order <- c("Demographics", "Socioeconomic", "Health",
+                    "HWISE", "HWISE items", "Water supply")
+
+uv_predictor_order <- c(
+  Age = 1, Parity = 2, HH_size = 3,
+  SES_Score = 1, Edu_Score = 2, Employed = 3, Employment_type = 4,
+  Chronic_pain = 1, Chronic_dis = 2, PSS_Total = 3,
+  HWISE_Total = 1, Water_5sub = 2, HWI_5sub_hi = 3, HWISE_Cat = 4, Water_worry = 5,
+  HW_Worry = 1, HW_Interr = 2, HW_Clothes = 3, HW_Plans = 4,
+  HW_Food = 5, HW_Hands = 6, HW_Body = 7, HW_Drink = 8,
+  HW_Angry = 9, HW_Sleep = 10, HW_None = 11, HW_Shame = 12,
+  Season = 1, W_WS_LOC_F = 2, W_Continuity = 3, W_Frequency = 4,
+  W_Days_week = 5, W_Hrs_week = 6, W_Pressure = 7, Yrs_in_nbhd = 8
+)
+
+uv_pred_labels <- c(
+  Age             = "Age (years)",
+  Parity          = "Parity",
+  HH_size         = "Household size",
+  Yrs_in_nbhd     = "Years in neighborhood",
+  Season          = "Season",
+  SES_Score       = "SES composite score",
+  Edu_Score       = "Education (ordinal score)",
+  Employed        = "Employed",
+  Employment_type = "Employment type",
+  Chronic_pain    = "Chronic pain",
+  Chronic_dis     = "Chronic disease",
+  PSS_Total       = "PSS-14 total score",
+  HWISE_Total     = "HWISE total score",
+  Water_5sub      = "5-item subscale (continuous)",
+  HWI_5sub_hi     = "5-item subscale (high \u2265 3)",
+  HWISE_Cat       = "HWISE",
+  Water_worry     = "Water worry subscale",
+  HW_Worry        = "HW1: Worried about water",
+  HW_Interr       = "HW2: Water interrupted",
+  HW_Clothes      = "HW3: Unable to wash clothes",
+  HW_Plans        = "HW4: Changed plans",
+  HW_Food         = "HW5: Unable to prepare food",
+  HW_Hands        = "HW6: Unable to wash hands",
+  HW_Body         = "HW7: Unable to wash body",
+  HW_Drink        = "HW8: No drinking water",
+  HW_Angry        = "HW9: Felt angry",
+  HW_Sleep        = "HW10: Went to sleep thirsty",
+  HW_None         = "HW11: Had no water at all",
+  HW_Shame        = "HW12: Felt shame",
+  W_WS_LOC_F      = "Neighborhood",
+  W_Continuity    = "Supply continuity",
+  W_Frequency     = "Supply frequency",
+  W_Days_week     = "Days of supply per week",
+  W_Hrs_week      = "Hours of supply per week",
+  W_Pressure      = "Adequate water pressure"
+)
+```
+
+```{r unadj-forest-data}
+# ── Load & prepare data for forest plot tables ─────────────────────────────
+MISSING_CODES_UV    <- c(999, 888, 777, 666, 555, 444, 333)
+SENTINEL_STRINGS_UV <- as.character(MISSING_CODES_UV)
+
+clean_for_table_uv <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES_UV | is.na(x_num), NA, x_num)
+}
+is_sentinel_str_uv <- function(x) stringr::str_trim(as.character(x)) %in% SENTINEL_STRINGS_UV
+
+df_raw_uv <- read.csv("./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv",
+                      stringsAsFactors = FALSE, na.strings = c(""))
+
+edu_levels_uv <- c(
+  "No formal education", "Incomplete primary (1–5 yrs)", "Complete primary",
+  "Incomplete secondary (7–8 yrs)", "Complete secondary",
+  "Incomplete high school (10–11 yrs)", "Complete high school",
+  "Incomplete university (13–15 yrs)", "Complete university", "Postgraduate"
+)
+
+df_table_uv <- df_raw_uv %>%
+  mutate(
+    Age         = clean_for_table_uv(D_AGE),
+    Yrs_in_nbhd = clean_for_table_uv(D_LOC_TIME_CLEAN),
+    HH_size     = clean_for_table_uv(D_HH_SIZE),
+    Parity      = clean_for_table_uv(D_CHLD_CLEAN),
+    Season      = factor(SEASON, levels = c(0, 1), labels = c("Rainy", "Dry")),
+    Education = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        "Incomplete primary"     = "Incomplete primary (1–5 yrs)",
+        "Incomplete secondary"   = "Incomplete secondary (7–8 yrs)",
+        "Incomplete high school" = "Incomplete high school (10–11 yrs)",
+        "Incomplete university"  = "Incomplete university (13–15 yrs)"
+      ),
+      levels = edu_levels_uv, ordered = TRUE
+    ),
+    SES_Score       = clean_for_table_uv(SES_SC_Total),
+    Edu_Score       = as.numeric(Education),
+    Employed        = factor(clean_for_table_uv(D_EMP_CLEAN),
+                             levels = c(0, 1), labels = c("No", "Yes")),
+    Employment_type = factor(clean_for_table_uv(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1), labels = c("Informal", "Formal")),
+    Chronic_pain    = factor(clean_for_table_uv(HLTH_CPAIN_CAT),
+                             levels = c(0, 1), labels = c("No", "Yes")),
+    Chronic_dis     = factor(clean_for_table_uv(HLTH_CDIS_CAT),
+                             levels = c(0, 1), labels = c("No", "Yes")),
+    HWISE_Total = clean_for_table_uv(HW_TOTAL),
+    Water_worry = clean_for_table_uv(as.numeric(HW_WORRY_SUB)),
+    Water_5sub  = clean_for_table_uv(HW_MEX_5SUB),
+    HWISE_Cat   = factor(
+      case_when(
+        is.na(clean_for_table_uv(HW_TOTAL))  ~ NA_character_,
+        clean_for_table_uv(HW_TOTAL) <= 3    ~ "Marginal (0-3)",
+        clean_for_table_uv(HW_TOTAL) <= 11   ~ "Low (4-11)",
+        TRUE                                  ~ "Moderate/Severe (\u226512)"
+      ),
+      levels = c("Marginal (0-3)", "Low (4-11)", "Moderate/Severe (\u226512)")
+    ),
+    HWI_5sub_hi = factor(
+      case_when(
+        is.na(Water_5sub) ~ NA_character_,
+        Water_5sub >= 3   ~ "High",
+        TRUE              ~ "Low/none"
+      ),
+      levels = c("Low/none", "High")
+    ),
+    HW_Worry   = clean_for_table_uv(HW_WORRY),
+    HW_Interr  = clean_for_table_uv(HW_INTERR),
+    HW_Clothes = clean_for_table_uv(HW_CLOTHES),
+    HW_Plans   = clean_for_table_uv(HW_PLANS),
+    HW_Food    = clean_for_table_uv(HW_FOOD),
+    HW_Hands   = clean_for_table_uv(HW_HANDS),
+    HW_Body    = clean_for_table_uv(HW_BODY),
+    HW_Drink   = clean_for_table_uv(HW_DRINK),
+    HW_Angry   = clean_for_table_uv(HW_ANGRY),
+    HW_Sleep   = clean_for_table_uv(HW_SLEEP),
+    HW_None    = clean_for_table_uv(HW_NONE),
+    HW_Shame   = clean_for_table_uv(HW_SHAME),
+    PSS_Total  = clean_for_table_uv(PSS_TOTAL)
+  )
+
+df_water_uv <- df_raw_uv %>%
+  mutate(
+    W_Continuity = case_when(
+      is_sentinel_str_uv(MX3_CONT_INT)                             ~ NA_character_,
+      stringr::str_detect(tolower(MX3_CONT_INT), "^contin")        ~ "Continuous",
+      stringr::str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja") ~ "Intermittent",
+      stringr::str_detect(tolower(MX3_CONT_INT), "disminu")        ~ "Reduced pressure/flow",
+      MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)       ~ NA_character_,
+      TRUE                                                          ~ "Other"
+    ),
+    W_Continuity = factor(W_Continuity,
+                          levels = c("Continuous", "Intermittent",
+                                     "Reduced pressure/flow", "Other")),
+    W_Freq_raw  = dplyr::coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str_uv(W_Freq_raw)                               ~ NA_character_,
+      stringr::str_detect(tolower(W_Freq_raw), "^diari|every day") ~ "Daily",
+      stringr::str_detect(tolower(W_Freq_raw), "^intermi")         ~ "Intermittent",
+      stringr::str_detect(tolower(W_Freq_raw), "1 a 3|1-3")        ~ "1\u20133 days/week",
+      stringr::str_detect(tolower(W_Freq_raw), "4 a 6|4-6")        ~ "4\u20136 days/week",
+      stringr::str_detect(tolower(W_Freq_raw), "^contin")          ~ "Continuous",
+      W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)           ~ NA_character_,
+      TRUE                                                          ~ "Other"
+    ),
+    W_Frequency = factor(W_Frequency,
+                         levels = c("Continuous", "Daily", "4\u20136 days/week",
+                                    "1\u20133 days/week", "Intermittent", "Other")),
+    W_Hrs_week  = suppressWarnings(
+      ifelse(is_sentinel_str_uv(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(stringr::str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))),
+    W_Hrs_week  = ifelse(W_Hrs_week %in% MISSING_CODES_UV | W_Hrs_week > 168, NA, W_Hrs_week),
+    W_Days_week = suppressWarnings(
+      ifelse(is_sentinel_str_uv(MX5_WFREQ_NDAYS), NA,
+             as.numeric(stringr::str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))),
+    W_Days_week = ifelse(W_Days_week %in% MISSING_CODES_UV | W_Days_week > 7, NA, W_Days_week),
+    W_Pressure  = case_when(
+      is_sentinel_str_uv(MX6_WPRESS)                                     ~ NA_character_,
+      stringr::str_detect(tolower(MX6_WPRESS), "^s[i\u00ed]|^yes|^buena|^bien") ~ "Yes",
+      stringr::str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")        ~ "No/Low",
+      MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)                 ~ NA_character_,
+      TRUE                                                                 ~ "Variable"
+    ),
+    W_Pressure  = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable")),
+    W_WS_LOC_F  = factor(W_WS_LOC, levels = c("WS", "WI"),
+                         labels = c("Water Secure", "Water Insecure"))
+  )
+
+EMO_raw_uv <- suppressWarnings(as.numeric(as.character(df_raw_uv$MX26_EM_HHW_CAT)))
+EMO_raw_uv <- ifelse(EMO_raw_uv %in% MISSING_CODES_UV, NA, EMO_raw_uv)
+
+df_reg_uv <- df_table_uv %>%
+  mutate(
+    EMO_NEG      = case_when(EMO_raw_uv == 0 ~ 0L, EMO_raw_uv == 1 ~ 1L, TRUE ~ NA_integer_),
+    W_WS_LOC_F   = df_water_uv$W_WS_LOC_F,
+    W_Continuity = df_water_uv$W_Continuity,
+    W_Frequency  = df_water_uv$W_Frequency,
+    W_Days_week  = df_water_uv$W_Days_week,
+    W_Hrs_week   = df_water_uv$W_Hrs_week,
+    W_Pressure   = df_water_uv$W_Pressure
+  )
+
+ref_levels_uv <- sapply(names(df_reg_uv), function(v) {
+  x <- df_reg_uv[[v]]
+  if (is.factor(x)) levels(x)[1] else NA_character_
+})
+
+make_display_label_uv <- function(predictor, term, label) {
+  if (predictor == term) return(label)
+  level <- gsub(predictor, "", term, fixed = TRUE)
+  ref   <- ref_levels_uv[predictor]
+  if (!is.na(ref)) paste0(label, ": ", level, " (ref: ", ref, ")")
+  else             paste0(label, ": ", level)
+}
+```
+
+```{r unadj-forest-models}
+# ── Regression runners ────────────────────────────────────────────────────────
+run_lm_uv_fp <- function(outcome, predictors, data, labels) {
+  purrr::map_dfr(predictors, function(v) {
+    dat <- data[, c(outcome, v)]
+    for (drop_lvl in c("Variable", "Other")) {
+      if (v %in% c("W_Pressure", "W_Frequency", "W_Continuity") &&
+          drop_lvl %in% levels(dat[[v]])) {
+        dat <- dat[is.na(dat[[v]]) | dat[[v]] != drop_lvl, ]
+        dat[[v]] <- droplevels(dat[[v]])
+      }
+    }
+    dat <- dat[complete.cases(dat), ]
+    fit <- tryCatch(lm(as.formula(paste(outcome, "~ .")), data = dat), error = function(e) NULL)
+    if (is.null(fit)) return(NULL)
+    broom::tidy(fit, conf.int = TRUE) %>%
+      filter(term != "(Intercept)") %>%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+run_glm_uv_fp <- function(outcome, predictors, data, labels) {
+  purrr::map_dfr(predictors, function(v) {
+    dat <- data[, c(outcome, v)]
+    for (drop_lvl in c("Variable", "Other")) {
+      if (v %in% c("W_Pressure", "W_Frequency", "W_Continuity") &&
+          drop_lvl %in% levels(dat[[v]])) {
+        dat <- dat[is.na(dat[[v]]) | dat[[v]] != drop_lvl, ]
+        dat[[v]] <- droplevels(dat[[v]])
+      }
+    }
+    dat <- dat[complete.cases(dat), ]
+    fit <- tryCatch(glm(as.formula(paste(outcome, "~ .")), data = dat, family = binomial),
+                    error = function(e) NULL)
+    if (is.null(fit)) return(NULL)
+    broom::tidy(fit, conf.int = TRUE, exponentiate = TRUE) %>%
+      filter(term != "(Intercept)") %>%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+pss_predictors_fp <- c(
+  "Age", "Parity", "HH_size", "Yrs_in_nbhd",
+  "SES_Score", "Edu_Score", "Employed", "Employment_type",
+  "Chronic_pain", "Chronic_dis",
+  "HWISE_Total", "Water_5sub", "HWI_5sub_hi", "HWISE_Cat", "Water_worry",
+  "HW_Worry", "HW_Interr", "HW_Clothes", "HW_Plans", "HW_Food",
+  "HW_Hands", "HW_Body", "HW_Drink", "HW_Angry", "HW_Sleep",
+  "HW_None", "HW_Shame",
+  "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
+  "W_Days_week", "W_Hrs_week", "W_Pressure"
+)
+
+emo_predictors_fp <- c(
+  "Age", "Parity", "HH_size", "Yrs_in_nbhd",
+  "SES_Score", "Edu_Score", "Employed", "Employment_type",
+  "Chronic_pain", "Chronic_dis", "PSS_Total",
+  "HWISE_Total", "Water_5sub", "HWI_5sub_hi", "HWISE_Cat", "Water_worry",
+  "HW_Worry", "HW_Interr", "HW_Clothes", "HW_Plans", "HW_Food",
+  "HW_Hands", "HW_Body", "HW_Drink", "HW_Angry", "HW_Sleep",
+  "HW_None", "HW_Shame",
+  "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
+  "W_Days_week", "W_Hrs_week", "W_Pressure"
+)
+
+pss_results_fp <- run_lm_uv_fp("PSS_Total", pss_predictors_fp, df_reg_uv, uv_pred_labels) %>%
+  mutate(
+    q.value       = p.adjust(p.value, method = "BH"),
+    group         = group_map[predictor],
+    group         = factor(group, levels = uv_group_order),
+    var_order     = uv_predictor_order[predictor],
+    display_label = mapply(make_display_label_uv, predictor, term, label),
+    est_ci        = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
+    p_fmt         = p_fmt_uv(p.value),
+    q_fmt         = p_fmt_uv(q.value)
+  ) %>%
+  arrange(group, var_order)
+
+emo_results_fp <- run_glm_uv_fp("EMO_NEG", emo_predictors_fp, df_reg_uv, uv_pred_labels) %>%
+  mutate(
+    q.value       = p.adjust(p.value, method = "BH"),
+    group         = group_map[predictor],
+    group         = factor(group, levels = uv_group_order),
+    var_order     = uv_predictor_order[predictor],
+    display_label = mapply(make_display_label_uv, predictor, term, label),
+    est_ci        = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
+    p_fmt         = p_fmt_uv(p.value),
+    q_fmt         = p_fmt_uv(q.value)
+  ) %>%
+  arrange(group, var_order)
+```
+
+```{r unadj-forest-table-builder}
+insert_group_headers_uv <- function(df, group_col = "Group") {
+  groups <- unique(df[[group_col]])
+  purrr::map_dfr(groups, function(g) {
+    rows       <- df[df[[group_col]] == g, ]
+    header_row <- rows[1, ]
+    for (col in names(header_row)) header_row[[col]] <- NA
+    header_row[[group_col]]   <- g
+    header_row[["Predictor"]] <- g
+    bind_rows(header_row, rows)
+  })
+}
+
+build_uv_ft <- function(results, outcome_label, est_col_label,
+                         footnote_txt, is_logistic = FALSE) {
+  tbl_data <- results %>%
+    transmute(
+      Group     = as.character(group),
+      Predictor = display_label,
+      N         = n,
+      est_ci    = est_ci,
+      AIC       = round(AIC, 1),
+      p_fmt     = p_fmt,
+      q_fmt     = q_fmt,
+      p_raw     = p.value,
+      q_raw     = q.value
+    )
+
+  tbl_with_headers <- insert_group_headers_uv(tbl_data) %>%
+    select(-Group)
+
+  data <- tbl_with_headers
+
+  grp_rows  <- which(is.na(data$est_ci) | data$est_ci == "")
+  sig_rows  <- which(!data$q_fmt %in% c("—", NA) & is_sig_uv(data$q_fmt))
+  nsig_rows <- setdiff(seq_len(nrow(data)), sig_rows)
+  sig_coef  <- which(!data$p_fmt %in% c("—", NA) &
+                       suppressWarnings(as.numeric(gsub("<", "0", data$p_fmt))) < 0.05)
+
+  ft <- data %>%
+    select(Predictor, N, est_ci, AIC, p_fmt, q_fmt) %>%
+    flextable() %>%
+    set_header_labels(
+      Predictor = "Predictor",
+      N         = "N",
+      est_ci    = est_col_label,
+      AIC       = "AIC",
+      p_fmt     = "p-value",
+      q_fmt     = "q-value (BH)"
+    ) %>%
+    add_header_lines(outcome_label) %>%
+    bg(bg = COL_SUBHEAD, i = 1, part = "header") %>%
+    color(color = "white", i = 1, part = "header") %>%
+    bold(i = 1, part = "header") %>%
+    fontsize(i = 1, part = "header", size = 11) %>%
+    bg(bg = COL_HEADER, i = 2, part = "header") %>%
+    color(color = "white", i = 2, part = "header") %>%
+    bold(i = 2, part = "header") %>%
+    fontsize(i = 2, part = "header", size = 10) %>%
+    bg(i = sig_rows,  bg = COL_SIG,   part = "body") %>%
+    bg(i = nsig_rows, bg = COL_NS,    part = "body") %>%
+    bg(i = grp_rows,  bg = COL_GROUP, part = "body") %>%
+    bold(i = grp_rows, part = "body") %>%
+    color(i = sig_coef, j = "p_fmt", color = "#1A5276") %>%
+    bold( i = sig_coef, j = "p_fmt") %>%
+    color(i = sig_rows,  j = "q_fmt", color = "#1E8449") %>%
+    bold( i = sig_rows,  j = "q_fmt") %>%
+    color(i = nsig_rows, j = "q_fmt", color = "grey55") %>%
+    border_outer(border = fp_border(color = COL_HEADER, width = 1.5), part = "all") %>%
+    hline(border = fp_border(color = COL_SUBHEAD, width = 0.5), part = "body") %>%
+    align(j = c("N", "AIC", "p_fmt", "q_fmt"), align = "center", part = "all") %>%
+    align(j = "est_ci", align = "right", part = "body") %>%
+    font(fontname = "Calibri", part = "all") %>%
+    fontsize(size = 9.5, part = "body") %>%
+    add_footer_lines(footnote_txt) %>%
+    color(color = "grey40", part = "footer") %>%
+    fontsize(size = 8, part = "footer") %>%
+    italic(part = "footer") %>%
+    autofit()
+
+  ft
+}
+```
+
+```{r unadj-forest-tables-export}
+pss_footnote_fp <- paste0(
+  "Each predictor entered in a separate unadjusted linear regression model. ",
+  "Predictor groups: Demographics (Age, Parity, Household size, Years in neighborhood); ",
+  "Socioeconomic (SES composite score, Education, Employed, Employment type); ",
+  "Health (Chronic pain, Chronic disease); ",
+  "HWISE (total score, 5-item subscale variants, HWISE categorical, Water worry subscale); ",
+  "HWISE items (each item separately); Water supply variables. ",
+  "\u03b2 = unstandardised regression coefficient; 95% CI = confidence interval. ",
+  "AIC = Akaike Information Criterion (lower = better fit). ",
+  "p-value: unadjusted two-sided Wald test. ",
+  "q-value (BH): p-value adjusted for multiple comparisons using the Benjamini\u2013Hochberg ",
+  "false discovery rate procedure across all predictors for this outcome. ",
+  "Green rows: BH-adjusted q < 0.05. Bold blue: unadjusted p < 0.05."
+)
+
+emo_footnote_fp <- paste0(
+  "Each predictor entered in a separate unadjusted logistic regression model. ",
+  "Outcome: negative water-related emotion (1) vs. positive (0). ",
+  "Predictor groups: Demographics (Age, Parity, Household size, Years in neighborhood); ",
+  "Socioeconomic (SES composite score, Education, Employed, Employment type); ",
+  "Health (Chronic pain, Chronic disease, PSS total); ",
+  "HWISE (total score, 5-item subscale variants, HWISE categorical, Water worry subscale); ",
+  "HWISE items (each item separately); Water supply variables. ",
+  "OR = odds ratio; 95% CI = confidence interval. OR > 1 = higher odds of negative response. ",
+  "AIC = Akaike Information Criterion (lower = better fit). ",
+  "p-value: unadjusted two-sided Wald test. ",
+  "q-value (BH): p-value adjusted for multiple comparisons using the Benjamini\u2013Hochberg ",
+  "false discovery rate procedure across all predictors for this outcome. ",
+  "Green rows: BH-adjusted q < 0.05. Bold blue: unadjusted p < 0.05."
+)
+
+ft_pss_fp <- build_uv_ft(
+  results       = pss_results_fp,
+  outcome_label = "Table Unadj1. Unadjusted Linear Regression \u2014 Perceived Stress Score (PSS)",
+  est_col_label = "\u03b2 [95% CI]",
+  footnote_txt  = pss_footnote_fp,
+  is_logistic   = FALSE
+)
+
+ft_emo_fp <- build_uv_ft(
+  results       = emo_results_fp,
+  outcome_label = "Table Unadj2. Unadjusted Logistic Regression \u2014 Negative Emotional Response to Water",
+  est_col_label = "OR [95% CI]",
+  footnote_txt  = emo_footnote_fp,
+  is_logistic   = TRUE
+)
+
+portrait_sec_fp <- prop_section(
+  page_size    = page_size(orient = "portrait"),
+  page_margins = page_mar(top = 0.8, bottom = 0.8, left = 0.9, right = 0.9)
+)
+
+doc_combined <- doc_combined %>%
+  body_add_break(pos = "after") %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_pss_fp) %>%
+  body_add_break(pos = "after") %>%
+  body_add_par("", style = "Normal") %>%
+  body_add_flextable(ft_emo_fp) %>%
+  body_set_default_section(portrait_sec_fp)
+
+print(doc_combined, target = combined_outpath)
+cat("Saved:", combined_outpath, "\n")
+```
+
+---
+
+```{r session-info}
+sessionInfo()
+```
