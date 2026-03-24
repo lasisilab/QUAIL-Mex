@@ -17,9 +17,9 @@ ID,Question,Issue,Coded_value,Value_source1,Value_source2,three_rater_match,Note
 118,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): yes,Jocelyne: no | Alice: no,different,Its okay,0
 129,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,No. They have already gotten used to it,0
 130,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: no,different,"No, a little",0
-139,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): no,Jocelyne: yes | Alice: yes,different,"Yes i's acceptable, but it's tiring.",0
-172,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,It is enough,0
-174,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,It's enough,0
+139,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): no,Jocelyne: yes | Alice: yes,different,"Yes i's acceptable, but it's tiring.",444
+172,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,It is enough,444
+174,Q19,Sentinel 444 (Ambiguous): response coded as 'Somewhat',444,Q19.csv (primary): somewhat,Jocelyne: no | Alice: other,different,It's enough,444
 177,Q19,Rater conflict: primary vs. Jocelyne AND Alice,,Q19.csv (primary): yes,Jocelyne: no | Alice: no,different,It takes a while. It doenst seem terrible,0
 181,Q19,Sentinel 555 (Other): response outside No/Yes/Somewhat,555,Q19.csv (primary): other,Jocelyne: no | Alice: no,different,"No because they're already used to it. They're already organized, it is an obligation",0
 190,Q19,Rater conflict: primary vs. Jocelyne,,Q19.csv (primary): no,Jocelyne: yes | Alice: other,different,"It's okay, Lucky that the water purifier is nearby",0
