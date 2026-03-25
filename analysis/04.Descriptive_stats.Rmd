@@ -43,9 +43,13 @@ library(officer)
 library(ggplot2)
 
 # --- Pretty tables theme ---
+# Apply JAMA theme for overall styling, then immediately reset to wipe out its
+# automatic add_stat_label() post-processing (which appends "Mean (SD)" etc.
+# to every variable name). Re-apply only the settings we actually want.
 theme_gtsummary_journal(journal = "jama")
+reset_gtsummary_theme()
 set_gtsummary_theme(list(
-  "pkgwide-fn:pvalue_fun"  = label_style_pvalue(digits = 3),
+  "pkgwide-fn:pvalue_fun"      = label_style_pvalue(digits = 3),
   "tbl_summary-fn:percent_fun" = label_style_percent(digits = 1)
 ))
 
@@ -223,12 +227,14 @@ df_table <- df %>%
     
     HWISE_Cat     = factor(
       case_when(
-        is.na(clean_for_table(HW_TOTAL))             ~ NA_character_,
-        clean_for_table(HW_TOTAL) <= 3               ~ "Marginal (0-3)",
-        clean_for_table(HW_TOTAL) <= 11              ~ "Low (4-11)",
-        TRUE                                         ~ "Moderate/Severe (≥12)"
+        is.na(clean_for_table(HW_TOTAL))  ~ NA_character_,
+        clean_for_table(HW_TOTAL) <= 2    ~ "Marginal (0\u20132)",
+        clean_for_table(HW_TOTAL) <= 11   ~ "Low (3\u201311)",
+        clean_for_table(HW_TOTAL) <= 23   ~ "Moderate (12\u201323)",
+        TRUE                              ~ "High (\u226524)"
       ),
-      levels = c("Marginal (0-3)", "Low (4-11)", "Moderate/Severe (≥12)")
+      levels = c("Marginal (0\u20132)", "Low (3\u201311)",
+                 "Moderate (12\u201323)", "High (\u226524)")
     ),
 
     # --- Individual HWISE items ---
@@ -269,13 +275,77 @@ hwise_items_type <- list(
   HW_None     ~ "continuous", HW_Shame   ~ "continuous",
   Water_worry ~ "continuous"
 )
+
+# Helper: build water supply variables from a raw df
+make_water_vars <- function(df) {
+  df %>%
+    mutate(
+      W_Continuity = case_when(
+        is_sentinel_str(MX3_CONT_INT)                             ~ NA_character_,
+        str_detect(tolower(MX3_CONT_INT), "^contin")              ~ "Continuous",
+        str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja") ~ "Intermittent",
+        MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)    ~ NA_character_,
+        TRUE                                                       ~ "Other"
+      ),
+      W_Continuity = factor(W_Continuity,
+                            levels = c("Continuous", "Intermittent", "Other")),
+      W_Freq_raw  = coalesce(MX4_WFREQ, MX4_W_FREQ),
+      W_Frequency = case_when(
+        is_sentinel_str(W_Freq_raw)                               ~ NA_character_,
+        str_detect(tolower(W_Freq_raw), "^diari|every day")       ~ "Daily",
+        str_detect(tolower(W_Freq_raw), "1 a 3|1-3")              ~ "1–3 days/week",
+        str_detect(tolower(W_Freq_raw), "4 a 6|4-6")              ~ "4–6 days/week",
+        W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)        ~ NA_character_,
+        TRUE                                                       ~ NA_character_
+      ),
+      W_Frequency = factor(W_Frequency,
+                           levels = c("Daily", "4–6 days/week", "1–3 days/week")),
+      W_Days_week_num = suppressWarnings(
+        ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
+               as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
+      ),
+      W_Days_week_num = ifelse(W_Days_week_num %in% MISSING_CODES | W_Days_week_num > 7,
+                               NA, W_Days_week_num),
+      W_Days_week = factor(
+        case_when(
+          is.na(W_Days_week_num) ~ NA_character_,
+          W_Days_week_num <= 2   ~ "1–2 days/week",
+          W_Days_week_num <= 5   ~ "3–5 days/week",
+          TRUE                   ~ "6–7 days/week"
+        ),
+        levels = c("1–2 days/week", "3–5 days/week", "6–7 days/week")
+      ),
+      W_Hrs_week  = suppressWarnings(
+        ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
+               as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))
+      ),
+      W_Hrs_week  = ifelse(W_Hrs_week %in% MISSING_CODES | W_Hrs_week > 168,
+                           NA, W_Hrs_week),
+      W_Pressure  = case_when(
+        is_sentinel_str(MX6_WPRESS)                                  ~ NA_character_,
+        str_detect(tolower(MX6_WPRESS), "^s[ií]|^yes|^buena|^bien") ~ "Yes",
+        str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")          ~ "No/Low",
+        MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)          ~ NA_character_,
+        TRUE                                                          ~ "Variable"
+      ),
+      W_Pressure  = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable"))
+    )
+}
+
+analytic_cols <- c(
+  "D_AGE", "D_LOC_TIME_CLEAN", "D_HH_SIZE", "D_CHLD_CLEAN",
+  "SEASON", "SES_SC_Total", "SES_CAT_AMAI",
+  "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
+  "HLTH_SMK_CLEAN", "HLTH_TTM_CAT", "HLTH_MED_CAT",
+  "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT"
+)
 ```
 
 ---
 
 # 3. Supplementary descriptive statistics table
 
-Includes all analytic variables. Intended as a supplementary table for the dissertation.
+Includes all analytic variables.
 
 ```{r table-full}
 tbl_full <- df_table %>%
@@ -299,7 +369,7 @@ tbl_full <- df_table %>%
       Parity          ~ "Parity",
       SES             ~ "SES (NSE-AMAI)",
       Education       ~ "Education",
-      Employed        ~ "Currently employed",
+      Employed        ~ "Employed",
       Employment_type ~ "Employment type",
       Smoking         ~ "Smoking status",
       Hormonal_tx     ~ "Hormonal treatment",
@@ -311,7 +381,8 @@ tbl_full <- df_table %>%
   add_overall(last = FALSE) %>%
   add_p(test = list(
     all_continuous()  ~ "wilcox.test",
-    all_categorical() ~ "fisher.test"
+    all_categorical() ~ "fisher.test",
+    where(is.ordered) ~ "kruskal.test"
   )) %>%
   bold_labels() %>%
   add_n(statistic = "{p_miss}%",
@@ -319,7 +390,8 @@ tbl_full <- df_table %>%
   modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**By season**") %>%
   modify_header(label = "**Variable**") %>%
-  modify_caption("**Table S1. Sample characteristics — full variable set (n = {N})**")
+  modify_footnote(all_stat_cols() ~ "Mean (SD) for continuous variables; n (%) for categorical variables.") %>%
+  modify_caption("**Table S1. Sample characteristics — supplementary full variable set**")
 
 tbl_full |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
@@ -361,7 +433,7 @@ tbl_ms <- df_table %>%
       SES_Int_cat     ~ "  Internet access",
       SES_Wrk_cat     ~ "  Workers in household",
       SES_Bedr_cat    ~ "  Bedrooms",
-      Education       ~ "Education (category)",
+      Education       ~ "Education",
       Employed        ~ "Employed",
       Employment_type ~ "Employment type",
       Smoking         ~ "Smoking",
@@ -372,12 +444,16 @@ tbl_ms <- df_table %>%
   add_overall(last = FALSE) %>%
   add_p(test = list(
     all_continuous()  ~ "wilcox.test",
-    all_categorical() ~ "fisher.test"
+    all_categorical() ~ "fisher.test",
+    where(is.ordered) ~ "kruskal.test"
   )) %>%
   bold_labels() %>%
+  add_n(statistic = "{p_miss}%", col_label = "**Missing (%)**") %>%
+  modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season of data collection**") %>%
   modify_header(label = "**Variable**") %>%
-  modify_caption("**Table 1. Sample characteristics by season**")
+  modify_footnote(all_stat_cols() ~ "Mean (SD) for continuous variables; n (%) for categorical variables.") %>%
+  modify_caption("Table 1. Descriptive statistics")
 
 tbl_ms |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
@@ -391,107 +467,124 @@ Include as supplementary table in dissertation; summarize in-text for the journa
 See `05.Descriptive_plots.Rmd` for the corresponding visualization.
 
 ```{r table-missing}
-analytic_cols <- c(
-  "D_AGE", "D_LOC_TIME_CLEAN", "D_HH_SIZE", "D_CHLD_CLEAN",
-  "SEASON", "SES_SC_Total", "SES_CAT_AMAI",
-  "D_EMP_CLEAN", "D_EMP_FORM_CLEAN",
-  "HLTH_SMK_CLEAN", "HLTH_TTM_CAT", "HLTH_MED_CAT",
-  "HLTH_CPAIN_CAT", "HLTH_CDIS_CAT"
-)
-
 var_labels <- c(
-  D_AGE             = "Age",
-  D_LOC_TIME_CLEAN  = "Years in neighborhood",
-  D_HH_SIZE         = "Household size",
-  D_CHLD_CLEAN      = "Parity",
-  SEASON            = "Season",
-  SES_SC_Total      = "SES composite score",
-  SES_CAT_AMAI      = "SES category",
-  D_EMP_CLEAN       = "Employed (yes/no)",
-  D_EMP_FORM_CLEAN  = "Employment type",
-  HLTH_SMK_CLEAN    = "Smoking",
-  HLTH_TTM_CAT      = "Hormonal treatment",
-  HLTH_MED_CAT      = "Medication use",
-  HLTH_CPAIN_CAT    = "Chronic pain",
-  HLTH_CDIS_CAT     = "Chronic disease"
+  # Demographics & SES
+  Age             = "Age",
+  Yrs_in_nbhd     = "Years in neighborhood",
+  HH_size         = "Household size",
+  Parity          = "Parity",
+  SES             = "SES (NSE-AMAI)",
+  Education       = "Education",
+  Employed        = "Employed",
+  Employment_type = "Employment type",
+  # Health
+  Smoking         = "Smoking",
+  Hormonal_tx     = "Hormonal treatment",
+  Medication      = "Medication use",
+  Chronic_pain    = "Chronic pain",
+  Chronic_dis     = "Chronic disease",
+  # PSS & HWISE
+  PSS_Total       = "PSS-14 total score",
+  HWISE_Total     = "HWISE total score",
+  Water_worry     = "Water worry subscale",
+  # Water supply
+  W_Continuity    = "Supply continuity",
+  W_Frequency     = "Supply frequency",
+  W_Days_week     = "Days of supply per week",
+  W_Hrs_week      = "Hours of supply per week",
+  W_Pressure      = "Water pressure"
 )
 
-N <- nrow(df)
+miss_cols <- names(var_labels)
 
-missing_tbl <- df %>%
-  select(all_of(analytic_cols)) %>%
-  summarise(across(everything(), list(
-    n_na  = ~ sum(is.na(.)),
-    n_999 = ~ sum(as.character(.) == "999", na.rm = TRUE),
-    n_888 = ~ sum(as.character(.) == "888", na.rm = TRUE),
-    n_777 = ~ sum(as.character(.) == "777", na.rm = TRUE),
-    n_666 = ~ sum(as.character(.) == "666", na.rm = TRUE),
-    n_555 = ~ sum(as.character(.) == "555", na.rm = TRUE),
-    n_444 = ~ sum(as.character(.) == "444", na.rm = TRUE),
-    n_333 = ~ sum(as.character(.) == "333", na.rm = TRUE)
-  ))) %>%
-  pivot_longer(everything(),
-               names_to  = c("variable", ".value"),
-               names_sep = "_(?=n_)") %>%
-  mutate(
-    label        = var_labels[variable],
-    n_total      = N,
-    pct_na       = round(n_na   / N * 100, 1),
-    n_flagged    = n_999 + n_888 + n_777 + n_666 + n_555 + n_444 + n_333,
-    pct_flagged  = round(n_flagged / N * 100, 1),
-    n_complete   = N - n_na - n_flagged,
-    pct_complete = round(n_complete / N * 100, 1)
+N       <- nrow(df)
+N_rainy <- sum(df$SEASON == 0, na.rm = TRUE)
+N_dry   <- sum(df$SEASON == 1, na.rm = TRUE)
+
+# ── Build comprehensive dataframe for missingness assessment ─────────────────
+df_miss <- make_water_vars(df) %>%
+  select(ID, W_Continuity, W_Frequency, W_Days_week, W_Hrs_week, W_Pressure) %>%
+  right_join(
+    df_table %>% select(ID, SEASON = Season,
+                        Age, Yrs_in_nbhd, HH_size, Parity,
+                        SES, Education, Employed, Employment_type,
+                        Smoking, Hormonal_tx, Medication,
+                        Chronic_pain, Chronic_dis,
+                        PSS_Total, HWISE_Total, Water_worry),
+    by = "ID"
   ) %>%
-  select(label, n_complete, pct_complete,
-         n_na, pct_na,
-         n_999, n_888, n_777, n_666, n_555, n_444, n_333) %>%
+  mutate(SEASON = as.integer(SEASON) - 1L)  # restore 0=Rainy, 1=Dry
+
+# ── Overall missing counts ──────────────────────────────────────────────────
+overall_miss <- df_miss %>%
+  select(all_of(miss_cols)) %>%
+  summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  pivot_longer(everything(), names_to = "variable", values_to = "n_na") %>%
+  mutate(
+    label        = dplyr::coalesce(var_labels[variable], variable),
+    pct_na       = round(n_na / N * 100, 1),
+    n_complete   = N - n_na,
+    pct_complete = round(n_complete / N * 100, 1)
+  )
+
+# ── By-season NA % ──────────────────────────────────────────────────────────
+season_miss <- df_miss %>%
+  select(SEASON, all_of(miss_cols)) %>%
+  group_by(SEASON) %>%
+  summarise(across(all_of(miss_cols), ~ round(mean(is.na(.)) * 100, 1)),
+            .groups = "drop") %>%
+  pivot_longer(-SEASON, names_to = "variable", values_to = "pct") %>%
+  pivot_wider(names_from = SEASON, values_from = pct,
+              names_glue = "pct_na_{SEASON}") %>%
+  rename(pct_na_rainy = pct_na_0, pct_na_dry = pct_na_1)
+
+# ── Chi-square / Fisher p-values (% missing ~ season) ───────────────────────
+miss_pvals_tbl <- sapply(miss_cols, function(v) {
+  tbl <- table(is.na(df_miss[[v]]), df_miss$SEASON)
+  if (any(dim(tbl) < 2) || nrow(tbl) < 2) return(NA_real_)
+  tryCatch(
+    if (any(tbl < 5)) fisher.test(tbl)$p.value
+    else              chisq.test(tbl, correct = FALSE)$p.value,
+    error = function(e) NA_real_
+  )
+})
+
+miss_pval_tbl_df <- tibble(
+  variable = names(miss_pvals_tbl),
+  p_value  = miss_pvals_tbl,
+  p_fmt    = case_when(
+    is.na(p_value)  ~ "\u2014",
+    p_value < 0.001 ~ "<0.001",
+    TRUE            ~ sprintf("%.3f", p_value)
+  )
+)
+
+# ── Combined table ───────────────────────────────────────────────────────────
+missing_tbl_trimmed <- overall_miss %>%
+  left_join(season_miss,       by = "variable") %>%
+  left_join(miss_pval_tbl_df,  by = "variable") %>%
+  select(label, n_complete, pct_complete, n_na, pct_na,
+         pct_na_rainy, pct_na_dry, p_fmt) %>%
   arrange(desc(n_na))
 
-# Drop sentinel columns with no occurrences across all variables
-all_sentinel_cols <- c("n_999", "n_888", "n_777", "n_666", "n_555", "n_444", "n_333")
-sentinel_col_labels <- c(
-  n_999 = "999", n_888 = "888", n_777 = "777", n_666 = "666",
-  n_555 = "Other", n_444 = "Ambiguous", n_333 = "Pending"
-)
-sentinel_footnotes <- c(
-  n_999 = "999=Missing/lost",
-  n_888 = "888=Don't know",
-  n_777 = "777=Refused",
-  n_666 = "666=Illegible",
-  n_555 = "555=Other",
-  n_444 = "444=Ambiguous",
-  n_333 = "333=Pending"
-)
-
-active_sentinel_cols <- all_sentinel_cols[
-  sapply(all_sentinel_cols, function(col) sum(missing_tbl[[col]], na.rm = TRUE) > 0)
-]
-
-missing_tbl_trimmed <- missing_tbl %>%
-  select(-all_of(setdiff(all_sentinel_cols, active_sentinel_cols)))
-
-sentinel_label_list  <- as.list(sentinel_col_labels[active_sentinel_cols])
-footnote_text        <- paste(sentinel_footnotes[active_sentinel_cols], collapse = ", ")
-
-missing_tbl_print <- missing_tbl_trimmed %>%
+# ── HTML preview ─────────────────────────────────────────────────────────────
+missing_tbl_trimmed %>%
   gt() %>%
   tab_header(title = "Missing Data Summary") %>%
-  tab_spanner(label = "Complete",  columns = c(n_complete, pct_complete)) %>%
-  tab_spanner(label = "True NA",   columns = c(n_na, pct_na)) %>%
-  { if (length(active_sentinel_cols) > 0)
-      tab_spanner(., label = "Sentinel code breakdown",
-                  columns = all_of(active_sentinel_cols))
-    else . } %>%
+  tab_spanner(label = "Complete",         columns = c(n_complete, pct_complete)) %>%
+  tab_spanner(label = "Overall NA",       columns = c(n_na, pct_na)) %>%
+  tab_spanner(label = "By season (% NA)", columns = c(pct_na_rainy, pct_na_dry)) %>%
   cols_label(
     label        = "Variable",
-    n_complete   = "n", pct_complete = "%",
-    n_na         = "n", pct_na       = "%",
-    .list        = sentinel_label_list
+    n_complete   = "n",     pct_complete  = "%",
+    n_na         = "n",     pct_na        = "%",
+    pct_na_rainy = paste0("Rainy (n=", N_rainy, ")"),
+    pct_na_dry   = paste0("Dry (n=",   N_dry,   ")"),
+    p_fmt        = "p-value"
   ) %>%
-  fmt_number(columns = where(is.numeric), decimals = 0) %>%
-  { if (nchar(footnote_text) > 0) tab_footnote(., footnote = footnote_text) else . }
-
-missing_tbl_print |> opt_stylize(style = 6, color = "gray")
+  fmt_number(columns = c(n_complete, n_na), decimals = 0) %>%
+  fmt_number(columns = c(pct_complete, pct_na, pct_na_rainy, pct_na_dry), decimals = 1) %>%
+  opt_stylize(style = 6, color = "gray")
 ```
 
 ---
@@ -502,59 +595,10 @@ missing_tbl_print |> opt_stylize(style = 6, color = "gray")
 
 ```{r hwise-pss-overall}
 # Build water supply variables (same logic as section 8) and join to df_table
-df_s2 <- df %>%
+df_s2 <- make_water_vars(df) %>%
   mutate(
-    W_Continuity = case_when(
-      is_sentinel_str(MX3_CONT_INT)                             ~ NA_character_,
-      str_detect(tolower(MX3_CONT_INT), "^contin")              ~ "Continuous",
-      str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja") ~ "Intermittent",
-      MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)    ~ NA_character_,
-      TRUE                                                       ~ "Other"
-    ),
-    W_Continuity = factor(W_Continuity,
-                          levels = c("Continuous", "Intermittent", "Other")),
-    W_Freq_raw  = coalesce(MX4_WFREQ, MX4_W_FREQ),
-    W_Frequency = case_when(
-      is_sentinel_str(W_Freq_raw)                               ~ NA_character_,
-      str_detect(tolower(W_Freq_raw), "^diari|every day")       ~ "Daily",
-      str_detect(tolower(W_Freq_raw), "1 a 3|1-3")              ~ "1–3 days/week",
-      str_detect(tolower(W_Freq_raw), "4 a 6|4-6")              ~ "4–6 days/week",
-      W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)        ~ NA_character_,
-      TRUE                                                       ~ NA_character_
-    ),
-    W_Frequency = factor(W_Frequency,
-                         levels = c("Daily", "4–6 days/week", "1–3 days/week")),
-    W_Days_week_num = suppressWarnings(
-      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
-             as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
-    ),
-    W_Days_week_num = ifelse(W_Days_week_num %in% MISSING_CODES | W_Days_week_num > 7,
-                             NA, W_Days_week_num),
-    W_Days_week = factor(
-      case_when(
-        is.na(W_Days_week_num) ~ NA_character_,
-        W_Days_week_num <= 2   ~ "1–2 days/week",
-        W_Days_week_num <= 5   ~ "3–5 days/week",
-        TRUE                   ~ "6–7 days/week"
-      ),
-      levels = c("1–2 days/week", "3–5 days/week", "6–7 days/week")
-    ),
-    W_Hrs_week  = suppressWarnings(
-      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
-             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))
-    ),
-    W_Hrs_week  = ifelse(W_Hrs_week %in% MISSING_CODES | W_Hrs_week > 168,
-                         NA, W_Hrs_week),
-    W_Pressure  = case_when(
-      is_sentinel_str(MX6_WPRESS)                                  ~ NA_character_,
-      str_detect(tolower(MX6_WPRESS), "^s[ií]|^yes|^buena|^bien") ~ "Yes",
-      str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")          ~ "No/Low",
-      MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)          ~ NA_character_,
-      TRUE                                                          ~ "Variable"
-    ),
-    W_Pressure  = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable")),
-    W_Nbhd      = factor(W_WS_LOC, levels = c("WS", "WI"),
-                         labels = c("Water Secure", "Water Insecure"))
+    W_Nbhd = factor(W_WS_LOC, levels = c("WS", "WI"),
+                    labels = c("Water Secure", "Water Insecure"))
   ) %>%
   # Add all df_table variables via a join
   select(ID, W_Continuity, W_Frequency, W_Days_week, W_Hrs_week,
@@ -615,27 +659,6 @@ df_s2 <- df %>%
       ),
     by = "ID"
   )
-
-s2_select <- function(by_var) {
-  list(
-    # PSS
-    PSS_Total, PSS_Cat,
-    # HWISE scores and key categorizations
-    HWISE_Total,
-    HWISE_Binary, Frongillo_2024, Jepson_2021,
-    # Water 5-item subscale
-    Water_5sub, Water_5sub_binary,
-    # Water worry subscale
-    Water_worry,
-    # HWISE items
-    HW_Worry, HW_Interr, HW_Clothes, HW_Plans,
-    HW_Food, HW_Hands, HW_Body, HW_Drink,
-    HW_Angry, HW_Sleep, HW_None, HW_Shame,
-    # Objective water supply
-    W_Continuity, W_Frequency,
-    W_Hrs_week, W_Days_week, W_Pressure
-  )
-}
 
 s2_labels <- list(
   PSS_Total      ~ "PSS-14 total score (0–56)",
@@ -701,6 +724,7 @@ tbl_hwise_pss_overall <- df_s2 %>%
     all_categorical() ~ "fisher.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   modify_table_body(~{
     # Unbold the 12 HWISE item label rows
     .x <- .x %>% mutate(label = ifelse(variable %in% hwise_item_vars,
@@ -718,9 +742,47 @@ tbl_hwise_pss_overall <- df_s2 %>%
     dplyr::bind_rows(.x[seq_len(first_idx - 1), ], header, .x[first_idx:nrow(.x), ])
   }) %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
-  modify_caption("**Table S2. Water-related variables and PSS by season (n = {N})**")
+  modify_caption("**Table S2. Water-related variables and PSS by season)**")
 
 tbl_hwise_pss_overall |> as_gt() |> opt_stylize(style = 6, color = "gray")
+
+# --- Table 2 (short): key HWISE, PSS and water supply variables by season ---
+tbl_hwise_pss_short <- df_s2 %>%
+  select(
+    Season,
+    PSS_Total, PSS_Cat,
+    HWISE_Total, Frongillo_2024,
+    W_Continuity, W_Frequency, W_Pressure
+  ) %>%
+  tbl_summary(
+    by        = Season,
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = "no",
+    label   = list(
+      PSS_Total      ~ "PSS-14 total score (0\u201356)",
+      PSS_Cat        ~ "Perceived stress level",
+      HWISE_Total    ~ "HWISE total score (0\u201336)",
+      Frongillo_2024 ~ "HWISE \u2014 Frongillo et al. 2024",
+      W_Continuity   ~ "Supply continuity",
+      W_Frequency    ~ "Supply frequency",
+      W_Pressure     ~ "Adequate water pressure"
+    )
+  ) %>%
+  add_overall(last = FALSE) %>%
+  add_p(test = list(
+    all_continuous()  ~ "wilcox.test",
+    all_categorical() ~ "fisher.test"
+  )) %>%
+  bold_labels() %>%
+  bold_p(t = 0.05) %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
+  modify_caption("**Table 2. HWISE, PSS and water supply characteristics by season**")
+
+tbl_hwise_pss_short |> as_gt() |> opt_stylize(style = 6, color = "gray")
 
 # --- Table S3: same variables, by neighborhood ---
 tbl_s3_by_nbhd <- df_s2 %>%
@@ -755,6 +817,7 @@ tbl_s3_by_nbhd <- df_s2 %>%
     all_categorical() ~ "fisher.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   modify_table_body(~{
     # Unbold the 12 HWISE item label rows
     .x <- .x %>% mutate(label = ifelse(variable %in% hwise_item_vars,
@@ -794,7 +857,7 @@ tbl_scores_season <- df_table %>%
     missing = "no",
     label   = list(
       HWISE_Total  ~ "HWISE total score (0–36)",
-      HWISE_Cat    ~ "HWISE 3 categories",
+      HWISE_Cat    ~ "HWISE 4 categories",
       Water_worry  ~ "Water worry subscale (0–9)",
       Water_5sub   ~ "Water 5-item subscale (0–15)",
       PSS_Total    ~ "PSS-14 total score (0–56)",
@@ -953,67 +1016,8 @@ ggplot(hwise_long, aes(x = pct, y = item, fill = response)) +
 ## 8.1 Prepare water supply variables
 
 ```{r water-vars-prepare}
-df_water <- df %>%
+df_water <- make_water_vars(df) %>%
   mutate(
-    # Continuity of supply (MX3_CONT_INT — both seasons)
-    W_Continuity = case_when(
-      is_sentinel_str(MX3_CONT_INT)                                  ~ NA_character_,
-      str_detect(tolower(MX3_CONT_INT), "^contin")                   ~ "Continuous",
-      str_detect(tolower(MX3_CONT_INT), "^intermi|cortan|deja")      ~ "Intermittent",
-      MX3_CONT_INT %in% c("", "N/A") | is.na(MX3_CONT_INT)         ~ NA_character_,
-      TRUE                                                            ~ "Other"
-    ),
-    W_Continuity = factor(W_Continuity,
-                          levels = c("Continuous", "Intermittent", "Other")),
-
-    # Frequency of supply (MX4_WFREQ / MX4_W_FREQ — harmonised across seasons)
-    W_Freq_raw = coalesce(MX4_WFREQ, MX4_W_FREQ),
-    W_Frequency = case_when(
-      is_sentinel_str(W_Freq_raw)                                    ~ NA_character_,
-      str_detect(tolower(W_Freq_raw), "^diari|every day")            ~ "Daily",
-      str_detect(tolower(W_Freq_raw), "1 a 3|1-3")                   ~ "1–3 days/week",
-      str_detect(tolower(W_Freq_raw), "4 a 6|4-6")                   ~ "4–6 days/week",
-      W_Freq_raw %in% c("", "N/A") | is.na(W_Freq_raw)             ~ NA_character_,
-      TRUE                                                            ~ NA_character_
-    ),
-    W_Frequency = factor(W_Frequency,
-                         levels = c("Daily", "4–6 days/week", "1–3 days/week")),
-
-    # Hours per week (MX5_WFREQ_HRS_PER_WEEK)
-    W_Hrs_week = suppressWarnings(
-      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
-             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, "^[0-9\\.]+")))
-    ),
-    W_Hrs_week = ifelse(W_Hrs_week %in% MISSING_CODES, NA, W_Hrs_week),
-    W_Hrs_week = ifelse(W_Hrs_week > 168, NA, W_Hrs_week),
-
-    # Days per week (MX5_WFREQ_NDAYS) — grouped into 3 categories
-    W_Days_week_num = suppressWarnings(
-      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
-             as.numeric(str_extract(MX5_WFREQ_NDAYS, "^[0-9]+")))
-    ),
-    W_Days_week_num = ifelse(W_Days_week_num %in% MISSING_CODES, NA, W_Days_week_num),
-    W_Days_week_num = ifelse(W_Days_week_num > 7, NA, W_Days_week_num),
-    W_Days_week = factor(
-      case_when(
-        is.na(W_Days_week_num) ~ NA_character_,
-        W_Days_week_num <= 2   ~ "1–2 days/week",
-        W_Days_week_num <= 5   ~ "3–5 days/week",
-        TRUE                   ~ "6–7 days/week"
-      ),
-      levels = c("1–2 days/week", "3–5 days/week", "6–7 days/week")
-    ),
-
-    # Water pressure (MX6_WPRESS)
-    W_Pressure = case_when(
-      is_sentinel_str(MX6_WPRESS)                                    ~ NA_character_,
-      str_detect(tolower(MX6_WPRESS), "^s[ií]|^yes|^buena|^bien")   ~ "Yes",
-      str_detect(tolower(MX6_WPRESS), "^no|^baja|^poca")            ~ "No/Low",
-      MX6_WPRESS %in% c("", "N/A") | is.na(MX6_WPRESS)            ~ NA_character_,
-      TRUE                                                            ~ "Variable"
-    ),
-    W_Pressure = factor(W_Pressure, levels = c("Yes", "No/Low", "Variable")),
-
     # Neighborhood factor
     W_WS_LOC_F = factor(W_WS_LOC, levels = c("WS", "WI"),
                          labels = c("Water Secure", "Water Insecure"))
@@ -1021,161 +1025,6 @@ df_water <- df %>%
 ```
 
 
-```{r water-vars-table, eval=FALSE, include=FALSE}
-tbl_water <- df_water %>%
-  mutate(
-    HWISE_Total = clean_for_table(HW_TOTAL),
-    Water_worry = clean_for_table(as.numeric(HW_WORRY_SUB)),
-    Water_5sub  = clean_for_table(HW_MEX_5SUB),
-    HWISE_Binary = factor(
-      case_when(
-        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
-        clean_for_table(HW_TOTAL) <= 11        ~ "Water secure (0–11)",
-        TRUE                                   ~ "Water insecure (≥12)"
-      ),
-      levels = c("Water secure (0–11)", "Water insecure (≥12)")
-    ),
-    HWISE_3cat = factor(
-      case_when(
-        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
-        clean_for_table(HW_TOTAL) <= 3         ~ "Marginal (0–3)",
-        clean_for_table(HW_TOTAL) <= 11        ~ "Low (4–11)",
-        TRUE                                   ~ "Moderate/Severe (≥12)"
-      ),
-      levels = c("Marginal (0–3)", "Low (4–11)", "Moderate/Severe (≥12)")
-    ),
-    HWISE_4cat = factor(
-      case_when(
-        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
-        clean_for_table(HW_TOTAL) == 0         ~ "Secure (0)",
-        clean_for_table(HW_TOTAL) <= 3         ~ "Marginal (1–3)",
-        clean_for_table(HW_TOTAL) <= 11        ~ "Low (4–11)",
-        TRUE                                   ~ "Moderate/Severe (≥12)"
-      ),
-      levels = c("Secure (0)", "Marginal (1–3)",
-                 "Low (4–11)", "Moderate/Severe (≥12)")
-    ),
-    Frongillo_2024 = factor(
-      case_when(
-        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
-        clean_for_table(HW_TOTAL) <= 2         ~ "No to marginal (0–2)",
-        clean_for_table(HW_TOTAL) <= 11        ~ "Low (3–11)",
-        clean_for_table(HW_TOTAL) <= 23        ~ "Moderate (12–23)",
-        TRUE                                   ~ "High (24–36)"
-      ),
-      levels = c("No to marginal (0–2)", "Low (3–11)",
-                 "Moderate (12–23)", "High (24–36)")
-    ),
-    Jepson_2021 = factor(
-      case_when(
-        is.na(clean_for_table(HW_TOTAL))       ~ NA_character_,
-        clean_for_table(HW_TOTAL) <= 3         ~ "Marginal (0–3)",
-        clean_for_table(HW_TOTAL) <= 11        ~ "Low (4–11)",
-        clean_for_table(HW_TOTAL) <= 20        ~ "Moderate (12–20)",
-        clean_for_table(HW_TOTAL) <= 29        ~ "High (21–29)",
-        TRUE                                   ~ "Severe (30–36)"
-      ),
-      levels = c("Marginal (0–3)", "Low (4–11)",
-                 "Moderate (12–20)", "High (21–29)", "Severe (30–36)")
-    )
-  ) %>%
-  select(
-    W_WS_LOC_F,
-    HWISE_Total, Water_worry, Water_5sub,
-    HWISE_Binary, Frongillo_2024, Jepson_2021,
-    W_Continuity, W_Frequency,
-    W_Hrs_week, W_Days_week,
-    W_Pressure
-  ) %>%
-  tbl_summary(
-    by        = W_WS_LOC_F,
-    statistic = list(
-      all_continuous()  ~ "{mean} ({sd}) / {median} [{p25}, {p75}]",
-      all_categorical() ~ "{n} ({p}%)"
-    ),
-    type = list(Water_worry ~ "continuous"),
-    digits  = list(all_continuous() ~ 1),
-    missing = "ifany",
-    label   = list(
-      HWISE_Total    ~ "HWISE total score (0–36)",
-      Water_worry    ~ "Water worry subscale (0–9)",
-      Water_5sub     ~ "Water 5-item subscale (0–15)",
-      HWISE_Binary   ~ "HWISE binary — Young 2019 (≥12 = insecure)",
-      Frongillo_2024 ~ "HWISE — Frongillo et al. 2024 (4 cat.)",
-      Jepson_2021    ~ "HWISE — Jepson et al. 2021 (5 cat.)",
-      W_Continuity   ~ "Supply continuity",
-      W_Frequency    ~ "Supply frequency",
-      W_Hrs_week     ~ "Hours of supply per week",
-      W_Days_week    ~ "Days of supply per week",
-      W_Pressure     ~ "Adequate water pressure"
-    )
-  ) %>%
-  add_overall() %>%
-  add_p(test = list(
-    all_continuous()  ~ "wilcox.test",
-    all_categorical() ~ "fisher.test"
-  )) %>%
-  bold_labels() %>%
-  modify_spanning_header(c("stat_1", "stat_2") ~ "**Neighborhood type**") %>%
-  modify_caption("**Table. Water supply and HWISE by neighborhood (n = {N})**")
-
-tbl_water
-```
-
-```{r water-sentinel-summary, eval=FALSE, include=FALSE}
-water_raw_cols <- c(
-  "MX3_CONT_INT",
-  "MX4_WFREQ", "MX4_W_FREQ",
-  "MX5_WFREQ_NDAYS", "MX5_WFREQ_NHRS", "MX5_WFREQ_HRS_PER_WEEK",
-  "MX6_WPRESS"
-)
-
-sentinel_labels <- c(
-  "999" = "Missing/lost/entry error",
-  "333" = "Pending",
-  "888" = "Don't know",
-  "777" = "Refused",
-  "666" = "Illegible",
-  "555" = "Other (outside categories)",
-  "444" = "Ambiguous"
-)
-
-N_total <- nrow(df_water)
-
-sentinel_tbl <- map_dfr(water_raw_cols, function(col) {
-  if (!col %in% names(df_water)) return(NULL)
-  x <- str_trim(as.character(df_water[[col]]))
-  map_dfr(names(sentinel_labels), function(code) {
-    n <- sum(x == code, na.rm = TRUE)
-    if (n > 0) {
-      tibble(
-        variable      = col,
-        sentinel_code = code,
-        meaning       = sentinel_labels[[code]],
-        n             = n,
-        pct           = round(n / N_total * 100, 1)
-      )
-    }
-  })
-})
-
-if (nrow(sentinel_tbl) == 0) {
-  cat("No sentinel codes found in water supply variables.\n")
-} else {
-  sentinel_tbl %>%
-    arrange(variable, sentinel_code) %>%
-    gt() %>%
-    tab_header(title = "Sentinel codes in water supply variables") %>%
-    cols_label(
-      variable      = "Variable",
-      sentinel_code = "Code",
-      meaning       = "Meaning",
-      n             = "n",
-      pct           = "%"
-    ) %>%
-    tab_footnote(paste0("% of total sample (N = ", N_total, ")"))
-}
-```
 
 ---
 
@@ -1329,19 +1178,19 @@ fmt_docx <- function(tbl) {
     fontsize(size = 10, part = "header") %>%
     fontsize(size = 9,  part = "footer") %>%
     # Header: dark navy background, white bold text
-    bg(bg = "#2c3e50", part = "header") %>%
+    bg(bg = "#1A3A5C", part = "header") %>%
     color(color = "white", part = "header") %>%
     bold(part = "header") %>%
     # Alternating row shading
-    bg(i = seq(2, n_body, by = 2), bg = "#f4f6f9", part = "body") %>%
+    bg(i = seq(2, n_body, by = 2), bg = "#F9F9F9", part = "body") %>%
     # Horizontal-only borders
     border_remove() %>%
     hline_top(part = "header",
-              border = fp_border(color = "#2c3e50", width = 1.5)) %>%
+              border = fp_border(color = "#1A3A5C", width = 1.5)) %>%
     hline_bottom(part = "header",
-                 border = fp_border(color = "#2c3e50", width = 1.5)) %>%
+                 border = fp_border(color = "#1A3A5C", width = 1.5)) %>%
     hline_bottom(part = "body",
-                 border = fp_border(color = "#2c3e50", width = 1.5)) %>%
+                 border = fp_border(color = "#1A3A5C", width = 1.5)) %>%
     hline(border = fp_border(color = "#bdc3c7", width = 0.5), part = "body") %>%
     # Align: label column left, stats/p-value columns centre
     align(j = 1, align = "left",   part = "all") %>%
@@ -1356,9 +1205,9 @@ fmt_docx <- function(tbl) {
 }
 
 tables <- list(
-  "04.Table1_sample_characteristics.docx"        = tbl_ms,
-  "04.Table1_full_descriptives.docx"             = tbl_full,
-  "04.Table2_HWISE_PSS_by_season.docx"           = tbl_hwise_pss_overall,
+  "04.Table1_sample_full.docx"                   = tbl_ms,
+  "04.Table2_HWISE_PSS_short.docx"               = tbl_hwise_pss_short,
+  "04.Table2_HWISE_PSS_by_season_full.docx"      = tbl_hwise_pss_overall,
   "04.Table3_HWISE_PSS_by_neighborhood.docx"     = tbl_s3_by_nbhd
 )
 
@@ -1369,198 +1218,126 @@ for (fname in names(tables)) {
   cat("Exported:", fname, "\n")
 }
 
+# Main manuscript table — selected variables only
+tbl_main <- df_table %>%
+  select(Season, Age, HH_size, Parity, SES, Employed, Chronic_pain, Chronic_dis) %>%
+  tbl_summary(
+    by        = Season,
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    type      = list(Parity ~ "continuous"),
+    digits    = list(all_continuous() ~ 1),
+    missing   = "no",
+    label     = list(
+      Age          ~ "Age",
+      HH_size      ~ "Household size",
+      Parity       ~ "Parity",
+      SES          ~ "SES (NSE-AMAI)",
+      Employed     ~ "Employed",
+      Chronic_pain ~ "Chronic pain",
+      Chronic_dis  ~ "Chronic disease"
+    )
+  ) %>%
+  add_overall(last = FALSE) %>%
+  add_p(test = list(
+    all_continuous()  ~ "wilcox.test",
+    all_categorical() ~ "fisher.test",
+    where(is.ordered) ~ "kruskal.test"
+  )) %>%
+  bold_labels() %>%
+  add_n(statistic = "{p_miss}%", col_label = "**Missing (%)**") %>%
+  modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**Season of data collection**") %>%
+  modify_header(label = "**Variable**") %>%
+  modify_footnote(all_stat_cols() ~ "Mean (SD) for continuous variables; n (%) for categorical variables.") %>%
+  modify_caption("**Table 1. Sample characteristics by season**")
+
+tbl_main %>%
+  fmt_docx() %>%
+  save_as_docx(path = file.path(output_dir, "04.Table1_sample_main.docx"))
+cat("Exported: 04.Table1_sample_main.docx\n")
+
 # Missing data table — build flextable directly from data (gt_tbl can't use as_flex_table)
-COL_HDR_MISS  <- "#1A3A5C"   # matches COL_HEADER in other Rmd files
-COL_SUB_MISS  <- "#2E6DA4"   # matches COL_SUBHEAD
-COL_ALT_MISS  <- "#F9F9F9"   # alt row shade (matches COL_NS)
-COL_HIGH_MISS <- "#D5F5E3"   # high-NA highlight (matches COL_SIG palette)
+COL_HDR_MISS  <- "#1A3A5C"
+COL_SUB_MISS  <- "#2E6DA4"
+COL_ALT_MISS  <- "#F9F9F9"
+COL_HIGH_MISS <- "#D5F5E3"
 
-n_fixed_cols <- 5L   # label + 2×(n, %) pairs  [Complete + True NA; Flagged removed]
-n_total_cols  <- n_fixed_cols + length(active_sentinel_cols)
-
-# Row indices with ≥10% true NA (for conditional highlighting)
-rows_high_miss <- which(missing_tbl_trimmed$pct_na >= 10)
-
-# Spanner column ranges
+n_total_cols   <- 8L  # label + n_complete + pct_complete + n_na + pct_na + rainy + dry + p_fmt
 cols_complete  <- c("n_complete", "pct_complete")
-cols_na        <- c("n_na",       "pct_na")
+cols_na        <- c("n_na", "pct_na")
+rows_sig_p     <- which(miss_pval_tbl_df$p_value < 0.05)
+
+rainy_lbl <- paste0("Rainy\n(n=", N_rainy, ")")
+dry_lbl   <- paste0("Dry\n(n=",   N_dry,   ")")
 
 missing_table <- flextable(missing_tbl_trimmed) %>%
-  # ── Column labels (bottom header row) ─────────────────────────────────────
-  set_header_labels(.list = c(
-    list(label        = "Variable",
-         n_complete   = "n",  pct_complete = "%",
-         n_na         = "n",  pct_na       = "%"),
-    sentinel_label_list
-  )) %>%
-  # ── Spanner row ───────────────────────────────────────────────────────────
-  add_header_row(
-    values    = c("", "Complete", "True NA",
-                  if (length(active_sentinel_cols) > 0) "Sentinel codes" else character(0)),
-    colwidths = c(1, 2, 2,
-                  if (length(active_sentinel_cols) > 0) length(active_sentinel_cols) else integer(0))
+  # ── Column labels ──────────────────────────────────────────────────────────
+  set_header_labels(
+    label        = "Variable",
+    n_complete   = "n",       pct_complete = "%",
+    n_na         = "n",       pct_na       = "%",
+    pct_na_rainy = rainy_lbl, pct_na_dry   = dry_lbl,
+    p_fmt        = "p-value"
   ) %>%
-  # ── Title row ─────────────────────────────────────────────────────────────
+  # ── Spanner row ────────────────────────────────────────────────────────────
+  add_header_row(
+    values    = c("", "Complete", "Overall NA", "By season (% NA)", ""),
+    colwidths = c(1, 2, 2, 2, 1)
+  ) %>%
+  # ── Title row ──────────────────────────────────────────────────────────────
   add_header_row(
     values    = "Table S1.2. Missing data summary",
     colwidths = n_total_cols
   ) %>%
-  # ── Typography ────────────────────────────────────────────────────────────
+  # ── Typography ─────────────────────────────────────────────────────────────
   font(fontname = "Calibri", part = "all") %>%
-  fontsize(size = 9.5, part = "all") %>%
-  fontsize(size = 11,  i = 1, part = "header") %>%
+  fontsize(size = 10, part = "body") %>%
+  fontsize(size = 10, part = "header") %>%
+  fontsize(size = 9,  part = "footer") %>%
   bold(part = "header") %>%
-  bold(i = 1, part = "header", bold = FALSE) %>%
-  italic(i = 1, part = "header") %>%
-  color(i = 1, color = "white", part = "header") %>%
-  color(i = 2:3, color = "white", part = "header") %>%
-  # ── Header background colours ──────────────────────────────────────────────
-  bg(i = 1,   bg = COL_SUB_MISS, part = "header") %>%   # title row
-  bg(i = 2:3, bg = COL_HDR_MISS, part = "header") %>%   # spanner + col labels
-  # ── Body: alternating rows ────────────────────────────────────────────────
+  color(color = "white", part = "header") %>%
+  # ── Header colours (uniform #1A3A5C across all header rows) ────────────────
+  bg(bg = COL_HDR_MISS, part = "header") %>%
+  # ── Body ───────────────────────────────────────────────────────────────────
   bg(i = seq(2, nrow(missing_tbl_trimmed), by = 2), bg = COL_ALT_MISS, part = "body") %>%
-  # ── Body: highlight rows with ≥10% true NA ───────────────────────────────
-  { if (length(rows_high_miss) > 0)
-      bg(., i = rows_high_miss, j = cols_na, bg = COL_HIGH_MISS, part = "body")
+  { if (length(rows_sig_p) > 0)
+      bold(., i = rows_sig_p, j = "p_fmt", part = "body")
     else . } %>%
-  # ── Borders ───────────────────────────────────────────────────────────────
+  # ── Borders (horizontal-only, matching fmt_docx) ───────────────────────────
   border_remove() %>%
-  border_outer(border = fp_border(color = COL_HDR_MISS, width = 1.5), part = "all") %>%
-  hline(border = fp_border(color = COL_SUB_MISS, width = 0.5), part = "body") %>%
-  hline(i = 2, part = "header",
-        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %>%
-  hline(i = 3, part = "header",
-        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %>%
-  # ── Alignment ─────────────────────────────────────────────────────────────
+  hline_top(part = "header",
+            border = fp_border(color = COL_HDR_MISS, width = 1.5)) %>%
+  hline_bottom(part = "header",
+               border = fp_border(color = COL_HDR_MISS, width = 1.5)) %>%
+  hline_bottom(part = "body",
+               border = fp_border(color = COL_HDR_MISS, width = 1.5)) %>%
+  hline(border = fp_border(color = "#bdc3c7", width = 0.5), part = "body") %>%
+  # ── Alignment ──────────────────────────────────────────────────────────────
   align(j = 1,  align = "left",   part = "all") %>%
   align(j = -1, align = "center", part = "all") %>%
-  align(i = 1,  align = "left",   part = "header") %>%
-  # ── Number formatting ─────────────────────────────────────────────────────
-  colformat_num(j = c("n_complete", "n_na", active_sentinel_cols),
-                big.mark = ",", digits = 0) %>%
-  colformat_num(j = c("pct_complete", "pct_na"), digits = 1) %>%
-  # ── Footnote ──────────────────────────────────────────────────────────────
-  { if (nchar(footnote_text) > 0)
-      add_footer_lines(., c(
-        paste0("Note. Sentinel codes: ", footnote_text, "."),
-        "Rows sorted by number of true NAs (descending). True NA \u2265 10% highlighted."
-      ))
-    else
-      add_footer_lines(., "Rows sorted by number of true NAs (descending).") } %>%
-  font(fontname = "Calibri", part = "footer") %>%
-  fontsize(size = 9, part = "footer") %>%
+  # ── Number formatting ──────────────────────────────────────────────────────
+  colformat_num(j = c("n_complete", "n_na"), big.mark = ",", digits = 0) %>%
+  colformat_num(j = c("pct_complete", "pct_na", "pct_na_rainy", "pct_na_dry"), digits = 1) %>%
+  # ── Footnote ───────────────────────────────────────────────────────────────
+  add_footer_lines(c(
+    "Rows sorted by number of true NAs (descending).",
+    "p-value from chi-square test (Fisher\u2019s exact if any cell < 5) comparing proportion missing between seasons."
+  )) %>%
   italic(part = "footer") %>%
   color(color = "#555555", part = "footer") %>%
-  # ── Layout ────────────────────────────────────────────────────────────────
-  padding(padding.top    = 3, padding.bottom = 3,
-          padding.left   = 4, padding.right  = 4, part = "all") %>%
-  padding(padding.top    = 4, padding.bottom = 4, part = "header") %>%
+  # ── Layout ─────────────────────────────────────────────────────────────────
+  padding(padding.top = 2, padding.bottom = 2, part = "all") %>%
   set_table_properties(layout = "autofit", width = 1) %>%
   fix_border_issues()
 
 missing_table
-save_as_docx(missing_table, path = file.path(output_dir, "04.missing_table.docx"))
+save_as_docx(missing_table, path = file.path(output_dir, "04.Table1.2_missing.docx"))
 
-cat("Exported: missing_table.docx\n")
+cat("Exported: 04.Table1.2_missing.docx\n")
 ```
 
-```{r missing-by-season}
-# ── Missing data by season ──────────────────────────────────────────────────
-SEASON_LABELS <- c("0" = "Rainy", "1" = "Dry")
-season_N      <- table(df$SEASON)
-miss_vars     <- setdiff(analytic_cols, "SEASON")
-
-# ── Chi-square / Fisher test: is_na ~ season, per variable ──────────────────
-miss_pvals <- sapply(miss_vars, function(v) {
-  tbl <- table(is.na(df[[v]]), df$SEASON)
-  if (any(dim(tbl) < 2) || nrow(tbl) < 2) return(NA_real_)
-  tryCatch(
-    if (any(tbl < 5)) fisher.test(tbl)$p.value
-    else              chisq.test(tbl, correct = FALSE)$p.value,
-    error = function(e) NA_real_
-  )
-})
-
-miss_pval_df <- tibble(
-  variable = names(miss_pvals),
-  p_value  = miss_pvals,
-  p_fmt    = case_when(
-    is.na(p_value)  ~ "\u2014",
-    p_value < 0.001 ~ "<0.001",
-    TRUE            ~ sprintf("%.3f", p_value)
-  )
-)
-
-# ── Build wide table: one row per variable, one col per season ───────────────
-missing_by_season <- df %>%
-  select(SEASON, all_of(miss_vars)) %>%
-  mutate(season_label = paste0(
-    SEASON_LABELS[as.character(SEASON)],
-    " (n=", season_N[as.character(SEASON)], ")"
-  )) %>%
-  group_by(season_label) %>%
-  summarise(across(all_of(miss_vars), ~ round(mean(is.na(.)) * 100, 1)),
-            .groups = "drop") %>%
-  pivot_longer(-season_label, names_to = "variable", values_to = "pct_na") %>%
-  pivot_wider(names_from = season_label, values_from = pct_na) %>%
-  left_join(miss_pval_df, by = "variable") %>%
-  mutate(label = var_labels[variable]) %>%
-  select(label, everything(), -variable, -p_value)
-
-season_cols    <- setdiff(names(missing_by_season), c("label", "p_fmt"))
-n_total_bs_cols <- ncol(missing_by_season)
-
-missing_table_by_season <- flextable(missing_by_season) %>%
-  set_header_labels(label = "Variable", p_fmt = "p-value") %>%
-  add_header_row(
-    values    = "Table S1.3. Missing data by season (% true NA)",
-    colwidths = n_total_bs_cols
-  ) %>%
-  # ── Typography ──────────────────────────────────────────────────────────────
-  font(fontname = "Calibri", part = "all") %>%
-  fontsize(size = 9.5, part = "all") %>%
-  fontsize(size = 11, i = 1, part = "header") %>%
-  bold(part = "header") %>%
-  bold(i = 1, part = "header", bold = FALSE) %>%
-  italic(i = 1, part = "header") %>%
-  color(i = 1:2, color = "white", part = "header") %>%
-  # ── Header colours ──────────────────────────────────────────────────────────
-  bg(i = 1, bg = COL_SUB_MISS, part = "header") %>%
-  bg(i = 2, bg = COL_HDR_MISS, part = "header") %>%
-  # ── Body ────────────────────────────────────────────────────────────────────
-  bg(i = seq(2, nrow(missing_by_season), by = 2), bg = COL_ALT_MISS, part = "body") %>%
-  # ── Borders ─────────────────────────────────────────────────────────────────
-  border_remove() %>%
-  border_outer(border = fp_border(color = COL_HDR_MISS, width = 1.5), part = "all") %>%
-  hline(border = fp_border(color = COL_SUB_MISS, width = 0.5), part = "body") %>%
-  hline(i = 2, part = "header",
-        border = fp_border(color = COL_SUB_MISS, width = 0.5)) %>%
-  # ── Alignment ───────────────────────────────────────────────────────────────
-  align(j = 1,  align = "left",   part = "all") %>%
-  align(j = -1, align = "center", part = "all") %>%
-  align(i = 1,  align = "left",   part = "header") %>%
-  # ── Number formatting ────────────────────────────────────────────────────────
-  colformat_num(j = season_cols, digits = 1) %>%
-  # ── Footnote ────────────────────────────────────────────────────────────────
-  add_footer_lines(c(
-    "Note. Values are percentage of true NAs within each season group.",
-    "p-value from chi-square test (Fisher\u2019s exact if any cell < 5) comparing proportion missing between seasons."
-  )) %>%
-  font(fontname = "Calibri", part = "footer") %>%
-  fontsize(size = 9, part = "footer") %>%
-  italic(part = "footer") %>%
-  color(color = "#555555", part = "footer") %>%
-  # ── Layout ───────────────────────────────────────────────────────────────────
-  padding(padding.top = 3, padding.bottom = 3,
-          padding.left = 4, padding.right  = 4, part = "all") %>%
-  padding(padding.top = 4, padding.bottom = 4, part = "header") %>%
-  set_table_properties(layout = "autofit", width = 1) %>%
-  fix_border_issues()
-
-missing_table_by_season
-save_as_docx(missing_table_by_season,
-             path = file.path(output_dir, "04.missing_table_by_season.docx"))
-
-cat("Exported: missing_table_by_season.docx\n")
 ```
 
