@@ -38,9 +38,9 @@ what is explained by overall water insecurity as captured by the HWISE total.
 
 HWISE individual item models are **excluded** because it does not make
 conceptual sense to include both a single HWISE item and the HWISE total score
-in the same model. Only water supply characteristic models (m_a6–m_a18 /
-m_b6–m_b18) are run here, each augmented with `HW_TOTAL` as an additional
-core covariate.
+in the same model. Only water supply characteristic models are run here
+(PSS: a6–a_loc; EMO: b6–b_loc), each augmented with `HW_TOTAL` as an
+additional core covariate.
 
 | Role | Variables |
 |------|-----------|
@@ -298,7 +298,7 @@ pretty_ft_aim2 <- function(ft) {
     bg(part = "header", bg = "#2c3e50") %>%
     color(part = "header", color = "white") %>%
     theme_booktabs() %>%
-    autofit()
+    set_table_properties(layout = "autofit", width = 1)
 }
 ```
 
@@ -315,52 +315,52 @@ core_pss <- PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTA
 
 model_specs_pss <- list(
   m_a6 = list(
-    label   = "m_a6: Hours of water supply/week",
+    label   = "a6",
     group   = "m_a6: Hours supply",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + HRS_PER_WEEK
   ),
   m_a7 = list(
-    label   = "m_a7: Intermittent supply",
+    label   = "a7",
     group   = "m_a7: Intermittent",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + CONT_INT
   ),
   m_a8 = list(
-    label   = "m_a8: Season (dry vs. rainy)",
+    label   = "a8",
     group   = "m_a8: Season",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + SEASON
   ),
   m_a9 = list(
-    label   = "m_a9: Neighborhood comparison",
+    label   = "a9",
     group   = "m_a9: Neighborhood comparison",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + NB_COMP
   ),
   m_a10 = list(
-    label   = "m_a10: Excessive time handling water",
+    label   = "a10",
     group   = "m_a10: Time burden",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + TIME_WATER
   ),
   m_a11 = list(
-    label   = "m_a11: Sufficiency rating",
+    label   = "a11",
     group   = "m_a11: Sufficiency",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + SUFF_RATING
   ),
   m_a16 = list(
-    label   = "m_a16: Water pressure",
+    label   = "a16",
     group   = "m_a16: Water pressure",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + W_Pressure
   ),
   m_a17 = list(
-    label   = "m_a17: Supply frequency",
+    label   = "a17",
     group   = "m_a17: Supply frequency",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + W_Frequency
   ),
   m_a18 = list(
-    label   = "m_a18: Neighborhood (WS/WI)",
+    label   = "a18",
     group   = "m_a18: Neighborhood",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + W_WS_LOC_F
   ),
   m_a_loc = list(
-    label   = "m_a_loc: Years in neighbourhood",
+    label   = "a_loc",
     group   = "m_a_loc: Years in neighbourhood",
     formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + HW_TOTAL + D_LOC_TIME
   )
@@ -468,7 +468,7 @@ summary_pss %>%
     p_F_fmt      = "p (F-test)",
     p_adj_fmt    = "p_adj (BH)"
   ) %>%
-  autofit()
+  set_table_properties(layout = "autofit", width = 1)
 ```
 
 ## All PSS Models: Publication Table {#pss-all-models}
@@ -610,9 +610,9 @@ p_pss <- ggplot(coefs_pss,
   pub_theme
 
 p_pss
-ggsave("./output/figures/09.aim2_hwise_pss_forest.png", p_pss,
+ggsave("./output/figures/09.aim2_adjusted_for_hwise_pss_forest.png", p_pss,
        width = 10, height = 8, dpi = 300, bg = "white")
-cat("Saved: ./output/figures/09.aim2_hwise_pss_forest.png\n")
+cat("Saved: ./output/figures/09.aim2_adjusted_for_hwise_pss_forest.png\n")
 ```
 
 ## Per-Model Coefficient Tables (PSS) {#pss-coef-tables}
@@ -663,52 +663,52 @@ core_emo <- EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis
 
 model_specs_emo <- list(
   m_b6 = list(
-    label   = "m_b6: Hours of water supply/week",
+    label   = "b6",
     group   = "m_b6: Hours supply",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + HRS_PER_WEEK
   ),
   m_b7 = list(
-    label   = "m_b7: Intermittent supply",
+    label   = "b7",
     group   = "m_b7: Intermittent",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + CONT_INT
   ),
   m_b8 = list(
-    label   = "m_b8: Season (dry vs. rainy)",
+    label   = "b8",
     group   = "m_b8: Season",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + SEASON
   ),
   m_b9 = list(
-    label   = "m_b9: Neighborhood comparison",
+    label   = "b9",
     group   = "m_b9: Neighborhood comparison",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + NB_COMP
   ),
   m_b10 = list(
-    label   = "m_b10: Excessive time handling water",
+    label   = "b10",
     group   = "m_b10: Time burden",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + TIME_WATER
   ),
   m_b11 = list(
-    label   = "m_b11: Sufficiency rating",
+    label   = "b11",
     group   = "m_b11: Sufficiency",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + SUFF_RATING
   ),
   m_b16 = list(
-    label   = "m_b16: Water pressure",
+    label   = "b16",
     group   = "m_b16: Water pressure",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + W_Pressure
   ),
   m_b17 = list(
-    label   = "m_b17: Supply frequency",
+    label   = "b17",
     group   = "m_b17: Supply frequency",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + W_Frequency
   ),
   m_b18 = list(
-    label   = "m_b18: Neighborhood (WS/WI)",
+    label   = "b18",
     group   = "m_b18: Neighborhood",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + W_WS_LOC_F
   ),
   m_b_loc = list(
-    label   = "m_b_loc: Years in neighbourhood",
+    label   = "b_loc",
     group   = "m_b_loc: Years in neighbourhood",
     formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + HW_TOTAL + D_LOC_TIME
   )
@@ -815,7 +815,7 @@ summary_emo %>%
     p_lrt_fmt = "p (LRT)",
     p_adj_fmt = "p_adj (BH)"
   ) %>%
-  autofit()
+  set_table_properties(layout = "autofit", width = 1)
 ```
 
 ## All EMO Models: Publication Table {#emo-all-models}
@@ -955,9 +955,9 @@ p_emo <- ggplot(coefs_emo,
   pub_theme
 
 p_emo
-ggsave("./output/figures/09.aim2_hwise_emo_forest.png", p_emo,
+ggsave("./output/figures/09.aim2_adjusted_for_hwise_emo_forest.png", p_emo,
        width = 10, height = 8, dpi = 300, bg = "white")
-cat("Saved: ./output/figures/09.aim2_hwise_emo_forest.png\n")
+cat("Saved: ./output/figures/09.aim2_adjusted_for_hwise_emo_forest.png\n")
 ```
 
 ## Per-Model Coefficient Tables (EMO) {#emo-coef-tables}

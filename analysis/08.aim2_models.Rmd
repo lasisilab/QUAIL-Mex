@@ -32,9 +32,9 @@ components as predictors of two outcomes:
 - **Part 1**: Perceived Stress Scale total score (`PSS_TOTAL`) — linear regression
 - **Part 2**: Water-related emotion valence (`EMO_NEG`) — logistic regression
 
-HWISE individual items are included alongside other water supply predictors in
-a single merged forest plot per outcome. HWISE composite/subscale scores are
-excluded.
+HWISE individual items and the water worry subscale are included alongside
+other water supply predictors in a single merged forest plot per outcome.
+Other HWISE composite/subscale scores are excluded.
 
 | Role | Variables |
 |------|-----------|
@@ -42,7 +42,7 @@ excluded.
 | EMO outcome | `EMO_NEG` — 0 = positive, 1 = negative (Q26) |
 | Core covariates (PSS) | Age (`D_AGE`), SES composite (`SES_SC_Total`), Household size (`D_HH_SIZE`), Chronic disease (`Chronic_dis`) |
 | Core covariates (EMO) | As above + `PSS_TOTAL` |
-| Augmenting (one per model) | HWISE individual items · Hours of water supply/week · Intermittent supply · Season · Neighborhood comparison · Excessive time handling water · Sufficiency rating · Water pressure · Supply frequency · Neighborhood (WS/WI) · Years in neighbourhood (`D_LOC_TIME`) |
+| Augmenting (one per model) | HWISE individual items · Water worry subscale (`HW_WORRY_SUB`) · Hours of water supply/week · Intermittent supply · Season · Neighborhood comparison · Excessive time handling water · Sufficiency rating · Water pressure · Supply frequency · Neighborhood (WS/WI) · Years in neighbourhood (`D_LOC_TIME`) |
 
 > **Multiple testing**: All p-values are adjusted using the
 > **Benjamini-Hochberg (BH)** procedure, applied across all Aim 2 models
@@ -103,6 +103,9 @@ df <- df_raw %>%
 
     # ── HWISE individual items ──────────────────────────────────────────────────
     across(all_of(hwise_items), clean_num),
+
+    # ── Water worry subscale ───────────────────────────────────────────────────
+    Water_worry = clean_num(HW_WORRY_SUB),
 
     # ── Hours of water supply per week ─────────────────────────────────────────
     HRS_PER_WEEK = clean_num(MX5_WFREQ_HRS_PER_WEEK),
@@ -212,7 +215,7 @@ df <- df_raw %>%
 ```{r check-missingness}
 analytic_vars <- c("PSS_TOTAL", "EMO_NEG", "D_AGE", "SES_SC_Total", "D_HH_SIZE",
                    "SEASON", "Chronic_dis",
-                   hwise_items, "HRS_PER_WEEK", "CONT_INT",
+                   hwise_items, "Water_worry", "HRS_PER_WEEK", "CONT_INT",
                    "NB_COMP", "TIME_WATER", "SUFF_RATING",
                    "W_Pressure", "W_Frequency", "W_WS_LOC_F", "D_LOC_TIME")
 
@@ -257,6 +260,7 @@ hwise_readable <- c(
 
 # ── Non-HWISE term labels ──────────────────────────────────────────────────────
 term_labels <- c(
+  Water_worry                    = "Water worry subscale score",
   HRS_PER_WEEK                   = "Hours of supply per week",
   CONT_INTIntermittent           = "Supply continuity: Intermittent (ref: Continuous)",
   SEASONDry                      = "Season: Dry (ref: Rainy)",
@@ -293,6 +297,18 @@ sig_sym <- function(p) {
   )
 }
 
+# Append significance symbol to a formatted p-value string
+sig_fmt <- function(p_num, p_str) {
+  dplyr::case_when(
+    is.na(p_num)  ~ p_str,
+    p_num < 0.001 ~ paste0(p_str, " ***"),
+    p_num < 0.01  ~ paste0(p_str, " **"),
+    p_num < 0.05  ~ paste0(p_str, " *"),
+    p_num < 0.1   ~ paste0(p_str, " \u2020"),
+    TRUE          ~ p_str
+  )
+}
+
 # ── Pretty flextable style ─────────────────────────────────────────────────────
 pretty_ft_aim2 <- function(ft) {
   ft %>%
@@ -301,7 +317,7 @@ pretty_ft_aim2 <- function(ft) {
     bg(part = "header", bg = "#2c3e50") %>%
     color(part = "header", color = "white") %>%
     theme_booktabs() %>%
-    autofit()
+    set_table_properties(layout = "autofit", width = 1)
 }
 ```
 
@@ -331,6 +347,11 @@ hwise_specs_pss <- setNames(
 model_specs_pss <- c(
   hwise_specs_pss,
   list(
+    m_a12 = list(
+      label   = "m_a12: Water worry subscale",
+      group   = "m_a12: Water worry",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + Water_worry
+    ),
     m_a6 = list(
       label   = "m_a6: Hours of water supply/week",
       group   = "m_a6: Hours supply",
@@ -403,7 +424,7 @@ tibble(
 ) %>% print(n = Inf)
 ```
 
-## Summary Table with BH Correction
+## Summary Table
 
 ```{r pss-summary-table}
 core_terms_pss <- c("(Intercept)", "D_AGE", "SES_SC_Total", "D_HH_SIZE", "Chronic_disYes")
@@ -442,12 +463,7 @@ summary_raw_pss <- map_dfr(names(fitted_pss), function(nm) {
     )
 })
 
-model_fps_pss <- summary_raw_pss %>%
-  distinct(model_id, F_p) %>%
-  mutate(F_p_adj = round(p.adjust(F_p, method = "BH"), 4))
-
 summary_pss <- summary_raw_pss %>%
-  left_join(model_fps_pss, by = c("model_id", "F_p")) %>%
   mutate(
     beta_ci   = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
     p_coef    = case_when(
@@ -460,17 +476,24 @@ summary_pss <- summary_raw_pss %>%
       F_p < 0.001 ~ "<0.001",
       TRUE        ~ sprintf("%.3f", F_p)
     ),
-    p_adj_fmt = case_when(
-      is.na(F_p_adj)  ~ "\u2014",
-      F_p_adj < 0.001 ~ "<0.001",
-      TRUE            ~ sprintf("%.3f", F_p_adj)
-    )
+    p_adj_fmt = p_F_fmt
   )
 
-summary_pss %>%
+tbl_sum_pss <- summary_pss %>%
   arrange(AIC) %>%
+  mutate(
+    p_coef_s  = sig_fmt(p.value,  p_coef),
+    p_F_s     = sig_fmt(F_p,      p_F_fmt),
+    p_adj_s   = sig_fmt(F_p,      p_adj_fmt)
+  )
+
+b_pc_s  <- which(!is.na(tbl_sum_pss$p.value) & tbl_sum_pss$p.value < 0.05)
+b_pF_s  <- which(!is.na(tbl_sum_pss$F_p)     & tbl_sum_pss$F_p     < 0.05)
+b_pa_s  <- which(!is.na(tbl_sum_pss$F_p) & tbl_sum_pss$F_p < 0.05)
+
+tbl_sum_pss %>%
   select(label, term, n, adj_R2, delta_adj_R2, AIC, beta_ci,
-         p_coef, F_stat, p_F_fmt, p_adj_fmt) %>%
+         p_coef_s, F_stat, p_F_s, p_adj_s) %>%
   flextable() %>%
   set_header_labels(
     label        = "Model",
@@ -480,18 +503,22 @@ summary_pss %>%
     delta_adj_R2 = "\u0394 Adj. R\u00b2",
     AIC          = "AIC",
     beta_ci      = "\u03b2 [95% CI]",
-    p_coef       = "p (coef.)",
+    p_coef_s     = "p (coef.)",
     F_stat       = "F",
-    p_F_fmt      = "p (F-test)",
-    p_adj_fmt    = "p_adj (BH)"
+    p_F_s        = "p (F-test)",
+    p_adj_s      = "p (F-test) "
   ) %>%
-  autofit()
+  bold(i = b_pc_s, j = "p_coef_s") %>%
+  bold(i = b_pF_s, j = "p_F_s") %>%
+  bold(i = b_pa_s, j = "p_adj_s") %>%
+  set_table_properties(layout = "autofit", width = 1)
 ```
 
 ## All PSS Models: Publication Table {#pss-all-models}
 
 ```{r pss-all-models, fig.width=10}
 readable_terms_pss <- c(
+  Water_worry                = "Water worry subscale score",
   HRS_PER_WEEK               = "Hours of supply / week",
   CONT_INTIntermittent       = "Intermittent vs. continuous supply",
   SEASONDry                  = "Dry vs. rainy season",
@@ -519,19 +546,25 @@ top5_pss <- summary_pss %>%
   left_join(select(all_ids_pss, model_id, rank), by = "model_id") %>%
   arrange(rank, estimate) %>%
   transmute(
-    rank     = rank,
-    Model    = label,
-    Predictor = coalesce(readable_terms_pss[term], term),
-    N        = n,
-    beta_ci  = beta_ci,
-    adj_r2   = adj_R2,
-    delta_r2 = delta_adj_R2,
-    AIC      = AIC,
-    p_coef   = p_coef,
-    p_adj    = p_adj_fmt
+    rank        = rank,
+    Model       = label,
+    Predictor   = coalesce(readable_terms_pss[term], term),
+    N           = n,
+    beta_ci     = beta_ci,
+    adj_r2      = adj_R2,
+    delta_r2    = delta_adj_R2,
+    AIC         = AIC,
+    p_coef      = sig_fmt(p.value,  p_coef),
+    p_adj       = sig_fmt(F_p,      p_adj_fmt),
+    p_coef_num  = p.value,
+    p_adj_num   = F_p
   )
 
+b_pc_p  <- which(!is.na(top5_pss$p_coef_num) & top5_pss$p_coef_num < 0.05)
+b_pa_p  <- which(!is.na(top5_pss$p_adj_num)  & top5_pss$p_adj_num  < 0.05)
+
 ft_pss <- top5_pss %>%
+  select(-p_coef_num, -p_adj_num) %>%
   flextable() %>%
   set_header_labels(
     rank      = "#",
@@ -543,8 +576,10 @@ ft_pss <- top5_pss %>%
     delta_r2  = "\u0394 Adj. R\u00b2",
     AIC       = "AIC",
     p_coef    = "p (coef.)",
-    p_adj     = "p_adj (BH)"
+    p_adj     = "p (F-test)"
   ) %>%
+  bold(i = b_pc_p, j = "p_coef") %>%
+  bold(i = b_pa_p, j = "p_adj") %>%
   merge_v(j = c("rank", "Model", "N", "adj_r2", "delta_r2", "AIC", "p_adj")) %>%
   valign(j = c("rank", "Model", "N", "adj_r2", "delta_r2", "AIC", "p_adj"),
          valign = "top", part = "body") %>%
@@ -554,8 +589,7 @@ ft_pss <- top5_pss %>%
     "Adj. R\u00b2 = adjusted R-squared of the full model; ",
     "\u0394 Adj. R\u00b2 = change over core-covariate-only model. ",
     "All models adjusted for age, SES, household size, and chronic disease. ",
-    "p_adj (BH) = F-test p-value adjusted using the Benjamini-Hochberg procedure ",
-    "across all Aim 2 PSS models."
+    "p (F-test) = F-test p-value for the focal predictor."
   )) %>%
   pretty_ft_aim2()
 
@@ -567,6 +601,7 @@ ft_pss
 ```{r pss-forest, fig.width = 10, fig.height = 9}
 group_labels_pss <- c(
   "m_a5: HWISE items"                    = "HWISE items",
+  "m_a12: Water worry"                   = "HWISE items",
   "m_a6: Hours supply"                   = "Water supply",
   "m_a7: Intermittent"                   = "Water supply",
   "m_a8: Season"                         = "Water supply",
@@ -580,20 +615,21 @@ group_labels_pss <- c(
 )
 
 fp_order_pss <- c(
-  "Hours of supply per week"                              =  1,
-  "Supply continuity: Intermittent (ref: Continuous)"    =  2,
-  "Supply frequency: Daily (ref: Continuous)"            =  3,
-  "Supply frequency: 4\u20136 days/wk (ref: Continuous)" =  4,
-  "Supply frequency: 1\u20133 days/wk (ref: Continuous)" =  5,
-  "Supply frequency: Intermittent (ref: Continuous)"     =  6,
-  "Season: Dry (ref: Rainy)"                             =  7,
-  "Neighborhood comparison: Same as CDMX"                =  8,
-  "Neighborhood comparison: Worse than CDMX"             =  9,
-  "Excessive time managing water: Yes (ref: No)"         = 10,
-  "Sufficiency rating (1\u20134)"                        = 11,
-  "Adequate water pressure: No/Low (ref: Yes)"           = 12,
-  "Neighborhood: Water Insecure (ref: Water Secure)"     = 13,
-  "Years in neighbourhood"                               = 14
+  "Water worry subscale score"                           =  1,
+  "Hours of supply per week"                             =  2,
+  "Supply continuity: Intermittent (ref: Continuous)"    =  3,
+  "Supply frequency: Daily (ref: Continuous)"            =  4,
+  "Supply frequency: 4\u20136 days/wk (ref: Continuous)" =  5,
+  "Supply frequency: 1\u20133 days/wk (ref: Continuous)" =  6,
+  "Supply frequency: Intermittent (ref: Continuous)"     =  7,
+  "Season: Dry (ref: Rainy)"                             =  8,
+  "Neighborhood comparison: Same as CDMX"                =  9,
+  "Neighborhood comparison: Worse than CDMX"             = 10,
+  "Excessive time managing water: Yes (ref: No)"         = 11,
+  "Sufficiency rating (1\u20134)"                        = 12,
+  "Adequate water pressure: No/Low (ref: Yes)"           = 13,
+  "Neighborhood: Water Insecure (ref: Water Secure)"     = 14,
+  "Years in neighbourhood"                               = 15
 )
 
 coefs_pss <- summary_pss %>%
@@ -706,6 +742,11 @@ hwise_specs_emo <- setNames(
 model_specs_emo <- c(
   hwise_specs_emo,
   list(
+    m_b12 = list(
+      label   = "m_b12: Water worry subscale",
+      group   = "m_b12: Water worry",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + Water_worry
+    ),
     m_b6 = list(
       label   = "m_b6: Hours of water supply/week",
       group   = "m_b6: Hours supply",
@@ -779,7 +820,7 @@ tibble(
 ) %>% print(n = Inf)
 ```
 
-## Summary Table with BH Correction
+## Summary Table
 
 ```{r emo-summary-table}
 mcfadden_r2 <- function(mod) round(1 - mod$deviance / mod$null.deviance, 3)
@@ -817,12 +858,7 @@ summary_raw_emo <- map_dfr(names(fitted_emo), function(nm) {
     )
 })
 
-model_lrt_ps <- summary_raw_emo %>%
-  distinct(model_id, LRT_p) %>%
-  mutate(LRT_p_adj = round(p.adjust(LRT_p, method = "BH"), 4))
-
 summary_emo <- summary_raw_emo %>%
-  left_join(model_lrt_ps, by = c("model_id", "LRT_p")) %>%
   mutate(
     or_ci     = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
     p_coef    = case_when(
@@ -835,17 +871,24 @@ summary_emo <- summary_raw_emo %>%
       LRT_p < 0.001 ~ "<0.001",
       TRUE          ~ sprintf("%.3f", LRT_p)
     ),
-    p_adj_fmt = case_when(
-      is.na(LRT_p_adj)  ~ "\u2014",
-      LRT_p_adj < 0.001 ~ "<0.001",
-      TRUE              ~ sprintf("%.3f", LRT_p_adj)
-    )
+    p_adj_fmt = p_lrt_fmt
   )
 
-summary_emo %>%
+tbl_sum_emo <- summary_emo %>%
   arrange(AIC) %>%
+  mutate(
+    p_coef_s  = sig_fmt(p.value,   p_coef),
+    p_lrt_s   = sig_fmt(LRT_p,     p_lrt_fmt),
+    p_adj_s   = sig_fmt(LRT_p,     p_adj_fmt)
+  )
+
+b_pc_e  <- which(!is.na(tbl_sum_emo$p.value)   & tbl_sum_emo$p.value   < 0.05)
+b_pl_e  <- which(!is.na(tbl_sum_emo$LRT_p)     & tbl_sum_emo$LRT_p     < 0.05)
+b_pa_e  <- which(!is.na(tbl_sum_emo$LRT_p) & tbl_sum_emo$LRT_p < 0.05)
+
+tbl_sum_emo %>%
   select(label, term, n, mcfadden, delta_r2, AIC, or_ci,
-         p_coef, LRT_chi2, p_lrt_fmt, p_adj_fmt) %>%
+         p_coef_s, LRT_chi2, p_lrt_s, p_adj_s) %>%
   flextable() %>%
   set_header_labels(
     label     = "Model",
@@ -855,18 +898,22 @@ summary_emo %>%
     delta_r2  = "\u0394 McFadden R\u00b2",
     AIC       = "AIC",
     or_ci     = "OR [95% CI]",
-    p_coef    = "p (coef.)",
+    p_coef_s  = "p (coef.)",
     LRT_chi2  = "LRT \u03c7\u00b2",
-    p_lrt_fmt = "p (LRT)",
-    p_adj_fmt = "p_adj (BH)"
+    p_lrt_s   = "p (LRT)",
+    p_adj_s   = "p (LRT) "
   ) %>%
-  autofit()
+  bold(i = b_pc_e, j = "p_coef_s") %>%
+  bold(i = b_pl_e, j = "p_lrt_s") %>%
+  bold(i = b_pa_e, j = "p_adj_s") %>%
+  set_table_properties(layout = "autofit", width = 1)
 ```
 
 ## All EMO Models: Publication Table {#emo-all-models}
 
 ```{r emo-all-models}
 readable_terms_emo <- c(
+  Water_worry                = "Water worry subscale score",
   HRS_PER_WEEK               = "Hours of supply / week",
   CONT_INTIntermittent       = "Intermittent vs. continuous supply",
   SEASONDry                  = "Dry vs. rainy season",
@@ -893,19 +940,25 @@ top5_emo <- summary_emo %>%
   left_join(select(all_ids_emo, model_id, rank), by = "model_id") %>%
   arrange(rank, estimate) %>%
   transmute(
-    rank      = rank,
-    Model     = label,
-    Predictor = coalesce(readable_terms_emo[term], term),
-    N         = n,
-    or_ci     = or_ci,
-    mcfadden  = mcfadden,
-    delta_r2  = delta_r2,
-    AIC       = AIC,
-    p_coef    = p_coef,
-    p_adj     = p_adj_fmt
+    rank        = rank,
+    Model       = label,
+    Predictor   = coalesce(readable_terms_emo[term], term),
+    N           = n,
+    or_ci       = or_ci,
+    mcfadden    = mcfadden,
+    delta_r2    = delta_r2,
+    AIC         = AIC,
+    p_coef      = sig_fmt(p.value,   p_coef),
+    p_adj       = sig_fmt(LRT_p,     p_adj_fmt),
+    p_coef_num  = p.value,
+    p_adj_num   = LRT_p
   )
 
+b_pc_ep <- which(!is.na(top5_emo$p_coef_num) & top5_emo$p_coef_num < 0.05)
+b_pa_ep <- which(!is.na(top5_emo$p_adj_num)  & top5_emo$p_adj_num  < 0.05)
+
 ft_emo <- top5_emo %>%
+  select(-p_coef_num, -p_adj_num) %>%
   flextable() %>%
   set_header_labels(
     rank      = "#",
@@ -917,8 +970,10 @@ ft_emo <- top5_emo %>%
     delta_r2  = "\u0394 McFadden R\u00b2",
     AIC       = "AIC",
     p_coef    = "p (coef.)",
-    p_adj     = "p_adj (BH)"
+    p_adj     = "p (LRT)"
   ) %>%
+  bold(i = b_pc_ep, j = "p_coef") %>%
+  bold(i = b_pa_ep, j = "p_adj") %>%
   merge_v(j = c("rank", "Model", "N", "mcfadden", "delta_r2", "AIC", "p_adj")) %>%
   valign(j = c("rank", "Model", "N", "mcfadden", "delta_r2", "AIC", "p_adj"),
          valign = "top", part = "body") %>%
@@ -929,8 +984,7 @@ ft_emo <- top5_emo %>%
     "\u0394 McFadden R\u00b2 = change over core-covariate-only model. ",
     "All models adjusted for age, SES, household size, ",
     "perceived stress (PSS), and chronic disease. ",
-    "p_adj (BH) = LRT p-value adjusted using the Benjamini-Hochberg procedure ",
-    "across all Aim 2 emotion models."
+    "p (LRT) = likelihood ratio test p-value for the focal predictor."
   )) %>%
   pretty_ft_aim2()
 
@@ -952,6 +1006,7 @@ cat("Saved:", out_combined, "\n")
 ```{r emo-forest, fig.width = 10, fig.height = 9}
 group_labels_emo <- c(
   "m_b5: HWISE items"                    = "HWISE items",
+  "m_b12: Water worry"                   = "HWISE items",
   "m_b6: Hours supply"                   = "Water supply",
   "m_b7: Intermittent"                   = "Water supply",
   "m_b8: Season"                         = "Water supply",

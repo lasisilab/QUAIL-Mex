@@ -10,18 +10,25 @@ editor_options:
 ## Introduction
 
 This document produces descriptive visualizations for the merged dataset
-(`03.Merged_Q1-6.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
+(`03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
 It complements the tables in `04.Descriptive_stats.Rmd` and includes:
 
-1. Missing data overview (stacked bar chart)
+1. Missing data overview: stacked bar chart showing complete, missing, and
+   sentinel-flagged values for all analytic variables
 
-2. HWISE and PSS score distributions by season (histograms)
+2. HWISE total score (0–36) and PSS-14 total score (0–56) distributions
+   stratified by season (histograms)
 
-3. PSS and water worry by water insecurity level (boxplots)
+3. PSS-14 and water worry subscale distributions across HWISE categories
+   (Marginal 0–2, Low 3–11, Moderate 12–23, High ≥24) — boxplots with
+   annotated sample sizes
 
-4. Objective water supply distributions by neighborhood (histograms and bar charts)
+4. Objective water supply characteristics by neighborhood water security status
+   (water-secure vs. water-insecure): hours per week, supply continuity, and
+   supply frequency (histograms and bar charts)
 
-5. Hours of water supply vs HWISE and PSS (scatter plots)
+5. Scatter plots of hours of water supply per week against HWISE total score
+   and PSS-14 total score, with linear regression lines (±95% CI)
 
 ---
 

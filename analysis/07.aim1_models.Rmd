@@ -49,27 +49,32 @@ sig_symbol <- function(p) {
 ## Overview
 
 This script recalculates the **HWISE reduced score** (excluding the *angry* and
-*shame* items) and fits the eight pre-specified regression models described in
-the analysis plan. Results are consolidated into a single publication-ready
-table.
+*shame* items) and fits nine regression models per outcome testing the
+association between water insecurity, neighborhood water security status, and
+season. Results are consolidated into publication-ready tables.
 
 | Panel | Outcome | Model type | Models |
 |-------|---------|------------|--------|
-| A | Perceived Stress Score (PSS, 0–56) | Linear regression | m_a1 – m_a4 |
-| B | Water-related emotion (positive / negative) | Logistic regression | m_b1 – m_b4 |
+| A | Perceived Stress Score (PSS, 0–56) | Linear regression | m_a1 – m_a9 |
+| B | Water-related emotion (positive / negative) | Logistic regression | m_b1 – m_b9 |
 
-Covariates in all models: **Age** (`D_AGE`), **SES score** (`SES_TOTAL`),
-**Household size** (`D_HH_SIZE`), **Chronic disease** (`CHRONIC_DIS`). Panel B additionally adjusts for **PSS**
-(`PSS_TOTAL`).
+Covariates in all models: **Age** (`D_AGE`), **SES composite score**
+(`SES_SC_Total`), **Household size** (`D_HH_SIZE`), **Chronic disease**
+(`CHRONIC_DIS`). Panel B additionally adjusts for **PSS** (`PSS_TOTAL`).
 
-HWISE_cat was defined using the cutoffs proposed by Young et al. (2021) 
-for the full 12-item HWISE scale, which are based on the original validation 
-sample from 8 countries. However, since we are using a reduced 10-item version
-of HWISE, these cutoffs may not be directly applicable. For the purposes of 
-this analysis, we will use the same cutoffs as a starting point,
-but we will also explore the distribution of the reduced HWISE scores in 
-our sample to see if they align with these categories or if 
-adjustments are needed.
+Focal predictors and model structure:
+
+| Model | Focal predictor(s) | Structure |
+|-------|-------------------|-----------|
+| m_a1 / m_b1 | HWISE reduced score | Main effect |
+| m_a2 / m_b2 | HWISE reduced score + Season | HWISE × Season interaction |
+| m_a3 / m_b3 | Neighborhood water insecurity | Main effect |
+| m_a4 / m_b4 | Neighborhood water insecurity + Season | Neighborhood × Season interaction |
+| m_a5 / m_b5 | HWISE reduced score + Season | Additive (no interaction) |
+| m_a6 / m_b6 | Neighborhood water insecurity + Season | Additive (no interaction) |
+| m_a7 / m_b7 | Season | Season only |
+| m_a8 / m_b8 | HWISE reduced score + Neighborhood WI | HWISE × Neighborhood interaction |
+| m_a9 / m_b9 | HWISE reduced score + Neighborhood WI | Additive (no interaction) |
 
 ---
 
@@ -1941,16 +1946,11 @@ pss_raw_fp <- purrr::map_dfr(names(pss_fits_fp), function(nm) {
     )
 })
 
-pss_bh_fp <- pss_raw_fp %>%
-  distinct(model_id, F_p) %>%
-  mutate(F_p_adj = round(p.adjust(F_p, method = "BH"), 4))
-
 pss_summary_fp <- pss_raw_fp %>%
-  left_join(pss_bh_fp, by = c("model_id", "F_p")) %>%
   mutate(
     est_ci    = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
     p_coef    = fp_p_fmt(p.value),
-    p_adj_fmt = fp_p_fmt(F_p_adj)
+    p_adj_fmt = fp_p_fmt(F_p)
   )
 ```
 
@@ -2036,16 +2036,11 @@ emo_raw_fp <- purrr::map_dfr(names(emo_fits_fp), function(nm) {
     )
 })
 
-emo_bh_fp <- emo_raw_fp %>%
-  distinct(model_id, LRT_p) %>%
-  mutate(LRT_p_adj = round(p.adjust(LRT_p, method = "BH"), 4))
-
 emo_summary_fp <- emo_raw_fp %>%
-  left_join(emo_bh_fp, by = c("model_id", "LRT_p")) %>%
   mutate(
     est_ci    = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
     p_coef    = fp_p_fmt(p.value),
-    p_adj_fmt = fp_p_fmt(LRT_p_adj)
+    p_adj_fmt = fp_p_fmt(LRT_p)
   )
 ```
 
@@ -2129,7 +2124,7 @@ ft_pss_main_fp <- pss_main_tbl_fp %>%
     delta_r2  = "\u0394 Adj. R\u00b2",
     AIC       = "AIC",
     p_coef    = "p (coef.)",
-    p_adj_fmt = "p\u2090\u2091\u2c6a (BH)"
+    p_adj_fmt = "p (F-test)"
   ) %>%
   align(j = c("N", "adj_R2", "delta_r2", "AIC", "p_coef", "p_adj_fmt"),
         align = "center", part = "all") %>%
@@ -2140,8 +2135,8 @@ ft_pss_main_fp <- pss_main_tbl_fp %>%
   add_footer_lines(paste0(
     "\u03b2 = unstandardised regression coefficient; 95% CI = confidence interval. ",
     "Adj. R\u00b2 = adjusted R-squared; \u0394 Adj. R\u00b2 = change over core-covariate-only model. ",
-    "p\u2090\u2091\u2c6a (BH) = F-test p-value adjusted by Benjamini-Hochberg across all PSS models. ",
-    "Green rows: BH-adjusted p < 0.05. Bold blue: unadjusted p < 0.05. ",
+    "p (F-test) = F-test p-value for the focal predictor. ",
+    "Green rows: p < 0.05. Bold blue: coefficient-level p < 0.05. ",
     "Core covariates: age, SES composite, household size, chronic disease."
   )) %>%
   color(color = "grey40", part = "footer") %>%
@@ -2174,7 +2169,7 @@ ft_pss_hwise_fp <- pss_hwise_tbl_fp %>%
     delta_r2  = "\u0394 Adj. R\u00b2",
     AIC       = "AIC",
     p_coef    = "p (coef.)",
-    p_adj_fmt = "p\u2090\u2091\u2c6a (BH)"
+    p_adj_fmt = "p (F-test)"
   ) %>%
   align(j = c("N", "adj_R2", "delta_r2", "AIC", "p_coef", "p_adj_fmt"),
         align = "center", part = "all") %>%
@@ -2186,8 +2181,8 @@ ft_pss_hwise_fp <- pss_hwise_tbl_fp %>%
     "Each HWISE item tested in a separate adjusted model. ",
     "\u03b2 = unstandardised regression coefficient; 95% CI = confidence interval. ",
     "Rows sorted by ascending \u03b2 estimate. ",
-    "p\u2090\u2091\u2c6a (BH) = F-test p-value adjusted by Benjamini-Hochberg across all PSS models. ",
-    "Green rows: BH-adjusted p < 0.05. Bold blue: unadjusted p < 0.05."
+    "p (F-test) = F-test p-value for the focal predictor. ",
+    "Green rows: p < 0.05. Bold blue: coefficient-level p < 0.05."
   )) %>%
   color(color = "grey40", part = "footer") %>%
   fontsize(size = 8, part = "footer") %>%
@@ -2227,7 +2222,7 @@ ft_emo_main_fp <- emo_main_tbl_fp %>%
     delta_r2  = "\u0394 McFadden R\u00b2",
     AIC       = "AIC",
     p_coef    = "p (coef.)",
-    p_adj_fmt = "p\u2090\u2091\u2c6a (BH)"
+    p_adj_fmt = "p (LRT)"
   ) %>%
   align(j = c("N", "mcfadden", "delta_r2", "AIC", "p_coef", "p_adj_fmt"),
         align = "center", part = "all") %>%
@@ -2238,8 +2233,8 @@ ft_emo_main_fp <- emo_main_tbl_fp %>%
   add_footer_lines(paste0(
     "OR = odds ratio; 95% CI = confidence interval (logistic regression). ",
     "McFadden R\u00b2 = pseudo-R\u00b2; \u0394 McFadden R\u00b2 = change over core-covariate-only model. ",
-    "p\u2090\u2091\u2c6a (BH) = LRT p-value adjusted by Benjamini-Hochberg across all emotion models. ",
-    "Green rows: BH-adjusted p < 0.05. Bold blue: unadjusted p < 0.05. ",
+    "p (LRT) = likelihood ratio test p-value for the focal predictor. ",
+    "Green rows: p < 0.05. Bold blue: coefficient-level p < 0.05. ",
     "Core covariates: age, SES composite, household size, PSS total, chronic disease."
   )) %>%
   color(color = "grey40", part = "footer") %>%
@@ -2272,7 +2267,7 @@ ft_emo_hwise_fp <- emo_hwise_tbl_fp %>%
     delta_r2  = "\u0394 McFadden R\u00b2",
     AIC       = "AIC",
     p_coef    = "p (coef.)",
-    p_adj_fmt = "p\u2090\u2091\u2c6a (BH)"
+    p_adj_fmt = "p (LRT)"
   ) %>%
   align(j = c("N", "mcfadden", "delta_r2", "AIC", "p_coef", "p_adj_fmt"),
         align = "center", part = "all") %>%
@@ -2284,8 +2279,8 @@ ft_emo_hwise_fp <- emo_hwise_tbl_fp %>%
     "Each HWISE item tested in a separate adjusted model. ",
     "OR = odds ratio; 95% CI = confidence interval (logistic regression). ",
     "Rows sorted by ascending OR estimate. ",
-    "p\u2090\u2091\u2c6a (BH) = LRT p-value adjusted by Benjamini-Hochberg across all emotion models. ",
-    "Green rows: BH-adjusted p < 0.05. Bold blue: unadjusted p < 0.05."
+    "p (LRT) = likelihood ratio test p-value for the focal predictor. ",
+    "Green rows: p < 0.05. Bold blue: coefficient-level p < 0.05."
   )) %>%
   color(color = "grey40", part = "footer") %>%
   fontsize(size = 8, part = "footer") %>%

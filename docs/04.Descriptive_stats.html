@@ -408,7 +408,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-24
+<strong>Last updated:</strong> 2026-03-26
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -539,15 +539,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree89c5e5823cbf9236a0aaaa3c83ab56abcbe8a81ftargetblank89c5e58a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2d7738dc10b287b4cf5d5b247fee3c77299928b5targetblank2d7738da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/89c5e5823cbf9236a0aaaa3c83ab56abcbe8a81f" target="_blank">89c5e58</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2d7738dc10b287b4cf5d5b247fee3c77299928b5" target="_blank">2d7738d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree89c5e5823cbf9236a0aaaa3c83ab56abcbe8a81ftargetblank89c5e58a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextree2d7738dc10b287b4cf5d5b247fee3c77299928b5targetblank2d7738da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -557,7 +557,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/89c5e5823cbf9236a0aaaa3c83ab56abcbe8a81f" target="_blank">89c5e58</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/2d7738dc10b287b4cf5d5b247fee3c77299928b5" target="_blank">2d7738d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,6 +576,7 @@ Ignored files:
     Ignored:    .RData
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    .claude/
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
@@ -589,22 +590,35 @@ Ignored files:
     Ignored:    output/tables/.DS_Store
 
 Untracked files:
-    Untracked:  .claude/
-    Untracked:  output/tables/04.Table1.2_missing.docx
-    Untracked:  output/tables/04.Table1_sample_full.docx
-    Untracked:  output/tables/04.Table1_sample_main.docx
-    Untracked:  output/tables/04.Table2_HWISE_PSS_by_season_full.docx
-    Untracked:  output/tables/04.Table2_HWISE_PSS_short.docx
-    Untracked:  output/tables/~$.TableS1_supplementary_full_descriptives.docx
+    Untracked:  analysis/09.aim2_adjusted_for_hwise.Rmd
+    Untracked:  output/figures/09.aim2_adjusted_for_hwise_emo_forest.png
+    Untracked:  output/figures/09.aim2_adjusted_for_hwise_pss_forest.png
+    Untracked:  output/tables/~$.TableS3_HWISE_PSS_by_neighborhood.docx
 
 Unstaged changes:
     Modified:   analysis/04.Descriptive_stats.Rmd
-    Deleted:    output/tables/04.Table1_full_descriptives.docx
-    Deleted:    output/tables/04.Table1_sample_characteristics.docx
-    Deleted:    output/tables/04.Table2_HWISE_PSS_by_season.docx
+    Modified:   analysis/05.Descriptive_plots.Rmd
+    Modified:   analysis/06.unadjusted_models.Rmd
+    Modified:   analysis/07.aim1_models.Rmd
+    Modified:   analysis/08.aim2_models.Rmd
+    Deleted:    analysis/09.aim2_hwise_adjusted.Rmd
+    Modified:   analysis/10.full_models.Rmd
+    Modified:   output/figures/06.Unadj_coef_EMO.png
+    Modified:   output/figures/06.Unadj_coef_PSS.png
+    Modified:   output/figures/08.aim2_emo_forest.png
+    Modified:   output/figures/08.aim2_pss_forest.png
+    Modified:   output/tables/04.Table1.2_missing.docx
+    Modified:   output/tables/04.Table1_sample_full.docx
+    Modified:   output/tables/04.Table1_sample_main.docx
+    Modified:   output/tables/04.Table2_HWISE_PSS_by_season_full.docx
+    Modified:   output/tables/04.Table2_HWISE_PSS_short.docx
     Modified:   output/tables/04.Table3_HWISE_PSS_by_neighborhood.docx
-    Deleted:    output/tables/04.missing_table.docx
-    Deleted:    output/tables/04.missing_table_by_season.docx
+    Modified:   output/tables/06.Tables_Unadjusted_Models.docx
+    Modified:   output/tables/07.Tables_Aim1_Models.docx
+    Modified:   output/tables/08.Tables_Aim2_Models.docx
+    Modified:   output/tables/09.Tables_Aim2_HWISEadj_Models.docx
+    Modified:   output/tables/10.Tables_Full_Models.docx
+    Deleted:    output/tables/~$.Tables_Unadjusted_Models.docx
 
 </code></pre>
 <p>
@@ -630,20 +644,27 @@ There are no past versions. Publish this analysis with
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>This document produces descriptive statistics tables for the merged
-dataset (<code>3.Merged_Q1-6_Q16_Q19_Q26_Q28.csv</code>, produced by
+dataset (<code>03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv</code>, produced by
 <code>03.Data_merge_Q1-6.Rmd</code>). It includes:</p>
 <ol style="list-style-type: decimal">
 <li><p>A comprehensive descriptive statistics table (all analytic
 variables)</p></li>
 <li><p>A manuscript table with sample characteristics stratified by
+season (rainy vs. dry)</p></li>
+<li><p>Two missing data summary tables: overall and stratified by
 season</p></li>
-<li><p>A missing data summary table</p></li>
 <li><p>HWISE and PSS descriptive statistics (overall and by
 season)</p></li>
-<li><p>Sample characteristics stratified by water insecurity level
-(HWISE categories)</p></li>
-<li><p>Objective water supply characteristics (source, continuity,
-frequency, hours of supply, pressure, and seasonality)</p></li>
+<li><p>Sample characteristics stratified by HWISE water insecurity
+category: <strong>Marginal</strong> (0–2), <strong>Low</strong> (3–11),
+<strong>Moderate</strong> (12–23), <strong>High</strong> (≥24)</p></li>
+<li><p>Full sample characteristics (demographics, SES, employment,
+health) stratified by neighborhood water security status (water-secure
+vs. water-insecure)</p></li>
+<li><p>Objective water supply characteristics: source, continuity,
+frequency, hours of supply per week, pressure, and seasonality — by
+neighborhood water security status (water-secure
+vs. water-insecure)</p></li>
 </ol>
 <p>Visualizations for all of the above are in
 <code>05.Descriptive_plots.Rmd</code>.</p>
@@ -841,12 +862,14 @@ df_table &lt;- df %&gt;%
     
     HWISE_Cat     = factor(
       case_when(
-        is.na(clean_for_table(HW_TOTAL))             ~ NA_character_,
-        clean_for_table(HW_TOTAL) &lt;= 3               ~ &quot;Marginal (0-3)&quot;,
-        clean_for_table(HW_TOTAL) &lt;= 11              ~ &quot;Low (4-11)&quot;,
-        TRUE                                         ~ &quot;Moderate/Severe (≥12)&quot;
+        is.na(clean_for_table(HW_TOTAL))  ~ NA_character_,
+        clean_for_table(HW_TOTAL) &lt;= 2    ~ &quot;Marginal (0\u20132)&quot;,
+        clean_for_table(HW_TOTAL) &lt;= 11   ~ &quot;Low (3\u201311)&quot;,
+        clean_for_table(HW_TOTAL) &lt;= 23   ~ &quot;Moderate (12\u201323)&quot;,
+        TRUE                              ~ &quot;High (\u226524)&quot;
       ),
-      levels = c(&quot;Marginal (0-3)&quot;, &quot;Low (4-11)&quot;, &quot;Moderate/Severe (≥12)&quot;)
+      levels = c(&quot;Marginal (0\u20132)&quot;, &quot;Low (3\u201311)&quot;,
+                 &quot;Moderate (12\u201323)&quot;, &quot;High (\u226524)&quot;)
     ),
 
     # --- Individual HWISE items ---
@@ -994,6 +1017,7 @@ class="section level1">
     where(is.ordered) ~ &quot;kruskal.test&quot;
   )) %&gt;%
   bold_labels() %&gt;%
+  bold_p(t = 0.05) %&gt;%
   add_n(statistic = &quot;{p_miss}%&quot;,
         col_label = &quot;**Missing (%)**&quot;) %&gt;%
   modify_table_body(~ .x %&gt;% relocate(n, .after = last_col())) %&gt;%
@@ -1477,7 +1501,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
 <td headers="stat_1" class="gt_row gt_center">33.2 (7.1)</td>
 <td headers="stat_2" class="gt_row gt_center">31.3 (7.6)</td>
-<td headers="p.value" class="gt_row gt_center">0.011</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.011</td>
 <td headers="n" class="gt_row gt_center">0.50%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
@@ -1489,7 +1513,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center">5.6 (3.6)</td>
 <td headers="stat_1" class="gt_row gt_center">6.8 (4.3)</td>
 <td headers="stat_2" class="gt_row gt_center">4.4 (1.7)</td>
-<td headers="p.value" class="gt_row gt_center"><0.001</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
 <td headers="n" class="gt_row gt_center">5.29%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Parity</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">1.9 (1.3)</td>
@@ -1501,7 +1525,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.003</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.003</td>
 <td headers="n" class="gt_row gt_center">1.51%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    E</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">14 (3.58%)</td>
@@ -1645,7 +1669,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center">65 (16.4%)</td>
 <td headers="stat_1" class="gt_row gt_center">24 (11.9%)</td>
 <td headers="stat_2" class="gt_row gt_center">41 (20.9%)</td>
-<td headers="p.value" class="gt_row gt_center">0.021</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.021</td>
 <td headers="n" class="gt_row gt_center">0%</td></tr>
   </tbody>
   
@@ -1710,6 +1734,7 @@ across data collection waves.</p>
     where(is.ordered) ~ &quot;kruskal.test&quot;
   )) %&gt;%
   bold_labels() %&gt;%
+  bold_p(t = 0.05) %&gt;%
   add_n(statistic = &quot;{p_miss}%&quot;, col_label = &quot;**Missing (%)**&quot;) %&gt;%
   modify_table_body(~ .x %&gt;% relocate(n, .after = last_col())) %&gt;%
   modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season of data collection**&quot;) %&gt;%
@@ -2192,7 +2217,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
 <td headers="stat_1" class="gt_row gt_center">33.2 (7.1)</td>
 <td headers="stat_2" class="gt_row gt_center">31.3 (7.6)</td>
-<td headers="p.value" class="gt_row gt_center">0.011</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.011</td>
 <td headers="n" class="gt_row gt_center">0.50%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
@@ -2204,7 +2229,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center">5.6 (3.6)</td>
 <td headers="stat_1" class="gt_row gt_center">6.8 (4.3)</td>
 <td headers="stat_2" class="gt_row gt_center">4.4 (1.7)</td>
-<td headers="p.value" class="gt_row gt_center"><0.001</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td>
 <td headers="n" class="gt_row gt_center">5.29%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Parity</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">1.9 (1.3)</td>
@@ -2216,7 +2241,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.003</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.003</td>
 <td headers="n" class="gt_row gt_center">1.51%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    E</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">14 (3.58%)</td>
@@ -2264,7 +2289,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.023</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.023</td>
 <td headers="n" class="gt_row gt_center">1.01%</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    0 bathrooms</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">119 (30.3%)</td>
@@ -2318,7 +2343,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.003</td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;">0.003</td>
 <td headers="n" class="gt_row gt_center gt_striped">0.50%</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0 workers</td>
 <td headers="stat_0" class="gt_row gt_center">2 (0.51%)</td>
@@ -2354,7 +2379,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.002</td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;">0.002</td>
 <td headers="n" class="gt_row gt_center gt_striped">0.50%</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0 bedrooms</td>
 <td headers="stat_0" class="gt_row gt_center">1 (0.25%)</td>
@@ -2474,7 +2499,7 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center gt_striped">65 (16.4%)</td>
 <td headers="stat_1" class="gt_row gt_center gt_striped">24 (11.9%)</td>
 <td headers="stat_2" class="gt_row gt_center gt_striped">41 (20.9%)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.021</td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;">0.021</td>
 <td headers="n" class="gt_row gt_center gt_striped">0%</td></tr>
   </tbody>
   
@@ -5623,38 +5648,59 @@ N = 201</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 </table>
 </div>
 </div>
-<div id="by-season" class="section level2">
-<h2>6.2 By season</h2>
-<pre class="r"><code>tbl_scores_season &lt;- df_table %&gt;%
-  select(Season, HWISE_Total, HWISE_Cat, Water_worry, Water_5sub, PSS_Total, PSS_Cat) %&gt;%
+<div id="sample-characteristics-by-neighborhood" class="section level2">
+<h2>6.2 Sample characteristics by neighborhood</h2>
+<p>Full demographic, SES, employment, and health variable set stratified
+by neighborhood water security status (water-secure vs. water-insecure),
+mirroring the supplementary full descriptives table (Section 3).</p>
+<pre class="r"><code>tbl_full_by_nbhd &lt;- df_s2 %&gt;%
+  filter(!is.na(W_Nbhd)) %&gt;%
+  select(W_Nbhd,
+         Age, Yrs_in_nbhd, HH_size, Parity,
+         SES, Education, Employed, Employment_type,
+         Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis) %&gt;%
   tbl_summary(
-    by        = Season,
-    type = list(Water_worry ~ &quot;continuous&quot;),
+    by        = W_Nbhd,
     statistic = list(
       all_continuous()  ~ &quot;{mean} ({sd})&quot;,
       all_categorical() ~ &quot;{n} ({p}%)&quot;
     ),
+    type    = list(Parity ~ &quot;continuous&quot;),
     digits  = list(all_continuous() ~ 1),
     missing = &quot;no&quot;,
     label   = list(
-      HWISE_Total  ~ &quot;HWISE total score (0–36)&quot;,
-      HWISE_Cat    ~ &quot;HWISE 3 categories&quot;,
-      Water_worry  ~ &quot;Water worry subscale (0–9)&quot;,
-      Water_5sub   ~ &quot;Water 5-item subscale (0–15)&quot;,
-      PSS_Total    ~ &quot;PSS-14 total score (0–56)&quot;,
-      PSS_Cat      ~ &quot;Perceived stress level&quot;
+      Age             ~ &quot;Age (years)&quot;,
+      Yrs_in_nbhd     ~ &quot;Years in neighborhood&quot;,
+      HH_size         ~ &quot;Household size&quot;,
+      Parity          ~ &quot;Parity&quot;,
+      SES             ~ &quot;SES (NSE-AMAI)&quot;,
+      Education       ~ &quot;Education&quot;,
+      Employed        ~ &quot;Employed&quot;,
+      Employment_type ~ &quot;Employment type&quot;,
+      Smoking         ~ &quot;Smoking status&quot;,
+      Hormonal_tx     ~ &quot;Hormonal treatment&quot;,
+      Medication      ~ &quot;Regular medication use&quot;,
+      Chronic_pain    ~ &quot;Chronic pain&quot;,
+      Chronic_dis     ~ &quot;Chronic disease&quot;
     )
   ) %&gt;%
-  add_overall() %&gt;%
+  add_overall(last = FALSE) %&gt;%
   add_p(test = list(
     all_continuous()  ~ &quot;wilcox.test&quot;,
-    all_categorical() ~ &quot;fisher.test&quot;
+    all_categorical() ~ &quot;fisher.test&quot;,
+    where(is.ordered) ~ &quot;kruskal.test&quot;
   )) %&gt;%
   bold_labels() %&gt;%
-  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season**&quot;) %&gt;%
-  modify_caption(&quot;**Table. HWISE and PSS scores by season (n = {N})**&quot;)
+  bold_p(t = 0.05) %&gt;%
+  add_n(statistic = &quot;{p_miss}%&quot;,
+        col_label = &quot;**Missing (%)**&quot;) %&gt;%
+  modify_table_body(~ .x %&gt;% relocate(n, .after = last_col())) %&gt;%
+  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**By neighborhood**&quot;) %&gt;%
+  modify_header(label = &quot;**Variable**&quot;) %&gt;%
+  modify_footnote(all_stat_cols() ~ &quot;Mean (SD) for continuous variables; n (%) for categorical variables.&quot;) %&gt;%
+  modify_caption(&quot;**Table S1b. Sample characteristics by neighborhood water security status**&quot;)
 
-tbl_scores_season |&gt; as_gt() |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code></pre>
+tbl_full_by_nbhd |&gt; as_gt() |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code></pre>
 <div id="sufggjrddm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#sufggjrddm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -6105,6 +6151,696 @@ tbl_scores_season |&gt; as_gt() |&gt; opt_stylize(style = 6, color = &quot;gray&
 }
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <caption><span class='gt_from_md'><strong>Table S1b. Sample characteristics by neighborhood water security status</strong></span></caption>
+  <thead>
+    <tr class="gt_col_headings gt_spanner_row">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="2" colspan="1" scope="col" id="label"><span class='gt_from_md'><strong>Variable</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_0"><span class='gt_from_md'><strong>Overall</strong><br />
+N = 397</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="2" scope="colgroup" id="level 1; stat_1">
+        <div class="gt_column_spanner"><span class='gt_from_md'><strong>By neighborhood</strong></span></div>
+      </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="n"><span class='gt_from_md'><strong>Missing (%)</strong></span></th>
+    </tr>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Water Secure</strong><br />
+N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Water Insecure</strong><br />
+N = 201</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
+<td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
+<td headers="stat_1" class="gt_row gt_center">32.3 (7.3)</td>
+<td headers="stat_2" class="gt_row gt_center">32.2 (7.5)</td>
+<td headers="p.value" class="gt_row gt_center">0.878</td>
+<td headers="n" class="gt_row gt_center">0.50%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">21.7 (11.4)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">23.2 (11.3)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.221</td>
+<td headers="n" class="gt_row gt_center gt_striped">8.31%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size</td>
+<td headers="stat_0" class="gt_row gt_center">5.6 (3.6)</td>
+<td headers="stat_1" class="gt_row gt_center">5.8 (4.2)</td>
+<td headers="stat_2" class="gt_row gt_center">5.5 (2.9)</td>
+<td headers="p.value" class="gt_row gt_center">0.986</td>
+<td headers="n" class="gt_row gt_center">5.29%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Parity</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">1.9 (1.3)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">1.9 (1.3)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">1.8 (1.2)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.877</td>
+<td headers="n" class="gt_row gt_center gt_striped">4.53%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES (NSE-AMAI)</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.359</td>
+<td headers="n" class="gt_row gt_center">1.51%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    E</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">14 (3.58%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">6 (3.09%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">8 (4.06%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    D-</td>
+<td headers="stat_0" class="gt_row gt_center">54 (13.8%)</td>
+<td headers="stat_1" class="gt_row gt_center">31 (16.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">23 (11.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    D+</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">60 (15.3%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">27 (13.9%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">33 (16.8%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C-</td>
+<td headers="stat_0" class="gt_row gt_center">90 (23.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">51 (26.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">39 (19.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    C</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">92 (23.5%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">41 (21.1%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">51 (25.9%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    C+</td>
+<td headers="stat_0" class="gt_row gt_center">53 (13.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">25 (12.9%)</td>
+<td headers="stat_2" class="gt_row gt_center">28 (14.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    AB</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">28 (7.16%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">13 (6.70%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">15 (7.61%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.290</td>
+<td headers="n" class="gt_row gt_center">2.02%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    No formal / incomplete primary</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">16 (4.11%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">5 (2.62%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">11 (5.56%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete primary</td>
+<td headers="stat_0" class="gt_row gt_center">36 (9.25%)</td>
+<td headers="stat_1" class="gt_row gt_center">19 (9.95%)</td>
+<td headers="stat_2" class="gt_row gt_center">17 (8.59%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    Incomplete secondary</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">24 (6.17%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">13 (6.81%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">11 (5.56%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete secondary</td>
+<td headers="stat_0" class="gt_row gt_center">136 (35.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">61 (31.9%)</td>
+<td headers="stat_2" class="gt_row gt_center">75 (37.9%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    Incomplete high school</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">48 (12.3%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">27 (14.1%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">21 (10.6%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Complete high school</td>
+<td headers="stat_0" class="gt_row gt_center">90 (23.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">43 (22.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">47 (23.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    University or higher</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">39 (10.0%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">23 (12.0%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">16 (8.08%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
+<td headers="stat_0" class="gt_row gt_center">268 (70.3%)</td>
+<td headers="stat_1" class="gt_row gt_center">136 (73.9%)</td>
+<td headers="stat_2" class="gt_row gt_center">132 (67.0%)</td>
+<td headers="p.value" class="gt_row gt_center">0.146</td>
+<td headers="n" class="gt_row gt_center">4.03%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Employment type</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.066</td>
+<td headers="n" class="gt_row gt_center gt_striped">46.3%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Informal</td>
+<td headers="stat_0" class="gt_row gt_center">153 (71.8%)</td>
+<td headers="stat_1" class="gt_row gt_center">77 (66.4%)</td>
+<td headers="stat_2" class="gt_row gt_center">76 (78.4%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td>
+<td headers="n" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    Formal</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">60 (28.2%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">39 (33.6%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">21 (21.6%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="n" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Smoking status</td>
+<td headers="stat_0" class="gt_row gt_center">114 (29.8%)</td>
+<td headers="stat_1" class="gt_row gt_center">61 (33.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">53 (26.8%)</td>
+<td headers="p.value" class="gt_row gt_center">0.181</td>
+<td headers="n" class="gt_row gt_center">3.78%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Hormonal treatment</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">8 (2.29%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">3 (1.81%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">5 (2.73%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.726</td>
+<td headers="n" class="gt_row gt_center gt_striped">12.1%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Regular medication use</td>
+<td headers="stat_0" class="gt_row gt_center">15 (4.49%)</td>
+<td headers="stat_1" class="gt_row gt_center">8 (5.03%)</td>
+<td headers="stat_2" class="gt_row gt_center">7 (4.00%)</td>
+<td headers="p.value" class="gt_row gt_center">0.793</td>
+<td headers="n" class="gt_row gt_center">15.9%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Chronic pain</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">108 (27.2%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">52 (26.5%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">56 (27.9%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.822</td>
+<td headers="n" class="gt_row gt_center gt_striped">0%</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic disease</td>
+<td headers="stat_0" class="gt_row gt_center">65 (16.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">26 (13.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">39 (19.4%)</td>
+<td headers="p.value" class="gt_row gt_center">0.105</td>
+<td headers="n" class="gt_row gt_center">0%</td></tr>
+  </tbody>
+  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD) for continuous variables; n (%) for categorical variables.</span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>Wilcoxon rank sum test; Kruskal-Wallis rank sum test; Fisher’s exact test</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="by-season" class="section level2">
+<h2>6.3 By season</h2>
+<pre class="r"><code>tbl_scores_season &lt;- df_table %&gt;%
+  select(Season, HWISE_Total, HWISE_Cat, Water_worry, Water_5sub, PSS_Total, PSS_Cat) %&gt;%
+  tbl_summary(
+    by        = Season,
+    type = list(Water_worry ~ &quot;continuous&quot;),
+    statistic = list(
+      all_continuous()  ~ &quot;{mean} ({sd})&quot;,
+      all_categorical() ~ &quot;{n} ({p}%)&quot;
+    ),
+    digits  = list(all_continuous() ~ 1),
+    missing = &quot;no&quot;,
+    label   = list(
+      HWISE_Total  ~ &quot;HWISE total score (0–36)&quot;,
+      HWISE_Cat    ~ &quot;HWISE 4 categories&quot;,
+      Water_worry  ~ &quot;Water worry subscale (0–9)&quot;,
+      Water_5sub   ~ &quot;Water 5-item subscale (0–15)&quot;,
+      PSS_Total    ~ &quot;PSS-14 total score (0–56)&quot;,
+      PSS_Cat      ~ &quot;Perceived stress level&quot;
+    )
+  ) %&gt;%
+  add_overall() %&gt;%
+  add_p(test = list(
+    all_continuous()  ~ &quot;wilcox.test&quot;,
+    all_categorical() ~ &quot;fisher.test&quot;
+  )) %&gt;%
+  bold_labels() %&gt;%
+  bold_p(t = 0.05) %&gt;%
+  modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season**&quot;) %&gt;%
+  modify_caption(&quot;**Table. HWISE and PSS scores by season (n = {N})**&quot;)
+
+tbl_scores_season |&gt; as_gt() |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code></pre>
+<div id="heodntuxzi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#heodntuxzi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#heodntuxzi thead, #heodntuxzi tbody, #heodntuxzi tfoot, #heodntuxzi tr, #heodntuxzi td, #heodntuxzi th {
+  border-style: none;
+}
+
+#heodntuxzi p {
+  margin: 0;
+  padding: 0;
+}
+
+#heodntuxzi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#heodntuxzi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#heodntuxzi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#heodntuxzi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#heodntuxzi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#heodntuxzi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#heodntuxzi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#heodntuxzi .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#heodntuxzi .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #5F5F5F;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#heodntuxzi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#heodntuxzi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#heodntuxzi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#heodntuxzi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#heodntuxzi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#heodntuxzi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+  vertical-align: middle;
+}
+
+#heodntuxzi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#heodntuxzi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#heodntuxzi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D5D5D5;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D5D5D5;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D5D5D5;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#heodntuxzi .gt_stub {
+  color: #333333;
+  background-color: #D5D5D5;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D5D5D5;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#heodntuxzi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#heodntuxzi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#heodntuxzi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#heodntuxzi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#heodntuxzi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #5F5F5F;
+}
+
+#heodntuxzi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#heodntuxzi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#heodntuxzi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #D5D5D5;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#heodntuxzi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #5F5F5F;
+}
+
+#heodntuxzi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #5F5F5F;
+}
+
+#heodntuxzi .gt_striped {
+  background-color: #F4F4F4;
+}
+
+#heodntuxzi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #5F5F5F;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #5F5F5F;
+}
+
+#heodntuxzi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#heodntuxzi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#heodntuxzi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#heodntuxzi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#heodntuxzi .gt_left {
+  text-align: left;
+}
+
+#heodntuxzi .gt_center {
+  text-align: center;
+}
+
+#heodntuxzi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#heodntuxzi .gt_font_normal {
+  font-weight: normal;
+}
+
+#heodntuxzi .gt_font_bold {
+  font-weight: bold;
+}
+
+#heodntuxzi .gt_font_italic {
+  font-style: italic;
+}
+
+#heodntuxzi .gt_super {
+  font-size: 65%;
+}
+
+#heodntuxzi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#heodntuxzi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#heodntuxzi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#heodntuxzi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#heodntuxzi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#heodntuxzi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#heodntuxzi .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#heodntuxzi .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#heodntuxzi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <caption><span class='gt_from_md'><strong>Table. HWISE and PSS scores by season (n = 397)</strong></span></caption>
   <thead>
     <tr class="gt_col_headings gt_spanner_row">
@@ -6128,62 +6864,67 @@ N = 196</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
 <td headers="stat_0" class="gt_row gt_center">8.4 (6.1)</td>
 <td headers="stat_1" class="gt_row gt_center">7.1 (5.7)</td>
 <td headers="stat_2" class="gt_row gt_center">9.8 (6.2)</td>
-<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
-    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">HWISE 3 categories</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">HWISE 4 categories</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.004</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Marginal (0-3)</td>
-<td headers="stat_0" class="gt_row gt_center">101 (25.4%)</td>
-<td headers="stat_1" class="gt_row gt_center">64 (31.8%)</td>
-<td headers="stat_2" class="gt_row gt_center">37 (18.9%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;">0.003</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Marginal (0–2)</td>
+<td headers="stat_0" class="gt_row gt_center">77 (19.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">52 (25.9%)</td>
+<td headers="stat_2" class="gt_row gt_center">25 (12.8%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left gt_striped">    Low (4-11)</td>
-<td headers="stat_0" class="gt_row gt_center gt_striped">185 (46.6%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">92 (45.8%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">93 (47.4%)</td>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    Low (3–11)</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">209 (52.6%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">104 (51.7%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">105 (53.6%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Moderate/Severe (≥12)</td>
-<td headers="stat_0" class="gt_row gt_center">111 (28.0%)</td>
-<td headers="stat_1" class="gt_row gt_center">45 (22.4%)</td>
-<td headers="stat_2" class="gt_row gt_center">66 (33.7%)</td>
+    <tr><td headers="label" class="gt_row gt_left">    Moderate (12–23)</td>
+<td headers="stat_0" class="gt_row gt_center">105 (26.4%)</td>
+<td headers="stat_1" class="gt_row gt_center">43 (21.4%)</td>
+<td headers="stat_2" class="gt_row gt_center">62 (31.6%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Water worry subscale (0–9)</td>
-<td headers="stat_0" class="gt_row gt_center gt_striped">2.4 (1.8)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">2.1 (1.8)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">2.8 (1.9)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped"><0.001</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water 5-item subscale (0–15)</td>
-<td headers="stat_0" class="gt_row gt_center">3.2 (3.0)</td>
-<td headers="stat_1" class="gt_row gt_center">2.5 (2.7)</td>
-<td headers="stat_2" class="gt_row gt_center">3.9 (3.2)</td>
-<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
-    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">PSS-14 total score (0–56)</td>
-<td headers="stat_0" class="gt_row gt_center gt_striped">27.2 (7.2)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">27.3 (6.9)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">27.2 (7.6)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.967</td></tr>
-    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Perceived stress level</td>
-<td headers="stat_0" class="gt_row gt_center"><br /></td>
-<td headers="stat_1" class="gt_row gt_center"><br /></td>
-<td headers="stat_2" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.342</td></tr>
-    <tr><td headers="label" class="gt_row gt_left gt_striped">    Low stress (0–18)</td>
-<td headers="stat_0" class="gt_row gt_center gt_striped">44 (11.1%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">19 (9.50%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">25 (12.8%)</td>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    High (≥24)</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">6 (1.51%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">2 (1.00%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">4 (2.04%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Moderate stress (19–37)</td>
-<td headers="stat_0" class="gt_row gt_center">319 (80.6%)</td>
-<td headers="stat_1" class="gt_row gt_center">167 (83.5%)</td>
-<td headers="stat_2" class="gt_row gt_center">152 (77.6%)</td>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water worry subscale (0–9)</td>
+<td headers="stat_0" class="gt_row gt_center">2.4 (1.8)</td>
+<td headers="stat_1" class="gt_row gt_center">2.1 (1.8)</td>
+<td headers="stat_2" class="gt_row gt_center">2.8 (1.9)</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Water 5-item subscale (0–15)</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">3.2 (3.0)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">2.5 (2.7)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">3.9 (3.2)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;"><0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score (0–56)</td>
+<td headers="stat_0" class="gt_row gt_center">27.2 (7.2)</td>
+<td headers="stat_1" class="gt_row gt_center">27.3 (6.9)</td>
+<td headers="stat_2" class="gt_row gt_center">27.2 (7.6)</td>
+<td headers="p.value" class="gt_row gt_center">0.967</td></tr>
+    <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Perceived stress level</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.342</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Low stress (0–18)</td>
+<td headers="stat_0" class="gt_row gt_center">44 (11.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">19 (9.50%)</td>
+<td headers="stat_2" class="gt_row gt_center">25 (12.8%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
-    <tr><td headers="label" class="gt_row gt_left gt_striped">    High stress (38–56)</td>
-<td headers="stat_0" class="gt_row gt_center gt_striped">33 (8.33%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">14 (7.00%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">19 (9.69%)</td>
+    <tr><td headers="label" class="gt_row gt_left gt_striped">    Moderate stress (19–37)</td>
+<td headers="stat_0" class="gt_row gt_center gt_striped">319 (80.6%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">167 (83.5%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">152 (77.6%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High stress (38–56)</td>
+<td headers="stat_0" class="gt_row gt_center">33 (8.33%)</td>
+<td headers="stat_1" class="gt_row gt_center">14 (7.00%)</td>
+<td headers="stat_2" class="gt_row gt_center">19 (9.69%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
@@ -6247,6 +6988,7 @@ categorical.</p>
     all_categorical() ~ &quot;chisq.test&quot;
   )) %&gt;%
   bold_labels() %&gt;%
+  bold_p(t = 0.05) %&gt;%
   modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;, &quot;stat_3&quot;) ~
                            &quot;**HWISE 3 categories**&quot;) %&gt;%
   modify_caption(&quot;**Table. Sample characteristics by water insecurity level (n = {N})**&quot;)</code></pre>
@@ -6254,12 +6996,20 @@ categorical.</p>
 ! For variable `Age` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot; statistics:
   The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary 2.0.0. ℹ The same
   functionality is covered in &quot;oneway.test&quot; with argument `var.equal = TRUE`.
+! For variable `Chronic_dis` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Chronic_pain` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `Education` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
+! For variable `Employed` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `HH_size` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
   statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
   2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
   `var.equal = TRUE`.
+! For variable `PSS_Cat` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `PSS_Total` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
   statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
   2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
@@ -6268,6 +7018,8 @@ categorical.</p>
   &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `SES` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and &quot;parameter&quot;
   statistics: Chi-squared approximation may be incorrect
+! For variable `Smoking` (`HWISE_Cat`) and &quot;statistic&quot;, &quot;p.value&quot;, and
+  &quot;parameter&quot; statistics: Chi-squared approximation may be incorrect
 ! For variable `Water_5sub` (`HWISE_Cat`) and &quot;statistic&quot; and &quot;p.value&quot;
   statistics: The test &quot;aov&quot; in `add_p(test)` was deprecated in gtsummary
   2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
@@ -6281,23 +7033,23 @@ categorical.</p>
   2.0.0. ℹ The same functionality is covered in &quot;oneway.test&quot; with argument
   `var.equal = TRUE`.</code></pre>
 <pre class="r"><code>tbl_by_hwise |&gt; as_gt() |&gt; opt_stylize(style = 6, color = &quot;gray&quot;)</code></pre>
-<div id="rnezlsifsi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rnezlsifsi table {
+<div id="pvlznbnypy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pvlznbnypy table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rnezlsifsi thead, #rnezlsifsi tbody, #rnezlsifsi tfoot, #rnezlsifsi tr, #rnezlsifsi td, #rnezlsifsi th {
+#pvlznbnypy thead, #pvlznbnypy tbody, #pvlznbnypy tfoot, #pvlznbnypy tr, #pvlznbnypy td, #pvlznbnypy th {
   border-style: none;
 }
 
-#rnezlsifsi p {
+#pvlznbnypy p {
   margin: 0;
   padding: 0;
 }
 
-#rnezlsifsi .gt_table {
+#pvlznbnypy .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -6323,12 +7075,12 @@ categorical.</p>
   border-left-color: #D3D3D3;
 }
 
-#rnezlsifsi .gt_caption {
+#pvlznbnypy .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rnezlsifsi .gt_title {
+#pvlznbnypy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -6340,7 +7092,7 @@ categorical.</p>
   border-bottom-width: 0;
 }
 
-#rnezlsifsi .gt_subtitle {
+#pvlznbnypy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -6352,7 +7104,7 @@ categorical.</p>
   border-top-width: 0;
 }
 
-#rnezlsifsi .gt_heading {
+#pvlznbnypy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -6364,13 +7116,13 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#rnezlsifsi .gt_bottom_border {
+#pvlznbnypy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #5F5F5F;
 }
 
-#rnezlsifsi .gt_col_headings {
+#pvlznbnypy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #5F5F5F;
@@ -6385,7 +7137,7 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#rnezlsifsi .gt_col_heading {
+#pvlznbnypy .gt_col_heading {
   color: #FFFFFF;
   background-color: #5F5F5F;
   font-size: 100%;
@@ -6405,7 +7157,7 @@ categorical.</p>
   overflow-x: hidden;
 }
 
-#rnezlsifsi .gt_column_spanner_outer {
+#pvlznbnypy .gt_column_spanner_outer {
   color: #FFFFFF;
   background-color: #5F5F5F;
   font-size: 100%;
@@ -6417,15 +7169,15 @@ categorical.</p>
   padding-right: 4px;
 }
 
-#rnezlsifsi .gt_column_spanner_outer:first-child {
+#pvlznbnypy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rnezlsifsi .gt_column_spanner_outer:last-child {
+#pvlznbnypy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rnezlsifsi .gt_column_spanner {
+#pvlznbnypy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #5F5F5F;
@@ -6437,11 +7189,11 @@ categorical.</p>
   width: 100%;
 }
 
-#rnezlsifsi .gt_spanner_row {
+#pvlznbnypy .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rnezlsifsi .gt_group_heading {
+#pvlznbnypy .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6467,7 +7219,7 @@ categorical.</p>
   text-align: left;
 }
 
-#rnezlsifsi .gt_empty_group_heading {
+#pvlznbnypy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -6482,15 +7234,15 @@ categorical.</p>
   vertical-align: middle;
 }
 
-#rnezlsifsi .gt_from_md > :first-child {
+#pvlznbnypy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rnezlsifsi .gt_from_md > :last-child {
+#pvlznbnypy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rnezlsifsi .gt_row {
+#pvlznbnypy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6509,7 +7261,7 @@ categorical.</p>
   overflow-x: hidden;
 }
 
-#rnezlsifsi .gt_stub {
+#pvlznbnypy .gt_stub {
   color: #333333;
   background-color: #D5D5D5;
   font-size: 100%;
@@ -6522,7 +7274,7 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#rnezlsifsi .gt_stub_row_group {
+#pvlznbnypy .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -6536,15 +7288,15 @@ categorical.</p>
   vertical-align: top;
 }
 
-#rnezlsifsi .gt_row_group_first td {
+#pvlznbnypy .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rnezlsifsi .gt_row_group_first th {
+#pvlznbnypy .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rnezlsifsi .gt_summary_row {
+#pvlznbnypy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -6554,16 +7306,16 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#rnezlsifsi .gt_first_summary_row {
+#pvlznbnypy .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #5F5F5F;
 }
 
-#rnezlsifsi .gt_first_summary_row.thick {
+#pvlznbnypy .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rnezlsifsi .gt_last_summary_row {
+#pvlznbnypy .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6573,7 +7325,7 @@ categorical.</p>
   border-bottom-color: #5F5F5F;
 }
 
-#rnezlsifsi .gt_grand_summary_row {
+#pvlznbnypy .gt_grand_summary_row {
   color: #333333;
   background-color: #D5D5D5;
   text-transform: inherit;
@@ -6583,7 +7335,7 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#rnezlsifsi .gt_first_grand_summary_row {
+#pvlznbnypy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6593,7 +7345,7 @@ categorical.</p>
   border-top-color: #5F5F5F;
 }
 
-#rnezlsifsi .gt_last_grand_summary_row_top {
+#pvlznbnypy .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -6603,11 +7355,11 @@ categorical.</p>
   border-bottom-color: #5F5F5F;
 }
 
-#rnezlsifsi .gt_striped {
+#pvlznbnypy .gt_striped {
   background-color: #F4F4F4;
 }
 
-#rnezlsifsi .gt_table_body {
+#pvlznbnypy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #5F5F5F;
@@ -6616,7 +7368,7 @@ categorical.</p>
   border-bottom-color: #5F5F5F;
 }
 
-#rnezlsifsi .gt_footnotes {
+#pvlznbnypy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6630,7 +7382,7 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#rnezlsifsi .gt_footnote {
+#pvlznbnypy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -6639,7 +7391,7 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#rnezlsifsi .gt_sourcenotes {
+#pvlznbnypy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -6653,7 +7405,7 @@ categorical.</p>
   border-right-color: #D3D3D3;
 }
 
-#rnezlsifsi .gt_sourcenote {
+#pvlznbnypy .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -6661,72 +7413,72 @@ categorical.</p>
   padding-right: 5px;
 }
 
-#rnezlsifsi .gt_left {
+#pvlznbnypy .gt_left {
   text-align: left;
 }
 
-#rnezlsifsi .gt_center {
+#pvlznbnypy .gt_center {
   text-align: center;
 }
 
-#rnezlsifsi .gt_right {
+#pvlznbnypy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rnezlsifsi .gt_font_normal {
+#pvlznbnypy .gt_font_normal {
   font-weight: normal;
 }
 
-#rnezlsifsi .gt_font_bold {
+#pvlznbnypy .gt_font_bold {
   font-weight: bold;
 }
 
-#rnezlsifsi .gt_font_italic {
+#pvlznbnypy .gt_font_italic {
   font-style: italic;
 }
 
-#rnezlsifsi .gt_super {
+#pvlznbnypy .gt_super {
   font-size: 65%;
 }
 
-#rnezlsifsi .gt_footnote_marks {
+#pvlznbnypy .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rnezlsifsi .gt_asterisk {
+#pvlznbnypy .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rnezlsifsi .gt_indent_1 {
+#pvlznbnypy .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rnezlsifsi .gt_indent_2 {
+#pvlznbnypy .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rnezlsifsi .gt_indent_3 {
+#pvlznbnypy .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rnezlsifsi .gt_indent_4 {
+#pvlznbnypy .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rnezlsifsi .gt_indent_5 {
+#pvlznbnypy .gt_indent_5 {
   text-indent: 25px;
 }
 
-#rnezlsifsi .katex-display {
+#pvlznbnypy .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#rnezlsifsi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pvlznbnypy div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -6740,260 +7492,301 @@ N = 397</span><span class="gt_footnote_marks" style="white-space:nowrap;font-sty
       <th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3" scope="colgroup" id="level 1; stat_1">
         <div class="gt_column_spanner"><span class='gt_from_md'><strong>HWISE 3 categories</strong></span></div>
       </th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="stat_4"><span class='gt_from_md'><strong>High (≥24)</strong><br />
+N = 6</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
       <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="2" colspan="1" scope="col" id="p.value"><span class='gt_from_md'><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
     </tr>
     <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Marginal (0-3)</strong><br />
-N = 101</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Low (4-11)</strong><br />
-N = 185</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_3"><span class='gt_from_md'><strong>Moderate/Severe (≥12)</strong><br />
-N = 111</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class='gt_from_md'><strong>Marginal (0–2)</strong><br />
+N = 77</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class='gt_from_md'><strong>Low (3–11)</strong><br />
+N = 209</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_3"><span class='gt_from_md'><strong>Moderate (12–23)</strong><br />
+N = 105</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Age (years)</td>
 <td headers="stat_0" class="gt_row gt_center">32.3 (7.4)</td>
-<td headers="stat_1" class="gt_row gt_center">33.0 (7.0)</td>
-<td headers="stat_2" class="gt_row gt_center">31.9 (7.3)</td>
-<td headers="stat_3" class="gt_row gt_center">32.2 (8.0)</td>
-<td headers="p.value" class="gt_row gt_center">0.496</td></tr>
+<td headers="stat_1" class="gt_row gt_center">33.4 (7.1)</td>
+<td headers="stat_2" class="gt_row gt_center">31.9 (7.2)</td>
+<td headers="stat_3" class="gt_row gt_center">32.6 (8.0)</td>
+<td headers="stat_4" class="gt_row gt_center">26.0 (4.7)</td>
+<td headers="p.value" class="gt_row gt_center">0.077</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Years in neighborhood</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">22.4 (11.4)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">22.9 (11.0)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">22.2 (11.9)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">22.5 (11.0)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.862</td></tr>
+<td headers="stat_1" class="gt_row gt_center gt_striped">23.1 (10.8)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">22.2 (11.8)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">22.9 (11.0)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">15.2 (9.3)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.406</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Household size</td>
 <td headers="stat_0" class="gt_row gt_center">5.6 (3.6)</td>
-<td headers="stat_1" class="gt_row gt_center">5.4 (2.9)</td>
-<td headers="stat_2" class="gt_row gt_center">6.0 (4.1)</td>
-<td headers="stat_3" class="gt_row gt_center">5.1 (2.9)</td>
-<td headers="p.value" class="gt_row gt_center">0.099</td></tr>
+<td headers="stat_1" class="gt_row gt_center">5.6 (3.0)</td>
+<td headers="stat_2" class="gt_row gt_center">5.9 (4.0)</td>
+<td headers="stat_3" class="gt_row gt_center">5.2 (2.9)</td>
+<td headers="stat_4" class="gt_row gt_center">3.4 (1.3)</td>
+<td headers="p.value" class="gt_row gt_center">0.216</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Parity (n children)</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_3" class="gt_row gt_center gt_striped"><br /></td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.808</td></tr>
+<td headers="stat_4" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.578</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    0</td>
 <td headers="stat_0" class="gt_row gt_center">60 (15.8%)</td>
-<td headers="stat_1" class="gt_row gt_center">13 (13.3%)</td>
-<td headers="stat_2" class="gt_row gt_center">32 (17.7%)</td>
-<td headers="stat_3" class="gt_row gt_center">15 (15.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">6 (8.11%)</td>
+<td headers="stat_2" class="gt_row gt_center">39 (19.0%)</td>
+<td headers="stat_3" class="gt_row gt_center">13 (13.8%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (33.3%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    1</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">81 (21.4%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">28 (28.6%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">31 (17.1%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">22 (22.0%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">24 (32.4%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">35 (17.1%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">21 (22.3%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    2</td>
 <td headers="stat_0" class="gt_row gt_center">135 (35.6%)</td>
-<td headers="stat_1" class="gt_row gt_center">34 (34.7%)</td>
-<td headers="stat_2" class="gt_row gt_center">64 (35.4%)</td>
-<td headers="stat_3" class="gt_row gt_center">37 (37.0%)</td>
+<td headers="stat_1" class="gt_row gt_center">28 (37.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">70 (34.1%)</td>
+<td headers="stat_3" class="gt_row gt_center">36 (38.3%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    3</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">71 (18.7%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">17 (17.3%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">38 (21.0%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">16 (16.0%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">13 (17.6%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">42 (20.5%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">14 (14.9%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">2 (33.3%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    4</td>
 <td headers="stat_0" class="gt_row gt_center">23 (6.07%)</td>
-<td headers="stat_1" class="gt_row gt_center">4 (4.08%)</td>
-<td headers="stat_2" class="gt_row gt_center">11 (6.08%)</td>
-<td headers="stat_3" class="gt_row gt_center">8 (8.00%)</td>
+<td headers="stat_1" class="gt_row gt_center">2 (2.70%)</td>
+<td headers="stat_2" class="gt_row gt_center">13 (6.34%)</td>
+<td headers="stat_3" class="gt_row gt_center">8 (8.51%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    5</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">7 (1.85%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">2 (2.04%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">3 (1.66%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">2 (2.00%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">1 (1.35%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">4 (1.95%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">2 (2.13%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    6</td>
 <td headers="stat_0" class="gt_row gt_center">1 (0.26%)</td>
 <td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center">1 (0.55%)</td>
+<td headers="stat_2" class="gt_row gt_center">1 (0.49%)</td>
 <td headers="stat_3" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    8</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">1 (0.26%)</td>
 <td headers="stat_1" class="gt_row gt_center gt_striped">0 (0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">1 (0.55%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">1 (0.49%)</td>
 <td headers="stat_3" class="gt_row gt_center gt_striped">0 (0%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">SES (NSE-AMAI)</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
 <td headers="stat_3" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.069</td></tr>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.171</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    E</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">14 (3.58%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">2 (2.00%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">7 (3.85%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">5 (4.59%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">2 (2.63%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">7 (3.40%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">4 (3.88%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    D-</td>
 <td headers="stat_0" class="gt_row gt_center">54 (13.8%)</td>
-<td headers="stat_1" class="gt_row gt_center">11 (11.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">26 (14.3%)</td>
-<td headers="stat_3" class="gt_row gt_center">17 (15.6%)</td>
+<td headers="stat_1" class="gt_row gt_center">7 (9.21%)</td>
+<td headers="stat_2" class="gt_row gt_center">30 (14.6%)</td>
+<td headers="stat_3" class="gt_row gt_center">15 (14.6%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (33.3%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    D+</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">60 (15.3%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">11 (11.0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">26 (14.3%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">23 (21.1%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">8 (10.5%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">29 (14.1%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">22 (21.4%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C-</td>
 <td headers="stat_0" class="gt_row gt_center">90 (23.0%)</td>
-<td headers="stat_1" class="gt_row gt_center">30 (30.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">38 (20.9%)</td>
-<td headers="stat_3" class="gt_row gt_center">22 (20.2%)</td>
+<td headers="stat_1" class="gt_row gt_center">21 (27.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">47 (22.8%)</td>
+<td headers="stat_3" class="gt_row gt_center">21 (20.4%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    C</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">92 (23.5%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">20 (20.0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">46 (25.3%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">26 (23.9%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">16 (21.1%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">50 (24.3%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">25 (24.3%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    C+</td>
 <td headers="stat_0" class="gt_row gt_center">53 (13.6%)</td>
-<td headers="stat_1" class="gt_row gt_center">12 (12.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">28 (15.4%)</td>
-<td headers="stat_3" class="gt_row gt_center">13 (11.9%)</td>
+<td headers="stat_1" class="gt_row gt_center">10 (13.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">30 (14.6%)</td>
+<td headers="stat_3" class="gt_row gt_center">13 (12.6%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    AB</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">28 (7.16%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">14 (14.0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">11 (6.04%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">3 (2.75%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">12 (15.8%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">13 (6.31%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">3 (2.91%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Education</td>
 <td headers="stat_0" class="gt_row gt_center"><br /></td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
 <td headers="stat_3" class="gt_row gt_center"><br /></td>
-<td headers="p.value" class="gt_row gt_center">0.136</td></tr>
+<td headers="stat_4" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.130</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    No formal / incomplete primary</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">16 (4.11%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">2 (2.00%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">8 (4.42%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">6 (5.56%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">1 (1.32%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">9 (4.39%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">5 (4.90%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Complete primary</td>
 <td headers="stat_0" class="gt_row gt_center">36 (9.25%)</td>
-<td headers="stat_1" class="gt_row gt_center">7 (7.00%)</td>
-<td headers="stat_2" class="gt_row gt_center">23 (12.7%)</td>
-<td headers="stat_3" class="gt_row gt_center">6 (5.56%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (5.26%)</td>
+<td headers="stat_2" class="gt_row gt_center">26 (12.7%)</td>
+<td headers="stat_3" class="gt_row gt_center">6 (5.88%)</td>
+<td headers="stat_4" class="gt_row gt_center">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    Incomplete secondary</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">24 (6.17%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">2 (2.00%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">15 (8.29%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">7 (6.48%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">17 (8.29%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">7 (6.86%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Complete secondary</td>
 <td headers="stat_0" class="gt_row gt_center">136 (35.0%)</td>
-<td headers="stat_1" class="gt_row gt_center">34 (34.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">59 (32.6%)</td>
-<td headers="stat_3" class="gt_row gt_center">43 (39.8%)</td>
+<td headers="stat_1" class="gt_row gt_center">26 (34.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">67 (32.7%)</td>
+<td headers="stat_3" class="gt_row gt_center">40 (39.2%)</td>
+<td headers="stat_4" class="gt_row gt_center">3 (50.0%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    Incomplete high school</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">48 (12.3%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">13 (13.0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">21 (11.6%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">14 (13.0%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">11 (14.5%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">23 (11.2%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">13 (12.7%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Complete high school</td>
 <td headers="stat_0" class="gt_row gt_center">90 (23.1%)</td>
-<td headers="stat_1" class="gt_row gt_center">29 (29.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">35 (19.3%)</td>
-<td headers="stat_3" class="gt_row gt_center">26 (24.1%)</td>
+<td headers="stat_1" class="gt_row gt_center">23 (30.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">41 (20.0%)</td>
+<td headers="stat_3" class="gt_row gt_center">25 (24.5%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    University or higher</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">39 (10.0%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">13 (13.0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">20 (11.0%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">6 (5.56%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">11 (14.5%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">22 (10.7%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">6 (5.88%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">0 (0%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Employed</td>
 <td headers="stat_0" class="gt_row gt_center">268 (70.3%)</td>
-<td headers="stat_1" class="gt_row gt_center">68 (70.1%)</td>
-<td headers="stat_2" class="gt_row gt_center">125 (69.1%)</td>
-<td headers="stat_3" class="gt_row gt_center">75 (72.8%)</td>
-<td headers="p.value" class="gt_row gt_center">0.800</td></tr>
+<td headers="stat_1" class="gt_row gt_center">51 (69.9%)</td>
+<td headers="stat_2" class="gt_row gt_center">142 (69.3%)</td>
+<td headers="stat_3" class="gt_row gt_center">71 (73.2%)</td>
+<td headers="stat_4" class="gt_row gt_center">4 (66.7%)</td>
+<td headers="p.value" class="gt_row gt_center">0.910</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Smoking</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">114 (29.8%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">27 (27.6%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">53 (29.3%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">34 (33.0%)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.682</td></tr>
+<td headers="stat_1" class="gt_row gt_center gt_striped">20 (27.0%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">60 (29.3%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">32 (33.0%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">2 (33.3%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.848</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Chronic pain</td>
 <td headers="stat_0" class="gt_row gt_center">108 (27.2%)</td>
-<td headers="stat_1" class="gt_row gt_center">31 (30.7%)</td>
-<td headers="stat_2" class="gt_row gt_center">41 (22.2%)</td>
-<td headers="stat_3" class="gt_row gt_center">36 (32.4%)</td>
-<td headers="p.value" class="gt_row gt_center">0.104</td></tr>
+<td headers="stat_1" class="gt_row gt_center">22 (28.6%)</td>
+<td headers="stat_2" class="gt_row gt_center">50 (23.9%)</td>
+<td headers="stat_3" class="gt_row gt_center">35 (33.3%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (16.7%)</td>
+<td headers="p.value" class="gt_row gt_center">0.316</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Chronic disease</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">65 (16.4%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">16 (15.8%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">28 (15.1%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">21 (18.9%)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.686</td></tr>
+<td headers="stat_1" class="gt_row gt_center gt_striped">14 (18.2%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">30 (14.4%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">21 (20.0%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped">0.393</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">PSS-14 total score</td>
 <td headers="stat_0" class="gt_row gt_center">27.2 (7.2)</td>
-<td headers="stat_1" class="gt_row gt_center">25.3 (7.6)</td>
-<td headers="stat_2" class="gt_row gt_center">27.3 (7.3)</td>
-<td headers="stat_3" class="gt_row gt_center">28.9 (6.4)</td>
-<td headers="p.value" class="gt_row gt_center">0.001</td></tr>
+<td headers="stat_1" class="gt_row gt_center">25.1 (7.0)</td>
+<td headers="stat_2" class="gt_row gt_center">27.1 (7.6)</td>
+<td headers="stat_3" class="gt_row gt_center">28.8 (6.2)</td>
+<td headers="stat_4" class="gt_row gt_center">31.3 (10.0)</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;">0.004</td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Perceived stress level</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_1" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_2" class="gt_row gt_center gt_striped"><br /></td>
 <td headers="stat_3" class="gt_row gt_center gt_striped"><br /></td>
-<td headers="p.value" class="gt_row gt_center gt_striped">0.185</td></tr>
+<td headers="stat_4" class="gt_row gt_center gt_striped"><br /></td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;">0.044</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Low stress (0–18)</td>
 <td headers="stat_0" class="gt_row gt_center">44 (11.1%)</td>
-<td headers="stat_1" class="gt_row gt_center">17 (17.0%)</td>
-<td headers="stat_2" class="gt_row gt_center">19 (10.3%)</td>
-<td headers="stat_3" class="gt_row gt_center">8 (7.21%)</td>
+<td headers="stat_1" class="gt_row gt_center">13 (17.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">23 (11.0%)</td>
+<td headers="stat_3" class="gt_row gt_center">7 (6.67%)</td>
+<td headers="stat_4" class="gt_row gt_center">1 (16.7%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped">    Moderate stress (19–37)</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">319 (80.6%)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">76 (76.0%)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">148 (80.0%)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">95 (85.6%)</td>
+<td headers="stat_1" class="gt_row gt_center gt_striped">59 (77.6%)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">165 (78.9%)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">92 (87.6%)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">3 (50.0%)</td>
 <td headers="p.value" class="gt_row gt_center gt_striped"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    High stress (38–56)</td>
 <td headers="stat_0" class="gt_row gt_center">33 (8.33%)</td>
-<td headers="stat_1" class="gt_row gt_center">7 (7.00%)</td>
-<td headers="stat_2" class="gt_row gt_center">18 (9.73%)</td>
-<td headers="stat_3" class="gt_row gt_center">8 (7.21%)</td>
+<td headers="stat_1" class="gt_row gt_center">4 (5.26%)</td>
+<td headers="stat_2" class="gt_row gt_center">21 (10.0%)</td>
+<td headers="stat_3" class="gt_row gt_center">6 (5.71%)</td>
+<td headers="stat_4" class="gt_row gt_center">2 (33.3%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left gt_striped" style="font-weight: bold;">Water worry subscale (0–9)</td>
 <td headers="stat_0" class="gt_row gt_center gt_striped">2.4 (1.8)</td>
-<td headers="stat_1" class="gt_row gt_center gt_striped">0.5 (0.6)</td>
-<td headers="stat_2" class="gt_row gt_center gt_striped">2.3 (1.2)</td>
-<td headers="stat_3" class="gt_row gt_center gt_striped">4.4 (1.5)</td>
-<td headers="p.value" class="gt_row gt_center gt_striped"><0.001</td></tr>
+<td headers="stat_1" class="gt_row gt_center gt_striped">0.4 (0.6)</td>
+<td headers="stat_2" class="gt_row gt_center gt_striped">2.1 (1.2)</td>
+<td headers="stat_3" class="gt_row gt_center gt_striped">4.2 (1.3)</td>
+<td headers="stat_4" class="gt_row gt_center gt_striped">7.3 (1.0)</td>
+<td headers="p.value" class="gt_row gt_center gt_striped" style="font-weight: bold;"><0.001</td></tr>
     <tr><td headers="label" class="gt_row gt_left" style="font-weight: bold;">Water_5sub</td>
 <td headers="stat_0" class="gt_row gt_center">3.2 (3.0)</td>
-<td headers="stat_1" class="gt_row gt_center">0.3 (0.6)</td>
-<td headers="stat_2" class="gt_row gt_center">2.6 (1.5)</td>
-<td headers="stat_3" class="gt_row gt_center">7.0 (2.4)</td>
-<td headers="p.value" class="gt_row gt_center"><0.001</td></tr>
+<td headers="stat_1" class="gt_row gt_center">0.2 (0.4)</td>
+<td headers="stat_2" class="gt_row gt_center">2.4 (1.6)</td>
+<td headers="stat_3" class="gt_row gt_center">6.7 (2.1)</td>
+<td headers="stat_4" class="gt_row gt_center">12.0 (1.3)</td>
+<td headers="p.value" class="gt_row gt_center" style="font-weight: bold;"><0.001</td></tr>
   </tbody>
   
   <tfoot class="gt_footnotes">
     <tr>
-      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD); n (%)</span></td>
+      <td class="gt_footnote" colspan="7"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class='gt_from_md'>Mean (SD); n (%)</span></td>
     </tr>
     <tr>
-      <td class="gt_footnote" colspan="6"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>One-way analysis of means; Pearson’s Chi-squared test</span></td>
+      <td class="gt_footnote" colspan="7"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class='gt_from_md'>One-way analysis of means; Pearson’s Chi-squared test</span></td>
     </tr>
   </tfoot>
 </table>
@@ -7403,7 +8196,8 @@ tables &lt;- list(
   &quot;04.Table1_sample_full.docx&quot;                   = tbl_ms,
   &quot;04.Table2_HWISE_PSS_short.docx&quot;               = tbl_hwise_pss_short,
   &quot;04.Table2_HWISE_PSS_by_season_full.docx&quot;      = tbl_hwise_pss_overall,
-  &quot;04.Table3_HWISE_PSS_by_neighborhood.docx&quot;     = tbl_s3_by_nbhd
+  &quot;04.Table3_HWISE_PSS_by_neighborhood.docx&quot;     = tbl_s3_by_nbhd,
+  &quot;04.TableS1b_sample_by_neighborhood.docx&quot;      = tbl_full_by_nbhd
 )
 
 for (fname in names(tables)) {
@@ -7415,7 +8209,8 @@ for (fname in names(tables)) {
 <pre><code>Exported: 04.Table1_sample_full.docx 
 Exported: 04.Table2_HWISE_PSS_short.docx 
 Exported: 04.Table2_HWISE_PSS_by_season_full.docx 
-Exported: 04.Table3_HWISE_PSS_by_neighborhood.docx </code></pre>
+Exported: 04.Table3_HWISE_PSS_by_neighborhood.docx 
+Exported: 04.TableS1b_sample_by_neighborhood.docx </code></pre>
 <pre class="r"><code># Main manuscript table — selected variables only
 tbl_main &lt;- df_table %&gt;%
   select(Season, Age, HH_size, Parity, SES, Employed, Chronic_pain, Chronic_dis) %&gt;%
@@ -7445,6 +8240,7 @@ tbl_main &lt;- df_table %&gt;%
     where(is.ordered) ~ &quot;kruskal.test&quot;
   )) %&gt;%
   bold_labels() %&gt;%
+  bold_p(t = 0.05) %&gt;%
   add_n(statistic = &quot;{p_miss}%&quot;, col_label = &quot;**Missing (%)**&quot;) %&gt;%
   modify_table_body(~ .x %&gt;% relocate(n, .after = last_col())) %&gt;%
   modify_spanning_header(c(&quot;stat_1&quot;, &quot;stat_2&quot;) ~ &quot;**Season of data collection**&quot;) %&gt;%
@@ -7532,7 +8328,7 @@ missing_table &lt;- flextable(missing_tbl_trimmed) %&gt;%
   fix_border_issues()
 
 missing_table</code></pre>
-<div class="tabwid"><style>.cl-b06f6bf6{table-layout:auto;width:100%;}.cl-b069af22{font-family:'Calibri';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-b069af2c{font-family:'Calibri';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b069af36{font-family:'Calibri';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-b069af37{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(85, 85, 85, 1.00);background-color:transparent;}.cl-b06bd96e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b06bd982{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-b06bee0e{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee0f{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee18{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee22{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee23{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(26, 58, 92, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee2c{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(26, 58, 92, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee36{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee40{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee4a{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee4b{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee54{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee5e{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-b06bee5f{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-b06f6bf6'><thead><tr style="overflow-wrap:break-word;"><th  colspan="8"class="cl-b06bee0e"><p class="cl-b06bd96e"><span class="cl-b069af22">Table S1.2. Missing data summary</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-b06bee18"><p class="cl-b06bd96e"><span class="cl-b069af22"></span></p></th><th  colspan="2"class="cl-b06bee22"><p class="cl-b06bd982"><span class="cl-b069af22">Complete</span></p></th><th  colspan="2"class="cl-b06bee22"><p class="cl-b06bd982"><span class="cl-b069af22">Overall NA</span></p></th><th  colspan="2"class="cl-b06bee22"><p class="cl-b06bd982"><span class="cl-b069af22">By season (% NA)</span></p></th><th class="cl-b06bee22"><p class="cl-b06bd982"><span class="cl-b069af22"></span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-b06bee23"><p class="cl-b06bd96e"><span class="cl-b069af22">Variable</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">n</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">%</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">n</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">%</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">Rainy</span><br><span class="cl-b069af22">(n=201)</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">Dry</span><br><span class="cl-b069af22">(n=196)</span></p></th><th class="cl-b06bee2c"><p class="cl-b06bd982"><span class="cl-b069af22">p-value</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-b06bee36"><p class="cl-b06bd96e"><span class="cl-b069af2c">Employment type</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">213</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">53.7</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">184</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">46.3</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">45.8</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">46.9</span></p></td><td class="cl-b06bee40"><p class="cl-b06bd982"><span class="cl-b069af2c">0.816</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Medication use</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">334</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">84.1</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">63</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">15.9</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">11.9</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">19.9</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.030</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Hormonal treatment</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">349</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">87.9</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">48</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">12.1</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">7.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">16.8</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af36">0.004</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Hours of supply per week</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">363</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">91.4</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">34</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">8.6</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">5.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">11.7</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af36">0.026</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Years in neighborhood</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">364</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">91.7</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">33</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">8.3</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">7.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">9.2</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.535</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Household size</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">376</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">94.7</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">21</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">5.3</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">2.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">8.2</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.012</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Parity</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">379</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">95.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">18</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">4.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">2.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">7.1</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af36">0.016</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Employed</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">381</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">96.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">16</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">4.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">1.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">6.6</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.010</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Supply continuity</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">381</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">96.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">16</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">4.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">7.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">1.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af36">0.004</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Smoking</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">382</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">96.2</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">15</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">3.8</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">7.1</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af36">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Days of supply per week</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">383</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">96.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">14</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">3.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">3.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">3.6</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af36">0.962</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Supply frequency</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">387</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">97.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">10</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">2.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">3.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">2.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.751</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Water pressure</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">388</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">97.7</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">9</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">2.3</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">2.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">2.6</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.748</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Education</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">389</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">98.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">8</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">2.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">1.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">2.6</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.499</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">SES (NSE-AMAI)</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">391</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">98.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">6</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">1.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">2.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">1.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.685</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Age</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">395</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">99.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">2</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.5</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">1.000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">PSS-14 total score</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">396</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">99.7</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">1</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.3</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.5</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af36">1.000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">Chronic pain</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">397</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">100.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Chronic disease</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">397</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">100.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee4a"><p class="cl-b06bd96e"><span class="cl-b069af2c">HWISE total score</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">397</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">100.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee4b"><p class="cl-b06bd982"><span class="cl-b069af36">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-b06bee54"><p class="cl-b06bd96e"><span class="cl-b069af2c">Water worry subscale</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">397</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">100.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">0.0</span></p></td><td class="cl-b06bee5e"><p class="cl-b06bd982"><span class="cl-b069af2c">—</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="8"class="cl-b06bee5f"><p class="cl-b06bd96e"><span class="cl-b069af37">Rows sorted by number of true NAs (descending).</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="8"class="cl-b06bee5f"><p class="cl-b06bd96e"><span class="cl-b069af37">p-value from chi-square test (Fisher’s exact if any cell &lt; 5) comparing proportion missing between seasons.</span></p></td></tr></tfoot></table></div>
+<div class="tabwid"><style>.cl-48b83246{table-layout:auto;width:100%;}.cl-48b208e4{font-family:'Calibri';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(255, 255, 255, 1.00);background-color:transparent;}.cl-48b208f8{font-family:'Calibri';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-48b20902{font-family:'Calibri';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-48b2090c{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:italic;text-decoration:none;color:rgba(85, 85, 85, 1.00);background-color:transparent;}.cl-48b3fffa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-48b40004{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:2pt;padding-top:2pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-48b413c8{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413d2{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 1.5pt solid rgba(26, 58, 92, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413dc{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413dd{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413e6{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(26, 58, 92, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413e7{background-color:rgba(26, 58, 92, 1.00);vertical-align: middle;border-bottom: 1.5pt solid rgba(26, 58, 92, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413e8{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413f0{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413f1{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b413fa{background-color:rgba(249, 249, 249, 1.00);vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b41404{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b4140e{background-color:transparent;vertical-align: middle;border-bottom: 0.5pt solid rgba(189, 195, 199, 1.00);border-top: 0.5pt solid rgba(189, 195, 199, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-48b4140f{background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-48b83246'><thead><tr style="overflow-wrap:break-word;"><th  colspan="8"class="cl-48b413c8"><p class="cl-48b3fffa"><span class="cl-48b208e4">Table S1.2. Missing data summary</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-48b413dc"><p class="cl-48b3fffa"><span class="cl-48b208e4"></span></p></th><th  colspan="2"class="cl-48b413dd"><p class="cl-48b40004"><span class="cl-48b208e4">Complete</span></p></th><th  colspan="2"class="cl-48b413dd"><p class="cl-48b40004"><span class="cl-48b208e4">Overall NA</span></p></th><th  colspan="2"class="cl-48b413dd"><p class="cl-48b40004"><span class="cl-48b208e4">By season (% NA)</span></p></th><th class="cl-48b413dd"><p class="cl-48b40004"><span class="cl-48b208e4"></span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-48b413e6"><p class="cl-48b3fffa"><span class="cl-48b208e4">Variable</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">n</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">%</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">n</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">%</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">Rainy</span><br><span class="cl-48b208e4">(n=201)</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">Dry</span><br><span class="cl-48b208e4">(n=196)</span></p></th><th class="cl-48b413e7"><p class="cl-48b40004"><span class="cl-48b208e4">p-value</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-48b413e8"><p class="cl-48b3fffa"><span class="cl-48b208f8">Employment type</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">213</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">53.7</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">184</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">46.3</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">45.8</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">46.9</span></p></td><td class="cl-48b413f0"><p class="cl-48b40004"><span class="cl-48b208f8">0.816</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Medication use</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">334</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">84.1</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">63</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">15.9</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">11.9</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">19.9</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.030</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Hormonal treatment</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">349</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">87.9</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">48</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">12.1</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">7.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">16.8</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b20902">0.004</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Hours of supply per week</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">363</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">91.4</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">34</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">8.6</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">5.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">11.7</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b20902">0.026</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Years in neighborhood</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">364</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">91.7</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">33</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">8.3</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">7.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">9.2</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.535</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Household size</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">376</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">94.7</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">21</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">5.3</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">2.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">8.2</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.012</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Parity</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">379</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">95.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">18</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">4.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">2.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">7.1</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b20902">0.016</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Employed</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">381</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">96.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">16</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">4.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">1.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">6.6</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.010</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Supply continuity</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">381</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">96.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">16</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">4.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">7.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">1.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b20902">0.004</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Smoking</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">382</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">96.2</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">15</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">3.8</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">7.1</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b20902">&lt;0.001</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Days of supply per week</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">383</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">96.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">14</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">3.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">3.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">3.6</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b20902">0.962</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Supply frequency</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">387</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">97.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">10</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">2.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">3.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">2.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.751</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Water pressure</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">388</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">97.7</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">9</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">2.3</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">2.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">2.6</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.748</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Education</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">389</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">98.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">8</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">2.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">1.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">2.6</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.499</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">SES (NSE-AMAI)</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">391</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">98.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">6</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">1.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">2.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">1.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.685</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Age</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">395</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">99.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">2</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.5</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">1.000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">PSS-14 total score</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">396</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">99.7</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">1</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.3</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.5</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b20902">1.000</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">Chronic pain</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">397</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">100.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Chronic disease</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">397</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">100.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b413f1"><p class="cl-48b3fffa"><span class="cl-48b208f8">HWISE total score</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">397</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">100.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b413fa"><p class="cl-48b40004"><span class="cl-48b20902">—</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-48b41404"><p class="cl-48b3fffa"><span class="cl-48b208f8">Water worry subscale</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">397</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">100.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">0.0</span></p></td><td class="cl-48b4140e"><p class="cl-48b40004"><span class="cl-48b208f8">—</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="8"class="cl-48b4140f"><p class="cl-48b3fffa"><span class="cl-48b2090c">Rows sorted by number of true NAs (descending).</span></p></td></tr><tr style="overflow-wrap:break-word;"><td  colspan="8"class="cl-48b4140f"><p class="cl-48b3fffa"><span class="cl-48b2090c">p-value from chi-square test (Fisher’s exact if any cell &lt; 5) comparing proportion missing between seasons.</span></p></td></tr></tfoot></table></div>
 <pre class="r"><code>save_as_docx(missing_table, path = file.path(output_dir, &quot;04.Table1.2_missing.docx&quot;))
 
 cat(&quot;Exported: 04.Table1.2_missing.docx\n&quot;)</code></pre>
@@ -7573,33 +8369,35 @@ attached base packages:
 other attached packages:
  [1] psych_2.6.1      forcats_1.0.0    ggplot2_4.0.0    officer_0.7.3   
  [5] purrr_1.0.4      flextable_0.9.11 gt_1.0.0         gtsummary_2.5.0 
- [9] stringr_1.5.1    tidyr_1.3.1      dplyr_1.2.0     
+ [9] stringr_1.5.1    tidyr_1.3.1      dplyr_1.2.0      workflowr_1.7.1 
 
 loaded via a namespace (and not attached):
  [1] gtable_0.3.6            xfun_0.52               bslib_0.9.0            
- [4] lattice_0.22-9          vctrs_0.7.1             tools_4.5.3            
- [7] generics_0.1.3          parallel_4.5.3          tibble_3.2.1           
-[10] pkgconfig_2.0.3         data.table_1.17.0       RColorBrewer_1.1-3     
-[13] S7_0.2.0                uuid_1.2-1              lifecycle_1.0.5        
-[16] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
-[19] textshaping_1.0.0       mnormt_2.1.2            httpuv_1.6.16          
-[22] litedown_0.7            fontquiver_0.2.1        fontLiberation_0.1.0   
-[25] htmltools_0.5.8.1       sass_0.4.10             yaml_2.3.10            
-[28] whisker_0.4.1           later_1.4.2             pillar_1.10.2          
-[31] jquerylib_0.1.4         openssl_2.3.2           cachem_1.1.0           
-[34] nlme_3.1-168            fontBitstreamVera_0.1.1 commonmark_2.0.0       
-[37] tidyselect_1.2.1        zip_2.3.3               digest_0.6.37          
-[40] stringi_1.8.7           labeling_0.4.3          rprojroot_2.1.1        
-[43] fastmap_1.2.0           grid_4.5.3              cli_3.6.5              
-[46] magrittr_2.0.3          patchwork_1.3.1         cards_0.7.1            
-[49] utf8_1.2.4              broom_1.0.12            withr_3.0.2            
-[52] gdtools_0.5.0           scales_1.4.0            promises_1.3.2         
-[55] backports_1.5.0         cardx_0.3.2             rmarkdown_2.30         
-[58] workflowr_1.7.1         askpass_1.2.1           ragg_1.4.0             
-[61] evaluate_1.0.3          knitr_1.50              markdown_2.0           
-[64] rlang_1.1.7             Rcpp_1.0.14             glue_1.8.0             
-[67] xml2_1.3.8              jsonlite_2.0.0          R6_2.6.1               
-[70] systemfonts_1.3.2       fs_1.6.6               </code></pre>
+ [4] processx_3.8.6          lattice_0.22-9          callr_3.7.6            
+ [7] vctrs_0.7.1             tools_4.5.3             ps_1.9.1               
+[10] generics_0.1.3          parallel_4.5.3          tibble_3.2.1           
+[13] pkgconfig_2.0.3         data.table_1.17.0       RColorBrewer_1.1-3     
+[16] S7_0.2.0                uuid_1.2-1              lifecycle_1.0.5        
+[19] compiler_4.5.3          farver_2.1.2            git2r_0.36.2           
+[22] textshaping_1.0.0       mnormt_2.1.2            getPass_0.2-4          
+[25] litedown_0.7            httpuv_1.6.16           fontquiver_0.2.1       
+[28] fontLiberation_0.1.0    htmltools_0.5.8.1       sass_0.4.10            
+[31] yaml_2.3.10             later_1.4.2             pillar_1.10.2          
+[34] jquerylib_0.1.4         whisker_0.4.1           openssl_2.3.2          
+[37] cachem_1.1.0            nlme_3.1-168            fontBitstreamVera_0.1.1
+[40] commonmark_2.0.0        tidyselect_1.2.1        zip_2.3.3              
+[43] digest_0.6.37           stringi_1.8.7           labeling_0.4.3         
+[46] rprojroot_2.1.1         fastmap_1.2.0           grid_4.5.3             
+[49] cli_3.6.5               magrittr_2.0.3          cards_0.7.1            
+[52] patchwork_1.3.1         utf8_1.2.4              broom_1.0.12           
+[55] withr_3.0.2             backports_1.5.0         gdtools_0.5.0          
+[58] scales_1.4.0            promises_1.3.2          cardx_0.3.2            
+[61] rmarkdown_2.30          httr_1.4.7              askpass_1.2.1          
+[64] ragg_1.4.0              evaluate_1.0.3          knitr_1.50             
+[67] markdown_2.0            rlang_1.1.7             Rcpp_1.0.14            
+[70] glue_1.8.0              xml2_1.3.8              rstudioapi_0.17.1      
+[73] jsonlite_2.0.0          R6_2.6.1                systemfonts_1.3.2      
+[76] fs_1.6.6               </code></pre>
 </div>
 </div>
 </div>

@@ -29,8 +29,9 @@ dir.create("./output/tables",  recursive = TRUE, showWarnings = FALSE)
 ## Overview
 
 This script builds **full models** for each of the two outcomes by simultaneously
-including all predictors that showed a statistically significant unadjusted focal
-coefficient (p < 0.05, raw) in any of the Aim 1 or Aim 2 adjusted models.
+including all predictors that showed a statistically significant focal coefficient
+(p < 0.05, from the adjusted Aim 1 or Aim 2 models in files 07–09) in at least
+one prior model.
 
 | Outcome | Model type | Core covariates |
 |---------|-----------|----------------|
@@ -900,7 +901,7 @@ ft_sig_summary <- sig_table %>%
   colformat_double(j = "min_p", digits = 4) %>%
   bold(part = "header") %>%
   theme_booktabs() %>%
-  autofit()
+  set_table_properties(layout = "autofit", width = 1)
 
 # ── Build Word document ───────────────────────────────────────────────────────
 out_path <- "./output/tables/10.Tables_Full_Models.docx"

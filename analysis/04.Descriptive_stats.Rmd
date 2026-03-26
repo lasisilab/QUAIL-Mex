@@ -10,20 +10,26 @@ editor_options:
 ## Introduction
 
 This document produces descriptive statistics tables for the merged dataset
-(`3.Merged_Q1-6_Q16_Q19_Q26_Q28.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
+(`03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv`, produced by `03.Data_merge_Q1-6.Rmd`).
 It includes:
 
 1. A comprehensive descriptive statistics table (all analytic variables)
 
-2. A manuscript table with sample characteristics stratified by season
+2. A manuscript table with sample characteristics stratified by season (rainy vs. dry)
 
-3. A missing data summary table
+3. Two missing data summary tables: overall and stratified by season
 
 4. HWISE and PSS descriptive statistics (overall and by season)
 
-5. Sample characteristics stratified by water insecurity level (HWISE categories)
+5. Sample characteristics stratified by HWISE water insecurity category:
+   **Marginal** (0–2), **Low** (3–11), **Moderate** (12–23), **High** (≥24)
 
-6. Objective water supply characteristics (source, continuity, frequency, hours of supply, pressure, and seasonality)
+6. Full sample characteristics (demographics, SES, employment, health) stratified
+   by neighborhood water security status (water-secure vs. water-insecure)
+
+7. Objective water supply characteristics: source, continuity, frequency,
+   hours of supply per week, pressure, and seasonality — by neighborhood
+   water security status (water-secure vs. water-insecure)
 
 Visualizations for all of the above are in `05.Descriptive_plots.Rmd`.
 
@@ -385,6 +391,7 @@ tbl_full <- df_table %>%
     where(is.ordered) ~ "kruskal.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   add_n(statistic = "{p_miss}%",
         col_label = "**Missing (%)**") %>%
   modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
@@ -448,6 +455,7 @@ tbl_ms <- df_table %>%
     where(is.ordered) ~ "kruskal.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   add_n(statistic = "{p_miss}%", col_label = "**Missing (%)**") %>%
   modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season of data collection**") %>%
@@ -840,8 +848,64 @@ tbl_s3_by_nbhd <- df_s2 %>%
 tbl_s3_by_nbhd |> as_gt() |> opt_stylize(style = 6, color = "gray")
 ```
 
+## 6.2 Sample characteristics by neighborhood
 
-## 6.2 By season
+Full demographic, SES, employment, and health variable set stratified by
+neighborhood water security status (water-secure vs. water-insecure),
+mirroring the supplementary full descriptives table (Section 3).
+
+```{r table-full-by-nbhd}
+tbl_full_by_nbhd <- df_s2 %>%
+  filter(!is.na(W_Nbhd)) %>%
+  select(W_Nbhd,
+         Age, Yrs_in_nbhd, HH_size, Parity,
+         SES, Education, Employed, Employment_type,
+         Smoking, Hormonal_tx, Medication, Chronic_pain, Chronic_dis) %>%
+  tbl_summary(
+    by        = W_Nbhd,
+    statistic = list(
+      all_continuous()  ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    type    = list(Parity ~ "continuous"),
+    digits  = list(all_continuous() ~ 1),
+    missing = "no",
+    label   = list(
+      Age             ~ "Age (years)",
+      Yrs_in_nbhd     ~ "Years in neighborhood",
+      HH_size         ~ "Household size",
+      Parity          ~ "Parity",
+      SES             ~ "SES (NSE-AMAI)",
+      Education       ~ "Education",
+      Employed        ~ "Employed",
+      Employment_type ~ "Employment type",
+      Smoking         ~ "Smoking status",
+      Hormonal_tx     ~ "Hormonal treatment",
+      Medication      ~ "Regular medication use",
+      Chronic_pain    ~ "Chronic pain",
+      Chronic_dis     ~ "Chronic disease"
+    )
+  ) %>%
+  add_overall(last = FALSE) %>%
+  add_p(test = list(
+    all_continuous()  ~ "wilcox.test",
+    all_categorical() ~ "fisher.test",
+    where(is.ordered) ~ "kruskal.test"
+  )) %>%
+  bold_labels() %>%
+  bold_p(t = 0.05) %>%
+  add_n(statistic = "{p_miss}%",
+        col_label = "**Missing (%)**") %>%
+  modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
+  modify_spanning_header(c("stat_1", "stat_2") ~ "**By neighborhood**") %>%
+  modify_header(label = "**Variable**") %>%
+  modify_footnote(all_stat_cols() ~ "Mean (SD) for continuous variables; n (%) for categorical variables.") %>%
+  modify_caption("**Table S1b. Sample characteristics by neighborhood water security status**")
+
+tbl_full_by_nbhd |> as_gt() |> opt_stylize(style = 6, color = "gray")
+```
+
+## 6.3 By season
 
 ```{r hwise-pss-by-season}
 tbl_scores_season <- df_table %>%
@@ -870,6 +934,7 @@ tbl_scores_season <- df_table %>%
     all_categorical() ~ "fisher.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season**") %>%
   modify_caption("**Table. HWISE and PSS scores by season (n = {N})**")
 
@@ -927,6 +992,7 @@ tbl_by_hwise <- df_table %>%
     all_categorical() ~ "chisq.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   modify_spanning_header(c("stat_1", "stat_2", "stat_3") ~
                            "**HWISE 3 categories**") %>%
   modify_caption("**Table. Sample characteristics by water insecurity level (n = {N})**")
@@ -1208,7 +1274,8 @@ tables <- list(
   "04.Table1_sample_full.docx"                   = tbl_ms,
   "04.Table2_HWISE_PSS_short.docx"               = tbl_hwise_pss_short,
   "04.Table2_HWISE_PSS_by_season_full.docx"      = tbl_hwise_pss_overall,
-  "04.Table3_HWISE_PSS_by_neighborhood.docx"     = tbl_s3_by_nbhd
+  "04.Table3_HWISE_PSS_by_neighborhood.docx"     = tbl_s3_by_nbhd,
+  "04.TableS1b_sample_by_neighborhood.docx"      = tbl_full_by_nbhd
 )
 
 for (fname in names(tables)) {
@@ -1247,6 +1314,7 @@ tbl_main <- df_table %>%
     where(is.ordered) ~ "kruskal.test"
   )) %>%
   bold_labels() %>%
+  bold_p(t = 0.05) %>%
   add_n(statistic = "{p_miss}%", col_label = "**Missing (%)**") %>%
   modify_table_body(~ .x %>% relocate(n, .after = last_col())) %>%
   modify_spanning_header(c("stat_1", "stat_2") ~ "**Season of data collection**") %>%

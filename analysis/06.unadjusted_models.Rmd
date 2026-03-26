@@ -12,6 +12,31 @@ editor_options:
   chunk_output_type: console
 ---
 
+## Overview
+
+This script fits **unadjusted (univariable) regression models** for all candidate
+predictors against two outcomes. Each predictor is tested in a separate model
+with no adjustment for covariates. Results serve as a reference for effect
+direction and magnitude before covariate adjustment in files 07–10.
+
+| Panel | Outcome | Model type |
+|-------|---------|------------|
+| A | Perceived Stress Score (`PSS_TOTAL`, 0–56) | Linear regression (β) |
+| B | Water-related emotion valence (`EMO_NEG`) | Logistic regression (OR) |
+
+Predictors are organised into six groups: **Demographics**, **Socioeconomic**,
+**Health**, **HWISE** (composite and subscale measures), **HWISE items**
+(individual items), and **Water supply** characteristics.
+
+- **Summary tables** include all predictor groups; HWISE categorical
+  (`HWISE_Cat`) and HWISE binary high/low (`HWISE_Hi`) are shown in tables but
+  excluded from forest plots due to sparse cell counts.
+- **Multiple testing**: Significance thresholds and row highlighting in all
+  tables and plots are based on **Benjamini–Hochberg (BH) adjusted *q*-values**,
+  applied across all predictors within each outcome.
+
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(dplyr)
@@ -427,11 +452,10 @@ pss_predictors <- c(
 )
 pss_predictors_fp <- append(pss_predictors, hwise_items,
                              after = which(pss_predictors == "Water_worry"))
-pss_predictors_fp <- pss_predictors_fp[pss_predictors_fp != "HWISE_Cat"]
+pss_predictors_fp <- pss_predictors_fp[!pss_predictors_fp %in% c("HWISE_Cat", "HWISE_Hi")]
 
 pss_results <- run_lm_uv("PSS_Total", pss_predictors, df_reg, pred_labels) %>%
   mutate(
-    q.value       = p.adjust(p.value, method = "BH"),
     group         = group_map[predictor],
     group         = factor(group, levels = group_order),
     var_order     = predictor_order[predictor],
@@ -442,23 +466,18 @@ pss_results <- run_lm_uv("PSS_Total", pss_predictors, df_reg, pred_labels) %>%
 pss_tbl <- pss_results %>%
   mutate(
     `β (95% CI)` = sprintf("%.2f (%.2f, %.2f)", estimate, conf.low, conf.high),
-    sig          = sig_sym(q.value),
+    sig          = sig_sym(p.value),
     p_fmt        = case_when(
       p.value < 0.001 ~ "<0.001",
       TRUE            ~ sprintf("%.3f", p.value)
     ),
-    q_fmt = case_when(
-      q.value < 0.001 ~ "<0.001",
-      TRUE            ~ sprintf("%.3f", q.value)
-    ),
     AIC_r = round(AIC, 1)
   ) %>%
-  select(display_label, n, `β (95% CI)`, p_fmt, q_fmt, sig, AIC_r, p.value, q.value) %>%
+  select(display_label, n, `β (95% CI)`, p_fmt, sig, AIC_r, p.value) %>%
   rename(
     Variable       = display_label,
     N              = n,
     `p-value`      = p_fmt,
-    `q-value (BH)` = q_fmt,
     Sig            = sig,
     AIC            = AIC_r
   )
@@ -467,10 +486,10 @@ pss_tbl <- pss_results %>%
 ## Table: PSS (publication-ready)
 
 ```{r pss-table-pub}
-pss_sig_rows <- which(pss_tbl$q.value < 0.05)
+pss_sig_rows <- which(pss_tbl$p.value < 0.05)
 
 pss_gt <- pss_tbl %>%
-  select(-p.value, -q.value) %>%
+  select(-p.value) %>%
   gt() %>%
   tab_header(
     title    = md("**Table Unadj1. Unadjusted Linear Regression: Predictors of Perceived Stress Score**"),
@@ -481,7 +500,6 @@ pss_gt <- pss_tbl %>%
     N              = md("***n***"),
     `β (95% CI)`   = md("**β (95% CI)**"),
     `p-value`      = md("***p***"),
-    `q-value (BH)` = md("***q***"),
     Sig            = md("**Sig.**"),
     AIC            = md("**AIC**")
   ) %>%
@@ -502,27 +520,25 @@ pss_gt <- pss_tbl %>%
   # Centred columns
   tab_style(
     style     = cell_text(align = "center"),
-    locations = cells_body(columns = c(N, `p-value`, `q-value (BH)`, Sig, AIC))
+    locations = cells_body(columns = c(N, `p-value`, Sig, AIC))
   ) %>%
   tab_style(
     style     = cell_text(align = "center"),
-    locations = cells_column_labels(columns = c(N, `p-value`, `q-value (BH)`, Sig, AIC))
+    locations = cells_column_labels(columns = c(N, `p-value`, Sig, AIC))
   ) %>%
   cols_width(
     Variable       ~ px(210),
     N              ~ px(50),
     `β (95% CI)`   ~ px(155),
     `p-value`      ~ px(70),
-    `q-value (BH)` ~ px(70),
     Sig            ~ px(48),
     AIC            ~ px(68)
   ) %>%
   tab_footnote(
     footnote = md(
-      "**Highlighted rows:** *q* < 0.05 (BH-adjusted).
-      **Sig.:** \u2020 *q* < 0.10 &nbsp; \\* *q* < 0.05 &nbsp; \\*\\* *q* < 0.01 &nbsp; \\*\\*\\* *q* < 0.001.
+      "**Highlighted rows:** *p* < 0.05.
+      **Sig.:** \u2020 *p* < 0.10 &nbsp; \\* *p* < 0.05 &nbsp; \\*\\* *p* < 0.01 &nbsp; \\*\\*\\* *p* < 0.001.
       ***p*-value:** unadjusted two-sided Wald test.
-      ***q*-value (BH):** *p*-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
       **AIC:** Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome."
     )
   ) %>%
@@ -550,6 +566,7 @@ pss_gt
 
 ```{r coef-plot-pss, fig.width=9, fig.height=8}
 plot_df_pss <- pss_results %>%
+  filter(predictor != "HWISE_Cat") %>%
   mutate(
     label_full = factor(display_label,
                         levels = rev(unique(display_label))),
@@ -558,7 +575,7 @@ plot_df_pss <- pss_results %>%
   )
 
 p_pss <- ggplot(plot_df_pss, aes(x = estimate, y = label_full,
-                                  colour = q.value < 0.05)) +
+                                  colour = p.value < 0.05)) +
   geom_vline(xintercept = 0, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
                  height = 0.25, linewidth = 0.6) +
@@ -574,7 +591,7 @@ p_pss <- ggplot(plot_df_pss, aes(x = estimate, y = label_full,
   scale_y_discrete(expand = expansion(add = 0.4)) +
   labs(
     title   = "Unadjusted Linear Regression — Perceived Stress Score (β)",
-    caption = "Red = q < 0.05 (Benjamini–Hochberg false discovery rate adjustment)  |  Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001",
+    caption = "Red = p < 0.05\nSymbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001",
     x       = "β coefficient (95% CI)",
     y       = NULL
   ) +
@@ -610,11 +627,10 @@ emo_predictors <- c(
 )
 emo_predictors_fp <- append(emo_predictors, hwise_items,
                              after = which(emo_predictors == "Water_worry"))
-emo_predictors_fp <- emo_predictors_fp[emo_predictors_fp != "HWISE_Cat"]
+emo_predictors_fp <- emo_predictors_fp[!emo_predictors_fp %in% c("HWISE_Cat", "HWISE_Hi")]
 
 emo_results <- run_glm_uv("EMO_NEG", emo_predictors, df_reg, pred_labels) %>%
   mutate(
-    q.value       = p.adjust(p.value, method = "BH"),
     group         = group_map[predictor],
     group         = factor(group, levels = group_order),
     var_order     = predictor_order[predictor],
@@ -625,23 +641,18 @@ emo_results <- run_glm_uv("EMO_NEG", emo_predictors, df_reg, pred_labels) %>%
 emo_tbl <- emo_results %>%
   mutate(
     `OR (95% CI)` = sprintf("%.2f (%.2f, %.2f)", estimate, conf.low, conf.high),
-    sig           = sig_sym(q.value),
+    sig           = sig_sym(p.value),
     p_fmt = case_when(
       p.value < 0.001 ~ "<0.001",
       TRUE            ~ sprintf("%.3f", p.value)
     ),
-    q_fmt = case_when(
-      q.value < 0.001 ~ "<0.001",
-      TRUE            ~ sprintf("%.3f", q.value)
-    ),
     AIC_r = round(AIC, 1)
   ) %>%
-  select(display_label, n, `OR (95% CI)`, p_fmt, q_fmt, sig, AIC_r, p.value, q.value) %>%
+  select(display_label, n, `OR (95% CI)`, p_fmt, sig, AIC_r, p.value) %>%
   rename(
     Variable       = display_label,
     N              = n,
     `p-value`      = p_fmt,
-    `q-value (BH)` = q_fmt,
     Sig            = sig,
     AIC            = AIC_r
   )
@@ -650,10 +661,10 @@ emo_tbl <- emo_results %>%
 ## Table: Emotion Type (publication-ready)
 
 ```{r emo-table-pub}
-emo_sig_rows <- which(emo_tbl$q.value < 0.05)
+emo_sig_rows <- which(emo_tbl$p.value < 0.05)
 
 emo_gt <- emo_tbl %>%
-  select(-p.value, -q.value) %>%
+  select(-p.value) %>%
   gt() %>%
   tab_header(
     title    = md("**Table Unadj2. Unadjusted Logistic Regression: Predictors of Negative Emotional Response to Water**"),
@@ -664,7 +675,6 @@ emo_gt <- emo_tbl %>%
     N              = md("***n***"),
     `OR (95% CI)`  = md("**OR (95% CI)**"),
     `p-value`      = md("***p***"),
-    `q-value (BH)` = md("***q***"),
     Sig            = md("**Sig.**"),
     AIC            = md("**AIC**")
   ) %>%
@@ -682,28 +692,26 @@ emo_gt <- emo_tbl %>%
   ) %>%
   tab_style(
     style     = cell_text(align = "center"),
-    locations = cells_body(columns = c(N, `p-value`, `q-value (BH)`, Sig, AIC))
+    locations = cells_body(columns = c(N, `p-value`, Sig, AIC))
   ) %>%
   tab_style(
     style     = cell_text(align = "center"),
-    locations = cells_column_labels(columns = c(N, `p-value`, `q-value (BH)`, Sig, AIC))
+    locations = cells_column_labels(columns = c(N, `p-value`, Sig, AIC))
   ) %>%
   cols_width(
     Variable       ~ px(210),
     N              ~ px(50),
     `OR (95% CI)`  ~ px(155),
     `p-value`      ~ px(70),
-    `q-value (BH)` ~ px(70),
     Sig            ~ px(48),
     AIC            ~ px(68)
   ) %>%
   tab_footnote(
     footnote = md(
-      "**Highlighted rows:** *q* < 0.05 (BH-adjusted).
-      **Sig.:** \u2020 *q* < 0.10 &nbsp; \\* *q* < 0.05 &nbsp; \\*\\* *q* < 0.01 &nbsp; \\*\\*\\* *q* < 0.001.
+      "**Highlighted rows:** *p* < 0.05.
+      **Sig.:** \u2020 *p* < 0.10 &nbsp; \\* *p* < 0.05 &nbsp; \\*\\* *p* < 0.01 &nbsp; \\*\\*\\* *p* < 0.001.
       **OR:** Odds ratio from binary logistic regression (outcome = negative emotion = 1 vs. positive = 0); OR > 1 indicates higher odds of negative response.
       ***p*-value:** unadjusted two-sided Wald test.
-      ***q*-value (BH):** *p*-value adjusted for multiple comparisons using the Benjamini–Hochberg false discovery rate procedure across all predictors in this table; values below 0.05 indicate that the finding is expected to remain significant after controlling the false discovery rate at 5%.
       **AIC:** Akaike Information Criterion — lower values indicate better model fit for comparisons within the same outcome."
     )
   ) %>%
@@ -731,6 +739,7 @@ emo_gt
 
 ```{r coef-plot-emo, fig.width=9, fig.height=8}
 plot_df_emo <- emo_results %>%
+  filter(predictor != "HWISE_Cat") %>%
   mutate(
     label_full = factor(display_label,
                         levels = rev(unique(display_label))),
@@ -739,7 +748,7 @@ plot_df_emo <- emo_results %>%
   )
 
 p_emo <- ggplot(plot_df_emo, aes(x = estimate, y = label_full,
-                                   colour = q.value < 0.05)) +
+                                   colour = p.value < 0.05)) +
   geom_vline(xintercept = 1, linetype = "dashed", colour = "grey50", linewidth = 0.5) +
   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
                  height = 0.25, linewidth = 0.6) +
@@ -755,7 +764,7 @@ p_emo <- ggplot(plot_df_emo, aes(x = estimate, y = label_full,
   scale_y_discrete(expand = expansion(add = 0.4)) +
   labs(
     title   = stringr::str_wrap("Unadjusted Logistic Regression — Negative Emotional Response (OR)", width = 55),
-    caption = "Blue = q < 0.05 (Benjamini–Hochberg false discovery rate adjustment)  |  Log scale  |  Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001",
+    caption = "Blue = p < 0.05\nSymbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001",
     x       = "Odds Ratio (95% CI, log scale)",
     y       = NULL
   ) +
@@ -777,14 +786,13 @@ ggsave(file.path(fig_dir, "06.Unadj_coef_EMO.png"), p_emo,
 make_uv_flextable <- function(tbl, sig_rows, title_str, footnote_str,
                                hi_color = "#fff3cd") {
   tbl %>%
-    select(-p.value, -q.value) %>%
+    select(-p.value) %>%
     flextable() %>%
     set_header_labels(
       Variable       = "Predictor",
       N              = "n",
       Sig            = "Sig.",
       `p-value`      = "p-value",
-      `q-value (BH)` = "q-value (BH)",
       AIC            = "AIC"
     ) %>%
     # Title row above header
@@ -830,26 +838,18 @@ make_uv_flextable <- function(tbl, sig_rows, title_str, footnote_str,
 }
 
 pss_footnote <- paste0(
-  "Highlighted rows: q < 0.05 (BH-adjusted, shown in amber). ",
-  "Sig.: \u2020 q<0.10, * q<0.05, ** q<0.01, *** q<0.001 (based on BH-adjusted q-values). ",
+  "Highlighted rows: p < 0.05 (shown in amber). ",
+  "Sig.: \u2020 p<0.10, * p<0.05, ** p<0.01, *** p<0.001. ",
   "p-value: unadjusted two-sided Wald test. ",
-  "q-value (BH): p-value corrected for multiple comparisons using the ",
-  "Benjamini-Hochberg false discovery rate (FDR) procedure across all predictors ",
-  "in this table. A q-value < 0.05 indicates the result is expected to remain ",
-  "significant while controlling the FDR at 5%. ",
   "AIC: Akaike Information Criterion; lower = better fit."
 )
 
 emo_footnote <- paste0(
-  "Highlighted rows: q < 0.05 (BH-adjusted, shown in blue). ",
+  "Highlighted rows: p < 0.05 (shown in blue). ",
   "OR: odds ratio from binary logistic regression (outcome: negative emotion = 1 ",
   "vs. positive = 0); OR > 1 indicates higher odds of negative emotional response. ",
-  "Sig.: \u2020 q<0.10, * q<0.05, ** q<0.01, *** q<0.001 (based on BH-adjusted q-values). ",
+  "Sig.: \u2020 p<0.10, * p<0.05, ** p<0.01, *** p<0.001. ",
   "p-value: unadjusted two-sided Wald test. ",
-  "q-value (BH): p-value corrected for multiple comparisons using the ",
-  "Benjamini-Hochberg false discovery rate (FDR) procedure across all predictors ",
-  "in this table. A q-value < 0.05 indicates the result is expected to remain ",
-  "significant while controlling the FDR at 5%. ",
   "AIC: Akaike Information Criterion; lower = better fit."
 )
 
@@ -897,27 +897,23 @@ is_sig_uv <- function(p_str) {
 ```{r unadj-forest-models}
 pss_results_fp <- run_lm_uv("PSS_Total", pss_predictors_fp, df_reg, pred_labels) %>%
   mutate(
-    q.value       = p.adjust(p.value, method = "BH"),
     group         = group_map[predictor],
     group         = factor(group, levels = group_order),
     var_order     = predictor_order[predictor],
     display_label = mapply(make_display_label, predictor, term, label),
     est_ci        = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
-    p_fmt         = p_fmt_uv(p.value),
-    q_fmt         = p_fmt_uv(q.value)
+    p_fmt         = p_fmt_uv(p.value)
   ) %>%
   arrange(group, var_order)
 
 emo_results_fp <- run_glm_uv("EMO_NEG", emo_predictors_fp, df_reg, pred_labels) %>%
   mutate(
-    q.value       = p.adjust(p.value, method = "BH"),
     group         = group_map[predictor],
     group         = factor(group, levels = group_order),
     var_order     = predictor_order[predictor],
     display_label = mapply(make_display_label, predictor, term, label),
     est_ci        = sprintf("%.2f [%.2f, %.2f]", estimate, conf.low, conf.high),
-    p_fmt         = p_fmt_uv(p.value),
-    q_fmt         = p_fmt_uv(q.value)
+    p_fmt         = p_fmt_uv(p.value)
   ) %>%
   arrange(group, var_order)
 ```
@@ -945,9 +941,7 @@ build_uv_ft <- function(results, outcome_label, est_col_label,
       est_ci    = est_ci,
       AIC       = round(AIC, 1),
       p_fmt     = p_fmt,
-      q_fmt     = q_fmt,
-      p_raw     = p.value,
-      q_raw     = q.value
+      p_raw     = p.value
     )
 
   tbl_with_headers <- insert_group_headers_uv(tbl_data) %>%
@@ -956,20 +950,19 @@ build_uv_ft <- function(results, outcome_label, est_col_label,
   data <- tbl_with_headers
 
   grp_rows  <- which(is.na(data$est_ci) | data$est_ci == "")
-  sig_rows  <- which(!data$q_fmt %in% c("—", NA) & is_sig_uv(data$q_fmt))
+  sig_rows  <- which(!data$p_fmt %in% c("—", NA) & is_sig_uv(data$p_fmt))
   nsig_rows <- setdiff(seq_len(nrow(data)), sig_rows)
   sig_coef  <- which(!is.na(data$p_raw) & data$p_raw < 0.05)
 
   ft <- data %>%
-    select(Predictor, N, est_ci, AIC, p_fmt, q_fmt) %>%
+    select(Predictor, N, est_ci, AIC, p_fmt) %>%
     flextable() %>%
     set_header_labels(
       Predictor = "Predictor",
       N         = "N",
       est_ci    = est_col_label,
       AIC       = "AIC",
-      p_fmt     = "p-value",
-      q_fmt     = "q-value (BH)"
+      p_fmt     = "p-value"
     ) %>%
     add_header_lines(outcome_label) %>%
     # Fonts
@@ -987,11 +980,9 @@ build_uv_ft <- function(results, outcome_label, est_col_label,
     bg(i = nsig_rows, bg = COL_NS,    part = "body") %>%
     bg(i = grp_rows,  bg = COL_GROUP, part = "body") %>%
     bold(i = grp_rows, part = "body") %>%
-    color(i = sig_coef, j = "p_fmt", color = "#1A5276") %>%
-    bold( i = sig_coef, j = "p_fmt") %>%
-    color(i = sig_rows,  j = "q_fmt", color = "#1E8449") %>%
-    bold( i = sig_rows,  j = "q_fmt") %>%
-    color(i = nsig_rows, j = "q_fmt", color = "grey55") %>%
+    color(i = sig_rows,  j = "p_fmt", color = "#1E8449") %>%
+    bold( i = sig_rows,  j = "p_fmt") %>%
+    color(i = nsig_rows, j = "p_fmt", color = "grey55") %>%
     # Borders (horizontal-only)
     border_remove() %>%
     hline_top(part = "header",
@@ -1029,9 +1020,7 @@ pss_footnote_fp <- paste0(
   "\u03b2 = unstandardised regression coefficient; 95% CI = confidence interval. ",
   "AIC = Akaike Information Criterion (lower = better fit). ",
   "p-value: unadjusted two-sided Wald test. ",
-  "q-value (BH): p-value adjusted for multiple comparisons using the Benjamini\u2013Hochberg ",
-  "false discovery rate procedure across all predictors for this outcome. ",
-  "Green rows: BH-adjusted q < 0.05. Bold blue: unadjusted p < 0.05."
+  "Green rows: p < 0.05."
 )
 
 emo_footnote_fp <- paste0(
@@ -1046,9 +1035,7 @@ emo_footnote_fp <- paste0(
   "OR = odds ratio; 95% CI = confidence interval. OR > 1 = higher odds of negative response. ",
   "AIC = Akaike Information Criterion (lower = better fit). ",
   "p-value: unadjusted two-sided Wald test. ",
-  "q-value (BH): p-value adjusted for multiple comparisons using the Benjamini\u2013Hochberg ",
-  "false discovery rate procedure across all predictors for this outcome. ",
-  "Green rows: BH-adjusted q < 0.05. Bold blue: unadjusted p < 0.05."
+  "Green rows: p < 0.05."
 )
 
 ft_pss_fp <- build_uv_ft(
