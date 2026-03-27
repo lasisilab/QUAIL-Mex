@@ -214,7 +214,52 @@ df <- df_raw %>%
              labels = c("Water Secure", "Water Insecure"))
     } else {
       factor(NA_character_, levels = c("Water Secure", "Water Insecure"))
-    }
+    },
+
+    # ── Water infrastructure & cost (Q8, Q9, Q10, Q11) ────────────────────────
+    W_Trust = if ("MX8_TRUST_CAT" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX8_TRUST_CAT) == 1 ~ "Yes",
+        clean_num(MX8_TRUST_CAT) == 0 ~ "No",
+        TRUE                          ~ NA_character_
+      ), levels = c("Yes", "No"))
+    } else factor(NA_character_, levels = c("Yes", "No")),
+
+    W_Garrafon_brand = if ("MX9_GARRAFON_BRAND" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX9_GARRAFON_BRAND) == 1 ~ "Yes",
+        clean_num(MX9_GARRAFON_BRAND) == 0 ~ "No",
+        TRUE                               ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Has_tinaco = if ("MX10_HAS_TINACO" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX10_HAS_TINACO) == 1 ~ "Yes",
+        clean_num(MX10_HAS_TINACO) == 0 ~ "No",
+        TRUE                            ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Has_cisterna = if ("MX10_HAS_CISTERNA" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX10_HAS_CISTERNA) == 1 ~ "Yes",
+        clean_num(MX10_HAS_CISTERNA) == 0 ~ "No",
+        TRUE                              ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Bill_waived = if ("MX11_BILL_WAIVED" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX11_BILL_WAIVED) == 1 ~ "Yes",
+        clean_num(MX11_BILL_WAIVED) == 0 ~ "No",
+        TRUE                             ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Cost_2mnths = if ("MX11_COST_2MNTHS" %in% names(df_raw)) {
+      suppressWarnings(as.numeric(as.character(MX11_COST_2MNTHS)))
+    } else NA_real_
   )
 ```
 

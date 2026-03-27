@@ -1,0 +1,295 @@
+---
+title: "Forest Plot + Sparklines — Prototype (Panel A)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: false
+    code_folding: hide
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(broom)
+library(ggplot2)
+library(patchwork)
+
+sig_symbol <- function(p) {
+  case_when(p < 0.001 ~ "***", p < 0.01 ~ "**", p < 0.05 ~ "*",
+            p < 0.1   ~ "†",   TRUE       ~ "")
+}
+
+COVARIATES    <- c("D_AGE", "SES_TOTAL", "D_HH_SIZE", "CHRONIC_DISYes", "PSS_TOTAL")
+MISSING_CODES <- c(999, 888, 777, 666, 555, 444, 333)
+
+clean_num <- function(x) {
+  x_num <- suppressWarnings(as.numeric(as.character(x)))
+  ifelse(x_num %in% MISSING_CODES, NA_real_, x_num)
+}
+```
+
+## Load data & fit models
+
+```{r load-data}
+df_raw <- read_csv("./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv",
+                   show_col_types = FALSE)
+
+hwise_items <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
+                 "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
+                 "HW_SLEEP", "HW_NONE")
+
+df <- df_raw %>%
+  mutate(
+    across(all_of(hwise_items), clean_num),
+    HWISE_REDUCED   = rowSums(across(all_of(hwise_items)), na.rm = FALSE),
+    PSS_TOTAL       = clean_num(PSS_TOTAL),
+    D_AGE           = clean_num(D_AGE),
+    SES_TOTAL       = clean_num(SES_SC_Total),
+    D_HH_SIZE       = clean_num(D_HH_SIZE),
+    CHRONIC_DIS     = factor(clean_num(HLTH_CDIS_CAT),
+                             levels = c(0, 1), labels = c("No", "Yes")),
+    WI_NEIGHBORHOOD = factor(
+      case_when(
+        W_WS_LOC == "WI" ~ "Water-insecure",
+        W_WS_LOC == "WS" ~ "Water-secure",
+        TRUE             ~ NA_character_
+      ),
+      levels = c("Water-secure", "Water-insecure")
+    ),
+    SEASON = factor(SEASON, levels = c(0, 1), labels = c("Rainy", "Dry"))
+  )
+```
+
+```{r models}
+m_a1 <- lm(PSS_TOTAL ~ HWISE_REDUCED + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+            data = df, na.action = na.omit)
+m_a2 <- lm(PSS_TOTAL ~ HWISE_REDUCED * SEASON + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+            data = df, na.action = na.omit)
+m_a3 <- lm(PSS_TOTAL ~ WI_NEIGHBORHOOD + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+            data = df, na.action = na.omit)
+m_a4 <- lm(PSS_TOTAL ~ WI_NEIGHBORHOOD * SEASON + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+            data = df, na.action = na.omit)
+```
+
+## Build coefficient data
+
+```{r coef-data}
+term_labels_a <- c(
+  "HWISE_REDUCED"                           = "HWISE reduced score",
+  "SEASONDry"                               = "Season (Dry)",
+  "WI_NEIGHBORHOODWater-insecure"           = "Water-insecure neighborhood",
+  "HWISE_REDUCED:SEASONDry"                 = "HWISE × Season (Dry)",
+  "WI_NEIGHBORHOODWater-insecure:SEASONDry" = "WI neighborhood × Season (Dry)"
+)
+
+model_nobs <- c(
+  "a1: HWISE reduced"            = nobs(m_a1),
+  "a2: HWISE × Season"           = nobs(m_a2),
+  "a3: WI neighborhood"          = nobs(m_a3),
+  "a4: WI neighborhood × Season" = nobs(m_a4)
+)
+
+coef_a <- bind_rows(
+  tidy(m_a1, conf.int = TRUE) %>% mutate(model = "a1: HWISE reduced"),
+  tidy(m_a2, conf.int = TRUE) %>% mutate(model = "a2: HWISE × Season"),
+  tidy(m_a3, conf.int = TRUE) %>% mutate(model = "a3: WI neighborhood"),
+  tidy(m_a4, conf.int = TRUE) %>% mutate(model = "a4: WI neighborhood × Season")
+) %>%
+  filter(!term %in% c("(Intercept)"), !term %in% COVARIATES) %>%
+  mutate(
+    term_label = recode(term, !!!term_labels_a, .default = term),
+    sig        = sig_symbol(p.value),
+    model      = factor(model, levels = c(
+      "a1: HWISE reduced", "a2: HWISE × Season",
+      "a3: WI neighborhood", "a4: WI neighborhood × Season"
+    )),
+    n_mod = model_nobs[as.character(model)]
+  )
+
+# ── Y positions: numeric, matching fct_rev(term_label) display order ──────────
+# fct_rev() on a character vector sorts alphabetically then reverses levels.
+# Discrete y-axis places level 1 at bottom, level n at top.
+# So bottom→top order equals rev(sort(unique_labels)).
+unique_labels <- sort(unique(coef_a$term_label))       # alphabetical
+y_pos_df <- tibble(
+  term_label = rev(unique_labels),                      # bottom (1) → top (n)
+  y_pos      = seq_along(unique_labels)
+)
+n_terms <- nrow(y_pos_df)
+y_lims  <- c(0.5, n_terms + 0.5)
+
+coef_a <- coef_a %>% left_join(y_pos_df, by = "term_label")
+
+# N label per term: use the simplest model that contains it
+n_df <- coef_a %>%
+  group_by(term_label, y_pos) %>%
+  arrange(model) %>%
+  slice(1) %>%
+  ungroup() %>%
+  transmute(term_label, y_pos, n_label = paste0("N=", n_mod))
+```
+
+## Build sparkline data
+
+Each term gets a horizontal stacked bar showing the distribution of its
+primary variable:
+
+- **Continuous** (HWISE reduced): bins coloured light→dark blue (low→high)
+- **Binary** (Season, WI neighborhood): two segments — blue = reference category,
+  orange = comparison category
+
+For interaction terms, the continuous variable drives the sparkline.
+
+```{r spark-data}
+# Map each regression term → the base df column to visualise
+term_to_var <- c(
+  "HWISE_REDUCED"                           = "HWISE_REDUCED",
+  "SEASONDry"                               = "SEASON",
+  "WI_NEIGHBORHOODWater-insecure"           = "WI_NEIGHBORHOOD",
+  "HWISE_REDUCED:SEASONDry"                 = "HWISE_REDUCED",
+  "WI_NEIGHBORHOODWater-insecure:SEASONDry" = "WI_NEIGHBORHOOD"
+)
+
+binary_pal <- c("#6baed6", "#fd8d3c")   # ref = blue, comparison = orange
+cont_pal   <- colorRampPalette(c("#c6dbef", "#2171b5"))  # light → dark blue
+
+# Build proportional x-segments for one term (xmin/xmax ∈ [0,1])
+make_spark_segs <- function(term_raw, term_lbl, y_p, data) {
+  base_var <- term_to_var[term_raw]
+
+  if (base_var %in% c("SEASON", "WI_NEIGHBORHOOD")) {
+    vals <- na.omit(data[[base_var]])
+    tab  <- table(vals)
+    prop <- as.numeric(tab) / sum(tab)
+    cuml <- c(0, cumsum(prop))
+    tibble(
+      term_label = term_lbl,
+      y_pos      = y_p,
+      xmin       = cuml[-length(cuml)],
+      xmax       = cuml[-1],
+      fill_color = binary_pal[seq_along(prop)]
+    )
+  } else {
+    vals <- na.omit(data[[base_var]])
+    h    <- hist(vals, breaks = 8, plot = FALSE)
+    prop <- h$counts / sum(h$counts)
+    cuml <- c(0, cumsum(prop))
+    n_b  <- length(h$mids)
+    tibble(
+      term_label = term_lbl,
+      y_pos      = y_p,
+      xmin       = cuml[-length(cuml)],
+      xmax       = cuml[-1],
+      fill_color = cont_pal(n_b)
+    )
+  }
+}
+
+terms_meta <- coef_a %>% distinct(term, term_label, y_pos)
+
+spark_df <- pmap_dfr(
+  list(terms_meta$term, terms_meta$term_label, terms_meta$y_pos),
+  ~ make_spark_segs(..1, ..2, ..3, df)
+)
+```
+
+## Forest plot with N labels and sparklines
+
+```{r forest-sparklines, fig.width=11.5, fig.height=5}
+# ── 1. Forest plot (numeric y for alignment) ──────────────────────────────────
+p_forest <- ggplot(coef_a, aes(x = estimate, y = y_pos, colour = model)) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "grey50") +
+  geom_pointrange(
+    aes(xmin = conf.low, xmax = conf.high),
+    position = position_dodge(width = 0.6),
+    size = 0.45, linewidth = 0.6
+  ) +
+  geom_text(
+    aes(label = sig, x = conf.high),
+    position = position_dodge(width = 0.6),
+    hjust = -0.3, size = 3.2, show.legend = FALSE
+  ) +
+  scale_y_continuous(
+    breaks = y_pos_df$y_pos,
+    labels = scales::label_wrap(22)(y_pos_df$term_label),
+    limits = y_lims
+  ) +
+  scale_colour_manual(
+    values = c("#E41A1C", "#377EB8", "#4DAF4A", "#984EA3"),
+    name   = "Model",
+    labels = scales::label_wrap(16)
+  ) +
+  labs(
+    title   = "Panel A — Linear regression: Perceived Stress Score",
+    x       = "β coefficient (95% CI)",
+    y       = NULL,
+    caption = paste0(
+      "† p<0.1  * p<0.05  ** p<0.01  *** p<0.001\n",
+      "Sparklines: continuous = HWISE bins (light→dark blue = low→high); ",
+      "binary = blue (reference) / orange (comparison)."
+    )
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    legend.position      = c(0.98, 0.02),
+    legend.justification = c("right", "bottom"),
+    legend.background    = element_rect(
+      fill   = scales::alpha("white", 0.85),
+      colour = "grey80"
+    ),
+    legend.key.size  = unit(0.4, "cm"),
+    legend.text      = element_text(size = 9),
+    panel.grid.minor = element_blank(),
+    plot.caption     = element_text(size = 8, colour = "grey40"),
+    axis.text.y      = element_text(size = 10)
+  )
+
+# ── 2. N-label panel ──────────────────────────────────────────────────────────
+p_n <- ggplot(n_df, aes(x = 0.5, y = y_pos, label = n_label)) +
+  geom_text(size = 2.8, colour = "grey25") +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = y_lims) +
+  labs(x = "N", y = NULL) +
+  theme_void() +
+  theme(
+    axis.title.x = element_text(size = 8.5, colour = "grey40", vjust = -0.5),
+    plot.margin  = margin(5.5, 4, 5.5, 4, "pt")
+  )
+
+# ── 3. Sparklines panel ───────────────────────────────────────────────────────
+p_sparks <- ggplot(spark_df) +
+  geom_rect(
+    aes(
+      xmin = xmin, xmax = xmax,
+      ymin = y_pos - 0.32, ymax = y_pos + 0.32,
+      fill = fill_color
+    ),
+    colour    = "white",
+    linewidth = 0.25
+  ) +
+  scale_fill_identity() +
+  scale_x_continuous(expand = expansion(0, 0), limits = c(0, 1)) +
+  scale_y_continuous(limits = y_lims) +
+  labs(x = "Distribution", y = NULL) +
+  theme_void() +
+  theme(
+    axis.title.x = element_text(size = 8.5, colour = "grey40", vjust = -0.5),
+    plot.margin  = margin(5.5, 8, 5.5, 4, "pt")
+  )
+
+# ── 4. Combine ────────────────────────────────────────────────────────────────
+p_forest + p_n + p_sparks +
+  plot_layout(widths = c(5, 0.55, 1.2), guides = "keep")
+```
+
+```{r save, include=FALSE}
+ggsave(
+  "./output/figures/07z.forest_sparklines_proto.png",
+  plot   = p_forest + p_n + p_sparks +
+             plot_layout(widths = c(5, 0.55, 1.2), guides = "keep"),
+  width  = 11.5, height = 5, dpi = 300, bg = "white"
+)
+cat("Saved: ./output/figures/07z.forest_sparklines_proto.png\n")
+```

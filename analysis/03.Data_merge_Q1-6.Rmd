@@ -352,6 +352,36 @@ cat("MX28_WQ_COMP unique values:", paste(sort(unique(q826$MX28_WQ_COMP)), collap
 cat("MX26_EM_HHW_TYPE unique values:", paste(sort(unique(q826$MX26_EM_HHW_TYPE)), collapse = ", "), "\n")
 ```
 
+## 8a-2. MX8_TRUST – Tap water trust (from q826)
+
+Coding: **0 = No** (does not trust tap water), **1 = Yes** (trusts tap water).
+"Neutral" and "Other" values (7 cases total) are treated as NA — they cannot
+be placed on the Yes/No scale without additional interpretation.
+
+```{r process-mx8trust}
+mx8_clean <- q826 %>%
+  filter(!is.na(MX8_TRUST), str_trim(MX8_TRUST) != "") %>%
+  distinct(ID, .keep_all = TRUE) %>%
+  select(ID, MX8_TRUST) %>%
+  mutate(
+    MX8_TRUST_CAT = case_when(
+      str_to_lower(str_trim(MX8_TRUST)) == "no"  ~ 0L,
+      str_to_lower(str_trim(MX8_TRUST)) == "yes" ~ 1L,
+      TRUE                                        ~ NA_integer_   # Neutral / Other → NA
+    )
+  )
+
+cat("MX8_TRUST raw values:\n")
+print(table(mx8_clean$MX8_TRUST, useNA = "always"))
+cat("\nMX8_TRUST_CAT (0=No trust, 1=Yes trust, NA=Neutral/Other/missing):\n")
+print(table(mx8_clean$MX8_TRUST_CAT, useNA = "always"))
+cat("\nIDs with Neutral or Other (set to NA — verify in paper forms if needed):\n")
+mx8_clean %>%
+  filter(!str_to_lower(str_trim(MX8_TRUST)) %in% c("no", "yes")) %>%
+  select(ID, MX8_TRUST) %>%
+  print()
+```
+
 ## 8b. Q19 (consensus coding – all IDs)
 
 ```{r load-q19}
@@ -407,6 +437,176 @@ cat("Jocelyne rows:", nrow(q_joc), "| Unique IDs:", n_distinct(q_joc$ID), "\n")
 cat("Alice rows:", nrow(q_alice), "| Unique IDs:", n_distinct(q_alice$ID), "\n")
 cat("Q19_combined rows:", nrow(q19_combined), "| three_rater_match:", "\n")
 print(table(q19_combined$three_rater_match, useNA = "always"))
+```
+
+---
+
+## 8e. Q9-10-11-29-31 (drinking water source, storage, cost, ideal supply)
+
+Variables extracted: `MX9_DRINK_W` (drinking source, multi-select), `MX10_WSTORAGE`
+(storage type, multi-select), `MX11_WCOST_NUL` (bill waived), `MX11_WCOST_2MNTHS_NUM`
+(bimonthly cost), `MX29_IDL_WS_CAT` (ideal supply category), `MX31_WCOST_BOTL`
+(garrafón price range, for reference).
+
+No within-ID conflicts were confirmed in the data audit.
+"DK" responses → NA. "no" / "none" in the cost field → 0 pesos.
+
+```{r load-q9-11}
+q9_11_raw <- read_csv(
+  "./data/Q9-10-11-29-31.csv",
+  col_types = cols(ID = col_character()),
+  show_col_types = FALSE
+) %>%
+  mutate(ID = as.numeric(str_trim(ID))) %>%
+  filter(!ID %in% EXCLUDED_IDS, !is.na(ID))
+
+cat("Q9-10-11-29-31 rows:", nrow(q9_11_raw),
+    "| Unique IDs:", n_distinct(q9_11_raw$ID), "\n")
+```
+
+```{r process-q9-11}
+# Sentinel / invalid string values (case-insensitive)
+miss_lower_q9 <- c("pending", "na", "n/a", "", "dk", "999", "888",
+                   "777", "666", "555", "444", "333")
+
+first_valid_str <- function(x) {
+  x <- as.character(x)
+  ok <- x[!is.na(x) & !str_to_lower(str_trim(x)) %in% miss_lower_q9]
+  if (length(ok) > 0) ok[1] else NA_character_
+}
+
+# One row per ID (no conflicts — take first valid value per column)
+q9_11 <- q9_11_raw %>%
+  group_by(ID) %>%
+  summarise(
+    MX9_raw   = first_valid_str(MX9_DRINK_W),
+    MX10_raw  = first_valid_str(MX10_WSTORAGE),
+    MX11_NUL  = first_valid_str(MX11_WCOST_NUL),
+    MX11_COST = first_valid_str(MX11_WCOST_2MNTHS_NUM),
+    MX29_raw  = first_valid_str(MX29_IDL_WS_CAT),
+    MX31_raw  = first_valid_str(MX31_WCOST_BOTL),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    # ── MX9: Drinking water source — binary indicators ────────────────────────
+    # Multi-select; options coded "X) Label" (X = A–H, case-insensitive).
+    MX9_GARRAFON_LOCAL = ifelse(is.na(MX9_raw), NA_integer_,
+                                as.integer(str_detect(MX9_raw, regex("[Ee]\\)")))),
+    MX9_GARRAFON_BRAND = ifelse(is.na(MX9_raw), NA_integer_,
+                                as.integer(str_detect(MX9_raw, regex("[Dd]\\)")))),
+    MX9_BOTTLED        = ifelse(is.na(MX9_raw), NA_integer_,
+                                as.integer(str_detect(MX9_raw, regex("[Gg]\\)")))),
+    MX9_USES_TAP       = ifelse(is.na(MX9_raw), NA_integer_,
+                                as.integer(str_detect(MX9_raw, regex("[Aa]\\)")))),
+
+    # ── MX10: Water storage type — binary indicators ──────────────────────────
+    # Multi-select; options "A) No storage", "B) Tinaco", "C) Cisterna",
+    # "D) Tambo", "E) Cubeta con tapa", "F) Cubeta sin tapa", + "pileta".
+    MX10_NO_STORAGE   = ifelse(is.na(MX10_raw), NA_integer_,
+                               as.integer(str_detect(MX10_raw, regex("[Aa]\\)")))),
+    MX10_HAS_TINACO   = ifelse(is.na(MX10_raw), NA_integer_,
+                               as.integer(str_detect(MX10_raw, regex("[Bb]\\)")))),
+    MX10_HAS_CISTERNA = ifelse(is.na(MX10_raw), NA_integer_,
+                               as.integer(str_detect(MX10_raw, regex("[Cc]\\)")))),
+    MX10_HAS_TAMBO    = ifelse(is.na(MX10_raw), NA_integer_,
+                               as.integer(str_detect(MX10_raw, regex("[Dd]\\)")))),
+    # Count of storage types in use (A = "no storage" is excluded from count)
+    MX10_N_STORAGE    = ifelse(
+      is.na(MX10_raw), NA_integer_,
+      as.integer(str_detect(MX10_raw, regex("[Bb]\\)"))) +
+      as.integer(str_detect(MX10_raw, regex("[Cc]\\)"))) +
+      as.integer(str_detect(MX10_raw, regex("[Dd]\\)"))) +
+      as.integer(str_detect(MX10_raw, regex("[Ee]\\)"))) +
+      as.integer(str_detect(MX10_raw, regex("[Ff]\\)"))) +
+      as.integer(str_detect(str_to_lower(MX10_raw), "pileta"))
+    ),
+
+    # ── MX11: Water bill waived ───────────────────────────────────────────────
+    # 0 = household pays; 1 = bill waived (condonado)
+    MX11_BILL_WAIVED = case_when(
+      str_to_lower(str_trim(coalesce(MX11_NUL, ""))) == "yes" ~ 1L,
+      str_to_lower(str_trim(coalesce(MX11_NUL, ""))) == "no"  ~ 0L,
+      TRUE                                                     ~ NA_integer_
+    ),
+
+    # ── MX11: Bimonthly piped water cost (pesos) ─────────────────────────────
+    # "no" / "none" → 0; numeric strings → numeric; "DK" already filtered above
+    MX11_COST_2MNTHS = case_when(
+      str_to_lower(str_trim(coalesce(MX11_COST, ""))) %in% c("no", "none") ~ 0,
+      !is.na(suppressWarnings(as.numeric(MX11_COST)))                       ~
+        suppressWarnings(as.numeric(MX11_COST)),
+      TRUE                                                                   ~ NA_real_
+    ),
+
+    # ── MX29: Ideal water supply category ────────────────────────────────────
+    MX29_IDL_CAT = factor(
+      str_to_lower(str_trim(coalesce(MX29_raw, ""))),
+      levels = c("quality", "quantity", "quality/quantity",
+                 "quality/pressure", "pressure", "nothing")
+    )
+  )
+
+cat("MX9 drinking source (n valid, % of non-missing MX9):\n")
+cat(sprintf("  Local purificadora garrafón (E): %d (%.1f%%)\n",
+            sum(q9_11$MX9_GARRAFON_LOCAL, na.rm = TRUE),
+            100 * mean(q9_11$MX9_GARRAFON_LOCAL, na.rm = TRUE)))
+cat(sprintf("  Brand garrafón (D)             : %d (%.1f%%)\n",
+            sum(q9_11$MX9_GARRAFON_BRAND, na.rm = TRUE),
+            100 * mean(q9_11$MX9_GARRAFON_BRAND, na.rm = TRUE)))
+cat(sprintf("  Bottled water (G)              : %d (%.1f%%)\n",
+            sum(q9_11$MX9_BOTTLED, na.rm = TRUE),
+            100 * mean(q9_11$MX9_BOTTLED, na.rm = TRUE)))
+cat(sprintf("  Tap water (A)                  : %d (%.1f%%)\n",
+            sum(q9_11$MX9_USES_TAP, na.rm = TRUE),
+            100 * mean(q9_11$MX9_USES_TAP, na.rm = TRUE)))
+cat("\nMX10 storage type indicators:\n")
+cat(sprintf("  Has tinaco (B)   : %d\n", sum(q9_11$MX10_HAS_TINACO,   na.rm = TRUE)))
+cat(sprintf("  Has cisterna (C) : %d\n", sum(q9_11$MX10_HAS_CISTERNA, na.rm = TRUE)))
+cat(sprintf("  Has tambo (D)    : %d\n", sum(q9_11$MX10_HAS_TAMBO,    na.rm = TRUE)))
+cat(sprintf("  No storage (A)   : %d\n", sum(q9_11$MX10_NO_STORAGE,   na.rm = TRUE)))
+cat(sprintf("  N storage types  : mean=%.1f, range=%d–%d\n",
+            mean(q9_11$MX10_N_STORAGE, na.rm = TRUE),
+            min(q9_11$MX10_N_STORAGE,  na.rm = TRUE),
+            max(q9_11$MX10_N_STORAGE,  na.rm = TRUE)))
+cat("\nMX11_BILL_WAIVED (0=pays, 1=waived, NA=unknown):\n")
+print(table(q9_11$MX11_BILL_WAIVED, useNA = "always"))
+cat("\nMX11_COST_2MNTHS summary (pesos/bimonth):\n")
+print(summary(q9_11$MX11_COST_2MNTHS))
+cat("\nMX29_IDL_CAT (ideal water supply):\n")
+print(table(q9_11$MX29_IDL_CAT, useNA = "always"))
+```
+
+```{r flag-mx31-review}
+# ── MX31: Parse garrafón price range and flag values needing review ───────────
+# Format: "X --> Y" (before→after price) or "X a Y pesos" (price range).
+# "confirm" = rater noted the value should be verified from the paper form.
+# Midpoint > 25 pesos is suspicious (pipa price may have been mixed in).
+
+parse_botl_mid <- function(s) {
+  s <- str_replace_all(coalesce(s, ""), "pesos|\\$", "")
+  s <- str_trim(s)
+  m <- str_match(s, "([0-9.]+)\\s*(-+>|\\ba\\b)\\s*([0-9.]+)")
+  if (!is.na(m[1, 1])) return((as.numeric(m[1, 2]) + as.numeric(m[1, 4])) / 2)
+  m2 <- str_match(s, "^([0-9.]+)$")
+  if (!is.na(m2[1, 1])) return(as.numeric(m2[1, 2]))
+  NA_real_
+}
+
+q9_11 <- q9_11 %>%
+  mutate(MX31_BOTL_MID = vapply(MX31_raw, parse_botl_mid, numeric(1)))
+
+confirm_ids <- q9_11 %>%
+  filter(str_to_lower(str_trim(coalesce(MX31_raw, ""))) == "confirm") %>%
+  select(ID, MX31_raw)
+outlier_ids <- q9_11 %>%
+  filter(!is.na(MX31_BOTL_MID), MX31_BOTL_MID > 25) %>%
+  select(ID, MX31_raw, MX31_BOTL_MID)
+
+cat("⚠ MX31 — IDs flagged 'confirm' (check paper forms):\n")
+print(confirm_ids)
+cat("\n⚠ MX31 — IDs with midpoint > 25 pesos (possible pipa price):\n")
+print(outlier_ids)
+cat("\nTotal flagged:", nrow(confirm_ids) + nrow(outlier_ids), "\n")
 ```
 
 ---
@@ -1039,6 +1239,22 @@ merged_final2 <- merged_final %>%
   left_join(
     q16_clean,
     by = "ID"
+  ) %>%
+  # Q8: Tap water trust
+  left_join(
+    mx8_clean %>% select(ID, MX8_TRUST_CAT),
+    by = "ID"
+  ) %>%
+  # Q9-11: Drinking water source, storage, cost; Q29: Ideal supply; Q31: price
+  left_join(
+    q9_11 %>% select(ID,
+                     MX9_GARRAFON_LOCAL, MX9_GARRAFON_BRAND,
+                     MX9_BOTTLED, MX9_USES_TAP,
+                     MX10_NO_STORAGE, MX10_HAS_TINACO, MX10_HAS_CISTERNA,
+                     MX10_HAS_TAMBO, MX10_N_STORAGE,
+                     MX11_BILL_WAIVED, MX11_COST_2MNTHS,
+                     MX29_IDL_CAT, MX31_BOTL_MID),
+    by = "ID"
   )
 
 cat("Final dimensions:", nrow(merged_final2), "rows ×", ncol(merged_final2), "cols\n")
@@ -1046,7 +1262,12 @@ cat("New columns added:", paste(setdiff(names(merged_final2), names(merged_final
 
 # Missingness summary for new variables
 new_vars <- c("MX28_WQ_COMP_CAT", "MX26_EM_HHW_CAT", "MX19_TIME_CAT",
-              "MX16_SCEN_01", "MX16_SCEN_03", "MX16_SCEN_05", "MX16_SCEN_99")
+              "MX16_SCEN_01", "MX16_SCEN_03", "MX16_SCEN_05", "MX16_SCEN_99",
+              "MX8_TRUST_CAT",
+              "MX9_GARRAFON_LOCAL", "MX9_GARRAFON_BRAND",
+              "MX10_HAS_TINACO", "MX10_HAS_CISTERNA", "MX10_N_STORAGE",
+              "MX11_BILL_WAIVED", "MX11_COST_2MNTHS",
+              "MX29_IDL_CAT")
 
 cat("\nMissing-value counts for new variables (NA = ID not in supplemental file):\n")
 merged_final2 %>%
@@ -1124,6 +1345,19 @@ lbl_q26  <- c("0" = "Positive", "1" = "Negative")
 lbl_q19  <- c("0" = "No",     "1" = "Yes")
 lbl_q16  <- c("1" = "Option 1", "2" = "Option 2", "3" = "Option 3", "4" = "Option 4")
 
+lbl_trust  <- c("0" = "No (does not trust)",  "1" = "Yes (trusts tap water)")
+lbl_binary <- c("0" = "No",                   "1" = "Yes")
+lbl_mx29   <- c("quality"          = "Quality only",
+                "quantity"         = "Quantity only",
+                "quality/quantity" = "Quality + Quantity",
+                "quality/pressure" = "Quality + Pressure",
+                "pressure"         = "Pressure only",
+                "nothing"          = "Nothing / satisfied")
+
+# MX29_IDL_CAT is a factor — convert to character code for summarise_q
+merged_final2 <- merged_final2 %>%
+  mutate(MX29_IDL_CODE = as.character(MX29_IDL_CAT))
+
 summary_tbl <- bind_rows(
   summarise_q(merged_final2, "MX28_WQ_COMP_CAT",
               "Q28 – Water Quality Comparison (0=Better, 1=Same, 2=Worse)", lbl_q28),
@@ -1138,7 +1372,11 @@ summary_tbl <- bind_rows(
   summarise_q(merged_final2, "MX16_SCEN_05",
               "Q16 – Scenario 05 (Season 2 only)",                          lbl_q16),
   summarise_q(merged_final2, "MX16_SCEN_99",
-              "Q16 – Scenario 99 (Season 2 only)",                          lbl_q16)
+              "Q16 – Scenario 99 (Season 2 only)",                          lbl_q16),
+  summarise_q(merged_final2, "MX8_TRUST_CAT",
+              "Q8 – Tap water trust (0=No, 1=Yes)",                         lbl_trust),
+  summarise_q(merged_final2, "MX11_BILL_WAIVED",
+              "Q11 – Piped water bill waived (0=Pays, 1=Waived)",           lbl_binary)
 ) %>%
   arrange(Variable, Type, Code)
 
@@ -1148,12 +1386,28 @@ print(summary_tbl, n = 100)
 knitr::kable(
   summary_tbl,
   caption = paste(
-    "Distribution of Q16 (scenario preferences), Q19 (time investment),",
-    "Q26 (household water emotions), and Q28 (water quality comparison).",
+    "Distribution of Q8 (tap water trust), Q11 (bill waived), Q16 (scenario preferences),",
+    "Q19 (time investment), Q26 (household water emotions), and Q28 (water quality comparison).",
     "Percentages (pct_valid) are calculated over valid responses only.",
     "Missing codes: 444=Ambiguous, 555=Other, 999=Missing/not in file."
   ),
   col.names = c("Variable", "Code", "Label", "n", "% (valid only)", "Type"),
   digits = 1
 )
+
+# ── MX29: Ideal water supply (separate table — factor, not integer-coded) ──────
+cat("\n=== Q29 – IDEAL WATER SUPPLY CATEGORY ===\n")
+mx29_tbl <- merged_final2 %>%
+  count(MX29_IDL_CAT, name = "n") %>%
+  mutate(
+    pct   = round(100 * n / sum(n[!is.na(MX29_IDL_CAT)], na.rm = TRUE), 1),
+    Label = lbl_mx29[as.character(MX29_IDL_CAT)]
+  )
+print(mx29_tbl)
+
+# ── MX11_COST_2MNTHS: Bimonthly cost continuous summary ───────────────────────
+cat("\n=== Q11 – BIMONTHLY PIPED WATER COST (pesos) ===\n")
+print(summary(merged_final2$MX11_COST_2MNTHS))
+cat(sprintf("  Missing / DK: %d\n",
+            sum(is.na(merged_final2$MX11_COST_2MNTHS))))
 ```

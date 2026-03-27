@@ -1,5 +1,13 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(find /Users/palomacz/Documents/GitHub/QUAIL-Mex -name *core* -o -name *models_core*)",
+      "Bash(sed -i '' 's/\"\"HWISE full score \\(12 items\\)\"\"/\"\"HWISE score\"\"/g' /Users/palomacz/Documents/GitHub/QUAIL-Mex/analysis/07.aim1_models.Rmd)",
+      "Bash(sed -i '' 's/\"\"HWISE full \\(12 items\\)\"\"/\"\"HWISE score\"\"/g' /Users/palomacz/Documents/GitHub/QUAIL-Mex/analysis/07.aim1_models.Rmd)",
+      "Bash(sed -i '' 's/\"\"HWISE full\"\"/\"\"HWISE score\"\"/g' /Users/palomacz/Documents/GitHub/QUAIL-Mex/analysis/07.aim1_models.Rmd)",
+      "Bash(grep -v \"^$\")",
+      "Bash(python3 -:*)"
+    ],
     "additionalDirectories": [
       "/Users/palomacz/Documents/GitHub/QUAIL-Mex/.git/refs/heads"
     ]

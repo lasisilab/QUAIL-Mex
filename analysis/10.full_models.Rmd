@@ -41,10 +41,6 @@ one prior model.
 > **Collinearity note**: The HWISE items (HW_WORRY, HW_INTERR, etc.) are
 > highly correlated with each other. Including multiple items simultaneously
 > in the full model may inflate standard errors and produce unstable estimates.
-> It is recommended to compare results with and without the individual HWISE
-> items (e.g., substituting the HWISE reduced composite score instead). See
-> Section 5 for a sensitivity analysis using `HWISE_REDUCED` in place of
-> individual items.
 
 > **Note on D_LOC_TIME**: Years in neighborhood (`D_LOC_TIME`) is treated as
 > a focal predictor (not a core covariate) in these full models, consistent
@@ -82,10 +78,6 @@ hwise_items <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
                  "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
                  "HW_ANGRY", "HW_SLEEP",  "HW_NONE",    "HW_SHAME")
 
-hwise_items_reduced <- c("HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
-                         "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
-                         "HW_SLEEP", "HW_NONE")
-
 df <- df_raw %>%
   mutate(
     # ── Outcomes ───────────────────────────────────────────────────────────────
@@ -108,9 +100,6 @@ df <- df_raw %>%
 
     # ── HWISE individual items ─────────────────────────────────────────────────
     across(all_of(hwise_items), clean_num),
-
-    # ── HWISE reduced score (10 items, excluding angry and shame) ─────────────
-    HWISE_REDUCED = rowSums(across(all_of(hwise_items_reduced)), na.rm = FALSE),
 
     # ── Hours of water supply per week ─────────────────────────────────────────
     HRS_PER_WEEK = clean_num(MX5_WFREQ_HRS_PER_WEEK),
@@ -237,32 +226,21 @@ with p < 0.05.
 > **Variable naming note**: Aim 1 uses `SES_TOTAL` and `CHRONIC_DIS` (computed
 > separately in that script), while Aim 2 uses `SES_SC_Total` and `Chronic_dis`.
 > Here we use Aim 2 naming throughout. Aim 1 predictors
-> (`HWISE_REDUCED`, `WI_NEIGHBORHOOD`, `SEASON`) are recreated using Aim 2
-> variable prep (SEASON is already prepared above; HWISE_REDUCED and W_WS_LOC_F
-> serve as the Aim 2 equivalents).
+> (`WI_NEIGHBORHOOD`, `SEASON`) are recreated using Aim 2 variable prep
+> (SEASON is already prepared above; W_WS_LOC_F serves as the Aim 2 equivalent).
 
 ```{r aim1-models-pss}
 # ── Aim 1: PSS models (Panel A) ───────────────────────────────────────────────
 # Using Aim 2 variable names: SES_SC_Total, Chronic_dis, W_WS_LOC_F
 
 aim1_pss_models <- list(
-  a1 = lm(PSS_TOTAL ~ HWISE_REDUCED + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, na.action = na.omit),
-  a2 = lm(PSS_TOTAL ~ HWISE_REDUCED * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, na.action = na.omit),
   a3 = lm(PSS_TOTAL ~ W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, na.action = na.omit),
   a4 = lm(PSS_TOTAL ~ W_WS_LOC_F * SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, na.action = na.omit),
-  a5 = lm(PSS_TOTAL ~ HWISE_REDUCED + SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, na.action = na.omit),
   a6 = lm(PSS_TOTAL ~ W_WS_LOC_F + SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, na.action = na.omit),
   a7 = lm(PSS_TOTAL ~ SEASON + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, na.action = na.omit),
-  a8 = lm(PSS_TOTAL ~ HWISE_REDUCED * W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, na.action = na.omit),
-  a9 = lm(PSS_TOTAL ~ HWISE_REDUCED + W_WS_LOC_F + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, na.action = na.omit)
 )
 ```
@@ -309,23 +287,13 @@ aim2_pss_models <- c(
 # ── Aim 1: EMO models (Panel B) ───────────────────────────────────────────────
 
 aim1_emo_models <- list(
-  b1 = glm(EMO_NEG ~ HWISE_REDUCED + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, family = binomial, na.action = na.omit),
-  b2 = glm(EMO_NEG ~ HWISE_REDUCED * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, family = binomial, na.action = na.omit),
   b3 = glm(EMO_NEG ~ W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, family = binomial, na.action = na.omit),
   b4 = glm(EMO_NEG ~ W_WS_LOC_F * SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, family = binomial, na.action = na.omit),
-  b5 = glm(EMO_NEG ~ HWISE_REDUCED + SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, family = binomial, na.action = na.omit),
   b6 = glm(EMO_NEG ~ W_WS_LOC_F + SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, family = binomial, na.action = na.omit),
   b7 = glm(EMO_NEG ~ SEASON + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, family = binomial, na.action = na.omit),
-  b8 = glm(EMO_NEG ~ HWISE_REDUCED * W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
-           data = df, family = binomial, na.action = na.omit),
-  b9 = glm(EMO_NEG ~ HWISE_REDUCED + W_WS_LOC_F + PSS_TOTAL + D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis,
            data = df, family = binomial, na.action = na.omit)
 )
 ```
@@ -447,7 +415,7 @@ extract_variable_name <- function(terms) {
   # Try to match factor variable names from df
   factor_vars <- c("CONT_INT", "SEASON", "NB_COMP", "TIME_WATER",
                    "W_Pressure", "W_Frequency", "W_WS_LOC_F",
-                   "Chronic_dis", "HWISE_REDUCED")
+                   "Chronic_dis")
   result <- character(length(terms))
   for (i in seq_along(terms)) {
     matched <- factor_vars[str_starts(terms[i], factor_vars)]
@@ -493,8 +461,8 @@ core_vars_pss <- c("D_AGE", "SES_SC_Total", "D_HH_SIZE", "Chronic_dis",
 sig_vars_pss_clean <- setdiff(sig_vars_pss, core_vars_pss)
 
 if (length(sig_vars_pss_clean) == 0) {
-  warning("No significant PSS predictors identified. Using HWISE_REDUCED as placeholder.")
-  sig_vars_pss_clean <- "HWISE_REDUCED"
+  warning("No significant PSS predictors identified. Using SEASON as placeholder.")
+  sig_vars_pss_clean <- "SEASON"
 }
 
 cat("PSS full model predictors (beyond core covariates):\n")
@@ -523,7 +491,6 @@ label_list_pss <- list(
   D_HH_SIZE    ~ "Household size",
   Chronic_dis  ~ "Chronic disease",
   D_LOC_TIME   ~ "Years in neighborhood",
-  HWISE_REDUCED ~ "HWISE reduced score (0–40)",
   HRS_PER_WEEK  ~ "Hours of water supply/week",
   CONT_INT      ~ "Supply continuity (ref: Continuous)",
   SEASON        ~ "Season (ref: Rainy)",
@@ -567,7 +534,6 @@ tbl_pss
 
 ```{r pss-full-plot, fig.width=9, fig.height=7}
 readable_terms <- c(
-  HWISE_REDUCED              = "HWISE reduced score",
   HRS_PER_WEEK               = "Hours of supply / week",
   CONT_INTIntermittent       = "Supply continuity: Intermittent",
   SEASONDry                  = "Season: Dry",
@@ -701,7 +667,6 @@ label_list_emo <- list(
   Chronic_dis   ~ "Chronic disease",
   PSS_TOTAL     ~ "PSS total score",
   D_LOC_TIME    ~ "Years in neighborhood",
-  HWISE_REDUCED ~ "HWISE reduced score (0–40)",
   HRS_PER_WEEK  ~ "Hours of water supply/week",
   CONT_INT      ~ "Supply continuity (ref: Continuous)",
   SEASON        ~ "Season (ref: Rainy)",
@@ -805,88 +770,12 @@ cat("Saved: ./output/figures/10.emo_full_model.png\n")
 
 ---
 
-# Section 4b: Sensitivity Analysis — HWISE Reduced Score
-
-> **Collinearity note**: Individual HWISE items are highly correlated.
-> Including multiple items in the full model simultaneously may produce
-> inflated standard errors and unstable estimates. This sensitivity analysis
-> substitutes the HWISE reduced composite score (`HWISE_REDUCED`) for any
-> individual HWISE items that appeared in the main full model.
-
-```{r sensitivity-pss}
-# Replace individual HWISE items with HWISE_REDUCED composite
-hwise_item_names <- hwise_items  # the 12 individual items
-
-sig_vars_pss_sens <- sig_vars_pss_clean
-has_hwise_items_pss <- any(sig_vars_pss_sens %in% hwise_item_names)
-
-if (has_hwise_items_pss) {
-  sig_vars_pss_sens <- c(
-    setdiff(sig_vars_pss_sens, hwise_item_names),
-    "HWISE_REDUCED"
-  )
-  cat("PSS sensitivity model: replaced individual HWISE items with HWISE_REDUCED\n")
-} else {
-  cat("PSS sensitivity: no individual HWISE items in main model — unchanged\n")
-}
-
-pss_sens_formula <- as.formula(
-  paste("PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis +",
-        paste(sig_vars_pss_sens, collapse = " + "))
-)
-pss_sens <- lm(pss_sens_formula, data = df, na.action = na.omit)
-
-cat("PSS sensitivity model Adj. R² =", round(summary(pss_sens)$adj.r.squared, 3),
-    "| N =", nobs(pss_sens), "\n")
-
-tbl_pss_sens <- tbl_regression(pss_sens, conf.int = TRUE) %>%
-  bold_p(t = 0.05) %>%
-  italicize_levels() %>%
-  modify_caption("**PSS Sensitivity Model**: HWISE composite instead of individual items")
-tbl_pss_sens
-```
-
-```{r sensitivity-emo}
-sig_vars_emo_sens <- sig_vars_emo_clean
-has_hwise_items_emo <- any(sig_vars_emo_sens %in% hwise_item_names)
-
-if (has_hwise_items_emo) {
-  sig_vars_emo_sens <- c(
-    setdiff(sig_vars_emo_sens, hwise_item_names),
-    "HWISE_REDUCED"
-  )
-  cat("EMO sensitivity model: replaced individual HWISE items with HWISE_REDUCED\n")
-} else {
-  cat("EMO sensitivity: no individual HWISE items in main model — unchanged\n")
-}
-
-emo_sens_formula <- as.formula(
-  paste("EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis +",
-        paste(sig_vars_emo_sens, collapse = " + "))
-)
-emo_sens <- glm(emo_sens_formula, data = df, family = binomial, na.action = na.omit)
-
-cat("EMO sensitivity model AIC =", round(AIC(emo_sens), 1),
-    "| N =", nobs(emo_sens), "\n")
-
-tbl_emo_sens <- tbl_regression(emo_sens, conf.int = TRUE, exponentiate = TRUE) %>%
-  bold_p(t = 0.05) %>%
-  italicize_levels() %>%
-  modify_header(estimate ~ "**OR**") %>%
-  modify_caption("**EMO Sensitivity Model**: HWISE composite instead of individual items")
-tbl_emo_sens
-```
-
----
-
-# Section 4c: Export to Word
+# Section 4b: Export to Word
 
 ```{r export-word}
 # ── Convert gtsummary tables to flextable ─────────────────────────────────────
 ft_pss_full  <- as_flex_table(tbl_pss)
 ft_emo_full  <- as_flex_table(tbl_emo)
-ft_pss_sens  <- as_flex_table(tbl_pss_sens)
-ft_emo_sens  <- as_flex_table(tbl_emo_sens)
 
 # ── Significant predictors summary table ──────────────────────────────────────
 ft_sig_summary <- sig_table %>%
@@ -946,22 +835,6 @@ doc <- read_docx() %>%
   ) %>%
   body_add_par("", style = "Normal") %>%
   body_add_flextable(ft_emo_full) %>%
-  body_add_par("", style = "Normal") %>%
-
-  # Sensitivity
-  body_add_par("Sensitivity Analysis: HWISE Composite Score", style = "heading 2") %>%
-  body_add_par(
-    paste0("Individual HWISE items are highly correlated. These models replace ",
-           "all individual HWISE items with the HWISE reduced composite score."),
-    style = "Normal"
-  ) %>%
-  body_add_par("PSS Sensitivity Model", style = "heading 3") %>%
-  body_add_par("", style = "Normal") %>%
-  body_add_flextable(ft_pss_sens) %>%
-  body_add_par("", style = "Normal") %>%
-  body_add_par("EMO Sensitivity Model", style = "heading 3") %>%
-  body_add_par("", style = "Normal") %>%
-  body_add_flextable(ft_emo_sens) %>%
   body_add_par("", style = "Normal")
 
 print(doc, target = out_path)

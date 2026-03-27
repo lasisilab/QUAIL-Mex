@@ -13,7 +13,7 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 library(tidyverse)
 library(broom)
 library(flextable)
@@ -43,6 +43,39 @@ sig_symbol <- function(p) {
     p < 0.1   ~ "†",
     TRUE       ~ ""
   )
+}
+
+# ── Shared table style (matches 04.descriptive_stats) ────────────────────────
+COL_HDR  <- "#1A3A5C"
+COL_ALT  <- "#F9F9F9"
+SIG_NOTE <- "\u2020 p<0.1  * p<0.05  ** p<0.01  *** p<0.001"
+
+style_ft <- function(ft) {
+  n_body <- nrow(ft$body$dataset)
+  ft %>%
+    font(fontname = "Calibri", part = "all") %>%
+    fontsize(size = 10, part = "body") %>%
+    fontsize(size = 10, part = "header") %>%
+    fontsize(size = 9,  part = "footer") %>%
+    bg(bg = COL_HDR, part = "header") %>%
+    color(color = "white", part = "header") %>%
+    bold(part = "header") %>%
+    bg(i = seq(2, n_body, by = 2), bg = COL_ALT, part = "body") %>%
+    border_remove() %>%
+    hline_top(part = "header",
+              border = fp_border(color = COL_HDR, width = 1.5)) %>%
+    hline_bottom(part = "header",
+                 border = fp_border(color = COL_HDR, width = 1.5)) %>%
+    hline_bottom(part = "body",
+                 border = fp_border(color = COL_HDR, width = 1.5)) %>%
+    hline(border = fp_border(color = "#bdc3c7", width = 0.5), part = "body") %>%
+    align(j = 1,  align = "left",   part = "all") %>%
+    align(j = -1, align = "center", part = "all") %>%
+    padding(padding.top = 2, padding.bottom = 2, part = "all") %>%
+    italic(part = "footer") %>%
+    color(color = "#555555", part = "footer") %>%
+    set_table_properties(layout = "autofit", width = 1) %>%
+    fix_border_issues()
 }
 ```
 
@@ -104,28 +137,28 @@ is set to `NA` if any of the 10 contributing items is missing.
 
 ```{r hwise-reduced}
 # Items included in the reduced score (original 12 minus angry and shame)
-hwise_items_reduced <- c(
+hwise_items <- c(
   "HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
   "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
   "HW_SLEEP", "HW_NONE"
 )
 
-hwise_items_full <- c(hwise_items_reduced, "HW_ANGRY", "HW_SHAME")
+hwise_items_all <- c(hwise_items, "HW_ANGRY", "HW_SHAME")
 
 df <- df_raw %>%
   mutate(
     # Clean all HWISE items (reduced + emotion items)
-    across(all_of(hwise_items_full), clean_num),
+    across(all_of(hwise_items_all), clean_num),
 
     # Reduced HWISE score: row sum, NA if any item is missing
     HWISE_REDUCED = rowSums(
-      across(all_of(hwise_items_reduced)),
+      across(all_of(hwise_items)),
       na.rm = FALSE   # propagate NA if any item missing
     ),
 
     # Full HWISE score (all 12 items)
     HWISE_FULL = rowSums(
-      across(all_of(hwise_items_full)),
+      across(all_of(hwise_items_all)),
       na.rm = FALSE
     ),
 
@@ -148,7 +181,7 @@ df <- df_raw %>%
     CHRONIC_DIS = factor(clean_num(HLTH_CDIS_CAT),
                          levels = c(0, 1), labels = c("No", "Yes")),
 
-    # ── Water-insecure neighbourhood (binary) ──────────────────────
+    # ── Water-insecure neighborhood (binary) ──────────────────────
     # W_WS_LOC: "WI" = water-insecure, "WS" = water-secure
     WI_NEIGHBORHOOD = factor(
       case_when(
@@ -286,6 +319,22 @@ m_b9 <- glm(
   data = df, family = binomial, na.action = na.omit
 )
 
+m_b10 <- glm(
+  EMO_NEG ~ HWISE_FULL + PSS_TOTAL + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+  data = df, family = binomial, na.action = na.omit
+)
+
+# Season-adjusted versions for core table (HWISE full + SEASON)
+m_a10_s <- lm(
+  PSS_TOTAL ~ HWISE_FULL + SEASON + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+  data = df, na.action = na.omit
+)
+
+m_b10_s <- glm(
+  EMO_NEG ~ HWISE_FULL + SEASON + PSS_TOTAL + D_AGE + SES_TOTAL + D_HH_SIZE + CHRONIC_DIS,
+  data = df, family = binomial, na.action = na.omit
+)
+
 # ── Sample sizes ─────────────────────────────────────────────────────────────
 tibble(
   model = c("m_a1", "m_a2", "m_a3", "m_a4", "m_a5", "m_a6", "m_a7", "m_a8", "m_a9", "m_a10",
@@ -304,19 +353,19 @@ tibble(
 ```{r coef-plot-a, fig.width=8, fig.height=5}
 term_labels_a <- c(
   "HWISE_REDUCED"                                       = "HWISE reduced score",
-  "HWISE_FULL"                                          = "HWISE full score (12 items)",
+  "HWISE_FULL"                                          = "HWISE score",
   "SEASONDry"                                           = "Season (Dry)",
-  "WI_NEIGHBORHOODWater-insecure"                       = "Water-insecure neighbourhood",
+  "WI_NEIGHBORHOODWater-insecure"                       = "Water-insecure neighborhood",
   "HWISE_REDUCED:SEASONDry"                             = "HWISE × Season (Dry)",
-  "WI_NEIGHBORHOODWater-insecure:SEASONDry"             = "WI neighbourhood × Season (Dry)",
-  "HWISE_REDUCED:WI_NEIGHBORHOODWater-insecure"         = "HWISE × WI neighbourhood"
+  "WI_NEIGHBORHOODWater-insecure:SEASONDry"             = "WI neighborhood × Season (Dry)",
+  "HWISE_REDUCED:WI_NEIGHBORHOODWater-insecure"         = "HWISE × WI neighborhood"
 )
 
 coef_a <- bind_rows(
   tidy(m_a1, conf.int = TRUE) %>% mutate(model = "a1: HWISE reduced"),
   tidy(m_a2, conf.int = TRUE) %>% mutate(model = "a2: HWISE × Season"),
-  tidy(m_a3, conf.int = TRUE) %>% mutate(model = "a3: WI neighbourhood"),
-  tidy(m_a4, conf.int = TRUE) %>% mutate(model = "a4: WI neighbourhood × Season")
+  tidy(m_a3, conf.int = TRUE) %>% mutate(model = "a3: WI neighborhood"),
+  tidy(m_a4, conf.int = TRUE) %>% mutate(model = "a4: WI neighborhood × Season")
 ) %>%
   filter(!term %in% c("(Intercept)"), !term %in% COVARIATES) %>%
   mutate(
@@ -324,7 +373,7 @@ coef_a <- bind_rows(
     sig        = sig_symbol(p.value),
     model      = factor(model, levels = c(
       "a1: HWISE reduced", "a2: HWISE × Season",
-      "a3: WI neighbourhood", "a4: WI neighbourhood × Season"
+      "a3: WI neighborhood", "a4: WI neighborhood × Season"
     ))
   )
 
@@ -366,24 +415,35 @@ cat("Saved: ./output/figures/07.aim1_panel_a_coef_plot.png\n")
 
 ## Panel A — Compact Linear Regression Table
 
-One row per predictor per model; covariates (Age, SES, Household size, Chronic disease) excluded.
+One row per predictor per model. Season adjusted.
 
 ```{r panel-a-compact}
+covariate_labels_a <- c(
+  "SEASONDry"      = "Season (Dry)",
+  "D_AGE"          = "Age",
+  "SES_TOTAL"      = "SES score",
+  "D_HH_SIZE"      = "Household size",
+  "CHRONIC_DISYes" = "Chronic disease"
+)
+
+# Focal predictor per model (term name as it appears in tidy output)
+focal_terms_a <- c(
+  "HWISE reduced"       = "HWISE_REDUCED",
+  "HWISE score" = "HWISE_FULL",
+  "WI neighborhood"     = "WI_NEIGHBORHOODWater-insecure"
+)
+
+# Covariate display order (after focal predictor)
+cov_order_a <- c("SEASONDry", "D_AGE", "SES_TOTAL", "D_HH_SIZE", "CHRONIC_DISYes")
+
 compact_a <- bind_rows(
-  tidy(m_a1, conf.int = TRUE) %>% mutate(Model = "a1: HWISE reduced"),
-  tidy(m_a2, conf.int = TRUE) %>% mutate(Model = "a2: HWISE × Season"),
-  tidy(m_a3, conf.int = TRUE) %>% mutate(Model = "a3: WI neighbourhood"),
-  tidy(m_a4, conf.int = TRUE) %>% mutate(Model = "a4: WI neighbourhood × Season"),
-  tidy(m_a5, conf.int = TRUE) %>% mutate(Model = "a5: HWISE + Season"),
-  tidy(m_a6, conf.int = TRUE) %>% mutate(Model = "a6: WI neighbourhood + Season"),
-  tidy(m_a7, conf.int = TRUE) %>% mutate(Model = "a7: Season only"),
-  tidy(m_a8, conf.int = TRUE) %>% mutate(Model = "a8: HWISE × WI neighbourhood"),
-  tidy(m_a9,  conf.int = TRUE) %>% mutate(Model = "a9: HWISE + WI neighbourhood"),
-  tidy(m_a10, conf.int = TRUE) %>% mutate(Model = "a10: HWISE full score")
+  tidy(m_a5,   conf.int = TRUE) %>% mutate(Model = "HWISE reduced"),
+  tidy(m_a10_s, conf.int = TRUE) %>% mutate(Model = "HWISE score"),
+  tidy(m_a6,   conf.int = TRUE) %>% mutate(Model = "WI neighborhood")
 ) %>%
-  filter(!term %in% c("(Intercept)"), !term %in% COVARIATES) %>%
+  filter(!term %in% c("(Intercept)")) %>%
   mutate(
-    Variable  = recode(term, !!!term_labels_a, .default = term),
+    Variable  = recode(term, !!!term_labels_a, !!!covariate_labels_a, .default = term),
     Beta      = sprintf("%.2f", estimate),
     `95% CI`  = sprintf("[%.2f, %.2f]", conf.low, conf.high),
     `p-value` = case_when(
@@ -394,23 +454,27 @@ compact_a <- bind_rows(
       TRUE            ~ sprintf("%.3f", p.value)
     ),
     Model = factor(Model, levels = c(
-      "a1: HWISE reduced", "a2: HWISE × Season",
-      "a3: WI neighbourhood", "a4: WI neighbourhood × Season",
-      "a5: HWISE + Season", "a6: WI neighbourhood + Season",
-      "a7: Season only", "a8: HWISE × WI neighbourhood",
-      "a9: HWISE + WI neighbourhood", "a10: HWISE full score"
-    ))
+      "HWISE reduced", "HWISE score", "WI neighborhood"
+    )),
+    sort_key = case_when(
+      Model == "HWISE reduced"   & term == "HWISE_REDUCED"                 ~ 0L,
+      Model == "HWISE score"     & term == "HWISE_FULL"                    ~ 0L,
+      Model == "WI neighborhood" & term == "WI_NEIGHBORHOODWater-insecure" ~ 0L,
+      TRUE ~ match(term, cov_order_a, nomatch = 99L)
+    )
   ) %>%
-  select(Model, Variable, Beta, `95% CI`, `p-value`) %>%
-  arrange(Model)
+  select(Model, Variable, Beta, `95% CI`, `p-value`, sort_key) %>%
+  arrange(Model, sort_key) %>%
+  select(-sort_key)
 
 compact_a %>%
   flextable() %>%
   merge_v(j = "Model") %>%
   valign(j = "Model", valign = "top") %>%
   bold(j = "Model") %>%
-  set_caption("Panel A. Linear regression — Perceived Stress Score (β). Covariates excluded.") %>%
-  autofit()
+  add_footer_lines(SIG_NOTE) %>%
+  set_caption("Panel A. Linear regression — Perceived Stress Score (β).") %>%
+  style_ft()
 ```
 
 ## Panel B — Coefficient Plot (OR scale)
@@ -419,17 +483,17 @@ compact_a %>%
 term_labels_b <- c(
   "HWISE_REDUCED"                                       = "HWISE reduced score",
   "SEASONDry"                                           = "Season (Dry)",
-  "WI_NEIGHBORHOODWater-insecure"                       = "Water-insecure neighbourhood",
+  "WI_NEIGHBORHOODWater-insecure"                       = "Water-insecure neighborhood",
   "HWISE_REDUCED:SEASONDry"                             = "HWISE × Season (Dry)",
-  "WI_NEIGHBORHOODWater-insecure:SEASONDry"             = "WI neighbourhood × Season (Dry)",
-  "HWISE_REDUCED:WI_NEIGHBORHOODWater-insecure"         = "HWISE × WI neighbourhood"
+  "WI_NEIGHBORHOODWater-insecure:SEASONDry"             = "WI neighborhood × Season (Dry)",
+  "HWISE_REDUCED:WI_NEIGHBORHOODWater-insecure"         = "HWISE × WI neighborhood"
 )
 
 coef_b <- bind_rows(
   tidy(m_b1, exponentiate = TRUE, conf.int = TRUE) %>% mutate(model = "b1: HWISE reduced"),
   tidy(m_b2, exponentiate = TRUE, conf.int = TRUE) %>% mutate(model = "b2: HWISE × Season"),
-  tidy(m_b3, exponentiate = TRUE, conf.int = TRUE) %>% mutate(model = "b3: WI neighbourhood"),
-  tidy(m_b4, exponentiate = TRUE, conf.int = TRUE) %>% mutate(model = "b4: WI neighbourhood × Season")
+  tidy(m_b3, exponentiate = TRUE, conf.int = TRUE) %>% mutate(model = "b3: WI neighborhood"),
+  tidy(m_b4, exponentiate = TRUE, conf.int = TRUE) %>% mutate(model = "b4: WI neighborhood × Season")
 ) %>%
   filter(!term %in% c("(Intercept)"), !term %in% COVARIATES) %>%
   mutate(
@@ -437,7 +501,7 @@ coef_b <- bind_rows(
     sig        = sig_symbol(p.value),
     model      = factor(model, levels = c(
       "b1: HWISE reduced", "b2: HWISE × Season",
-      "b3: WI neighbourhood", "b4: WI neighbourhood × Season"
+      "b3: WI neighborhood", "b4: WI neighborhood × Season"
     ))
   )
 
@@ -480,26 +544,33 @@ cat("Saved: ./output/figures/07.aim1_panel_b_coef_plot.png\n")
 
 ## Panel B — Compact Logistic Regression Table
 
-One row per predictor per model; covariates (Age, SES, Household size, Chronic disease, PSS) excluded.
+One row per predictor per model. Season adjusted.
 
 ```{r panel-b-compact}
 term_labels_b_named <- c(
   term_labels_b,
-  "PSS_TOTAL" = "PSS total"
+  "SEASONDry"      = "Season (Dry)",
+  "PSS_TOTAL"      = "PSS total",
+  "D_AGE"          = "Age",
+  "SES_TOTAL"      = "SES score",
+  "D_HH_SIZE"      = "Household size",
+  "CHRONIC_DISYes" = "Chronic disease"
 )
 
+focal_terms_b <- c(
+  "HWISE reduced"         = "HWISE_REDUCED",
+  "HWISE score" = "HWISE_FULL",
+  "WI neighborhood"       = "WI_NEIGHBORHOODWater-insecure"
+)
+
+cov_order_b <- c("SEASONDry", "PSS_TOTAL", "D_AGE", "SES_TOTAL", "D_HH_SIZE", "CHRONIC_DISYes")
+
 compact_b <- bind_rows(
-  tidy(m_b1, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b1: HWISE reduced"),
-  tidy(m_b2, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b2: HWISE × Season"),
-  tidy(m_b3, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b3: WI neighbourhood"),
-  tidy(m_b4, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b4: WI neighbourhood × Season"),
-  tidy(m_b5, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b5: HWISE + Season"),
-  tidy(m_b6, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b6: WI neighbourhood + Season"),
-  tidy(m_b7, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b7: Season only"),
-  tidy(m_b8, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b8: HWISE × WI neighbourhood"),
-  tidy(m_b9, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "b9: HWISE + WI neighbourhood")
+  tidy(m_b5,   exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "HWISE reduced"),
+  tidy(m_b10_s, exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "HWISE score"),
+  tidy(m_b6,   exponentiate = TRUE, conf.int = TRUE) %>% mutate(Model = "WI neighborhood")
 ) %>%
-  filter(!term %in% c("(Intercept)"), !term %in% COVARIATES) %>%
+  filter(!term %in% c("(Intercept)")) %>%
   mutate(
     Variable = recode(term, !!!term_labels_b_named, .default = term),
     OR       = sprintf("%.2f", estimate),
@@ -512,23 +583,27 @@ compact_b <- bind_rows(
       TRUE            ~ sprintf("%.3f", p.value)
     ),
     Model = factor(Model, levels = c(
-      "b1: HWISE reduced", "b2: HWISE × Season",
-      "b3: WI neighbourhood", "b4: WI neighbourhood × Season",
-      "b5: HWISE + Season", "b6: WI neighbourhood + Season",
-      "b7: Season only", "b8: HWISE × WI neighbourhood",
-      "b9: HWISE + WI neighbourhood"
-    ))
+      "HWISE reduced", "HWISE score", "WI neighborhood"
+    )),
+    sort_key = case_when(
+      Model == "HWISE reduced"   & term == "HWISE_REDUCED"                 ~ 0L,
+      Model == "HWISE score"     & term == "HWISE_FULL"                    ~ 0L,
+      Model == "WI neighborhood" & term == "WI_NEIGHBORHOODWater-insecure" ~ 0L,
+      TRUE ~ match(term, cov_order_b, nomatch = 99L)
+    )
   ) %>%
-  select(Model, Variable, OR, `95% CI`, `p-value`) %>%
-  arrange(Model)
+  select(Model, Variable, OR, `95% CI`, `p-value`, sort_key) %>%
+  arrange(Model, sort_key) %>%
+  select(-sort_key)
 
 compact_b %>%
   flextable() %>%
   merge_v(j = "Model") %>%
   valign(j = "Model", valign = "top") %>%
   bold(j = "Model") %>%
-  set_caption("Panel B. Logistic regression — Water-related emotion (OR). Covariates excluded.") %>%
-  autofit()
+  add_footer_lines(SIG_NOTE) %>%
+  set_caption("Panel B. Logistic regression — Water-related emotion (OR).") %>%
+  style_ft()
 ```
 
 ---
@@ -541,23 +616,24 @@ mcfadden <- function(mod) round(1 - mod$deviance / mod$null.deviance, 3)
 model_labels <- c(
   m_a1 = "HWISE reduced",
   m_a2 = "HWISE × Season",
-  m_a3 = "WI neighbourhood",
-  m_a4 = "WI neighbourhood × Season",
+  m_a3 = "WI neighborhood",
+  m_a4 = "WI neighborhood × Season",
   m_a5 = "HWISE + Season",
-  m_a6 = "WI neighbourhood + Season",
+  m_a6 = "WI neighborhood + Season",
   m_a7 = "Season only",
-  m_a8  = "HWISE × WI neighbourhood",
-  m_a9  = "HWISE + WI neighbourhood",
-  m_a10 = "HWISE full score (12 items)",
+  m_a8  = "HWISE × WI neighborhood",
+  m_a9  = "HWISE + WI neighborhood",
+  m_a10 = "HWISE score",
   m_b1  = "HWISE reduced",
   m_b2 = "HWISE × Season",
-  m_b3 = "WI neighbourhood",
-  m_b4 = "WI neighbourhood × Season",
+  m_b3 = "WI neighborhood",
+  m_b4 = "WI neighborhood × Season",
   m_b5 = "HWISE + Season",
-  m_b6 = "WI neighbourhood + Season",
+  m_b6 = "WI neighborhood + Season",
   m_b7 = "Season only",
-  m_b8 = "HWISE × WI neighbourhood",
-  m_b9 = "HWISE + WI neighbourhood"
+  m_b8  = "HWISE × WI neighborhood",
+  m_b9  = "HWISE + WI neighborhood",
+  m_b10 = "HWISE score"
 )
 
 # ── Panel A ───────────────────────────────────────────────────────────────────
@@ -581,15 +657,16 @@ panel_a_fit <- map_dfr(
 
 # ── Panel B ───────────────────────────────────────────────────────────────────
 panel_b_fit <- tibble(
-  model = c("m_b1","m_b2","m_b3","m_b4","m_b5","m_b6","m_b7","m_b8","m_b9"),
+  model = c("m_b1","m_b2","m_b3","m_b4","m_b5","m_b6","m_b7","m_b8","m_b9","m_b10"),
   n     = c(nobs(m_b1), nobs(m_b2), nobs(m_b3), nobs(m_b4),
-            nobs(m_b5), nobs(m_b6), nobs(m_b7), nobs(m_b8), nobs(m_b9)),
+            nobs(m_b5), nobs(m_b6), nobs(m_b7), nobs(m_b8), nobs(m_b9), nobs(m_b10)),
   McFadden_R2 = c(mcfadden(m_b1), mcfadden(m_b2), mcfadden(m_b3), mcfadden(m_b4),
-                  mcfadden(m_b5), mcfadden(m_b6), mcfadden(m_b7), mcfadden(m_b8), mcfadden(m_b9)),
+                  mcfadden(m_b5), mcfadden(m_b6), mcfadden(m_b7), mcfadden(m_b8),
+                  mcfadden(m_b9), mcfadden(m_b10)),
   AIC = round(c(AIC(m_b1), AIC(m_b2), AIC(m_b3), AIC(m_b4),
-                AIC(m_b5), AIC(m_b6), AIC(m_b7), AIC(m_b8), AIC(m_b9)), 1),
+                AIC(m_b5), AIC(m_b6), AIC(m_b7), AIC(m_b8), AIC(m_b9), AIC(m_b10)), 1),
   BIC = round(c(BIC(m_b1), BIC(m_b2), BIC(m_b3), BIC(m_b4),
-                BIC(m_b5), BIC(m_b6), BIC(m_b7), BIC(m_b8), BIC(m_b9)), 1)
+                BIC(m_b5), BIC(m_b6), BIC(m_b7), BIC(m_b8), BIC(m_b9), BIC(m_b10)), 1)
 ) %>%
   mutate(
     Panel      = "B — Water-related emotion (logistic)",
@@ -615,7 +692,7 @@ panel_a_fit %>%
   set_caption("Panel A — Model fit statistics sorted by AIC (best to worst). Green = best model; grey ΔAIC > 10 = poor support.") %>%
   colformat_num(j = c("R2", "Adj_R2"), digits = 3) %>%
   colformat_num(j = c("AIC", "BIC", "ΔAIC"), digits = 1) %>%
-  autofit()
+  style_ft()
 ```
 
 ```{r fit-stats-b}
@@ -635,7 +712,7 @@ panel_b_fit %>%
   set_caption("Panel B — Model fit statistics sorted by AIC (best to worst). Green = best model; grey ΔAIC > 10 = poor support.") %>%
   colformat_num(j = "McFadden_R2", digits = 3) %>%
   colformat_num(j = c("AIC", "BIC", "ΔAIC"), digits = 1) %>%
-  autofit()
+  style_ft()
 ```
 
 ---
@@ -668,8 +745,16 @@ strat_a <- map_dfr(seasons, function(s) {
   ) %>%
   select(season, predictor, term, n = statistic, ci_fmt, p_fmt)
 
-cat("Panel A — season-stratified focal predictors:\n")
-print(strat_a, n = Inf)
+strat_a %>%
+  rename(Season = season, Predictor = predictor, Term = term,
+         `β [95% CI]` = ci_fmt, `p-value` = p_fmt) %>%
+  select(-Term) %>%
+  flextable() %>%
+  merge_v(j = c("Season", "Predictor")) %>%
+  valign(j = c("Season", "Predictor"), valign = "top") %>%
+  set_caption("Panel A. Season-stratified linear regression — PSS (β [95% CI]).") %>%
+  add_footer_lines("Covariates: Age, SES score, household size, chronic disease.") %>%
+  style_ft()
 
 # ── Panel B: stratified ───────────────────────────────────────────────────────
 strat_b <- map_dfr(seasons, function(s) {
@@ -692,8 +777,16 @@ strat_b <- map_dfr(seasons, function(s) {
   ) %>%
   select(season, predictor, term, or_fmt, p_fmt)
 
-cat("\nPanel B — season-stratified focal predictors (OR):\n")
-print(strat_b, n = Inf)
+strat_b %>%
+  rename(Season = season, Predictor = predictor, Term = term,
+         `OR [95% CI]` = or_fmt, `p-value` = p_fmt) %>%
+  select(-Term) %>%
+  flextable() %>%
+  merge_v(j = c("Season", "Predictor")) %>%
+  valign(j = c("Season", "Predictor"), valign = "top") %>%
+  set_caption("Panel B. Season-stratified logistic regression — emotion (OR [95% CI]).") %>%
+  add_footer_lines("Covariates: PSS, Age, SES score, household size, chronic disease.") %>%
+  style_ft()
 ```
 
 ---
@@ -709,36 +802,73 @@ pretty_ft <- function(df, caption_txt) {
     flextable() %>%
     merge_v(j = "Model") %>%
     valign(j = "Model", valign = "top") %>%
-    bold(part = "header") %>%
     bold(j = "Model") %>%
-    bg(part = "header", bg = "#2c3e50") %>%
-    color(part = "header", color = "white") %>%
+    add_footer_lines(SIG_NOTE) %>%
     set_caption(caption_txt) %>%
-    theme_booktabs() %>%
-    autofit()
+    style_ft()
 }
 
-# ── All-models Word document ──────────────────────────────────────────────────
-# (combined into 07.Tables_Aim1_Models.docx together with forest plot tables below)
-doc_all <- read_docx()
+# ── Wide (side-by-side) version ───────────────────────────────────────────────
+make_wide <- function(df, stat_col, caption_txt) {
+  model_levels <- levels(df$Model)
+  # Append significance symbol to stat value; discard numeric p-value
+  df2 <- df %>%
+    mutate(
+      sym      = trimws(gsub("^[0-9.<>= ]+", "", `p-value`)),
+      stat_sym = paste0(.data[[stat_col]], sym)
+    ) %>%
+    select(Model, Variable, stat_sym, `95% CI`) %>%
+    rename(!!stat_col := stat_sym)
+  wide <- df2 %>%
+    pivot_wider(
+      names_from  = Model,
+      values_from = c(all_of(stat_col), `95% CI`),
+      names_glue  = "{Model}|{.value}"
+    )
+  col_order <- c("Variable", unlist(lapply(model_levels, function(m)
+    c(paste0(m, "|", stat_col), paste0(m, "|95% CI")))))
+  wide <- wide[, col_order]
+  # Focal predictor rows have NA in some model columns; sort them first
+  stat_cols <- paste0(model_levels, "|", stat_col)
+  wide <- wide %>%
+    mutate(.is_cov = rowSums(!is.na(across(all_of(stat_cols)))) == length(model_levels)) %>%
+    arrange(.is_cov) %>%
+    select(-.is_cov)
+  col_labels <- setNames(rep("", ncol(wide)), names(wide))
+  col_labels["Variable"] <- "Variable"
+  for (m in model_levels) {
+    col_labels[[paste0(m, "|", stat_col)]] <- stat_col
+    col_labels[[paste0(m, "|95% CI")]]     <- "95% CI"
+  }
+  wide %>%
+    flextable() %>%
+    set_header_labels(values = col_labels) %>%
+    add_header_row(
+      values    = c("", model_levels),
+      colwidths = c(1, rep(2, length(model_levels)))
+    ) %>%
+    merge_h(part = "header") %>%
+    add_footer_lines(SIG_NOTE) %>%
+    set_caption(caption_txt) %>%
+    style_ft()
+}
 
-doc_all <- doc_all %>%
+wide_a <- make_wide(compact_a, "Beta",
+  "Panel A. Linear regression — PSS (β). Models as columns.")
+wide_b <- make_wide(compact_b, "OR",
+  "Panel B. Logistic regression — Emotion (OR). Models as columns.")
+
+doc_core_wide <- read_docx() %>%
   body_add_par("Panel A. Linear regression — Perceived Stress Score (PSS)",
                style = "heading 1") %>%
-  body_add_flextable(
-    pretty_ft(compact_a,
-              "Panel A. Linear regression — Perceived Stress Score (β). Covariates excluded.")
-  ) %>%
+  body_add_flextable(wide_a) %>%
   body_add_break() %>%
   body_add_par("Panel B. Logistic regression — Water-related emotion (negative vs. positive)",
                style = "heading 1") %>%
-  body_add_flextable(
-    pretty_ft(compact_b,
-              "Panel B. Logistic regression — Water-related emotion (OR). Covariates excluded.")
-  )
+  body_add_flextable(wide_b)
 
-# NOTE: 07.aim1_models_core.docx is no longer exported (core models output removed).
-# The combined output file 07.Tables_Aim1_Models.docx is built in aim1-fp-tables-export.
+print(doc_core_wide, target = "./output/tables/07.aim1_models_core_wide.docx")
+cat("Saved: ./output/tables/07.aim1_models_core_wide.docx\n")
 ```
 
 ---
@@ -892,7 +1022,7 @@ scores_plot <- function(data, colour_var, title_str, palette) {
 
 p_wi <- scores_plot(
   scores_df, "WI_NEIGHBORHOOD",
-  "PC scores by neighbourhood type",
+  "PC scores by neighborhood type",
   c("Water-secure" = "#377EB8", "Water-insecure" = "#E41A1C")
 )
 
@@ -953,14 +1083,6 @@ for this approach — using `psych::polychoric()` followed by an eigendecomposit
 of the resulting correlation matrix.
 
 ```{r poly-pca-prep}
-library(psych)
-
-hwise_items <- c(
-  "HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
-  "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
-  "HW_SLEEP", "HW_NONE"
-)
-
 hwise_labels <- c(
   HW_WORRY   = "Worry",   HW_INTERR  = "Interruption",
   HW_CLOTHES = "Clothes", HW_PLANS   = "Plans",
@@ -1097,7 +1219,7 @@ scores_poly <- as_tibble(poly_scores[, 1:2]) %>%
 
 p_pwi <- scores_plot(
   scores_poly, "WI_NEIGHBORHOOD",
-  "PC scores by neighbourhood type",
+  "PC scores by neighborhood type",
   c("Water-secure" = "#377EB8", "Water-insecure" = "#E41A1C")
 )
 
@@ -1157,12 +1279,9 @@ Variables included:
 | Type | Variables |
 |------|-----------|
 | Continuous | 10 HWISE-reduced items, PSS total, Age, SES score, Household size |
-| Categorical | WI neighbourhood, Season, Water-related emotion (EMO_NEG) |
+| Categorical | WI neighborhood, Season, Water-related emotion (EMO_NEG) |
 
 ```{r famd-prep}
-library(FactoMineR)
-library(factoextra)
-
 famd_vars_cont <- c(
   "HW_WORRY", "HW_INTERR", "HW_CLOTHES", "HW_PLANS",
   "HW_FOOD",  "HW_HANDS",  "HW_BODY",    "HW_DRINK",
@@ -1180,7 +1299,7 @@ famd_labels <- c(
   HW_SLEEP    = "Went to sleep thirsty",        HW_NONE    = "None",
   PSS_TOTAL   = "PSS total",    D_AGE      = "Age",
   SES_TOTAL = "SES score",   D_HH_SIZE  = "Household size",
-  WI_NEIGHBORHOOD = "WI neighbourhood",
+  WI_NEIGHBORHOOD = "WI neighborhood",
   SEASON      = "Season",
   EMO_NEG     = "Neg. emotion"
 )
@@ -1356,7 +1475,7 @@ p_fwi <- ggplot(scores_famd,
   scale_fill_manual(values   = c("Water-secure"   = "#377EB8",
                                   "Water-insecure" = "#E41A1C"),
                     name = NULL, na.translate = FALSE) +
-  labs(title = "By neighbourhood type",
+  labs(title = "By neighborhood type",
        x = sprintf("Dim 1 (%.1f%%)", eig_famd$pct[1]),
        y = sprintf("Dim 2 (%.1f%%)", eig_famd$pct[2])) +
   theme_bw(base_size = 11) +
@@ -1472,8 +1591,8 @@ PRIMARY_TERMS <- c(
 
 TERM_LABELS <- c(
   "HWISE_REDUCED"                               = "HWISE reduced",
-  "HWISE_FULL"                                  = "HWISE full",
-  "WI_NEIGHBORHOODWater-insecure"               = "WI neighbourhood",
+  "HWISE_FULL"                                  = "HWISE score",
+  "WI_NEIGHBORHOODWater-insecure"               = "WI neighborhood",
   "SEASONDry"                                   = "Season (Dry)",
   "HWISE_REDUCED:SEASONDry"                     = "HWISE × Season",
   "WI_NEIGHBORHOODWater-insecure:SEASONDry"     = "WI nbhd × Season",
@@ -1504,15 +1623,15 @@ extract_comparison <- function(mods_edu, mods_ses, model_names, is_logistic = FA
 
 model_names_a <- c(
   "a1: HWISE reduced", "a2: HWISE × Season",
-  "a3: WI neighbourhood", "a4: WI nbhd × Season",
+  "a3: WI neighborhood", "a4: WI nbhd × Season",
   "a5: HWISE + Season", "a6: WI nbhd + Season",
   "a7: Season only", "a8: HWISE × WI nbhd",
-  "a9: HWISE + WI nbhd", "a10: HWISE full"
+  "a9: HWISE + WI nbhd", "a10: HWISE score"
 )
 
 model_names_b <- c(
   "b1: HWISE reduced", "b2: HWISE × Season",
-  "b3: WI neighbourhood", "b4: WI nbhd × Season",
+  "b3: WI neighborhood", "b4: WI nbhd × Season",
   "b5: HWISE + Season", "b6: WI nbhd + Season",
   "b7: Season only", "b8: HWISE × WI nbhd",
   "b9: HWISE + WI nbhd"
@@ -1658,7 +1777,7 @@ ggsave("./output/figures/07.ses_comparison_panel_b.png", p_cmp_b,
 
 These tables report adjusted models where each water-related predictor is added
 one at a time to a core covariate set (age, SES score, household size,
-chronic disease; PSS total for EMO outcome). Years in neighbourhood is also
+chronic disease; PSS total for EMO outcome). Years in neighborhood is also
 tested as a predictor in its own model.
 BH correction is applied across all models within each outcome.
 
@@ -1703,7 +1822,7 @@ fp_term_readable <- c(
   `W_Frequency1–3 days/week`           = "Supply frequency: 1–3 days/wk",
   W_FrequencyIntermittent              = "Supply frequency: Intermittent",
   `W_WS_LOC_FWater Insecure`           = "Neighborhood: Water Insecure",
-  D_LOC_TIME                           = "Years in neighbourhood"
+  D_LOC_TIME                           = "Years in neighborhood"
 )
 
 fp_hwise_readable <- c(
@@ -1735,7 +1854,7 @@ fp_group_panel <- c(
   "m_a16: Water pressure"         = "Water Supply",
   "m_a17: Supply frequency"       = "Water Supply",
   "m_a18: Neighborhood"           = "Neighborhood",
-  "m_a_loc: Years in neighbourhood" = "Water Supply",
+  "m_a_loc: Years in neighborhood" = "Water Supply",
   "m_b6: Hours supply"            = "Water Supply",
   "m_b7: Intermittent"            = "Water Supply",
   "m_b8: Season"                  = "Water Supply",
@@ -1749,7 +1868,7 @@ fp_group_panel <- c(
   "m_b16: Water pressure"         = "Water Supply",
   "m_b17: Supply frequency"       = "Water Supply",
   "m_b18: Neighborhood"           = "Neighborhood",
-  "m_b_loc: Years in neighbourhood" = "Water Supply"
+  "m_b_loc: Years in neighborhood" = "Water Supply"
 )
 ```
 
@@ -1918,8 +2037,8 @@ pss_specs_fp <- c(pss_item_specs_fp, list(
   m_a18 = list(label = "m_a18: Neighborhood (WS/WI)",
                group = "m_a18: Neighborhood",
                formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_WS_LOC_F),
-  m_a_loc = list(label = "m_a_loc: Years in neighbourhood",
-                 group = "m_a_loc: Years in neighbourhood",
+  m_a_loc = list(label = "m_a_loc: Years in neighborhood",
+                 group = "m_a_loc: Years in neighborhood",
                  formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + D_LOC_TIME)
 ))
 
@@ -2008,8 +2127,8 @@ emo_specs_fp <- c(emo_item_specs_fp, list(
   m_b18 = list(label = "m_b18: Neighborhood (WS/WI)",
                group = "m_b18: Neighborhood",
                formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_WS_LOC_F),
-  m_b_loc = list(label = "m_b_loc: Years in neighbourhood",
-                 group = "m_b_loc: Years in neighbourhood",
+  m_b_loc = list(label = "m_b_loc: Years in neighborhood",
+                 group = "m_b_loc: Years in neighborhood",
                  formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + D_LOC_TIME)
 ))
 
@@ -2319,10 +2438,4 @@ doc_combined <- doc_all %>%
 outpath_combined <- "./output/tables/07.Tables_Aim1_Models.docx"
 print(doc_combined, target = outpath_combined)
 cat("Saved:", outpath_combined, "\n")
-```
-
----
-
-```{r session-info}
-sessionInfo()
 ```

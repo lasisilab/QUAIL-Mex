@@ -208,7 +208,52 @@ df <- df_raw %>%
              labels = c("Water Secure", "Water Insecure"))
     } else {
       factor(NA_character_, levels = c("Water Secure", "Water Insecure"))
-    }
+    },
+
+    # ── Water infrastructure & cost (Q8, Q9, Q10, Q11) ────────────────────────
+    W_Trust = if ("MX8_TRUST_CAT" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX8_TRUST_CAT) == 1 ~ "Yes",
+        clean_num(MX8_TRUST_CAT) == 0 ~ "No",
+        TRUE                          ~ NA_character_
+      ), levels = c("Yes", "No"))
+    } else factor(NA_character_, levels = c("Yes", "No")),
+
+    W_Garrafon_brand = if ("MX9_GARRAFON_BRAND" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX9_GARRAFON_BRAND) == 1 ~ "Yes",
+        clean_num(MX9_GARRAFON_BRAND) == 0 ~ "No",
+        TRUE                               ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Has_tinaco = if ("MX10_HAS_TINACO" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX10_HAS_TINACO) == 1 ~ "Yes",
+        clean_num(MX10_HAS_TINACO) == 0 ~ "No",
+        TRUE                            ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Has_cisterna = if ("MX10_HAS_CISTERNA" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX10_HAS_CISTERNA) == 1 ~ "Yes",
+        clean_num(MX10_HAS_CISTERNA) == 0 ~ "No",
+        TRUE                              ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Bill_waived = if ("MX11_BILL_WAIVED" %in% names(df_raw)) {
+      factor(case_when(
+        clean_num(MX11_BILL_WAIVED) == 1 ~ "Yes",
+        clean_num(MX11_BILL_WAIVED) == 0 ~ "No",
+        TRUE                             ~ NA_character_
+      ), levels = c("No", "Yes"))
+    } else factor(NA_character_, levels = c("No", "Yes")),
+
+    W_Cost_2mnths = if ("MX11_COST_2MNTHS" %in% names(df_raw)) {
+      suppressWarnings(as.numeric(as.character(MX11_COST_2MNTHS)))
+    } else NA_real_
   )
 ```
 
@@ -217,7 +262,9 @@ analytic_vars <- c("PSS_TOTAL", "EMO_NEG", "D_AGE", "SES_SC_Total", "D_HH_SIZE",
                    "SEASON", "Chronic_dis",
                    hwise_items, "Water_worry", "HRS_PER_WEEK", "CONT_INT",
                    "NB_COMP", "TIME_WATER", "SUFF_RATING",
-                   "W_Pressure", "W_Frequency", "W_WS_LOC_F", "D_LOC_TIME")
+                   "W_Pressure", "W_Frequency", "W_WS_LOC_F", "D_LOC_TIME",
+                   "W_Trust", "W_Garrafon_brand", "W_Has_tinaco", "W_Has_cisterna",
+                   "W_Bill_waived", "W_Cost_2mnths")
 
 df %>%
   summarise(across(all_of(analytic_vars), ~ sum(is.na(.)))) %>%
@@ -274,7 +321,13 @@ term_labels <- c(
   `W_Frequency1–3 days/week`     = "Supply frequency: 1\u20133 days/wk (ref: Continuous)",
   W_FrequencyIntermittent        = "Supply frequency: Intermittent (ref: Continuous)",
   `W_WS_LOC_FWater Insecure`     = "Neighborhood: Water Insecure (ref: Water Secure)",
-  D_LOC_TIME                     = "Years in neighbourhood"
+  D_LOC_TIME                     = "Years in neighbourhood",
+  W_TrustNo                      = "Tap water trust: No (ref: Yes)",
+  W_Garrafon_brandYes            = "Uses brand-name garraf\u00f3n: Yes (ref: No)",
+  W_Has_tinacoYes                = "Has tinaco: Yes (ref: No)",
+  W_Has_cisternaYes              = "Has cisterna: Yes (ref: No)",
+  W_Bill_waivedYes               = "Water bill waived: Yes (ref: No)",
+  W_Cost_2mnths                  = "Bimonthly water cost (pesos)"
 )
 
 # ── Publication plot theme ─────────────────────────────────────────────────────
@@ -401,6 +454,36 @@ model_specs_pss <- c(
       label   = "m_a_loc: Years in neighbourhood",
       group   = "m_a_loc: Years in neighbourhood",
       formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + D_LOC_TIME
+    ),
+    m_a19 = list(
+      label   = "m_a19: Tap water trust",
+      group   = "m_a19: Water infrastructure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Trust
+    ),
+    m_a20 = list(
+      label   = "m_a20: Brand-name garrafón use",
+      group   = "m_a20: Water infrastructure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Garrafon_brand
+    ),
+    m_a21 = list(
+      label   = "m_a21: Has tinaco",
+      group   = "m_a21: Water infrastructure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Has_tinaco
+    ),
+    m_a22 = list(
+      label   = "m_a22: Has cisterna",
+      group   = "m_a22: Water infrastructure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Has_cisterna
+    ),
+    m_a23 = list(
+      label   = "m_a23: Water bill waived",
+      group   = "m_a23: Water infrastructure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Bill_waived
+    ),
+    m_a24 = list(
+      label   = "m_a24: Bimonthly water cost",
+      group   = "m_a24: Water infrastructure",
+      formula = PSS_TOTAL ~ D_AGE + SES_SC_Total + D_HH_SIZE + Chronic_dis + W_Cost_2mnths
     )
   )
 )
@@ -611,7 +694,13 @@ group_labels_pss <- c(
   "m_a16: Water pressure"                = "Water supply",
   "m_a17: Supply frequency"              = "Water supply",
   "m_a18: Neighborhood"                  = "Water supply",
-  "m_a_loc: Years in neighbourhood"      = "Water supply"
+  "m_a_loc: Years in neighbourhood"      = "Water supply",
+  "m_a19: Water infrastructure"          = "Water infrastructure",
+  "m_a20: Water infrastructure"          = "Water infrastructure",
+  "m_a21: Water infrastructure"          = "Water infrastructure",
+  "m_a22: Water infrastructure"          = "Water infrastructure",
+  "m_a23: Water infrastructure"          = "Water infrastructure",
+  "m_a24: Water infrastructure"          = "Water infrastructure"
 )
 
 fp_order_pss <- c(
@@ -796,6 +885,36 @@ model_specs_emo <- c(
       label   = "m_b_loc: Years in neighbourhood",
       group   = "m_b_loc: Years in neighbourhood",
       formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + D_LOC_TIME
+    ),
+    m_b19 = list(
+      label   = "m_b19: Tap water trust",
+      group   = "m_b19: Water infrastructure",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_Trust
+    ),
+    m_b20 = list(
+      label   = "m_b20: Brand-name garrafón use",
+      group   = "m_b20: Water infrastructure",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_Garrafon_brand
+    ),
+    m_b21 = list(
+      label   = "m_b21: Has tinaco",
+      group   = "m_b21: Water infrastructure",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_Has_tinaco
+    ),
+    m_b22 = list(
+      label   = "m_b22: Has cisterna",
+      group   = "m_b22: Water infrastructure",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_Has_cisterna
+    ),
+    m_b23 = list(
+      label   = "m_b23: Water bill waived",
+      group   = "m_b23: Water infrastructure",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_Bill_waived
+    ),
+    m_b24 = list(
+      label   = "m_b24: Bimonthly water cost",
+      group   = "m_b24: Water infrastructure",
+      formula = EMO_NEG ~ D_AGE + SES_SC_Total + D_HH_SIZE + PSS_TOTAL + Chronic_dis + W_Cost_2mnths
     )
   )
 )
@@ -1016,7 +1135,13 @@ group_labels_emo <- c(
   "m_b16: Water pressure"                = "Water supply",
   "m_b17: Supply frequency"              = "Water supply",
   "m_b18: Neighborhood"                  = "Water supply",
-  "m_b_loc: Years in neighbourhood"      = "Water supply"
+  "m_b_loc: Years in neighbourhood"      = "Water supply",
+  "m_b19: Water infrastructure"          = "Water infrastructure",
+  "m_b20: Water infrastructure"          = "Water infrastructure",
+  "m_b21: Water infrastructure"          = "Water infrastructure",
+  "m_b22: Water infrastructure"          = "Water infrastructure",
+  "m_b23: Water infrastructure"          = "Water infrastructure",
+  "m_b24: Water infrastructure"          = "Water infrastructure"
 )
 
 fp_order_emo <- c(

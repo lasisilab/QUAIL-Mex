@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+<meta name="date" content="2026-03-27" />
+
+<title>06z. Unadjusted Forest Plot + Sparklines — Prototype (PSS)</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">QUAIL-Mex</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="01.data_cleaning.html">1.cleaning</a>
+</li>
+<li>
+  <a href="02.data_merge_hwise_pss.html">2.merge_hwise_pss</a>
+</li>
+<li>
+  <a href="03.data_merge_q1-6.html">3.merge_q1-6</a>
+</li>
+<li>
+  <a href="04.descriptive_stats.html">4.descr_stats</a>
+</li>
+<li>
+  <a href="05.descriptive_plots.html">5.descr_plots</a>
+</li>
+<li>
+  <a href="06.unadjusted_models.html">6.Unadjusted models</a>
+</li>
+<li>
+  <a href="07.aim1_models.html">7.Aim 1 models</a>
+</li>
+<li>
+  <a href="08.aim2_models.html">8.Aim 2 models</a>
+</li>
+<li>
+  <a href="99.Maps.html">Maps</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">06z. Unadjusted Forest Plot + Sparklines —
+Prototype (PSS)</h1>
+<h4 class="date">2026-03-27</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2026-03-27
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.1). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20241009code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20241009)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20241009code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20241009)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaa3216cba5374804cdda76516569644447f8d40ctargetblankaa3216ca">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/aa3216cba5374804cdda76516569644447f8d40c" target="_blank">aa3216c</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaa3216cba5374804cdda76516569644447f8d40ctargetblankaa3216ca"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/aa3216cba5374804cdda76516569644447f8d40c" target="_blank">aa3216c</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    .claude/settings.local.json
+    Ignored:    .claude/worktrees/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.RData
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/stacked_barplot.png
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    figure/.DS_Store
+    Ignored:    output/.DS_Store
+    Ignored:    output/figures/.DS_Store
+    Ignored:    output/tables/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/06z.forest_sparklines_proto.Rmd
+    Untracked:  analysis/07z.forest_sparklines_proto.Rmd
+    Untracked:  output/figures/07z.forest_sparklines_proto.png
+    Untracked:  output/tables/04.Table1_sample_by_neighborhood_full.docx
+    Untracked:  output/tables/04.Table1_sample_by_season_full.docx
+    Untracked:  output/tables/04.Table1_sample_by_season_main.docx
+    Untracked:  output/tables/04.Table2_missing.docx
+    Untracked:  output/tables/04.Table3_HWISE_PSS_by_neighborhood_full.docx
+    Untracked:  output/tables/04.Table3_HWISE_PSS_by_season_full.docx
+    Untracked:  output/tables/04.Table3_HWISE_PSS_by_season_main.docx
+    Untracked:  output/tables/07.aim1_models_core_wide.docx
+
+Unstaged changes:
+    Modified:   .claude/settings.json
+    Modified:   analysis/03.Data_merge_Q1-6.Rmd
+    Modified:   analysis/04.Descriptive_stats.Rmd
+    Modified:   analysis/06.unadjusted_models.Rmd
+    Modified:   analysis/07.aim1_models.Rmd
+    Modified:   analysis/08.aim2_models.Rmd
+    Modified:   analysis/09.aim2_adjusted_for_hwise.Rmd
+    Modified:   analysis/10.full_models.Rmd
+    Modified:   data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv
+    Modified:   output/figures/06.Unadj_coef_EMO.png
+    Modified:   output/figures/06.Unadj_coef_PSS.png
+    Modified:   output/figures/07.aim1_panel_a_coef_plot.png
+    Modified:   output/figures/07.aim1_panel_b_coef_plot.png
+    Modified:   output/figures/07.famd_cos2_heatmap.png
+    Modified:   output/figures/07.famd_scores.png
+    Modified:   output/figures/07.famd_var_contrib.png
+    Modified:   output/figures/07.famd_var_map.png
+    Modified:   output/figures/07.pca_scores.png
+    Modified:   output/figures/07.poly_pca_scores.png
+    Modified:   output/figures/07.ses_comparison_panel_a.png
+    Modified:   output/figures/07.ses_comparison_panel_b.png
+    Deleted:    output/figures/09.aim2_hwise_emo_forest.png
+    Deleted:    output/figures/09.aim2_hwise_pss_forest.png
+    Modified:   output/figures/10.emo_full_model.png
+    Modified:   output/figures/10.pss_full_model.png
+    Deleted:    output/tables/04.Table1.2_missing.docx
+    Deleted:    output/tables/04.Table1_sample_full.docx
+    Deleted:    output/tables/04.Table1_sample_main.docx
+    Deleted:    output/tables/04.Table2_HWISE_PSS_by_season_full.docx
+    Deleted:    output/tables/04.Table2_HWISE_PSS_short.docx
+    Deleted:    output/tables/04.Table3_HWISE_PSS_by_neighborhood.docx
+    Deleted:    output/tables/04.TableS1_full_descriptives.docx
+    Deleted:    output/tables/04.TableS1b_sample_by_neighborhood.docx
+    Deleted:    output/tables/04.TableS2_HWISE_PSS_by_season.docx
+    Deleted:    output/tables/04.TableS3_HWISE_PSS_by_neighborhood.docx
+    Modified:   output/tables/06.Tables_Unadjusted_Models.docx
+    Modified:   output/tables/07.Tables_Aim1_Models.docx
+    Modified:   output/tables/07.aim1_models_core.docx
+    Modified:   output/tables/08.Tables_Aim2_Models.docx
+    Modified:   output/tables/10.Tables_Full_Models.docx
+    Deleted:    output/tables/~$.TableS3_HWISE_PSS_by_neighborhood.docx
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="load-prepare-data" class="section level2">
+<h2>Load &amp; prepare data</h2>
+<pre class="r"><code>df &lt;- read.csv(&quot;./data/03.Merged_Q1-6_Q16_Q19_Q26_Q28.csv&quot;,
+               stringsAsFactors = FALSE, na.strings = c(&quot;&quot;))
+
+edu_levels &lt;- c(
+  &quot;No formal education&quot;, &quot;Incomplete primary (1–5 yrs)&quot;, &quot;Complete primary&quot;,
+  &quot;Incomplete secondary (7–8 yrs)&quot;, &quot;Complete secondary&quot;,
+  &quot;Incomplete high school (10–11 yrs)&quot;, &quot;Complete high school&quot;,
+  &quot;Incomplete university (13–15 yrs)&quot;, &quot;Complete university&quot;, &quot;Postgraduate&quot;
+)
+
+df_table &lt;- df %&gt;%
+  mutate(
+    Age         = clean_for_table(D_AGE),
+    Yrs_in_nbhd = clean_for_table(D_LOC_TIME_CLEAN),
+    HH_size     = clean_for_table(D_HH_SIZE),
+    Parity      = clean_for_table(D_CHLD_CLEAN),
+    Season      = factor(SEASON, levels = c(0, 1), labels = c(&quot;Rainy&quot;, &quot;Dry&quot;)),
+    Education   = factor(
+      dplyr::recode(as.character(SES_EDU_CAT_CLEAN),
+        &quot;Incomplete primary&quot;     = &quot;Incomplete primary (1–5 yrs)&quot;,
+        &quot;Incomplete secondary&quot;   = &quot;Incomplete secondary (7–8 yrs)&quot;,
+        &quot;Incomplete high school&quot; = &quot;Incomplete high school (10–11 yrs)&quot;,
+        &quot;Incomplete university&quot;  = &quot;Incomplete university (13–15 yrs)&quot;
+      ),
+      levels = edu_levels, ordered = TRUE
+    ),
+    SES_Score       = clean_for_table(SES_SC_Total),
+    Edu_Score       = as.numeric(Education),
+    Employed        = factor(clean_for_table(D_EMP_CLEAN),
+                             levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Employment_type = factor(clean_for_table(D_EMP_FORM_CLEAN),
+                             levels = c(0, 1), labels = c(&quot;Informal&quot;, &quot;Formal&quot;)),
+    Chronic_pain    = factor(clean_for_table(HLTH_CPAIN_CAT),
+                             levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    Chronic_dis     = factor(clean_for_table(HLTH_CDIS_CAT),
+                             levels = c(0, 1), labels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    HWISE_Total  = clean_for_table(HW_TOTAL),
+    Water_worry  = clean_for_table(as.numeric(HW_WORRY_SUB)),
+    Water_5sub   = clean_for_table(HW_MEX_5SUB),
+    HWISE_Hi     = factor(
+      case_when(
+        is.na(clean_for_table(HW_TOTAL)) ~ NA_character_,
+        clean_for_table(HW_TOTAL) &lt;= 11  ~ &quot;Low (\u226411)&quot;,
+        TRUE                             ~ &quot;High (\u226512)&quot;
+      ),
+      levels = c(&quot;Low (\u226411)&quot;, &quot;High (\u226512)&quot;)
+    ),
+    HW_Worry   = clean_for_table(HW_WORRY),
+    HW_Interr  = clean_for_table(HW_INTERR),
+    HW_Clothes = clean_for_table(HW_CLOTHES),
+    HW_Plans   = clean_for_table(HW_PLANS),
+    HW_Food    = clean_for_table(HW_FOOD),
+    HW_Hands   = clean_for_table(HW_HANDS),
+    HW_Body    = clean_for_table(HW_BODY),
+    HW_Drink   = clean_for_table(HW_DRINK),
+    HW_Angry   = clean_for_table(HW_ANGRY),
+    HW_Sleep   = clean_for_table(HW_SLEEP),
+    HW_None    = clean_for_table(HW_NONE),
+    HW_Shame   = clean_for_table(HW_SHAME),
+    PSS_Total  = clean_for_table(PSS_TOTAL)
+  )
+
+df_water &lt;- df %&gt;%
+  mutate(
+    W_Continuity = case_when(
+      is_sentinel_str(MX3_CONT_INT) ~ NA_character_,
+      str_detect(tolower(MX3_CONT_INT), &quot;^contin&quot;) ~ &quot;Continuous&quot;,
+      str_detect(tolower(MX3_CONT_INT), &quot;^intermi|cortan|deja&quot;) ~ &quot;Intermittent&quot;,
+      str_detect(tolower(MX3_CONT_INT), &quot;disminu&quot;) ~ &quot;Reduced pressure/flow&quot;,
+      MX3_CONT_INT %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(MX3_CONT_INT) ~ NA_character_,
+      TRUE ~ &quot;Other&quot;
+    ),
+    W_Continuity = factor(W_Continuity,
+      levels = c(&quot;Continuous&quot;, &quot;Intermittent&quot;, &quot;Reduced pressure/flow&quot;, &quot;Other&quot;)),
+    W_Freq_raw  = coalesce(MX4_WFREQ, MX4_W_FREQ),
+    W_Frequency = case_when(
+      is_sentinel_str(W_Freq_raw) ~ NA_character_,
+      str_detect(tolower(W_Freq_raw), &quot;^diari|every day&quot;) ~ &quot;Daily&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;^intermi&quot;) ~ &quot;Intermittent&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;1 a 3|1-3&quot;) ~ &quot;1-3 days/week&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;4 a 6|4-6&quot;) ~ &quot;4-6 days/week&quot;,
+      str_detect(tolower(W_Freq_raw), &quot;^contin&quot;) ~ &quot;Continuous&quot;,
+      W_Freq_raw %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(W_Freq_raw) ~ NA_character_,
+      TRUE ~ &quot;Other&quot;
+    ),
+    W_Frequency = factor(W_Frequency,
+      levels = c(&quot;Continuous&quot;, &quot;Daily&quot;, &quot;4-6 days/week&quot;, &quot;1-3 days/week&quot;,
+                 &quot;Intermittent&quot;, &quot;Other&quot;)),
+    W_Hrs_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_HRS_PER_WEEK), NA,
+             as.numeric(str_extract(MX5_WFREQ_HRS_PER_WEEK, &quot;^[0-9\\.]+&quot;)))
+    ),
+    W_Hrs_week  = ifelse(W_Hrs_week %in% MISSING_CODES | W_Hrs_week &gt; 168, NA, W_Hrs_week),
+    W_Days_week = suppressWarnings(
+      ifelse(is_sentinel_str(MX5_WFREQ_NDAYS), NA,
+             as.numeric(str_extract(MX5_WFREQ_NDAYS, &quot;^[0-9]+&quot;)))
+    ),
+    W_Days_week  = ifelse(W_Days_week %in% MISSING_CODES | W_Days_week &gt; 7, NA, W_Days_week),
+    W_Pressure   = case_when(
+      is_sentinel_str(MX6_WPRESS) ~ NA_character_,
+      str_detect(tolower(MX6_WPRESS), &quot;^s[ií]|^yes|^buena|^bien&quot;) ~ &quot;Yes&quot;,
+      str_detect(tolower(MX6_WPRESS), &quot;^no|^baja|^poca&quot;) ~ &quot;No&quot;,
+      MX6_WPRESS %in% c(&quot;&quot;, &quot;N/A&quot;) | is.na(MX6_WPRESS) ~ NA_character_,
+      TRUE ~ &quot;Variable&quot;
+    ),
+    W_Pressure = factor(W_Pressure, levels = c(&quot;Yes&quot;, &quot;No&quot;, &quot;Variable&quot;)),
+    W_WS_LOC_F = factor(W_WS_LOC, levels = c(&quot;WS&quot;, &quot;WI&quot;),
+                        labels = c(&quot;Water Secure&quot;, &quot;Water Insecure&quot;)),
+    W_Trust = factor(
+      case_when(is.na(MX8_TRUST_CAT) ~ NA_character_,
+                MX8_TRUST_CAT == 0 ~ &quot;No&quot;, MX8_TRUST_CAT == 1 ~ &quot;Yes&quot;,
+                TRUE ~ NA_character_),
+      levels = c(&quot;Yes&quot;, &quot;No&quot;)),
+    W_Garrafon_brand = factor(
+      case_when(is.na(MX9_GARRAFON_BRAND) ~ NA_character_,
+                MX9_GARRAFON_BRAND == 1 ~ &quot;Yes&quot;, TRUE ~ &quot;No&quot;),
+      levels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    W_Has_tinaco = factor(
+      case_when(is.na(MX10_HAS_TINACO) ~ NA_character_,
+                MX10_HAS_TINACO == 1 ~ &quot;Yes&quot;, TRUE ~ &quot;No&quot;),
+      levels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    W_Has_cisterna = factor(
+      case_when(is.na(MX10_HAS_CISTERNA) ~ NA_character_,
+                MX10_HAS_CISTERNA == 1 ~ &quot;Yes&quot;, TRUE ~ &quot;No&quot;),
+      levels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    W_Bill_waived = factor(
+      case_when(is.na(MX11_BILL_WAIVED) ~ NA_character_,
+                MX11_BILL_WAIVED == 1 ~ &quot;Yes&quot;, TRUE ~ &quot;No&quot;),
+      levels = c(&quot;No&quot;, &quot;Yes&quot;)),
+    W_Cost_2mnths = {
+      x &lt;- suppressWarnings(as.numeric(as.character(MX11_COST_2MNTHS)))
+      ifelse(is.na(x), NA_real_, x)
+    }
+  )
+
+df_reg &lt;- df_table %&gt;%
+  mutate(
+    EMO_NEG = {
+      r &lt;- suppressWarnings(as.numeric(as.character(df$MX26_EM_HHW_CAT)))
+      r &lt;- ifelse(r %in% MISSING_CODES, NA, r)
+      case_when(r == 0 ~ 0L, r == 1 ~ 1L, TRUE ~ NA_integer_)
+    },
+    W_WS_LOC_F       = df_water$W_WS_LOC_F,
+    W_Continuity     = df_water$W_Continuity,
+    W_Frequency      = df_water$W_Frequency,
+    W_Days_week      = df_water$W_Days_week,
+    W_Hrs_week       = df_water$W_Hrs_week,
+    W_Pressure       = df_water$W_Pressure,
+    W_Trust          = df_water$W_Trust,
+    W_Garrafon_brand = df_water$W_Garrafon_brand,
+    W_Has_tinaco     = df_water$W_Has_tinaco,
+    W_Has_cisterna   = df_water$W_Has_cisterna,
+    W_Bill_waived    = df_water$W_Bill_waived,
+    W_Cost_2mnths    = df_water$W_Cost_2mnths
+  )
+
+ref_levels &lt;- sapply(names(df_reg), function(v) {
+  x &lt;- df_reg[[v]]
+  if (is.factor(x)) levels(x)[1] else NA_character_
+})</code></pre>
+</div>
+<div id="run-unadjusted-pss-models" class="section level2">
+<h2>Run unadjusted PSS models</h2>
+<pre class="r"><code>hwise_items &lt;- c(&quot;HW_Worry&quot;, &quot;HW_Interr&quot;, &quot;HW_Clothes&quot;, &quot;HW_Plans&quot;, &quot;HW_Food&quot;,
+                 &quot;HW_Hands&quot;, &quot;HW_Body&quot;, &quot;HW_Drink&quot;, &quot;HW_Angry&quot;, &quot;HW_Sleep&quot;,
+                 &quot;HW_None&quot;, &quot;HW_Shame&quot;)
+
+pss_predictors &lt;- c(
+  &quot;Age&quot;, &quot;Parity&quot;, &quot;HH_size&quot;, &quot;Yrs_in_nbhd&quot;,
+  &quot;SES_Score&quot;, &quot;Edu_Score&quot;, &quot;Employed&quot;, &quot;Employment_type&quot;,
+  &quot;Chronic_pain&quot;, &quot;Chronic_dis&quot;,
+  &quot;HWISE_Total&quot;, &quot;Water_5sub&quot;, &quot;HWISE_Hi&quot;, &quot;Water_worry&quot;,
+  &quot;Season&quot;, &quot;W_WS_LOC_F&quot;, &quot;W_Continuity&quot;, &quot;W_Frequency&quot;,
+  &quot;W_Days_week&quot;, &quot;W_Hrs_week&quot;, &quot;W_Pressure&quot;,
+  &quot;W_Trust&quot;, &quot;W_Garrafon_brand&quot;, &quot;W_Has_tinaco&quot;, &quot;W_Has_cisterna&quot;,
+  &quot;W_Bill_waived&quot;, &quot;W_Cost_2mnths&quot;
+)
+pss_predictors_fp &lt;- append(pss_predictors, hwise_items,
+                             after = which(pss_predictors == &quot;Water_worry&quot;))
+
+pss_results &lt;- run_lm_uv(&quot;PSS_Total&quot;, pss_predictors_fp, df_reg, pred_labels) %&gt;%
+  mutate(
+    group         = group_map[predictor],
+    group         = factor(group, levels = group_order),
+    var_order     = predictor_order[predictor],
+    display_label = mapply(make_display_label, predictor, term, label)
+  ) %&gt;%
+  arrange(group, var_order)
+
+plot_df_pss &lt;- pss_results %&gt;%
+  mutate(
+    label_full = factor(display_label, levels = rev(unique(display_label))),
+    sig        = sig_sym(p.value),
+    n_label    = paste0(&quot;n=&quot;, n)
+  )</code></pre>
+</div>
+<div id="build-sparkline-tiles" class="section level2">
+<h2>Build sparkline tiles</h2>
+<p>Each row gets a horizontal stacked bar showing the distribution of
+its predictor variable, placed immediately to the right of the existing
+n= labels.</p>
+<ul>
+<li><strong>Continuous predictors</strong>: 7-bin histogram — segments
+coloured light→dark blue</li>
+<li><strong>Binary factors</strong>: two segments — blue (reference) /
+orange (comparison)</li>
+<li><strong>Multi-level factors</strong>: one segment per level,
+blue→orange gradient</li>
+</ul>
+<pre class="r"><code># ── Sparkline helper ──────────────────────────────────────────────────────────
+make_spark_tiles &lt;- function(predictor_name, label_full_val, group_val,
+                              df_data, x_start, x_width, bins_cont = 7) {
+  var &lt;- df_data[[predictor_name]]
+
+  if (is.factor(var) || is.character(var)) {
+    var_f &lt;- if (is.factor(var)) var else factor(var)
+    tab   &lt;- table(na.omit(droplevels(var_f)))
+    if (length(tab) == 0) return(NULL)
+    props &lt;- as.numeric(tab) / sum(tab)
+    n_lvl &lt;- length(props)
+    pal   &lt;- if (n_lvl == 2) {
+      c(&quot;#6baed6&quot;, &quot;#fd8d3c&quot;)
+    } else {
+      colorRampPalette(c(&quot;#6baed6&quot;, &quot;#fdae6b&quot;, &quot;#fd8d3c&quot;))(n_lvl)
+    }
+    cuml  &lt;- c(0, cumsum(props))
+  } else {
+    vals &lt;- na.omit(as.numeric(var))
+    if (length(vals) &lt; 5) return(NULL)
+    h    &lt;- hist(vals, breaks = bins_cont, plot = FALSE)
+    props &lt;- h$counts / sum(h$counts)
+    n_lvl &lt;- length(props)
+    pal   &lt;- colorRampPalette(c(&quot;#c6dbef&quot;, &quot;#2171b5&quot;))(n_lvl)
+    cuml  &lt;- c(0, cumsum(props))
+  }
+
+  tibble(
+    label_full = label_full_val,
+    group      = group_val,
+    x_center   = x_start + (cuml[-length(cuml)] + diff(cuml) / 2) * x_width,
+    seg_width  = diff(cuml) * x_width,
+    fill_color = pal
+  )
+}
+
+# ── Compute sparkline x positions (just right of existing n= labels) ──────────
+x_max_ci      &lt;- max(plot_df_pss$conf.high, na.rm = TRUE)
+x_n_label_pos &lt;- x_max_ci * 1.08          # mirrors existing geom_text x
+x_spark_start &lt;- x_max_ci * 1.20          # small gap after n= text
+x_spark_width &lt;- x_max_ci * 0.14          # total width of the spark bar
+x_axis_end    &lt;- x_spark_start + x_spark_width * 1.15  # axis limit
+
+# ── Build tiles for every row ─────────────────────────────────────────────────
+spark_df_pss &lt;- pmap_dfr(
+  list(
+    predictor  = plot_df_pss$predictor,
+    label_full = as.character(plot_df_pss$label_full),
+    group      = as.character(plot_df_pss$group)
+  ),
+  function(predictor, label_full, group) {
+    make_spark_tiles(predictor, label_full, group,
+                     df_reg, x_spark_start, x_spark_width)
+  }
+) %&gt;%
+  mutate(
+    label_full = factor(label_full, levels = levels(plot_df_pss$label_full)),
+    group      = factor(group, levels = group_order)
+  )</code></pre>
+</div>
+<div id="forest-plot-with-sparklines" class="section level2">
+<h2>Forest plot with sparklines</h2>
+<pre class="r"><code>p_pss_spark &lt;- ggplot(plot_df_pss,
+                      aes(x = estimate, y = label_full,
+                          colour = p.value &lt; 0.05)) +
+  # ── original forest layers ─────────────────────────────────────────────────
+  geom_vline(xintercept = 0, linetype = &quot;dashed&quot;,
+             colour = &quot;grey50&quot;, linewidth = 0.5) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
+                 height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(label = sig), nudge_y = 0.25, size = 3.5,
+            fontface = &quot;bold&quot;, show.legend = FALSE) +
+  # n= label (unchanged position)
+  geom_text(aes(x = x_n_label_pos, label = n_label),
+            size = 2.8, colour = &quot;grey40&quot;, hjust = 0) +
+  # ── sparkline tiles ────────────────────────────────────────────────────────
+  geom_tile(
+    data        = spark_df_pss,
+    aes(y       = label_full,
+        x       = x_center,
+        fill    = fill_color,
+        width   = seg_width),
+    height      = 0.65,
+    inherit.aes = FALSE
+  ) +
+  # ── &quot;Dist.&quot; header — rendered in every facet strip via geom_text on a
+  #    small helper dataset placed at a high y value (Inf clips nicely) ──────
+  geom_text(
+    data = tibble(
+      group      = factor(group_order, levels = group_order),
+      label_full = factor(NA_character_, levels = levels(plot_df_pss$label_full))
+    ),
+    aes(x = x_spark_start + x_spark_width / 2, y = Inf,
+        label = &quot;Dist.&quot;),
+    inherit.aes = FALSE,
+    vjust = 1.8, size = 2.8, colour = &quot;grey35&quot;
+  ) +
+  # ── scales &amp; facets ────────────────────────────────────────────────────────
+  facet_grid(group ~ ., scales = &quot;free_y&quot;, space = &quot;free_y&quot;) +
+  scale_colour_manual(values = c(&quot;FALSE&quot; = &quot;grey55&quot;, &quot;TRUE&quot; = &quot;#c0392b&quot;)) +
+  scale_fill_identity() +
+  scale_x_continuous(
+    expand = expansion(mult = c(0.05, 0)),
+    limits = c(NA, x_axis_end)
+  ) +
+  scale_y_discrete(expand = expansion(add = 0.4)) +
+  labs(
+    title   = &quot;Unadjusted Linear Regression — Perceived Stress Score (β)&quot;,
+    caption = paste0(
+      &quot;Red = p &lt; 0.05   Symbols: \u2020p&lt;0.10  *p&lt;0.05  **p&lt;0.01  ***p&lt;0.001\n&quot;,
+      &quot;Dist.: continuous = light\u2192dark blue (low\u2192high); &quot;,
+      &quot;binary = blue (ref) / orange (comparison); &quot;,
+      &quot;multi-level = blue\u2192orange gradient.&quot;
+    ),
+    x = &quot;\u03b2 coefficient (95% CI)&quot;,
+    y = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.8, &quot;lines&quot;))
+
+p_pss_spark</code></pre>
+<p><img src="figure/06z.forest_sparklines_proto.Rmd/forest-sparklines-1.png" width="1008" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.5.3 (2026-03-11)
+Platform: aarch64-apple-darwin20
+Running under: macOS Tahoe 26.3.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C.UTF-8/C.UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+
+time zone: America/Detroit
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_4.0.0   broom_1.0.12    purrr_1.0.4     stringr_1.5.1  
+[5] tidyr_1.3.1     dplyr_1.2.0     workflowr_1.7.1
+
+loaded via a namespace (and not attached):
+ [1] sass_0.4.10        generics_0.1.3     stringi_1.8.7      digest_0.6.37     
+ [5] magrittr_2.0.3     evaluate_1.0.3     grid_4.5.3         RColorBrewer_1.1-3
+ [9] fastmap_1.2.0      rprojroot_2.1.1    jsonlite_2.0.0     processx_3.8.6    
+[13] whisker_0.4.1      backports_1.5.0    ps_1.9.1           promises_1.3.2    
+[17] httr_1.4.7         scales_1.4.0       textshaping_1.0.0  jquerylib_0.1.4   
+[21] cli_3.6.5          rlang_1.1.7        withr_3.0.2        cachem_1.1.0      
+[25] yaml_2.3.10        tools_4.5.3        httpuv_1.6.16      vctrs_0.7.1       
+[29] R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2       fs_1.6.6          
+[33] ragg_1.4.0         pkgconfig_2.0.3    callr_3.7.6        pillar_1.10.2     
+[37] bslib_0.9.0        later_1.4.2        gtable_0.3.6       glue_1.8.0        
+[41] Rcpp_1.0.14        systemfonts_1.3.2  xfun_0.52          tibble_3.2.1      
+[45] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
+[49] htmltools_0.5.8.1  rmarkdown_2.30     labeling_0.4.3     compiler_4.5.3    
+[53] getPass_0.2-4      S7_0.2.0          </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
