@@ -588,17 +588,23 @@ top_pss <- summary_pss %>%
   left_join(select(all_ids_pss, model_id, rank), by = "model_id") %>%
   arrange(rank, estimate) %>%
   transmute(
-    Predictor = coalesce(readable_terms_pss[term], term),
-    N        = n,
-    beta_ci  = beta_ci,
-    adj_r2   = adj_R2,
-    delta_r2 = delta_adj_R2,
-    AIC      = AIC,
-    p_coef   = p_coef,
-    p_adj    = p_adj_fmt
+    Predictor   = coalesce(readable_terms_pss[term], term),
+    N           = n,
+    beta_ci     = beta_ci,
+    adj_r2      = adj_R2,
+    delta_r2    = delta_adj_R2,
+    AIC         = AIC,
+    p_coef      = p_coef,
+    p_adj       = p_adj_fmt,
+    p_coef_num  = p.value,
+    p_adj_num   = F_p_adj
   )
 
+b_pc_p <- which(!is.na(top_pss$p_coef_num) & top_pss$p_coef_num < 0.05)
+b_pa_p <- which(!is.na(top_pss$p_adj_num)  & top_pss$p_adj_num  < 0.05)
+
 ft_pss <- top_pss %>%
+  select(-p_coef_num, -p_adj_num) %>%
   flextable() %>%
   set_header_labels(
     Predictor = "Focal predictor",
@@ -610,6 +616,8 @@ ft_pss <- top_pss %>%
     p_coef    = "p (coef.)",
     p_adj     = "p_adj (BH)"
   ) %>%
+  bold(i = b_pc_p, j = "p_coef") %>%
+  bold(i = b_pa_p, j = "p_adj") %>%
   merge_v(j = c("N", "adj_r2", "delta_r2", "AIC", "p_adj")) %>%
   valign(j = c("N", "adj_r2", "delta_r2", "AIC", "p_adj"),
          valign = "top", part = "body") %>%
@@ -993,17 +1001,23 @@ top_emo <- summary_emo %>%
   left_join(select(all_ids_emo, model_id, rank), by = "model_id") %>%
   arrange(rank, estimate) %>%
   transmute(
-    Predictor = coalesce(readable_terms_emo[term], term),
-    N         = n,
-    or_ci     = or_ci,
-    mcfadden  = mcfadden,
-    delta_r2  = delta_r2,
-    AIC       = AIC,
-    p_coef    = p_coef,
-    p_adj     = p_adj_fmt
+    Predictor  = coalesce(readable_terms_emo[term], term),
+    N          = n,
+    or_ci      = or_ci,
+    mcfadden   = mcfadden,
+    delta_r2   = delta_r2,
+    AIC        = AIC,
+    p_coef     = p_coef,
+    p_adj      = p_adj_fmt,
+    p_coef_num = p.value,
+    p_adj_num  = LRT_p_adj
   )
 
+b_pc_ep <- which(!is.na(top_emo$p_coef_num) & top_emo$p_coef_num < 0.05)
+b_pa_ep <- which(!is.na(top_emo$p_adj_num)  & top_emo$p_adj_num  < 0.05)
+
 ft_emo <- top_emo %>%
+  select(-p_coef_num, -p_adj_num) %>%
   flextable() %>%
   set_header_labels(
     Predictor = "Focal predictor",
@@ -1015,6 +1029,8 @@ ft_emo <- top_emo %>%
     p_coef    = "p (coef.)",
     p_adj     = "p_adj (BH)"
   ) %>%
+  bold(i = b_pc_ep, j = "p_coef") %>%
+  bold(i = b_pa_ep, j = "p_adj") %>%
   merge_v(j = c("N", "mcfadden", "delta_r2", "AIC", "p_adj")) %>%
   valign(j = c("N", "mcfadden", "delta_r2", "AIC", "p_adj"),
          valign = "top", part = "body") %>%
