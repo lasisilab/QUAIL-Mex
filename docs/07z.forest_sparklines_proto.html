@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2026-03-27" />
+<meta name="date" content="2026-03-29" />
 
 <title>Forest Plot + Sparklines — Prototype (Panel A)</title>
 
@@ -376,7 +376,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Forest Plot + Sparklines — Prototype (Panel
 A)</h1>
-<h4 class="date">2026-03-27</h4>
+<h4 class="date">2026-03-29</h4>
 
 </div>
 
@@ -384,7 +384,7 @@ A)</h1>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -395,8 +395,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -405,13 +405,13 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2026-03-27
+<strong>Last updated:</strong> 2026-03-29
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 1
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>QUAIL-Mex/</code> <span
@@ -434,21 +434,18 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R
-Markdown file created these results, you’ll want to first commit it to
-the Git repo. If you’re still working on the analysis, you can ignore
-this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
@@ -539,15 +536,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaa3216cba5374804cdda76516569644447f8d40ctargetblankaa3216ca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreece0e05405f366db4645b02c4560a992f43c9aab9targetblankce0e054a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/aa3216cba5374804cdda76516569644447f8d40c" target="_blank">aa3216c</a>
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/ce0e05405f366db4645b02c4560a992f43c9aab9" target="_blank">ce0e054</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreeaa3216cba5374804cdda76516569644447f8d40ctargetblankaa3216ca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomlasisilabQUAILMextreece0e05405f366db4645b02c4560a992f43c9aab9targetblankce0e054a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -557,7 +554,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/lasisilab/QUAIL-Mex/tree/aa3216cba5374804cdda76516569644447f8d40c" target="_blank">aa3216c</a>.
+<a href="https://github.com/lasisilab/QUAIL-Mex/tree/ce0e05405f366db4645b02c4560a992f43c9aab9" target="_blank">ce0e054</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -582,6 +579,7 @@ Ignored files:
     Ignored:    analysis/.RData
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/Hrs_by_HWISE score.png
+    Ignored:    analysis/figure/
     Ignored:    analysis/stacked_barplot.png
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
@@ -591,57 +589,27 @@ Ignored files:
     Ignored:    output/tables/.DS_Store
 
 Untracked files:
-    Untracked:  analysis/07z.forest_sparklines_proto.Rmd
-    Untracked:  output/tables/04.Table1_sample_by_neighborhood_full.docx
-    Untracked:  output/tables/04.Table1_sample_by_season_full.docx
-    Untracked:  output/tables/04.Table1_sample_by_season_main.docx
-    Untracked:  output/tables/04.Table2_missing.docx
-    Untracked:  output/tables/04.Table3_HWISE_PSS_by_neighborhood_full.docx
-    Untracked:  output/tables/04.Table3_HWISE_PSS_by_season_full.docx
-    Untracked:  output/tables/04.Table3_HWISE_PSS_by_season_main.docx
-    Untracked:  output/tables/07.aim1_models_core_wide.docx
-    Untracked:  output/tables/~$.Tables_Aim2_Models.docx
+    Untracked:  output/figures/06z.Unadj_OR_EMO_sparklines.png
 
 Unstaged changes:
-    Modified:   .claude/settings.json
-    Modified:   analysis/03.Data_merge_Q1-6.Rmd
-    Modified:   analysis/04.Descriptive_stats.Rmd
     Modified:   analysis/06.unadjusted_models.Rmd
+    Modified:   analysis/06z.forest_sparklines_proto.Rmd
     Modified:   analysis/07.aim1_models.Rmd
     Modified:   analysis/08.aim2_models.Rmd
-    Modified:   analysis/10.full_models.Rmd
+    Modified:   analysis/09.aim2_adjusted_for_hwise.Rmd
     Modified:   output/figures/06.Unadj_coef_EMO.png
     Modified:   output/figures/06.Unadj_coef_PSS.png
-    Modified:   output/figures/07.aim1_panel_a_coef_plot.png
-    Modified:   output/figures/07.aim1_panel_b_coef_plot.png
-    Modified:   output/figures/07.famd_cos2_heatmap.png
-    Modified:   output/figures/07.famd_scores.png
-    Modified:   output/figures/07.famd_var_contrib.png
-    Modified:   output/figures/07.famd_var_map.png
-    Modified:   output/figures/07.pca_scores.png
-    Modified:   output/figures/07.poly_pca_scores.png
-    Modified:   output/figures/07.ses_comparison_panel_a.png
-    Modified:   output/figures/07.ses_comparison_panel_b.png
-    Deleted:    output/figures/09.aim2_hwise_emo_forest.png
-    Deleted:    output/figures/09.aim2_hwise_pss_forest.png
-    Modified:   output/figures/10.emo_full_model.png
-    Modified:   output/figures/10.pss_full_model.png
-    Deleted:    output/tables/04.Table1.2_missing.docx
-    Deleted:    output/tables/04.Table1_sample_full.docx
-    Deleted:    output/tables/04.Table1_sample_main.docx
-    Deleted:    output/tables/04.Table2_HWISE_PSS_by_season_full.docx
-    Deleted:    output/tables/04.Table2_HWISE_PSS_short.docx
-    Deleted:    output/tables/04.Table3_HWISE_PSS_by_neighborhood.docx
-    Deleted:    output/tables/04.TableS1_full_descriptives.docx
-    Deleted:    output/tables/04.TableS1b_sample_by_neighborhood.docx
-    Deleted:    output/tables/04.TableS2_HWISE_PSS_by_season.docx
-    Deleted:    output/tables/04.TableS3_HWISE_PSS_by_neighborhood.docx
+    Modified:   output/figures/06z.Unadj_coef_PSS_sparklines.png
+    Deleted:    output/figures/07.UV_coef_EMO.png
+    Deleted:    output/figures/07.UV_coef_PSS.png
+    Deleted:    output/figures/07z.forest_sparklines_proto.png
+    Modified:   output/figures/09.aim2_adjusted_for_hwise_emo_forest.png
+    Modified:   output/figures/09.aim2_adjusted_for_hwise_pss_forest.png
     Modified:   output/tables/06.Tables_Unadjusted_Models.docx
     Modified:   output/tables/07.Tables_Aim1_Models.docx
-    Modified:   output/tables/07.aim1_models_core.docx
+    Modified:   output/tables/07.aim1_models_core_wide.docx
     Modified:   output/tables/08.Tables_Aim2_Models.docx
-    Modified:   output/tables/10.Tables_Full_Models.docx
-    Deleted:    output/tables/~$.TableS3_HWISE_PSS_by_neighborhood.docx
+    Modified:   output/tables/09.Tables_Aim2_HWISEadj_Models.docx
 
 </code></pre>
 <p>
@@ -657,9 +625,73 @@ have uncommitted changes.
 </div>
 <div id="versions" class="tab-pane fade">
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/07z.forest_sparklines_proto.Rmd</code>) and HTML
+(<code>docs/07z.forest_sparklines_proto.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ce0e05405f366db4645b02c4560a992f43c9aab9/analysis/07z.forest_sparklines_proto.Rmd" target="_blank">ce0e054</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-27
+</td>
+<td>
+homogenize formatting tables
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lasisilab/QUAIL-Mex/ce0e05405f366db4645b02c4560a992f43c9aab9/docs/07z.forest_sparklines_proto.html" target="_blank">ce0e054</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-27
+</td>
+<td>
+homogenize formatting tables
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -909,6 +941,43 @@ p_sparks &lt;- ggplot(spark_df) +
 p_forest + p_n + p_sparks +
   plot_layout(widths = c(5, 0.55, 1.2), guides = &quot;keep&quot;)</code></pre>
 <p><img src="figure/07z.forest_sparklines_proto.Rmd/forest-sparklines-1.png" width="1104" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-forest-sparklines-1">
+Past versions of forest-sparklines-1.png
+</button>
+</p>
+<div id="fig-forest-sparklines-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lasisilab/QUAIL-Mex/blob/ce0e05405f366db4645b02c4560a992f43c9aab9/docs/figure/07z.forest_sparklines_proto.Rmd/forest-sparklines-1.png" target="_blank">ce0e054</a>
+</td>
+<td>
+Paloma
+</td>
+<td>
+2026-03-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -944,17 +1013,17 @@ loaded via a namespace (and not attached):
  [1] sass_0.4.10        generics_0.1.3     stringi_1.8.7      hms_1.1.3         
  [5] digest_0.6.37      magrittr_2.0.3     evaluate_1.0.3     grid_4.5.3        
  [9] timechange_0.3.0   RColorBrewer_1.1-3 fastmap_1.2.0      rprojroot_2.1.1   
-[13] workflowr_1.7.1    jsonlite_2.0.0     backports_1.5.0    promises_1.3.2    
-[17] scales_1.4.0       textshaping_1.0.0  jquerylib_0.1.4    cli_3.6.5         
-[21] crayon_1.5.3       rlang_1.1.7        bit64_4.6.0-1      withr_3.0.2       
-[25] cachem_1.1.0       yaml_2.3.10        parallel_4.5.3     tools_4.5.3       
-[29] tzdb_0.5.0         httpuv_1.6.16      vctrs_0.7.1        R6_2.6.1          
-[33] lifecycle_1.0.5    git2r_0.36.2       bit_4.6.0          fs_1.6.6          
-[37] vroom_1.6.5        ragg_1.4.0         pkgconfig_2.0.3    pillar_1.10.2     
-[41] bslib_0.9.0        later_1.4.2        gtable_0.3.6       glue_1.8.0        
-[45] Rcpp_1.0.14        systemfonts_1.3.2  xfun_0.52          tidyselect_1.2.1  
-[49] knitr_1.50         farver_2.1.2       htmltools_0.5.8.1  labeling_0.4.3    
-[53] rmarkdown_2.30     compiler_4.5.3     S7_0.2.0          </code></pre>
+[13] workflowr_1.7.1    jsonlite_2.0.0     whisker_0.4.1      backports_1.5.0   
+[17] promises_1.3.2     scales_1.4.0       textshaping_1.0.0  jquerylib_0.1.4   
+[21] cli_3.6.5          crayon_1.5.3       rlang_1.1.7        bit64_4.6.0-1     
+[25] withr_3.0.2        cachem_1.1.0       yaml_2.3.10        parallel_4.5.3    
+[29] tools_4.5.3        tzdb_0.5.0         httpuv_1.6.16      vctrs_0.7.1       
+[33] R6_2.6.1           lifecycle_1.0.5    git2r_0.36.2       bit_4.6.0         
+[37] fs_1.6.6           vroom_1.6.5        ragg_1.4.0         pkgconfig_2.0.3   
+[41] pillar_1.10.2      bslib_0.9.0        later_1.4.2        gtable_0.3.6      
+[45] glue_1.8.0         Rcpp_1.0.14        systemfonts_1.3.2  xfun_0.52         
+[49] tidyselect_1.2.1   knitr_1.50         farver_2.1.2       htmltools_0.5.8.1 
+[53] labeling_0.4.3     rmarkdown_2.30     compiler_4.5.3     S7_0.2.0          </code></pre>
 </div>
 </div>
 </div>

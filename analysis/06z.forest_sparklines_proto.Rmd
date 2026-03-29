@@ -40,36 +40,30 @@ group_map <- c(
   Chronic_pain = "Health", Chronic_dis = "Health",
   HWISE_Total = "HWISE", Water_5sub = "HWISE",
   HWISE_Hi = "HWISE", Water_worry = "HWISE",
-  HW_Worry = "HWISE items", HW_Interr = "HWISE items",
-  HW_Clothes = "HWISE items", HW_Plans = "HWISE items",
-  HW_Food = "HWISE items", HW_Hands = "HWISE items",
-  HW_Body = "HWISE items", HW_Drink = "HWISE items",
-  HW_Angry = "HWISE items", HW_Sleep = "HWISE items",
-  HW_None = "HWISE items", HW_Shame = "HWISE items",
-  Season = "Water supply",
-  W_WS_LOC_F = "Water supply", W_Continuity = "Water supply",
-  W_Frequency = "Water supply", W_Days_week = "Water supply",
-  W_Hrs_week = "Water supply", W_Pressure = "Water supply",
-  W_Trust = "Water infrastructure", W_Garrafon_brand = "Water infrastructure",
-  W_Has_tinaco = "Water infrastructure", W_Has_cisterna = "Water infrastructure",
-  W_Bill_waived = "Water infrastructure", W_Cost_2mnths = "Water infrastructure"
+  W_Continuity = "Supply frequency", W_Frequency = "Supply frequency",
+  W_Days_week = "Supply frequency", W_Hrs_week = "Supply frequency",
+  Season = "Water supply", W_WS_LOC_F = "Water supply",
+  W_Pressure = "Water supply",
+  W_Trust = "Water supply", W_Garrafon_brand = "Water supply",
+  W_Has_tinaco = "Water supply", W_Has_cisterna = "Water supply",
+  W_Bill_waived = "Water supply", W_Cost_2mnths = "Water supply",
+  NB_COMP = "Water supply", TIME_WATER = "Water supply",
+  SUFF_RATING = "Water supply"
 )
 
 group_order <- c("Demographics", "Socioeconomic", "Health",
-                 "HWISE", "HWISE items", "Water supply", "Water infrastructure")
+                 "HWISE", "Supply frequency", "Water supply")
 
 predictor_order <- c(
   Age = 1, Parity = 2, HH_size = 3, Yrs_in_nbhd = 4,
   SES_Score = 1, Edu_Score = 2, Employed = 3, Employment_type = 4,
   Chronic_pain = 1, Chronic_dis = 2,
   HWISE_Total = 1, Water_5sub = 2, HWISE_Hi = 3, Water_worry = 5,
-  HW_Worry = 1, HW_Interr = 2, HW_Clothes = 3, HW_Plans = 4,
-  HW_Food = 5, HW_Hands = 6, HW_Body = 7, HW_Drink = 8,
-  HW_Angry = 9, HW_Sleep = 10, HW_None = 11, HW_Shame = 12,
-  Season = 1, W_WS_LOC_F = 2, W_Continuity = 3, W_Frequency = 4,
-  W_Days_week = 5, W_Hrs_week = 6, W_Pressure = 7,
-  W_Trust = 1, W_Garrafon_brand = 2, W_Has_tinaco = 3, W_Has_cisterna = 4,
-  W_Bill_waived = 5, W_Cost_2mnths = 6
+  W_Continuity = 1, W_Frequency = 2, W_Days_week = 3, W_Hrs_week = 4,
+  Season = 1, W_WS_LOC_F = 2, W_Pressure = 3,
+  W_Trust = 4, W_Garrafon_brand = 5, W_Has_tinaco = 6, W_Has_cisterna = 7,
+  W_Bill_waived = 8, W_Cost_2mnths = 9,
+  NB_COMP = 10, TIME_WATER = 11, SUFF_RATING = 12
 )
 
 pred_labels <- c(
@@ -84,34 +78,25 @@ pred_labels <- c(
   Employment_type = "Employment type",
   Chronic_pain    = "Chronic pain",
   Chronic_dis     = "Chronic disease",
-  HWISE_Total     = "HWISE total score",
-  Water_5sub      = "5-item subscale (continuous)",
+  HWISE_Total     = "HWISE total score (0-36)",
+  Water_5sub      = "HWISE 5-items (0-15)",
   HWISE_Hi        = "HWISE binary",
-  Water_worry     = "Water worry subscale",
-  HW_Worry        = "HW1: Worried about water",
-  HW_Interr       = "HW2: Water interrupted",
-  HW_Clothes      = "HW3: Unable to wash clothes",
-  HW_Plans        = "HW4: Changed plans",
-  HW_Food         = "HW5: Unable to prepare food",
-  HW_Hands        = "HW6: Unable to wash hands",
-  HW_Body         = "HW7: Unable to wash body",
-  HW_Drink        = "HW8: No drinking water",
-  HW_Angry        = "HW9: Felt angry",
-  HW_Sleep        = "HW10: Went to sleep thirsty",
-  HW_None         = "HW11: Had no water at all",
-  HW_Shame        = "HW12: Felt shame",
+  Water_worry     = "Water worry 3-items (0-9)",
   W_WS_LOC_F       = "Neighborhood",
-  W_Continuity     = "Supply continuity",
-  W_Frequency      = "Supply frequency",
-  W_Days_week      = "Days of supply per week",
-  W_Hrs_week       = "Hours of supply per week",
+  W_Continuity     = "",
+  W_Frequency      = "",
+  W_Days_week      = "Days/week",
+  W_Hrs_week       = "Hours/week",
   W_Pressure       = "Adequate water pressure",
   W_Trust          = "Trusts tap water quality",
   W_Garrafon_brand = "Uses brand-name garrafón",
   W_Has_tinaco     = "Has tinaco (rooftop tank)",
   W_Has_cisterna   = "Has cisterna (underground tank)",
   W_Bill_waived    = "Water bill waived (condonado)",
-  W_Cost_2mnths    = "Bimonthly water cost (pesos)"
+  W_Cost_2mnths    = "Bimonthly water cost (MX pesos)",
+  NB_COMP          = "Neighborhood water quality vs. own",
+  TIME_WATER       = "Excessive time in water management",
+  SUFF_RATING      = "Water sufficiency rating (1\u20134)"
 )
 
 make_display_label <- function(predictor, term, label) {
@@ -209,18 +194,6 @@ df_table <- df %>%
       ),
       levels = c("Low (\u226411)", "High (\u226512)")
     ),
-    HW_Worry   = clean_for_table(HW_WORRY),
-    HW_Interr  = clean_for_table(HW_INTERR),
-    HW_Clothes = clean_for_table(HW_CLOTHES),
-    HW_Plans   = clean_for_table(HW_PLANS),
-    HW_Food    = clean_for_table(HW_FOOD),
-    HW_Hands   = clean_for_table(HW_HANDS),
-    HW_Body    = clean_for_table(HW_BODY),
-    HW_Drink   = clean_for_table(HW_DRINK),
-    HW_Angry   = clean_for_table(HW_ANGRY),
-    HW_Sleep   = clean_for_table(HW_SLEEP),
-    HW_None    = clean_for_table(HW_NONE),
-    HW_Shame   = clean_for_table(HW_SHAME),
     PSS_Total  = clean_for_table(PSS_TOTAL)
   )
 
@@ -294,6 +267,29 @@ df_water <- df %>%
     W_Cost_2mnths = {
       x <- suppressWarnings(as.numeric(as.character(MX11_COST_2MNTHS)))
       ifelse(is.na(x), NA_real_, x)
+    },
+    NB_COMP = factor(
+      case_when(
+        is_sentinel_str(MX28_WQ_COMP_CAT)      ~ NA_character_,
+        clean_for_table(MX28_WQ_COMP_CAT) == 0 ~ "Better",
+        clean_for_table(MX28_WQ_COMP_CAT) == 1 ~ "Same",
+        clean_for_table(MX28_WQ_COMP_CAT) == 2 ~ "Worse",
+        TRUE                                    ~ NA_character_
+      ),
+      levels = c("Better", "Same", "Worse")
+    ),
+    TIME_WATER = factor(
+      case_when(
+        is_sentinel_str(MX19_TIME_CAT)      ~ NA_character_,
+        clean_for_table(MX19_TIME_CAT) == 0 ~ "No",
+        clean_for_table(MX19_TIME_CAT) == 1 ~ "Yes",
+        TRUE                                ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+    SUFF_RATING = {
+      x <- suppressWarnings(as.numeric(as.character(MX16_SCEN_99)))
+      ifelse(is.na(x) | x %in% MISSING_CODES, NA_real_, x)
     }
   )
 
@@ -315,7 +311,10 @@ df_reg <- df_table %>%
     W_Has_tinaco     = df_water$W_Has_tinaco,
     W_Has_cisterna   = df_water$W_Has_cisterna,
     W_Bill_waived    = df_water$W_Bill_waived,
-    W_Cost_2mnths    = df_water$W_Cost_2mnths
+    W_Cost_2mnths    = df_water$W_Cost_2mnths,
+    NB_COMP          = df_water$NB_COMP,
+    TIME_WATER       = df_water$TIME_WATER,
+    SUFF_RATING      = df_water$SUFF_RATING
   )
 
 ref_levels <- sapply(names(df_reg), function(v) {
@@ -327,9 +326,6 @@ ref_levels <- sapply(names(df_reg), function(v) {
 ## Run unadjusted PSS models
 
 ```{r pss-models}
-hwise_items <- c("HW_Worry", "HW_Interr", "HW_Clothes", "HW_Plans", "HW_Food",
-                 "HW_Hands", "HW_Body", "HW_Drink", "HW_Angry", "HW_Sleep",
-                 "HW_None", "HW_Shame")
 
 pss_predictors <- c(
   "Age", "Parity", "HH_size", "Yrs_in_nbhd",
@@ -339,12 +335,11 @@ pss_predictors <- c(
   "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
   "W_Days_week", "W_Hrs_week", "W_Pressure",
   "W_Trust", "W_Garrafon_brand", "W_Has_tinaco", "W_Has_cisterna",
-  "W_Bill_waived", "W_Cost_2mnths"
+  "W_Bill_waived", "W_Cost_2mnths",
+  "NB_COMP", "TIME_WATER", "SUFF_RATING"
 )
-pss_predictors_fp <- append(pss_predictors, hwise_items,
-                             after = which(pss_predictors == "Water_worry"))
 
-pss_results <- run_lm_uv("PSS_Total", pss_predictors_fp, df_reg, pred_labels) %>%
+pss_results <- run_lm_uv("PSS_Total", pss_predictors, df_reg, pred_labels) %>%
   mutate(
     group         = group_map[predictor],
     group         = factor(group, levels = group_order),
@@ -467,7 +462,7 @@ p_pss_spark <- ggplot(plot_df_pss,
       label_full = factor(NA_character_, levels = levels(plot_df_pss$label_full))
     ),
     aes(x = x_spark_start + x_spark_width / 2, y = Inf,
-        label = "Dist."),
+        label = ""),
     inherit.aes = FALSE,
     vjust = 1.8, size = 2.8, colour = "grey35"
   ) +
@@ -504,4 +499,174 @@ ggsave(
   width  = 10.5, height = 11, dpi = 300, bg = "white"
 )
 cat("Saved: ./output/figures/06z.Unadj_coef_PSS_sparklines.png\n")
+```
+
+---
+
+## Run unadjusted emotion models
+
+```{r emo-models}
+run_glm_uv <- function(outcome, predictors, data, labels) {
+  map_dfr(predictors, function(v) {
+    dat <- prep_uv_dat(outcome, v, data)
+    fit <- tryCatch(
+      glm(as.formula(paste(outcome, "~ .")), data = dat, family = binomial),
+      error = function(e) NULL
+    )
+    if (is.null(fit)) return(NULL)
+    tidy(fit, conf.int = TRUE, exponentiate = TRUE) %>%
+      filter(term != "(Intercept)") %>%
+      mutate(predictor = v, label = labels[v], AIC = AIC(fit), n = nrow(dat))
+  })
+}
+
+emo_predictors <- c(
+  "Age", "Parity", "HH_size", "Yrs_in_nbhd",
+  "SES_Score", "Edu_Score", "Employed", "Employment_type",
+  "Chronic_pain", "Chronic_dis",
+  "HWISE_Total", "Water_5sub", "HWISE_Hi", "Water_worry",
+  "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
+  "W_Days_week", "W_Hrs_week", "W_Pressure",
+  "W_Trust", "W_Garrafon_brand", "W_Has_tinaco", "W_Has_cisterna",
+  "W_Bill_waived", "W_Cost_2mnths",
+  "NB_COMP", "TIME_WATER", "SUFF_RATING"
+)
+
+emo_results <- run_glm_uv("EMO_NEG", emo_predictors, df_reg, pred_labels) %>%
+  mutate(
+    group         = group_map[predictor],
+    group         = factor(group, levels = group_order),
+    var_order     = predictor_order[predictor],
+    display_label = mapply(make_display_label, predictor, term, label)
+  ) %>%
+  arrange(group, var_order)
+
+plot_df_emo <- emo_results %>%
+  mutate(
+    label_full = factor(display_label, levels = rev(unique(display_label))),
+    sig        = sig_sym(p.value),
+    n_label    = paste0("n=", n)
+  )
+```
+
+## Build sparkline tiles (emotion)
+
+```{r spark-tiles-emo}
+# Axis bounds: 90th / 5th percentile of CI limits to prevent sparse-cell blow-up
+ci_hi_layout <- quantile(
+  plot_df_emo$conf.high[is.finite(plot_df_emo$conf.high)], 0.90, na.rm = TRUE)
+ci_lo_layout <- quantile(
+  plot_df_emo$conf.low[plot_df_emo$conf.low > 0 & is.finite(plot_df_emo$conf.low)],
+  0.05, na.rm = TRUE)
+
+log_max_emo       <- log10(ci_hi_layout)
+log_min_emo       <- log10(ci_lo_layout)
+x_axis_start_emo  <- 10^(log_min_emo - 0.10)
+x_n_label_pos_emo <- 10^(log_max_emo + 0.10)   # just right of clipped CI bars
+
+# Spark bars: fixed visual width (log_bar_width log10-units) regardless of OR scale
+log_bar_start     <- log_max_emo + 0.28         # bar left edge on log scale
+log_bar_width     <- 0.35                        # fixed visual width for all rows
+x_axis_end_emo    <- 10^(log_bar_start + log_bar_width + 0.08)
+
+# geom_rect needs explicit ymin/ymax; ggplot2 assigns integer positions to
+# factor levels starting at 1 (level 1 = y=1, etc.)
+y_pos_emo <- setNames(
+  seq_along(levels(plot_df_emo$label_full)),
+  levels(plot_df_emo$label_full)
+)
+
+make_spark_rects <- function(predictor_name, y_pos, df_data,
+                              l_start, l_width, bins_cont = 7) {
+  var <- df_data[[predictor_name]]
+  if (is.factor(var) || is.character(var)) {
+    var_f <- if (is.factor(var)) var else factor(var)
+    tab   <- table(na.omit(droplevels(var_f)))
+    if (length(tab) == 0) return(NULL)
+    props <- as.numeric(tab) / sum(tab)
+    n_lvl <- length(props)
+    pal   <- if (n_lvl == 2) c("#6baed6", "#fd8d3c") else
+               colorRampPalette(c("#6baed6", "#fdae6b", "#fd8d3c"))(n_lvl)
+    cuml  <- c(0, cumsum(props))
+  } else {
+    vals <- na.omit(as.numeric(var))
+    if (length(vals) < 5) return(NULL)
+    h     <- hist(vals, breaks = bins_cont, plot = FALSE)
+    props <- h$counts / sum(h$counts)
+    n_lvl <- length(props)
+    pal   <- colorRampPalette(c("#c6dbef", "#2171b5"))(n_lvl)
+    cuml  <- c(0, cumsum(props))
+  }
+  tibble(
+    xmin       = 10^(l_start + cuml[-length(cuml)] * l_width),
+    xmax       = 10^(l_start + cuml[-1]            * l_width),
+    ymin       = y_pos - 0.325,
+    ymax       = y_pos + 0.325,
+    fill_color = pal
+  )
+}
+
+spark_rect_emo <- pmap_dfr(
+  list(
+    predictor = plot_df_emo$predictor,
+    y_pos     = unname(y_pos_emo[as.character(plot_df_emo$label_full)])
+  ),
+  function(predictor, y_pos) {
+    make_spark_rects(predictor, y_pos, df_reg, log_bar_start, log_bar_width)
+  }
+)
+```
+
+## Forest plot with sparklines — Emotion
+
+```{r forest-sparklines-emo, fig.width=10.5, fig.height=11}
+p_emo_spark <- ggplot(plot_df_emo,
+                      aes(x = estimate, y = label_full,
+                          colour = p.value < 0.05)) +
+  geom_vline(xintercept = 1, linetype = "dashed",
+             colour = "grey50", linewidth = 0.5) +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high),
+                 height = 0.25, linewidth = 0.6) +
+  geom_point(size = 2.2) +
+  geom_text(aes(label = sig), nudge_y = 0.25, size = 3.5,
+            fontface = "bold", show.legend = FALSE) +
+  geom_text(aes(x = x_n_label_pos_emo, label = n_label),
+            size = 2.8, colour = "grey40", hjust = 0) +
+  geom_rect(
+    data        = spark_rect_emo,
+    aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = fill_color),
+    inherit.aes = FALSE
+  ) +
+  facet_grid(group ~ ., scales = "free_y", space = "free_y") +
+  scale_colour_manual(values = c("FALSE" = "grey55", "TRUE" = "#2171b5")) +
+  scale_fill_identity() +
+  scale_x_log10(
+    expand = expansion(mult = c(0, 0)),
+    limits = c(x_axis_start_emo, x_axis_end_emo)
+  ) +
+  scale_y_discrete(expand = expansion(add = 0.4)) +
+  labs(
+    title   = "Unadjusted Logistic Regression — Water-related Emotion (OR, log scale)",
+    caption = paste0(
+      "Blue = p < 0.05   Symbols: \u2020p<0.10  *p<0.05  **p<0.01  ***p<0.001\n",
+      "Dist.: continuous = light\u2192dark blue (low\u2192high); ",
+      "binary = blue (ref) / orange (comparison); ",
+      "multi-level = blue\u2192orange gradient."
+    ),
+    x = "OR (95% CI, log scale)",
+    y = NULL
+  ) +
+  pub_theme +
+  theme(panel.spacing = unit(0.8, "lines"))
+
+p_emo_spark
+```
+
+```{r save-emo, include=FALSE}
+ggsave(
+  "./output/figures/06z.Unadj_OR_EMO_sparklines.png",
+  plot   = p_emo_spark,
+  width  = 10.5, height = 11, dpi = 300, bg = "white"
+)
+cat("Saved: ./output/figures/06z.Unadj_OR_EMO_sparklines.png\n")
 ```

@@ -316,10 +316,10 @@ term_labels <- c(
   TIME_WATERYes                  = "Excessive time managing water: Yes (ref: No)",
   SUFF_RATING                    = "Sufficiency rating (1\u20134)",
   `W_PressureNo/Low`             = "Adequate water pressure: No/Low (ref: Yes)",
-  W_FrequencyDaily               = "Supply frequency: Daily (ref: Continuous)",
-  `W_Frequency4–6 days/week`     = "Supply frequency: 4\u20136 days/wk (ref: Continuous)",
-  `W_Frequency1–3 days/week`     = "Supply frequency: 1\u20133 days/wk (ref: Continuous)",
-  W_FrequencyIntermittent        = "Supply frequency: Intermittent (ref: Continuous)",
+  W_FrequencyDaily               = "Daily (ref: Continuous)",
+  `W_Frequency4–6 days/week`     = "4\u20136 days/wk (ref: Continuous)",
+  `W_Frequency1–3 days/week`     = "1\u20133 days/wk (ref: Continuous)",
+  W_FrequencyIntermittent        = "Intermittent (ref: Continuous)",
   `W_WS_LOC_FWater Insecure`     = "Neighborhood: Water Insecure (ref: Water Secure)",
   D_LOC_TIME                     = "Years in neighbourhood",
   W_TrustNo                      = "Tap water trust: No (ref: Yes)",
@@ -366,7 +366,6 @@ sig_fmt <- function(p_num, p_str) {
 pretty_ft_aim2 <- function(ft) {
   ft %>%
     bold(part = "header") %>%
-    bold(j = "Model") %>%
     bg(part = "header", bg = "#2c3e50") %>%
     color(part = "header", color = "white") %>%
     theme_booktabs() %>%
@@ -610,12 +609,18 @@ readable_terms_pss <- c(
   TIME_WATERYes              = "Excessive time managing water",
   SUFF_RATING                = "Sufficiency rating (1\u20134)",
   `W_PressureNo/Low`         = "Water pressure: No/Low",
-  W_FrequencyDaily           = "Supply frequency: Daily",
-  `W_Frequency4–6 days/week` = "Supply frequency: 4\u20136 days/wk",
-  `W_Frequency1–3 days/week` = "Supply frequency: 1\u20133 days/wk",
-  W_FrequencyIntermittent    = "Supply frequency: Intermittent",
+  W_FrequencyDaily           = "Daily",
+  `W_Frequency4–6 days/week` = "4\u20136 days/wk",
+  `W_Frequency1–3 days/week` = "1\u20133 days/wk",
+  W_FrequencyIntermittent    = "Intermittent",
   `W_WS_LOC_FWater Insecure` = "Neighborhood: Water Insecure",
-  D_LOC_TIME                 = "Years in neighbourhood"
+  D_LOC_TIME                 = "Years in neighbourhood",
+  W_TrustNo                  = "Tap water trust: No",
+  W_Garrafon_brandYes        = "Uses brand-name garraf\u00f3n",
+  W_Has_tinacoYes            = "Has tinaco",
+  W_Has_cisternaYes          = "Has cisterna",
+  W_Bill_waivedYes           = "Water bill waived",
+  W_Cost_2mnths              = "Bimonthly water cost (pesos)"
 )
 # Add HWISE item labels
 readable_terms_pss <- c(readable_terms_pss, hwise_readable)
@@ -629,8 +634,6 @@ top5_pss <- summary_pss %>%
   left_join(select(all_ids_pss, model_id, rank), by = "model_id") %>%
   arrange(rank, estimate) %>%
   transmute(
-    rank        = rank,
-    Model       = label,
     Predictor   = coalesce(readable_terms_pss[term], term),
     N           = n,
     beta_ci     = beta_ci,
@@ -650,8 +653,6 @@ ft_pss <- top5_pss %>%
   select(-p_coef_num, -p_adj_num) %>%
   flextable() %>%
   set_header_labels(
-    rank      = "#",
-    Model     = "Model",
     Predictor = "Focal predictor",
     N         = "N",
     beta_ci   = "\u03b2 [95% CI]",
@@ -663,8 +664,8 @@ ft_pss <- top5_pss %>%
   ) %>%
   bold(i = b_pc_p, j = "p_coef") %>%
   bold(i = b_pa_p, j = "p_adj") %>%
-  merge_v(j = c("rank", "Model", "N", "adj_r2", "delta_r2", "AIC", "p_adj")) %>%
-  valign(j = c("rank", "Model", "N", "adj_r2", "delta_r2", "AIC", "p_adj"),
+  merge_v(j = c("N", "adj_r2", "delta_r2", "AIC", "p_adj")) %>%
+  valign(j = c("N", "adj_r2", "delta_r2", "AIC", "p_adj"),
          valign = "top", part = "body") %>%
   set_caption(paste0(
     "All Aim 2 PSS models ranked by AIC. ",
@@ -685,32 +686,32 @@ ft_pss
 group_labels_pss <- c(
   "m_a5: HWISE items"                    = "HWISE items",
   "m_a12: Water worry"                   = "HWISE items",
-  "m_a6: Hours supply"                   = "Water supply",
-  "m_a7: Intermittent"                   = "Water supply",
+  "m_a6: Hours supply"                   = "Supply frequency",
+  "m_a7: Intermittent"                   = "Supply frequency",
+  "m_a17: Supply frequency"              = "Supply frequency",
   "m_a8: Season"                         = "Water supply",
   "m_a9: Neighborhood comparison"        = "Water supply",
   "m_a10: Time burden"                   = "Water supply",
   "m_a11: Sufficiency"                   = "Water supply",
   "m_a16: Water pressure"                = "Water supply",
-  "m_a17: Supply frequency"              = "Water supply",
   "m_a18: Neighborhood"                  = "Water supply",
   "m_a_loc: Years in neighbourhood"      = "Water supply",
-  "m_a19: Water infrastructure"          = "Water infrastructure",
-  "m_a20: Water infrastructure"          = "Water infrastructure",
-  "m_a21: Water infrastructure"          = "Water infrastructure",
-  "m_a22: Water infrastructure"          = "Water infrastructure",
-  "m_a23: Water infrastructure"          = "Water infrastructure",
-  "m_a24: Water infrastructure"          = "Water infrastructure"
+  "m_a19: Water infrastructure"          = "Water supply",
+  "m_a20: Water infrastructure"          = "Water supply",
+  "m_a21: Water infrastructure"          = "Water supply",
+  "m_a22: Water infrastructure"          = "Water supply",
+  "m_a23: Water infrastructure"          = "Water supply",
+  "m_a24: Water infrastructure"          = "Water supply"
 )
 
 fp_order_pss <- c(
   "Water worry subscale score"                           =  1,
   "Hours of supply per week"                             =  2,
   "Supply continuity: Intermittent (ref: Continuous)"    =  3,
-  "Supply frequency: Daily (ref: Continuous)"            =  4,
-  "Supply frequency: 4\u20136 days/wk (ref: Continuous)" =  5,
-  "Supply frequency: 1\u20133 days/wk (ref: Continuous)" =  6,
-  "Supply frequency: Intermittent (ref: Continuous)"     =  7,
+  "Daily (ref: Continuous)"            =  4,
+  "4\u20136 days/wk (ref: Continuous)" =  5,
+  "1\u20133 days/wk (ref: Continuous)" =  6,
+  "Intermittent (ref: Continuous)"     =  7,
   "Season: Dry (ref: Rainy)"                             =  8,
   "Neighborhood comparison: Same as CDMX"                =  9,
   "Neighborhood comparison: Worse than CDMX"             = 10,
@@ -718,7 +719,13 @@ fp_order_pss <- c(
   "Sufficiency rating (1\u20134)"                        = 12,
   "Adequate water pressure: No/Low (ref: Yes)"           = 13,
   "Neighborhood: Water Insecure (ref: Water Secure)"     = 14,
-  "Years in neighbourhood"                               = 15
+  "Years in neighbourhood"                               = 15,
+  "Tap water trust: No (ref: Yes)"                       = 16,
+  "Uses brand-name garraf\u00f3n: Yes (ref: No)"          = 17,
+  "Has tinaco (ref: No)"                            = 18,
+  "Has cisterna(ref: No)"                          = 19,
+  "Water bill waived (ref: No)"                     = 20,
+  "Bimonthly water cost (pesos)"                         = 21
 )
 
 coefs_pss <- summary_pss %>%
@@ -726,7 +733,7 @@ coefs_pss <- summary_pss %>%
     term_label  = coalesce(term_labels[term], hwise_readable[term], term),
     panel_group = coalesce(group_labels_pss[group], group),
     panel_group = factor(panel_group,
-                         levels = c("HWISE items", "Water supply")),
+                         levels = c("HWISE items", "Supply frequency", "Water supply")),
     sig         = sig_sym(p.value),
     fp_order    = coalesce(fp_order_pss[term_label], estimate + 100L)
   ) %>%
@@ -1046,7 +1053,13 @@ readable_terms_emo <- c(
   `W_Frequency1–3 days/week` = "Supply frequency: 1\u20133 days/wk",
   W_FrequencyIntermittent    = "Supply frequency: Intermittent",
   `W_WS_LOC_FWater Insecure` = "Neighborhood: Water Insecure",
-  D_LOC_TIME                 = "Years in neighbourhood"
+  D_LOC_TIME                 = "Years in neighbourhood",
+  W_TrustNo                  = "Tap water trust: No",
+  W_Garrafon_brandYes        = "Uses brand-name garraf\u00f3n",
+  W_Has_tinacoYes            = "Has tinaco",
+  W_Has_cisternaYes          = "Has cisterna",
+  W_Bill_waivedYes           = "Water bill waived",
+  W_Cost_2mnths              = "Bimonthly water cost (pesos)"
 )
 readable_terms_emo <- c(readable_terms_emo, hwise_readable)
 
@@ -1059,8 +1072,6 @@ top5_emo <- summary_emo %>%
   left_join(select(all_ids_emo, model_id, rank), by = "model_id") %>%
   arrange(rank, estimate) %>%
   transmute(
-    rank        = rank,
-    Model       = label,
     Predictor   = coalesce(readable_terms_emo[term], term),
     N           = n,
     or_ci       = or_ci,
@@ -1080,8 +1091,6 @@ ft_emo <- top5_emo %>%
   select(-p_coef_num, -p_adj_num) %>%
   flextable() %>%
   set_header_labels(
-    rank      = "#",
-    Model     = "Model",
     Predictor = "Focal predictor",
     N         = "N",
     or_ci     = "OR [95% CI]",
@@ -1093,8 +1102,8 @@ ft_emo <- top5_emo %>%
   ) %>%
   bold(i = b_pc_ep, j = "p_coef") %>%
   bold(i = b_pa_ep, j = "p_adj") %>%
-  merge_v(j = c("rank", "Model", "N", "mcfadden", "delta_r2", "AIC", "p_adj")) %>%
-  valign(j = c("rank", "Model", "N", "mcfadden", "delta_r2", "AIC", "p_adj"),
+  merge_v(j = c("N", "mcfadden", "delta_r2", "AIC", "p_adj")) %>%
+  valign(j = c("N", "mcfadden", "delta_r2", "AIC", "p_adj"),
          valign = "top", part = "body") %>%
   set_caption(paste0(
     "All Aim 2 emotion models ranked by AIC. ",
@@ -1124,41 +1133,48 @@ cat("Saved:", out_combined, "\n")
 
 ```{r emo-forest, fig.width = 10, fig.height = 9}
 group_labels_emo <- c(
-  "m_b5: HWISE items"                    = "HWISE items",
-  "m_b12: Water worry"                   = "HWISE items",
-  "m_b6: Hours supply"                   = "Water supply",
-  "m_b7: Intermittent"                   = "Water supply",
+  "m_b5: HWISE items"                    = "HWISE",
+  "m_b12: Water worry"                   = "HWISE",
+  "m_b6: Hours supply"                   = "Supply frequency",
+  "m_b7: Intermittent"                   = "Supply frequency",
+  "m_b17: Supply frequency"              = "Supply frequency",
   "m_b8: Season"                         = "Water supply",
   "m_b9: Neighborhood comparison"        = "Water supply",
   "m_b10: Time burden"                   = "Water supply",
   "m_b11: Sufficiency"                   = "Water supply",
   "m_b16: Water pressure"                = "Water supply",
-  "m_b17: Supply frequency"              = "Water supply",
   "m_b18: Neighborhood"                  = "Water supply",
   "m_b_loc: Years in neighbourhood"      = "Water supply",
-  "m_b19: Water infrastructure"          = "Water infrastructure",
-  "m_b20: Water infrastructure"          = "Water infrastructure",
-  "m_b21: Water infrastructure"          = "Water infrastructure",
-  "m_b22: Water infrastructure"          = "Water infrastructure",
-  "m_b23: Water infrastructure"          = "Water infrastructure",
-  "m_b24: Water infrastructure"          = "Water infrastructure"
+  "m_b19: Water infrastructure"          = "Water supply",
+  "m_b20: Water infrastructure"          = "Water supply",
+  "m_b21: Water infrastructure"          = "Water supply",
+  "m_b22: Water infrastructure"          = "Water supply",
+  "m_b23: Water infrastructure"          = "Water supply",
+  "m_b24: Water infrastructure"          = "Water supply"
 )
 
 fp_order_emo <- c(
-  "Hours of supply per week"                              =  1,
-  "Supply continuity: Intermittent (ref: Continuous)"    =  2,
-  "Supply frequency: Daily (ref: Continuous)"            =  3,
-  "Supply frequency: 4\u20136 days/wk (ref: Continuous)" =  4,
-  "Supply frequency: 1\u20133 days/wk (ref: Continuous)" =  5,
-  "Supply frequency: Intermittent (ref: Continuous)"     =  6,
-  "Season: Dry (ref: Rainy)"                             =  7,
-  "Neighborhood comparison: Same as CDMX"                =  8,
-  "Neighborhood comparison: Worse than CDMX"             =  9,
-  "Excessive time managing water: Yes (ref: No)"         = 10,
-  "Sufficiency rating (1\u20134)"                        = 11,
-  "Adequate water pressure: No/Low (ref: Yes)"           = 12,
-  "Neighborhood: Water Insecure (ref: Water Secure)"     = 13,
-  "Years in neighbourhood"                               = 14
+  "Water worry subscale score"                           =  1,
+  "Hours of supply per week"                             =  2,
+  "Intermittent (ref: Continuous)"    =  3,
+  "Daily (ref: Continuous)"            =  4,
+  "4\u20136 days/wk (ref: Continuous)" =  5,
+  "1\u20133 days/wk (ref: Continuous)" =  6,
+  "Intermittent (ref: Continuous)"     =  7,
+  "Season: Dry (ref: Rainy)"                             =  8,
+  "Neighborhood comparison: Same as CDMX"                =  9,
+  "Neighborhood comparison: Worse than CDMX"             = 10,
+  "Excessive time managing water: Yes (ref: No)"         = 11,
+  "Sufficiency rating (1\u20134)"                        = 12,
+  "Adequate water pressure: No (ref: Yes)"           = 13,
+  "Neighborhood: Water Insecure (ref: Water Secure)"     = 14,
+  "Years in neighbourhood"                               = 15,
+  "Tap water trust: No (ref: Yes)"                       = 16,
+  "Uses brand-name garraf\u00f3n: Yes (ref: No)"          = 17,
+  "Has tinaco: Yes (ref: No)"                            = 18,
+  "Has cisterna: Yes (ref: No)"                          = 19,
+  "Water bill waived: Yes (ref: No)"                     = 20,
+  "Bimonthly water cost (MX pesos)"                         = 21
 )
 
 coefs_emo <- summary_emo %>%
@@ -1166,7 +1182,7 @@ coefs_emo <- summary_emo %>%
     term_label  = coalesce(term_labels[term], hwise_readable[term], term),
     panel_group = coalesce(group_labels_emo[group], group),
     panel_group = factor(panel_group,
-                         levels = c("HWISE items", "Water supply")),
+                         levels = c("HWISE", "Supply frequency", "Water supply")),
     sig         = sig_sym(p.value),
     fp_order    = coalesce(fp_order_emo[term_label], estimate + 100)
   ) %>%

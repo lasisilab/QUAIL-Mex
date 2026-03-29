@@ -73,6 +73,8 @@ group_map <- c(
   W_WS_LOC_F = "Water supply", W_Continuity = "Water supply",
   W_Frequency = "Water supply", W_Days_week = "Water supply",
   W_Hrs_week = "Water supply", W_Pressure = "Water supply",
+  NB_COMP = "Water supply", TIME_WATER = "Water supply",
+  SUFF_RATING = "Water supply",
   W_Trust = "Water infrastructure",
   W_Garrafon_brand = "Water infrastructure",
   W_Has_tinaco = "Water infrastructure", W_Has_cisterna = "Water infrastructure",
@@ -323,6 +325,29 @@ df_water <- df %>%
     W_Cost_2mnths = {
       x <- suppressWarnings(as.numeric(as.character(MX11_COST_2MNTHS)))
       ifelse(is.na(x), NA_real_, x)
+    },
+    NB_COMP = factor(
+      case_when(
+        is_sentinel_str(MX28_WQ_COMP_CAT)      ~ NA_character_,
+        clean_for_table(MX28_WQ_COMP_CAT) == 0 ~ "Better",
+        clean_for_table(MX28_WQ_COMP_CAT) == 1 ~ "Same",
+        clean_for_table(MX28_WQ_COMP_CAT) == 2 ~ "Worse",
+        TRUE                                    ~ NA_character_
+      ),
+      levels = c("Better", "Same", "Worse")
+    ),
+    TIME_WATER = factor(
+      case_when(
+        is_sentinel_str(MX19_TIME_CAT)      ~ NA_character_,
+        clean_for_table(MX19_TIME_CAT) == 0 ~ "No",
+        clean_for_table(MX19_TIME_CAT) == 1 ~ "Yes",
+        TRUE                                ~ NA_character_
+      ),
+      levels = c("No", "Yes")
+    ),
+    SUFF_RATING = {
+      x <- suppressWarnings(as.numeric(as.character(MX16_SCEN_99)))
+      ifelse(is.na(x) | x %in% MISSING_CODES, NA_real_, x)
     }
   )
 ```
@@ -353,7 +378,10 @@ df_reg <- df_table %>%
     W_Has_tinaco   = df_water$W_Has_tinaco,
     W_Has_cisterna = df_water$W_Has_cisterna,
     W_Bill_waived  = df_water$W_Bill_waived,
-    W_Cost_2mnths  = df_water$W_Cost_2mnths
+    W_Cost_2mnths  = df_water$W_Cost_2mnths,
+    NB_COMP        = df_water$NB_COMP,
+    TIME_WATER     = df_water$TIME_WATER,
+    SUFF_RATING    = df_water$SUFF_RATING
   )
 
 # Desired within-group display order (lower number = appears first in plot/table)
@@ -373,6 +401,7 @@ predictor_order <- c(
   # Water supply — objective
   Season = 1, W_WS_LOC_F = 2, W_Continuity = 3, W_Frequency = 4,
   W_Days_week = 5, W_Hrs_week = 6, W_Pressure = 7,
+  NB_COMP = 8, TIME_WATER = 9, SUFF_RATING = 10,
   # Water infrastructure & cost
   W_Trust = 1, W_Garrafon_brand = 2, W_Has_tinaco = 3, W_Has_cisterna = 4,
   W_Bill_waived = 5, W_Cost_2mnths = 6
@@ -420,7 +449,10 @@ pred_labels <- c(
   W_Has_tinaco     = "Has tinaco (rooftop tank)",
   W_Has_cisterna   = "Has cisterna (underground tank)",
   W_Bill_waived    = "Water bill waived (condonado)",
-  W_Cost_2mnths    = "Bimonthly water cost (pesos)"
+  W_Cost_2mnths    = "Bimonthly water cost (pesos)",
+  NB_COMP          = "Neighborhood water quality vs. own",
+  TIME_WATER       = "Excessive time in water management",
+  SUFF_RATING      = "Water sufficiency rating (1\u20134)"
 )
 
 # Reference levels for every factor predictor in df_reg
@@ -511,6 +543,7 @@ pss_predictors <- c(
   # Water supply
   "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
   "W_Days_week", "W_Hrs_week", "W_Pressure",
+  "NB_COMP", "TIME_WATER", "SUFF_RATING",
   # Water infrastructure & cost
   "W_Trust", "W_Garrafon_brand", "W_Has_tinaco", "W_Has_cisterna",
   "W_Bill_waived", "W_Cost_2mnths"
@@ -592,6 +625,7 @@ emo_predictors <- c(
   # Water supply
   "Season", "W_WS_LOC_F", "W_Continuity", "W_Frequency",
   "W_Days_week", "W_Hrs_week", "W_Pressure",
+  "NB_COMP", "TIME_WATER", "SUFF_RATING",
   # Water infrastructure & cost
   "W_Trust", "W_Garrafon_brand", "W_Has_tinaco", "W_Has_cisterna",
   "W_Bill_waived", "W_Cost_2mnths"

@@ -2412,7 +2412,7 @@ landscape_sec_fp <- prop_section(
   page_margins = page_mar(top = 0.8, bottom = 0.8, left = 0.8, right = 0.8)
 )
 
-doc_combined <- doc_all %>%
+doc_combined <- read_docx() %>%
   body_add_break() %>%
   body_add_par("PSS Models — Water Predictors (m_a6–m_a18 + m_a_loc)",
                style = "heading 1") %>%
